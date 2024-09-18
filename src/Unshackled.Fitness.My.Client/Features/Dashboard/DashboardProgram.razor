@@ -18,7 +18,7 @@
 							<div>
 								@if (context.Item.ProgramType == ProgramTypes.Sequential)
 								{
-									<MudIconButton Icon="@Icons.Material.Filled.NextPlan" Class="me-2" Title="Skip to next workout" Disabled="@IsSkipping"
+									<MudIconButton Icon="@Icons.Material.Filled.NextPlan" Class="me-2" title="Skip to next workout" Disabled="@IsSkipping"
 												   OnClick="@(() => HandleSkipClicked(context.Item))" />
 								}
 								<ProgressButton Variant="Variant.Filled" Color="Color.Secondary" Size="Size.Small"
@@ -39,7 +39,7 @@
 							@if (!context.Item.IsCompleted)
 							{
 								<MudButton Variant="Variant.Filled" Color="Color.Secondary" Size="Size.Small" Disabled="@IsSkipping"
-											Href="@($"/workouts/{context.Item.Sid}")">Track</MudButton>
+										   Href="@($"/workouts/{context.Item.Sid}")">Track</MudButton>
 							}
 							else
 							{

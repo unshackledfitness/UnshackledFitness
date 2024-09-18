@@ -2,7 +2,7 @@
 
 
 <div class="mb-4">
-	<MudDatePicker Label="Metrics For" Variant="Variant.Filled" Class="input-no-underline" Date="@DisplayDate" DisableToolbar="true" MaxDate="@DateTimeOffset.Now.Date" DateChanged="@HandleDateChanged" />
+	<MudDatePicker Label="Metrics For" Variant="Variant.Filled" Class="input-no-underline" Date="@DisplayDate" ShowToolbar="false" MaxDate="@DateTimeOffset.Now.Date" DateChanged="@HandleDateChanged" />
 </div>
 <GroupedGrid TGroup="MetricDefinitionGroupModel" TItem="MetricModel" Groups="@GridModel.Groups" Items="@GridModel.Metrics" GridSpacing="2" IsLoading="@IsLoading">
 	<GroupRenderer>
@@ -13,7 +13,7 @@
 			<MetricPanel Title="@context.Title" SubTitle="@context.SubTitle" MetricType="@context.MetricType" MaxValue="@context.MaxValue" @bind-IsEditing="@context.IsEditing"
 						 HighlightColor="@context.HighlightColor" Disabled="!IsMemberActive" Value="@context.RecordedValue" ValueChanged="@((decimal value) => HandleSaveMetric(context, value))">
 				<DisplayToolbar>
-					@if(IsMemberActive)
+					@if (IsMemberActive)
 					{
 						<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@context.IsSaving" OnClick="@(() => context.IsEditing = true)" />
 					}

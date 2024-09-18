@@ -4,11 +4,11 @@
 	<SectionHeader Title="@GetSectionTitle()" IsEditMode="@IsEditMode" IsEditing="@(IsEditing || IsDuplicating)" FormId="@FormId" EditingClass="mb-4" Breakpoint="Breakpoint.Md" OnCancelClicked="@HandleCancelClicked">
 		<EditModeToolbar>
 			<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@DisableSectionControls"
-						   Title="Edit" OnClick="@(() => HandleEditClicked())" />
+						   title="Edit" OnClick="@(() => HandleEditClicked())" />
 			<MudIconButton Icon="@Icons.Material.Filled.ContentCopy" Disabled="@DisableSectionControls"
-						   Title="Duplicate" OnClick="@(() => HandleDuplicateClicked())" />
+						   title="Duplicate" OnClick="@(() => HandleDuplicateClicked())" />
 			<MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@DisableSectionControls"
-						   Title="Delete" OnClick="@(() => HandleDeleteClicked())" />
+						   title="Delete" OnClick="@(() => HandleDeleteClicked())" />
 		</EditModeToolbar>
 	</SectionHeader>
 	@if (!IsEditing && !IsDuplicating)
@@ -22,7 +22,7 @@
 	{
 		<FormProperties Model="@Model" FormId="@FormId" DisableFormControls="DisableControls" OnFormSubmitted="@HandleEditFormSubmitted" />
 	}
-	else if(IsDuplicating)
+	else if (IsDuplicating)
 	{
 		<FormProperties Model="@Model" FormId="@FormId" DisableFormControls="DisableControls" OnFormSubmitted="@HandleDuplicateFormSubmitted" />
 	}

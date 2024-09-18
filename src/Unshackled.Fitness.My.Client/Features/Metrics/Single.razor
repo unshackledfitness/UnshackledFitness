@@ -3,7 +3,7 @@
 
 <MudBreadcrumbs Items="@Breadcrumbs" />
 
-<DynamicPageTitle  IsLoading="@IsLoading" LoadingTitle="Loading Metric..." FallbackTitle="Metric" Title="@MetricDefinition.Title" />
+<DynamicPageTitle IsLoading="@IsLoading" LoadingTitle="Loading Metric..." FallbackTitle="Metric" Title="@MetricDefinition.Title" />
 
 @if (IsLoading)
 {
@@ -40,7 +40,7 @@ else
 	}
 	else
 	{
-		<MudToolBar DisableGutters="true" Class="my-6">
+		<MudToolBar Gutters="false" Class="my-6">
 			<MudSpacer />
 			<MudButtonGroup OverrideStyles="false">
 				<MudButton Color="Color.Secondary" Variant="@GetButtonViewVariant(Views.Calendar)" OnClick="@(() => HandleViewButtonClicked(Views.Calendar))">Calendar</MudButton>

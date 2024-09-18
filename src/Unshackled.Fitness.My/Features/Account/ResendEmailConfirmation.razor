@@ -23,13 +23,13 @@
 }
 <StatusMessage Message="@message" />
 <EditForm Model="Input" FormName="resend-email-confirmation" OnValidSubmit="OnValidSubmitAsync" method="post" class="disable-on-submit">
-    <DataAnnotationsValidator />
-    <div class="form-floating mb-3">
-        <InputText @bind-Value="Input.Email" class="form-control" aria-required="true" placeholder="name@example.com" />
-        <label for="email" class="form-label">Email</label>
-        <ValidationMessage For="() => Input.Email" class="text-danger" />
+	<DataAnnotationsValidator />
+	<div class="form-floating mb-3">
+		<InputText @bind-Value="Input.Email" class="form-control" aria-required="true" placeholder="name@example.com" />
+		<label for="email" class="form-label">Email</label>
+		<ValidationMessage For="() => Input.Email" class="text-danger" />
 	</div>
-	<MudToolBar DisableGutters="true" Class="mb-3">
+	<MudToolBar Gutters="false" Class="mb-3">
 		<MudSpacer />
 		<MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary">Resend</MudButton>
 		<MudButton ButtonType="ButtonType.Button" Variant="Variant.Outlined" Color="Color.Secondary" Class="ms-2" Href="/">Cancel</MudButton>
@@ -70,10 +70,10 @@
 		}
 	}
 
-    private sealed class InputModel
-    {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; } = "";
-    }
+	private sealed class InputModel
+	{
+		[Required]
+		[EmailAddress]
+		public string Email { get; set; } = "";
+	}
 }

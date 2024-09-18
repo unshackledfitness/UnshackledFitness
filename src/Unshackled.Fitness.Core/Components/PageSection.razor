@@ -10,13 +10,13 @@
 			@if (!Editing)
 			{
 				<MudItem xs="1" sm="3" Class="d-flex flex-row gap-2 justify-end">
-					<MudIconButton Icon="@Icons.Material.Filled.Edit" Title="Edit" Size="Size.Small" Disabled="@DisableSectionControls" OnClick="@(() => HandleEditClicked())" />
+					<MudIconButton Icon="@Icons.Material.Filled.Edit" title="Edit" Size="Size.Small" Disabled="@DisableSectionControls" OnClick="@(() => HandleEditClicked())" />
 				</MudItem>
 			}
 			else
 			{
 				<MudItem xs="12" sm="3" Class="d-flex flex-row gap-2 justify-end">
-					<ProgressButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@DisableControls" IsWorking="@IsWorking" WorkingText="Updating" 
+					<ProgressButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@DisableControls" IsWorking="@IsWorking" WorkingText="Updating"
 									OnClick="@(() => HandleUpdateClicked())">Update</ProgressButton>
 					<MudButton Variant="Variant.Outlined" Color="Color.Primary" Disabled="@DisableControls" OnClick="@(() => HandleCancelEditClicked())">Cancel</MudButton>
 				</MudItem>
@@ -30,7 +30,7 @@
 	}
 	else
 	{
-		@if(Editing)
+		@if (Editing)
 		{
 			@EditContent
 		}

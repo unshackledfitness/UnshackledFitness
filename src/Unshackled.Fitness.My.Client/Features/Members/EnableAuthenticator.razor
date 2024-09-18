@@ -11,7 +11,7 @@
 {
 	<ShowRecoveryCodes RecoveryCodes="AuthenticatorModel.RecoveryCodes.ToArray()" />
 
-	<MudToolBar DisableGutters="true" Class="mt-4">
+	<MudToolBar Gutters="false" Class="mt-4">
 		<MudSpacer />
 		<MudButton Href="/member/2fa">Return</MudButton>
 		<MudSpacer />
@@ -46,10 +46,10 @@ else
 							<MudGrid Justify="Justify.SpaceAround">
 								<MudItem xs="12" sm="8" md="6" lg="4">
 									<MudTextField Variant="Variant.Outlined" FullWidth="true" Label="Verification Code" autocomplete="off" Disabled="@DisableControls"
-													@bind-Value="@FormModel.Code" For="@(() => FormModel.Code)"/>
+												  @bind-Value="@FormModel.Code" For="@(() => FormModel.Code)" />
 								</MudItem>
 							</MudGrid>
-							<MudToolBar DisableGutters="true" Class="mt-4">
+							<MudToolBar Gutters="false" Class="mt-4">
 								<MudSpacer />
 								<ProgressButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" IsWorking="@IsWorking" WorkingText="Verifying...">Verify</ProgressButton>
 								<MudSpacer />

@@ -50,9 +50,9 @@
 	<MudButton Disabled="@Saving" Size="Size.Small" OnClick="@(() => HandleRestoreDefaultsClicked())">Restore Defaults</MudButton>
 </div>
 <MudDivider DividerType="DividerType.FullWidth" Class="mb-4" />
-<MudToolBar DisableGutters="true">
+<MudToolBar Gutters="false">
 	<MudSpacer />
-	<ProgressButton Color="Color.Secondary" Variant="Variant.Filled" Disabled="@Saving" IsWorking="@Saving" WorkingText="@("Saving...")" 
+	<ProgressButton Color="Color.Secondary" Variant="Variant.Filled" Disabled="@Saving" IsWorking="@Saving" WorkingText="@("Saving...")"
 					OnClick="@(() => HandleApplySettingsClicked())">
 		Apply Settings
 	</ProgressButton>

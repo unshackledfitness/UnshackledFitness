@@ -2,7 +2,7 @@
 	<div class="d-flex flex-column gap-2 align-center" style="width:100%;">
 		<MudElement HtmlTag="div" Style="@PanelStyle()"></MudElement>
 		<MudText Typo="Typo.body1" Align="Align.Center">@Title</MudText>
-		@if(!string.IsNullOrEmpty(SubTitle))
+		@if (!string.IsNullOrEmpty(SubTitle))
 		{
 			<MudText Typo="Typo.body2" Color="Color.Tertiary" Align="Align.Center">@SubTitle</MudText>
 		}
@@ -18,7 +18,7 @@
 			<MudText Typo="Typo.h4" Align="Align.Center">@(Value == 0 ? "--" : Value.ToString("#.###"))</MudText>
 		}
 	}
-	else if(MetricType == MetricTypes.Toggle)
+	else if (MetricType == MetricTypes.Toggle)
 	{
 		@if (IsEditing)
 		{
@@ -27,9 +27,9 @@
 		}
 		else
 		{
-			@if(Value > 0M)
+			@if (Value > 0M)
 			{
-				<MudIcon Size="Size.Large" Icon="@Icons.Material.Filled.CheckCircle" Style="@ToggleStyle()"/>
+				<MudIcon Size="Size.Large" Icon="@Icons.Material.Filled.CheckCircle" Style="@ToggleStyle()" />
 			}
 			else
 			{
@@ -64,15 +64,15 @@
 			<MudText Typo="Typo.h4" Align="Align.Center">@(Value == 0 ? "--" : $"{Value.ToString("#")} / {MaxValue.ToString("#")}")</MudText>
 		}
 	}
-	@if(DisplayToolbar != null && !IsEditing)
+	@if (DisplayToolbar != null && !IsEditing)
 	{
-		<MudToolBar DisableGutters="true" Dense="true" Class="mt-2">
+		<MudToolBar Gutters="false" Dense="true" Class="mt-2">
 			@DisplayToolbar
 		</MudToolBar>
 	}
 	@if (IsEditing)
 	{
-		<MudToolBar DisableGutters="true" Dense="true" Class="mt-2">
+		<MudToolBar Gutters="false" Dense="true" Class="mt-2">
 			@if (EditingToolbar != null)
 			{
 				@EditingToolbar
@@ -83,7 +83,7 @@
 					<ProgressIconButton Color="Color.Primary" Icon="@Icons.Material.Filled.Save" Title="Save" OnClick="@(() => HandleSaveClicked())" Disabled="@Disabled" IsWorking="IsSaving" />
 				</div>
 				<div>
-					<MudIconButton Icon="@Icons.Material.Filled.Cancel" Title="Cancel" OnClick="@(() => HandleCancelClicked())" Disabled="@(Disabled || IsSaving)" />
+					<MudIconButton Icon="@Icons.Material.Filled.Cancel" title="Cancel" OnClick="@(() => HandleCancelClicked())" Disabled="@(Disabled || IsSaving)" />
 				</div>
 			}
 		</MudToolBar>
@@ -160,7 +160,7 @@
 
 	private void HandleCounterSubtractClicked()
 	{
-		if(metricValue > 0)
+		if (metricValue > 0)
 		{
 			metricValue--;
 		}
@@ -189,11 +189,11 @@
 
 	private void HandleToggleChanged(bool value)
 	{
-		if(value && metricValue == 0M)
+		if (value && metricValue == 0M)
 		{
 			metricValue = 1M;
 		}
-		else if(!value && metricValue == 1M)
+		else if (!value && metricValue == 1M)
 		{
 			metricValue = 0M;
 		}
@@ -226,7 +226,7 @@
 		}
 		else
 		{
-			return $"color:{Theme.Palette.Success}";
+			return $"color:{Theme.PaletteLight.Success}";
 		}
 	}
 }

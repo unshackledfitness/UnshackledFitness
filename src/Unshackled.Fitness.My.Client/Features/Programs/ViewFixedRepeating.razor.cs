@@ -38,11 +38,11 @@ public class ViewFixedRepeatingBase : BaseSectionComponent
 			{ nameof(DialogAddTemplate.Templates), Templates }
 		};
 
-		var options = new DialogOptions { ClassBackground = "bg-blur", MaxWidth = MaxWidth.Medium };
+		var options = new DialogOptions { BackgroundClass = "bg-blur", MaxWidth = MaxWidth.Medium };
 
 		var dialog = DialogService.Show<DialogAddTemplate>("Add Template", parameters, options);
 		var result = await dialog.Result;
-		if (!result.Canceled)
+		if (result != null && !result.Canceled && result.Data != null)
 		{
 			var model = (TemplateListModel)result.Data;
 			if (model != null)
@@ -93,7 +93,7 @@ public class ViewFixedRepeatingBase : BaseSectionComponent
 			FormModel.Templates.Remove(model);
 			FormModel.Templates = ReorderTemplates();
 			await FormModelChanged.InvokeAsync(FormModel);
-		}			
+		}
 	}
 
 	protected async Task HandleDeleteWeekClicked(int week)

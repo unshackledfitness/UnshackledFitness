@@ -1,12 +1,12 @@
 ﻿@inherits SectionTasksBase
 
-@if(IsEditMode || Tasks.Any())
+@if (IsEditMode || Tasks.Any())
 {
 	<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing">
 		<SectionHeader Typo="Typo.h5" Title="@($"{TaskType.Title()} Checklist")" IsEditMode="@IsEditMode" IsEditing="@IsEditing" DisableControls="@DisableControls" Class="mb-4" EditingClass="mb-4"
 					   OnCancelClicked="@HandleCancelEditClicked" OnSaveClicked="@HandleUpdateClicked">
 			<EditModeToolbar>
-				<MudIconButton Icon="@Icons.Material.Filled.Edit" Title="Edit" Disabled="@DisableSectionControls" OnClick="@(() => HandleEditClicked())" />
+				<MudIconButton Icon="@Icons.Material.Filled.Edit" title="Edit" Disabled="@DisableSectionControls" OnClick="@(() => HandleEditClicked())" />
 			</EditModeToolbar>
 		</SectionHeader>
 
@@ -65,12 +65,12 @@
 								<MudText Typo="Typo.subtitle1">@task.Text</MudText>
 							</div>
 							<div>
-								<MudIconButton Icon="@Icons.Material.Filled.Delete" Title="Remove" Disabled="@IsWorking" OnClick="@(() => HandleDeleteClicked(task))" />
+								<MudIconButton Icon="@Icons.Material.Filled.Delete" title="Remove" Disabled="@IsWorking" OnClick="@(() => HandleDeleteClicked(task))" />
 							</div>
 						</div>
 					}
 					<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
-					<MudToolBar DisableGutters="true">
+					<MudToolBar Gutters="false">
 						<MudSpacer />
 						<MudButton Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.Sort" Disabled="@IsWorking"
 								   OnClick="@(() => HandleReorderClicked())">Sort</MudButton>
@@ -88,12 +88,12 @@
 									</div>
 									<div>
 										<MudText>@context.Text</MudText>
-										</div>
 									</div>
-								</MudPaper>
-							</ItemRenderer>
-						</SortableForm>
-					<MudToolBar DisableGutters="true">
+								</div>
+							</MudPaper>
+						</ItemRenderer>
+					</SortableForm>
+					<MudToolBar Gutters="false">
 						<MudSpacer />
 						<MudButton Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.ArrowBack" Disabled="@IsWorking"
 								   OnClick="@(() => HandleBackClicked())">Back</MudButton>

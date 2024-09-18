@@ -1,7 +1,8 @@
 ﻿@inherits AppFrameBase
 
 <MudThemeProvider @ref="@ThemeProvider" IsDarkMode="@GetThemeIsDark()" Theme="@CustomTheme" />
-<MudDialogProvider DisableBackdropClick="true" Position="DialogPosition.Center" MaxWidth="MaxWidth.Medium" />
+<MudDialogProvider BackdropClick="false" Position="DialogPosition.Center" MaxWidth="MaxWidth.Medium" />
+<MudPopoverProvider />
 <MudSnackbarProvider />
 
 @if (State.IsServerError)
@@ -24,20 +25,20 @@ else if (!IsLoading)
 				}
 				<MudSpacer />
 				<MudMenu StartIcon="@GetThemeIcon()" EndIcon="@Icons.Material.Filled.KeyboardArrowDown" Variant="Variant.Filled" title="Theme Selector"
-							AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight">
-					<MudMenuItem OnClick="@(() => HandleThemeSwitch(Themes.System))" OnTouch="@(() => HandleThemeSwitch(Themes.System))">
+						 AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight">
+					<MudMenuItem OnClick="@(() => HandleThemeSwitch(Themes.System))">
 						<div class="d-flex flex-row align-center">
 							<MudIcon Size="Size.Small" Icon="@(SystemIsDark ? Icons.Material.Filled.DarkMode : Icons.Material.Filled.LightMode)" Class="me-2" />
 							<div>OS Detected</div>
 						</div>
 					</MudMenuItem>
-					<MudMenuItem Class="d-flex flex-row align-center" OnClick="@(() => HandleThemeSwitch(Themes.Dark))" OnTouch="@(() => HandleThemeSwitch(Themes.Dark))">
+					<MudMenuItem Class="d-flex flex-row align-center" OnClick="@(() => HandleThemeSwitch(Themes.Dark))">
 						<div class="d-flex flex-row align-center">
 							<MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.DarkMode" Class="me-2" />
 							<div>Dark</div>
 						</div>
 					</MudMenuItem>
-					<MudMenuItem Class="d-flex flex-row align-center" OnClick="@(() => HandleThemeSwitch(Themes.Light))" OnTouch="@(() => HandleThemeSwitch(Themes.Light))">
+					<MudMenuItem Class="d-flex flex-row align-center" OnClick="@(() => HandleThemeSwitch(Themes.Light))">
 						<div class="d-flex flex-row align-center">
 							<MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.LightMode" Class="me-2" />
 							<div>Light</div>
@@ -49,7 +50,7 @@ else if (!IsLoading)
 						<Gravatar Hash="@State.ActiveMember.EmailHash" Size="Size.Small" UseGravatar="@State.ActiveMember.Settings.UseGravatar" />
 					</ActivatorContent>
 					<ChildContent>
-						<MudMenuItem OnClick="@(() => HandleReloadAppClicked())" OnTouch="@(() => HandleReloadAppClicked())">
+						<MudMenuItem OnClick="@(() => HandleReloadAppClicked())">
 							<div class="d-flex flex-row align-center">
 								<MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.Refresh" Class="me-2" />
 								<div>Reload App</div>
@@ -85,7 +86,7 @@ else if (!IsLoading)
 					<MudFab Color="Color.Tertiary" StartIcon="@Icons.Material.Filled.ArrowUpward" Size="Size.Small" />
 				</MudScrollToTop>
 				<MudContainer Class="pt-6" MaxWidth="MaxWidth.Large">
-					@if(BodyContent != null)
+					@if (BodyContent != null)
 					{
 						@BodyContent
 					}

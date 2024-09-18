@@ -17,7 +17,7 @@ public partial class GroupedExpansionList<TGroup, TItem>
 	[Parameter] public List<TItem> Items { get; set; } = new();
 	[Parameter] public bool UseDividers { get; set; } = true;
 	[Parameter] public bool MultiExpansion { get; set; } = false;
-	[Parameter] public bool DisableBorders { get; set; } = false;
+	[Parameter] public bool Outlined { get; set; } = true;
 	[Parameter] public int Elevation { get; set; } = 1;
 	[Parameter] public string PanelClass { get; set; } = string.Empty;
 

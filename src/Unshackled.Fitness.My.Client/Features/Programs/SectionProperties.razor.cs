@@ -42,7 +42,7 @@ public class SectionPropertiesBase : BaseSectionComponent
 	{
 		IsEditing = IsDuplicating = await UpdateIsEditingSection(false);
 	}
-	
+
 	protected async Task HandleDeleteClicked()
 	{
 		bool? confirm = await DialogService.ShowMessageBox(
@@ -113,7 +113,7 @@ public class SectionPropertiesBase : BaseSectionComponent
 
 	protected async Task HandleStartProgramClicked()
 	{
-		var options = new DialogOptions { ClassBackground = "bg-blur", MaxWidth = MaxWidth.Medium };
+		var options = new DialogOptions { BackgroundClass = "bg-blur", MaxWidth = MaxWidth.Medium };
 
 		var parameters = new DialogParameters
 		{
@@ -122,7 +122,7 @@ public class SectionPropertiesBase : BaseSectionComponent
 
 		var dialog = DialogService.Show<DialogAddToCalendar>("Add To Calendar", parameters, options);
 		var adding = await dialog.Result;
-		if (!adding.Canceled)
+		if (adding != null && !adding.Canceled && adding.Data != null)
 		{
 			IsSaving = true;
 			FormStartProgramModel model = new()

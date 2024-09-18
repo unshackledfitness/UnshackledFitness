@@ -7,13 +7,13 @@ using Unshackled.Fitness.My.Client.Features.Calendar.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Calendar;
 
-public class DrawerStatsBase : BaseComponent
+public class DrawerVisibilityBase : BaseComponent
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public List<CalendarBlockFilterGroupModel> FilterGroups { get; set; } = new();
 	[Parameter] public List<CalendarBlockFilterModel> Filters { get; set; } = new();
 	[Parameter] public EventCallback<List<CalendarBlockFilterModel>> FiltersChanged { get; set; }
-	[Parameter]	public List<PresetModel> Presets { get; set; } = new();
+	[Parameter] public List<PresetModel> Presets { get; set; } = new();
 	[Parameter] public EventCallback<string> PresetAdded { get; set; }
 	[Parameter] public EventCallback<List<CalendarBlockFilterModel>> PresetApplied { get; set; }
 	[Parameter] public EventCallback<PresetModel> PresetDeleted { get; set; }
@@ -69,14 +69,14 @@ public class DrawerStatsBase : BaseComponent
 
 	protected async Task HandleAddPresetClicked()
 	{
-		var options = new DialogOptions { ClassBackground = "bg-blur", MaxWidth = MaxWidth.Medium };
+		var options = new DialogOptions { BackgroundClass = "bg-blur", MaxWidth = MaxWidth.Medium };
 
 		var dialog = DialogService.Show<DialogSavePreset>("Save As Preset", options);
 		var result = await dialog.Result;
-		if (!result.Canceled)
+		if (result != null && !result.Canceled)
 		{
 			IsSaving = true;
-			await PresetAdded.InvokeAsync(result.Data.ToString());
+			await PresetAdded.InvokeAsync(result.Data?.ToString());
 			IsSaving = false;
 		}
 	}

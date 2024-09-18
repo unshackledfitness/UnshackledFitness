@@ -30,7 +30,7 @@
 		</SearchFields>
 	</SearchForm>
 
-	<MudToolBar DisableGutters="true" Class="mb-4">
+	<MudToolBar Gutters="false" Class="mb-4">
 		<MudSpacer />
 		<MudButtonGroup OverrideStyles="false">
 			<MudButton Color="Color.Secondary" Variant="@GetButtonViewVariant(Views.Data)" OnClick="@(() => HandleViewButtonClicked(Views.Data))">Data</MudButton>
@@ -76,7 +76,7 @@
 						{
 							<MudGrid Spacing="1">
 								<MudItem xs="6">
-									<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block" Align="Align.Center">Weight</MudText>								
+									<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block" Align="Align.Center">Weight</MudText>
 									<MudText Align="Align.Center">
 										<WeightLabel WeightKg="@context.Item.WeightKg" WeightLb="@context.Item.WeightLb" UnitSystem="@DefaultUnits" />
 									</MudText>

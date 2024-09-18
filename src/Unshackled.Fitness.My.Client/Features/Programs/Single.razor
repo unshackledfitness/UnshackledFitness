@@ -1,7 +1,7 @@
 ﻿@page "/programs/{ProgramSid}"
 @inherits SingleBase
 
-<DynamicPageTitle  IsLoading="@IsLoading" LoadingTitle="Loading Program" Title="Program" />
+<DynamicPageTitle IsLoading="@IsLoading" LoadingTitle="Loading Program" Title="Program" />
 
 <MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
 
@@ -15,7 +15,7 @@ else
 	{
 		@if (IsMemberActive)
 		{
-			<MudToolBar DisableGutters="true">
+			<MudToolBar Gutters="false">
 				<MudSpacer />
 				<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@(IsEditing || IsWorking)" />
 			</MudToolBar>

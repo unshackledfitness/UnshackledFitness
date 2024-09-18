@@ -1,9 +1,9 @@
-﻿<MudDialog DisableSidePadding="true">
+﻿<MudDialog Gutters="false">
 	<DialogContent>
 		<MudContainer Class="mb-4" Style="min-width: 300px;">
 			<EditForm Model="@Title" OnSubmit="@HandleFormSubmitted">
 				<MudTextField Variant="Variant.Outlined" AutoFocus="true" Immediate="true" @bind-Value="Title" FullWidth="true" />
-				<MudToolBar DisableGutters="true">
+				<MudToolBar Gutters="false">
 					<MudSpacer />
 					<MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Secondary" Disabled="@DisableSave()">Save</MudButton>
 					<MudButton Variant="Variant.Filled" OnClick="@HandleCancelClicked">Cancel</MudButton>

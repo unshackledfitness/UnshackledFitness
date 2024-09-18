@@ -9,8 +9,8 @@
 				<div class="summary-item">
 					<MudText Class="summary-label" Color="Color.Tertiary">Total Time</MudText>
 					<MudText Class="summary-value">@Workout.TotalWorkoutTime.ToString(@"hh\:mm")</MudText>
-						<MudText Class="summary-caption" Color="Color.Tertiary">hr:min</MudText>
-					</div>
+					<MudText Class="summary-caption" Color="Color.Tertiary">hr:min</MudText>
+				</div>
 				@if (TotalReps > 0)
 				{
 					<MudDivider Vertical="true" FlexItem="true" />
@@ -21,7 +21,7 @@
 				<div class="summary-item">
 					<MudText Class="summary-label" Color="Color.Tertiary">Total Reps</MudText>
 					<MudText Class="summary-value">@TotalReps</MudText>
-					</div>
+				</div>
 			}
 			@if (TotalVolume > 0)
 			{
@@ -42,37 +42,37 @@
 			<div class="d-flex flex-row flex-wrap gap-1">
 				@if (Workout.RecordWeightCount > 0)
 				{
-					<MudChip Size="Size.Small" Icon="@Icons.Material.Filled.EmojiEvents" Color="Color.Primary">
+					<MudChip T="string" Size="Size.Small" Icon="@Icons.Material.Filled.EmojiEvents" Color="Color.Primary">
 						@(Workout.RecordWeightCount.CountLabel("Weight PR", "Weight PRs"))
 					</MudChip>
 				}
 				@if (Workout.AdjustedRecordTargetWeightCount > 0)
 				{
-					<MudChip Size="Size.Small" Icon="@Icons.Material.Filled.EmojiEvents" Color="Color.Primary">
+					<MudChip T="string" Size="Size.Small" Icon="@Icons.Material.Filled.EmojiEvents" Color="Color.Primary">
 						@(Workout.AdjustedRecordTargetWeightCount.CountLabel($"Weight PR @ TR", "Weight PRs @ TR"))
 					</MudChip>
 				}
 				@if (Workout.RecordVolumeCount > 0)
 				{
-					<MudChip Size="Size.Small" Icon="@Icons.Material.Filled.EmojiEvents" Color="Color.Primary">
+					<MudChip T="string" Size="Size.Small" Icon="@Icons.Material.Filled.EmojiEvents" Color="Color.Primary">
 						@(Workout.RecordVolumeCount.CountLabel("Volume PR", "Volume PRs"))
 					</MudChip>
 				}
 				@if (Workout.AdjustedRecordTargetVolumeCount > 0)
 				{
-					<MudChip Size="Size.Small" Icon="@Icons.Material.Filled.EmojiEvents" Color="Color.Primary">
+					<MudChip T="string" Size="Size.Small" Icon="@Icons.Material.Filled.EmojiEvents" Color="Color.Primary">
 						@(Workout.AdjustedRecordTargetVolumeCount.CountLabel($"Volume PR @ TR", "Volume PRs @ TR"))
 					</MudChip>
 				}
 				@if (Workout.RecordSecondsCount > 0)
 				{
-					<MudChip Size="Size.Small" Icon="@Icons.Material.Filled.EmojiEvents" Color="Color.Primary">
+					<MudChip T="string" Size="Size.Small" Icon="@Icons.Material.Filled.EmojiEvents" Color="Color.Primary">
 						@(Workout.RecordSecondsCount.CountLabel("Time PR", "Time PRs"))
 					</MudChip>
 				}
 				@if (Workout.RecordSecondsAtWeightCount > 0)
 				{
-					<MudChip Size="Size.Small" Icon="@Icons.Material.Filled.EmojiEvents" Color="Color.Primary">
+					<MudChip T="string" Size="Size.Small" Icon="@Icons.Material.Filled.EmojiEvents" Color="Color.Primary">
 						@(Workout.RecordSecondsAtWeightCount.CountLabel($"Time PR @ WT", "Time PRs @ WT"))
 					</MudChip>
 				}

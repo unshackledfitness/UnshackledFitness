@@ -4,11 +4,11 @@
 	<SectionHeader Typo="Typo.h5" Title="Sets" IsEditMode="@IsEditMode" IsEditing="@IsEditing" DisableControls="@DisableControls" Class="mb-4" EditingClass="mb-4"
 				   OnCancelClicked="@HandleCancelEditClicked" OnSaveClicked="@HandleUpdateClicked">
 		<EditModeToolbar>
-			<MudIconButton Icon="@Icons.Material.Filled.Edit" Title="Edit" Disabled="@DisableSectionControls" OnClick="@(() => HandleEditClicked())" />
+			<MudIconButton Icon="@Icons.Material.Filled.Edit" title="Edit" Disabled="@DisableSectionControls" OnClick="@(() => HandleEditClicked())" />
 		</EditModeToolbar>
 	</SectionHeader>
 
-	@if(!IsEditing)
+	@if (!IsEditing)
 	{
 		<GroupedList Groups="@Groups" Items="@Sets" IsLoading="@IsLoading">
 			<GroupRenderer>
@@ -29,7 +29,7 @@
 							@if (ShowTargetReps(context.Item))
 							{
 								<MudItem xs="12" sm="4" md="3" lg="2" Class="d-flex flex-column justify-center align-start align-sm-end">
-									<CaptionedProperty Align="Align.Inherit" Class="align-sm-end" Title="@context.Item.SetMetricType.Title()" 
+									<CaptionedProperty Align="Align.Inherit" Class="align-sm-end" Title="@context.Item.SetMetricType.Title()"
 													   Value="@context.Item.RepMode.Label(context.Item.RepsTarget, context.Item.IntensityTarget)" />
 								</MudItem>
 							}
@@ -70,7 +70,7 @@
 					</div>
 					<div>
 						<MudIconButton Icon="@(context.Item.IsExpanded ? Icons.Material.Filled.ArrowDropUp : Icons.Material.Filled.ArrowDropDown)"
-									   Title="@(context.Item.IsExpanded ? "Collapse" : "Expand")" OnClick="@(() => HandleToggleExpanded(context.Item))" />
+									   title="@(context.Item.IsExpanded ? "Collapse" : "Expand")" OnClick="@(() => HandleToggleExpanded(context.Item))" />
 					</div>
 				</div>
 				<div class="flex-column flex-md-row gap-2 @(context.Item.IsExpanded ? "d-flex" : "d-none")">
@@ -97,7 +97,7 @@
 						else
 						{
 							<MudItem xs="12" md="2">
-								<SecondsTimePicker Label="Target Time" Variant="Variant.Outlined" OpenTo="SecondsTimePicker.OpenToView.Minutes" Margin="Margin.Dense" Color="Color.Secondary" 
+								<SecondsTimePicker Label="Target Time" Variant="Variant.Outlined" OpenTo="SecondsTimePicker.OpenToView.Minutes" Margin="Margin.Dense" Color="Color.Secondary"
 												   Disabled="@DisableControls" @bind-Time="context.Item.TimeSeconds" />
 							</MudItem>
 						}
@@ -106,8 +106,8 @@
 						</MudItem>
 					</MudGrid>
 					<div class="flex-grow-1 d-flex flex-row justify-end align-center">
-						<MudIconButton Icon="@Icons.Material.Filled.CopyAll" Title="Add Duplicate" Disabled="@DisableControls" OnClick="@(() => HandleAddDuplicateClicked(context.Item))" />
-						<MudIconButton Icon="@Icons.Material.Filled.Delete" Title="Remove" Disabled="@DisableControls" OnClick="@(() => HandleDeleteClicked(context.Item))" />
+						<MudIconButton Icon="@Icons.Material.Filled.CopyAll" title="Add Duplicate" Disabled="@DisableControls" OnClick="@(() => HandleAddDuplicateClicked(context.Item))" />
+						<MudIconButton Icon="@Icons.Material.Filled.Delete" title="Remove" Disabled="@DisableControls" OnClick="@(() => HandleDeleteClicked(context.Item))" />
 					</div>
 				</div>
 			</ItemRenderer>
@@ -116,7 +116,7 @@
 			</EmptyListRenderer>
 			<ListTools>
 				<MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@(DisableControls || IsAdding)"
-							OnClick="@(() => HandleAddClicked())">Add</MudButton>
+						   OnClick="@(() => HandleAddClicked())">Add</MudButton>
 			</ListTools>
 			<DraggableGroupRenderer>
 				<MudPaper Elevation="2" Class="py-2 px-4 my-2">
@@ -151,7 +151,7 @@
 	else
 	{
 		<ExercisePicker OnAdd="@HandleAddSets" />
-		<MudToolBar DisableGutters="true">
+		<MudToolBar Gutters="false">
 			<MudSpacer />
 			<MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@(() => HandleCancelAddClicked())">Cancel</MudButton>
 			<MudSpacer />

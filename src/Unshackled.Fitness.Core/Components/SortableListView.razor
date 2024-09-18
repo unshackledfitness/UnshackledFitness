@@ -5,7 +5,7 @@
 	{
 		@if ((ToolbarPosition == ToolbarPositions.Top || ToolbarPosition == ToolbarPositions.Both) && (AllowSort || ListTools != null))
 		{
-			<MudToolBar DisableGutters="true">
+			<MudToolBar Gutters="false">
 				@if (ToolbarAlignment == HorizontalAlignment.Center || ToolbarAlignment == HorizontalAlignment.End || ToolbarAlignment == HorizontalAlignment.Right)
 				{
 					<MudSpacer />
@@ -49,7 +49,7 @@
 
 		@if ((ToolbarPosition == ToolbarPositions.Bottom || ToolbarPosition == ToolbarPositions.Both) && (AllowSort || ListTools != null))
 		{
-			<MudToolBar DisableGutters="true">
+			<MudToolBar Gutters="false">
 				@if (ToolbarAlignment == HorizontalAlignment.Center || ToolbarAlignment == HorizontalAlignment.End || ToolbarAlignment == HorizontalAlignment.Right)
 				{
 					<MudSpacer />
@@ -74,9 +74,9 @@
 	}
 	else if (!IsLoading && IsReordering && SortingItems.Any())
 	{
-		<MudToolBar DisableGutters="true" Class="mb-2">
+		<MudToolBar Gutters="false" Class="mb-2">
 			<ProgressButton Color="Color.Primary" Disabled="@IsWorking" IsWorking="@IsWorking" WorkingText="Applying" StartIcon="@Icons.Material.Filled.Check"
-						OnClick="@(() => HandleUpdateSortClicked())">Apply Order</ProgressButton>
+							OnClick="@(() => HandleUpdateSortClicked())">Apply Order</ProgressButton>
 			<MudButton StartIcon="@Icons.Material.Filled.Cancel" OnClick="@(() => HandleCancelSortClicked())">Cancel</MudButton>
 		</MudToolBar>
 		<MudDropContainer T="TItem" Items="@SortingItems" ItemsSelector="@((item,dropzone) => true)" ItemDropped="HandleItemDropped">
@@ -100,7 +100,7 @@
 	{
 		@if ((ToolbarPosition == ToolbarPositions.Top || ToolbarPosition == ToolbarPositions.Both) && ListTools != null)
 		{
-			<MudToolBar DisableGutters="true">
+			<MudToolBar Gutters="false">
 				@if (ToolbarAlignment == HorizontalAlignment.Center || ToolbarAlignment == HorizontalAlignment.End || ToolbarAlignment == HorizontalAlignment.Right)
 				{
 					<MudSpacer />
@@ -125,7 +125,7 @@
 
 		@if ((ToolbarPosition == ToolbarPositions.Bottom || ToolbarPosition == ToolbarPositions.Both) && ListTools != null)
 		{
-			<MudToolBar DisableGutters="true">
+			<MudToolBar Gutters="false">
 				@if (ToolbarAlignment == HorizontalAlignment.Center || ToolbarAlignment == HorizontalAlignment.End || ToolbarAlignment == HorizontalAlignment.Right)
 				{
 					<MudSpacer />

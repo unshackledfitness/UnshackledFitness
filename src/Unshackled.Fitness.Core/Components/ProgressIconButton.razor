@@ -1,5 +1,5 @@
-﻿<MudIconButton Disabled="@(IsWorking || Disabled)" OnClick="@HandleClicked" Class="@Class" Title="@Title" Variant="@Variant" Color="@Color" Size="@Size" ButtonType="@ButtonType" 
-		   Icon="@(IsWorking ? string.Empty : Icon)">
+﻿<MudIconButton Disabled="@(IsWorking || Disabled)" OnClick="@HandleClicked" Class="@Class" title="@Title" Variant="@Variant" Color="@Color" Size="@Size" ButtonType="@ButtonType"
+			   Icon="@(IsWorking ? string.Empty : Icon)">
 	@if (IsWorking)
 	{
 		<MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />

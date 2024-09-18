@@ -19,13 +19,13 @@
 				</MudItem>
 				<MudItem xs="12" md="4">
 					<MudTextField Label="Title" Variant="Variant.Outlined" Margin="Margin.Dense" FullWidth="true"
-					Disabled="@DisableControls" @bind-Value="@SearchModel.Title" />
+								  Disabled="@DisableControls" @bind-Value="@SearchModel.Title" />
 				</MudItem>
 			</MudGrid>
 		</SearchFields>
 	</SearchForm>
 
-	<MudToolBar DisableGutters="true" Class="toolbar-xs-stacked">
+	<MudToolBar Gutters="false" Class="toolbar-xs-stacked">
 		<MudButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@(!SelectedSids.Any() || DisableControls)" OnClick="@(() => HandleAddToMyExercisesClicked())">
 			Add @SelectedSids.Count() to Exercises
 		</MudButton>
@@ -37,7 +37,7 @@
 			<div class="d-flex flex-row gap-4 align-center">
 				<div>
 					<MudCheckBox T="bool" Disabled="@DisableCheckbox(context.Item.MatchId)"
-					Value="@SelectedSids.Contains(context.Item.MatchId)" ValueChanged="@((bool value) => HandleCheckboxChanged(value, context.Item.MatchId))" />
+								 Value="@SelectedSids.Contains(context.Item.MatchId)" ValueChanged="@((bool value) => HandleCheckboxChanged(value, context.Item.MatchId))" />
 				</div>
 				<div class="flex-grow-1">
 					<MudText Typo="Typo.body2" Color="Color.Secondary">@context.Item.Muscles.Titles()</MudText>

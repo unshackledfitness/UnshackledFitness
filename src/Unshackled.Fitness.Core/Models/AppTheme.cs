@@ -6,7 +6,7 @@ public class AppTheme : MudTheme
 {
 	public AppTheme()
 	{
-		Palette = new PaletteLight()
+		PaletteLight = new PaletteLight()
 		{
 			Primary = "#010101",
 			PrimaryContrastText = "#ffffff",
@@ -22,7 +22,7 @@ public class AppTheme : MudTheme
 			AppbarBackground = "#ffffff",
 			AppbarText = "#000000",
 			Background = "#fefefe",
-			BackgroundGrey = "#ececec",
+			BackgroundGray = "#ececec",
 			Dark = "#e6e6e6",
 			DarkContrastText = "#666666",
 			Divider = "#dfdfdf",
@@ -58,7 +58,7 @@ public class AppTheme : MudTheme
 			AppbarText = "#ffffff",
 			Black = "#000000",
 			Background = "#202020",
-			BackgroundGrey = "#303030",
+			BackgroundGray = "#303030",
 			Dark = "#404040",
 			DarkContrastText = "#e9e9e9",
 			Divider = "#353535",

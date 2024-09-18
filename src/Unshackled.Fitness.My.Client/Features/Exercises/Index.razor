@@ -1,7 +1,7 @@
 ﻿@page "/exercises"
 @inherits IndexBase
 
-<DynamicPageTitle  IsLoading="@IsLoading" LoadingTitle="Loading Exercises..." Title="Exercises" />
+<DynamicPageTitle IsLoading="@IsLoading" LoadingTitle="Loading Exercises..." Title="Exercises" />
 
 <MudBreadcrumbs Items="@Breadcrumbs" />
 
@@ -32,7 +32,7 @@
 
 		@if (IsMemberActive)
 		{
-			<MudToolBar Class="mb-2" DisableGutters="true" Dense="true">
+			<MudToolBar Class="mb-2" Gutters="false" Dense="true">
 				@if (AllowImport)
 				{
 					<MudButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls" OnClick="@(() => HandleImportClicked())">
@@ -49,10 +49,8 @@
 					</MudButton>
 				}
 				<MudMenu Label="Sort" StartIcon="@Icons.Material.Filled.Sort">
-					<MudMenuItem OnClick="@(() => HandleSortByClicked(0, nameof(ExerciseModel.Title)))"
-					OnTouch="@(() => HandleSortByClicked(0, nameof(ExerciseModel.Title)))">Title (Asc)</MudMenuItem>
-					<MudMenuItem OnClick="@(() => HandleSortByClicked(1, nameof(ExerciseModel.Title)))"
-					OnTouch="@(() => HandleSortByClicked(1, nameof(ExerciseModel.Title)))">Title (Desc)</MudMenuItem>
+					<MudMenuItem OnClick="@(() => HandleSortByClicked(0, nameof(ExerciseModel.Title)))">Title (Asc)</MudMenuItem>
+					<MudMenuItem OnClick="@(() => HandleSortByClicked(1, nameof(ExerciseModel.Title)))">Title (Desc)</MudMenuItem>
 				</MudMenu>
 				<MudButton StartIcon="@Icons.Material.Filled.MergeType" Disabled="@(DisableControls || !MaxSelectionReached)" OnClick="@HandleMergeClicked">
 					@(SelectedSids.Any() ? $"Merge ({SelectedSids.Count} selected)" : "Merge")
@@ -75,9 +73,9 @@
 						<MudText Typo="Typo.body2" Color="Color.Secondary">@context.Item.Muscles.Titles()</MudText>
 						<div class="d-flex flex-row gap-2 align-center">
 							<MudLink Typo="Typo.subtitle1" Class="d-block" Href="@($"/exercises/{context.Item.Sid}")">@context.Item.Title</MudLink>
-							@if(!context.Item.MatchId.HasValue && AllowImport)
+							@if (!context.Item.MatchId.HasValue && AllowImport)
 							{
-								<MudChip Text="Custom" Color="Color.Tertiary" Class="mud-chip-size-tiny" />
+								<MudChip T="string" Text="Custom" Color="Color.Tertiary" Class="mud-chip-size-tiny" />
 							}
 						</div>
 						<MudText Typo="Typo.body1" Color="Color.Tertiary">@context.Item.Equipment.Titles()</MudText>

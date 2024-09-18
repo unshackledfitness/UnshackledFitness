@@ -29,7 +29,7 @@
 		<label for="password" class="form-label">Password</label>
 		<ValidationMessage For="() => Input.Password" class="text-danger mt-2" />
 	</div>
-	<div class="checkbox mb-3">
+	<div class="checkbox">
 		<label class="form-label">
 			<InputCheckbox @bind-Value="Input.RememberMe" class="darker-border-checkbox form-check-input" />
 			<span class="d-inline-block ps-2 pt-1">
@@ -37,12 +37,13 @@
 			</span>
 		</label>
 	</div>
-	<MudToolBar DisableGutters="true" Class="mb-3">
+	<MudToolBar Gutters="false" Dense="true" Class="mb-3">
 		<MudSpacer />
 		<MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary">Log in</MudButton>
 		<MudSpacer />
 	</MudToolBar>
 </EditForm>
+
 <div class="d-flex flex-column flex-sm-row flex-wrap align-center justify-sm-center gap-2 gap-sm-4">
 	<div>
 		<MudLink Typo="Typo.caption" Color="Color.Secondary" Href="account/forgot-password">Forgot your password?</MudLink>
@@ -97,34 +98,34 @@
 			Logger.LogInformation("User logged in.");
 			RedirectManager.RedirectTo(ReturnUrl);
 		}
-        else if (result.RequiresTwoFactor)
-        {
-            RedirectManager.RedirectTo(
-                "account/login-with-2fa",
-                new() { ["returnUrl"] = ReturnUrl, ["rememberMe"] = Input.RememberMe });
-        }
-        else if (result.IsLockedOut)
-        {
-            Logger.LogWarning("User account locked out.");
-            RedirectManager.RedirectTo("account/lockout");
-        }
-        else
-        {
-            errorMessage = "Error: Invalid login attempt.";
-        }
-    }
+		else if (result.RequiresTwoFactor)
+		{
+			RedirectManager.RedirectTo(
+				"account/login-with-2fa",
+				new() { ["returnUrl"] = ReturnUrl, ["rememberMe"] = Input.RememberMe });
+		}
+		else if (result.IsLockedOut)
+		{
+			Logger.LogWarning("User account locked out.");
+			RedirectManager.RedirectTo("account/lockout");
+		}
+		else
+		{
+			errorMessage = "Error: Invalid login attempt.";
+		}
+	}
 
-    private sealed class InputModel
-    {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; } = "";
+	private sealed class InputModel
+	{
+		[Required]
+		[EmailAddress]
+		public string Email { get; set; } = "";
 
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; } = "";
+		[Required]
+		[DataType(DataType.Password)]
+		public string Password { get; set; } = "";
 
-        [Display(Name = "Remember me?")]
-        public bool RememberMe { get; set; }
-    }
+		[Display(Name = "Remember me?")]
+		public bool RememberMe { get; set; }
+	}
 }

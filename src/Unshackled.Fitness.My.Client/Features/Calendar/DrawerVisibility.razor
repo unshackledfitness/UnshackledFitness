@@ -1,4 +1,4 @@
-﻿@inherits DrawerStatsBase
+﻿@inherits DrawerVisibilityBase
 
 @if (Presets.Any())
 {
@@ -8,7 +8,7 @@
 			<ItemRenderer>
 				<div class="d-flex flex-row gap-2 align-center">
 					<div>
-						<MudIconButton Icon="@Icons.Material.Filled.PlayCircleFilled" Color="Color.Primary" Title="Apply Preset" Disabled="@IsSaving" 
+						<MudIconButton Icon="@Icons.Material.Filled.PlayCircleFilled" Color="Color.Primary" title="Apply Preset" Disabled="@IsSaving"
 									   OnClick="@(() => HandleApplyPresetClicked(context.Item))" />
 					</div>
 					<MudText Class="flex-grow-1">@context.Item.Title</MudText>
@@ -16,8 +16,8 @@
 					{
 						<div>
 							<MudMenu Icon="@Icons.Material.Filled.MoreVert" AnchorOrigin="Origin.TopRight" TransformOrigin="Origin.TopRight" Disabled="@IsSaving">
-								<MudMenuItem OnClick="@(() => HandleUpdatePresetClicked(context.Item))" OnTouch="@(() => HandleUpdatePresetClicked(context.Item))">Update with current</MudMenuItem>
-								<MudMenuItem OnClick="@(() => HandleDeletePresetClicked(context.Item))" OnTouch="@(() => HandleDeletePresetClicked(context.Item))">Delete</MudMenuItem>
+								<MudMenuItem OnClick="@(() => HandleUpdatePresetClicked(context.Item))">Update with current</MudMenuItem>
+								<MudMenuItem OnClick="@(() => HandleDeletePresetClicked(context.Item))">Delete</MudMenuItem>
 							</MudMenu>
 						</div>
 					}
@@ -55,7 +55,7 @@
 		<div class="d-flex flex-row gap-2 align-center ms-4" style="@GetItemStyle(context.Item)">
 			<div>
 				<MudCheckBox Value="@context.Item.IsChecked" Color="Color.Primary" UnCheckedColor="Color.Default" Disabled="@IsSaving"
-								ValueChanged="@((bool value) => HandleDefinitionChecked(context.Item, value))"/>
+							 ValueChanged="@((bool value) => HandleDefinitionChecked(context.Item, value))" />
 			</div>
 			<div class="flex-grow-1">
 				<MudText Typo="Typo.body1">@context.Item.Title</MudText>

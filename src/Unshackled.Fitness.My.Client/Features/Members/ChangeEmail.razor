@@ -7,7 +7,7 @@
 
 <MudText Typo="Typo.h4" Class="mb-4">Change Email</MudText>
 
-@if(IsLoading)
+@if (IsLoading)
 {
 	<DefaultProgress />
 }
@@ -22,10 +22,10 @@ else
 			<MudGrid Spacing="2">
 				<MudItem xs="12" md="6" lg="4">
 					<MudTextField Label="New Email Address" Variant="Variant.Outlined" Disabled="@DisableControls" autocomplete="email" aria-required="true"
-									FullWidth="true" InputType="InputType.Email" @bind-Value="@Model.NewEmail" For="@(() => Model.NewEmail)" />
+								  FullWidth="true" InputType="InputType.Email" @bind-Value="@Model.NewEmail" For="@(() => Model.NewEmail)" />
 				</MudItem>
 			</MudGrid>
-			<MudToolBar DisableGutters="true" Class="mt-4">
+			<MudToolBar Gutters="false" Class="mt-4">
 				<ProgressButton Color="Color.Secondary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" Disabled="@DisableControls"
 								IsWorking="@IsWorking" WorkingText="Saving...">Update</ProgressButton>
 				<MudButton Color="Color.Secondary" Variant="Variant.Outlined" Disabled="@DisableControls" Href="/member">Cancel</MudButton>
@@ -37,7 +37,7 @@ else
 		<MudAlert Severity="Severity.Success" ContentAlignment="HorizontalAlignment.Center" Variant="Variant.Outlined">
 			@UpdateMessage
 		</MudAlert>
-		<MudToolBar DisableGutters="true" Class="mt-4">
+		<MudToolBar Gutters="false" Class="mt-4">
 			<MudButton Color="Color.Secondary" Variant="Variant.Outlined" Disabled="@DisableControls" OnClick="@(() => HandleFormResetClicked())">Reset Form</MudButton>
 		</MudToolBar>
 	}

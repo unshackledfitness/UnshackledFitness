@@ -1,7 +1,7 @@
 ﻿@page "/templates/{TemplateId}"
 @inherits SingleBase
 
-<DynamicPageTitle  IsLoading="@IsLoading" LoadingTitle="Loading Template" FallbackTitle="Template" Title="@Template?.Title" />
+<DynamicPageTitle IsLoading="@IsLoading" LoadingTitle="Loading Template" FallbackTitle="Template" Title="@Template?.Title" />
 
 <MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
 
@@ -15,7 +15,7 @@ else
 	{
 		@if (IsMemberActive)
 		{
-			<MudToolBar DisableGutters="true" Class="mb-4">
+			<MudToolBar Gutters="false" Class="mb-4">
 				<ProgressButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@DisableTrack" IsWorking="@IsWorking" WorkingText="Opening"
 								OnClick="@(() => HandleTrackNowClicked())">Track Now</ProgressButton>
 				<MudSpacer />
@@ -24,16 +24,16 @@ else
 		}
 
 		<SectionProperties @bind-Template="@Template" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
-				OnIsEditingSectionChange="@HandleIsEditingSectionChange" />
+						   OnIsEditingSectionChange="@HandleIsEditingSectionChange" />
 
 		<SectionTasks TemplateSid="@Template.Sid" TaskType="@WorkoutTaskTypes.PreWorkout" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
-			  OnIsEditingSectionChange="@HandleIsEditingSectionChange" />
+					  OnIsEditingSectionChange="@HandleIsEditingSectionChange" />
 
 		<SectionSets TemplateSid="@Template.Sid" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
-			 OnIsEditingSectionChange="@HandleIsEditingSectionChange" SetsUpdated="@HandleSetsUpdated" />
+					 OnIsEditingSectionChange="@HandleIsEditingSectionChange" SetsUpdated="@HandleSetsUpdated" />
 
 		<SectionTasks TemplateSid="@Template.Sid" TaskType="@WorkoutTaskTypes.PostWorkout" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
-			  OnIsEditingSectionChange="@HandleIsEditingSectionChange" />
+					  OnIsEditingSectionChange="@HandleIsEditingSectionChange" />
 	}
 	else
 	{

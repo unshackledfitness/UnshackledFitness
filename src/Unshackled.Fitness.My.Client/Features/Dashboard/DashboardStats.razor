@@ -28,12 +28,12 @@
 	<MudPaper class="stat-graph">
 		<div>
 			<MudText Typo="Typo.body1" Inline="true">@Model.Workouts.Count Workouts in</MudText>
-				<MudMenu Label="@LabelYear" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.KeyboardArrowDown" Size="Size.Small" Dense="true" Class="ms-1">
+			<MudMenu Label="@LabelYear" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.KeyboardArrowDown" Size="Size.Small" Dense="true" Class="ms-1">
 				@foreach (var year in Model.Years)
 				{
-					<MudMenuItem OnClick="@(() => HandleYearClicked(year))" OnTouch="@(() => HandleYearClicked(year))">@year</MudMenuItem>
+					<MudMenuItem OnClick="@(() => HandleYearClicked(year))">@year</MudMenuItem>
 				}
-				<MudMenuItem OnClick="@(() => HandlePastYearClicked())" OnTouch="@(() => HandlePastYearClicked())">Past Year</MudMenuItem>
+				<MudMenuItem OnClick="@(() => HandlePastYearClicked())">Past Year</MudMenuItem>
 			</MudMenu>
 		</div>
 		<div class="grid-wrapper">
@@ -78,7 +78,7 @@
 							@if (Model.Weeks[w].Days[d].Date != null)
 							{
 								<div class="@(Model.Weeks[w].Days[d]!.WorkoutCount > 0 ? "day on" : "day off")"
-										title="@Model.Weeks[w].Days[d].Description">
+									 title="@Model.Weeks[w].Days[d].Description">
 									<span class="sr-only">@Model.Weeks[w].Days[d].Description</span>
 								</div>
 							}

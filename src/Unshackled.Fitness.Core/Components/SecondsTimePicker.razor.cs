@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 using MudBlazor;
 using MudBlazor.Utilities;
 
@@ -12,9 +13,9 @@ namespace Unshackled.Fitness.Core.Components;
  *  - https://github.com/MudBlazor/MudBlazor/blob/dev/src/MudBlazor/Components/TimePicker/MudTimePicker.razor.cs
  */
 
-public partial class SecondsTimePicker : MudPicker<TimeSpan?>
+public partial class SecondsTimePicker : MudPicker<TimeSpan?>, IAsyncDisposable
 {
-	private const string format24Hours = "HH:mm:ss";
+	private const string Format24Hours = "HH:mm:ss";
 
 	public enum OpenToView
 	{
@@ -27,7 +28,7 @@ public partial class SecondsTimePicker : MudPicker<TimeSpan?>
 	{
 		Converter.GetFunc = OnGet;
 		Converter.SetFunc = OnSet;
-		((DefaultConverter<TimeSpan?>)Converter).Format = format24Hours;
+		((DefaultConverter<TimeSpan?>)Converter).Format = Format24Hours;
 		AdornmentIcon = Icons.Material.Filled.AccessTime;
 		AdornmentAriaLabel = "Open Time Picker";
 	}
@@ -35,9 +36,11 @@ public partial class SecondsTimePicker : MudPicker<TimeSpan?>
 	private string OnSet(TimeSpan? timespan)
 	{
 		if (timespan == null)
+		{
 			return string.Empty;
+		}
 
-		var time = DateTimeOffset.Now.Date.Add(timespan.Value);
+		var time = DateTime.Today.Add(timespan.Value);
 
 		return time.ToString(((DefaultConverter<TimeSpan?>)Converter).Format, Culture);
 	}
@@ -45,15 +48,16 @@ public partial class SecondsTimePicker : MudPicker<TimeSpan?>
 	private TimeSpan? OnGet(string? value)
 	{
 		if (string.IsNullOrEmpty(value))
+		{
 			return null;
+		}
 
 		if (DateTime.TryParseExact(value, ((DefaultConverter<TimeSpan?>)Converter).Format, Culture, DateTimeStyles.None, out var time))
 		{
 			return time.TimeOfDay;
 		}
-		
-		if (DateTime.TryParseExact(value, format24Hours, CultureInfo.InvariantCulture, DateTimeStyles.None,
-				out time))
+
+		if (DateTime.TryParseExact(value, Format24Hours, CultureInfo.InvariantCulture, DateTimeStyles.None, out time))
 		{
 			return time.TimeOfDay;
 		}
@@ -121,14 +125,18 @@ public partial class SecondsTimePicker : MudPicker<TimeSpan?>
 		set
 		{
 			if (timeFormat == value)
+			{
 				return;
+			}
 
 			timeFormat = value;
 			if (Converter is DefaultConverter<TimeSpan?> defaultConverter)
+			{
 				defaultConverter.Format = timeFormat;
+			}
 
 			Touched = true;
-			SetTextAsync(Converter.Set(_value), false).AndForget();
+			SetTextAsync(Converter.Set(_value), false).CatchAndLog();
 		}
 	}
 
@@ -140,7 +148,7 @@ public partial class SecondsTimePicker : MudPicker<TimeSpan?>
 	public TimeSpan? Time
 	{
 		get => _value;
-		set => SetTimeAsync(value, true).AndForget();
+		set => SetTimeAsync(value, true).CatchAndLog();
 	}
 
 	protected async Task SetTimeAsync(TimeSpan? time, bool updateValue)
@@ -151,7 +159,10 @@ public partial class SecondsTimePicker : MudPicker<TimeSpan?>
 			TimeIntermediate = time;
 			_value = time;
 			if (updateValue)
+			{
 				await SetTextAsync(Converter.Set(_value), false);
+			}
+
 			UpdateTimeSetFromTime();
 			await TimeChanged.InvokeAsync(_value);
 			await BeginValidateAsync();
@@ -164,18 +175,19 @@ public partial class SecondsTimePicker : MudPicker<TimeSpan?>
 	/// </summary>
 	[Parameter] public EventCallback<TimeSpan?> TimeChanged { get; set; }
 
-	protected override Task StringValueChanged(string value)
+	protected override Task StringValueChangedAsync(string value)
 	{
 		Touched = true;
+
 		// Update the time property (without updating back the Value property)
 		return SetTimeAsync(Converter.Get(value), false);
 	}
 
 	//The last line cannot be tested
 	[ExcludeFromCodeCoverage]
-	protected override void OnPickerOpened()
+	protected override async Task OnPickerOpenedAsync()
 	{
-		base.OnPickerOpened();
+		await base.OnPickerOpenedAsync();
 		currentView = TimeEditMode switch
 		{
 			TimeEditMode.Normal => OpenTo,
@@ -185,109 +197,126 @@ public partial class SecondsTimePicker : MudPicker<TimeSpan?>
 		};
 	}
 
-	protected override void Submit()
+	protected override Task SubmitAsync()
 	{
 		if (GetReadOnlyState())
-			return;
+		{
+			return Task.CompletedTask;
+		}
+
 		Time = TimeIntermediate;
+
+		return Task.CompletedTask;
 	}
 
-	public override async void Clear(bool close = true)
+	public override async Task ClearAsync(bool close = true)
 	{
 		TimeIntermediate = null;
 		await SetTimeAsync(null, true);
 
-		if (AutoClose == true)
+		if (AutoClose)
 		{
-			Close(false);
+			await CloseAsync(false);
 		}
 	}
 
 	private string GetHourString()
 	{
 		if (TimeIntermediate == null)
+		{
 			return "--";
-		return Math.Min(23, Math.Max(0, TimeIntermediate.Value.Hours)).ToString(CultureInfo.InvariantCulture);
+		}
+
+		var h = TimeIntermediate.Value.Hours;
+		return $"{Math.Min(23, Math.Max(0, h)):D2}";
 	}
 
 	private string GetMinuteString()
 	{
 		if (TimeIntermediate == null)
+		{
 			return "--";
+		}
+
 		return $"{Math.Min(59, Math.Max(0, TimeIntermediate.Value.Minutes)):D2}";
 	}
 
 	private string GetSecondString()
 	{
 		if (TimeIntermediate == null)
+		{
 			return "--";
+		}
+
 		return $"{Math.Min(59, Math.Max(0, TimeIntermediate.Value.Seconds)):D2}";
 	}
 
-	private void UpdateTime()
+	private Task UpdateTimeAsync()
 	{
 		lastSelectedHour = timeSet.Hour;
-		TimeIntermediate = new TimeSpan(timeSet.Hour, timeSet.Minute, timeSet.Second);
-		if (PickerVariant == PickerVariant.Static && PickerActions == null || PickerActions != null && AutoClose)
+		TimeIntermediate = new TimeSpan(timeSet.Hour, timeSet.Minute, 0);
+		if ((PickerVariant == PickerVariant.Static && PickerActions == null) || (PickerActions != null && AutoClose))
 		{
-			Submit();
+			return SubmitAsync();
 		}
+
+		return Task.CompletedTask;
 	}
 
-	private void OnHourClick()
+	private async Task OnHourClickAsync()
 	{
 		currentView = OpenToView.Hours;
-		FocusAsync().AndForget();
+		await FocusAsync();
 	}
 
-	private void OnMinutesClick()
+	private async Task OnMinutesClick()
 	{
 		currentView = OpenToView.Minutes;
-		FocusAsync().AndForget();
+		await FocusAsync();
 	}
 
-	private void OnSecondsClick()
+	private async Task OnSecondsClick()
 	{
 		currentView = OpenToView.Seconds;
-		FocusAsync().AndForget();
+		await FocusAsync();
 	}
 
-	protected string ToolbarClass =>
+	protected string ToolbarClassname =>
 	new CssBuilder("mud-picker-timepicker-toolbar")
 	  .AddClass($"mud-picker-timepicker-toolbar-landscape", Orientation == Orientation.Landscape && PickerVariant == PickerVariant.Static)
 	  .AddClass(Class)
 	.Build();
 
-	protected string HoursButtonClass =>
+	protected string HoursButtonClassname =>
 	new CssBuilder("mud-timepicker-button")
 	  .AddClass($"mud-timepicker-toolbar-text", currentView != OpenToView.Hours)
 	.Build();
 
-	protected string MinuteButtonClass =>
+	protected string MinuteButtonClassname =>
 	new CssBuilder("mud-timepicker-button")
 	  .AddClass($"mud-timepicker-toolbar-text", currentView != OpenToView.Minutes)
 	.Build();
 
-	protected string SecondButtonClass =>
+	protected string SecondButtonClassname =>
 	new CssBuilder("mud-timepicker-button")
 	  .AddClass($"mud-timepicker-toolbar-text", currentView != OpenToView.Seconds)
 	.Build();
 
-	private string HourDialClass =>
+	private string HourDialClassname =>
 	new CssBuilder("mud-time-picker-hour")
 	  .AddClass($"mud-time-picker-dial")
 	  .AddClass($"mud-time-picker-dial-out", currentView != OpenToView.Hours)
 	  .AddClass($"mud-time-picker-dial-hidden", currentView != OpenToView.Hours)
 	.Build();
 
-	private string MinuteDialClass =>
+	private string MinuteDialClassname =>
 	new CssBuilder("mud-time-picker-minute")
 	  .AddClass($"mud-time-picker-dial")
 	  .AddClass($"mud-time-picker-dial-out", currentView != OpenToView.Minutes)
 	  .AddClass($"mud-time-picker-dial-hidden", currentView != OpenToView.Minutes)
 	.Build();
 
-	private string SecondDialClass =>
+	private string SecondDialClassname =>
 	new CssBuilder("mud-time-picker-minute")
 	  .AddClass($"mud-time-picker-dial")
 	  .AddClass($"mud-time-picker-dial-out", currentView != OpenToView.Seconds)
@@ -301,10 +330,14 @@ public partial class SecondsTimePicker : MudPicker<TimeSpan?>
 
 	private string GetClockPointerColor()
 	{
-		if (MouseDown)
+		if (PointerMoving)
+		{
 			return $"mud-picker-time-clock-pointer mud-{Color.ToDescriptionString()}";
+		}
 		else
+		{
 			return $"mud-picker-time-clock-pointer mud-picker-time-clock-pointer-animation mud-{Color.ToDescriptionString()}";
+		}
 	}
 
 	private string GetClockPointerThumbColor()
@@ -379,6 +412,8 @@ public partial class SecondsTimePicker : MudPicker<TimeSpan?>
 	private int lastSelectedHour;
 	private int initialMinute;
 	private int initialSecond;
+	private DotNetObjectReference<SecondsTimePicker>? dotNetRef;
+	private string? clockElementReferenceId;
 
 	protected override void OnInitialized()
 	{
@@ -389,8 +424,35 @@ public partial class SecondsTimePicker : MudPicker<TimeSpan?>
 		lastSelectedHour = timeSet.Hour;
 		initialMinute = timeSet.Minute;
 		initialSecond = timeSet.Second;
+		dotNetRef = DotNetObjectReference.Create(this);
 	}
 
+	[Inject] private IJSRuntime JsRuntime { get; set; } = null!;
+
+	protected ElementReference ClockElementReference { get; private set; }
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		await base.OnAfterRenderAsync(firstRender);
+
+		// Initialize the pointer events for the clock every time it's created (ex: popover opening and closing).
+		if (ClockElementReference.Id != clockElementReferenceId)
+		{
+			clockElementReferenceId = ClockElementReference.Id;
+
+			await JsRuntime.InvokeVoidAsyncWithErrorHandling("mudTimePicker.initPointerEvents", ClockElementReference, dotNetRef);
+		}
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (IsJSRuntimeAvailable)
+		{
+			await JsRuntime.InvokeVoidAsyncWithErrorHandling("mudTimePicker.destroyPointerEvents", ClockElementReference);
+		}
+
+		dotNetRef?.Dispose();
+	}
 
 	private void UpdateTimeSetFromTime()
 	{
@@ -403,133 +465,97 @@ public partial class SecondsTimePicker : MudPicker<TimeSpan?>
 		}
 		timeSet.Hour = TimeIntermediate.Value.Hours;
 		timeSet.Minute = TimeIntermediate.Value.Minutes;
-		timeSet.Second= TimeIntermediate.Value.Seconds;
-	}
-
-	public bool MouseDown { get; set; }
-
-	/// <summary>
-	/// Sets Mouse Down bool to true if mouse is inside the clock mask.
-	/// </summary>
-	private void OnMouseDown(MouseEventArgs e)
-	{
-		MouseDown = true;
+		timeSet.Second = TimeIntermediate.Value.Seconds;
 	}
 
 	/// <summary>
-	/// Sets Mouse Down bool to false if mouse is inside the clock mask.
+	/// <c>true</c> while the main pointer button is held down and moving.
 	/// </summary>
-	private void OnMouseUp(MouseEventArgs e)
-	{
-		if (MouseDown && currentView == OpenToView.Seconds && timeSet.Second != initialSecond
-			|| (currentView == OpenToView.Hours && timeSet.Hour != initialHour && TimeEditMode == TimeEditMode.OnlyHours)
-			|| (currentView == OpenToView.Minutes && timeSet.Minute != initialMinute && TimeEditMode == TimeEditMode.OnlyMinutes))
-		{
-			MouseDown = false;
-			SubmitAndClose();
-		}
-
-		MouseDown = false;
-
-		if (currentView == OpenToView.Hours && timeSet.Hour != initialHour && TimeEditMode == TimeEditMode.Normal)
-		{
-			currentView = OpenToView.Minutes;
-		}
-		else if (currentView == OpenToView.Minutes && timeSet.Minute != initialMinute && TimeEditMode == TimeEditMode.Normal)
-		{
-			currentView = OpenToView.Seconds;
-		}
-	}
+	/// <remarks>
+	/// Disables clock animations.
+	/// </remarks>
+	public bool PointerMoving { get; set; }
 
 	/// <summary>
-	/// If MouseDown is true enables "dragging" effect on the clock pin/stick.
+	/// Updates the position of the hands on the clock.
+	/// This method is called by the JavaScript events.
 	/// </summary>
-	private void OnMouseOverHour(int value)
+	/// <param name="value">The minute or hour.</param>
+	/// <param name="pointerMoving">Is the pointer being moved?</param>
+	[JSInvokable]
+	public async Task SelectTimeFromStick(int value, bool pointerMoving)
 	{
-		if (MouseDown)
+		if (value == -1)
+		{
+			// This means a stick wasn't the target (which shouldn't happen).
+			return;
+		}
+
+		PointerMoving = pointerMoving;
+
+		// Update the .NET properties from the JavaScript events.
+		if (currentView == OpenToView.Seconds)
+		{
+			var seconds = RoundToStepInterval(value);
+			timeSet.Second = seconds;
+		}
+		else if (currentView == OpenToView.Minutes)
+		{
+			var minute = RoundToStepInterval(value);
+			timeSet.Minute = minute;
+		}
+		else if (currentView == OpenToView.Hours)
 		{
 			timeSet.Hour = value;
-			UpdateTime();
 		}
+
+		await UpdateTimeAsync();
+
+		// Manually update because the event won't do it from JavaScript.
+		StateHasChanged();
 	}
 
 	/// <summary>
-	/// On click for the hour "sticks", sets the hour.
+	/// Performs the click action for the sticks.
+	/// This method is called by the JavaScript events.
 	/// </summary>
-	private void OnMouseClickHour(int value)
+	/// <param name="value">The minute or hour.</param>
+	[JSInvokable]
+	public async Task OnStickClick(int value)
 	{
-		timeSet.Hour = value;
+		// The pointer is up and not moving so animations can be enabled again.
+		PointerMoving = false;
 
-		if (currentView == OpenToView.Hours
-			|| timeSet.Hour != lastSelectedHour)
+		// Clicking a stick will submit the time.
+		if (currentView == OpenToView.Seconds)
 		{
-			UpdateTime();
+			await SubmitAndCloseAsync();
+		}
+		else if (currentView == OpenToView.Minutes)
+		{
+			if (TimeEditMode == TimeEditMode.Normal)
+			{
+				currentView = OpenToView.Seconds;
+			}
+			else if (TimeEditMode == TimeEditMode.OnlyMinutes)
+			{
+				await SubmitAndCloseAsync();
+			}
+		}
+		else if (currentView == OpenToView.Hours)
+		{
+			if (TimeEditMode == TimeEditMode.Normal)
+			{
+				currentView = OpenToView.Minutes;
+			}
+			else if (TimeEditMode == TimeEditMode.OnlyHours)
+			{
+				await SubmitAndCloseAsync();
+			}
 		}
 
-		if (TimeEditMode == TimeEditMode.Normal)
-		{
-			currentView = OpenToView.Minutes;
-		}
-		else if (TimeEditMode == TimeEditMode.OnlyHours)
-		{
-			SubmitAndClose();
-		}
-	}
-
-	/// <summary>
-	/// On mouse over for the minutes "sticks", sets the minute.
-	/// </summary>
-	private void OnMouseOverMinute(int value)
-	{
-		if (MouseDown)
-		{
-			value = RoundToStepInterval(value);
-			timeSet.Minute = value;
-			UpdateTime();
-		}
-	}
-
-	/// <summary>
-	/// On click for the minute "sticks", sets the minute.
-	/// </summary>
-	private void OnMouseClickMinute(int value)
-	{
-		value = RoundToStepInterval(value);
-		timeSet.Minute = value;
-		UpdateTime();
-
-		if (TimeEditMode == TimeEditMode.Normal)
-		{
-			currentView = OpenToView.Seconds;
-		}
-		else
-		{
-			SubmitAndClose();
-		}
-	}
-
-	/// <summary>
-	/// On mouse over for the second "sticks", sets the second.
-	/// </summary>
-	private void OnMouseOverSecond(int value)
-	{
-		if (MouseDown)
-		{
-			value = RoundToStepInterval(value);
-			timeSet.Second = value;
-			UpdateTime();
-		}
-	}
-
-	/// <summary>
-	/// On click for the second "sticks", sets the second.
-	/// </summary>
-	private void OnMouseClickSecond(int value)
-	{
-		value = RoundToStepInterval(value);
-		timeSet.Second = value;
-		UpdateTime();
-		SubmitAndClose();
+		// Manually update because the event won't do it from JavaScript.
+		StateHasChanged();
 	}
 
 	private int RoundToStepInterval(int value)
@@ -546,136 +572,140 @@ public partial class SecondsTimePicker : MudPicker<TimeSpan?>
 		return value;
 	}
 
-	protected async void SubmitAndClose()
+	protected async Task SubmitAndCloseAsync()
 	{
 		if (PickerActions == null || AutoClose)
 		{
-			Submit();
+			await SubmitAsync();
 
 			if (PickerVariant != PickerVariant.Static)
 			{
 				await Task.Delay(ClosingDelay);
-				Close(false);
+				await CloseAsync(false);
 			}
 		}
 	}
 
-	protected override void HandleKeyDown(KeyboardEventArgs obj)
+	protected override async Task OnHandleKeyDownAsync(KeyboardEventArgs obj)
 	{
 		if (GetDisabledState() || GetReadOnlyState())
+		{
 			return;
-		base.HandleKeyDown(obj);
+		}
+
+		await base.OnHandleKeyDownAsync(obj);
+
 		switch (obj.Key)
 		{
 			case "ArrowRight":
-				if (IsOpen)
+				if (Open)
 				{
 					if (obj.CtrlKey == true)
 					{
-						ChangeHour(1);
+						await ChangeHourAsync(1);
 					}
 					else if (obj.ShiftKey == true)
 					{
 						if (timeSet.Minute > 55)
 						{
-							ChangeHour(1);
+							await ChangeHourAsync(1);
 						}
-						ChangeMinute(5);
+						await ChangeMinuteAsync(5);
 					}
 					else
 					{
 						if (timeSet.Minute == 59)
 						{
-							ChangeHour(1);
+							await ChangeHourAsync(1);
 						}
-						ChangeMinute(1);
+						await ChangeMinuteAsync(1);
 					}
 				}
 				break;
 			case "ArrowLeft":
-				if (IsOpen)
+				if (Open)
 				{
 					if (obj.CtrlKey == true)
 					{
-						ChangeHour(-1);
+						await ChangeHourAsync(-1);
 					}
 					else if (obj.ShiftKey == true)
 					{
 						if (timeSet.Minute < 5)
 						{
-							ChangeHour(-1);
+							await ChangeHourAsync(-1);
 						}
-						ChangeMinute(-5);
+						await ChangeMinuteAsync(-5);
 					}
 					else
 					{
 						if (timeSet.Minute == 0)
 						{
-							ChangeHour(-1);
+							await ChangeHourAsync(-1);
 						}
-						ChangeMinute(-1);
+						await ChangeMinuteAsync(-1);
 					}
 				}
 				break;
 			case "ArrowUp":
-				if (IsOpen == false && Editable == false)
+				if (Open == false && Editable == false)
 				{
-					IsOpen = true;
+					Open = true;
 				}
 				else if (obj.AltKey == true)
 				{
-					IsOpen = false;
+					Open = false;
 				}
 				else if (obj.ShiftKey == true)
 				{
-					ChangeHour(5);
+					await ChangeHourAsync(5);
 				}
 				else
 				{
-					ChangeHour(1);
+					await ChangeHourAsync(1);
 				}
 				break;
 			case "ArrowDown":
-				if (IsOpen == false && Editable == false)
+				if (Open == false && Editable == false)
 				{
-					IsOpen = true;
+					Open = true;
 				}
 				else if (obj.ShiftKey == true)
 				{
-					ChangeHour(-5);
+					await ChangeHourAsync(-5);
 				}
 				else
 				{
-					ChangeHour(-1);
+					await ChangeHourAsync(-1);
 				}
 				break;
 			case "Escape":
-				ReturnTimeBackUp();
+				await ReturnTimeBackUpAsync();
 				break;
 			case "Enter":
 			case "NumpadEnter":
-				if (!IsOpen)
+				if (!Open)
 				{
-					Open();
+					await OpenAsync();
 				}
 				else
 				{
-					Submit();
-					Close();
+					await SubmitAsync();
+					await CloseAsync();
 					_inputReference?.SetText(Text);
 				}
 				break;
 			case " ":
 				if (!Editable)
 				{
-					if (!IsOpen)
+					if (!Open)
 					{
-						Open();
+						await OpenAsync();
 					}
 					else
 					{
-						Submit();
-						Close();
+						await SubmitAsync();
+						await CloseAsync();
 						_inputReference?.SetText(Text);
 					}
 				}
@@ -685,21 +715,21 @@ public partial class SecondsTimePicker : MudPicker<TimeSpan?>
 		StateHasChanged();
 	}
 
-	protected void ChangeMinute(int val)
+	protected Task ChangeMinuteAsync(int val)
 	{
 		currentView = OpenToView.Minutes;
 		timeSet.Minute = (timeSet.Minute + val + 60) % 60;
-		UpdateTime();
+		return UpdateTimeAsync();
 	}
 
-	protected void ChangeHour(int val)
+	protected Task ChangeHourAsync(int val)
 	{
 		currentView = OpenToView.Hours;
 		timeSet.Hour = (timeSet.Hour + val + 24) % 24;
-		UpdateTime();
+		return UpdateTimeAsync();
 	}
 
-	protected void ReturnTimeBackUp()
+	protected async Task ReturnTimeBackUpAsync()
 	{
 		if (Time == null)
 		{
@@ -709,7 +739,9 @@ public partial class SecondsTimePicker : MudPicker<TimeSpan?>
 		{
 			timeSet.Hour = Time.Value.Hours;
 			timeSet.Minute = Time.Value.Minutes;
-			UpdateTime();
+			timeSet.Second = Time.Value.Seconds;
+
+			await UpdateTimeAsync();
 		}
 	}
 

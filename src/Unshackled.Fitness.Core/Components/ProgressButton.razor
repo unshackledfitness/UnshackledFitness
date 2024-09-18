@@ -1,5 +1,5 @@
-﻿<MudButton Disabled="@(IsWorking || Disabled)" OnClick="@HandleClicked" Class="@Class" Variant="@Variant" Color="@Color" Size="@Size" FullWidth="@FullWidth" ButtonType="@ButtonType" title="@Title"
-		   StartIcon="@(IsWorking ? string.Empty : StartIcon)">
+﻿<MudButton HtmlTag="@HtmlTag" Disabled="@(IsWorking || Disabled)" OnClick="@HandleClicked" Class="@Class" Variant="@Variant" Color="@Color" Size="@Size" FullWidth="@FullWidth" ButtonType="@ButtonType" title="@Title"
+		   StartIcon="@(IsWorking ? string.Empty : StartIcon)" @attributes="UserAttributes">
 	@if (IsWorking)
 	{
 		<MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
@@ -24,6 +24,8 @@
 	[Parameter] public string WorkingText { get; set; } = "Working";
 	[Parameter] public RenderFragment ChildContent { get; set; } = default!;
 	[Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+	[Parameter] public string HtmlTag { get; set; } = "button";
+	[Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object?> UserAttributes { get; set; } = new Dictionary<string, object?>();
 
 	protected async Task HandleClicked(MouseEventArgs evt)
 	{

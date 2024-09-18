@@ -42,11 +42,11 @@
 		<label for="confirm-password">Confirm Password</label>
 		<ValidationMessage For="() => Input.ConfirmPassword" class="text-danger mt-2" />
 	</div>
-	<MudToolBar DisableGutters="true">
+	<MudToolBar Gutters="false">
 		<MudSpacer />
 		<MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary">Register</MudButton>
 		<MudButton ButtonType="ButtonType.Button" Variant="Variant.Outlined" Color="Color.Secondary" Class="ms-2"
-					Href="@(NavigationManager.GetUriWithQueryParameters("account/login", new Dictionary<string, object?> { ["returnUrl"] = ReturnUrl }))">Cancel</MudButton>
+				   Href="@(NavigationManager.GetUriWithQueryParameters("account/login", new Dictionary<string, object?> { ["returnUrl"] = ReturnUrl }))">Cancel</MudButton>
 		<MudSpacer />
 	</MudToolBar>
 </EditForm>

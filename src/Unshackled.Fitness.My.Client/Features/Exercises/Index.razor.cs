@@ -143,9 +143,9 @@ public partial class IndexBase : BaseSearchComponent<SearchExerciseModel, Exerci
 			parameters.Add(DialogMerge.ParameterSids, SelectedSids);
 
 			var dialog = DialogService.Show<DialogMerge>("Merge Exercises", parameters, options);
-			DialogResult confirm = await dialog.Result;
+			var confirm = await dialog.Result;
 
-			if (!confirm.Canceled && confirm.Data != null)
+			if (confirm != null && !confirm.Canceled && confirm.Data != null)
 			{
 				IsWorking = true;
 				string? keepId = confirm.Data.ToString();
@@ -162,7 +162,7 @@ public partial class IndexBase : BaseSearchComponent<SearchExerciseModel, Exerci
 					};
 
 					var result = await Mediator.Send(new MergeExercises.Command(merge));
-					if(result.Success)
+					if (result.Success)
 					{
 						await DoSearch(SearchModel.Page);
 					}

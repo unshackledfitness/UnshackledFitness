@@ -6,7 +6,7 @@
 	{
 		@if ((ToolbarPosition == ToolbarPositions.Top || ToolbarPosition == ToolbarPositions.Both) && (AllowSort || ListTools != null))
 		{
-			<MudToolBar DisableGutters="true">
+			<MudToolBar Gutters="false">
 				@if (ToolbarAlignment == HorizontalAlignment.Center || ToolbarAlignment == HorizontalAlignment.End || ToolbarAlignment == HorizontalAlignment.Right)
 				{
 					<MudSpacer />
@@ -55,7 +55,7 @@
 			}
 			@if (ItemRenderer != null)
 			{
-				@ItemRenderer(new RowContext<TItem>{ Item = item, RowIndex = i })
+				@ItemRenderer(new RowContext<TItem> { Item = item, RowIndex = i })
 				@if (UseDividers)
 				{
 					<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
@@ -65,7 +65,7 @@
 
 		@if ((ToolbarPosition == ToolbarPositions.Bottom || ToolbarPosition == ToolbarPositions.Both) && (AllowSort || ListTools != null))
 		{
-			<MudToolBar DisableGutters="true">
+			<MudToolBar Gutters="false">
 				@if (ToolbarAlignment == HorizontalAlignment.Center || ToolbarAlignment == HorizontalAlignment.End || ToolbarAlignment == HorizontalAlignment.Right)
 				{
 					<MudSpacer />
@@ -94,7 +94,7 @@
 		{
 			<MudDropContainer T="TItem" Items="@SortingItems" ItemsSelector="@((item,dropzone) => item.ListGroupSid.ToString() == dropzone)" ItemDropped="HandleItemDropped">
 				<ChildContent>
-					<MudToolBar DisableGutters="true" Class="mb-2">
+					<MudToolBar Gutters="false" Class="mb-2">
 						<ProgressButton Color="Color.Primary" Disabled="@IsWorking" IsWorking="@IsWorking" WorkingText="Applying" StartIcon="@Icons.Material.Filled.Check"
 										OnClick="@(() => HandleUpdateSortClicked())">Apply Order</ProgressButton>
 						<MudButton StartIcon="@Icons.Material.Filled.Cancel" OnClick="@(() => HandleCancelSortClicked())">Cancel</MudButton>
@@ -129,7 +129,7 @@
 		}
 		else
 		{
-			<MudToolBar DisableGutters="true" Class="mb-2">
+			<MudToolBar Gutters="false" Class="mb-2">
 				<MudButton StartIcon="@Icons.Material.Filled.ArrowBack" OnClick="@(() => HandleBackClicked())">Back</MudButton>
 			</MudToolBar>
 			<MudDropContainer T="TGroup" Items="@SortingGroups" ItemsSelector="@((item,dropzone) => true)" ItemDropped="HandleGroupDropped">
@@ -154,7 +154,7 @@
 	{
 		@if ((ToolbarPosition == ToolbarPositions.Top || ToolbarPosition == ToolbarPositions.Both) && ListTools != null)
 		{
-			<MudToolBar DisableGutters="true">
+			<MudToolBar Gutters="false">
 				@if (ToolbarAlignment == HorizontalAlignment.Center || ToolbarAlignment == HorizontalAlignment.End || ToolbarAlignment == HorizontalAlignment.Right)
 				{
 					<MudSpacer />
@@ -179,7 +179,7 @@
 
 		@if ((ToolbarPosition == ToolbarPositions.Bottom || ToolbarPosition == ToolbarPositions.Both) && ListTools != null)
 		{
-			<MudToolBar DisableGutters="true">
+			<MudToolBar Gutters="false">
 				@if (ToolbarAlignment == HorizontalAlignment.Center || ToolbarAlignment == HorizontalAlignment.End || ToolbarAlignment == HorizontalAlignment.Right)
 				{
 					<MudSpacer />

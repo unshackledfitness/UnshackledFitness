@@ -1,7 +1,7 @@
 ﻿@page "/workouts/{WorkoutSid}"
 @inherits SingleBase
 
-<DynamicPageTitle  IsLoading="@IsLoading" LoadingTitle="Loading Workout" Title="Workout" />
+<DynamicPageTitle IsLoading="@IsLoading" LoadingTitle="Loading Workout" Title="Workout" />
 
 <MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
 
@@ -9,11 +9,11 @@
 {
 	<DefaultProgress />
 }
-else if(IsAddingTemplate)
+else if (IsAddingTemplate)
 {
-	<SectionHeader Title="Add as Template" SubTitle="Enter a title for your new template." IsEditing="true" EditingClass="mb-4" 
+	<SectionHeader Title="Add as Template" SubTitle="Enter a title for your new template." IsEditing="true" EditingClass="mb-4"
 				   FormId="@FormId" OnCancelClicked="@HandleCancelAddClicked" />
-	<FormAddTemplate DisableFormControls="@IsWorking" Model="@AddTemplateModel" FormId="@FormId" OnFormSubmitted="@HandleAddTemplateSubmitted"/>
+	<FormAddTemplate DisableFormControls="@IsWorking" Model="@AddTemplateModel" FormId="@FormId" OnFormSubmitted="@HandleAddTemplateSubmitted" />
 }
 else
 {
@@ -24,14 +24,14 @@ else
 			<div class="d-flex flex-column-reverse flex-sm-row">
 				@if (Workout.DateCompletedUtc.HasValue)
 				{
-					<MudToolBar DisableGutters="true" Dense="true">
+					<MudToolBar Gutters="false" Dense="true">
 						<ProgressButton StartIcon="@Icons.Material.Filled.Repeat" Disabled="@IsEditMode" IsWorking="@IsRepeating" WorkingText="Creating" Title="Repeat Workout"
-						OnClick="@(() => HandleRepeatWorkoutClicked())">Repeat</ProgressButton>
+										OnClick="@(() => HandleRepeatWorkoutClicked())">Repeat</ProgressButton>
 						<ProgressButton StartIcon="@Icons.Material.Filled.SaveAs" Disabled="@IsEditMode" IsWorking="@IsAddingTemplate" WorkingText="Saving" Title="Save As Template"
-						OnClick="@(() => HandleAddTemplateClicked())">Template</ProgressButton>
+										OnClick="@(() => HandleAddTemplateClicked())">Template</ProgressButton>
 					</MudToolBar>
 				}
-				<MudToolBar DisableGutters="true" Dense="true" Class="flex-grow-1">
+				<MudToolBar Gutters="false" Dense="true" Class="flex-grow-1">
 					<MudSpacer />
 					<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@IsEditing" />
 				</MudToolBar>
@@ -39,12 +39,12 @@ else
 		}
 
 		<SectionProperties @bind-Workout="@Workout" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
-				OnIsEditingSectionChange="@HandleIsEditingSectionChange" />
+						   OnIsEditingSectionChange="@HandleIsEditingSectionChange" />
 
 		@if (!Workout.DateStartedUtc.HasValue)
 		{
 			<SectionTasks Tasks="@PreWorkoutTasks" Title="Pre-Workout Checklist" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
-				TaskChanged="@HandleTaskChanged"/>
+						  TaskChanged="@HandleTaskChanged" />
 
 			@if (IsMemberActive)
 			{
@@ -55,13 +55,13 @@ else
 			}
 		}
 
-		<SectionSets Workout="@Workout" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleIsEditingSectionChange" 
+		<SectionSets Workout="@Workout" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleIsEditingSectionChange"
 					 OnSetSaved="@HandleSetSaved" OnHasUnrecordedSetsChanged="@HandleUnrecordedSetsChanged" />
 
 		@if (ShowPostWorkoutTasks)
 		{
 			<SectionTasks Tasks="@PostWorkoutTasks" Title="Post-Workout Checklist" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" TaskChanged="@HandleTaskChanged" />
-			
+
 			@if (IsMemberActive)
 			{
 				<div class="mb-4">

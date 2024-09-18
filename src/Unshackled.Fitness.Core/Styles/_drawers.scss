@@ -12,13 +12,17 @@
 
 		.mud-drawer-header {
 			position: sticky;
-			background-color: var(--mud-palette-drawer-background);
+			background-color: var(--mud-palette-secondary);
 			position: sticky;
 			height: 64px;
 			left: 0;
 			right: 0;
 			top: 0;
 			z-index: 1;
+
+			.mud-typography, .mud-icon-button {
+				color: var(--mud-palette-secondary-text)
+			}
 		}
 	}
 }

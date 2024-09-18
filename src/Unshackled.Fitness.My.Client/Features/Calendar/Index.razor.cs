@@ -41,7 +41,7 @@ public class IndexBase : BaseComponent, IAsyncDisposable
 
 		await InitializeSearchForm();
 		FilterVisibility = await localStorageService.GetItemAsync<Dictionary<string, bool>>(visibilityKey) ?? new();
-				
+
 		SetThemeColor();
 		State.OnThemeChange += HandleThemeChanged;
 
@@ -80,7 +80,7 @@ public class IndexBase : BaseComponent, IAsyncDisposable
 			{
 				filter.IsChecked = FilterVisibility[filter.FilterId];
 			}
-			if(!filter.IsChecked)
+			if (!filter.IsChecked)
 			{
 				SetBlockVisibility(filter);
 			}
@@ -111,12 +111,12 @@ public class IndexBase : BaseComponent, IAsyncDisposable
 			Settings = JsonSerializer.Serialize(FilterVisibility),
 			Title = title
 		};
-		var result = await Mediator.Send(new AddPreset.Command(model));		
+		var result = await Mediator.Send(new AddPreset.Command(model));
 		if (result.Success && result.Payload != null)
 		{
 			Presets.Add(result.Payload);
 			Presets = Presets.OrderBy(x => x.Title).ToList();
-		}		
+		}
 		ShowNotification(result);
 		IsSaving = false;
 	}
@@ -246,11 +246,11 @@ public class IndexBase : BaseComponent, IAsyncDisposable
 		ThemeColor = State.Theme switch
 		{
 			Themes.Dark => theme.PaletteDark.Primary.Value,
-			Themes.Light => theme.Palette.Primary.Value,
-			Themes.System => SystemIsDark 
+			Themes.Light => theme.PaletteLight.Primary.Value,
+			Themes.System => SystemIsDark
 				? theme.PaletteDark.Primary.Value
-				: theme.Palette.Primary.Value,
-			_ => theme.Palette.Primary.Value
+				: theme.PaletteLight.Primary.Value,
+			_ => theme.PaletteLight.Primary.Value
 		};
 	}
 }

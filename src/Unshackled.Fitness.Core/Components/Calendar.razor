@@ -2,13 +2,13 @@
 	<div class="d-flex flex-row gap-2 align-center">
 		<div style="width:3rem;"></div>
 		<MudSpacer />
-		@if(ChildContent != null)
+		@if (ChildContent != null)
 		{
 			@ChildContent
 		}
 		<MudSpacer />
 		<div>
-			<MudIconButton Icon="@Icons.Material.Filled.ArrowDownward" Title="Scroll to End"
+			<MudIconButton Icon="@Icons.Material.Filled.ArrowDownward" title="Scroll to End"
 						   OnClick="@(() => HandleScrollToBottomClicked())" />
 		</div>
 	</div>
@@ -26,7 +26,7 @@
 						@foreach (var block in day.Blocks)
 						{
 							<div class="@GetBlockClass(block)" style="@GetBlockStyle(block)">
-								@if(!string.IsNullOrEmpty(block.Title))
+								@if (!string.IsNullOrEmpty(block.Title))
 								{
 									<div class="block-title" style="@GetBlockTextStyle(block)">@block.Title</div>
 								}

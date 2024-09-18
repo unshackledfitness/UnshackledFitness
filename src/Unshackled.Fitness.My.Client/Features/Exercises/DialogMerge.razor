@@ -1,8 +1,8 @@
 ﻿<MudDialog Class="pb-2">
 	<DialogContent>
 		<MudText Typo="Typo.body1" Class="mb-6">
-			Choose the exercise to keep. The unselected (deleted) exercise will be replaced by the selected exercise 
-			in templates and workouts. Recorded workout results for the unselected (deleted) exercise will be changed to 
+			Choose the exercise to keep. The unselected (deleted) exercise will be replaced by the selected exercise
+			in templates and workouts. Recorded workout results for the unselected (deleted) exercise will be changed to
 			results for the selected exercise.
 		</MudText>
 		@if (IsLoading)
@@ -20,7 +20,7 @@
 								<MudText Typo="Typo.subtitle1">@item.Title</MudText>
 								@if (!item.MatchId.HasValue)
 								{
-									<MudChip Text="Custom" Color="Color.Tertiary" Class="mud-chip-size-tiny" />
+									<MudChip T="string" Text="Custom" Color="Color.Tertiary" Class="mud-chip-size-tiny" />
 								}
 							</div>
 							<MudText Typo="Typo.body1" Color="Color.Tertiary">@item.Equipment.Titles()</MudText>
@@ -29,7 +29,7 @@
 					</MudRadio>
 				}
 			</MudRadioGroup>
-			@if(!string.IsNullOrEmpty(SelectedSid))
+			@if (!string.IsNullOrEmpty(SelectedSid))
 			{
 				<MudText Typo="Typo.body1" Class="mb-6">
 					Merging exercises cannot be undone. Please confirm your choice by typing the exact name of the selected exercise: <strong>@SelectedExercise</strong>

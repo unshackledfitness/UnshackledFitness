@@ -1,7 +1,7 @@
 ﻿@page "/templates"
 @inherits IndexBase
 
-<DynamicPageTitle  IsLoading="@IsLoading" LoadingTitle="Loading Templates..." Title="Templates" />
+<DynamicPageTitle IsLoading="@IsLoading" LoadingTitle="Loading Templates..." Title="Templates" />
 
 <MudBreadcrumbs Items="@Breadcrumbs" />
 
@@ -22,27 +22,25 @@ else if (!Adding)
 					</MudItem>
 					<MudItem xs="12" sm="8">
 						<MudTextField Label="Title" Variant="Variant.Outlined" FullWidth="true" Margin="Margin.Dense"
-								  T="string" @bind-Value="@SearchModel.Title" Disabled="@IsLoading" />
+									  T="string" @bind-Value="@SearchModel.Title" Disabled="@IsLoading" />
 					</MudItem>
 				</MudGrid>
 			</SearchFields>
 		</SearchForm>
 		@if (IsMemberActive)
 		{
-			<MudToolBar Class="mb-2" DisableGutters="true" Dense="true">
-				<ProgressButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls" 
+			<MudToolBar Class="mb-2" Gutters="false" Dense="true">
+				<ProgressButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls"
 								IsWorking="@(IsWorking && TrackNowSid == string.Empty)" WorkingText="Opening"
 								OnClick="@(() => HandleAddClicked())">New</ProgressButton>
 				<MudMenu Label="Sort" StartIcon="@Icons.Material.Filled.Sort" Class="ms-2">
-					<MudMenuItem OnClick="@(() => HandleSortByClicked(0, nameof(TemplateListItem.Title)))"
-								 OnTouch="@(() => HandleSortByClicked(0, nameof(TemplateListItem.Title)))">Title (Asc)</MudMenuItem>
-					<MudMenuItem OnClick="@(() => HandleSortByClicked(1, nameof(TemplateListItem.Title)))"
-								 OnTouch="@(() => HandleSortByClicked(1, nameof(TemplateListItem.Title)))">Title (Desc)</MudMenuItem>
+					<MudMenuItem OnClick="@(() => HandleSortByClicked(0, nameof(TemplateListItem.Title)))">Title (Asc)</MudMenuItem>
+					<MudMenuItem OnClick="@(() => HandleSortByClicked(1, nameof(TemplateListItem.Title)))">Title (Desc)</MudMenuItem>
 				</MudMenu>
 			</MudToolBar>
 		}
 		<ListView Class="mb-6" Items="@SearchResults.Data" PageSize="@SearchResults.PageSize" Page="@SearchModel.Page" TotalItems="@SearchResults.Total" IsLoading="@IsLoading"
-			  PageSelected="@HandlePageSelected">
+				  PageSelected="@HandlePageSelected">
 			<ItemRenderer>
 				<MudGrid Spacing="2" Class="my-2">
 					<MudItem xs="12" sm="6" md="8">
@@ -50,7 +48,7 @@ else if (!Adding)
 							@if (IsMemberActive)
 							{
 								<div>
-									<ProgressButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@DisableControls" 
+									<ProgressButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@DisableControls"
 													IsWorking="@(context.Item.Sid == TrackNowSid)" WorkingText="Opening" Size="Size.Small" Class="my-2 my-md-0"
 													OnClick="@(() => HandleTrackNowClicked(context.Item))">Track</ProgressButton>
 								</div>

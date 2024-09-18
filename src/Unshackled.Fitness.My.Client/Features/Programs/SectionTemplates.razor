@@ -2,16 +2,16 @@
 
 <SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing">
 
-	<SectionHeader Typo="Typo.h5" Title="@Program.ProgramType.Title()" IsEditMode="@IsEditMode" IsEditing="@IsEditing" DisableControls="@DisableControls" 
+	<SectionHeader Typo="Typo.h5" Title="@Program.ProgramType.Title()" IsEditMode="@IsEditMode" IsEditing="@IsEditing" DisableControls="@DisableControls"
 				   OnCancelClicked="@HandleCancelEditClicked" OnSaveClicked="@HandleSaveClicked">
 
 		<EditModeToolbar>
-			<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@DisableSectionControls" Title="Edit" OnClick="@(() => HandleEditClicked())" />
+			<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@DisableSectionControls" title="Edit" OnClick="@(() => HandleEditClicked())" />
 		</EditModeToolbar>
 
 	</SectionHeader>
 
-	@if(Program.ProgramType == ProgramTypes.FixedRepeating)
+	@if (Program.ProgramType == ProgramTypes.FixedRepeating)
 	{
 		<ViewFixedRepeating IsEditing="@IsEditing" IsSaving="@IsSaving" Program="@Program" Templates="@Templates" @bind-FormModel="@FormModel" />
 	}

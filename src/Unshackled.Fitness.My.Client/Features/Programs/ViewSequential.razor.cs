@@ -22,16 +22,16 @@ public class ViewSequentialBase : BaseSectionComponent
 			{ nameof(DialogAddTemplate.Templates), Templates }
 		};
 
-		var options = new DialogOptions { ClassBackground = "bg-blur", MaxWidth = MaxWidth.Medium };
+		var options = new DialogOptions { BackgroundClass = "bg-blur", MaxWidth = MaxWidth.Medium };
 
 		var dialog = DialogService.Show<DialogAddTemplate>("Add Template", parameters, options);
 		var result = await dialog.Result;
-		if (!result.Canceled)
+		if (result != null && !result.Canceled && result.Data != null)
 		{
 			var model = (TemplateListModel)result.Data;
 			if (model != null)
 			{
-				int sortOrder = FormModel.Templates.Any() 
+				int sortOrder = FormModel.Templates.Any()
 					? FormModel.Templates.Max(x => x.SortOrder) + 1
 					: 0;
 
@@ -69,7 +69,7 @@ public class ViewSequentialBase : BaseSectionComponent
 			FormModel.Templates.Remove(model);
 			FormModel.Templates = ReorderTemplates();
 			await FormModelChanged.InvokeAsync(FormModel);
-		}			
+		}
 	}
 
 	protected async Task HandleSortChanged(List<FormProgramTemplateModel> list)

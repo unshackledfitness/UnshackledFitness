@@ -1,7 +1,7 @@
 ﻿@page "/exercises/{Sid}"
 @inherits SingleBase
 
-<DynamicPageTitle  IsLoading="@IsLoading" LoadingTitle="Loading Exercise..." FallbackTitle="Exercise" Title="@Exercise.Title" />
+<DynamicPageTitle IsLoading="@IsLoading" LoadingTitle="Loading Exercise..." FallbackTitle="Exercise" Title="@Exercise.Title" />
 
 <MudBreadcrumbs Items="@Breadcrumbs" />
 
@@ -13,7 +13,7 @@ else if (!string.IsNullOrEmpty(Exercise.Sid))
 {
 	@if (IsMemberActive)
 	{
-		<MudToolBar DisableGutters="true" Dense="true">
+		<MudToolBar Gutters="false" Dense="true">
 			<MudSpacer />
 			<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@IsEditing" />
 		</MudToolBar>
