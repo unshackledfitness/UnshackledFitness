@@ -9,6 +9,11 @@ public class PostgreSqlServerDbContext : BaseDbContext
 		ConnectionStrings connectionStrings,
 		DbConfiguration dbConfig) : base(options, connectionStrings, dbConfig) { }
 
+	protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+	{
+		configurationBuilder.Properties<string>().UseCollation("case_insensitive_collation");
+	}
+
 	protected override void OnConfiguring(DbContextOptionsBuilder options)
 	{
 		if (!string.IsNullOrEmpty(ConnectionStrings.DefaultDatabase))
@@ -21,5 +26,12 @@ public class PostgreSqlServerDbContext : BaseDbContext
 				o.MigrationsHistoryTable($"{prefix}_EFMigrationsHistory");
 			});
 		}
+	}
+
+	protected override void OnModelCreating(ModelBuilder builder)
+	{
+		base.OnModelCreating(builder);
+
+		builder.HasCollation("case_insensitive_collation", locale: "en-u-ks-primary", provider: "icu", deterministic: false);
 	}
 }
