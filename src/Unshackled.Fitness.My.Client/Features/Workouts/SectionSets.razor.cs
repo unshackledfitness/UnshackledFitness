@@ -7,6 +7,7 @@ using Unshackled.Fitness.Core.Components;
 using Unshackled.Fitness.My.Client.Features.Workouts.Actions;
 using Unshackled.Fitness.My.Client.Features.Workouts.Models;
 using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Workouts;
 
@@ -19,8 +20,6 @@ public class SectionSetsBase : BaseSectionComponent
 
 	protected int ActiveSetIdx { get; set; }
 
-	protected bool Adding { get; set; }
-
 	protected bool DisableControls => IsWorking
 		|| (DisableSectionControls && IsEditMode);
 
@@ -28,11 +27,12 @@ public class SectionSetsBase : BaseSectionComponent
 		? Icons.Material.Filled.History
 		: Icons.Material.Filled.StickyNote2;
 
-	protected bool DrawerOpen => OpenStats || OpenNotes;
+	protected bool DrawerOpen => OpenStats || OpenNotes || OpenAddSet;
 
 	protected string DrawerTitle => OpenStats
 		? "Previous Stats"
-		: "Exercise Notes";
+		: OpenNotes ? "Exercise Notes"
+		: "Add Set";
 
 	protected FormWorkoutSetModel DrawerWorkoutSet { get; set; } = new();
 
@@ -51,6 +51,8 @@ public class SectionSetsBase : BaseSectionComponent
 	protected bool OpenNotes { get; set; } = false;
 
 	protected bool OpenStats { get; set; } = false;
+
+	protected bool OpenAddSet { get; set; } = false;
 
 	protected WeightUnits TotalWeightUnit => Workout.Sets.Any() ? Workout.Sets[0].WeightUnit : WeightUnits.kg;
 
@@ -120,7 +122,7 @@ public class SectionSetsBase : BaseSectionComponent
 		string? title = null;
 		if (set.IsRecordSeconds)
 			title = "Time PR";
-		
+
 		if (set.IsRecordSecondsAtWeight && set.Weight.HasValue)
 		{
 			string t = $"Time PR @ {set.Weight.Value.ToString("0.#")}{set.WeightUnit.Label()}";
@@ -129,7 +131,7 @@ public class SectionSetsBase : BaseSectionComponent
 			else
 				title = $"{title}, {t}";
 		}
-		
+
 		return title;
 	}
 
@@ -190,19 +192,20 @@ public class SectionSetsBase : BaseSectionComponent
 		StateHasChanged();
 	}
 
-	protected async Task HandleAddSetClicked()
+	protected void HandleAddSetClicked()
 	{
-		Adding = await UpdateIsEditingSection(true);
+		OpenAddSet = true;
 	}
 
 	protected async Task HandleAddSets(ExercisePickerResult pickerResult)
 	{
-		Adding = await UpdateIsEditingSection(false);
+		OpenAddSet = false;
 		if (pickerResult != null)
 		{
 			IsWorking = true;
 			var group = Workout.Groups.LastOrDefault();
-			if (group != null) {
+			if (group != null)
+			{
 				var set = new FormWorkoutSetModel()
 				{
 					Equipment = pickerResult.Equipment,
@@ -247,11 +250,6 @@ public class SectionSetsBase : BaseSectionComponent
 		{
 			ShowNotification(result);
 		}
-	}
-
-	protected async Task HandleCancelAddSetsClicked()
-	{
-		Adding = await UpdateIsEditingSection(false);
 	}
 
 	protected async Task HandleDeleteIncompleteClicked()
@@ -345,6 +343,7 @@ public class SectionSetsBase : BaseSectionComponent
 		{
 			OpenStats = false;
 			OpenNotes = false;
+			OpenAddSet = false;
 			DrawerWorkoutSet = new();
 		}
 	}
@@ -425,7 +424,7 @@ public class SectionSetsBase : BaseSectionComponent
 			}
 
 			await OnSetSaved.InvokeAsync();
-			await SetHasUnrecordedSets();			
+			await SetHasUnrecordedSets();
 		}
 		else
 		{
@@ -576,7 +575,7 @@ public class SectionSetsBase : BaseSectionComponent
 			};
 
 			var results = await Mediator.Send(new SearchCompletedSets.Query(searchModel));
-			if(results.Total > 0)
+			if (results.Total > 0)
 			{
 				var completedSet = results.Data.Where(x => x.SetType == Workout.Sets[ActiveSetIdx].SetType).FirstOrDefault();
 				if (completedSet != null)

@@ -49,7 +49,7 @@
 			</EmptyListRenderer>
 		</GroupedList>
 	}
-	else if (IsEditing && !IsAdding)
+	else
 	{
 		<SortableGroupedList TGroup="FormTemplateSetGroupModel" TItem="FormTemplateSetModel" Groups="@FormGroups" Items="@FormSets"
 							 ToolbarAlignment="HorizontalAlignment.Left" ToolbarPosition="ToolbarPositions.Top"
@@ -115,7 +115,7 @@
 				<MudAlert Severity="Severity.Normal" Icon="@Icons.Material.Filled.Info">You have not added any sets.</MudAlert>
 			</EmptyListRenderer>
 			<ListTools>
-				<MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@(DisableControls || IsAdding)"
+				<MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls"
 						   OnClick="@(() => HandleAddClicked())">Add</MudButton>
 			</ListTools>
 			<DraggableGroupRenderer>
@@ -134,7 +134,7 @@
 				<MudPaper Elevation="2" Class="py-2 px-4 my-2">
 					<div class="d-flex flex-row gap-4 align-center">
 						<div>
-							<MudIcon Icon="@Icons.Material.Filled.DragIndicator" />
+							<MudIcon Icon="@Icons.Material.Filled.DragIndicator" Color="@(context.SetType == WorkoutSetTypes.Warmup ? Color.Warning : Color.Secondary)" />
 						</div>
 						<div>
 							<MudText Typo="Typo.body1">@context.Title</MudText>
@@ -148,13 +148,8 @@
 			</NewZoneRenderer>
 		</SortableGroupedList>
 	}
-	else
-	{
+
+	<SideDrawer @bind-Open="DrawerOpen" Icon="@DrawerIcon" Title="@DrawerTitle">
 		<ExercisePicker OnAdd="@HandleAddSets" />
-		<MudToolBar Gutters="false">
-			<MudSpacer />
-			<MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@(() => HandleCancelAddClicked())">Cancel</MudButton>
-			<MudSpacer />
-		</MudToolBar>
-	}
+	</SideDrawer>
 </SectionComponent>

@@ -8,10 +8,10 @@
 						  FullWidth="true" @bind-Value="@Model.Title" For="@(() => Model.Title)" />
 		</MudItem>
 		<MudItem xs="12">
-			<MuscleTypeSelect AllOption="false" MultiSelection="true" @bind-SelectedValues="@Model.Muscles" Disabled="@DisableControls" />
+			<MuscleTypeSelect AllOption="false" MultiSelection="true" @bind-SelectedValues="@Model.Muscles" For="@(() => Model.FirstMuscleSelected)" Disabled="@DisableControls" />
 		</MudItem>
 		<MudItem xs="12">
-			<EquipmentTypeSelect AllOption="false" MultiSelection="true" @bind-SelectedValues="@Model.Equipment" Disabled="@DisableControls" />
+			<EquipmentTypeSelect AllOption="false" MultiSelection="true" @bind-SelectedValues="@Model.Equipment" For="@(() => Model.FirstEquipmentSelected)" Disabled="@DisableControls" />
 		</MudItem>
 		<MudItem xs="12">
 			<WorkoutSetTypeSelect Label="Default Set Type" @bind-Value="@Model.DefaultSetType" Disabled="@DisableControls" />
@@ -27,5 +27,12 @@
 						  FullWidth="true" Lines="10" @bind-Value="@Model.Description" For="@(() => Model.Description)" />
 		</MudItem>
 	</MudGrid>
+
+	@if (FormToolbar != null)
+	{
+		<MudToolBar Gutters="false" Class="mt-4">
+			@FormToolbar
+		</MudToolBar>
+	}
 </EditForm>
 

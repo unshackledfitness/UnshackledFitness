@@ -9,6 +9,7 @@ public class BaseFormComponent<T, TValidator> : ComponentBase where T : new() wh
 	[Parameter] public T Model { get; set; } = new();
 	[Parameter] public EventCallback OnCancelled { get; set; }
 	[Parameter] public EventCallback<T> OnFormSubmitted { get; set; }
+	[Parameter] public RenderFragment? FormToolbar { get; set; }
 	protected TValidator ModelValidator { get; set; } = new();
 	protected bool IsSaving { get; set; } = false;
 	protected bool DisableControls => IsSaving || DisableFormControls;

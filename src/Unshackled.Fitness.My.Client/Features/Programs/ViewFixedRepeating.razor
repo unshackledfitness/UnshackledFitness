@@ -74,7 +74,7 @@ else
 							</div>
 							<MudToolBar Dense="true" Gutters="false">
 								<MudSpacer />
-								<MudIconButton Icon="@Icons.Material.Filled.AddCircle" Disabled="@IsSaving" OnClick="@(() => HandleAddTemplateClicked(week, day))" />
+								<MudIconButton Icon="@Icons.Material.Filled.AddCircle" Disabled="@IsSaving" OnClick="@(() => HandleAddClicked(week, day))" />
 								<MudSpacer />
 							</MudToolBar>
 						</div>
@@ -83,4 +83,8 @@ else
 			}
 		</MudGrid>
 	}
+
+	<SideDrawer @bind-Open="DrawerOpen" Icon="@DrawerIcon" Title="@DrawerTitle">
+		<DrawerAddTemplate Templates="@Templates" OnAddClicked="@HandleAddTemplateClicked" />
+	</SideDrawer>
 }

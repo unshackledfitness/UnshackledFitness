@@ -8,7 +8,7 @@
 
 	protected override RenderFragment PickerContent =>
 	@<CascadingValue Value="@this" IsFixed="true">
-		<MudPickerToolbar Class="@ToolbarClass" Style="@Style" ShowToolbar="@ShowToolbar" Orientation="@Orientation" PickerVariant="@PickerVariant" Color="@Color" Tag="@Tag" UserAttributes="@UserAttributes">
+		<MudPickerToolbar Class="@ToolbarClassname" Style="@Style" ShowToolbar="@ShowToolbar" Orientation="@Orientation" PickerVariant="@PickerVariant" Color="@Color" Tag="@Tag" UserAttributes="@UserAttributes">
 			<div class="mud-timepicker-hourminute mud-ltr">
 				@if (TimeEditMode == TimeEditMode.Normal)
 			{

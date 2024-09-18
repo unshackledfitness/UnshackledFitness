@@ -31,7 +31,7 @@
 <MudText Typo="Typo.subtitle1" Color="Color.Tertiary">Current Filters</MudText>
 <div class="d-flex flex-row gap-2 align-center">
 	<div class="flex-grow-1">
-		<MudCheckBox T="bool?" Value="@GetAllCheckboxState()" Color="Color.Primary" UnCheckedColor="Color.Default" Disabled="@IsSaving"
+		<MudCheckBox T="bool?" Value="@GetAllCheckboxState()" Color="Color.Primary" UncheckedColor="Color.Default" Disabled="@IsSaving"
 					 ValueChanged="@((bool? value) => HandleCheckAllClicked(value))" Label="Check All/None" />
 	</div>
 	@if (IsMemberActive)
@@ -45,7 +45,7 @@
 	<GroupRenderer>
 		<div class="d-flex flex-row gap-2 align-center">
 			<div>
-				<MudCheckBox T="bool?" Value="@GetGroupCheckboxState(context)" Color="Color.Primary" UnCheckedColor="Color.Default" Disabled="@IsSaving"
+				<MudCheckBox T="bool?" Value="@GetGroupCheckboxState(context)" Color="Color.Primary" UncheckedColor="Color.Default" Disabled="@IsSaving"
 							 ValueChanged="@((bool? value) => HandleCheckAllInGroupClicked(context, value))" />
 			</div>
 			<MudText Typo="Typo.body1" Class="flex-grow-1">@context.Title</MudText>
@@ -54,7 +54,7 @@
 	<ItemRenderer>
 		<div class="d-flex flex-row gap-2 align-center ms-4" style="@GetItemStyle(context.Item)">
 			<div>
-				<MudCheckBox Value="@context.Item.IsChecked" Color="Color.Primary" UnCheckedColor="Color.Default" Disabled="@IsSaving"
+				<MudCheckBox Value="@context.Item.IsChecked" Color="Color.Primary" UncheckedColor="Color.Default" Disabled="@IsSaving"
 							 ValueChanged="@((bool value) => HandleDefinitionChecked(context.Item, value))" />
 			</div>
 			<div class="flex-grow-1">

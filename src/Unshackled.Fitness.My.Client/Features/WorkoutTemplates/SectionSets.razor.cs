@@ -4,6 +4,8 @@ using Unshackled.Fitness.Core.Components;
 using Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Actions;
 using Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Models;
 using Unshackled.Fitness.Core.Models;
+using MudBlazor;
+using Unshackled.Fitness.My.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.WorkoutTemplates;
 
@@ -19,12 +21,13 @@ public class SectionSetsBase : BaseSectionComponent
 	protected List<FormTemplateSetModel> FormSets { get; set; } = new();
 	protected List<FormTemplateSetGroupModel> DeletedGroups { get; set; } = new();
 	protected List<FormTemplateSetModel> DeletedSets { get; set; } = new();
-	protected bool IsAdding { get; set; } = false;
 	protected bool IsEditing { get; set; } = false;
 	protected bool IsSorting { get; set; } = false;
 	protected bool IsWorking { get; set; } = false;
-	protected bool DisableControls => IsAdding || IsWorking || IsSorting;
-
+	protected bool DisableControls => IsWorking || IsSorting;
+	protected string DrawerIcon => Icons.Material.Filled.AddCircle;
+	protected bool DrawerOpen { get; set; } = false;
+	protected string DrawerTitle => "Add Sets";
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -32,15 +35,15 @@ public class SectionSetsBase : BaseSectionComponent
 		await RefreshSets();
 	}
 
-	protected async Task HandleAddClicked()
+	protected void HandleAddClicked()
 	{
-		IsAdding = await UpdateIsEditingSection(true);
+		DrawerOpen = true;
 	}
 
 	protected void HandleAddDuplicateClicked(FormTemplateSetModel set)
 	{
 		int idx = FormSets.IndexOf(set) + 1;
-		
+
 		var newSet = (FormTemplateSetModel)set.Clone();
 		newSet.Sid = string.Empty;
 		newSet.SortOrder = idx;
@@ -73,12 +76,12 @@ public class SectionSetsBase : BaseSectionComponent
 				Title = pickerResult.Title
 			});
 		}
-		IsAdding = false;
+		DrawerOpen = false;
 	}
 
 	protected void HandleCancelAddClicked()
 	{
-		IsAdding = false;
+		DrawerOpen = false;
 	}
 
 	protected async Task HandleCancelEditClicked()
@@ -126,7 +129,6 @@ public class SectionSetsBase : BaseSectionComponent
 
 	protected void HandleIsSorting(bool isSorting)
 	{
-		IsAdding = false;
 		IsSorting = isSorting;
 		StateHasChanged();
 	}
@@ -157,12 +159,12 @@ public class SectionSetsBase : BaseSectionComponent
 		var result = await Mediator.Send(new UpdateTemplateSets.Command(TemplateSid, model));
 		ShowNotification(result);
 
-		if (result.Success) {
+		if (result.Success)
+		{
 			await RefreshSets();
 			await SetsUpdated.InvokeAsync(Sets);
 		}
-		
-		IsAdding = false;
+
 		IsWorking = false;
 		IsEditing = await UpdateIsEditingSection(false);
 	}

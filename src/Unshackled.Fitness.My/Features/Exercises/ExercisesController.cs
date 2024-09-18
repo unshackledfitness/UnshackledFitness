@@ -22,13 +22,6 @@ public class ExercisesController : BaseController
 		return Ok(await Mediator.Send(new GetExercise.Query(Member.Id, id)));
 	}
 
-	[HttpPost("import")]
-	[ActiveMemberRequired]
-	public async Task<IActionResult> Import([FromBody] List<LibraryListModel> exercises)
-	{
-		return Ok(await Mediator.Send(new ImportExercises.Command(Member.Id, exercises)));
-	}
-
 	[HttpGet("list/{sid}/records")]
 	[DecodeId]
 	public async Task<IActionResult> ListRecords(long id)

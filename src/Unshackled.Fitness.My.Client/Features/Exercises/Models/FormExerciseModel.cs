@@ -14,6 +14,10 @@ public class FormExerciseModel : BaseObject
 	public SetMetricTypes DefaultSetMetricType { get; set; } = SetMetricTypes.WeightReps;
 	public bool IsTrackingSplit { get; set; }
 
+	// Used for validation on multiselect
+	public MuscleTypes FirstMuscleSelected => Muscles.Any() ? Muscles.First() : MuscleTypes.Any;
+	public EquipmentTypes FirstEquipmentSelected => Equipment.Any() ? Equipment.First() : EquipmentTypes.Any;
+
 	public class Validator : AbstractValidator<FormExerciseModel>
 	{
 		public Validator()
@@ -22,11 +26,11 @@ public class FormExerciseModel : BaseObject
 				.NotEmpty().WithMessage("Title is required.")
 				.MaximumLength(255).WithMessage("Title must not exceed 255 characters.");
 
-			RuleFor(p => p.Muscles)
-				.Must(p => p != null && p.Any()).WithMessage("At least one muscle must be selected.");
+			RuleFor(p => p.FirstMuscleSelected)
+				.Must(p => p != MuscleTypes.Any).WithMessage("At least one muscle must be selected.");
 
-			RuleFor(p => p.Equipment)
-				.Must(p => p != null && p.Any()).WithMessage("At least one equipment item must be selected.");
+			RuleFor(p => p.FirstEquipmentSelected)
+				.Must(p => p != EquipmentTypes.Any).WithMessage("At least one equipment item must be selected.");
 		}
 	}
 }

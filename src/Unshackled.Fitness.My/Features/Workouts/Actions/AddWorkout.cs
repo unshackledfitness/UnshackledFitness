@@ -5,6 +5,7 @@ using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Features.Workouts.Models;
 using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Workouts.Actions;
@@ -14,12 +15,12 @@ public class AddWorkout
 	public class Command : IRequest<CommandResult<string>>
 	{
 		public long MemberId { get; private set; }
-		public string WorkoutSid { get; private set; }
+		public AddWorkoutModel Model { get; private set; }
 
-		public Command(long memberId, string workoutSid)
+		public Command(long memberId, AddWorkoutModel model)
 		{
 			MemberId = memberId;
-			WorkoutSid = workoutSid;
+			Model = model;
 		}
 	}
 
@@ -31,11 +32,11 @@ public class AddWorkout
 		{
 			using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
 
-			if (!string.IsNullOrEmpty(request.WorkoutSid)) // From previous workout
+			if (!string.IsNullOrEmpty(request.Model.PreviousWorkoutSid)) // From previous workout
 			{
-				long workoutId = request.WorkoutSid.DecodeLong();
+				long workoutId = request.Model.PreviousWorkoutSid.DecodeLong();
 
-				if(workoutId == 0)
+				if (workoutId == 0)
 					return new CommandResult<string>(false, "Invalid workout ID.");
 
 				var prevWorkout = await db.Workouts
@@ -158,7 +159,7 @@ public class AddWorkout
 				WorkoutEntity workout = new()
 				{
 					MemberId = request.MemberId,
-					Title = "Workout"
+					Title = request.Model.Title
 				};
 
 				try

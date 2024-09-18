@@ -67,6 +67,13 @@ public class WorkoutTemplatesController : BaseController
 		return Ok(await Mediator.Send(new ListTasks.Query(Member.Id, id, taskType)));
 	}
 
+	[HttpGet("recent-tasks/{type:int}")]
+	public async Task<IActionResult> ListRecentTasks(int type)
+	{
+		WorkoutTaskTypes taskType = (WorkoutTaskTypes)type;
+		return Ok(await Mediator.Send(new ListRecentTasks.Query(Member.Id, taskType)));
+	}
+
 	[HttpPost("search")]
 	public async Task<IActionResult> Search([FromBody] SearchTemplateModel model)
 	{
@@ -83,7 +90,7 @@ public class WorkoutTemplatesController : BaseController
 	[HttpPost("update/{sid}/sets")]
 	[ActiveMemberRequired]
 	[DecodeId]
-	public async Task<IActionResult> UpdateSets(long id, [FromBody]UpdateTemplateSetsModel model)
+	public async Task<IActionResult> UpdateSets(long id, [FromBody] UpdateTemplateSetsModel model)
 	{
 		return Ok(await Mediator.Send(new UpdateTemplateSets.Command(Member.Id, id, model)));
 	}

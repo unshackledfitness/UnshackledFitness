@@ -23,6 +23,14 @@ public static class StringExtensions
 		return string.Empty;
 	}
 
+	public static string? Pluralize(this string? value, string? plural, int count)
+	{
+		if (count == 1)
+			return value;
+		else
+			return plural;
+	}
+
 	public static string ReplaceLineBreaks(this string? value, string replacement)
 	{
 		if (!string.IsNullOrEmpty(value))

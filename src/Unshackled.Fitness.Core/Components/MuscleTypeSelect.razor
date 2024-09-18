@@ -1,8 +1,9 @@
-﻿@if (MultiSelection)
+﻿@using System.Linq.Expressions
+@if (MultiSelection)
 {
 	<MudSelect T="MuscleTypes" Label="Muscles" FullWidth="true" Variant="Variant.Outlined" MultiSelection="@MultiSelection"
 			   Margin="@Margin" Disabled="@Disabled" SelectedValues="@SelectedValues" SelectedValuesChanged="@SelectedValuesChanged"
-			   MultiSelectionTextFunc="@(new Func<List<string>, string>(GetMultiSelectionText))">
+			   MultiSelectionTextFunc="@(new Func<List<string>, string>(GetMultiSelectionText))" For="@For">
 		@if (AllOption)
 		{
 			<MudSelectItem T="MuscleTypes" Value="@MuscleTypes.Any">@MuscleTypes.Any.Title()</MudSelectItem>
@@ -19,7 +20,7 @@
 else
 {
 	<MudSelect T="MuscleTypes" Label="Muscle" FullWidth="true" Variant="Variant.Outlined" Margin="@Margin" Disabled="@Disabled"
-			   Value="@Value" ValueChanged="@ValueChanged">
+			   Value="@Value" ValueChanged="@ValueChanged" For="@For">
 		@if (AllOption)
 		{
 			<MudSelectItem T="MuscleTypes" Value="@MuscleTypes.Any">@MuscleTypes.Any.Title()</MudSelectItem>
@@ -42,7 +43,8 @@ else
 	[Parameter] public bool Disabled { get; set; } = false;
 	[Parameter] public EventCallback<MuscleTypes> ValueChanged { get; set; }
 	[Parameter] public EventCallback<IEnumerable<MuscleTypes>> SelectedValuesChanged { get; set; }
-	[Parameter] public Margin Margin { get; set; } = Margin.Normal;
+	[Parameter] public Margin Margin { get; set; } = Margin.None;
+	[Parameter] public Expression<Func<MuscleTypes>>? For { get; set; }
 
 	private string GetMultiSelectionText(List<string> selectedValues)
 	{

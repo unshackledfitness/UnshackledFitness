@@ -10,14 +10,14 @@ public class WorkoutsController : BaseController
 {
 	[HttpPost("add")]
 	[ActiveMemberRequired]
-	public async Task<IActionResult> Add([FromBody] string workoutSid)
+	public async Task<IActionResult> Add([FromBody] AddWorkoutModel model)
 	{
-		return Ok(await Mediator.Send(new AddWorkout.Command(Member.Id, workoutSid)));
+		return Ok(await Mediator.Send(new AddWorkout.Command(Member.Id, model)));
 	}
 
 	[HttpPost("add-set")]
 	[ActiveMemberRequired]
-	public async Task<IActionResult>AddSet([FromBody] FormWorkoutSetModel model)
+	public async Task<IActionResult> AddSet([FromBody] FormWorkoutSetModel model)
 	{
 		return Ok(await Mediator.Send(new AddSet.Command(Member.Id, model)));
 	}

@@ -41,5 +41,12 @@
 			</MudItem>
 		}
 	</MudGrid>
+
+	@if (FormToolbar != null)
+	{
+		<MudToolBar Gutters="false" Class="mt-4">
+			@FormToolbar
+		</MudToolBar>
+	}
 </EditForm>
 

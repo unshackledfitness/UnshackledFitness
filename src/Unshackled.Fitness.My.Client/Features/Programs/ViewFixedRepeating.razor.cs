@@ -14,6 +14,12 @@ public class ViewFixedRepeatingBase : BaseSectionComponent
 	[Parameter] public bool IsSaving { get; set; } = false;
 	[Parameter] public ProgramModel Program { get; set; } = new();
 	[Parameter] public List<TemplateListModel> Templates { get; set; } = new();
+	protected string DrawerIcon => Icons.Material.Filled.AddCircle;
+	protected bool DrawerOpen { get; set; } = false;
+	protected string DrawerTitle => "Add Template";
+
+	private int addToWeek = 0;
+	private int addToDay = 0;
 
 	protected List<ProgramTemplateModel> GetDayTemplates(int week, int day)
 	{
@@ -31,45 +37,37 @@ public class ViewFixedRepeatingBase : BaseSectionComponent
 			.ToList();
 	}
 
-	protected async Task HandleAddTemplateClicked(int week, int day)
+	protected void HandleAddClicked(int week, int day)
 	{
-		var parameters = new DialogParameters
+		addToWeek = week;
+		addToDay = day;
+		DrawerOpen = true;
+	}
+
+	protected async Task HandleAddTemplateClicked(TemplateListModel model)
+	{
+		int sortOrder = FormModel.Templates
+			.Where(x => x.WeekNumber == addToWeek && x.DayNumber == addToDay)
+			.OrderBy(x => x.SortOrder)
+			.Select(x => x.SortOrder + 1)
+			.LastOrDefault();
+
+		FormModel.Templates.Add(new()
 		{
-			{ nameof(DialogAddTemplate.Templates), Templates }
-		};
+			DayNumber = addToDay,
+			IsNew = true,
+			MemberSid = Program.MemberSid,
+			ProgramSid = Program.Sid,
+			Sid = Guid.NewGuid().ToString(),
+			SortOrder = sortOrder,
+			WeekNumber = addToWeek,
+			WorkoutTemplateSid = model.Sid,
+			WorkoutTemplateName = model.Title
+		});
 
-		var options = new DialogOptions { BackgroundClass = "bg-blur", MaxWidth = MaxWidth.Medium };
-
-		var dialog = DialogService.Show<DialogAddTemplate>("Add Template", parameters, options);
-		var result = await dialog.Result;
-		if (result != null && !result.Canceled && result.Data != null)
-		{
-			var model = (TemplateListModel)result.Data;
-			if (model != null)
-			{
-				int sortOrder = FormModel.Templates
-					.Where(x => x.WeekNumber == week && x.DayNumber == day)
-					.OrderBy(x => x.SortOrder)
-					.Select(x => x.SortOrder + 1)
-					.LastOrDefault();
-
-				FormModel.Templates.Add(new()
-				{
-					DayNumber = day,
-					IsNew = true,
-					MemberSid = Program.MemberSid,
-					ProgramSid = Program.Sid,
-					Sid = Guid.NewGuid().ToString(),
-					SortOrder = sortOrder,
-					WeekNumber = week,
-					WorkoutTemplateSid = model.Sid,
-					WorkoutTemplateName = model.Title
-				});
-
-				FormModel.Templates = ReorderTemplates();
-				await FormModelChanged.InvokeAsync(FormModel);
-			}
-		}
+		FormModel.Templates = ReorderTemplates();
+		await FormModelChanged.InvokeAsync(FormModel);
+		DrawerOpen = false;
 	}
 
 	protected async Task HandleAddWeekClicked()

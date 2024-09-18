@@ -72,6 +72,10 @@ a {
   margin-left: .25em;
 }
 
+.mud-icon-button.mud-button {
+  border-radius: 50%;
+}
+
 .mud-chip.mud-chip-size-tiny {
   border-radius: .5rem;
   font-size: 10px;
@@ -94,13 +98,17 @@ a {
 
 .mud-drawer.mud-drawer-temporary.mud-drawer-pos-right.details-drawer .mud-drawer-content .mud-drawer-header {
   position: sticky;
-  background-color: var(--mud-palette-drawer-background);
+  background-color: var(--mud-palette-secondary);
   position: sticky;
   height: 64px;
   left: 0;
   right: 0;
   top: 0;
   z-index: 1;
+}
+
+.mud-drawer.mud-drawer-temporary.mud-drawer-pos-right.details-drawer .mud-drawer-content .mud-drawer-header .mud-typography, .mud-drawer.mud-drawer-temporary.mud-drawer-pos-right.details-drawer .mud-drawer-content .mud-drawer-header .mud-icon-button {
+  color: var(--mud-palette-secondary-text);
 }
 
 .mud-drawer-content .mud-nav-item {
@@ -144,6 +152,15 @@ a {
 
 .mud-input-control.mud-input-control-boolean-input.align-start .mud-checkbox {
   align-items: flex-start !important;
+}
+
+.mud-input-control.mud-input-control-margin-dense {
+  margin: 0;
+}
+
+.mud-picker-inline {
+  margin-top: 8px;
+  margin-bottom: 4px;
 }
 
 html, body, #app {
@@ -462,6 +479,14 @@ html, body, #app {
 .mud-list-item-icon {
   min-width: auto;
   margin-right: .5em;
+}
+
+.mud-collapse-container .mud-nav-item {
+  font-size: .95rem;
+}
+
+.mud-collapse-container .mud-nav-item .mud-nav-link {
+  padding: .2rem 1rem;
 }
 
 @media (max-width: 599px) {
@@ -1289,7 +1314,7 @@ p ul li {
 
 .stat-graph .stat-grid .days .day.off {
   fill: var(--mud-palette-background);
-  background-color: var(--mud-palette-background-grey);
+  background-color: var(--mud-palette-background-gray);
 }
 
 .workout-summary {

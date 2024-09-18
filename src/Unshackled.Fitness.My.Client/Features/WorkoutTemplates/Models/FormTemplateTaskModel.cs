@@ -4,11 +4,24 @@ using Unshackled.Fitness.Core.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Models;
 
-public class FormTemplateTaskModel : BaseObject, ISortable
+public class FormTemplateTaskModel : BaseObject, ISortable, ICloneable
 {
 	public WorkoutTaskTypes Type { get; set; } = WorkoutTaskTypes.PreWorkout;
 	public string Text { get; set; } = string.Empty;
 	public int SortOrder { get; set; }
+
+	public object Clone()
+	{
+		return new FormTemplateTaskModel
+		{
+			DateCreatedUtc = DateCreatedUtc,
+			DateLastModifiedUtc = DateLastModifiedUtc,
+			Sid = Sid,
+			SortOrder = SortOrder,
+			Text = Text,
+			Type = Type
+		};
+	}
 
 	public class Validator : BaseValidator<FormTemplateTaskModel>
 	{

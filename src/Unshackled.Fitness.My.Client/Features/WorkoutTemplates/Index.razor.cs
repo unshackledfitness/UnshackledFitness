@@ -8,13 +8,12 @@ namespace Unshackled.Fitness.My.Client.Features.WorkoutTemplates;
 
 public partial class IndexBase : BaseSearchComponent<SearchTemplateModel, TemplateListItem>
 {
-	[Inject] protected IDialogService DialogService { get; set; } = default!;
-
-	protected const string FormId = "formAddTemplate";
-	protected bool Adding { get; set; }
 	protected override bool DisableControls => IsLoading || IsWorking;
 	protected FormTemplateModel FormModel { get; set; } = new();
 	protected string TrackNowSid { get; set; } = string.Empty;
+	protected string DrawerIcon => Icons.Material.Filled.AddCircle;
+	protected bool DrawerOpen { get; set; } = false;
+	protected string DrawerTitle => "Add New Template";
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -41,20 +40,25 @@ public partial class IndexBase : BaseSearchComponent<SearchTemplateModel, Templa
 	protected void HandleAddClicked()
 	{
 		FormModel = new();
-		Adding = true;
+		DrawerOpen = true;
 	}
 
-	protected async Task HandleFormSubmitted(FormTemplateModel model)
+	protected async Task HandleAddFormSubmitted(FormTemplateModel model)
 	{
 		IsWorking = true;
 		var result = await Mediator.Send(new AddTemplate.Command(model));
-		Adding = false;
-		IsWorking = false;
 		Snackbar.Add(result.Message, result.Success ? Severity.Success : Severity.Error);
 		if (result.Success)
 		{
+			DrawerOpen = false;
 			NavManager.NavigateTo($"/templates/{result.Payload}");
 		}
+		IsWorking = false;
+	}
+
+	protected void HandleCancelAddClicked()
+	{
+		DrawerOpen = false;
 	}
 
 	protected async Task HandleTrackNowClicked(TemplateListItem item)

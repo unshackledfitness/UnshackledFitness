@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
-using Unshackled.Fitness.Core.Enums;
+using MudBlazor;
 using Unshackled.Fitness.Core.Components;
+using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Actions;
 using Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Models;
 
@@ -10,27 +11,49 @@ public class SectionTasksBase : BaseSectionComponent
 {
 	[Parameter] public string TemplateSid { get; set; } = string.Empty;
 	[Parameter] public WorkoutTaskTypes TaskType { get; set; } = WorkoutTaskTypes.PreWorkout;
-	protected bool IsLoading { get; set; }
+	protected bool IsLoading { get; set; } = true;
 	protected bool IsEditing { get; set; }
 	protected bool IsWorking { get; set; }
-	protected bool IsSorting { get; set; } = false;
-	protected bool DisableControls => IsLoading || IsWorking || IsSorting;
+	protected bool DisableControls => IsLoading || IsWorking;
 	protected List<TemplateTaskModel> Tasks { get; set; } = new();
 	protected List<FormTemplateTaskModel> EditingTasks { get; set; } = new();
 	protected List<FormTemplateTaskModel> DeletedTasks { get; set; } = new();
+	protected List<RecentTemplateTaskModel> RecentTasks { get; set; } = new();
 	protected FormTemplateTaskModel Model { get; set; } = new();
 	protected FormTemplateTaskModel.Validator ModelValidator { get; set; } = new();
+	protected string DrawerIcon => Icons.Material.Filled.AddCircle;
+	protected bool DrawerOpen { get; set; } = false;
+	protected string DrawerTitle => "Add Task";
 
 	protected override async Task OnInitializedAsync()
 	{
 		await base.OnInitializedAsync();
 
+		RecentTasks = await Mediator.Send(new ListRecentTasks.Query(TaskType));
 		await RefreshTasks();
 	}
 
-	protected void HandleBackClicked()
+	protected void HandleAddTaskClicked()
 	{
-		IsSorting = false;
+		Model = new();
+		DrawerOpen = true;
+	}
+
+	protected void HandleAddRecentClicked(RecentTemplateTaskModel task)
+	{
+		var model = new FormTemplateTaskModel
+		{
+			SortOrder = EditingTasks.Count,
+			Text = task.Text,
+			Type = TaskType
+		};
+		EditingTasks.Add(model);
+		DrawerOpen = false;
+	}
+
+	protected void HandleCancelAddClicked()
+	{
+		DrawerOpen = false;
 	}
 
 	protected async Task HandleCancelEditClicked()
@@ -79,12 +102,12 @@ public class SectionTasksBase : BaseSectionComponent
 		Model.SortOrder = EditingTasks.Count;
 		Model.Type = TaskType;
 		EditingTasks.Add(Model);
-		Model = new();
+		DrawerOpen = false;
 	}
 
-	protected void HandleReorderClicked()
+	protected void HandleSortChanged(List<FormTemplateTaskModel> list)
 	{
-		IsSorting = true;
+		EditingTasks = list;
 	}
 
 	protected async Task HandleUpdateClicked()
@@ -95,8 +118,8 @@ public class SectionTasksBase : BaseSectionComponent
 		{
 			UpdateTemplateTasksModel model = new()
 			{
-				 DeletedTasks = DeletedTasks,
-				 Tasks = EditingTasks
+				DeletedTasks = DeletedTasks,
+				Tasks = EditingTasks
 			};
 			var result = await Mediator.Send(new UpdateTemplateTasks.Command(TemplateSid, model));
 			ShowNotification(result);
@@ -105,7 +128,6 @@ public class SectionTasksBase : BaseSectionComponent
 				await RefreshTasks();
 		}
 
-		IsSorting = false;
 		IsWorking = false;
 		IsEditing = await UpdateIsEditingSection(false);
 	}

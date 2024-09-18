@@ -28,5 +28,6 @@ public class MappingProfile : Profile
 			.ForMember(d => d.TemplateSid, m => m.MapFrom(s => s.WorkoutTemplateId.Encode()));
 		CreateMap<WorkoutTemplateTaskEntity, TemplateTaskModel>()
 			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()));
+		CreateMap<WorkoutTemplateTaskEntity, RecentTemplateTaskModel>();
 	}
 }

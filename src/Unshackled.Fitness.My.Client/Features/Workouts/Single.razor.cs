@@ -88,7 +88,13 @@ public class SingleBase : BaseComponent
 	protected async Task HandleRepeatWorkoutClicked()
 	{
 		IsRepeating = true;
-		var result = await Mediator.Send(new AddWorkout.Command(WorkoutSid));
+
+		var model = new AddWorkoutModel
+		{
+			PreviousWorkoutSid = WorkoutSid,
+		};
+
+		var result = await Mediator.Send(new AddWorkout.Command(model));
 		if (result.Success)
 		{
 			NavManager.NavigateTo($"/workouts/{result.Payload}");
@@ -97,6 +103,7 @@ public class SingleBase : BaseComponent
 		{
 			ShowNotification(result);
 		}
+
 		IsRepeating = false;
 	}
 

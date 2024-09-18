@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Features.Workouts.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Workouts.Actions;
 
@@ -8,11 +9,11 @@ public class AddWorkout
 {
 	public class Command : IRequest<CommandResult<string>>
 	{
-		public string WorkoutSid { get; private set; }
+		public AddWorkoutModel Model { get; private set; }
 
-		public Command(string workoutSid)
+		public Command(AddWorkoutModel model)
 		{
-			WorkoutSid = workoutSid;
+			Model = model;
 		}
 	}
 
@@ -22,7 +23,7 @@ public class AddWorkout
 
 		public async Task<CommandResult<string>> Handle(Command request, CancellationToken cancellationToken)
 		{
-			return await PostToCommandResultAsync<string, string>($"{baseUrl}add", request.WorkoutSid)
+			return await PostToCommandResultAsync<AddWorkoutModel, string>($"{baseUrl}add", request.Model)
 				?? new CommandResult<string>(false, Globals.UnexpectedError);
 		}
 	}

@@ -10,34 +10,25 @@ namespace Unshackled.Fitness.My.Client.Features.Exercises;
 
 public partial class IndexBase : BaseSearchComponent<SearchExerciseModel, ExerciseModel>
 {
-	protected enum Views
-	{
-		List,
-		Library,
-		AddCustom
-	}
-
 	[Inject] protected ClientConfiguration ClientConfig { get; set; } = default!;
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 
 	protected const string FormId = "formExercise";
 	protected bool MaxSelectionReached => SelectedSids.Count == 2;
 	protected List<string> SelectedSids { get; set; } = new();
-	protected Views ShowView { get; set; } = Views.List;
-	protected SearchLibraryModel? InitialLibrarySearchModel { get; set; }
 	protected FormExerciseModel AddModel { get; set; } = new();
-	protected bool AllowImport { get; set; }
+
+	protected string DrawerIcon => Icons.Material.Filled.AddCircle;
+	protected bool DrawerOpen { get; set; } = false;
+	protected string DrawerTitle => "Add New Exercise";
 
 	protected override async Task OnParametersSetAsync()
 	{
 		await base.OnParametersSetAsync();
-		SearchKey = "SearchExercises";
-
 		Breadcrumbs.Add(new BreadcrumbItem("Exercises", null, true));
-		AllowImport = !string.IsNullOrEmpty(ClientConfig.LibraryApiUrl);
 
+		SearchKey = "SearchExercises";
 		SearchModel = await GetLocalSetting(SearchKey) ?? new();
-
 		await DoSearch(SearchModel.Page);
 	}
 
@@ -57,15 +48,15 @@ public partial class IndexBase : BaseSearchComponent<SearchExerciseModel, Exerci
 		IsLoading = false;
 	}
 
-	protected void HandleAddCustomClicked()
+	protected void HandleAddClicked()
 	{
 		AddModel = new()
 		{
-			Muscles = [MuscleTypes.Abdominals],
-			Equipment = [EquipmentTypes.None],
+			Muscles = [],
+			Equipment = [],
 			DefaultSetType = WorkoutSetTypes.Standard,
 		};
-		ShowView = Views.AddCustom;
+		DrawerOpen = true;
 	}
 
 	protected async Task HandleAddFormSubmitted(FormExerciseModel model)
@@ -80,9 +71,9 @@ public partial class IndexBase : BaseSearchComponent<SearchExerciseModel, Exerci
 		IsWorking = false;
 	}
 
-	protected void HandleCancelViewClicked()
+	protected void HandleCancelAddClicked()
 	{
-		ShowView = Views.List;
+		DrawerOpen = false;
 	}
 
 	protected void HandleCheckboxChanged(bool value, string sid)
@@ -91,46 +82,6 @@ public partial class IndexBase : BaseSearchComponent<SearchExerciseModel, Exerci
 			SelectedSids.Add(sid);
 		else
 			SelectedSids.Remove(sid);
-	}
-
-	protected void HandleImportClicked()
-	{
-		InitialLibrarySearchModel = new()
-		{
-			EquipmentType = SearchModel.EquipmentType,
-			MuscleType = SearchModel.MuscleType,
-			Title = SearchModel.Title
-		};
-		ShowView = Views.Library;
-	}
-
-	protected async Task HandleImportExercisesSelected(List<Guid> selectedSids)
-	{
-		if (!selectedSids.Any())
-		{
-			ShowNotification(false, "Nothing selected.");
-			return;
-		}
-
-		IsWorking = true;
-		var selected = await Mediator.Send(new SelectLibraryExercises.Query(selectedSids));
-
-		if (selected.Any())
-		{
-			var result = await Mediator.Send(new ImportExercises.Command(selected));
-			ShowNotification(result);
-			if (result.Success)
-			{
-				await DoSearch(SearchModel.Page);
-			}
-		}
-		else
-		{
-			ShowNotification(false, "Could not retrieve the exercises.");
-		}
-		IsWorking = false;
-		ShowView = Views.List;
-		StateHasChanged();
 	}
 
 	protected async Task HandleMergeClicked()

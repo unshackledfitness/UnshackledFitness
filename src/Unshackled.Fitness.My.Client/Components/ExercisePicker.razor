@@ -1,15 +1,15 @@
 ﻿@inherits ExercisePickerBase
 
-<SearchForm @bind-Model="@SearchModel" Class="mb-6" VerticalButtons="Breakpoint.Sm" SearchClicked="@(() => DoSearch(1))" ResetClicked="@HandleResetClicked">
+<SearchForm @bind-Model="@SearchModel" Class="mb-6" ForceColumnLayout="true" SearchClicked="@(() => DoSearch(1))" ResetClicked="@HandleResetClicked">
 	<SearchFields>
 		<MudGrid Spacing="1">
-			<MudItem xs="12" sm="6" md="4">
+			<MudItem xs="12">
 				<MuscleTypeSelect AllOption="true" Margin="Margin.Dense" Disabled="@DisableControls" Value="@SearchModel.MuscleType" ValueChanged="@HandleMuscleTypeChanged" />
 			</MudItem>
-			<MudItem xs="12" sm="6" md="4">
+			<MudItem xs="12">
 				<EquipmentTypeSelect AllOption="true" Margin="Margin.Dense" Disabled="@DisableControls" Value="@SearchModel.EquipmentType" ValueChanged="@HandleEquipmentTypeChanged" />
 			</MudItem>
-			<MudItem xs="12" md="4">
+			<MudItem xs="12">
 				<MudTextField Label="Title" Variant="Variant.Outlined" Margin="Margin.Dense" FullWidth="true"
 							  Disabled="@DisableControls" @bind-Value="@SearchModel.Title" />
 			</MudItem>
@@ -19,33 +19,23 @@
 <ListView Class="mb-6" Items="@SearchResults.Data" PageSize="@SearchResults.PageSize" Page="@SearchModel.Page" TotalItems="@SearchResults.Total" IsLoading="@IsLoading"
 		  PageSelected="@HandlePageSelected">
 	<ItemRenderer>
-		<div class="d-flex flex-row gap-2 align-start">
-			<div>
-				<MudIconButton Icon="@Icons.Material.Filled.AddCircle" Color="Color.Primary" title="Add Exercise"
+		<div class="d-flex flex-row gap-3 align-start">
+			<div class="pt-1">
+				<MudIconButton Icon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Size="Size.Small" Color="Color.Secondary" title="Add Exercise"
 							   OnClick="@(() => HandleSelectExerciseClicked(context.Item))" />
 			</div>
 			<div class="flex-grow-1">
-				<MudGrid Spacing="1">
-					<MudItem xs="12" md="6" Class="align-self-center">
-						<MudText Typo="Typo.subtitle1">@context.Item.Title</MudText>
-						<MudText Typo="Typo.body1" Color="Color.Tertiary">@context.Item.Equipment.Titles() </MudText>
-					</MudItem>
-					<MudItem xs="4" sm="2">
-						<CaptionedProperty Title="Target Muscle" Align="Align.Center" Value="@context.Item.Muscles.Titles()" />
-					</MudItem>
-					<MudItem xs="4" sm="2">
-						<CaptionedProperty Title="Metric Type" Align="Align.Center" Value="@context.Item.DefaultSetMetricType.Title()" />
-					</MudItem>
-					<MudItem xs="4" sm="2">
-						<CaptionedProperty Title="Split L/R" Align="Align.Center">
-							<YesNo Value="@context.Item.IsTrackingSplit" IconSize="Size.Small" ShowLabel="false" />
-						</CaptionedProperty>
-					</MudItem>
-				</MudGrid>
+				<MudText Typo="Typo.subtitle1">@context.Item.Title</MudText>
+				<MudText Typo="Typo.body2" Class="mb-2">@context.Item.Equipment.Titles() </MudText>
+				<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block mb-0">@("Muscle".Pluralize("Muscles", context.Item.Muscles.Count)): @context.Item.Muscles.Titles()</MudText>
+				<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block mb-0">Metric: @context.Item.DefaultSetMetricType.Title()</MudText>
 			</div>
 		</div>
 	</ItemRenderer>
 	<EmptyListRenderer>
-		<MudText Align="Align.Center" Class="mt-4">No exercises matched your search.</MudText>
+		@if (HasRunSearch)
+		{
+			<MudText Align="Align.Center" Class="mt-4">No exercises matched your search.</MudText>
+		}
 	</EmptyListRenderer>
 </ListView>

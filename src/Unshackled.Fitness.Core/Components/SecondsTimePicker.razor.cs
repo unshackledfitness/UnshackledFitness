@@ -254,7 +254,7 @@ public partial class SecondsTimePicker : MudPicker<TimeSpan?>, IAsyncDisposable
 	private Task UpdateTimeAsync()
 	{
 		lastSelectedHour = timeSet.Hour;
-		TimeIntermediate = new TimeSpan(timeSet.Hour, timeSet.Minute, 0);
+		TimeIntermediate = new TimeSpan(timeSet.Hour, timeSet.Minute, timeSet.Second);
 		if ((PickerVariant == PickerVariant.Static && PickerActions == null) || (PickerActions != null && AutoClose))
 		{
 			return SubmitAsync();

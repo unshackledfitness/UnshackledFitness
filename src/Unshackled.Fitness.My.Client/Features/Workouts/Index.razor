@@ -28,7 +28,7 @@
 	{
 		<MudToolBar Class="mb-2" Gutters="false" Dense="true">
 			<ProgressButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls" IsWorking="@IsWorking" WorkingText="Opening"
-							OnClick="@(() => HandleAddWorkoutClicked())">New</ProgressButton>
+							OnClick="@(() => HandleAddClicked())">New</ProgressButton>
 			<MudMenu Label="Sort" StartIcon="@Icons.Material.Filled.Sort" Class="ms-2">
 				<MudMenuItem OnClick="@(() => HandleSortByClicked(0, nameof(WorkoutListModel.DateStartedUtc), nameof(WorkoutListModel.DateCompletedUtc)))">Workout Date (Asc)</MudMenuItem>
 				<MudMenuItem OnClick="@(() => HandleSortByClicked(1, nameof(WorkoutListModel.DateStartedUtc), nameof(WorkoutListModel.DateCompletedUtc)))">Workout Date (Desc)</MudMenuItem>
@@ -90,3 +90,14 @@
 		</EmptyListRenderer>
 	</ListView>
 </div>
+
+<SideDrawer @bind-Open="DrawerOpen" Icon="@DrawerIcon" Title="@DrawerTitle">
+	<FormProperties Model="@FormModel" OnFormSubmitted="@HandleAddFormSubmitted">
+		<FormToolbar>
+			<MudSpacer />
+			<ProgressButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" IsWorking="@IsWorking" WorkingText="Adding">Add</ProgressButton>
+			<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@HandleCancelAddClicked">Cancel</MudButton>
+			<MudSpacer />
+		</FormToolbar>
+	</FormProperties>
+</SideDrawer>

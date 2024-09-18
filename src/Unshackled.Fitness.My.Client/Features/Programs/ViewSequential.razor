@@ -14,7 +14,7 @@
 }
 else
 {
-	<SortableListView TItem="FormProgramTemplateModel" Items="@FormModel.Templates" AllowSort="true" DisableSort="@IsSaving" 
+	<SortableListView TItem="FormProgramTemplateModel" Items="@FormModel.Templates" AllowSort="true" DisableSort="@IsSaving"
 					  ToolbarPosition="ToolbarPositions.Top" ToolbarAlignment="HorizontalAlignment.Left"
 					  SortOrderChanged="@HandleSortChanged">
 		<ItemRenderer>
@@ -44,7 +44,11 @@ else
 			</MudPaper>
 		</DraggableItemRenderer>
 		<ListTools>
-			<MudButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@IsSaving" OnClick="@(() => HandleAddTemplateClicked())">Add Template</MudButton>
+			<MudButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@IsSaving" OnClick="@(() => HandleAddClicked())">Add Template</MudButton>
 		</ListTools>
 	</SortableListView>
+
+	<SideDrawer @bind-Open="DrawerOpen" Icon="@DrawerIcon" Title="@DrawerTitle">
+		<DrawerAddTemplate Templates="@Templates" OnAddClicked="@HandleAddTemplateClicked" />
+	</SideDrawer>
 }

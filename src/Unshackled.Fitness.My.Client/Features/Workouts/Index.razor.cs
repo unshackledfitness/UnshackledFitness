@@ -8,6 +8,10 @@ namespace Unshackled.Fitness.My.Client.Features.Workouts;
 public class IndexBase : BaseSearchComponent<SearchWorkoutModel, WorkoutListModel>
 {
 	protected DateRange DateRangeSearch { get; set; } = new DateRange();
+	protected string DrawerIcon => Icons.Material.Filled.AddCircle;
+	protected bool DrawerOpen { get; set; } = false;
+	protected string DrawerTitle => "Add New Workout";
+	protected FormPropertiesModel FormModel { get; set; } = new();
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -53,19 +57,38 @@ public class IndexBase : BaseSearchComponent<SearchWorkoutModel, WorkoutListMode
 		IsLoading = false;
 	}
 
-	protected async Task HandleAddWorkoutClicked()
+	protected void HandleAddClicked()
+	{
+		FormModel = new();
+		DrawerOpen = true;
+	}
+
+	protected async Task HandleAddFormSubmitted(FormPropertiesModel properties)
 	{
 		IsWorking = true;
-		var result = await Mediator.Send(new AddWorkout.Command(string.Empty));
+
+		var model = new AddWorkoutModel
+		{
+			Title = properties.Title
+		};
+
+		var result = await Mediator.Send(new AddWorkout.Command(model));
 		if (result.Success)
 		{
+			DrawerOpen = false;
 			NavManager.NavigateTo($"/workouts/{result.Payload}");
 		}
 		else
 		{
 			ShowNotification(result);
 		}
+
 		IsWorking = false;
+	}
+
+	protected void HandleCancelAddClicked()
+	{
+		DrawerOpen = false;
 	}
 
 	protected void HandleDateRangeChanged(DateRange dateRange)

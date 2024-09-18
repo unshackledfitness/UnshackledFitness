@@ -8,9 +8,11 @@ namespace Unshackled.Fitness.My.Client.Features.Programs;
 
 public class IndexBase : BaseSearchComponent<SearchProgramModel, ProgramListModel>
 {
-	protected bool IsAdding { get; set; }
 	protected FormAddProgramModel FormAddModel { get; set; } = new();
 	protected FormAddProgramModel.Validator FormValidator { get; set; } = new();
+	protected string DrawerIcon => Icons.Material.Filled.AddCircle;
+	protected bool DrawerOpen { get; set; } = false;
+	protected string DrawerTitle => "Add New Program";
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -40,24 +42,24 @@ public class IndexBase : BaseSearchComponent<SearchProgramModel, ProgramListMode
 		{
 			ProgramType = ProgramTypes.FixedRepeating
 		};
-		IsAdding = true;
+		DrawerOpen = true;
 	}
 
 	protected void HandleCancelAddClicked()
 	{
-		IsAdding = false;
+		DrawerOpen = false;
 	}
 
 	protected async Task HandleFormSubmitted()
 	{
 		IsWorking = true;
 		var result = await Mediator.Send(new AddProgram.Command(FormAddModel));
-		IsAdding = false;
-		IsWorking = false;
 		ShowNotification(result);
 		if (result.Success)
 		{
 			NavManager.NavigateTo($"/programs/{result.Payload}");
 		}
+		DrawerOpen = false;
+		IsWorking = false;
 	}
 }

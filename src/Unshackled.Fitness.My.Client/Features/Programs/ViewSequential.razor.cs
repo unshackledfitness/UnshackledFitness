@@ -7,51 +7,43 @@ namespace Unshackled.Fitness.My.Client.Features.Programs;
 
 public class ViewSequentialBase : BaseSectionComponent
 {
-	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public FormUpdateTemplatesModel FormModel { get; set; } = new();
 	[Parameter] public EventCallback<FormUpdateTemplatesModel> FormModelChanged { get; set; }
 	[Parameter] public bool IsEditing { get; set; } = false;
 	[Parameter] public bool IsSaving { get; set; } = false;
 	[Parameter] public ProgramModel Program { get; set; } = new();
 	[Parameter] public List<TemplateListModel> Templates { get; set; } = new();
+	protected string DrawerIcon => Icons.Material.Filled.AddCircle;
+	protected bool DrawerOpen { get; set; } = false;
+	protected string DrawerTitle => "Add Template";
 
-	protected async Task HandleAddTemplateClicked()
+	protected void HandleAddClicked()
 	{
-		var parameters = new DialogParameters
+		DrawerOpen = true;
+	}
+
+	protected async Task HandleAddTemplateClicked(TemplateListModel model)
+	{
+		int sortOrder = FormModel.Templates.Any()
+			? FormModel.Templates.Max(x => x.SortOrder) + 1
+			: 0;
+
+		FormModel.Templates.Add(new()
 		{
-			{ nameof(DialogAddTemplate.Templates), Templates }
-		};
+			DayNumber = 0,
+			IsNew = true,
+			MemberSid = Program.MemberSid,
+			ProgramSid = Program.Sid,
+			Sid = Guid.NewGuid().ToString(),
+			SortOrder = sortOrder,
+			WeekNumber = 0,
+			WorkoutTemplateSid = model.Sid,
+			WorkoutTemplateName = model.Title
+		});
 
-		var options = new DialogOptions { BackgroundClass = "bg-blur", MaxWidth = MaxWidth.Medium };
-
-		var dialog = DialogService.Show<DialogAddTemplate>("Add Template", parameters, options);
-		var result = await dialog.Result;
-		if (result != null && !result.Canceled && result.Data != null)
-		{
-			var model = (TemplateListModel)result.Data;
-			if (model != null)
-			{
-				int sortOrder = FormModel.Templates.Any()
-					? FormModel.Templates.Max(x => x.SortOrder) + 1
-					: 0;
-
-				FormModel.Templates.Add(new()
-				{
-					DayNumber = 0,
-					IsNew = true,
-					MemberSid = Program.MemberSid,
-					ProgramSid = Program.Sid,
-					Sid = Guid.NewGuid().ToString(),
-					SortOrder = sortOrder,
-					WeekNumber = 0,
-					WorkoutTemplateSid = model.Sid,
-					WorkoutTemplateName = model.Title
-				});
-
-				FormModel.Templates = ReorderTemplates();
-				await FormModelChanged.InvokeAsync(FormModel);
-			}
-		}
+		FormModel.Templates = ReorderTemplates();
+		await FormModelChanged.InvokeAsync(FormModel);
+		DrawerOpen = false;
 	}
 
 	protected async Task HandleDeleteTemplateClicked(string sid)

@@ -1,21 +1,22 @@
 using Microsoft.AspNetCore.Components;
+using Unshackled.Fitness.Core.Components;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.ExercisePicker.Actions;
 using Unshackled.Fitness.My.Client.Features.ExercisePicker.Models;
 
-namespace Unshackled.Fitness.Core.Components;
+namespace Unshackled.Fitness.My.Client.Components;
 
 public class ExercisePickerBase : BaseSearchComponent<SearchExerciseModel, ExerciseModel>
 {
 	[Parameter] public EventCallback<ExercisePickerResult> OnAdd { get; set; }
 
 	protected ExercisePickerResult? SelectedExercise { get; set; }
+	protected bool HasRunSearch { get; set; } = false;
 
-	protected override async Task OnParametersSetAsync()
+	protected override void OnInitialized()
 	{
-		await base.OnParametersSetAsync();
-
-		await DoSearch(1);
+		base.OnInitialized();
+		IsLoading = false;
 	}
 
 	protected async override Task DoSearch(int page)
@@ -25,6 +26,7 @@ public class ExercisePickerBase : BaseSearchComponent<SearchExerciseModel, Exerc
 		IsLoading = true;
 		SearchResults = await Mediator.Send(new SearchExercises.Query(SearchModel));
 		IsLoading = false;
+		HasRunSearch = true;
 	}
 
 	protected async Task HandleEquipmentTypeChanged(EquipmentTypes value)

@@ -31,8 +31,7 @@ public class ListTasks
 		{
 			return await mapper.ProjectTo<TemplateTaskModel>(db.WorkoutTemplateTasks
 				.AsNoTracking()
-				.Include(x => x.WorkoutTemplate)
-				.Where(x => x.WorkoutTemplateId == request.TemplateId && x.WorkoutTemplate.MemberId == request.MemberId && x.Type == request.TaskType)
+				.Where(x => x.WorkoutTemplateId == request.TemplateId && x.MemberId == request.MemberId && x.Type == request.TaskType)
 				.OrderBy(x => x.SortOrder))
 				.ToListAsync();
 		}
