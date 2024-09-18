@@ -16,7 +16,9 @@ public class MappingProfile : Profile
 			.ForMember(d => d.Equipment, m => m.MapFrom(s => EnumUtils.FromJoinedIntString<EquipmentTypes>(s.Equipment)))
 			.ForMember(d => d.Muscles, m => m.MapFrom(s => EnumUtils.FromJoinedIntString<MuscleTypes>(s.Muscles)));
 		CreateMap<ExerciseEntity, MergeExerciseModel>()
-			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()));
+			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()))
+			.ForMember(d => d.Equipment, m => m.MapFrom(s => EnumUtils.FromJoinedIntString<EquipmentTypes>(s.Equipment)))
+			.ForMember(d => d.Muscles, m => m.MapFrom(s => EnumUtils.FromJoinedIntString<MuscleTypes>(s.Muscles)));
 		CreateMap<WorkoutSetEntity, RecordListModel>()
 			.ForMember(d => d.WorkoutSetSid, m => m.MapFrom(s => s.Id.Encode()))
 			.ForMember(d => d.WorkoutSid, m => m.MapFrom(s => s.WorkoutId.Encode()))
