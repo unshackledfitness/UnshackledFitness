@@ -27,7 +27,7 @@
 								<MudGrid Spacing="2">
 									<MudItem xs="12" md="8" lg="9">
 										<MudText Typo="Typo.caption" Class="d-block" Color="@context.Item.SetType.DisplayColor()">@($"{context.Item.SetType.Title()} Set")</MudText>
-										<MudLink Typo="Typo.subtitle1" Class="d-block" Href="@($"/exercises/{context.Item.ExerciseSid}")">@context.Item.Title</MudLink>
+										<MudText Typo="Typo.subtitle1" Class="d-block">@context.Item.Title</MudText>
 										<MudText Typo="Typo.body1" Color="Color.Tertiary">@context.Item.Equipment.Titles()</MudText>
 									</MudItem>
 									<MudItem xs="12" md="4" lg="3" Class="align-self-center">
@@ -140,7 +140,7 @@
 								<MudGrid Spacing="0">
 									<MudItem xs="12" sm="8" md="9" lg="10">
 										<MudText Typo="Typo.caption" Class="d-block" Color="@context.Item.SetType.DisplayColor()">@($"{context.Item.SetType.Title()} Set")</MudText>
-										<MudLink Typo="Typo.subtitle1" Class="d-block" Href="@($"/exercises/{context.Item.ExerciseSid}")">@context.Item.Title</MudLink>
+										<MudText Typo="Typo.subtitle1" Class="d-block">@context.Item.Title</MudText>
 										<MudText Typo="Typo.body1" Color="Color.Tertiary">@context.Item.Equipment.Titles()</MudText>
 									</MudItem>
 									@if (context.Item.RepsRequired && context.Item.RepsTarget > 0)
@@ -163,7 +163,7 @@
 							{
 								<div>
 									<MudText Typo="Typo.caption" Class="d-block" Color="@context.Item.SetType.DisplayColor()">@($"{context.Item.SetType.Title()} Set")</MudText>
-									<MudLink Typo="Typo.subtitle1" Class="d-block" Href="@($"/exercises/{context.Item.ExerciseSid}")">@context.Item.Title</MudLink>
+									<MudText Typo="Typo.subtitle1" Class="d-block">@context.Item.Title</MudText>
 									<MudText Typo="Typo.body1" Color="Color.Tertiary">@context.Item.Equipment.Titles()</MudText>
 								</div>
 							}
