@@ -142,8 +142,11 @@ public class SingleBase : BaseComponent
 	protected async Task HandleWorkoutCompleted()
 	{
 		IsLoading = true;
+		DateTime completeTime = DateTime.Now;
 		CompleteWorkoutModel model = new()
 		{
+			DateCompleted = completeTime,
+			DateCompletedUtc = completeTime.ToUniversalTime(),
 			Notes = WorkoutNotes,
 			Rating = WorkoutRating,
 			WorkoutSid = WorkoutSid,
@@ -165,6 +168,7 @@ public class SingleBase : BaseComponent
 		var result = await Mediator.Send(new StartWorkout.Command(WorkoutSid));
 		if (result.Success)
 		{
+			Workout.DateStarted = result.Payload.ToLocalTime();
 			Workout.DateStartedUtc = result.Payload;
 		}
 		else

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Features.Workouts.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Workouts.Actions;
 
@@ -22,7 +23,15 @@ public class StartWorkout
 
 		public async Task<CommandResult<DateTime>> Handle(Command request, CancellationToken cancellationToken)
 		{
-			return await PostToCommandResultAsync<string, DateTime>($"{baseUrl}start", request.WorkoutSid)
+			var startTime = DateTime.Now;
+			StartWorkoutModel model = new()
+			{
+				DateStarted = startTime,
+				DateStartedUtc = startTime.ToUniversalTime(),
+				WorkoutSid = request.WorkoutSid
+			};
+
+			return await PostToCommandResultAsync<StartWorkoutModel, DateTime>($"{baseUrl}start", model)
 				?? new CommandResult<DateTime>(false, Globals.UnexpectedError);
 		}
 	}

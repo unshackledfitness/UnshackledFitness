@@ -5,12 +5,37 @@ namespace Unshackled.Fitness.Core.Extensions;
 
 public static class DateTimeExtensions
 {
+	public static DateTime CombineDateAndTime(this DateTime datePortion, TimeSpan timePortion)
+	{
+		return datePortion.Date.Add(timePortion);
+	}
+
+	public static DateTime CombineDateAndTime(this DateTime datePortion, TimeSpan? timePortion)
+	{
+		return datePortion.CombineDateAndTime(timePortion ?? TimeSpan.Zero);
+	}
+
 	public static DateTime? CombineDateAndTime(this DateTime? datePortion, TimeSpan? timePortion)
 	{
 		if (datePortion == null)
 			return null;
 
-		return datePortion.Value.Date.Add(timePortion ?? TimeSpan.Zero);
+		return datePortion.Value.CombineDateAndTime(timePortion ?? TimeSpan.Zero);
+	}
+
+	public static DateTime CombineDateAndTime(this TimeSpan timePortion, DateTime datePortion)
+	{
+		return datePortion.CombineDateAndTime(timePortion);
+	}
+
+	public static DateTime? CombineDateAndTime(this TimeSpan timePortion, DateTime? datePortion)
+	{
+		return datePortion.CombineDateAndTime(timePortion);
+	}
+
+	public static DateTime CombineDateAndTime(this TimeSpan? timePortion, DateTime datePortion)
+	{
+		return datePortion.CombineDateAndTime(timePortion);
 	}
 
 	public static DateTime? CombineDateAndTime(this TimeSpan? timePortion, DateTime? datePortion)

@@ -8,7 +8,7 @@ public class DrawerNotesBase : BaseComponent
 {
 	[Parameter] public string ExerciseSid { get; set; } = string.Empty;
 	[Parameter] public string? ExerciseNotes { get; set; }
-	[Parameter] public EventCallback OnCancelled { get; set; }
+	[Parameter] public EventCallback OnCanceled { get; set; }
 	[Parameter] public EventCallback<ExerciseNoteModel> OnSaveClicked { get; set; }
 
 	protected bool IsSaving { get; set; }
@@ -28,7 +28,7 @@ public class DrawerNotesBase : BaseComponent
 
 	protected async Task HandleCancelClicked()
 	{
-		await OnCancelled.InvokeAsync();
+		await OnCanceled.InvokeAsync();
 	}
 
 	protected async Task HandleUpdateClicked()

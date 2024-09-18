@@ -23,11 +23,6 @@ public static class ExerciseExtensions
 			{
 				try
 				{
-					if (!keptExercise.MatchId.HasValue && deletedExercise.MatchId.HasValue)
-					{
-						keptExercise.MatchId = deletedExercise.MatchId.Value;
-					}
-
 					// Update templates
 					await db.WorkoutTemplateSets
 						.Where(x => x.ExerciseId == deletedExercise.Id)

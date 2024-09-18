@@ -35,7 +35,7 @@ public class CompleteWorkout
 
 			long workoutId = request.Model.WorkoutSid.DecodeLong();
 
-			if(workoutId == 0)
+			if (workoutId == 0)
 				return new CommandResult(false, "Invalid workout ID.");
 
 			var workout = await db.Workouts
@@ -54,7 +54,8 @@ public class CompleteWorkout
 					.Where(x => x.WorkoutId == workoutId && x.Type == WorkoutTaskTypes.PostWorkout)
 					.UpdateFromQueryAsync(x => new WorkoutTaskEntity { Completed = true });
 
-				workout.DateCompletedUtc = DateTime.UtcNow;
+				workout.DateCompleted = request.Model.DateCompleted;
+				workout.DateCompletedUtc = request.Model.DateCompletedUtc;
 				workout.Rating = request.Model.Rating;
 				workout.Notes = request.Model.Notes;
 				await db.SaveChangesAsync(cancellationToken);

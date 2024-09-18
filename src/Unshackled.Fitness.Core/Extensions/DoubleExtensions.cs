@@ -1,8 +1,8 @@
 ﻿namespace Unshackled.Fitness.Core.Extensions;
 
-public static class DecimalExtensions
+public static class DoubleExtensions
 {
-	public static string ShortLabel(this decimal? value)
+	public static string ShortLabel(this double? value)
 	{
 		if (!value.HasValue)
 			return "0";
@@ -10,7 +10,7 @@ public static class DecimalExtensions
 		return value.Value.ShortLabel();
 	}
 
-	public static string ShortLabel(this decimal value)
+	public static string ShortLabel(this double value)
 	{
 		if (value > 1000000000)
 		{

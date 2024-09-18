@@ -5,6 +5,7 @@ using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Features.Workouts.Models;
 using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Workouts.Actions;
@@ -14,12 +15,12 @@ public class StartWorkout
 	public class Command : IRequest<CommandResult<DateTime>>
 	{
 		public long MemberId { get; private set; }
-		public string WorkoutSid { get; private set; }
+		public StartWorkoutModel Model { get; private set; }
 
-		public Command(long memberId, string workoutSid)
+		public Command(long memberId, StartWorkoutModel model)
 		{
 			MemberId = memberId;
-			WorkoutSid = workoutSid;
+			Model = model;
 		}
 	}
 
@@ -29,12 +30,12 @@ public class StartWorkout
 
 		public async Task<CommandResult<DateTime>> Handle(Command request, CancellationToken cancellationToken)
 		{
-			if (string.IsNullOrEmpty(request.WorkoutSid))
+			if (string.IsNullOrEmpty(request.Model.WorkoutSid))
 				return new CommandResult<DateTime>(false, "Invalid workout ID.");
 
-			long workoutId = request.WorkoutSid.DecodeLong();
+			long workoutId = request.Model.WorkoutSid.DecodeLong();
 
-			if(workoutId == 0)
+			if (workoutId == 0)
 				return new CommandResult<DateTime>(false, "Invalid workout ID.");
 
 			var workout = await db.Workouts
@@ -53,7 +54,8 @@ public class StartWorkout
 					.Where(x => x.WorkoutId == workoutId && x.Type == WorkoutTaskTypes.PreWorkout)
 					.UpdateFromQueryAsync(x => new WorkoutTaskEntity { Completed = true });
 
-				workout.DateStartedUtc = DateTime.UtcNow;
+				workout.DateStarted = request.Model.DateStarted;
+				workout.DateStartedUtc = request.Model.DateStartedUtc;
 				await db.SaveChangesAsync(cancellationToken);
 
 				await transaction.CommitAsync(cancellationToken);

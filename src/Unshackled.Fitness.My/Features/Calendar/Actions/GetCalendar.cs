@@ -32,6 +32,9 @@ public class GetCalendar
 			DateOnly fromDate = request.Model.FromDate;
 			DateOnly toDate = request.Model.ToDate;
 
+			DateTime fromDateTime = fromDate.ToDateTime(new TimeOnly(0, 0, 0), DateTimeKind.Unspecified);
+			DateTime toDateTime = toDate.ToDateTime(new TimeOnly(0, 0, 0), DateTimeKind.Unspecified);
+
 			CalendarModel model = new()
 			{
 				FromDate = fromDate,
@@ -51,13 +54,13 @@ public class GetCalendar
 
 			var workouts = await db.Workouts
 				.Where(x => x.MemberId == request.MemberId
-					&& x.DateCompletedUtc != null
-					&& x.DateCompletedUtc >= request.Model.FromDateUtc
-					&& x.DateCompletedUtc <= request.Model.ToDateUtc)
-				.OrderBy(x => x.DateCompletedUtc)
+					&& x.DateCompleted != null
+					&& x.DateCompleted >= fromDateTime
+					&& x.DateCompleted <= toDateTime)
+				.OrderBy(x => x.DateCompleted)
 				.Select(x => new
 				{
-					x.DateCompletedUtc,
+					x.DateCompleted,
 					x.Title
 				})
 				.ToListAsync();
@@ -67,8 +70,8 @@ public class GetCalendar
 				.Include(x => x.MetricDefinition)
 				.Where(x => x.MemberId == request.MemberId
 					&& x.MetricDefinition.IsArchived == false
-					&& x.DateRecorded >= fromDate.ToDateTime(new TimeOnly(0, 0, 0), DateTimeKind.Utc)
-					&& x.DateRecorded <= toDate.ToDateTime(new TimeOnly(0, 0, 0), DateTimeKind.Utc))
+					&& x.DateRecorded >= fromDateTime
+					&& x.DateRecorded <= toDateTime)
 				.OrderBy(x => x.DateRecorded)
 					.ThenBy(x => x.MetricDefinition.SortOrder)
 				.Select(x => new
@@ -85,7 +88,7 @@ public class GetCalendar
 
 			// Fill Blocks
 			DateOnly currentDate = model.FromDate;
-			DateTime currentDateUtc = request.Model.FromDateUtc;
+			DateTime currentDateTime = fromDateTime;
 			int workoutIdx = 0;
 			int blockIdx = 0;
 			while (currentDate <= model.ToDate)
@@ -97,8 +100,8 @@ public class GetCalendar
 
 				// add workouts for the current date
 				while (workoutIdx < workouts.Count
-					&& workouts[workoutIdx].DateCompletedUtc!.Value >= currentDateUtc
-					&& workouts[workoutIdx].DateCompletedUtc!.Value < currentDateUtc.AddDays(1))
+					&& workouts[workoutIdx].DateCompleted!.Value >= currentDateTime
+					&& workouts[workoutIdx].DateCompleted!.Value < currentDateTime.AddDays(1))
 				{
 					CalendarBlockModel workout = new()
 					{
@@ -111,7 +114,8 @@ public class GetCalendar
 					day.Blocks.Add(workout);
 					workoutIdx++;
 				}
-				currentDateUtc = currentDateUtc.AddDays(1);
+
+				currentDateTime = currentDateTime.AddDays(1);
 
 				// add blocks for the current date
 				while (blockIdx < blocks.Count && DateOnly.FromDateTime(blocks[blockIdx].DateRecorded) == currentDate)
@@ -172,6 +176,13 @@ public class GetCalendar
 			model.BlockFilterGroups.AddRange(defGroups);
 
 			// Fill block definitions			
+			model.BlockFilters.Add(new CalendarBlockFilterModel
+			{
+				Color = request.Model.WorkoutColor,
+				FilterId = "activity",
+				ListGroupSid = "default",
+				Title = "Activities"
+			});
 			model.BlockFilters.Add(new CalendarBlockFilterModel
 			{
 				Color = request.Model.WorkoutColor,

@@ -2,7 +2,7 @@
 
 @if (Templates.Any())
 {
-	<MudPaper Class="d-flex flex-column gap-0 align-center mb-8">
+	<MudPaper Class="d-flex flex-column gap-0 align-center h-100 mb-8">
 		<MudText Align="Align.Center" Color="Color.Tertiary">@(Templates.Count > 1 ? "Today's Workouts" : "Today's Workout")</MudText>
 		<ListView TItem="ProgramListModel" Items="@Templates" Class="w-100">
 			<ItemRenderer>
@@ -39,7 +39,7 @@
 							@if (!context.Item.IsCompleted)
 							{
 								<MudButton Variant="Variant.Filled" Color="Color.Secondary" Size="Size.Small" Disabled="@IsSkipping"
-										   Href="@($"/workouts/{context.Item.Sid}")">Track</MudButton>
+										   Href="@($"/workouts/{context.Item.Sid}")">Resume</MudButton>
 							}
 							else
 							{

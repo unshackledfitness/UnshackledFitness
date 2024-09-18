@@ -6,7 +6,6 @@ namespace Unshackled.Fitness.Core.Data.Entities;
 
 public class ExerciseEntity : BaseMemberEntity
 {
-	public Guid? MatchId { get; set; }
 	public string Muscles { get; set; } = string.Empty;
 	public string Equipment { get; set; } = string.Empty;
 	public SetMetricTypes DefaultSetMetricType { get; set; }
@@ -24,9 +23,6 @@ public class ExerciseEntity : BaseMemberEntity
 			base.Configure(config);
 
 			config.ToTable("Exercises");
-
-			config.Property(x => x.MatchId)
-				.ValueGeneratedNever();
 
 			config.Property(x => x.Title)
 				.HasMaxLength(255)

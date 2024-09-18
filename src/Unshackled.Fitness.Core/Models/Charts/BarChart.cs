@@ -9,12 +9,13 @@ public class BarChart
 
 	public object Config => new
 	{
-		Type = "bar",
+		type = "bar",
 		options = new
 		{
 			responsive = true,
 			maintainAspectRatio = true,
-			plugins = new { 
+			plugins = new
+			{
 				title = new
 				{
 					display = !string.IsNullOrEmpty(Title),

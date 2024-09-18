@@ -25,4 +25,20 @@ public static class IntExtensions
 		else
 			return ts.ToString(format);
 	}
+
+	public static string SecondsAsTimeSpan(this int value, string format, int? intensity = null)
+	{
+		var ts = TimeSpan.FromSeconds(value);
+
+		if (intensity.HasValue && intensity.Value > 0)
+			return $"{ts.ToString(format)} @ {intensity.Value}";
+		else
+			return ts.ToString(format);
+	}
+
+	public static double SecondsToHours(this int value)
+	{
+		var ts = TimeSpan.FromSeconds(value);
+		return ts.TotalHours;
+	}
 }

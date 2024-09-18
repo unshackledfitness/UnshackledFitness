@@ -10,91 +10,93 @@ public class FormPropertiesModel
 	public string Title { get; set; } = string.Empty;
 	public bool IsStarted { get; set; }
 	public bool IsComplete { get; set; }
+	public DateTime? DateStarted { get; set; }
 	public DateTime? DateStartedUtc { get; set; }
+	public DateTime? DateCompleted { get; set; }
 	public DateTime? DateCompletedUtc { get; set; }
 	public int Rating { get; set; }
 	public string? Notes { get; set; }
 
 	private DateTime? dateStarted;
 	[JsonIgnore]
-	public DateTime? DateStarted
+	public DateTime? DateStartedInput
 	{
 		get
 		{
-			if(!dateStarted.HasValue)
-				dateStarted = DateStartedUtc.HasValue ? DateStartedUtc.Value.ToLocalTime().Date : null;
+			if (!dateStarted.HasValue)
+				dateStarted = DateStarted.HasValue ? DateStarted.Value.Date : null;
 			return dateStarted;
 		}
 		set
 		{
 			dateStarted = value;
-			DateStartedUtc = dateStarted.CombineDateAndTime(TimeStarted);
-			if (DateStartedUtc.HasValue)
+			DateStarted = dateStarted.CombineDateAndTime(TimeStartedInput);
+			if (DateStarted.HasValue)
 			{
-				DateStartedUtc = DateStartedUtc.Value.ToUniversalTime();
+				DateStartedUtc = DateStarted.Value.ToUniversalTime();
 			}
 		}
 	}
 
 	private TimeSpan? timeStarted;
 	[JsonIgnore]
-	public TimeSpan? TimeStarted
+	public TimeSpan? TimeStartedInput
 	{
 		get
 		{
-			if(!timeStarted.HasValue)
-				timeStarted = DateStartedUtc.HasValue ? DateStartedUtc.Value.ToLocalTime().TimeOfDay : null;
+			if (!timeStarted.HasValue)
+				timeStarted = DateStarted.HasValue ? DateStarted.Value.TimeOfDay : null;
 			return timeStarted;
 		}
 		set
 		{
 			timeStarted = value;
-			DateStartedUtc = timeStarted.CombineDateAndTime(DateStarted);
-			if (DateStartedUtc.HasValue)
+			DateStarted = timeStarted.CombineDateAndTime(DateStarted);
+			if (DateStarted.HasValue)
 			{
-				DateStartedUtc = DateStartedUtc.Value.ToUniversalTime();
+				DateStartedUtc = DateStarted.Value.ToUniversalTime();
 			}
 		}
 	}
 
 	private DateTime? dateCompleted;
 	[JsonIgnore]
-	public DateTime? DateCompleted
+	public DateTime? DateCompletedInput
 	{
 		get
 		{
 			if (!dateCompleted.HasValue)
-				dateCompleted = DateCompletedUtc.HasValue ? DateCompletedUtc.Value.ToLocalTime().Date : null;
+				dateCompleted = DateCompleted.HasValue ? DateCompleted.Value.Date : null;
 			return dateCompleted;
 		}
 		set
 		{
 			dateCompleted = value;
-			DateCompletedUtc = dateCompleted.CombineDateAndTime(TimeCompleted);
-			if (DateCompletedUtc.HasValue)
+			DateCompleted = dateCompleted.CombineDateAndTime(TimeCompletedInput);
+			if (DateCompleted.HasValue)
 			{
-				DateCompletedUtc = DateCompletedUtc.Value.ToUniversalTime();
+				DateCompletedUtc = DateCompleted.Value.ToUniversalTime();
 			}
 		}
 	}
 
 	private TimeSpan? timeCompleted;
 	[JsonIgnore]
-	public TimeSpan? TimeCompleted
+	public TimeSpan? TimeCompletedInput
 	{
 		get
 		{
 			if (!timeCompleted.HasValue)
-				timeCompleted = DateCompletedUtc.HasValue ? DateCompletedUtc.Value.ToLocalTime().TimeOfDay : null;
+				timeCompleted = DateCompleted.HasValue ? DateCompleted.Value.TimeOfDay : null;
 			return timeCompleted;
 		}
 		set
 		{
 			timeCompleted = value;
-			DateCompletedUtc = timeCompleted.CombineDateAndTime(DateCompleted);
-			if (DateCompletedUtc.HasValue)
+			DateCompleted = timeCompleted.CombineDateAndTime(DateCompleted);
+			if (DateCompleted.HasValue)
 			{
-				DateCompletedUtc = DateCompletedUtc.Value.ToUniversalTime();
+				DateCompletedUtc = DateCompleted.Value.ToUniversalTime();
 			}
 		}
 	}
@@ -117,15 +119,15 @@ public class FormPropertiesModel
 
 			When(x => x.IsStarted, () =>
 			{
-				RuleFor(x => x.DateStartedUtc)
+				RuleFor(x => x.DateStarted)
 					.NotNull().WithMessage("A start date is required.");
 			});
 
 			When(x => x.IsComplete, () =>
 			{
-				RuleFor(x => x.DateCompletedUtc)
+				RuleFor(x => x.DateCompleted)
 					.NotNull().WithMessage("A completion date is required.")
-					.GreaterThanOrEqualTo(x => x.DateStartedUtc).WithMessage("Completion date must be after the Start Date.");
+					.GreaterThanOrEqualTo(x => x.DateStarted).WithMessage("Completion date must be after the Start Date.");
 			});
 
 		}

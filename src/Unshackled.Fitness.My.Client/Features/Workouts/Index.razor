@@ -24,17 +24,17 @@
 			</MudGrid>
 		</SearchFields>
 	</SearchForm>
-	@if (IsMemberActive)
-	{
-		<MudToolBar Class="mb-2" Gutters="false" Dense="true">
+	<MudToolBar Class="mb-2" Gutters="false" Dense="true">
+		@if (IsMemberActive)
+		{
 			<ProgressButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls" IsWorking="@IsWorking" WorkingText="Opening"
 							OnClick="@(() => HandleAddClicked())">New</ProgressButton>
-			<MudMenu Label="Sort" StartIcon="@Icons.Material.Filled.Sort" Class="ms-2">
-				<MudMenuItem OnClick="@(() => HandleSortByClicked(0, nameof(WorkoutListModel.DateStartedUtc), nameof(WorkoutListModel.DateCompletedUtc)))">Workout Date (Asc)</MudMenuItem>
-				<MudMenuItem OnClick="@(() => HandleSortByClicked(1, nameof(WorkoutListModel.DateStartedUtc), nameof(WorkoutListModel.DateCompletedUtc)))">Workout Date (Desc)</MudMenuItem>
-			</MudMenu>
-		</MudToolBar>
-	}
+		}
+		<MudMenu Label="Sort" StartIcon="@Icons.Material.Filled.Sort">
+			<MudMenuItem OnClick="@(() => HandleSortByClicked(0, nameof(WorkoutListModel.DateStartedUtc), nameof(WorkoutListModel.DateCompletedUtc)))">Workout Date (Asc)</MudMenuItem>
+			<MudMenuItem OnClick="@(() => HandleSortByClicked(1, nameof(WorkoutListModel.DateStartedUtc), nameof(WorkoutListModel.DateCompletedUtc)))">Workout Date (Desc)</MudMenuItem>
+		</MudMenu>
+	</MudToolBar>
 	<ListView Class="mb-6" Items="@SearchResults.Data" PageSize="@SearchResults.PageSize" Page="@SearchModel.Page" TotalItems="@SearchResults.Total" IsLoading="@IsLoading"
 			  PageSelected="@HandlePageSelected">
 		<ItemRenderer>

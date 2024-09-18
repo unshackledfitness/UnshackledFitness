@@ -50,12 +50,17 @@ public class SaveSet
 			if (set == null)
 				return new CommandResult<FormWorkoutSetModel>(false, "Invalid workout set.");
 
+			if (!request.Set.DateRecorded.HasValue || !request.Set.DateRecordedUtc.HasValue)
+			{
+				return new CommandResult<FormWorkoutSetModel>(false, "Recorded date and time not set.");
+			}
+
 			using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
 
 			try
 			{
-				if (!set.DateRecordedUtc.HasValue)
-					set.DateRecordedUtc = DateTime.UtcNow;
+				set.DateRecorded = request.Set.DateRecorded;
+				set.DateRecordedUtc = request.Set.DateRecordedUtc;
 
 				bool needsWgt = request.Set.SetMetricType == SetMetricTypes.WeightReps || request.Set.SetMetricType == SetMetricTypes.WeightTime;
 				bool needsReps = request.Set.SetMetricType == SetMetricTypes.WeightReps || request.Set.SetMetricType == SetMetricTypes.RepsOnly;

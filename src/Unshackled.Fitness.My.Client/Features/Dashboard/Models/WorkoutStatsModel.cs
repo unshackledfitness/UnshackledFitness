@@ -51,6 +51,14 @@ public class WorkoutStatsModel
 		}
 	}
 
+	public int GetActiveDays()
+	{
+		return Workouts
+			.Select(x => x.DateCompletedUtc.ToString("yyyy-MM-dd"))
+			.Distinct()
+			.Count();
+	}
+
 	public int GetWeekColumnsInMonth(int startIdx)
 	{
 		string month = Weeks[startIdx].Month;

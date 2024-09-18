@@ -44,6 +44,11 @@ public class GetWorkoutStats
 				.Distinct()
 				.ToListAsync();
 
+			model.Years = model.Years
+				.Distinct()
+				.OrderBy(x => x)
+				.ToList();
+
 			model.TotalWorkouts = await db.Workouts
 				.Where(x => x.MemberId == request.MemberId && x.DateCompletedUtc.HasValue)
 				.CountAsync();

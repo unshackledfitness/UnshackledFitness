@@ -3,14 +3,17 @@
 
 <DynamicPageTitle Title="Dashboard" />
 
-<MudGrid Spacing="0">
+<MudGrid Spacing="4">
 	<MudItem xs="12">
 		<DashboardGettingStarted />
 	</MudItem>
 	<MudItem xs="12">
-		<DashboardStats />
+		<DashboardStats Model="@Model" />
 	</MudItem>
-	<MudItem xs="12">
+	<MudItem xs="12" md="8">
+		<DashboardStatGraph Model="@Model" OnYearChanged="@HandleYearChanged" />
+	</MudItem>
+	<MudItem xs="12" md="4">
 		<DashboardProgram />
 	</MudItem>
 	<MudItem xs="12">

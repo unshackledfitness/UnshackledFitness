@@ -30,6 +30,7 @@ public class WorkoutSetEntity : BaseMemberEntity
 	public decimal WeightKg { get; set; }
 	public decimal VolumeLb { get; set; }
 	public decimal VolumeKg { get; set; }
+	public DateTime? DateRecorded { get; set; }
 	public DateTime? DateRecordedUtc { get; set; }
 	public bool IsBestSetBySeconds { get; set; }
 	public bool IsBestSetByWeight { get; set; }
@@ -40,6 +41,7 @@ public class WorkoutSetEntity : BaseMemberEntity
 	public bool IsRecordTargetWeight { get; set; }
 	public bool IsRecordVolume { get; set; }
 	public bool IsRecordWeight { get; set; }
+	public string? Notes { get; set; }
 
 	public class TypeConfiguration : BaseMemberEntityTypeConfiguration<WorkoutSetEntity>, IEntityTypeConfiguration<WorkoutSetEntity>
 	{
@@ -50,8 +52,8 @@ public class WorkoutSetEntity : BaseMemberEntity
 			config.ToTable("WorkoutSets");
 
 			config.Property(x => x.WeightLb)
-				.HasPrecision(7, 3); 
-			
+				.HasPrecision(7, 3);
+
 			config.Property(x => x.WeightKg)
 				.HasPrecision(7, 3);
 

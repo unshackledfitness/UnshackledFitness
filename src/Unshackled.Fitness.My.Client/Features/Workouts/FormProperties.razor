@@ -11,22 +11,22 @@
 		{
 			<MudItem xs="6">
 				<MudDatePicker Label="Start Date" Variant="Variant.Outlined" DateFormat="@Model.DateFormat(Model.DateStarted)" Disabled="@DisableControls"
-							   @bind-Date="@Model.DateStarted" For="@(() => Model.DateStartedUtc)" Color="Color.Secondary" />
+							   @bind-Date="@Model.DateStartedInput" For="@(() => Model.DateStarted)" Color="Color.Secondary" />
 			</MudItem>
 			<MudItem xs="6">
 				<MudTimePicker Label="Start Time" AmPm="true" Variant="Variant.Outlined" TimeFormat="h:mm tt" Disabled="@DisableControls" Color="Color.Secondary"
-							   @bind-Time="@Model.TimeStarted" AnchorOrigin="Origin.TopRight" TransformOrigin="Origin.TopRight" />
+							   @bind-Time="@Model.TimeStartedInput" AnchorOrigin="Origin.TopRight" TransformOrigin="Origin.TopRight" />
 			</MudItem>
 		}
 		@if (Model.IsComplete)
 		{
 			<MudItem xs="6">
 				<MudDatePicker Label="Completion Date" Variant="Variant.Outlined" DateFormat="@Model.DateFormat(Model.DateCompleted)" Disabled="@DisableControls"
-							   @bind-Date="@Model.DateCompleted" For="@(() => Model.DateCompletedUtc)" Color="Color.Secondary" />
+							   @bind-Date="@Model.DateCompletedInput" For="@(() => Model.DateCompleted)" Color="Color.Secondary" />
 			</MudItem>
 			<MudItem xs="6">
 				<MudTimePicker Label="Completion Time" AmPm="true" Variant="Variant.Outlined" TimeFormat="h:mm tt" Disabled="@DisableControls" Color="Color.Secondary"
-							   @bind-Time="@Model.TimeCompleted" AnchorOrigin="Origin.TopRight" TransformOrigin="Origin.TopRight" />
+							   @bind-Time="@Model.TimeCompletedInput" AnchorOrigin="Origin.TopRight" TransformOrigin="Origin.TopRight" />
 			</MudItem>
 			<MudItem xs="12">
 				<div class="d-flex flex-row gap-2 align-center my-2">

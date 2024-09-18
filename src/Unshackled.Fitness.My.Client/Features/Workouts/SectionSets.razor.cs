@@ -182,7 +182,7 @@ public class SectionSetsBase : BaseSectionComponent
 				Workout.Sets[i].SortOrder = i;
 			}
 			await GetNextActiveIdx();
-			await SetHasUnrecordedSets();
+			await CheckIfWorkoutHasUnrecordedSets();
 		}
 		else
 		{
@@ -231,7 +231,7 @@ public class SectionSetsBase : BaseSectionComponent
 						.ToList();
 
 					await GetNextActiveIdx();
-					await SetHasUnrecordedSets();
+					await CheckIfWorkoutHasUnrecordedSets();
 				}
 				else
 				{
@@ -285,7 +285,7 @@ public class SectionSetsBase : BaseSectionComponent
 					// Get new active index
 					await GetNextActiveIdx();
 				}
-				await SetHasUnrecordedSets();
+				await CheckIfWorkoutHasUnrecordedSets();
 			}
 			else
 			{
@@ -326,7 +326,7 @@ public class SectionSetsBase : BaseSectionComponent
 					// Get new active index
 					await GetNextActiveIdx();
 				}
-				await SetHasUnrecordedSets();
+				await CheckIfWorkoutHasUnrecordedSets();
 			}
 			else
 			{
@@ -400,6 +400,11 @@ public class SectionSetsBase : BaseSectionComponent
 		set.IsSaving = true;
 		var setIdx = Workout.Sets.IndexOf(set);
 
+		if (!set.DateRecorded.HasValue)
+		{
+			set.DateRecorded = DateTime.Now;
+			set.DateRecordedUtc = set.DateRecorded.Value.ToUniversalTime();
+		}
 		var result = await Mediator.Send(new SaveSet.Command(set));
 		set.IsSaving = false;
 
@@ -424,7 +429,7 @@ public class SectionSetsBase : BaseSectionComponent
 			}
 
 			await OnSetSaved.InvokeAsync();
-			await SetHasUnrecordedSets();
+			await CheckIfWorkoutHasUnrecordedSets();
 		}
 		else
 		{
@@ -586,7 +591,7 @@ public class SectionSetsBase : BaseSectionComponent
 		}
 	}
 
-	private async Task SetHasUnrecordedSets()
+	private async Task CheckIfWorkoutHasUnrecordedSets()
 	{
 		var unrecorded = Workout.Sets.Where(x => x.DateRecordedUtc == null).Any();
 		if (unrecorded != hasUnrecordedSets)

@@ -98,9 +98,9 @@ public class WorkoutsController : BaseController
 
 	[HttpPost("start")]
 	[ActiveMemberRequired]
-	public async Task<IActionResult> Start([FromBody] string workoutSid)
+	public async Task<IActionResult> Start([FromBody] StartWorkoutModel model)
 	{
-		return Ok(await Mediator.Send(new StartWorkout.Command(Member.Id, workoutSid)));
+		return Ok(await Mediator.Send(new StartWorkout.Command(Member.Id, model)));
 	}
 
 	[HttpPost("update-properties")]

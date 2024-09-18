@@ -28,9 +28,9 @@
 
 	@if (!IsEditing)
 	{
-		@if (Workout.DateStartedUtc.HasValue)
+		@if (Workout.DateStarted.HasValue)
 		{
-			<MudText Typo="Typo.body1" Class="mb-4">@Workout.DateStartedUtc.Value.ToLocalTime().ToString("f")</MudText>
+			<MudText Typo="Typo.body1" Class="mb-4">@Workout.DateStarted.Value.ToString("f")</MudText>
 			<WorkoutSummary Workout="@Workout" />
 			@if (!string.IsNullOrEmpty(Workout.Notes))
 			{

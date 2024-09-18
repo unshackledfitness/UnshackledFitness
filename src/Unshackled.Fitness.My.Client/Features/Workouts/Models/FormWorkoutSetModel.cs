@@ -31,6 +31,7 @@ public class FormWorkoutSetModel : BaseObject, IGroupedSortable, ICloneable
 	public int SecondsTarget { get; set; }
 	public decimal? Weight { get; set; }
 	public WeightUnits WeightUnit { get; set; } = WeightUnits.lb;
+	public DateTime? DateRecorded { get; set; }
 	public DateTime? DateRecordedUtc { get; set; }
 	public bool IsBestSetBySeconds { get; set; }
 	public bool IsBestSetByVolume { get; set; }
@@ -43,8 +44,8 @@ public class FormWorkoutSetModel : BaseObject, IGroupedSortable, ICloneable
 	public bool IsRecordWeight { get; set; }
 
 	[JsonIgnore]
-	public bool IsEditing { get; set; } = false; 
-	
+	public bool IsEditing { get; set; } = false;
+
 	[JsonIgnore]
 	public bool IsExpanded { get; set; } = false;
 
@@ -114,6 +115,7 @@ public class FormWorkoutSetModel : BaseObject, IGroupedSortable, ICloneable
 		{
 			DateCreatedUtc = DateCreatedUtc,
 			DateLastModifiedUtc = DateLastModifiedUtc,
+			DateRecorded = DateRecorded,
 			DateRecordedUtc = DateRecordedUtc,
 			Equipment = Equipment,
 			ExerciseNotes = ExerciseNotes,

@@ -41,7 +41,9 @@ public class SectionPropertiesBase : BaseSectionComponent
 	{
 		Model = new()
 		{
+			DateCompleted = Workout.DateCompleted,
 			DateCompletedUtc = Workout.DateCompletedUtc,
+			DateStarted = Workout.DateStarted,
 			DateStartedUtc = Workout.DateStartedUtc,
 			IsComplete = Workout.DateCompletedUtc.HasValue,
 			IsStarted = Workout.DateStartedUtc.HasValue,
@@ -68,7 +70,9 @@ public class SectionPropertiesBase : BaseSectionComponent
 		if (result.Success)
 		{
 			Workout.Title = model.Title;
+			Workout.DateStarted = model.DateStarted;
 			Workout.DateStartedUtc = model.DateStartedUtc;
+			Workout.DateCompletedUtc = model.DateCompleted;
 			Workout.DateCompletedUtc = model.DateCompletedUtc;
 			Workout.Rating = model.Rating;
 			Workout.Notes = model.Notes;

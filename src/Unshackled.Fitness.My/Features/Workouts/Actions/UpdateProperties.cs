@@ -39,7 +39,9 @@ public class UpdateProperties
 
 			// Update workout
 			workout.Title = request.Model.Title.Trim();
+			workout.DateStarted = request.Model.DateStarted;
 			workout.DateStartedUtc = request.Model.DateStartedUtc;
+			workout.DateCompleted = request.Model.DateCompleted;
 			workout.DateCompletedUtc = request.Model.DateCompletedUtc;
 			workout.Rating = request.Model.Rating;
 			workout.Notes = request.Model.Notes;

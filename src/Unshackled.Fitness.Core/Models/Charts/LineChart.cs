@@ -9,7 +9,7 @@ public class LineChart
 
 	public object Config => new
 	{
-		Type = "line",
+		type = "line",
 		options = new
 		{
 			responsive = true,
@@ -40,7 +40,7 @@ public class LineChart
 						},
 						tooltipFormat = "MMM DD"
 					},
-					ticks = new 
+					ticks = new
 					{
 						source = "data"
 					},

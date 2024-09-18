@@ -36,12 +36,12 @@ public class SearchWorkouts
 
 			if (request.Model.DateStart.HasValue)
 			{
-				query = query.Where(x => x.DateStartedUtc >= request.Model.DateStart.Value.ToUniversalTime());
+				query = query.Where(x => x.DateStarted >= request.Model.DateStart.Value);
 			}
 
 			if (request.Model.DateEnd.HasValue)
 			{
-				query = query.Where(x => x.DateStartedUtc < request.Model.DateEnd.Value.ToUniversalTime());
+				query = query.Where(x => x.DateStarted < request.Model.DateEnd.Value);
 			}
 
 			if (request.Model.MuscleType != MuscleTypes.Any)

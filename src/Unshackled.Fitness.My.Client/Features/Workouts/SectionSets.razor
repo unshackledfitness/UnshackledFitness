@@ -518,7 +518,7 @@
 	@if (OpenNotes)
 	{
 		<DrawerNotes ExerciseSid="@DrawerWorkoutSet.ExerciseSid" ExerciseNotes="@DrawerWorkoutSet.ExerciseNotes"
-					 OnCancelled="@(() => HandleDrawerOpenChange(false))" OnSaveClicked="@HandleSaveNote" />
+					 OnCanceled="@(() => HandleDrawerOpenChange(false))" OnSaveClicked="@HandleSaveNote" />
 	}
 	@if (OpenAddSet)
 	{
