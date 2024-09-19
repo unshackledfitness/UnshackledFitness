@@ -23,16 +23,6 @@ public class FormTemplateSetModel : BaseObject, IGroupedSortable, ICloneable
 	[JsonIgnore]
 	public bool IsExpanded { get; set; }
 
-	[JsonIgnore]
-	public TimeSpan? TimeSeconds
-	{
-		get => SecondsTarget > 0 ? new(0, 0, SecondsTarget) : null;
-		set
-		{
-			SecondsTarget = value.HasValue ? (int)Math.Round(value.Value.TotalSeconds, 0) : 0;
-		}
-	}
-
 	public FormTemplateSetModel() { }
 
 	public FormTemplateSetModel(TemplateSetModel model)

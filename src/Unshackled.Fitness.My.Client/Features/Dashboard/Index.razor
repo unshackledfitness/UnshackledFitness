@@ -5,15 +5,9 @@
 
 <MudGrid Spacing="4">
 	<MudItem xs="12">
-		<DashboardGettingStarted />
+		<DashboardStats Model="@Model" OnYearChanged="@HandleYearChanged" />
 	</MudItem>
 	<MudItem xs="12">
-		<DashboardStats Model="@Model" />
-	</MudItem>
-	<MudItem xs="12" md="8">
-		<DashboardStatGraph Model="@Model" OnYearChanged="@HandleYearChanged" />
-	</MudItem>
-	<MudItem xs="12" md="4">
 		<DashboardProgram />
 	</MudItem>
 	<MudItem xs="12">

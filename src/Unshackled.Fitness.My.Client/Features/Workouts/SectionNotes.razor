@@ -1,0 +1,45 @@
+﻿@inherits SectionNotesBase
+
+<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
+
+	<SectionHeader Title="Workout Notes" IsEditMode="@IsEditMode" IsEditing="@IsEditing" EditingClass="mb-4" DisableControls="@DisableControls"
+				   FormId="@FormId" OnCancelClicked="@HandleEditCancelClicked" Breakpoint="Breakpoint.Sm">
+		<TitleContent>
+			@if (IsEditing)
+			{
+				<MudText Typo="Typo.h4">Edit Notes</MudText>
+			}
+			else if (IsEditMode || !string.IsNullOrEmpty(Workout.Notes))
+			{
+				<MudText Typo="Typo.h5" Class="mb-2">Workout Notes</MudText>
+			}
+		</TitleContent>
+		<EditModeToolbar>
+			@if (IsMemberActive)
+			{
+				<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@(DisableSectionControls || DisableControls)" Class="me-2"
+							   title="Edit" OnClick="@(() => HandleEditClicked())" />
+			}
+		</EditModeToolbar>
+	</SectionHeader>
+
+	@if (!IsEditing)
+	{
+		@if (Workout.DateCompleted.HasValue)
+		{
+			@if (!string.IsNullOrEmpty(Workout.Notes))
+			{
+				<MudText>@((MarkupString)Workout.Notes.ReplaceLineBreaks("<br />"))</MudText>
+			}
+			else if (IsEditMode)
+			{
+				<MudAlert Severity="Severity.Normal" Icon="@Icons.Material.Filled.Info">You have not added any notes.</MudAlert>
+			}
+		}
+	}
+	else
+	{
+		<FormNotes Model="@Model" FormId="@FormId" DisableFormControls="DisableControls" OnFormSubmitted="@HandleEditFormSubmitted" />
+	}
+</SectionComponent>
+

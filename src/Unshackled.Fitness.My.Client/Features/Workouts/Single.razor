@@ -81,6 +81,11 @@ else
 				</div>
 			}
 		}
+
+		@if (Workout.DateCompleted.HasValue)
+		{
+			<SectionNotes @bind-Workout="@Workout" IsEditMode="IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleIsEditingSectionChange" />
+		}
 	}
 	else
 	{

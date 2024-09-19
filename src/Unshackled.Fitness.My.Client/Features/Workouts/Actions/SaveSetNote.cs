@@ -5,13 +5,13 @@ using Unshackled.Fitness.My.Client.Features.Workouts.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Workouts.Actions;
 
-public class SaveExerciseNote
+public class SaveSetNote
 {
 	public class Command : IRequest<CommandResult>
 	{
-		public ExerciseNoteModel Model { get; private set; }
+		public FormSetNoteModel Model { get; private set; }
 
-		public Command(ExerciseNoteModel model)
+		public Command(FormSetNoteModel model)
 		{
 			Model = model;
 		}

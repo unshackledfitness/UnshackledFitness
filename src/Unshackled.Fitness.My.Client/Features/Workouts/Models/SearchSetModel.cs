@@ -16,15 +16,5 @@ public class SearchSetModel : SearchModel
 	public SetMetricTypes SetMetricType { get; set; }
 	public RepModes? RepMode { get; set; }
 	public int? RepsTarget { get; set; }
-	public int? SecondsTarget { get; set; }
-
-	[JsonIgnore]
-	public TimeSpan? TimeSeconds
-	{
-		get => SecondsTarget.HasValue && SecondsTarget > 0 ? new(0, 0, SecondsTarget.Value) : null;
-		set
-		{
-			SecondsTarget = value.HasValue ? (int)Math.Round(value.Value.TotalSeconds, 0) : null;
-		}
-	}
+	public int SecondsTarget { get; set; }
 }

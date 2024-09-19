@@ -2,7 +2,7 @@
 
 @if (Templates.Any())
 {
-	<MudPaper Class="d-flex flex-column gap-0 align-center h-100 mb-8">
+	<MudPaper Class="d-flex flex-column gap-0 align-center h-100">
 		<MudText Align="Align.Center" Color="Color.Tertiary">@(Templates.Count > 1 ? "Today's Workouts" : "Today's Workout")</MudText>
 		<ListView TItem="ProgramListModel" Items="@Templates" Class="w-100">
 			<ItemRenderer>
@@ -11,7 +11,7 @@
 					<div class="d-flex flex-row gap-2 align-center">
 						<div class="flex-grow-1">
 							<MudLink Class="d-block" Href="@($"/templates/{context.Item.Sid}")" Disabled="@(IsWorking || IsSkipping)">@context.Item.Title</MudLink>
-							<MudText Typo="Typo.caption" Color="Color.Tertiary">from @context.Item.ProgramTitle</MudText>
+							<MudText Typo="Typo.caption" Color="Color.Tertiary">from <a href="@($"/programs/{context.Item.ProgramSid}")">@context.Item.ProgramTitle</a></MudText>
 						</div>
 						@if (IsMemberActive)
 						{

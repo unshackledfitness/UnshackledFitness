@@ -32,6 +32,7 @@ public static class WorkoutSetExtensions
 			IsRecordVolume = set.IsRecordVolume,
 			IsRecordWeight = set.IsRecordWeight,
 			Muscles = set.Exercise != null ? EnumUtils.FromJoinedIntString<MuscleTypes>(set.Exercise.Muscles) : new(),
+			Notes = set.Notes,
 			RepMode = set.RepMode,
 			Reps = set.Reps != 0 ? set.Reps : null,
 			RepsLeft = set.RepsLeft != 0 ? set.RepsLeft : null,

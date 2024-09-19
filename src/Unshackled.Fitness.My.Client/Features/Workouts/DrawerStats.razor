@@ -2,7 +2,7 @@
 
 <SearchForm @bind-Model="@SearchModel" Class="mb-6" ForceColumnLayout="true" SearchClicked="@(() => DoSearch(1))" ResetClicked="@HandleResetClicked">
 	<SearchFields>
-		<MudGrid Spacing="1">
+		<MudGrid Spacing="2">
 			@if (SetMetricType.HasReps())
 			{
 				<MudItem xs="12">
@@ -24,8 +24,7 @@
 			else
 			{
 				<MudItem xs="12">
-					<SecondsTimePicker Variant="Variant.Outlined" OpenTo="SecondsTimePicker.OpenToView.Minutes" Margin="Margin.Dense" Color="Color.Secondary"
-									   Disabled="@DisableControls" @bind-Time="SearchModel.TimeSeconds" Label="Target Time" Clearable="true" />
+					<TimeInput Variant="Variant.Outlined" Margin="Margin.Dense" Disabled="@DisableControls" HourLabel="Target (hr)" @bind-Value="@SearchModel.SecondsTarget" />
 				</MudItem>
 			}
 		</MudGrid>
@@ -51,14 +50,14 @@
 			</MudItem>
 			<MudItem xs="7" sm="6">
 				<MudText Typo="Typo.subtitle1" Align="Align.End">
-					@if(context.Item.SetMetricType.HasReps())
+					@if (context.Item.SetMetricType.HasReps())
 					{
-						<WeightRepsLabel IsTrackingSplit="@context.Item.IsTrackingSplit" SplitOrder="State.ActiveMember.Settings.DisplaySplitTracking" 
-										 IsRepsOnly="@(context.Item.SetMetricType == SetMetricTypes.RepsOnly)" Reps="@context.Item.Reps" 
-										 RepsLeft="@context.Item.RepsLeft" RepsRight="@context.Item.RepsRight" WeightKg="@context.Item.WeightKg" 
+						<WeightRepsLabel IsTrackingSplit="@context.Item.IsTrackingSplit" SplitOrder="State.ActiveMember.Settings.DisplaySplitTracking"
+										 IsRepsOnly="@(context.Item.SetMetricType == SetMetricTypes.RepsOnly)" Reps="@context.Item.Reps"
+										 RepsLeft="@context.Item.RepsLeft" RepsRight="@context.Item.RepsRight" WeightKg="@context.Item.WeightKg"
 										 WeightLb="@context.Item.WeightLb" UnitSystem="@State.ActiveMember.Settings.DefaultUnits" />
 					}
-					else if(context.Item.SetMetricType == SetMetricTypes.WeightTime)
+					else if (context.Item.SetMetricType == SetMetricTypes.WeightTime)
 					{
 						<div class="d-flex flex-row gap-2 justify-space-between">
 							<WeightLabel WeightKg="@context.Item.WeightKg" WeightLb="@context.Item.WeightLb" UnitSystem="@State.ActiveMember.Settings.DefaultUnits" />
@@ -73,6 +72,17 @@
 					}
 				</MudText>
 			</MudItem>
+			@if (!string.IsNullOrEmpty(context.Item.Notes))
+			{
+				<MudItem xs="12">
+					<div class="d-flex flex-row gap-2 align-start my-2">
+						<div>
+							<MudIcon Icon="@Icons.Material.Outlined.Note" Size="Size.Small" Title="Set Note" />
+						</div>
+						<MudText Typo="Typo.body2">@((MarkupString)context.Item.Notes.ReplaceLineBreaks("<br />"))</MudText>
+					</div>
+				</MudItem>
+			}
 		</MudGrid>
 	</ItemRenderer>
 	<EmptyListRenderer>

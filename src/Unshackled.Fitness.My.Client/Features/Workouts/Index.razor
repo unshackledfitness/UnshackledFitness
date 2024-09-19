@@ -10,7 +10,7 @@
 <div class="mb-6">
 	<SearchForm @bind-Model="@SearchModel" Class="mb-6" SearchClicked="@(() => DoSearch(1))" ResetClicked="@HandleResetClicked" VerticalButtons="Breakpoint.Sm" Disable="@IsLoading">
 		<SearchFields>
-			<MudGrid Spacing="1">
+			<MudGrid Spacing="2">
 				<MudItem xs="12" md="4">
 					<MudDateRangePicker Label="Date Range" Variant="Variant.Outlined" Margin="Margin.Dense" DateRange="@DateRangeSearch" DateRangeChanged="@HandleDateRangeChanged" Clearable="true" />
 				</MudItem>
@@ -83,6 +83,12 @@
 						</MudItem>
 					</MudGrid>
 				</MudItem>
+				@if (!string.IsNullOrEmpty(context.Item.Notes))
+				{
+					<MudItem xs="12" Class="px-6 ps-sm-12">
+						<MudText Typo="Typo.body2">@((MarkupString)context.Item.Notes.ReplaceLineBreaks("<br />"))</MudText>
+					</MudItem>
+				}
 			</MudGrid>
 		</ItemRenderer>
 		<EmptyListRenderer>

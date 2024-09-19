@@ -13,9 +13,9 @@ public class UpdateSetProperties
 	public class Command : IRequest<CommandResult>
 	{
 		public long MemberId { get; private set; }
-		public FormWorkoutSetModel Set { get; private set; }
+		public FormSetPropertiesModel Set { get; private set; }
 
-		public Command(long memberId, FormWorkoutSetModel set)
+		public Command(long memberId, FormSetPropertiesModel set)
 		{
 			MemberId = memberId;
 			Set = set;
@@ -36,7 +36,7 @@ public class UpdateSetProperties
 			if (member == null)
 				return new CommandResult(false, "Invalid member.");
 
-			long setId = request.Set.Sid.DecodeLong();
+			long setId = request.Set.SetSid.DecodeLong();
 
 			var set = await db.WorkoutSets
 				.Include(x => x.Workout)

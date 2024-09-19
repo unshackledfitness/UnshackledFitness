@@ -15,12 +15,6 @@ public class DashboardController : BaseController
 		return Ok(await Mediator.Send(new AddWorkout.Command(Member.Id, templateSid)));
 	}
 
-	[HttpPost("hide-getting-started")]
-	public async Task<IActionResult> HideGettingStarted([FromBody] bool hide)
-	{
-		return Ok(await Mediator.Send(new HideGettingStarted.Command(Member.Id)));
-	}
-
 	[HttpPost("list-metrics")]
 	public async Task<IActionResult> ListMetrics([FromBody] DateTime displayDateUtc)
 	{

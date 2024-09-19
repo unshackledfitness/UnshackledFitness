@@ -52,34 +52,23 @@ public class SearchCompletedSets
 				query = query.Where(x => x.RepMode == request.Model.RepMode.Value);
 			}
 
-			var queryTarget = query;
 			if (request.Model.SetMetricType.HasReps())
 			{
-				// Start query with target reps
+				// query with target reps
 				if (request.Model.RepsTarget.HasValue)
 				{
-					queryTarget = queryTarget.Where(x => x.RepsTarget == request.Model.RepsTarget.Value);
+					query = query.Where(x => x.RepsTarget == request.Model.RepsTarget.Value);
 				}
-				result.Total = await queryTarget.CountAsync(cancellationToken);
+				result.Total = await query.CountAsync(cancellationToken);
 			}
 			else
 			{
-				// Start query with target seconds
-				if (request.Model.SecondsTarget.HasValue)
+				// query with target seconds
+				if (request.Model.SecondsTarget > 0)
 				{
-					queryTarget = queryTarget.Where(x => x.SecondsTarget == request.Model.SecondsTarget.Value);
+					query = query.Where(x => x.SecondsTarget == request.Model.SecondsTarget);
 				}
-				result.Total = await queryTarget.CountAsync(cancellationToken);
-			}
-
-			// If no results, try again without target
-			if (result.Total == 0)
-			{
 				result.Total = await query.CountAsync(cancellationToken);
-			}
-			else // keep query with target
-			{
-				query = queryTarget;
 			}
 
 			query = query

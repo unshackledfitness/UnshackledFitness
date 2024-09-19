@@ -8,14 +8,14 @@ using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Workouts.Actions;
 
-public class UpdateProperties
+public class UpdateNotes
 {
 	public class Command : IRequest<CommandResult>
 	{
 		public long MemberId { get; private set; }
-		public FormPropertiesModel Model { get; private set; }
+		public FormNotesModel Model { get; private set; }
 
-		public Command(long memberId, FormPropertiesModel model)
+		public Command(long memberId, FormNotesModel model)
 		{
 			MemberId = memberId;
 			Model = model;
@@ -37,20 +37,13 @@ public class UpdateProperties
 			if (workout == null)
 				return new CommandResult(false, "Invalid workout.");
 
-			// Update workout
-			workout.Title = request.Model.Title.Trim();
-			workout.DateStarted = request.Model.DateStarted;
-			workout.DateStartedUtc = request.Model.DateStartedUtc;
-			workout.DateCompleted = request.Model.DateCompleted;
-			workout.DateCompletedUtc = request.Model.DateCompletedUtc;
-			workout.Rating = request.Model.Rating;
-
+			workout.Notes = request.Model.Notes;
 			// Mark modified to avoid missing string case changes.
-			db.Entry(workout).Property(x => x.Title).IsModified = true;
+			db.Entry(workout).Property(x => x.Notes).IsModified = true;
 
 			await db.SaveChangesAsync(cancellationToken);
 
-			return new CommandResult(true, "Workout updated.");
+			return new CommandResult(true, "Notes updated.");
 		}
 	}
 }

@@ -175,14 +175,7 @@ public class GetCalendar
 
 			model.BlockFilterGroups.AddRange(defGroups);
 
-			// Fill block definitions			
-			model.BlockFilters.Add(new CalendarBlockFilterModel
-			{
-				Color = request.Model.WorkoutColor,
-				FilterId = "activity",
-				ListGroupSid = "default",
-				Title = "Activities"
-			});
+			// Fill block definitions
 			model.BlockFilters.Add(new CalendarBlockFilterModel
 			{
 				Color = request.Model.WorkoutColor,

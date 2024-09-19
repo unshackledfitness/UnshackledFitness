@@ -8,14 +8,14 @@ using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Workouts.Actions;
 
-public class SaveExerciseNote
+public class SaveSetNote
 {
 	public class Command : IRequest<CommandResult>
 	{
 		public long MemberId { get; private set; }
-		public ExerciseNoteModel Model { get; private set; }
+		public FormSetNoteModel Model { get; private set; }
 
-		public Command(long memberId, ExerciseNoteModel model)
+		public Command(long memberId, FormSetNoteModel model)
 		{
 			MemberId = memberId;
 			Model = model;
@@ -28,20 +28,24 @@ public class SaveExerciseNote
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
-			long exerciseId = request.Model.Sid.DecodeLong();
+			long setId = request.Model.Sid.DecodeLong();
 
-			var exercise = await db.Exercises
-				.Where(x => x.Id == exerciseId && x.MemberId == request.MemberId)
+			var set = await db.WorkoutSets
+				.Where(x => x.Id == setId && x.MemberId == request.MemberId)
 				.SingleOrDefaultAsync();
 
-			if (exercise == null)
-				return new CommandResult(false, "Invalid exercise.");
+			if (set == null)
+				return new CommandResult(false, "Invalid workout set.");
 
 			// Update exercise
-			exercise.Notes = request.Model.Notes?.Trim();
+			set.Notes = request.Model.Notes?.Trim();
+
+			// Mark modified to avoid missing string case changes.
+			db.Entry(set).Property(x => x.Notes).IsModified = true;
+
 			await db.SaveChangesAsync(cancellationToken);
 
-			return new CommandResult(true, "Note updated.");
+			return new CommandResult(true, "Set note saved.");
 		}
 	}
 }

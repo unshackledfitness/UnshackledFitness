@@ -2,7 +2,7 @@
 
 <EditForm id="@FormId" Model="@Model" OnValidSubmit="HandleFormSubmitted">
 	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
-	<MudGrid Spacing="1" Class="mb-3">
+	<MudGrid Spacing="2" Class="mb-3">
 		<MudItem xs="12">
 			<MudTextField Label="Title" Variant="Variant.Outlined" Margin="Margin.Dense" Immediate="true" Disabled="@DisableControls"
 						  FullWidth="true" For="@(() => Model.Title)" @bind-Value="@Model.Title" />
@@ -35,9 +35,6 @@
 						<MudRating @bind-SelectedValue="@Model.Rating" />
 					</div>
 				</div>
-			</MudItem>
-			<MudItem xs="12">
-				<MudTextField Variant="Variant.Outlined" Label="Workout Notes (optional)" Lines="6" FullWidth="true" @bind-Value="@Model.Notes" />
 			</MudItem>
 		}
 	</MudGrid>

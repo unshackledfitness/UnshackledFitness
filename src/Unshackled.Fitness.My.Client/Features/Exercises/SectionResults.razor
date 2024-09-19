@@ -4,7 +4,7 @@
 	<SectionHeader Title="History" Typo="Typo.h5" Class="mb-4" />
 	<SearchForm @bind-Model="@SearchModel" Class="mb-6" SearchClicked="@(() => DoSearch(1))" ResetClicked="@HandleResetClicked" Disable="@IsLoading">
 		<SearchFields>
-			<MudGrid Spacing="1">
+			<MudGrid Spacing="2">
 				<MudItem xs="12" sm="4">
 					<MudDateRangePicker Label="Date Range" Variant="Variant.Outlined" Margin="Margin.Dense" DateRange="@DateRangeSearch" DateRangeChanged="@HandleDateRangeChanged" Clearable="true" />
 				</MudItem>
@@ -22,8 +22,7 @@
 				else
 				{
 					<MudItem xs="12" sm="8">
-						<SecondsTimePicker Variant="Variant.Outlined" OpenTo="SecondsTimePicker.OpenToView.Minutes" Margin="Margin.Dense" Color="Color.Secondary"
-										   Disabled="@DisableControls" @bind-Time="SearchModel.TimeSeconds" Label="Target Time" Clearable="true" />
+						<TimeInput Variant="Variant.Outlined" Margin="Margin.Dense" Disabled="@DisableControls" HourLabel="Target (hr)" @bind-Value="SearchModel.SecondsTarget" />
 					</MudItem>
 				}
 			</MudGrid>
@@ -49,7 +48,20 @@
 				<MudGrid Spacing="1" Class="align-center">
 					<MudItem xs="4" sm="5" md="6">
 						<MudText Typo="Typo.caption" Class="d-block" Color="@context.Item.SetType.DisplayColor()">@($"{context.Item.SetType.Title()} Set")</MudText>
-						<MudText Typo="Typo.caption" Class="d-block">@context.Item.RepMode.Label(context.Item.RepsTarget)</MudText>
+						@if (context.Item.SetMetricType == SetMetricTypes.WeightReps || context.Item.SetMetricType == SetMetricTypes.RepsOnly)
+						{
+							@if (context.Item.RepsTarget > 0)
+							{
+								<MudText Typo="Typo.caption" Class="d-block">@context.Item.RepMode.Label(context.Item.RepsTarget)</MudText>
+							}
+						}
+						else
+						{
+							@if (context.Item.SecondsTarget > 0)
+							{
+								<MudText Typo="Typo.caption" Class="d-block">Target: <TimeLabel Seconds="@context.Item.SecondsTarget" /></MudText>
+							}
+						}
 					</MudItem>
 					<MudItem xs="8" sm="7" md="6">
 						@if (context.Item.SetMetricType.HasReps())

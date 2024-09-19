@@ -70,18 +70,18 @@ public class WorkoutsController : BaseController
 		return Ok(await Mediator.Send(new GetWorkout.Query(Member.Id, id)));
 	}
 
-	[HttpPost("save-note")]
-	[ActiveMemberRequired]
-	public async Task<IActionResult> SaveExerciseNote([FromBody] ExerciseNoteModel model)
-	{
-		return Ok(await Mediator.Send(new SaveExerciseNote.Command(Member.Id, model)));
-	}
-
 	[HttpPost("save-set")]
 	[ActiveMemberRequired]
 	public async Task<IActionResult> SaveSet([FromBody] FormWorkoutSetModel set)
 	{
 		return Ok(await Mediator.Send(new SaveSet.Command(Member.Id, set)));
+	}
+
+	[HttpPost("save-note")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> SaveSetNote([FromBody] FormSetNoteModel model)
+	{
+		return Ok(await Mediator.Send(new SaveSetNote.Command(Member.Id, model)));
 	}
 
 	[HttpPost("search")]
@@ -103,6 +103,13 @@ public class WorkoutsController : BaseController
 		return Ok(await Mediator.Send(new StartWorkout.Command(Member.Id, model)));
 	}
 
+	[HttpPost("update-notes")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> UpdateNotes([FromBody] FormNotesModel model)
+	{
+		return Ok(await Mediator.Send(new UpdateNotes.Command(Member.Id, model)));
+	}
+
 	[HttpPost("update-properties")]
 	[ActiveMemberRequired]
 	public async Task<IActionResult> UpdateProperties([FromBody] FormPropertiesModel model)
@@ -112,7 +119,7 @@ public class WorkoutsController : BaseController
 
 	[HttpPost("update-set-properties")]
 	[ActiveMemberRequired]
-	public async Task<IActionResult> UpdateSetProperties([FromBody] FormWorkoutSetModel set)
+	public async Task<IActionResult> UpdateSetProperties([FromBody] FormSetPropertiesModel set)
 	{
 		return Ok(await Mediator.Send(new UpdateSetProperties.Command(Member.Id, set)));
 	}

@@ -137,7 +137,7 @@
 .search-column-forced {
 	flex-direction: column !important;
 
-	button {
+	.search-actions-forced button {
 		margin-right: .25rem;
 
 		&:last-of-type {

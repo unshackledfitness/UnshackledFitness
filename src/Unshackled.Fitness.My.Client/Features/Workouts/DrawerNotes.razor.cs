@@ -6,14 +6,14 @@ namespace Unshackled.Fitness.My.Client.Features.Workouts;
 
 public class DrawerNotesBase : BaseComponent
 {
-	[Parameter] public string ExerciseSid { get; set; } = string.Empty;
-	[Parameter] public string? ExerciseNotes { get; set; }
+	[Parameter] public string WorkoutSetSid { get; set; } = string.Empty;
+	[Parameter] public string? SetNotes { get; set; }
 	[Parameter] public EventCallback OnCanceled { get; set; }
-	[Parameter] public EventCallback<ExerciseNoteModel> OnSaveClicked { get; set; }
+	[Parameter] public EventCallback<FormSetNoteModel> OnSaveClicked { get; set; }
 
 	protected bool IsSaving { get; set; }
 
-	protected ExerciseNoteModel Model { get; set; } = new();
+	protected FormSetNoteModel Model { get; set; } = new();
 
 	protected override void OnInitialized()
 	{
@@ -21,8 +21,8 @@ public class DrawerNotesBase : BaseComponent
 
 		Model = new()
 		{
-			Sid = ExerciseSid,
-			Notes = ExerciseNotes,
+			Sid = WorkoutSetSid,
+			Notes = SetNotes,
 		};
 	}
 

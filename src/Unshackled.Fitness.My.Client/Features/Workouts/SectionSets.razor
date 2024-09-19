@@ -131,6 +131,17 @@
 										</div>
 									</div>
 								</MudItem>
+								<MudItem xs="12" class="@(context.Item.IsExpanded && IsEditing ? "d-none" : "d-block")">
+									@if (!string.IsNullOrEmpty(context.Item.Notes))
+									{
+										<div class="d-flex flex-row gap-2 align-start my-2">
+											<div>
+												<MudIcon Icon="@Icons.Material.Outlined.Note" Size="Size.Small" Title="Set Note" />
+											</div>
+											<MudText Typo="Typo.body2">@((MarkupString)context.Item.Notes.ReplaceLineBreaks("<br />"))</MudText>
+										</div>
+									}
+								</MudItem>
 							</MudGrid>
 						}
 						else if (!IsWorkoutStarted)
@@ -177,272 +188,233 @@
 				@if (IsEditing)
 				{
 					<div Class="@IsExpandedClass(context.Item, "px-3 mt-4 h-100")">
+						@if (!string.IsNullOrEmpty(context.Item.ExerciseNotes))
+						{
+							<div class="d-flex flex-row gap-2 align-start mt-2 mb-4">
+								<div>
+									<MudIcon Icon="@Icons.Material.Outlined.StickyNote2" Size="Size.Small" Title="Exercise Note" />
+								</div>
+								<MudText Typo="Typo.body2">@((MarkupString)context.Item.ExerciseNotes.ReplaceLineBreaks("<br />"))</MudText>
+							</div>
+						}
 						<EditForm Model="@context.Item" OnValidSubmit="@HandleSetSaved" Context="editContext">
 							<FluentValidationValidator Validator="@context.Item.ModelValidator" />
-							<div class="@(context.Item.IsEditing ? "d-none" : "d-block")">
-								<MudGrid Spacing="2">
-									@if (context.Item.SetMetricType == SetMetricTypes.WeightReps)
-									{
-										<MudItem xs="6" sm="4" md="3">
-											<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.Weight"
-															 HideSpinButtons="true" T="decimal?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetWeight" Format="0.###"
-															 Adornment="Adornment.End" AdornmentText="@context.Item.WeightUnit.Label()" Placeholder="--"
-															 For="@(() => context.Item.Weight)" />
-											<div class="mb-2">
-												<MudChip T="string" Variant="Variant.Outlined" Size="Size.Small" Style="padding: 0 6px; margin: 4px 1px;min-width:1.5rem;"
-														 OnClick="@(() => IsPositiveIncrement = !IsPositiveIncrement)" title="Toggle +/-">@(IsPositiveIncrement ? "-" : "+")</MudChip>
-												<MudChip T="string" Variant="Variant.Outlined" Size="Size.Small" Style="padding: 0 6px; margin: 4px 1px;" title="@(IsPositiveIncrement ? "+2.5" : "-2.5")"
-														 OnClick="@(() => HandleIncrementClicked(context.Item, 2.5M))">@(IsPositiveIncrement ? "+2.5" : "-2.5")</MudChip>
-												<MudChip T="string" Variant="Variant.Outlined" Size="Size.Small" Style="padding: 0 6px; margin: 4px 1px;" title="@(IsPositiveIncrement ? "+5" : "-5")"
-														 OnClick="@(() => HandleIncrementClicked(context.Item, 5M))">@(IsPositiveIncrement ? "+5" : "-5")</MudChip>
-												<MudChip T="string" Variant="Variant.Outlined" Size="Size.Small" Style="padding: 0 6px; margin: 4px 0 4px 1px;" title="@(IsPositiveIncrement ? "+10" : "-10")"
-														 OnClick="@(() => HandleIncrementClicked(context.Item, 10M))">@(IsPositiveIncrement ? "+10" : "-10")</MudChip>
-											</div>
-										</MudItem>
-										<MudItem xs="1" Class="pt-4">
-											<MudText Typo="Typo.h5" Align="Align.Center">x</MudText>
-										</MudItem>
-										@if (!context.Item.IsTrackingSplit)
-										{
-											<MudItem xs="5" sm="4" md="3">
-												<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.Reps"
-																 T="int?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetReps" Placeholder="--"
-																 Adornment="Adornment.End" AdornmentText="reps" For="@(() => context.Item.Reps)" />
-												@if (context.Item.HasTarget)
-												{
-													<MudText Typo="Typo.caption" Color="Color.Tertiary">@context.Item.RepMode.Label(context.Item.RepsTarget, context.Item.IntensityTarget)</MudText>
-												}
-											</MudItem>
-										}
-										else
-										{
-											<MudItem xs="5" sm="7" md="6" Class="px-0">
-												<div class="@SplitTrackingCss">
-													<div class="mb-2 px-2 split-basis-weighted">
-														<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.RepsLeft"
-																		 T="int?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetReps" Placeholder="--"
-																		 Label="Left" Adornment="Adornment.End" AdornmentText="reps" For="@(() => context.Item.RepsLeft)" />
-														@if (context.Item.HasTarget)
-														{
-															<MudText Typo="Typo.caption" Color="Color.Tertiary">@context.Item.RepMode.Label(context.Item.RepsTarget, context.Item.IntensityTarget)</MudText>
-														}
-													</div>
-													<div class="mb-2 px-2 split-basis-weighted">
-														<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.RepsRight"
-																		 T="int?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetReps" Placeholder="--"
-																		 Label="Right" Adornment="Adornment.End" AdornmentText="reps" For="@(() => context.Item.RepsRight)" />
-														@if (context.Item.HasTarget)
-														{
-															<MudText Typo="Typo.caption" Color="Color.Tertiary">@context.Item.RepMode.Label(context.Item.RepsTarget, context.Item.IntensityTarget)</MudText>
-														}
-													</div>
-												</div>
-											</MudItem>
-										}
-									}
-									else if (context.Item.SetMetricType == SetMetricTypes.WeightTime)
-									{
-										<MudItem xs="6" sm="4" md="3">
-											<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.Weight"
-															 HideSpinButtons="true" T="decimal?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetWeight" Format="0.###"
-															 Adornment="Adornment.End" AdornmentText="@context.Item.WeightUnit.Label()" Placeholder="--"
-															 For="@(() => context.Item.Weight)" />
-											<div class="mb-2">
-												<MudChip T="string" Variant="Variant.Outlined" Size="Size.Small" Style="padding: 0 6px; margin: 4px 1px;min-width:1.5rem;"
-														 OnClick="@(() => IsPositiveIncrement = !IsPositiveIncrement)" title="Toggle +/-">@(IsPositiveIncrement ? "-" : "+")</MudChip>
-												<MudChip T="string" Variant="Variant.Outlined" Size="Size.Small" Style="padding: 0 6px; margin: 4px 1px;" title="@(IsPositiveIncrement ? "+2.5" : "-2.5")"
-														 OnClick="@(() => HandleIncrementClicked(context.Item, 2.5M))">@(IsPositiveIncrement ? "+2.5" : "-2.5")</MudChip>
-												<MudChip T="string" Variant="Variant.Outlined" Size="Size.Small" Style="padding: 0 6px; margin: 4px 1px;" title="@(IsPositiveIncrement ? "+5" : "-5")"
-														 OnClick="@(() => HandleIncrementClicked(context.Item, 5M))">@(IsPositiveIncrement ? "+5" : "-5")</MudChip>
-												<MudChip T="string" Variant="Variant.Outlined" Size="Size.Small" Style="padding: 0 6px; margin: 4px 0 4px 1px;" title="@(IsPositiveIncrement ? "+10" : "-10")"
-														 OnClick="@(() => HandleIncrementClicked(context.Item, 10M))">@(IsPositiveIncrement ? "+10" : "-10")</MudChip>
-											</div>
-										</MudItem>
-										@if (!context.Item.IsTrackingSplit)
-										{
-											<MudItem xs="6" sm="4" md="3">
-												<div class="mb-2">
-													<SecondsTimePicker Variant="Variant.Outlined" OpenTo="SecondsTimePicker.OpenToView.Minutes" Margin="Margin.Dense" Color="Color.Secondary" Editable="true"
-																	   Disabled="@DisableControls" @bind-Time="context.Item.TimeSeconds" For="@(() => context.Item.TimeSeconds)" />
-													@if (context.Item.SecondsTarget > 0)
-													{
-														<MudText Typo="Typo.caption" Color="Color.Tertiary">@($"Target: {context.Item.SecondsTarget.SecondsAsTimeSpan(context.Item.IntensityTarget)}")</MudText>
-													}
-												</div>
-											</MudItem>
-										}
-										else
-										{
-											<MudItem xs="6" sm="8" md="6" Class="px-0">
-												<div class="@SplitTrackingCss">
-													<div class="mb-2 px-2 split-basis-weighted">
-														<SecondsTimePicker Variant="Variant.Outlined" OpenTo="SecondsTimePicker.OpenToView.Minutes" Margin="Margin.Dense" Color="Color.Secondary"
-																		   Disabled="@DisableControls" @bind-Time="context.Item.TimeSecondsLeft" For="@(() => context.Item.TimeSecondsLeft)" Label="Left" />
-														@if (context.Item.SecondsTarget > 0)
-														{
-															<MudText Typo="Typo.caption" Color="Color.Tertiary">@($"Target: {context.Item.SecondsTarget.SecondsAsTimeSpan(context.Item.IntensityTarget)}")</MudText>
-														}
-													</div>
-													<div class="mb-2 px-2 split-basis-weighted">
-														<SecondsTimePicker Variant="Variant.Outlined" OpenTo="SecondsTimePicker.OpenToView.Minutes" Margin="Margin.Dense" Color="Color.Secondary"
-																		   Disabled="@DisableControls" @bind-Time="context.Item.TimeSecondsRight" For="@(() => context.Item.TimeSecondsRight)" Label="Right" />
-														@if (context.Item.SecondsTarget > 0)
-														{
-															<MudText Typo="Typo.caption" Color="Color.Tertiary">@($"Target: {context.Item.SecondsTarget.SecondsAsTimeSpan(context.Item.IntensityTarget)}")</MudText>
-														}
-													</div>
-												</div>
-											</MudItem>
-										}
-									}
-									else if (context.Item.SetMetricType == SetMetricTypes.RepsOnly)
-									{
-										@if (!context.Item.IsTrackingSplit)
-										{
-											<MudItem xs="6" sm="4" md="3">
-												<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.Reps"
-																 T="int?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetReps" Placeholder="--"
-																 Adornment="Adornment.End" AdornmentText="reps" For="@(() => context.Item.Reps)" />
-												@if (context.Item.HasTarget)
-												{
-													<MudText Typo="Typo.caption" Color="Color.Tertiary">@context.Item.RepMode.Label(context.Item.RepsTarget, context.Item.IntensityTarget)</MudText>
-												}
-											</MudItem>
-										}
-										else
-										{
-											<MudItem xs="12" sm="8" md="6" Class="px-0">
-												<div class="@SplitTrackingCss">
-													<div class="mb-2 px-2 split-basis-solo">
-														<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.RepsLeft"
-																		 T="int?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetReps" Placeholder="--"
-																		 Label="Left" Adornment="Adornment.End" AdornmentText="reps" For="@(() => context.Item.RepsLeft)" />
-														@if (context.Item.HasTarget)
-														{
-															<MudText Typo="Typo.caption" Color="Color.Tertiary">@context.Item.RepMode.Label(context.Item.RepsTarget, context.Item.IntensityTarget)</MudText>
-														}
-													</div>
-													<div class="mb-2 px-2 split-basis-solo">
-														<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.RepsRight"
-																		 T="int?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetReps" Placeholder="--"
-																		 Label="Right" Adornment="Adornment.End" AdornmentText="reps" For="@(() => context.Item.RepsRight)" />
-														@if (context.Item.HasTarget)
-														{
-															<MudText Typo="Typo.caption" Color="Color.Tertiary">@context.Item.RepMode.Label(context.Item.RepsTarget, context.Item.IntensityTarget)</MudText>
-														}
-													</div>
-												</div>
-											</MudItem>
-										}
-									}
-									else
-									{
-										@if (!context.Item.IsTrackingSplit)
-										{
-											<MudItem xs="6" sm="4" md="3">
-												<div class="mb-2">
-													<SecondsTimePicker Variant="Variant.Outlined" OpenTo="SecondsTimePicker.OpenToView.Minutes" Margin="Margin.Dense" Color="Color.Secondary"
-																	   Disabled="@DisableControls" @bind-Time="context.Item.TimeSeconds" />
-													@if (context.Item.SecondsTarget > 0)
-													{
-														<MudText Typo="Typo.caption" Color="Color.Tertiary">@($"Target: {context.Item.SecondsTarget.SecondsAsTimeSpan(context.Item.IntensityTarget)}")</MudText>
-													}
-												</div>
-											</MudItem>
-										}
-										else
-										{
-											<MudItem xs="12" sm="8" md="6" Class="px-0">
-												<div class="@SplitTrackingCss">
-													<div class="mb-2 px-2 split-basis-solo">
-														<SecondsTimePicker Variant="Variant.Outlined" OpenTo="SecondsTimePicker.OpenToView.Minutes" Margin="Margin.Dense" Color="Color.Secondary"
-																		   Disabled="@DisableControls" @bind-Time="context.Item.TimeSecondsLeft" For="@(() => context.Item.TimeSecondsLeft)" Label="Left" />
-														@if (context.Item.SecondsTarget > 0)
-														{
-															<MudText Typo="Typo.caption" Color="Color.Tertiary">@($"Target: {context.Item.SecondsTarget.SecondsAsTimeSpan(context.Item.IntensityTarget)}")</MudText>
-														}
-													</div>
-													<div class="mb-2 px-2 split-basis-solo">
-														<SecondsTimePicker Variant="Variant.Outlined" OpenTo="SecondsTimePicker.OpenToView.Minutes" Margin="Margin.Dense" Color="Color.Secondary"
-																		   Disabled="@DisableControls" @bind-Time="context.Item.TimeSecondsRight" For="@(() => context.Item.TimeSecondsRight)" Label="Right" />
-														@if (context.Item.SecondsTarget > 0)
-														{
-															<MudText Typo="Typo.caption" Color="Color.Tertiary">@($"Target: {context.Item.SecondsTarget.SecondsAsTimeSpan(context.Item.IntensityTarget)}")</MudText>
-														}
-													</div>
-												</div>
-											</MudItem>
-										}
-									}
-								</MudGrid>
-								@if (!string.IsNullOrEmpty(context.Item.ExerciseNotes))
+							<MudGrid Spacing="2">
+								@if (context.Item.SetMetricType == SetMetricTypes.WeightReps)
 								{
-									<div class="d-flex flex-row gap-2 align-start my-2">
-										<div>
-											<MudIcon Icon="@Icons.Material.Outlined.StickyNote2" Size="Size.Small" Title="Exercise Note" />
+									<MudItem xs="6" sm="4" md="3">
+										<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.Weight"
+															HideSpinButtons="true" T="decimal?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetWeight" Format="0.###"
+															Adornment="Adornment.End" AdornmentText="@context.Item.WeightUnit.Label()" Placeholder="--"
+															For="@(() => context.Item.Weight)" />
+										<div class="mb-2">
+											<MudChip T="string" Variant="Variant.Outlined" Size="Size.Small" Style="padding: 0 6px; margin: 4px 1px;min-width:1.5rem;"
+														OnClick="@(() => IsPositiveIncrement = !IsPositiveIncrement)" title="Toggle +/-">@(IsPositiveIncrement ? "-" : "+")</MudChip>
+											<MudChip T="string" Variant="Variant.Outlined" Size="Size.Small" Style="padding: 0 6px; margin: 4px 1px;" title="@(IsPositiveIncrement ? "+2.5" : "-2.5")"
+														OnClick="@(() => HandleIncrementClicked(context.Item, 2.5M))">@(IsPositiveIncrement ? "+2.5" : "-2.5")</MudChip>
+											<MudChip T="string" Variant="Variant.Outlined" Size="Size.Small" Style="padding: 0 6px; margin: 4px 1px;" title="@(IsPositiveIncrement ? "+5" : "-5")"
+														OnClick="@(() => HandleIncrementClicked(context.Item, 5M))">@(IsPositiveIncrement ? "+5" : "-5")</MudChip>
+											<MudChip T="string" Variant="Variant.Outlined" Size="Size.Small" Style="padding: 0 6px; margin: 4px 0 4px 1px;" title="@(IsPositiveIncrement ? "+10" : "-10")"
+														OnClick="@(() => HandleIncrementClicked(context.Item, 10M))">@(IsPositiveIncrement ? "+10" : "-10")</MudChip>
 										</div>
-										<MudText Typo="Typo.body2">@((MarkupString)context.Item.ExerciseNotes.ReplaceLineBreaks("<br />"))</MudText>
-									</div>
-								}
-								<MudToolBar Gutters="false" Dense="true" Class="mt-2 mt-sm-0">
-									<ProgressButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary"
-													Disabled="@DisableControls" IsWorking="@context.Item.IsSaving" WorkingText="Saving">Save</ProgressButton>
-									<MudSpacer />
-									<div class="d-flex flex-row gap-1 align-center justify-center justify-sm-end">
-										<MudIconButton Icon="@Icons.Material.Filled.History" Class="mx-0" title="Previous Stats" Disabled="@DisableControls" OnClick="@(() => HandleOpenStatsClicked(context.Item))" />
-										<MudMenu Icon="@Icons.Material.Filled.MoreVert" Class="mx-0" AnchorOrigin="Origin.TopRight" TransformOrigin="Origin.TopRight">
-											<MudMenuItem Disabled="@DisableControls" OnClick="@(() => HandleEditSetClicked(context.Item))">Edit Properies</MudMenuItem>
-											<MudMenuItem Disabled="@DisableControls" OnClick="@(() => HandleOpenNotesClicked(context.Item))">Edit Notes</MudMenuItem>
-											<MudMenuItem Disabled="@DisableControls" OnClick="@(() => HandleAddDuplicateClicked(context.Item))">Duplicate Set</MudMenuItem>
-											<MudMenuItem Disabled="@DisableControls" OnClick="@(() => HandleDeleteSetClicked(context.Item))">Delete Set</MudMenuItem>
-										</MudMenu>
-									</div>
-								</MudToolBar>
-							</div>
-							<div class="@(context.Item.IsEditing ? "d-block" : "d-none")">
-								<MudGrid>
-									<MudItem xs="12" md="6">
-										<WorkoutSetTypeSelect @bind-Value="context.Item.SetType" Margin="Margin.Dense" Disabled="@DisableControls" />
 									</MudItem>
-									<MudItem xs="12" md="6">
-										<SetMetricTypeSelect @bind-Value="context.Item.SetMetricType" Margin="Margin.Dense" Disabled="@DisableControls" />
+									<MudItem xs="1" Class="pt-3">
+										<MudText Typo="Typo.h5" Align="Align.Center">x</MudText>
 									</MudItem>
-									@if (context.Item.SetMetricType.HasReps())
+									@if (!context.Item.IsTrackingSplit)
 									{
-										<MudItem xs="12" md="6">
-											<RepModeSelect Disabled="@DisableControls" Margin="Margin.Dense" @bind-Value="context.Item.RepMode" />
+										<MudItem xs="5" sm="4" md="3">
+											<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.Reps"
+																T="int?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetReps" Placeholder="--"
+																Adornment="Adornment.End" AdornmentText="reps" For="@(() => context.Item.Reps)" />
+											@if (context.Item.HasTarget)
+											{
+												<MudText Typo="Typo.caption" Color="Color.Tertiary">@context.Item.RepMode.Label(context.Item.RepsTarget, context.Item.IntensityTarget)</MudText>
+											}
 										</MudItem>
-										@if (context.Item.RepMode == RepModes.Exact)
-										{
-											<MudItem xs="12" md="6">
-												<MudNumericField T="int" Variant="Variant.Outlined" Margin="Margin.Dense" Step="1" Min="0" Max="@AppGlobals.MaxSetReps" HideSpinButtons="true"
-																 Immediate="true" Disabled="@DisableControls" Label="Target Reps"
-																 @bind-Value="@context.Item.RepsTarget" For="@(() => context.Item.RepsTarget)" />
-											</MudItem>
-											<MudItem xs="12" md="6">
-												<IntensitySelect Label="Target Intensity" Disabled="@DisableControls" Margin="Margin.Dense" @bind-Value="context.Item.IntensityTarget" />
-											</MudItem>
-										}
-										else
-										{
-											<MudItem xs="12" md="6">
-												<IntensitySelect Label="Target Intensity" Disabled="@DisableControls" Margin="Margin.Dense" @bind-Value="context.Item.IntensityTarget" />
-											</MudItem>
-										}
 									}
 									else
 									{
-										<MudItem xs="12" md="6">
-											<SecondsTimePicker Variant="Variant.Outlined" OpenTo="SecondsTimePicker.OpenToView.Minutes" Margin="Margin.Dense" Color="Color.Secondary"
-															   Disabled="@DisableControls" Label="Target Time" Clearable="true"
-															   @bind-Time="context.Item.TargetTimeSeconds" For="@(() => context.Item.TargetTimeSeconds)" />
+										<MudItem xs="5" sm="7" md="6" Class="px-0">
+											<div class="@SplitTrackingCss">
+												<div class="mb-2 px-2 split-basis-weighted">
+													<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.RepsLeft"
+																		T="int?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetReps" Placeholder="--"
+																		Label="Left" Adornment="Adornment.End" AdornmentText="reps" For="@(() => context.Item.RepsLeft)" />
+													@if (context.Item.HasTarget)
+													{
+														<MudText Typo="Typo.caption" Color="Color.Tertiary">@context.Item.RepMode.Label(context.Item.RepsTarget, context.Item.IntensityTarget)</MudText>
+													}
+												</div>
+												<div class="mb-2 px-2 split-basis-weighted">
+													<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.RepsRight"
+																		T="int?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetReps" Placeholder="--"
+																		Label="Right" Adornment="Adornment.End" AdornmentText="reps" For="@(() => context.Item.RepsRight)" />
+													@if (context.Item.HasTarget)
+													{
+														<MudText Typo="Typo.caption" Color="Color.Tertiary">@context.Item.RepMode.Label(context.Item.RepsTarget, context.Item.IntensityTarget)</MudText>
+													}
+												</div>
+											</div>
 										</MudItem>
 									}
-								</MudGrid>
-								<MudToolBar Gutters="false" Dense="true" Class="mt-4 mt-sm-0">
-									<MudButton StartIcon="@Icons.Material.Filled.ArrowBack" Disabled="@DisableControls" OnClick="@(() => HandleBackClicked(context.Item))">Back</MudButton>
-								</MudToolBar>
-							</div>
+								}
+								else if (context.Item.SetMetricType == SetMetricTypes.WeightTime)
+								{
+									<MudItem xs="6" sm="4" md="3">
+										<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.Weight"
+															HideSpinButtons="true" T="decimal?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetWeight" Format="0.###"
+															Adornment="Adornment.End" AdornmentText="@context.Item.WeightUnit.Label()" Placeholder="--"
+															For="@(() => context.Item.Weight)" />
+										<div class="mb-2">
+											<MudChip T="string" Variant="Variant.Outlined" Size="Size.Small" Style="padding: 0 6px; margin: 4px 1px;min-width:1.5rem;"
+														OnClick="@(() => IsPositiveIncrement = !IsPositiveIncrement)" title="Toggle +/-">@(IsPositiveIncrement ? "-" : "+")</MudChip>
+											<MudChip T="string" Variant="Variant.Outlined" Size="Size.Small" Style="padding: 0 6px; margin: 4px 1px;" title="@(IsPositiveIncrement ? "+2.5" : "-2.5")"
+														OnClick="@(() => HandleIncrementClicked(context.Item, 2.5M))">@(IsPositiveIncrement ? "+2.5" : "-2.5")</MudChip>
+											<MudChip T="string" Variant="Variant.Outlined" Size="Size.Small" Style="padding: 0 6px; margin: 4px 1px;" title="@(IsPositiveIncrement ? "+5" : "-5")"
+														OnClick="@(() => HandleIncrementClicked(context.Item, 5M))">@(IsPositiveIncrement ? "+5" : "-5")</MudChip>
+											<MudChip T="string" Variant="Variant.Outlined" Size="Size.Small" Style="padding: 0 6px; margin: 4px 0 4px 1px;" title="@(IsPositiveIncrement ? "+10" : "-10")"
+														OnClick="@(() => HandleIncrementClicked(context.Item, 10M))">@(IsPositiveIncrement ? "+10" : "-10")</MudChip>
+										</div>
+									</MudItem>
+									<MudItem xs="1" Class="pt-3">
+										<MudText Typo="Typo.h5" Align="Align.Center">x</MudText>
+									</MudItem>
+									@if (!context.Item.IsTrackingSplit)
+									{
+										<MudItem xs="12" sm="6" md="3">
+											<div class="mb-2">
+												<TimeInput Variant="Variant.Outlined" Margin="Margin.Dense" Disabled="@DisableControls" @bind-Value="@context.Item.Seconds" />
+												@if (context.Item.SecondsTarget > 0)
+												{
+													<MudText Typo="Typo.caption" Color="Color.Tertiary">@($"Target: {context.Item.SecondsTarget.SecondsAsTimeSpan(context.Item.IntensityTarget)}")</MudText>
+												}
+											</div>
+										</MudItem>
+									}
+									else
+									{
+										<MudItem xs="12" md="8" Class="px-0">
+											<div class="@SplitTrackingCss">
+												<div class="mb-2 px-2 split-basis-weighted">
+													<TimeInput Variant="Variant.Outlined" Margin="Margin.Dense" Disabled="@DisableControls" Label="L" @bind-Value="@context.Item.SecondsLeft" />
+													@if (context.Item.SecondsTarget > 0)
+													{
+														<MudText Typo="Typo.caption" Color="Color.Tertiary">@($"Target: {context.Item.SecondsTarget.SecondsAsTimeSpan(context.Item.IntensityTarget)}")</MudText>
+													}
+												</div>
+												<div class="mb-2 px-2 split-basis-weighted">
+													<TimeInput Variant="Variant.Outlined" Margin="Margin.Dense" Disabled="@DisableControls" Label="R" @bind-Value="@context.Item.SecondsRight" />
+													@if (context.Item.SecondsTarget > 0)
+													{
+														<MudText Typo="Typo.caption" Color="Color.Tertiary">@($"Target: {context.Item.SecondsTarget.SecondsAsTimeSpan(context.Item.IntensityTarget)}")</MudText>
+													}
+												</div>
+											</div>
+										</MudItem>
+									}
+								}
+								else if (context.Item.SetMetricType == SetMetricTypes.RepsOnly)
+								{
+									@if (!context.Item.IsTrackingSplit)
+									{
+										<MudItem xs="6" sm="4" md="3">
+											<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.Reps"
+																T="int?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetReps" Placeholder="--"
+																Adornment="Adornment.End" AdornmentText="reps" For="@(() => context.Item.Reps)" />
+											@if (context.Item.HasTarget)
+											{
+												<MudText Typo="Typo.caption" Color="Color.Tertiary">@context.Item.RepMode.Label(context.Item.RepsTarget, context.Item.IntensityTarget)</MudText>
+											}
+										</MudItem>
+									}
+									else
+									{
+										<MudItem xs="12" sm="8" md="6" Class="px-0">
+											<div class="@SplitTrackingCss">
+												<div class="mb-2 px-2 split-basis-solo">
+													<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.RepsLeft"
+																		T="int?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetReps" Placeholder="--"
+																		Label="Left" Adornment="Adornment.End" AdornmentText="reps" For="@(() => context.Item.RepsLeft)" />
+													@if (context.Item.HasTarget)
+													{
+														<MudText Typo="Typo.caption" Color="Color.Tertiary">@context.Item.RepMode.Label(context.Item.RepsTarget, context.Item.IntensityTarget)</MudText>
+													}
+												</div>
+												<div class="mb-2 px-2 split-basis-solo">
+													<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.RepsRight"
+																		T="int?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetReps" Placeholder="--"
+																		Label="Right" Adornment="Adornment.End" AdornmentText="reps" For="@(() => context.Item.RepsRight)" />
+													@if (context.Item.HasTarget)
+													{
+														<MudText Typo="Typo.caption" Color="Color.Tertiary">@context.Item.RepMode.Label(context.Item.RepsTarget, context.Item.IntensityTarget)</MudText>
+													}
+												</div>
+											</div>
+										</MudItem>
+									}
+								}
+								else
+								{
+									@if (!context.Item.IsTrackingSplit)
+									{
+										<MudItem xs="8" sm="6" md="3">
+											<div class="mb-2">
+												<TimeInput Variant="Variant.Outlined" Margin="Margin.Dense" Disabled="@DisableControls" @bind-Value="@context.Item.Seconds" />
+												@if (context.Item.SecondsTarget > 0)
+												{
+													<MudText Typo="Typo.caption" Color="Color.Tertiary">@($"Target: {context.Item.SecondsTarget.SecondsAsTimeSpan(context.Item.IntensityTarget)}")</MudText>
+												}
+											</div>
+										</MudItem>
+									}
+									else
+									{
+										<MudItem xs="12" md="6" Class="px-0">
+											<div class="@SplitTrackingCss">
+												<div class="mb-2 px-2 split-basis-solo">
+													<TimeInput Variant="Variant.Outlined" Margin="Margin.Dense" Disabled="@DisableControls" Label="L" @bind-Value="@context.Item.SecondsLeft" />
+													@if (context.Item.SecondsTarget > 0)
+													{
+														<MudText Typo="Typo.caption" Color="Color.Tertiary">@($"Target: {context.Item.SecondsTarget.SecondsAsTimeSpan(context.Item.IntensityTarget)}")</MudText>
+													}
+												</div>
+												<div class="mb-2 px-2 split-basis-solo">
+													<TimeInput Variant="Variant.Outlined" Margin="Margin.Dense" Disabled="@DisableControls" Label="R" @bind-Value="@context.Item.SecondsRight" />
+													@if (context.Item.SecondsTarget > 0)
+													{
+														<MudText Typo="Typo.caption" Color="Color.Tertiary">@($"Target: {context.Item.SecondsTarget.SecondsAsTimeSpan(context.Item.IntensityTarget)}")</MudText>
+													}
+												</div>
+											</div>
+										</MudItem>
+									}
+								}
+							</MudGrid>
+							@if (!string.IsNullOrEmpty(context.Item.Notes))
+							{
+								<div class="d-flex flex-row gap-2 align-start my-2">
+									<div>
+										<MudIcon Icon="@Icons.Material.Outlined.Note" Size="Size.Small" Title="Set Note" />
+									</div>
+									<MudText Typo="Typo.body2">@((MarkupString)context.Item.Notes.ReplaceLineBreaks("<br />"))</MudText>
+								</div>
+							}
+							<MudToolBar Gutters="false" Dense="true" Class="mt-2 mt-sm-0">
+								<ProgressButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary"
+												Disabled="@DisableControls" IsWorking="@context.Item.IsSaving" WorkingText="Saving">Save</ProgressButton>
+								<MudSpacer />
+								<div class="d-flex flex-row gap-1 align-center justify-center justify-sm-end">
+									<MudIconButton Icon="@Icons.Material.Filled.History" Class="mx-0" title="Previous Stats" Disabled="@DisableControls" OnClick="@(() => HandleOpenStatsClicked(context.Item))" />
+									<MudIconButton Icon="@Icons.Material.Filled.EditNote" Class="mx-0" title="Set Notes" Disabled="@DisableControls" OnClick="@(() => HandleOpenNotesClicked(context.Item))" />
+									<MudMenu Icon="@Icons.Material.Filled.MoreVert" Class="mx-0" AnchorOrigin="Origin.TopRight" TransformOrigin="Origin.TopRight">
+										<MudMenuItem Disabled="@DisableControls" OnClick="@(() => HandleEditSetClicked(context.Item))">Edit Properies</MudMenuItem>
+										<MudMenuItem Disabled="@DisableControls" OnClick="@(() => HandleOpenExerciseClicked(context.Item))">Go to Exercise</MudMenuItem>
+										<MudMenuItem Disabled="@DisableControls" OnClick="@(() => HandleAddDuplicateClicked(context.Item))">Duplicate Set</MudMenuItem>
+										<MudMenuItem Disabled="@DisableControls" OnClick="@(() => HandleDeleteSetClicked(context.Item))">Delete Set</MudMenuItem>
+									</MudMenu>
+								</div>
+							</MudToolBar>
 						</EditForm>
 					</div>
 				}
@@ -517,11 +489,22 @@
 	}
 	@if (OpenNotes)
 	{
-		<DrawerNotes ExerciseSid="@DrawerWorkoutSet.ExerciseSid" ExerciseNotes="@DrawerWorkoutSet.ExerciseNotes"
+		<DrawerNotes WorkoutSetSid="@DrawerWorkoutSet.Sid" SetNotes="@DrawerWorkoutSet.Notes"
 					 OnCanceled="@(() => HandleDrawerOpenChange(false))" OnSaveClicked="@HandleSaveNote" />
 	}
 	@if (OpenAddSet)
 	{
 		<ExercisePicker OnAdd="@HandleAddSets" />
+	}
+	@if (OpenProperties)
+	{
+		<DrawerSetProperties Model="@DrawerProperties" OnCanceled="@(() => HandleDrawerOpenChange(false))" OnFormSubmitted="@HandleSetPropertiesChanged">
+			<FormToolbar>
+				<MudSpacer />
+				<MudButton Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit">Save</MudButton>
+				<MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@(() => HandleDrawerOpenChange(false))">Cancel</MudButton>
+				<MudSpacer />
+			</FormToolbar>
+		</DrawerSetProperties>
 	}
 </SideDrawer>

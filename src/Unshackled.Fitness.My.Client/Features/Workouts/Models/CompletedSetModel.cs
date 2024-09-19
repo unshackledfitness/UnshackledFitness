@@ -23,6 +23,7 @@ public class CompletedSetModel : BaseObject, IGroupedSortable
 	public decimal WeightLb { get; set; }
 	public decimal WeightKg { get; set; }
 	public DateTime? DateWorkoutUtc { get; set; }
+	public string? Notes { get; set; }
 }
 
 public class CompletedSetGroupModel : ISortableGroup

@@ -25,16 +25,21 @@ public class SectionSetsBase : BaseSectionComponent
 
 	protected string DrawerIcon => OpenStats
 		? Icons.Material.Filled.History
-		: Icons.Material.Filled.StickyNote2;
+		: OpenNotes ? Icons.Material.Filled.StickyNote2
+		: OpenAddSet ? Icons.Material.Filled.AddCircleOutline
+		: Icons.Material.Filled.Edit;
 
-	protected bool DrawerOpen => OpenStats || OpenNotes || OpenAddSet;
+	protected bool DrawerOpen => OpenStats || OpenNotes || OpenAddSet || OpenProperties;
 
 	protected string DrawerTitle => OpenStats
 		? "Previous Stats"
-		: OpenNotes ? "Exercise Notes"
-		: "Add Set";
+		: OpenNotes ? "Set Notes"
+		: OpenAddSet ? "Add Set"
+		: "Edit Set Properties";
 
 	protected FormWorkoutSetModel DrawerWorkoutSet { get; set; } = new();
+
+	protected FormSetPropertiesModel DrawerProperties { get; set; } = new();
 
 	protected bool HideCompleted { get; set; } = true;
 
@@ -48,11 +53,13 @@ public class SectionSetsBase : BaseSectionComponent
 
 	protected bool IsPositiveIncrement { get; set; } = true;
 
+	protected bool OpenAddSet { get; set; } = false;
+
 	protected bool OpenNotes { get; set; } = false;
 
-	protected bool OpenStats { get; set; } = false;
+	protected bool OpenProperties { get; set; } = false;
 
-	protected bool OpenAddSet { get; set; } = false;
+	protected bool OpenStats { get; set; } = false;
 
 	protected WeightUnits TotalWeightUnit => Workout.Sets.Any() ? Workout.Sets[0].WeightUnit : WeightUnits.kg;
 
@@ -242,16 +249,6 @@ public class SectionSetsBase : BaseSectionComponent
 		}
 	}
 
-	protected async Task HandleBackClicked(FormWorkoutSetModel set)
-	{
-		set.IsEditing = false;
-		var result = await Mediator.Send(new UpdateSetProperties.Command(set));
-		if (!result.Success)
-		{
-			ShowNotification(result);
-		}
-	}
-
 	protected async Task HandleDeleteIncompleteClicked()
 	{
 		bool? confirm = await DialogService.ShowMessageBox(
@@ -344,13 +341,26 @@ public class SectionSetsBase : BaseSectionComponent
 			OpenStats = false;
 			OpenNotes = false;
 			OpenAddSet = false;
+			OpenProperties = false;
 			DrawerWorkoutSet = new();
+			DrawerProperties = new();
 		}
 	}
 
 	protected void HandleEditSetClicked(FormWorkoutSetModel set)
 	{
-		set.IsEditing = true;
+		DrawerWorkoutSet = set;
+		DrawerProperties = new()
+		{
+			IntensityTarget = set.IntensityTarget,
+			RepMode = set.RepMode,
+			RepsTarget = set.RepsTarget,
+			SecondsTarget = set.SecondsTarget,
+			SetMetricType = set.SetMetricType,
+			SetSid = set.Sid,
+			SetType = set.SetType
+		};
+		OpenProperties = true;
 	}
 
 	protected void HandleIncrementClicked(FormWorkoutSetModel set, decimal amount)
@@ -359,6 +369,11 @@ public class SectionSetsBase : BaseSectionComponent
 			set.Weight += IsPositiveIncrement ? amount : -amount;
 		else
 			set.Weight = IsPositiveIncrement ? amount : 0;
+	}
+
+	protected void HandleOpenExerciseClicked(FormWorkoutSetModel set)
+	{
+		NavManager.NavigateTo($"/exercises/{set.ExerciseSid}?workout={Workout.Sid}");
 	}
 
 	protected void HandleOpenNotesClicked(FormWorkoutSetModel set)
@@ -373,24 +388,37 @@ public class SectionSetsBase : BaseSectionComponent
 		DrawerWorkoutSet = set;
 	}
 
-	protected async Task HandleSaveNote(ExerciseNoteModel model)
+	protected async Task HandleSaveNote(FormSetNoteModel model)
 	{
 		IsWorking = true;
-		var result = await Mediator.Send(new SaveExerciseNote.Command(model));
+		var result = await Mediator.Send(new SaveSetNote.Command(model));
 		if (result.Success)
 		{
-			var sets = Workout.Sets
-				.Where(x => x.ExerciseSid == model.Sid)
-				.ToList();
-
-			foreach (var set in sets)
-			{
-				set.ExerciseNotes = model.Notes;
-			}
+			DrawerWorkoutSet.Notes = model.Notes;
 		}
 		HandleDrawerOpenChange(false);
 		IsWorking = false;
+		ShowNotification(result);
 		StateHasChanged();
+	}
+
+	protected async Task HandleSetPropertiesChanged(FormSetPropertiesModel model)
+	{
+		OpenProperties = false;
+		var result = await Mediator.Send(new UpdateSetProperties.Command(model));
+		if (result.Success)
+		{
+			DrawerWorkoutSet.IntensityTarget = model.IntensityTarget;
+			DrawerWorkoutSet.RepMode = model.RepMode;
+			DrawerWorkoutSet.RepsTarget = model.RepsTarget;
+			DrawerWorkoutSet.SecondsTarget = model.SecondsTarget;
+			DrawerWorkoutSet.SetMetricType = model.SetMetricType;
+			DrawerWorkoutSet.SetType = model.SetType;
+		}
+		ShowNotification(result);
+
+		DrawerWorkoutSet = new();
+		DrawerProperties = new();
 	}
 
 	protected async Task HandleSetSaved(EditContext context)

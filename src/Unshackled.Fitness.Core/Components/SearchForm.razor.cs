@@ -44,7 +44,7 @@ public partial class SearchForm<T> where T : ISearchModel, new()
 	{
 		get
 		{
-			if (ForceColumnLayout) return string.Empty;
+			if (ForceColumnLayout) return "search-actions-forced";
 
 			var builder = new CssBuilder("search-actions");
 

@@ -5,15 +5,15 @@ using Unshackled.Fitness.My.Client.Features.Workouts.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Workouts.Actions;
 
-public class UpdateSetProperties
+public class UpdateNotes
 {
 	public class Command : IRequest<CommandResult>
 	{
-		public FormSetPropertiesModel Set { get; private set; }
+		public FormNotesModel Model { get; private set; }
 
-		public Command(FormSetPropertiesModel set)
+		public Command(FormNotesModel model)
 		{
-			Set = set;
+			Model = model;
 		}
 	}
 
@@ -23,7 +23,7 @@ public class UpdateSetProperties
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
-			return await PostToCommandResultAsync($"{baseUrl}update-set-properties", request.Set)
+			return await PostToCommandResultAsync($"{baseUrl}update-notes", request.Model)
 				?? new CommandResult(false, Globals.UnexpectedError);
 		}
 	}

@@ -9,7 +9,7 @@
 
 <SearchForm T="FormSearchModel" Model="@FormModel" Class="mb-2" ResetClicked="@HandleResetClicked" SearchClicked="@HandleSearchClicked" Disable="@DisableControls">
 	<SearchFields>
-		<MudGrid Spacing="1" Class="flex-grow-1">
+		<MudGrid Spacing="2" Class="flex-grow-1">
 			<MudItem xs="12" sm="6">
 				<MudDatePicker Variant="Variant.Outlined" Margin="Margin.Dense" Label="End Month" Disabled="@DisableControls"
 							   @bind-Date="FormModel.EndDate" OpenTo="OpenTo.Month" FixDay="1" DateFormat="MM/yyyy" />

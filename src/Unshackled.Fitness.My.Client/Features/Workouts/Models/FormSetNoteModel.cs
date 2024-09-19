@@ -2,7 +2,7 @@
 
 namespace Unshackled.Fitness.My.Client.Features.Workouts.Models;
 
-public class ExerciseNoteModel : BaseMemberObject
+public class FormSetNoteModel : BaseMemberObject
 {
 	public string? Notes { get; set; }
 }

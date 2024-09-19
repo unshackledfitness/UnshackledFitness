@@ -32,10 +32,6 @@
 		{
 			<MudText Typo="Typo.body1" Class="mb-4">@Workout.DateStarted.Value.ToString("f")</MudText>
 			<WorkoutSummary Workout="@Workout" />
-			@if (!string.IsNullOrEmpty(Workout.Notes))
-			{
-				<CaptionedProperty Title="Notes" Align="Align.Start" Value="@Workout.Notes.ReplaceLineBreaks("<br />")" />
-			}
 		}
 	}
 	else

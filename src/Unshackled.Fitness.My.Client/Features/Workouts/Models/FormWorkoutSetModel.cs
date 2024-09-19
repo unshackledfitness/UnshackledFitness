@@ -42,9 +42,7 @@ public class FormWorkoutSetModel : BaseObject, IGroupedSortable, ICloneable
 	public bool IsRecordSecondsAtWeight { get; set; }
 	public bool IsRecordVolume { get; set; }
 	public bool IsRecordWeight { get; set; }
-
-	[JsonIgnore]
-	public bool IsEditing { get; set; } = false;
+	public string? Notes { get; set; }
 
 	[JsonIgnore]
 	public bool IsExpanded { get; set; } = false;
@@ -62,36 +60,6 @@ public class FormWorkoutSetModel : BaseObject, IGroupedSortable, ICloneable
 		set
 		{
 			SecondsTarget = value.HasValue ? (int)Math.Round(value.Value.TotalSeconds, 0) : 0;
-		}
-	}
-
-	[JsonIgnore]
-	public TimeSpan? TimeSeconds
-	{
-		get => Seconds > 0 ? new(0, 0, Seconds) : null;
-		set
-		{
-			Seconds = value.HasValue ? (int)Math.Round(value.Value.TotalSeconds, 0) : 0;
-		}
-	}
-
-	[JsonIgnore]
-	public TimeSpan? TimeSecondsLeft
-	{
-		get => SecondsLeft > 0 ? new(0, 0, SecondsLeft) : null;
-		set
-		{
-			SecondsLeft = value.HasValue ? (int)Math.Round(value.Value.TotalSeconds, 0) : 0;
-		}
-	}
-
-	[JsonIgnore]
-	public TimeSpan? TimeSecondsRight
-	{
-		get => SecondsRight > 0 ? new(0, 0, SecondsRight) : null;
-		set
-		{
-			SecondsRight = value.HasValue ? (int)Math.Round(value.Value.TotalSeconds, 0) : 0;
 		}
 	}
 
@@ -124,7 +92,6 @@ public class FormWorkoutSetModel : BaseObject, IGroupedSortable, ICloneable
 			ListGroupSid = ListGroupSid,
 			IntensityTarget = IntensityTarget,
 			IsExpanded = IsExpanded,
-			IsEditing = IsEditing,
 			IsSaving = IsSaving,
 			IsTrackingSplit = IsTrackingSplit,
 			Muscles = Muscles,
@@ -194,39 +161,6 @@ public class FormWorkoutSetModel : BaseObject, IGroupedSortable, ICloneable
 				.LessThanOrEqualTo(AppGlobals.MaxSetReps)
 				.When(x => x.IsTrackingSplit == true && x.RepsRequired == true && x.RepsLeft == 0)
 				.WithMessage($"Right reps must be less than or equal to {AppGlobals.MaxSetReps}.");
-
-			RuleFor(x => x.TimeSeconds)
-				.NotNull()
-				.When(x => x.IsTrackingSplit == false && x.RepsRequired == false)
-				.WithMessage("Required")
-				.Must(x => x != null && x.Value.TotalSeconds > 0)
-				.When(x => x.IsTrackingSplit == false && x.RepsRequired == false)
-				.WithMessage("Time must be greater than zero.")
-				.Must(x => x != null && x.Value.TotalSeconds <= 86400)
-				.When(x => x.IsTrackingSplit == false && x.RepsRequired == false)
-				.WithMessage("Time must be less than 24 hours.");
-
-			RuleFor(x => x.TimeSecondsLeft)
-				.NotNull()
-				.When(x => x.IsTrackingSplit == true && x.RepsRequired == false)
-				.WithMessage("Required")
-				.Must(x => x != null && x.Value.TotalSeconds > 0)
-				.When(x => x.IsTrackingSplit == true && x.RepsRequired == false && x.SecondsRight == 0)
-				.WithMessage("Time must be greater than zero.")
-				.Must(x => x != null && x.Value.TotalSeconds <= 86400)
-				.When(x => x.IsTrackingSplit == true && x.RepsRequired == false && x.SecondsRight == 0)
-				.WithMessage("Left Time must be less than 24 hours.");
-
-			RuleFor(x => x.TimeSecondsRight)
-				.NotNull()
-				.When(x => x.IsTrackingSplit == true && x.RepsRequired == false)
-				.WithMessage("Required")
-				.Must(x => x != null && x.Value.TotalSeconds > 0)
-				.When(x => x.IsTrackingSplit == true && x.RepsRequired == false && x.SecondsLeft == 0)
-				.WithMessage("Time must be greater than zero.")
-				.Must(x => x != null && x.Value.TotalSeconds <= 86400)
-				.When(x => x.IsTrackingSplit == true && x.RepsRequired == false && x.SecondsLeft == 0)
-				.WithMessage("Right Time must be less than 24 hours.");
 		}
 	}
 }

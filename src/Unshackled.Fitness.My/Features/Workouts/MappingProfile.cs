@@ -9,7 +9,7 @@ public class MappingProfile : Profile
 {
 	public MappingProfile()
 	{
-		CreateMap<ExerciseEntity, ExerciseNoteModel>()
+		CreateMap<ExerciseEntity, FormSetNoteModel>()
 			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()));
 
 		CreateMap<WorkoutEntity, WorkoutListModel>()
