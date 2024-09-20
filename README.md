@@ -134,12 +134,10 @@ Open the solution file or project folder in your favorite editor and complete th
 *ClientConfiguration*
 ```json
 "ClientConfiguration": {
-	"SiteName": "Unshackled Fitness",
-	"LibraryApiUrl": "https://my.unshackled.fitness/api/"
+	"SiteName": "Unshackled Fitness"
 },
 ```
 * SiteName: The default title of your app.
-* LibraryApiUrl: The URL for accessing our library of exercises. Leave this as is or set it to "" if you don't wish to allow your users to import exercises from the hosted library.
 
 ### Database Migrations ###
 
@@ -151,11 +149,11 @@ Add a migration for the current release and your database.
 
 ```bash
 # MS SQL Server
-dotnet ef migrations add v1.1.0 -c MsSqlServerDbContext -s ../Unshackled.Fitness.Web -o Migrations
+dotnet ef migrations add v1.8.0 -c MsSqlServerDbContext -s ../Unshackled.Fitness.Web -o Migrations
 # MySQL Server
-dotnet ef migrations add v1.1.0 -c MySqlServerDbContext -s ../Unshackled.Fitness.Web -o Migrations
+dotnet ef migrations add v1.8.0 -c MySqlServerDbContext -s ../Unshackled.Fitness.Web -o Migrations
 # PostgreSQL Server
-dotnet ef migrations add v1.1.0 -c PostgresSqlServerDbContext -s ../Unshackled.Fitness.Web -o Migrations
+dotnet ef migrations add v1.8.0 -c PostgresSqlServerDbContext -s ../Unshackled.Fitness.Web -o Migrations
 ```
 
 Apply the migration

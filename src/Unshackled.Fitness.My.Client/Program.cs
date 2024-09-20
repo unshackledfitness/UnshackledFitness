@@ -30,11 +30,6 @@ builder.Services
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
     .CreateClient(AppGlobals.ApiConstants.LocalApi));
 
-// External API Calls
-string libApiUrl = clientConfig.LibraryApiUrl ?? builder.HostEnvironment.BaseAddress;
-builder.Services
-	.AddHttpClient(AppGlobals.ApiConstants.LibraryApi, client => client.BaseAddress = new Uri(libApiUrl));
-
 builder.Services.AddMudServices(config =>
 {
 	config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopCenter;

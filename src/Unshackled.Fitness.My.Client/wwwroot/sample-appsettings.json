@@ -1,7 +1,6 @@
 {
 	"ClientConfiguration": {
-		"SiteName": "Unshackled Fitness",
-		"LibraryApiUrl": "https://my.unshackled.fitness/api/"
+		"SiteName": "Unshackled Fitness"
 	},
 	"Logging": {
 		"LogLevel": {
