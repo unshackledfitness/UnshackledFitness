@@ -86,7 +86,9 @@
 				@if (!string.IsNullOrEmpty(context.Item.Notes))
 				{
 					<MudItem xs="12" Class="px-6 ps-sm-12">
-						<MudText Typo="Typo.body2">@((MarkupString)context.Item.Notes.ReplaceLineBreaks("<br />"))</MudText>
+						<MudAlert Severity="Severity.Normal" NoIcon="true">
+							<MudText Typo="Typo.body2">@((MarkupString)context.Item.Notes.ReplaceLineBreaks("<br />"))</MudText>
+						</MudAlert>
 					</MudItem>
 				}
 			</MudGrid>

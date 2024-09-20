@@ -619,6 +619,15 @@ public class SectionSetsBase : BaseSectionComponent
 		}
 	}
 
+	protected bool ShowSet(FormWorkoutSetModel model)
+	{
+		// Show if 
+		// - HideCompleted is off
+		// - No Date has been recorded
+		// - Model is actively saving
+		return !HideCompleted || !model.DateRecordedUtc.HasValue || model.IsSaving;
+	}
+
 	private async Task CheckIfWorkoutHasUnrecordedSets()
 	{
 		var unrecorded = Workout.Sets.Where(x => x.DateRecordedUtc == null).Any();

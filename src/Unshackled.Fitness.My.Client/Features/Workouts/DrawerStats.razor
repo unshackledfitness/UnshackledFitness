@@ -75,12 +75,9 @@
 			@if (!string.IsNullOrEmpty(context.Item.Notes))
 			{
 				<MudItem xs="12">
-					<div class="d-flex flex-row gap-2 align-start my-2">
-						<div>
-							<MudIcon Icon="@Icons.Material.Outlined.Note" Size="Size.Small" Title="Set Note" />
-						</div>
+					<MudAlert Severity="Severity.Normal" Icon="@Icons.Material.Outlined.Note" title="Set Note">
 						<MudText Typo="Typo.body2">@((MarkupString)context.Item.Notes.ReplaceLineBreaks("<br />"))</MudText>
-					</div>
+					</MudAlert>
 				</MudItem>
 			}
 		</MudGrid>

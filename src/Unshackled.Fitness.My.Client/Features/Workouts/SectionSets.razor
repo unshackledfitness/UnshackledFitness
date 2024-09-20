@@ -12,7 +12,7 @@
 			}
 		</GroupRenderer>
 		<ItemRenderer>
-			@if (!HideCompleted || !context.Item.DateRecordedUtc.HasValue)
+			@if (ShowSet(context.Item))
 			{
 				<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
 				<div class="d-flex flex-row gap-3">
@@ -134,12 +134,9 @@
 								<MudItem xs="12" class="@(context.Item.IsExpanded && IsEditing ? "d-none" : "d-block")">
 									@if (!string.IsNullOrEmpty(context.Item.Notes))
 									{
-										<div class="d-flex flex-row gap-2 align-start my-2">
-											<div>
-												<MudIcon Icon="@Icons.Material.Outlined.Note" Size="Size.Small" Title="Set Note" />
-											</div>
+										<MudAlert Class="mt-2 mb-4" Severity="Severity.Normal" Icon="@Icons.Material.Outlined.Note" title="Set Note">
 											<MudText Typo="Typo.body2">@((MarkupString)context.Item.Notes.ReplaceLineBreaks("<br />"))</MudText>
-										</div>
+										</MudAlert>
 									}
 								</MudItem>
 							</MudGrid>
@@ -190,12 +187,9 @@
 					<div Class="@IsExpandedClass(context.Item, "px-3 mt-4 h-100")">
 						@if (!string.IsNullOrEmpty(context.Item.ExerciseNotes))
 						{
-							<div class="d-flex flex-row gap-2 align-start mt-2 mb-4">
-								<div>
-									<MudIcon Icon="@Icons.Material.Outlined.StickyNote2" Size="Size.Small" Title="Exercise Note" />
-								</div>
+							<MudAlert Class="mt-2 mb-4" Severity="Severity.Info" Icon="@Icons.Material.Outlined.StickyNote2" title="Exercise Note">
 								<MudText Typo="Typo.body2">@((MarkupString)context.Item.ExerciseNotes.ReplaceLineBreaks("<br />"))</MudText>
-							</div>
+							</MudAlert>
 						}
 						<EditForm Model="@context.Item" OnValidSubmit="@HandleSetSaved" Context="editContext">
 							<FluentValidationValidator Validator="@context.Item.ModelValidator" />
@@ -393,12 +387,9 @@
 							</MudGrid>
 							@if (!string.IsNullOrEmpty(context.Item.Notes))
 							{
-								<div class="d-flex flex-row gap-2 align-start my-2">
-									<div>
-										<MudIcon Icon="@Icons.Material.Outlined.Note" Size="Size.Small" Title="Set Note" />
-									</div>
+								<MudAlert Class="mt-2 mb-4" Severity="Severity.Normal" Icon="@Icons.Material.Outlined.Note" title="Set Note">
 									<MudText Typo="Typo.body2">@((MarkupString)context.Item.Notes.ReplaceLineBreaks("<br />"))</MudText>
-								</div>
+								</MudAlert>
 							}
 							<MudToolBar Gutters="false" Dense="true" Class="mt-2 mt-sm-0">
 								<ProgressButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary"
