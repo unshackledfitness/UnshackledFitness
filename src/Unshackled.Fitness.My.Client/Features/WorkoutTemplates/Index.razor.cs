@@ -47,7 +47,7 @@ public partial class IndexBase : BaseSearchComponent<SearchTemplateModel, Templa
 	{
 		IsWorking = true;
 		var result = await Mediator.Send(new AddTemplate.Command(model));
-		Snackbar.Add(result.Message, result.Success ? Severity.Success : Severity.Error);
+		ShowNotification(result);
 		if (result.Success)
 		{
 			DrawerOpen = false;

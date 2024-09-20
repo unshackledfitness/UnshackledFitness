@@ -48,7 +48,7 @@ public class BaseComponent : ComponentBase, IAsyncDisposable
 		if (result == null)
 			Snackbar.Add(Globals.UnexpectedError, Severity.Error);
 		else
-			Snackbar.Add(result.Message, result.Success ? Severity.Success : Severity.Error);
+			Snackbar.Add(result.Message ?? string.Empty, result.Success ? Severity.Success : Severity.Error);
 	}
 
 	protected void ShowNotification(bool success, string message)
