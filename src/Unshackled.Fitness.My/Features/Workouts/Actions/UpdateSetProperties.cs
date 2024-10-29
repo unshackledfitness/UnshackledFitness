@@ -50,7 +50,7 @@ public class UpdateSetProperties
 			set.SetMetricType = request.Set.SetMetricType;
 			set.RepMode = request.Set.RepMode;
 			set.RepsTarget = request.Set.RepsTarget;
-			set.SecondsTarget = request.Set.SecondsTarget;
+			set.SecondsTarget = request.Set.SecondsTarget ?? 0;
 			set.SetType = request.Set.SetType;
 			set.IntensityTarget = request.Set.IntensityTarget;
 			await db.SaveChangesAsync();

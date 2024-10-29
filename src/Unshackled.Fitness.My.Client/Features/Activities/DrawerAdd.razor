@@ -1,0 +1,10 @@
+﻿@inherits DrawerAddBase
+
+<FormProperties ActivityTypes="@ActivityTypes" DisableFormControls="@DisableControls" FormId="@FormId" Model="@Model" OnFormSubmitted="@HandleAddSubmitted">
+	<MudToolBar Gutters="false">
+		<MudSpacer />
+		<ProgressButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" IsWorking="@IsWorking" WorkingText="Saving">Add</ProgressButton>
+		<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@HandleCancelClicked">Cancel</MudButton>
+		<MudSpacer />
+	</MudToolBar>
+</FormProperties>

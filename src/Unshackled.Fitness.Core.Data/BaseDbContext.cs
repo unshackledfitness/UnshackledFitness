@@ -28,6 +28,10 @@ public class BaseDbContext : IdentityDbContext<UserEntity>
 		this.DbConfig = dbConfig;
 	}
 
+	public DbSet<ActivityEntity> Activities => Set<ActivityEntity>();
+	public DbSet<ActivityScheduleEntity> ActivitySchedules => Set<ActivityScheduleEntity>();
+	public DbSet<ActivityScheduleItemEntity> ActivityScheduleItems => Set<ActivityScheduleItemEntity>();
+	public DbSet<ActivityTypeEntity> ActivityTypes => Set<ActivityTypeEntity>();
 	public DbSet<ExerciseEntity> Exercises => Set<ExerciseEntity>();
 	public DbSet<ExportFileEntity> ExportFiles => Set<ExportFileEntity>();
 	public DbSet<MemberMetaEntity> MemberMeta => Set<MemberMetaEntity>();
@@ -84,6 +88,10 @@ public class BaseDbContext : IdentityDbContext<UserEntity>
 	{
 		base.OnModelCreating(builder);
 
+		builder.ApplyConfiguration(new ActivityEntity.TypeConfiguration());
+		builder.ApplyConfiguration(new ActivityScheduleEntity.TypeConfiguration());
+		builder.ApplyConfiguration(new ActivityScheduleItemEntity.TypeConfiguration());
+		builder.ApplyConfiguration(new ActivityTypeEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ExerciseEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ExportFileEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new MemberMetaEntity.TypeConfiguration());

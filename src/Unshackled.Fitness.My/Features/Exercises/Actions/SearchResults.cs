@@ -59,9 +59,9 @@ public class SearchResults
 			{
 				query = query.Where(x => x.RepsTarget == request.Model.RepsTarget.Value);
 			}
-			else if (request.Model.SecondsTarget > 0)
+			else if (request.Model.SecondsTarget.HasValue)
 			{
-				query = query.Where(x => x.SecondsTarget == request.Model.SecondsTarget);
+				query = query.Where(x => x.SecondsTarget == request.Model.SecondsTarget.Value);
 			}
 
 			result.Total = await query.CountAsync(cancellationToken);

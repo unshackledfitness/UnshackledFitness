@@ -70,7 +70,7 @@ public class DuplicateSet
 					MemberId = set.MemberId,
 					RepMode = request.Set.RepMode,
 					RepsTarget = request.Set.RepsTarget,
-					SecondsTarget = request.Set.SecondsTarget,
+					SecondsTarget = request.Set.SecondsTarget ?? 0,
 					SetType = request.Set.SetType,
 					SortOrder = set.SortOrder + 1,
 					WorkoutId = set.WorkoutId

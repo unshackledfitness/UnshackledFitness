@@ -70,7 +70,7 @@ public class AddSet
 					MemberId = request.MemberId,
 					RepMode = request.Model.RepMode,
 					RepsTarget = request.Model.RepsTarget,
-					SecondsTarget = request.Model.SecondsTarget,
+					SecondsTarget = request.Model.SecondsTarget ?? 0,
 					SetType = request.Model.SetType,
 					SortOrder = request.Model.SortOrder,
 					WorkoutId = workout.Id

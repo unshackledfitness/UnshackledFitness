@@ -1,0 +1,43 @@
+﻿@if (Item.Type == MenuItem.Types.Link)
+{
+	<MudNavLink Href="@Item.Url" Icon="@Item.Icon" Match="@((NavLinkMatch)Item.Match)">@Item.Title</MudNavLink>
+}
+else if (Item.Type == MenuItem.Types.Divider)
+{
+	<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+}
+else if (Item.Type == MenuItem.Types.Label)
+{
+	<MudText Typo="Typo.caption" Color="Color.Tertiary" Align="Align.Center" Class="d-block ml-4">@Item.Title</MudText>
+}
+else if (Item.Type == MenuItem.Types.Group)
+{
+	<MudNavGroup Title="@Item.Title" Expanded="@Item.IsExpanded" Icon="@Item.Icon" ExpandedChanged="@((bool value) => HandleExpandedChanged(value, Item))">
+		@foreach (var gi in Item.Items)
+		{
+			<MainMenuItem Item="@gi" OnExpandedChanged="@HandleOnExpandedChanged" />
+		}
+	</MudNavGroup>
+}
+
+@code {
+	[Parameter]	public MenuItem Item { get; set; } = new();
+
+	[Parameter] public EventCallback<string> OnExpandedChanged { get; set; }
+
+	private async Task HandleOnExpandedChanged(string id) => await OnExpandedChanged.InvokeAsync(id);
+
+	private async Task HandleExpandedChanged(bool value, MenuItem item) 
+	{
+		if (value && !item.IsExpanded)
+		{
+			item.IsExpanded = true;
+			await OnExpandedChanged.InvokeAsync(Item.Id);
+		}
+		else if (!value && item.IsExpanded)
+		{
+			item.IsExpanded = false;
+			await OnExpandedChanged.InvokeAsync(string.Empty);
+		}
+	}
+}

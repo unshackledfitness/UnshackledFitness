@@ -1,0 +1,38 @@
+﻿<span class="result"><span class="distance">@speed?.ToString("0.##")</span>@DisplayLabel()</span>
+
+@code {
+	[Parameter] public double? MetersPerSecond { get; set; }
+	[Parameter] public UnitSystems UnitSystem { get; set; }
+	[Parameter] public bool UseLargeUnits { get; set; }
+
+	private double? speed;
+	private SpeedUnits units;
+
+	protected override void OnParametersSet()
+	{
+		base.OnParametersSet();
+
+		if (MetersPerSecond.HasValue)
+		{
+			if (UnitSystem == UnitSystems.Imperial)
+			{
+				units = UseLargeUnits ? SpeedUnits.MilesPerHour : SpeedUnits.FeetPerSecond;
+			}
+			else
+			{
+				units = UseLargeUnits ? SpeedUnits.KilometersPerHour : SpeedUnits.MetersPerSecond;
+			}
+			speed = MetersPerSecond.Value * units.ConversionFactor();
+		}
+		
+	}
+
+	MarkupString DisplayLabel()
+	{
+		if (units != SpeedUnits.Any)
+		{
+			return (MarkupString)$"<span class=\"post-result-label\">{units.Label()}</span>";
+		}
+		return (MarkupString)string.Empty;
+	}
+}

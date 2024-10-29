@@ -1,0 +1,31 @@
+﻿@page "/activities/{ActivitySid}"
+@inherits SingleBase
+
+<DynamicPageTitle IsLoading="@IsLoading" LoadingTitle="Loading Activity" FallbackTitle="Activity" Title="Activity" />
+
+<MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
+
+@if (IsLoading)
+{
+	<DefaultProgress />
+}
+else
+{
+	@if (!string.IsNullOrEmpty(ActivityModel.Sid))
+	{
+		@if (IsMemberActive)
+		{
+			<MudToolBar Gutters="false" Class="mb-4">
+				<MudSpacer />
+				<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@(IsEditing || IsWorking)" />
+			</MudToolBar>
+		}
+
+		<SectionProperties @bind-Activity="@ActivityModel" ActivityTypes="@ActivityTypes" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
+						   OnIsEditingSectionChange="@HandleIsEditingSectionChange" />
+	}
+	else
+	{
+		<MudAlert Severity="Severity.Error" Dense="true">The activity was not found.</MudAlert>
+	}
+}

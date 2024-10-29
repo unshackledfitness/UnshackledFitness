@@ -690,6 +690,21 @@ public static class MemberExtensions
 		await db.SaveChangesAsync();
 
 		// **************
+		// Add activity type
+		// **************
+		var activityWalking = new ActivityTypeEntity()
+		{
+			Color = "#2155ceff",
+			DefaultCadenceUnits = CadenceUnits.SPM,
+			DefaultDistanceUnits = DistanceUnits.Mile,
+			DefaultEventType = EventTypes.Recreational,
+			DefaultElevationUnits = DistanceUnits.Feet,
+			DefaultSpeedUnits = SpeedUnits.MilesPerHour
+		};
+		db.ActivityTypes.Add(activityWalking);
+		await db.SaveChangesAsync();
+
+		// **************
 		// Add metric definitions
 		// **************
 		var metricGroup = new MetricDefinitionGroupEntity()

@@ -91,7 +91,7 @@ public class UpdateTemplateSets
 							MemberId = request.MemberId,
 							RepMode = set.RepMode,
 							RepsTarget = set.RepsTarget,
-							SecondsTarget = set.SecondsTarget,
+							SecondsTarget = set.SecondsTarget ?? 0,
 							SetType = set.SetType,
 							SortOrder = set.SortOrder,
 							WorkoutTemplateId = request.TemplateId
@@ -114,7 +114,7 @@ public class UpdateTemplateSets
 							existing.ListGroupId = groupIdMap[set.ListGroupSid];
 							existing.RepMode = set.RepMode;
 							existing.RepsTarget = set.RepsTarget;
-							existing.SecondsTarget = set.SecondsTarget;
+							existing.SecondsTarget = set.SecondsTarget ?? 0;
 							existing.SetType = set.SetType;
 							existing.SortOrder = set.SortOrder;
 

@@ -25,10 +25,10 @@ public class FormWorkoutSetModel : BaseObject, IGroupedSortable, ICloneable
 	public int? Reps { get; set; }
 	public int? RepsLeft { get; set; }
 	public int? RepsRight { get; set; }
-	public int Seconds { get; set; }
-	public int SecondsLeft { get; set; }
-	public int SecondsRight { get; set; }
-	public int SecondsTarget { get; set; }
+	public int? Seconds { get; set; }
+	public int? SecondsLeft { get; set; }
+	public int? SecondsRight { get; set; }
+	public int? SecondsTarget { get; set; }
 	public decimal? Weight { get; set; }
 	public WeightUnits WeightUnit { get; set; } = WeightUnits.lb;
 	public DateTime? DateRecorded { get; set; }
@@ -56,7 +56,7 @@ public class FormWorkoutSetModel : BaseObject, IGroupedSortable, ICloneable
 	[JsonIgnore]
 	public TimeSpan? TargetTimeSeconds
 	{
-		get => SecondsTarget > 0 ? new(0, 0, SecondsTarget) : null;
+		get => SecondsTarget != null && SecondsTarget > 0 ? new(0, 0, SecondsTarget.Value) : null;
 		set
 		{
 			SecondsTarget = value.HasValue ? (int)Math.Round(value.Value.TotalSeconds, 0) : 0;

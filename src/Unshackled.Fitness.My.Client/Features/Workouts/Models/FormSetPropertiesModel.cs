@@ -11,7 +11,7 @@ public class FormSetPropertiesModel
 	public RepModes RepMode { get; set; }
 	public int RepsTarget { get; set; }
 	public int IntensityTarget { get; set; }
-	public int SecondsTarget { get; set; }
+	public int? SecondsTarget { get; set; }
 
 	[JsonIgnore]
 	public Validator ModelValidator { get; set; } = new();

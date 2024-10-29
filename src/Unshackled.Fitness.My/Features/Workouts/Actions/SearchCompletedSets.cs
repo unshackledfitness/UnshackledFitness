@@ -64,9 +64,9 @@ public class SearchCompletedSets
 			else
 			{
 				// query with target seconds
-				if (request.Model.SecondsTarget > 0)
+				if (request.Model.SecondsTarget.HasValue)
 				{
-					query = query.Where(x => x.SecondsTarget == request.Model.SecondsTarget);
+					query = query.Where(x => x.SecondsTarget == request.Model.SecondsTarget.Value);
 				}
 				result.Total = await query.CountAsync(cancellationToken);
 			}

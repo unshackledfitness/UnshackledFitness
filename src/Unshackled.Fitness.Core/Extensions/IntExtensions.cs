@@ -9,6 +9,11 @@ public static class IntExtensions
 		else
 			return $"{value} {plural}";
 	}
+	public static string SecondsAsTimeSpan(this int? value, int? intensity = null)
+	{
+		int v = value ?? 0;
+		return v.SecondsAsTimeSpan(intensity);
+	}
 
 	public static string SecondsAsTimeSpan(this int value, int? intensity = null)
 	{
@@ -24,6 +29,12 @@ public static class IntExtensions
 			return $"{ts.ToString(format)} @ {intensity.Value}";
 		else
 			return ts.ToString(format);
+	}
+
+	public static string SecondsAsTimeSpan(this int? value, string format, int? intensity = null)
+	{
+		int v = value ?? 0;
+		return v.SecondsAsTimeSpan(format, intensity);
 	}
 
 	public static string SecondsAsTimeSpan(this int value, string format, int? intensity = null)

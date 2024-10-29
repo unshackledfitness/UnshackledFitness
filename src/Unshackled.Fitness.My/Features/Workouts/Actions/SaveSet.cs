@@ -70,9 +70,9 @@ public class SaveSet
 				int reps = needsReps && request.Set.Reps.HasValue ? request.Set.Reps.Value : 0;
 				int repsLeft = needsReps && request.Set.RepsLeft.HasValue ? request.Set.RepsLeft.Value : 0;
 				int repsRight = needsReps && request.Set.RepsRight.HasValue ? request.Set.RepsRight.Value : 0;
-				int seconds = needsTime ? request.Set.Seconds : 0;
-				int secondsLeft = needsTime ? request.Set.SecondsLeft : 0;
-				int secondsRight = needsTime ? request.Set.SecondsRight : 0;
+				int seconds = needsTime ? request.Set.Seconds ?? 0 : 0;
+				int secondsLeft = needsTime ? request.Set.SecondsLeft ?? 0 : 0;
+				int secondsRight = needsTime ? request.Set.SecondsRight ?? 0 : 0;
 
 				set.SetMetricType = request.Set.SetMetricType;
 				set.RepMode = request.Set.RepMode;
@@ -84,7 +84,7 @@ public class SaveSet
 				set.Seconds = seconds;
 				set.SecondsLeft = secondsLeft;
 				set.SecondsRight = secondsRight;
-				set.SecondsTarget = request.Set.SecondsTarget;
+				set.SecondsTarget = request.Set.SecondsTarget ?? 0;
 				set.IntensityTarget = request.Set.IntensityTarget;
 
 				switch (request.Set.WeightUnit)

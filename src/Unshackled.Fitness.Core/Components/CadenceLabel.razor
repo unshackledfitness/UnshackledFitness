@@ -1,0 +1,7 @@
+﻿<span class="result"><span class="distance">@Cadence?.ToString("0.##")</span><span class="post-result-label">@CadenceUnit.Label()</span></span>
+
+@code {
+	[Parameter] public double? Cadence { get; set; }
+
+	[Parameter] public CadenceUnits CadenceUnit { get; set; } = CadenceUnits.RPM;
+}

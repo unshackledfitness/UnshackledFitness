@@ -13,7 +13,7 @@ public class DrawerStatsBase : BaseSearchComponent<SearchSetModel, CompletedSetM
 	[Parameter] public SetMetricTypes SetMetricType { get; set; }
 	[Parameter] public RepModes? RepMode { get; set; }
 	[Parameter] public int? TargetReps { get; set; }
-	[Parameter] public int SecondsTarget { get; set; }
+	[Parameter] public int? SecondsTarget { get; set; }
 
 	protected List<CompletedSetGroupModel> Groups { get; set; } = new();
 

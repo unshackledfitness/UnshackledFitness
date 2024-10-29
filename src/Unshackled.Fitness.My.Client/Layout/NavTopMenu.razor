@@ -1,13 +1,67 @@
 ﻿@inherits Unshackled.Fitness.Core.Components.BaseComponent
 
 <MudNavMenu>
-	<MudNavLink Icon="@Icons.Material.Filled.Dashboard" Href="/" Match="NavLinkMatch.All">Dashboard</MudNavLink>
-	<MudNavLink Icon="@Icons.Material.Filled.CalendarMonth" Href="/calendar" Match="NavLinkMatch.Prefix">Calendar</MudNavLink>
-
-	<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
-
-	<MudNavLink Icon="@Icons.Material.Filled.DirectionsRun" Href="/exercises" Match="NavLinkMatch.Prefix">Exercises</MudNavLink>
-	<MudNavLink Icon="@Icons.Material.Filled.ViewList" Href="/templates" Match="NavLinkMatch.Prefix">Templates</MudNavLink>
-	<MudNavLink Icon="@Icons.Material.Filled.ListAlt" Href="/programs" Match="NavLinkMatch.Prefix">Programs</MudNavLink>
-	<MudNavLink Icon="@Icons.Material.Filled.FitnessCenter" Href="/workouts" Match="NavLinkMatch.Prefix">Workouts</MudNavLink>
+	@foreach (var item in MainMenu.Menus)
+	{
+		<MainMenuItem Item="@item" OnExpandedChanged="@HandleExpandedChanged" />
+	}
 </MudNavMenu>
+
+@code {
+	private MainMenu MainMenu = new();
+
+	protected override async Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
+		await Mediator.GetExpandedMenu();
+
+		SetExpandedMenu();
+
+		State.OnActiveMemberChange += ActiveMemberChanged;
+	}
+
+	public override ValueTask DisposeAsync()
+	{
+		return base.DisposeAsync();
+	}
+
+	private async Task HandleExpandedChanged(string menuId)
+	{
+		var expandedGroup = MainMenu.Menus.Where(x => x.Id == State.ExpandedMenuId && x.Type == MenuItem.Types.Group).FirstOrDefault();
+		if (string.IsNullOrEmpty(menuId))  // collapsing currently expanded group
+		{
+			if (expandedGroup != null)
+				expandedGroup.IsExpanded = false;
+		}
+		else
+		{
+			var group = MainMenu.Menus.Where(x => x.Id == menuId && x.Type == MenuItem.Types.Group).FirstOrDefault();
+			if (group != null)
+			{
+				if (expandedGroup == null) // First group to expand
+				{
+					await Mediator.SetExpandedMenu(group.Id);
+				}
+				else if (expandedGroup != null && group.Id != expandedGroup.Id) // new group expanded
+				{
+					await Mediator.SetExpandedMenu(group.Id);
+					expandedGroup.IsExpanded = false;
+				}
+			}
+		}
+	}
+
+	private void ActiveMemberChanged()
+	{
+		MainMenu = new();
+		SetExpandedMenu();
+	}
+
+	private void SetExpandedMenu()
+	{
+		var group = MainMenu.Menus.Where(x => x.Id == State.ExpandedMenuId).FirstOrDefault();
+		if (group != null)
+			group.IsExpanded = true;
+	}
+
+}

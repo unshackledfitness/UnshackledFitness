@@ -11,4 +11,9 @@ public class AppGlobals
 		public const string LocalApi = "LocalApi";
 		public const string LibraryApi = "LibraryApi";
 	}
+
+	public static class LocalStorageKeys
+	{
+		public const string ExpandedMenuId = "expandedMenuId";
+	}
 }

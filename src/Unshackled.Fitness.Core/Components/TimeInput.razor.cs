@@ -6,18 +6,18 @@ namespace Unshackled.Fitness.Core.Components;
 public class TimeInputBase : ComponentBase
 {
 	[Parameter]
-	public int Value
+	public int? Value
 	{
 		get { return seconds; }
 		set
 		{
-			seconds = value;
+			seconds = value ?? 0;
 			SplitTimes();
 		}
 	}
 
 	[Parameter]
-	public EventCallback<int> ValueChanged { get; set; }
+	public EventCallback<int?> ValueChanged { get; set; }
 
 	[Parameter] public string? Label { get; set; }
 	[Parameter] public string? Placeholder { get; set; } = "--";

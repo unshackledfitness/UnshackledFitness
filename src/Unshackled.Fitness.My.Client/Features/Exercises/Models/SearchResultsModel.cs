@@ -17,5 +17,5 @@ public class SearchResultsModel : SearchModel
 	public SetMetricTypes SetMetricType { get; set; }
 	public WorkoutSetTypes SetType { get; set; } = WorkoutSetTypes.Standard;
 	public int? RepsTarget { get; set; }
-	public int SecondsTarget { get; set; }
+	public int? SecondsTarget { get; set; }
 }

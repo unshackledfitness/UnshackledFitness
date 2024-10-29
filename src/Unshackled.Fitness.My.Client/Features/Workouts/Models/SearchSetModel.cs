@@ -16,5 +16,5 @@ public class SearchSetModel : SearchModel
 	public SetMetricTypes SetMetricType { get; set; }
 	public RepModes? RepMode { get; set; }
 	public int? RepsTarget { get; set; }
-	public int SecondsTarget { get; set; }
+	public int? SecondsTarget { get; set; }
 }

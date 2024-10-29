@@ -1,0 +1,48 @@
+﻿@page "/activity-types"
+@inherits IndexBase
+
+<DynamicPageTitle  IsLoading="@IsLoading" LoadingTitle="Loading Activity Types..." Title="Activity Types" />
+
+<MudBreadcrumbs Items="@Breadcrumbs" />
+
+<MudText Typo="Typo.h4" Class="mb-6">Activity Types</MudText>
+
+<MudToolBar Gutters="false" Class="mb-2">
+	<MudButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls" OnClick="@(() => HandleAddClicked())">New</MudButton>
+</MudToolBar>
+<div Class="mb-6">
+	<ListView IsLoading="@IsLoading" TItem="ActivityTypeListModel" Items="@ActivityTypes">
+		<ItemRenderer>
+			<MudGrid Spacing="2" Class="align-center">
+				<MudItem xs="12" md="8" lg="9" Class="d-flex flex-row gap-2">
+					<MudElement HtmlTag="div" Style="@context.Item.Color.SwatchStyle()" />
+					<div class="flex-grow-1">
+						<MudText Typo="Typo.subtitle1">@context.Item.Title</MudText>
+					</div>
+					<MudText Typo="Typo.body2" Color="Color.Tertiary">@context.Item.ActivityCount.CountLabel("activity", "activities")</MudText>
+				</MudItem>
+				<MudItem xs="12" md="4" lg="3" Class="d-flex flex-row gap-1 justify-end">
+					<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@DisableControls" Class="me-2" OnClick="@(() => HandleEditClicked(context.Item))" />
+					<MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@(DisableControls || context.Item.ActivityCount > 0)" OnClick="@(() => HandleDeleteClicked(context.Item))" />
+				</MudItem>
+			</MudGrid>
+		</ItemRenderer>
+		<EmptyListRenderer>
+			<div class="d-flex flex-column align-center gap-4">
+				<MudAlert Severity="Severity.Normal">You have not added any activity types.</MudAlert>
+			</div>
+		</EmptyListRenderer>
+	</ListView>
+</div>
+
+
+<SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
+	@if (DrawerView == Views.Edit)
+	{
+		<DrawerProperties Model="@FormModel" SubmitLabel="Update" OnCanceled="HandleCancelClicked" OnFormSubmitted="@HandleEditSubmitted" />
+	}
+	else if (DrawerView == Views.Add)
+	{
+		<DrawerProperties Model="@FormModel" SubmitLabel="Create" OnCanceled="HandleCancelClicked" OnFormSubmitted="@HandleAddSubmitted" />
+	}
+</SideDrawer>
