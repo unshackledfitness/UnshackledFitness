@@ -47,7 +47,9 @@ else if (!IsLoading)
 				</MudMenu>
 				<MudMenu title="My Account" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" Class="ms-2">
 					<ActivatorContent>
-						<Gravatar Hash="@State.ActiveMember.EmailHash" Size="Size.Small" UseGravatar="@State.ActiveMember.Settings.UseGravatar" />
+						<MudAvatar Size="Size.Small">
+								<MudImage Src="@($"/icon_x72.png")" />
+						</MudAvatar>
 					</ActivatorContent>
 					<ChildContent>
 						<MudMenuItem OnClick="@(() => HandleReloadAppClicked())">

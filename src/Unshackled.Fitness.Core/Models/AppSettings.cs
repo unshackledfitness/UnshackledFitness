@@ -5,10 +5,16 @@ namespace Unshackled.Fitness.Core.Models;
 public class AppSettings : ICloneable
 {
 	public Themes AppTheme { get; set; } = Themes.System;
+
+	// General
 	public UnitSystems DefaultUnits { get; set; } = UnitSystems.Metric;
+
+	// Strength
 	public int DisplaySplitTracking { get; set; } = 0;
 	public bool HideCompleteSets { get; set; } = false;
-	public bool UseGravatar { get; set; } = false;
+
+	// Metrics
+	public MetricDisplayOptions MetricsDashboardDisplay { get; set; } = MetricDisplayOptions.Grouped;
 
 	public object Clone()
 	{
@@ -18,7 +24,7 @@ public class AppSettings : ICloneable
 			DefaultUnits = DefaultUnits,
 			DisplaySplitTracking = DisplaySplitTracking,
 			HideCompleteSets = HideCompleteSets,
-			UseGravatar = UseGravatar
+			MetricsDashboardDisplay = MetricsDashboardDisplay
 		};
 	}
 }

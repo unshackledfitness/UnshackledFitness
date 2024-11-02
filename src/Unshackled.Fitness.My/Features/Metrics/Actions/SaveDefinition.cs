@@ -42,7 +42,7 @@ public class SaveDefinition
 				{
 					groupExists = await db.MetricDefinitionGroups
 						.Where(x => x.Id == groupId && x.MemberId == request.MemberId)
-						.AnyAsync();
+						.AnyAsync(cancellationToken);
 				}
 				else
 				{
@@ -50,7 +50,7 @@ public class SaveDefinition
 					var group = await db.MetricDefinitionGroups
 						.Where(x => x.MemberId == request.MemberId)
 						.OrderBy(x => x.SortOrder)
-						.LastOrDefaultAsync();
+						.LastOrDefaultAsync(cancellationToken);
 
 					if (group == null)
 					{
@@ -72,7 +72,7 @@ public class SaveDefinition
 
 				var definition = await db.MetricDefinitions
 					.Where(x => x.Id == defId && x.MemberId == request.MemberId)
-					.SingleOrDefaultAsync();
+					.SingleOrDefaultAsync(cancellationToken);
 
 				string msg = "Metric ";
 				if (definition == null)
@@ -81,18 +81,19 @@ public class SaveDefinition
 						.Where(x => x.ListGroupId == groupId)
 						.OrderBy(x => x.SortOrder)
 						.Select(x => x.SortOrder + 1)
-						.LastOrDefaultAsync();
+						.LastOrDefaultAsync(cancellationToken);
 
 					// Update sort order of any definitions coming after new definition
 					await db.MetricDefinitions
 						.Where(x => x.MemberId == request.MemberId && x.SortOrder >= sortOrder)
-						.UpdateFromQueryAsync(x => new MetricDefinitionEntity { SortOrder = x.SortOrder + 1 });
+						.UpdateFromQueryAsync(x => new MetricDefinitionEntity { SortOrder = x.SortOrder + 1 }, cancellationToken);
 
 					definition = new MetricDefinitionEntity
 					{
 						ListGroupId = groupId,
 						HighlightColor = request.Model.HighlightColor,
 						IsArchived = false,
+						IsOnDashboard = request.Model.IsOnDashboard,
 						MaxValue = request.Model.MaxValue,
 						MemberId = request.MemberId,
 						MetricType = request.Model.MetricType,
@@ -106,6 +107,7 @@ public class SaveDefinition
 				else
 				{
 					definition.HighlightColor = request.Model.HighlightColor;
+					definition.IsOnDashboard = request.Model.IsOnDashboard;
 					definition.MaxValue = request.Model.MaxValue;
 					definition.MetricType = request.Model.MetricType;
 					definition.SubTitle = request.Model.SubTitle?.Trim();

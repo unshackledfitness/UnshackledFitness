@@ -5,13 +5,13 @@ using Unshackled.Fitness.My.Client.Features.Metrics.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Metrics.Actions;
 
-public class SaveDefinition
+public class SaveMetric
 {
 	public class Command : IRequest<CommandResult>
 	{
-		public FormMetricDefinitionModel Model { get; private set; }
+		public SaveMetricModel Model { get; private set; }
 
-		public Command(FormMetricDefinitionModel model)
+		public Command(SaveMetricModel model)
 		{
 			Model = model;
 		}
@@ -23,7 +23,7 @@ public class SaveDefinition
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
-			return await PostToCommandResultAsync($"{baseUrl}save-definition", request.Model)
+			return await PostToCommandResultAsync($"{baseUrl}save", request.Model)
 				?? new CommandResult(false, Globals.UnexpectedError);
 		}
 	}

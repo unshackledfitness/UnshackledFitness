@@ -29,15 +29,28 @@ public class MetricsController : BaseController
 		return Ok(await Mediator.Send(new GetCalendar.Query(Member.Id, id, model)));
 	}
 
-	[HttpGet("list")]
-	public async Task<IActionResult> List()
+	[HttpPost("list")]
+	public async Task<IActionResult> List([FromBody] DateTime displayDateUtc)
 	{
-		return Ok(await Mediator.Send(new ListMetrics.Query(Member.Id)));
+		return Ok(await Mediator.Send(new ListMetrics.Query(Member.Id, displayDateUtc)));
+	}
+
+	[HttpGet("list-definitions")]
+	public async Task<IActionResult> ListDefinitions()
+	{
+		return Ok(await Mediator.Send(new ListDefintions.Query(Member.Id)));
 	}
 
 	[HttpPost("save")]
 	[ActiveMemberRequired]
-	public async Task<IActionResult> Save([FromBody] FormMetricDefinitionModel model)
+	public async Task<IActionResult> Save([FromBody] SaveMetricModel model)
+	{
+		return Ok(await Mediator.Send(new SaveMetric.Command(Member.Id, model)));
+	}
+
+	[HttpPost("save-definition")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> SaveDefinition([FromBody] FormMetricDefinitionModel model)
 	{
 		return Ok(await Mediator.Send(new SaveDefinition.Command(Member.Id, model)));
 	}

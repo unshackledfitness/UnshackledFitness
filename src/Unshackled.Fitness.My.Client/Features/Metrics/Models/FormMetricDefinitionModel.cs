@@ -14,6 +14,7 @@ public class FormMetricDefinitionModel : BaseMemberObject, IGroupedSortable, ICl
 	public string HighlightColor { get; set; } = string.Empty;
 	public decimal MaxValue { get; set; }
 	public bool IsArchived { get; set; }
+	public bool IsOnDashboard { get; set; } = true;
 
 	public object Clone()
 	{
@@ -24,6 +25,7 @@ public class FormMetricDefinitionModel : BaseMemberObject, IGroupedSortable, ICl
 			ListGroupSid = ListGroupSid,
 			HighlightColor = HighlightColor,
 			IsArchived = IsArchived,
+			IsOnDashboard = IsOnDashboard,
 			MaxValue = MaxValue,
 			MemberSid = MemberSid,
 			MetricType = MetricType,

@@ -1,4 +1,5 @@
 using Unshackled.Fitness.Core.Components;
+using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Dashboard.Actions;
 using Unshackled.Fitness.My.Client.Features.Dashboard.Models;
 
@@ -14,6 +15,14 @@ public class DashboardMetricsBase : BaseComponent
 	{
 		await base.OnInitializedAsync();
 		await GetMetrics();
+	}
+
+	protected List<MetricDefinitionGroupModel> GetGroups()
+	{
+		if (State.ActiveMember.Settings.MetricsDashboardDisplay == MetricDisplayOptions.Flat)
+			return [];
+
+		return GridModel.Groups;
 	}
 
 	private async Task GetMetrics()

@@ -15,6 +15,7 @@ public class MetricDefinitionEntity : BaseMemberEntity
 	public string HighlightColor { get; set; } = string.Empty;
 	public decimal MaxValue { get; set; }
 	public bool IsArchived { get; set; }
+	public bool IsOnDashboard { get; set; } = true;
 
 	public class TypeConfiguration : BaseMemberEntityTypeConfiguration<MetricDefinitionEntity>, IEntityTypeConfiguration<MetricDefinitionEntity>
 	{
@@ -41,6 +42,9 @@ public class MetricDefinitionEntity : BaseMemberEntity
 
 			config.Property(x => x.MaxValue)
 				.HasPrecision(2, 0);
+
+			config.Property(x => x.IsOnDashboard)
+				.HasDefaultValue(true);
 
 			config.HasIndex(x => new { x.MemberId, x.ListGroupId, x.SortOrder });
 		}

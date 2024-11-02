@@ -41,11 +41,11 @@ public class ListMetrics
 					SortOrder = x.SortOrder,
 					Title = x.Title
 				})
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
 			model.Metrics = await db.MetricDefinitions
 				.AsNoTracking()
-				.Where(x => x.MemberId == request.MemberId && x.IsArchived == false)
+				.Where(x => x.MemberId == request.MemberId && x.IsArchived == false && x.IsOnDashboard == true)
 				.OrderBy(x => x.SortOrder)
 				.Select(x => new MetricModel
 				{
@@ -54,6 +54,7 @@ public class ListMetrics
 					ListGroupSid = x.ListGroupId.Encode(),
 					HighlightColor = x.HighlightColor,
 					IsArchived = x.IsArchived,
+					IsOnDashboard = x.IsOnDashboard,
 					MaxValue = x.MaxValue,
 					MemberSid = x.MemberId.Encode(),
 					MetricType = x.MetricType,
@@ -62,12 +63,12 @@ public class ListMetrics
 					SubTitle = x.SubTitle,
 					Title = x.Title
 				})
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
 			var recordedMetrics = await db.Metrics
 				.AsNoTracking()
 				.Include(x => x.MetricDefinition)
-				.Where(x => x.MemberId == request.MemberId && x.DateRecorded == request.DisplayDate.Date.SetKindUtc())
+				.Where(x => x.MemberId == request.MemberId && x.MetricDefinition.IsOnDashboard == true && x.DateRecorded == request.DisplayDate.Date.SetKindUtc())
 				.OrderBy(x => x.MetricDefinition.SortOrder)
 				.Select(x => new MetricModel
 				{
@@ -77,6 +78,7 @@ public class ListMetrics
 					ListGroupSid = x.MetricDefinition.ListGroupId.Encode(),
 					HighlightColor = x.MetricDefinition.HighlightColor,
 					IsArchived = x.MetricDefinition.IsArchived,
+					IsOnDashboard = x.MetricDefinition.IsOnDashboard,
 					MaxValue = x.MetricDefinition.MaxValue,
 					MemberSid = x.MemberId.Encode(),
 					MetricType = x.MetricDefinition.MetricType,
@@ -86,7 +88,7 @@ public class ListMetrics
 					SubTitle = x.MetricDefinition.SubTitle,
 					Title = x.MetricDefinition.Title
 				})
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
 			foreach (var metric in recordedMetrics)
 			{

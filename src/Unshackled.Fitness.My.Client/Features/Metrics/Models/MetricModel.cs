@@ -2,7 +2,7 @@
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.Core.Models;
 
-namespace Unshackled.Fitness.My.Client.Features.Dashboard.Models;
+namespace Unshackled.Fitness.My.Client.Features.Metrics.Models;
 
 public class MetricModel : BaseMemberObject, IGroupedSortable
 {
@@ -14,7 +14,6 @@ public class MetricModel : BaseMemberObject, IGroupedSortable
 	public string? HighlightColor { get; set; }
 	public decimal MaxValue { get; set; }
 	public bool IsArchived { get; set; }
-	public bool IsOnDashboard { get; set; }
 	public DateTime DateRecorded { get; set; }
 	public decimal RecordedValue { get; set; }
 

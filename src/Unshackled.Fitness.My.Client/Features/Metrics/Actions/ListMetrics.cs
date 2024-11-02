@@ -5,15 +5,24 @@ namespace Unshackled.Fitness.My.Client.Features.Metrics.Actions;
 
 public class ListMetrics
 {
-	public class Query : IRequest<MetricListModel> { }
+	public class Query : IRequest<MetricGridModel>
+	{
+		public DateTime DisplayDate { get; private set; }
 
-	public class Handler : BaseMetricHandler, IRequestHandler<Query, MetricListModel>
+		public Query(DateTime displayDate)
+		{
+			DisplayDate = displayDate;
+		}
+	}
+
+	public class Handler : BaseMetricHandler, IRequestHandler<Query, MetricGridModel>
 	{
 		public Handler(HttpClient httpClient) : base(httpClient) { }
 
-		public async Task<MetricListModel> Handle(Query request, CancellationToken cancellationToken)
+		public async Task<MetricGridModel> Handle(Query request, CancellationToken cancellationToken)
 		{
-			return await GetResultAsync<MetricListModel>($"{baseUrl}list") ?? new();
+			return await PostToResultAsync<DateTime, MetricGridModel>($"{baseUrl}list", request.DisplayDate) ??
+				new MetricGridModel();
 		}
 	}
 }
