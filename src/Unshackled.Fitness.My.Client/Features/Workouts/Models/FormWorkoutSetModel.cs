@@ -59,7 +59,7 @@ public class FormWorkoutSetModel : BaseObject, IGroupedSortable, ICloneable
 		get => SecondsTarget != null && SecondsTarget > 0 ? new(0, 0, SecondsTarget.Value) : null;
 		set
 		{
-			SecondsTarget = value.HasValue ? (int)Math.Round(value.Value.TotalSeconds, 0) : 0;
+			SecondsTarget = value.HasValue ? (int)Math.Round(value.Value.TotalSeconds, 0, MidpointRounding.AwayFromZero) : 0;
 		}
 	}
 

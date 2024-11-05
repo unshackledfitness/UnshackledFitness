@@ -91,11 +91,11 @@ public class SaveSet
 				{
 					case WeightUnits.kg:
 						set.WeightKg = wgt;
-						set.WeightLb = Math.Round(wgt * WeightUnits.lb.ConversionFactor(), 3);
+						set.WeightLb = Math.Round(wgt * WeightUnits.lb.ConversionFactor(), 3, MidpointRounding.AwayFromZero);
 						break;
 					case WeightUnits.lb:
 						set.WeightLb = wgt;
-						set.WeightKg = Math.Round(wgt / WeightUnits.lb.ConversionFactor(), 3);
+						set.WeightKg = Math.Round(wgt / WeightUnits.lb.ConversionFactor(), 3, MidpointRounding.AwayFromZero);
 						break;
 					default:
 						return new CommandResult<FormWorkoutSetModel>(false, "Invalid weight unit.");
