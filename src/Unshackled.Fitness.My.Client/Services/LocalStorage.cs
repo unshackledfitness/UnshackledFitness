@@ -1,5 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using Unshackled.Fitness.Core.Models;
+using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Services;
 
@@ -11,10 +12,10 @@ public class LocalStorage : ILocalStorage
 	protected readonly AppState appState;
 	protected string basePrefix = string.Empty;
 
-	public LocalStorage(ILocalStorageService localStorage, AppState appState)
+	public LocalStorage(ILocalStorageService localStorage, IAppState appState)
 	{
 		this.localStorage = localStorage;
-		this.appState = appState; 
+		this.appState = (AppState)appState; 
 		this.basePrefix = $"uf_{appState.ActiveMember.Sid}_";
 	}
 

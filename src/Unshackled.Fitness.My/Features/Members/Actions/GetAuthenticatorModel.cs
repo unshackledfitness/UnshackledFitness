@@ -5,10 +5,11 @@ using System.Web;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Unshackled.Fitness.Core.Configuration;
 using Unshackled.Fitness.Core.Data;
-using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.My.Client.Features.Members.Models;
+using Unshackled.Studio.Core.Client.Configuration;
+using Unshackled.Studio.Core.Data;
+using Unshackled.Studio.Core.Data.Entities;
 
 namespace Unshackled.Fitness.My.Features.Members.Actions;
 
@@ -29,7 +30,7 @@ public class GetAuthenticatorModel
 		private readonly UserManager<UserEntity> userManager;
 		private readonly SiteConfiguration siteConfig;
 
-		public Handler(BaseDbContext db, IMapper mapper, UserManager<UserEntity> userManager, SiteConfiguration siteConfig) : base(db, mapper) 
+		public Handler(FitnessDbContext db, IMapper mapper, UserManager<UserEntity> userManager, SiteConfiguration siteConfig) : base(db, mapper) 
 		{
 			this.userManager = userManager;
 			this.siteConfig = siteConfig;

@@ -3,8 +3,9 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.ExercisePicker.Models;
+using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Studio.Core.Data;
 
 namespace Unshackled.Fitness.My.Features.ExercisePicker.Actions;
 
@@ -24,7 +25,7 @@ public class SearchExercises
 
 	public class Handler : BaseHandler, IRequestHandler<Query, SearchResult<ExerciseModel>>
 	{
-		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<SearchResult<ExerciseModel>> Handle(Query request, CancellationToken cancellationToken)
 		{

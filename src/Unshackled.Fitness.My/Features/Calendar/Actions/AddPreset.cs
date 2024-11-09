@@ -3,8 +3,9 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
-using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Calendar.Models;
+using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Studio.Core.Data;
 
 namespace Unshackled.Fitness.My.Features.Calendar.Actions;
 
@@ -24,7 +25,7 @@ public class AddPreset
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult<PresetModel>>
 	{
-		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult<PresetModel>> Handle(Command request, CancellationToken cancellationToken)
 		{

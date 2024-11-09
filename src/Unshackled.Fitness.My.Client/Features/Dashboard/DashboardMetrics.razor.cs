@@ -1,7 +1,9 @@
 using Unshackled.Fitness.Core.Components;
 using Unshackled.Fitness.Core.Enums;
+using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Dashboard.Actions;
 using Unshackled.Fitness.My.Client.Features.Dashboard.Models;
+using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Dashboard;
 
@@ -10,6 +12,7 @@ public class DashboardMetricsBase : BaseComponent
 	protected DateTime? DisplayDate { get; set; } = DateTimeOffset.Now.Date;
 	protected bool IsLoading { get; set; } = true;
 	protected MetricGridModel GridModel { get; set; } = new();
+	protected AppSettings AppSettings => ((Member)State.ActiveMember).Settings;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -19,7 +22,7 @@ public class DashboardMetricsBase : BaseComponent
 
 	protected List<MetricDefinitionGroupModel> GetGroups()
 	{
-		if (State.ActiveMember.Settings.MetricsDashboardDisplay == MetricDisplayOptions.Flat)
+		if (AppSettings.MetricsDashboardDisplay == MetricDisplayOptions.Flat)
 			return [];
 
 		return GridModel.Groups;

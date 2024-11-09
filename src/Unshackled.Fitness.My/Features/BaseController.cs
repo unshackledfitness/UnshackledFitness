@@ -1,8 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Unshackled.Fitness.Core.Configuration;
 using Unshackled.Fitness.My.Middleware;
+using Unshackled.Studio.Core.Client.Configuration;
+using Unshackled.Studio.Core.Server;
 
 namespace Unshackled.Fitness.My.Features;
 

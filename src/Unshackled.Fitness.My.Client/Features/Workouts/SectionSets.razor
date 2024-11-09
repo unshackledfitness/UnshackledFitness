@@ -57,10 +57,10 @@
 															</TitleContent>
 															<ChildContent>
 																<div>
-																	<WeightRepsLabel IsTrackingSplit="@context.Item.IsTrackingSplit" SplitOrder="State.ActiveMember.Settings.DisplaySplitTracking"
+																	<WeightRepsLabel IsTrackingSplit="@context.Item.IsTrackingSplit" SplitOrder="AppSettings.DisplaySplitTracking"
 																					 IsRepsOnly="@(context.Item.SetMetricType == SetMetricTypes.RepsOnly)" Reps="@context.Item.Reps"
 																					 RepsLeft="@context.Item.RepsLeft" RepsRight="@context.Item.RepsRight" WeightKg="@context.Item.Weight"
-																					 WeightLb="@context.Item.Weight" UnitSystem="@State.ActiveMember.Settings.DefaultUnits" />
+																					 WeightLb="@context.Item.Weight" UnitSystem="@AppSettings.DefaultUnits" />
 																</div>
 															</ChildContent>
 														</CaptionedProperty>
@@ -91,7 +91,7 @@
 															</TitleContent>
 															<ChildContent>
 																<div>
-																	<WeightLabel WeightKg="@context.Item.Volume" WeightLb="@context.Item.Volume" UnitSystem="@State.ActiveMember.Settings.DefaultUnits" />
+																	<WeightLabel WeightKg="@context.Item.Volume" WeightLb="@context.Item.Volume" UnitSystem="@AppSettings.DefaultUnits" />
 																</div>
 															</ChildContent>
 														</CaptionedProperty>
@@ -120,7 +120,7 @@
 															</TitleContent>
 															<ChildContent>
 																<div>
-																	<TimeLabel DisplaySplitTracking="@State.ActiveMember.Settings.DisplaySplitTracking" IsTrackingSplit="@context.Item.IsTrackingSplit"
+																	<TimeLabel DisplaySplitTracking="@AppSettings.DisplaySplitTracking" IsTrackingSplit="@context.Item.IsTrackingSplit"
 																			   Seconds="@context.Item.Seconds" SecondsLeft="@context.Item.SecondsLeft" SecondsRight="@context.Item.SecondsRight" />
 																</div>
 															</ChildContent>

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
-using Unshackled.Fitness.Core.Components;
 using Unshackled.Fitness.My.Client.Features.Workouts.Models;
+using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Workouts;
 

@@ -15,7 +15,7 @@
 		<MudPaper Class="d-flex flex-column justify-center h-100">
 			<MudText Typo="Typo.body2" Color="Color.Tertiary" Align="Align.Center">Total Volume</MudText>
 			<MudText Typo="Typo.h4" Align="Align.Center" Class="my-4">
-				<WeightLabel WeightKg="@Model.TotalVolumeKg" WeightLb="@Model.TotalVolumeLb" UnitSystem="@State.ActiveMember.Settings.DefaultUnits" />
+				<WeightLabel WeightKg="@Model.TotalVolumeKg" WeightLb="@Model.TotalVolumeLb" UnitSystem="@(((Member)State.ActiveMember).Settings.DefaultUnits)" />
 			</MudText>
 			@if (Model.Years.Any())
 			{

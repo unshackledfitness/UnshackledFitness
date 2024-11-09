@@ -2,11 +2,12 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
-using Unshackled.Fitness.Core.Data.Extensions;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Activities.Models;
-using Unshackled.Fitness.My.Extensions;
+using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Studio.Core.Data;
+using Unshackled.Studio.Core.Data.Extensions;
+using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Activities.Actions;
 
@@ -26,7 +27,7 @@ public class SearchActivities
 
 	public class Handler : BaseHandler, IRequestHandler<Query, SearchResult<ActivityListModel>>
 	{
-		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<SearchResult<ActivityListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{

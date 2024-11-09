@@ -1,12 +1,15 @@
-﻿namespace Unshackled.Fitness.Core.Models;
+﻿using Unshackled.Studio.Core.Client.Enums;
+using Unshackled.Studio.Core.Client.Models;
 
-public class Member
+namespace Unshackled.Fitness.Core.Models;
+
+public class Member : IMember
 {
 	public string Sid { get; set; } = string.Empty;
 	public string Email { get; set; } = string.Empty;
-	public string EmailHash { get; set; } = string.Empty;
-	public AppSettings Settings { get; set; } = new();
 	public DateTime DateCreatedUtc { get; set; }
 	public DateTime? DateLastModifiedUtc { get; set; }
 	public bool IsActive { get; set; }
+	public Themes AppTheme { get; set; } = Themes.System;
+	public AppSettings Settings { get; set; } = new();
 }

@@ -1,7 +1,8 @@
 using MudBlazor;
-using Unshackled.Fitness.Core.Components;
+using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Activities.Actions;
 using Unshackled.Fitness.My.Client.Features.Activities.Models;
+using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Activities;
 
@@ -23,7 +24,7 @@ public class IndexBase : BaseSearchComponent<SearchActivitiesModel, ActivityList
 	};
 	protected List<ActivityTypeListModel> ActivityTypes { get; set; } = [];
 	protected bool HasActivityTypes => ActivityTypes.Count > 0;
-	
+	protected AppSettings AppSettings => ((Member)State.ActiveMember).Settings;	
 
 	protected override async Task OnInitializedAsync()
 	{

@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Components;
+using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Extensions;
 using Unshackled.Fitness.My.Client.Features.Exercises.Actions;
 using Unshackled.Fitness.My.Client.Features.Exercises.Models;
-using Unshackled.Fitness.Core.Models.Charts;
+using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Studio.Core.Client.Models.Charts;
 
 namespace Unshackled.Fitness.My.Client.Features.Exercises;
 
@@ -15,8 +16,9 @@ public class SectionResultsBase : BaseSearchComponent<SearchResultsModel, Result
 
 	protected DateRange DateRangeSearch { get; set; } = new DateRange();
 	protected List<ResultListGroupModel> Groups { get; set; } = new();
-	protected Views CurrentView { get; set; } = Views.Data;	
-	protected UnitSystems DefaultUnits { get; set; } = UnitSystems.Metric;
+	protected Views CurrentView { get; set; } = Views.Data;
+	protected AppSettings AppSettings => ((Member)State.ActiveMember).Settings;
+	protected bool AreDefaultUnits => ((Member)State.ActiveMember).AreDefaultUnits(UnitSystems.Metric);
 
 	protected ChartState<decimal> ChartBestWeight { get; set; } = new();
 	protected ChartState<decimal> ChartHighestVolume { get; set; } = new();
@@ -34,8 +36,6 @@ public class SectionResultsBase : BaseSearchComponent<SearchResultsModel, Result
 	{
 		await base.OnInitializedAsync();
 
-		DefaultUnits = State.ActiveMember.Settings.DefaultUnits;
-
 		SearchModel = new()
 		{
 			ExerciseSid = Exercise.Sid,
@@ -52,7 +52,7 @@ public class SectionResultsBase : BaseSearchComponent<SearchResultsModel, Result
 		var bestWeightConfig = new BarChart
 		{
 			LabelAxisX = "Date",
-			LabelAxisY = DefaultUnits == UnitSystems.Metric ? "Weight (kg)" : "Weight (lb)",
+			LabelAxisY = AppSettings.DefaultUnits == UnitSystems.Metric ? "Weight (kg)" : "Weight (lb)",
 			Title = "Best Weight"
 		};
 		ChartBestWeight.Configure("chartBestWeight", bestWeightConfig.Config);
@@ -60,7 +60,7 @@ public class SectionResultsBase : BaseSearchComponent<SearchResultsModel, Result
 		var highestVolumeConfig = new BarChart
 		{
 			LabelAxisX = "Date",
-			LabelAxisY = DefaultUnits == UnitSystems.Metric ? "Volume (kg)" : "Volume (lb)",
+			LabelAxisY = AppSettings.DefaultUnits == UnitSystems.Metric ? "Volume (kg)" : "Volume (lb)",
 			Title = "Highest Volume"
 		};
 		ChartHighestVolume.Configure("chartHighestVolume", highestVolumeConfig.Config);
@@ -132,7 +132,7 @@ public class SectionResultsBase : BaseSearchComponent<SearchResultsModel, Result
 			ChartDataSet<decimal> dsWeight = new()
 			{
 				BackgroundColor = ChartDataSet.ColorBlue,
-				Label = DefaultUnits == UnitSystems.Metric ? "Weight (kg)" : "Weight (lb)"
+				Label = AppSettings.DefaultUnits == UnitSystems.Metric ? "Weight (kg)" : "Weight (lb)"
 			};
 
 			var data = SearchResults.Data
@@ -147,7 +147,7 @@ public class SectionResultsBase : BaseSearchComponent<SearchResultsModel, Result
 					var pt = new ChartDataPoint<decimal>
 					{
 						X = item.DateWorkoutUtc.ToLocalTime().ToString("MMM dd"),
-						Y = DefaultUnits == UnitSystems.Metric ? item.WeightKg.Value : item.WeightLb.Value
+						Y = AppSettings.DefaultUnits == UnitSystems.Metric ? item.WeightKg.Value : item.WeightLb.Value
 					};
 					dsWeight.Data.Add(pt);
 				}
@@ -172,7 +172,7 @@ public class SectionResultsBase : BaseSearchComponent<SearchResultsModel, Result
 			ChartDataSet<decimal> dsVolume = new()
 			{
 				BackgroundColor = ChartDataSet.ColorBlue,
-				Label = DefaultUnits == UnitSystems.Metric ? "Volume (kg)" : "Volume (lb)"
+				Label = AppSettings.DefaultUnits == UnitSystems.Metric ? "Volume (kg)" : "Volume (lb)"
 			};
 
 			foreach (var item in data)
@@ -180,7 +180,7 @@ public class SectionResultsBase : BaseSearchComponent<SearchResultsModel, Result
 				var pt = new ChartDataPoint<decimal>
 				{
 					X = item.DateWorkoutUtc.ToLocalTime().ToString("MMM dd"),
-					Y = DefaultUnits == UnitSystems.Metric ? item.VolumeKg : item.VolumeLb
+					Y = AppSettings.DefaultUnits == UnitSystems.Metric ? item.VolumeKg : item.VolumeLb
 				};
 				dsVolume.Data.Add(pt);
 			}
@@ -451,7 +451,7 @@ public class SectionResultsBase : BaseSearchComponent<SearchResultsModel, Result
 
 	protected decimal GetDisplayWeight(ResultListModel result)
 	{
-		if (State.ActiveMember.AreDefaultUnits(UnitSystems.Metric))
+		if (AreDefaultUnits)
 			return result.VolumeKg;
 		else
 			return result.VolumeLb;
@@ -459,7 +459,7 @@ public class SectionResultsBase : BaseSearchComponent<SearchResultsModel, Result
 
 	protected WeightUnits GetDisplayWeightUnit()
 	{
-		if (State.ActiveMember.AreDefaultUnits(UnitSystems.Metric))
+		if (AreDefaultUnits)
 			return WeightUnits.kg;
 		else
 			return WeightUnits.lb;

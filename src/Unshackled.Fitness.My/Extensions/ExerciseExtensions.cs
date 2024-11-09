@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Studio.Core.Data;
 
 namespace Unshackled.Fitness.My.Extensions;
 
 public static class ExerciseExtensions
 {
-	public static async Task<CommandResult> MergeExercises(this BaseDbContext db, long memberId, long idKept, long idDeleted)
+	public static async Task<CommandResult> MergeExercises(this FitnessDbContext db, long memberId, long idKept, long idDeleted)
 	{
 		var keptExercise = await db.Exercises
 			.Where(x => x.Id == idKept && x.MemberId == memberId)

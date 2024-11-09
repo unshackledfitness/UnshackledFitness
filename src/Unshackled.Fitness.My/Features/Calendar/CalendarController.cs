@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Unshackled.Fitness.My.Client.Features.Calendar.Models;
 using Unshackled.Fitness.My.Features.Calendar.Actions;
+using Unshackled.Studio.Core.Server.Features;
 
 namespace Unshackled.Fitness.My.Features.Calendar;
 

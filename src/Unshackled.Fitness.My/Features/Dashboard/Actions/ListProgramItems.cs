@@ -4,9 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Utils;
 using Unshackled.Fitness.My.Client.Features.Dashboard.Models;
-using Unshackled.Fitness.My.Extensions;
+using Unshackled.Studio.Core.Client.Utils;
+using Unshackled.Studio.Core.Data;
+using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Dashboard.Actions;
 
@@ -26,7 +27,7 @@ public class ListProgramItems
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<ProgramListModel>>
 	{
-		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<ProgramListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{

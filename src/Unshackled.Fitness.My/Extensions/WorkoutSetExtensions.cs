@@ -1,7 +1,8 @@
 ﻿using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Utils;
 using Unshackled.Fitness.My.Client.Features.Workouts.Models;
+using Unshackled.Studio.Core.Client.Utils;
+using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Extensions;
 

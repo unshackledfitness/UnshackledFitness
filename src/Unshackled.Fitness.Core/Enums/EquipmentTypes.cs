@@ -1,4 +1,4 @@
-﻿using Unshackled.Fitness.Core.Utils;
+﻿using Unshackled.Studio.Core.Client.Utils;
 
 namespace Unshackled.Fitness.Core.Enums;
 

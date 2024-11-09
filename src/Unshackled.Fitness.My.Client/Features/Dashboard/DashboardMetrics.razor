@@ -1,6 +1,6 @@
 ﻿@inherits DashboardMetricsBase
 
-@if (State.ActiveMember.Settings.MetricsDashboardDisplay != MetricDisplayOptions.None)
+@if (AppSettings.MetricsDashboardDisplay != MetricDisplayOptions.None)
 {
 	<div class="mb-4">
 		<MudDatePicker Label="Metrics For" Variant="Variant.Filled" Class="input-no-underline" Date="@DisplayDate" ShowToolbar="false" MaxDate="@DateTimeOffset.Now.Date" DateChanged="@HandleDateChanged" />

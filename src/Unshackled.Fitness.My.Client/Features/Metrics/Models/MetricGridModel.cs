@@ -1,6 +1,4 @@
-﻿using Unshackled.Fitness.My.Client.Features.Dashboard.Models;
-
-namespace Unshackled.Fitness.My.Client.Features.Metrics.Models;
+﻿namespace Unshackled.Fitness.My.Client.Features.Metrics.Models;
 
 public class MetricGridModel
 {

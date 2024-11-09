@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Models;
+using Unshackled.Studio.Core.Data;
 
 namespace Unshackled.Fitness.My.Features.WorkoutTemplates.Actions;
 
@@ -22,7 +23,7 @@ public class GetTemplate
 
 	public class Handler : BaseHandler, IRequestHandler<Query, TemplateModel>
 	{
-		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<TemplateModel> Handle(Query request, CancellationToken cancellationToken)
 		{

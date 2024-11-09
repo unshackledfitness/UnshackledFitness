@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
-using MudBlazor;
-using Unshackled.Fitness.Core.Components;
+﻿using MudBlazor;
 using Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Actions;
 using Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Models;
+using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.WorkoutTemplates;
 

@@ -5,12 +5,13 @@
 @using Microsoft.AspNetCore.WebUtilities
 @using Microsoft.EntityFrameworkCore
 @using Unshackled.Fitness.Core.Data
-@using Unshackled.Fitness.Core.Data.Entities
+@using Unshackled.Fitness.Core.Data.Entities;
+@using Unshackled.Studio.Core.Data.Entities
 
 @inject UserManager<UserEntity> UserManager
 @inject SignInManager<UserEntity> SignInManager
 @inject IdentityRedirectManager RedirectManager
-@inject BaseDbContext db
+@inject FitnessDbContext db
 
 <PageTitle>Confirm email change</PageTitle>
 

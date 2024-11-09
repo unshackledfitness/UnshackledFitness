@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
-using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Workouts.Models;
-using Unshackled.Fitness.My.Extensions;
+using Unshackled.Studio.Core.Client;
+using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Studio.Core.Data;
+using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Workouts.Actions;
 
@@ -26,7 +27,7 @@ public class AddTemplate
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult<string>>
 	{
-		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult<string>> Handle(Command request, CancellationToken cancellationToken)
 		{

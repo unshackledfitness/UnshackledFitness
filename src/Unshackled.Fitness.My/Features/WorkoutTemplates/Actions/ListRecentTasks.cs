@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Models;
+using Unshackled.Studio.Core.Data;
 
 namespace Unshackled.Fitness.My.Features.WorkoutTemplates.Actions;
 
@@ -23,7 +24,7 @@ public class ListRecentTasks
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<RecentTemplateTaskModel>>
 	{
-		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<RecentTemplateTaskModel>> Handle(Query request, CancellationToken cancellationToken)
 		{

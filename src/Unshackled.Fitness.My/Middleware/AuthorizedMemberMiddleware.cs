@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
-using Unshackled.Fitness.My.Extensions;
+using Unshackled.Studio.Core.Server;
+using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Middleware;
 
@@ -13,26 +14,15 @@ public class AuthorizedMemberMiddleware
 		this.next = next;
 	}
 
-	public async Task InvokeAsync(HttpContext context, BaseDbContext db)
+	public async Task InvokeAsync(HttpContext context, FitnessDbContext db)
 	{
 		var path = context.Request.Path;
+		string email = context.User.GetEmailClaim();
+
 		// Skip paths not starting with /api
 		if (!path.StartsWithSegments("/api"))
 		{
 			await next(context);
-			return;
-		}
-
-		if (context.User.Identity == null || !context.User.Identity.IsAuthenticated)
-		{
-			context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-			return;
-		}
-
-		string email = context.User.GetEmailClaim();
-		if (string.IsNullOrEmpty(email))
-		{
-			context.Response.StatusCode = StatusCodes.Status401Unauthorized;
 			return;
 		}
 

@@ -70,16 +70,16 @@
 								<MudItem xs="6">
 									<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block" Align="Align.Center">Weight x Reps</MudText>
 									<MudText Align="Align.Center">
-										<WeightRepsLabel IsTrackingSplit="@context.Item.IsTrackingSplit" SplitOrder="State.ActiveMember.Settings.DisplaySplitTracking"
+										<WeightRepsLabel IsTrackingSplit="@context.Item.IsTrackingSplit" SplitOrder="AppSettings.DisplaySplitTracking"
 														 IsRepsOnly="@(context.Item.SetMetricType == SetMetricTypes.RepsOnly)" Reps="@context.Item.Reps"
 														 RepsLeft="@context.Item.RepsLeft" RepsRight="@context.Item.RepsRight" WeightKg="@context.Item.WeightKg"
-														 WeightLb="@context.Item.WeightLb" UnitSystem="@DefaultUnits" />
+														 WeightLb="@context.Item.WeightLb" UnitSystem="@AppSettings.DefaultUnits" />
 									</MudText>
 								</MudItem>
 								<MudItem xs="6">
 									<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block" Align="Align.End">Volume</MudText>
 									<MudText Align="Align.End">
-										<WeightLabel WeightKg="@context.Item.VolumeKg" WeightLb="@context.Item.VolumeLb" UnitSystem="@DefaultUnits" />
+										<WeightLabel WeightKg="@context.Item.VolumeKg" WeightLb="@context.Item.VolumeLb" UnitSystem="@AppSettings.DefaultUnits" />
 									</MudText>
 								</MudItem>
 							</MudGrid>
@@ -90,13 +90,13 @@
 								<MudItem xs="6">
 									<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block" Align="Align.Center">Weight</MudText>
 									<MudText Align="Align.Center">
-										<WeightLabel WeightKg="@context.Item.WeightKg" WeightLb="@context.Item.WeightLb" UnitSystem="@DefaultUnits" />
+										<WeightLabel WeightKg="@context.Item.WeightKg" WeightLb="@context.Item.WeightLb" UnitSystem="@AppSettings.DefaultUnits" />
 									</MudText>
 								</MudItem>
 								<MudItem xs="6">
 									<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block" Align="Align.End">Time</MudText>
 									<MudText Align="Align.End">
-										<TimeLabel DisplaySplitTracking="@State.ActiveMember.Settings.DisplaySplitTracking" IsTrackingSplit="@context.Item.IsTrackingSplit"
+										<TimeLabel DisplaySplitTracking="@AppSettings.DisplaySplitTracking" IsTrackingSplit="@context.Item.IsTrackingSplit"
 												   Seconds="@context.Item.Seconds" SecondsLeft="@context.Item.SecondsLeft" SecondsRight="@context.Item.SecondsRight" />
 									</MudText>
 								</MudItem>
@@ -106,7 +106,7 @@
 						{
 							<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block" Align="Align.End">Time</MudText>
 							<MudText Align="Align.End">
-								<TimeLabel DisplaySplitTracking="@State.ActiveMember.Settings.DisplaySplitTracking" IsTrackingSplit="@context.Item.IsTrackingSplit"
+								<TimeLabel DisplaySplitTracking="@AppSettings.DisplaySplitTracking" IsTrackingSplit="@context.Item.IsTrackingSplit"
 										   Seconds="@context.Item.Seconds" SecondsLeft="@context.Item.SecondsLeft" SecondsRight="@context.Item.SecondsRight" />
 							</MudText>
 						}

@@ -20,6 +20,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\..\Unshackled.Studio\src\Unshackled.Studio.Core.Data\Unshackled.Studio.Core.Data.csproj" />
 		<ProjectReference Include="..\Unshackled.Fitness.Core\Unshackled.Fitness.Core.csproj" />
 	</ItemGroup>
 

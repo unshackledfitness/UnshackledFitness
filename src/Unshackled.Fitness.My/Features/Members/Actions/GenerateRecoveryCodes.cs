@@ -3,9 +3,10 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Unshackled.Fitness.Core.Data;
-using Unshackled.Fitness.Core.Data.Entities;
-using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Members.Models;
+using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Studio.Core.Data;
+using Unshackled.Studio.Core.Data.Entities;
 
 namespace Unshackled.Fitness.My.Features.Members.Actions;
 
@@ -25,7 +26,7 @@ public class GenerateRecoveryCodes
 	{
 		private readonly UserManager<UserEntity> userManager;
 
-		public Handler(BaseDbContext db, IMapper mapper, UserManager<UserEntity> userManager) : base(db, mapper)
+		public Handler(FitnessDbContext db, IMapper mapper, UserManager<UserEntity> userManager) : base(db, mapper)
 		{
 			this.userManager = userManager;
 		}

@@ -52,22 +52,22 @@
 				<MudText Typo="Typo.subtitle1" Align="Align.End">
 					@if (context.Item.SetMetricType.HasReps())
 					{
-						<WeightRepsLabel IsTrackingSplit="@context.Item.IsTrackingSplit" SplitOrder="State.ActiveMember.Settings.DisplaySplitTracking"
+						<WeightRepsLabel IsTrackingSplit="@context.Item.IsTrackingSplit" SplitOrder="AppSettings.DisplaySplitTracking"
 										 IsRepsOnly="@(context.Item.SetMetricType == SetMetricTypes.RepsOnly)" Reps="@context.Item.Reps"
 										 RepsLeft="@context.Item.RepsLeft" RepsRight="@context.Item.RepsRight" WeightKg="@context.Item.WeightKg"
-										 WeightLb="@context.Item.WeightLb" UnitSystem="@State.ActiveMember.Settings.DefaultUnits" />
+										 WeightLb="@context.Item.WeightLb" UnitSystem="@AppSettings.DefaultUnits" />
 					}
 					else if (context.Item.SetMetricType == SetMetricTypes.WeightTime)
 					{
 						<div class="d-flex flex-row gap-2 justify-space-between">
-							<WeightLabel WeightKg="@context.Item.WeightKg" WeightLb="@context.Item.WeightLb" UnitSystem="@State.ActiveMember.Settings.DefaultUnits" />
-							<TimeLabel DisplaySplitTracking="@State.ActiveMember.Settings.DisplaySplitTracking" IsTrackingSplit="@context.Item.IsTrackingSplit"
+							<WeightLabel WeightKg="@context.Item.WeightKg" WeightLb="@context.Item.WeightLb" UnitSystem="@AppSettings.DefaultUnits" />
+							<TimeLabel DisplaySplitTracking="@AppSettings.DisplaySplitTracking" IsTrackingSplit="@context.Item.IsTrackingSplit"
 									   Seconds="@context.Item.Seconds" SecondsLeft="@context.Item.SecondsLeft" SecondsRight="@context.Item.SecondsRight" />
 						</div>
 					}
 					else
 					{
-						<TimeLabel DisplaySplitTracking="@State.ActiveMember.Settings.DisplaySplitTracking" IsTrackingSplit="@context.Item.IsTrackingSplit"
+						<TimeLabel DisplaySplitTracking="@AppSettings.DisplaySplitTracking" IsTrackingSplit="@context.Item.IsTrackingSplit"
 								   Seconds="@context.Item.Seconds" SecondsLeft="@context.Item.SecondsLeft" SecondsRight="@context.Item.SecondsRight" />
 					}
 				</MudText>

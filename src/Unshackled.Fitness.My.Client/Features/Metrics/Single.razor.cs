@@ -1,15 +1,12 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Fitness.Core.Components;
-using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
-using Unshackled.Fitness.Core.Models.Calendars;
-using Unshackled.Fitness.Core.Models.Charts;
-using Unshackled.Fitness.Core.Utils;
-using Unshackled.Fitness.My.Client.Features.Exercises.Actions;
 using Unshackled.Fitness.My.Client.Features.Metrics.Actions;
 using Unshackled.Fitness.My.Client.Features.Metrics.Models;
-using static MudBlazor.CategoryTypes;
+using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Studio.Core.Client.Models.Calendars;
+using Unshackled.Studio.Core.Client.Models.Charts;
+using Unshackled.Studio.Core.Client.Utils;
 
 namespace Unshackled.Fitness.My.Client.Features.Metrics;
 

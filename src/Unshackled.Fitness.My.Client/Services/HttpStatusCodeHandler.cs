@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Fitness.Core.Models;
+using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Services;
 
@@ -11,10 +12,10 @@ public class HttpStatusCodeHandler : DelegatingHandler
 	private readonly AppState appState;
 	private readonly NavigationManager navManager;
 
-	public HttpStatusCodeHandler(ISnackbar snackbar, AppState state, NavigationManager nav)
+	public HttpStatusCodeHandler(ISnackbar snackbar, IAppState state, NavigationManager nav)
 	{
 		this.snackbar = snackbar;
-		appState = state;
+		appState = (AppState)state;
 		navManager = nav;
 	}
 

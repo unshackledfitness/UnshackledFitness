@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
 using MudBlazor.Utilities;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Components;
-using Unshackled.Fitness.My.Client.Features.Workouts.Actions;
-using Unshackled.Fitness.My.Client.Features.Workouts.Models;
 using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Components;
+using Unshackled.Fitness.My.Client.Features.Workouts.Actions;
+using Unshackled.Fitness.My.Client.Features.Workouts.Models;
+using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Workouts;
 
@@ -30,6 +31,7 @@ public class SectionSetsBase : BaseSectionComponent
 		: Icons.Material.Filled.Edit;
 
 	protected bool DrawerOpen => OpenStats || OpenNotes || OpenAddSet || OpenProperties;
+	protected AppSettings AppSettings => ((Member)State.ActiveMember).Settings;
 
 	protected string DrawerTitle => OpenStats
 		? "Previous Stats"
@@ -64,7 +66,7 @@ public class SectionSetsBase : BaseSectionComponent
 	protected WeightUnits TotalWeightUnit => Workout.Sets.Any() ? Workout.Sets[0].WeightUnit : WeightUnits.kg;
 
 	protected string SplitTrackingCss => new CssBuilder("d-flex flex-wrap")
-		.AddClass(State.ActiveMember.Settings.DisplaySplitTracking == 0
+		.AddClass(AppSettings.DisplaySplitTracking == 0
 			? "flex-column flex-sm-row"
 			: "flex-column-reverse flex-sm-row-reverse justify-end")
 		.Build();
@@ -75,7 +77,7 @@ public class SectionSetsBase : BaseSectionComponent
 	{
 		await base.OnInitializedAsync();
 
-		HideCompleted = !IsWorkoutComplete && State.ActiveMember.Settings.HideCompleteSets;
+		HideCompleted = !IsWorkoutComplete && AppSettings.HideCompleteSets;
 
 		if (Workout.Sets.Any())
 		{

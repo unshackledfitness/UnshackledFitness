@@ -1,13 +1,16 @@
 using Microsoft.AspNetCore.Components;
-using Unshackled.Fitness.Core.Components;
+using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Exercises.Actions;
 using Unshackled.Fitness.My.Client.Features.Exercises.Models;
+using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Exercises;
 
 public class SectionRecordsBase : BaseSectionComponent
 {
 	[Parameter] public ExerciseModel Exercise { get; set; } = new();
+
+	protected AppSettings AppSettings => ((Member)State.ActiveMember).Settings;
 
 	protected bool IsLoading { get; set; } = true;
 	protected List<RecordListModel> Records { get; set; } = new();

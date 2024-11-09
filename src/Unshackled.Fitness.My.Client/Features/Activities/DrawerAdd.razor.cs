@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Components;
-using Unshackled.Fitness.Core.Components;
 using Unshackled.Fitness.Core.Enums;
+using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Activities.Actions;
 using Unshackled.Fitness.My.Client.Features.Activities.Models;
+using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Activities;
 
@@ -22,7 +23,7 @@ public class DrawerAddBase : BaseComponent
 	{
 		base.OnInitialized();
 
-		bool isMetric = State.ActiveMember.Settings.DefaultUnits == UnitSystems.Metric;
+		bool isMetric = ((Member)State.ActiveMember).Settings.DefaultUnits == UnitSystems.Metric;
 		Model.SetUnits(isMetric);
 	}
 

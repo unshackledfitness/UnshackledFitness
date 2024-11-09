@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Identity;
-using Unshackled.Fitness.Core.Data.Entities;
+using Unshackled.Studio.Core.Data.Entities;
 
 namespace Unshackled.Fitness.My.Services;
 

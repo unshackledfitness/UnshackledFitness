@@ -1,4 +1,6 @@
-﻿namespace Unshackled.Fitness.My.Client.Features.Workouts.Models;
+﻿using Unshackled.Studio.Core.Client.Features;
+
+namespace Unshackled.Fitness.My.Client.Features.Workouts.Models;
 
 public class FormNotesModel
 {

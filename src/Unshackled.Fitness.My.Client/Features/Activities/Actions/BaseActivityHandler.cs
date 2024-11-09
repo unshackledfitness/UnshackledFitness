@@ -1,4 +1,6 @@
-﻿namespace Unshackled.Fitness.My.Client.Features.Activities.Actions;
+﻿using Unshackled.Studio.Core.Client.Features;
+
+namespace Unshackled.Fitness.My.Client.Features.Activities.Actions;
 
 public abstract class BaseActivityHandler : BaseHandler
 {

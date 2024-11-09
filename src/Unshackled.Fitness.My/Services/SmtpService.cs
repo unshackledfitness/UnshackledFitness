@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using System.Net.Mail;
 using Microsoft.AspNetCore.Identity;
-using Unshackled.Fitness.Core.Configuration;
-using Unshackled.Fitness.Core.Data.Entities;
+using Unshackled.Studio.Core.Client.Configuration;
+using Unshackled.Studio.Core.Data.Entities;
 
 namespace Unshackled.Fitness.My.Services;
 

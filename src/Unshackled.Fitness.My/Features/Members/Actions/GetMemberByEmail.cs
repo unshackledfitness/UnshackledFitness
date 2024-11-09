@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Unshackled.Fitness.Core.Configuration;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Extensions;
+using Unshackled.Studio.Core.Client.Configuration;
+using Unshackled.Studio.Core.Data;
+using Unshackled.Studio.Core.Data.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Members.Actions;
 
@@ -24,7 +26,7 @@ public class GetMemberByEmail
 	{
 		private readonly SiteConfiguration siteConfig;
 
-		public Handler(BaseDbContext db, IMapper mapper, SiteConfiguration siteConfig) : base(db, mapper) 
+		public Handler(FitnessDbContext db, IMapper mapper, SiteConfiguration siteConfig) : base(db, mapper) 
 		{
 			this.siteConfig = siteConfig;
 		}

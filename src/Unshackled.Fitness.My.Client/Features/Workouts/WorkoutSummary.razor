@@ -29,7 +29,7 @@
 				<div class="summary-item">
 					<MudText Class="summary-label" Color="Color.Tertiary">Volume</MudText>
 					<MudText Class="summary-value">
-						<WeightLabel WeightKg="@TotalVolume" WeightLb="@TotalVolume" UnitSystem="@State.ActiveMember.Settings.DefaultUnits" />
+						<WeightLabel WeightKg="@TotalVolume" WeightLb="@TotalVolume" UnitSystem="@AppSettings.DefaultUnits" />
 					</MudText>
 				</div>
 			}
@@ -82,9 +82,11 @@
 }
 
 @code {
-	[Inject] public AppState State { get; set; } = default!;
+	[Inject] public IAppState State { get; set; } = default!;
 
 	[Parameter] public FormWorkoutModel Workout { get; set; } = null!;
+
+	protected AppSettings AppSettings => ((Member)State.ActiveMember).Settings;
 
 	private bool IsWorkoutComplete => Workout.DateStartedUtc.HasValue && Workout.DateCompletedUtc.HasValue;
 

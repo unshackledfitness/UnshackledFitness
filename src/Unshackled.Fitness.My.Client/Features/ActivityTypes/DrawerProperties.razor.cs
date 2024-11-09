@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor.Utilities;
-using Unshackled.Fitness.Core.Components;
 using Unshackled.Fitness.My.Client.Features.ActivityTypes.Models;
+using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.ActivityTypes;
 

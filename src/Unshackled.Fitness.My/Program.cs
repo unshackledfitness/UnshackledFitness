@@ -6,15 +6,19 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using MudBlazor;
 using MudBlazor.Services;
-using Unshackled.Fitness.Core.Configuration;
 using Unshackled.Fitness.Core.Data;
-using Unshackled.Fitness.Core.Data.Entities;
-using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Components;
 using Unshackled.Fitness.My.Extensions;
 using Unshackled.Fitness.My.Features;
 using Unshackled.Fitness.My.Middleware;
 using Unshackled.Fitness.My.Services;
+using Unshackled.Studio.Core.Client.Configuration;
+using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Studio.Core.Data;
+using Unshackled.Studio.Core.Data.Entities;
+using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Studio.Core.Server.Middleware;
+using Unshackled.Studio.Core.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,13 +47,13 @@ builder.Services.AddSingleton(dbConfig);
 switch (dbConfig.DatabaseType?.ToLower())
 {
 	case DbConfiguration.MSSQL:
-		builder.Services.AddDbContext<BaseDbContext, MsSqlServerDbContext>();
+		builder.Services.AddDbContext<FitnessDbContext, MsSqlServerDbContext>();
 		break;
 	case DbConfiguration.MYSQL:
-		builder.Services.AddDbContext<BaseDbContext, MySqlServerDbContext>();
+		builder.Services.AddDbContext<FitnessDbContext, MySqlServerDbContext>();
 		break;
 	case DbConfiguration.POSTGRESQL:
-		builder.Services.AddDbContext<BaseDbContext, PostgreSqlServerDbContext>();
+		builder.Services.AddDbContext<FitnessDbContext, PostgreSqlServerDbContext>();
 		break;
 	default:
 		break;
@@ -88,7 +92,7 @@ builder.Services.AddIdentityCore<UserEntity>(options => {
 	options.Password.RequiredLength = siteConfig.PasswordStrength.RequiredLength;
 	options.Password.RequiredUniqueChars = siteConfig.PasswordStrength.RequiredUniqueChars;
 })
-	.AddEntityFrameworkStores<BaseDbContext>()
+	.AddEntityFrameworkStores<FitnessDbContext>()
 	.AddSignInManager()
 	.AddDefaultTokenProviders();
 
@@ -148,11 +152,15 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
+app.UseMiddleware<AuthorizedUserMiddleware>();
 app.UseMiddleware<AuthorizedMemberMiddleware>();
 
 app.MapRazorComponents<App>()
 	.AddInteractiveWebAssemblyRenderMode()
-	.AddAdditionalAssemblies(typeof(Unshackled.Fitness.My.Client._Imports).Assembly);
+	.AddAdditionalAssemblies(
+		typeof(Unshackled.Studio.Core.Client._Imports).Assembly,
+		typeof(Unshackled.Fitness.My.Client._Imports).Assembly);
+
 // Add additional endpoints required by the Identity /account Razor components.
 app.MapAdditionalIdentityEndpoints();
 

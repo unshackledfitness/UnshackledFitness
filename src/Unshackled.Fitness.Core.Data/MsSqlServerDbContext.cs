@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Unshackled.Fitness.Core.Configuration;
+using Unshackled.Studio.Core.Client.Configuration;
+using Unshackled.Studio.Core.Data;
 
 namespace Unshackled.Fitness.Core.Data;
 
-public class MsSqlServerDbContext : BaseDbContext
+public class MsSqlServerDbContext : FitnessDbContext
 {
 	public MsSqlServerDbContext(DbContextOptions<MsSqlServerDbContext> options,
 		ConnectionStrings connectionStrings,

@@ -3,7 +3,8 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.My.Client.Features.Metrics.Models;
-using Unshackled.Fitness.My.Extensions;
+using Unshackled.Studio.Core.Data;
+using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Metrics.Actions;
 
@@ -23,7 +24,7 @@ public class ListMetrics
 
 	public class Handler : BaseHandler, IRequestHandler<Query, MetricGridModel>
 	{
-		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<MetricGridModel> Handle(Query request, CancellationToken cancellationToken)
 		{

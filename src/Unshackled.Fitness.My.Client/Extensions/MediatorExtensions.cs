@@ -1,7 +1,8 @@
 ﻿using MediatR;
-using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Members.Actions;
+using Unshackled.Studio.Core.Client.Enums;
+using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Extensions;
 
@@ -12,19 +13,9 @@ public static class MediatorExtensions
 		await mediator.Send(new GetActiveMember.Query());
 	}
 
-	public static async Task<Unit> GetExpandedMenu(this IMediator mediator)
-	{
-		return await mediator.Send(new GetExpandedMenu.Query());
-	}
-
 	public static async Task<CommandResult> SaveSettings(this IMediator mediator, AppSettings settings)
 	{
 		return await mediator.Send(new SaveSettings.Command(settings));
-	}
-
-	public static async Task<Unit> SetExpandedMenu(this IMediator mediator, string menuId)
-	{
-		return await mediator.Send(new SetExpandedMenu.Command(menuId));
 	}
 
 	public static async Task<CommandResult> SetTheme(this IMediator mediator, Themes theme)

@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Unshackled.Fitness.Core.Data.Entities;
+using Unshackled.Studio.Core.Data.Entities;
 
 namespace Unshackled.Fitness.My.Extensions;
 

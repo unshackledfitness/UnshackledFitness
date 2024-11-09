@@ -3,9 +3,10 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models.Calendars;
 using Unshackled.Fitness.My.Client.Features.Calendar.Models;
-using Unshackled.Fitness.My.Extensions;
+using Unshackled.Studio.Core.Client.Models.Calendars;
+using Unshackled.Studio.Core.Data;
+using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Calendar.Actions;
 
@@ -25,7 +26,7 @@ public class GetCalendar
 
 	public class Handler : BaseHandler, IRequestHandler<Query, CalendarModel>
 	{
-		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CalendarModel> Handle(Query request, CancellationToken cancellationToken)
 		{

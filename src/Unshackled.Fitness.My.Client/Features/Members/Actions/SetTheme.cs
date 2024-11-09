@@ -1,7 +1,8 @@
 ﻿using MediatR;
-using Unshackled.Fitness.Core;
-using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.Core.Models;
+using Unshackled.Studio.Core.Client;
+using Unshackled.Studio.Core.Client.Enums;
+using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Members.Actions;
 
@@ -21,9 +22,9 @@ public class SetTheme
 	{
 		private readonly AppState state = default!;
 
-		public Handler(HttpClient httpClient, AppState state) : base(httpClient)
+		public Handler(HttpClient httpClient, IAppState state) : base(httpClient)
 		{
-			this.state = state;
+			this.state = (AppState)state;
 		}
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)

@@ -2,10 +2,10 @@
 using MudBlazor;
 using MudBlazor.Utilities;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Components;
 using Unshackled.Fitness.My.Client.Features.Metrics.Actions;
 using Unshackled.Fitness.My.Client.Features.Metrics.Models;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Metrics;
 

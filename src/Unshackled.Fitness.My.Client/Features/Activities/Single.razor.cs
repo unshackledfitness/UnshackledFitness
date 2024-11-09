@@ -1,11 +1,11 @@
-using MediatR;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Fitness.Core.Components;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models.Charts;
+using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Activities.Actions;
 using Unshackled.Fitness.My.Client.Features.Activities.Models;
+using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Studio.Core.Client.Models.Charts;
 
 namespace Unshackled.Fitness.My.Client.Features.Activities;
 
@@ -38,7 +38,7 @@ public class SingleBase : BaseComponent
 		Breadcrumbs.Add(new BreadcrumbItem("Activities", "/activities", false));
 		Breadcrumbs.Add(new BreadcrumbItem("Activity", null, true));
 
-		DefaultUnits = State.ActiveMember.Settings.DefaultUnits;
+		DefaultUnits = ((Member)State.ActiveMember).Settings.DefaultUnits;
 	}
 
 	protected void HandleIsEditingSectionChange(bool editing)

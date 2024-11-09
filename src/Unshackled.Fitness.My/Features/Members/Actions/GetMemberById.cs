@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Models;
+using Unshackled.Studio.Core.Data;
 
 namespace Unshackled.Fitness.My.Features.Members.Actions;
 
@@ -20,7 +21,7 @@ public class GetMemberById
 
 	public class Handler : BaseHandler, IRequestHandler<Query, Member?>
 	{
-		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<Member?> Handle(Query request, CancellationToken cancellationToken)
 		{

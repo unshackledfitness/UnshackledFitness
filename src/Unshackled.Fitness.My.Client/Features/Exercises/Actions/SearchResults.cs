@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Exercises.Models;
+using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Exercises.Actions;
 

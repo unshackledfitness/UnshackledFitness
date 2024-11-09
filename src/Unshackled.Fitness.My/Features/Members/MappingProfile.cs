@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Models;
-using Unshackled.Fitness.My.Extensions;
+using Unshackled.Studio.Core.Data.Entities;
+using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Members;
 

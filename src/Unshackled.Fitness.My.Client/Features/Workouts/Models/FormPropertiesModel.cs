@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using FluentValidation;
-using Unshackled.Fitness.Core.Extensions;
+using Unshackled.Studio.Core.Client.Extensions;
+using Unshackled.Studio.Core.Client.Features;
 
 namespace Unshackled.Fitness.My.Client.Features.Workouts.Models;
 

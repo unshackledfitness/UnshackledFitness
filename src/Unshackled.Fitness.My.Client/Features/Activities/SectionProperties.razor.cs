@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Fitness.Core.Components;
-using Unshackled.Fitness.Core.Configuration;
 using Unshackled.Fitness.Core.Enums;
+using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Activities.Actions;
 using Unshackled.Fitness.My.Client.Features.Activities.Models;
+using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Studio.Core.Client.Configuration;
 
 namespace Unshackled.Fitness.My.Client.Features.Activities;
 
@@ -20,6 +21,7 @@ public class SectionPropertiesBase : BaseSectionComponent
 	protected bool IsEditing { get; set; } = false;
 	protected bool IsUpdating { get; set; } = false;
 	protected FormActivityModel Model { get; set; } = new();
+	protected AppSettings AppSettings => ((Member)State.ActiveMember).Settings;
 
 	public bool DisableControls => IsUpdating;
 	public int StatElevation => IsEditMode ? 0 : 1;
@@ -46,7 +48,7 @@ public class SectionPropertiesBase : BaseSectionComponent
 
 	protected async Task HandleEditClicked()
 	{
-		bool isMetric = State.ActiveMember.Settings.DefaultUnits == UnitSystems.Metric;
+		bool isMetric = ((Member)State.ActiveMember).Settings.DefaultUnits == UnitSystems.Metric;
 		Model = new();
 		Model.SetUnits(isMetric);
 

@@ -1,14 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Studio.Core.Client;
+using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Studio.Core.Data;
+using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Extensions;
 
 public static class WorkoutTemplateExtensions
 {
-	public static async Task<CommandResult<string>> AddWorkoutFromTemplate(this BaseDbContext db,
+	public static async Task<CommandResult<string>> AddWorkoutFromTemplate(this FitnessDbContext db,
 		long memberId, long templateId, CancellationToken cancellationToken)
 	{
 		var template = await db.WorkoutTemplates

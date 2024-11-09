@@ -1,4 +1,6 @@
-﻿namespace Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Actions;
+﻿using Unshackled.Studio.Core.Client.Features;
+
+namespace Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Actions;
 
 public abstract class BaseTemplateHandler : BaseHandler
 {

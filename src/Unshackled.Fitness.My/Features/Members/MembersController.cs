@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
-using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Members.Models;
-using Unshackled.Fitness.My.Extensions;
 using Unshackled.Fitness.My.Features.Members.Actions;
+using Unshackled.Studio.Core.Client.Enums;
+using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Studio.Core.Server.Features;
 
 namespace Unshackled.Fitness.My.Features.Members;
 
