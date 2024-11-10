@@ -1,12 +1,9 @@
 ﻿using Unshackled.Fitness.Core.Enums;
-using Unshackled.Studio.Core.Client.Enums;
 
 namespace Unshackled.Fitness.Core.Models;
 
 public class AppSettings : ICloneable
 {
-	public Themes AppTheme { get; set; } = Themes.System;
-
 	// General
 	public UnitSystems DefaultUnits { get; set; } = UnitSystems.Metric;
 
@@ -26,7 +23,6 @@ public class AppSettings : ICloneable
 	{
 		return new AppSettings
 		{
-			AppTheme = AppTheme,
 			ActivityDisplayColor = ActivityDisplayColor,
 			DefaultUnits = DefaultUnits,
 			DisplaySplitTracking = DisplaySplitTracking,

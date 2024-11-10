@@ -58,6 +58,7 @@ public static class MemberExtensions
 	{
 		var member = new Member
 		{
+			AppTheme = memberEntity.AppTheme,
 			DateCreatedUtc = memberEntity.DateCreatedUtc,
 			DateLastModifiedUtc = memberEntity.DateLastModifiedUtc,
 			Email = memberEntity.Email,
