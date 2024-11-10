@@ -2,13 +2,12 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Extensions;
 using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
 using Unshackled.Studio.Core.Data.Extensions;
-using Unshackled.Studio.Core.Server;
 
 namespace Unshackled.Fitness.My.Features.Members.Actions;
 
@@ -40,7 +39,7 @@ public class SaveSettings
 				return new CommandResult<Member>(false, "Invalid member.");
 
 			string settingsJson = JsonSerializer.Serialize(request.Settings);
-			await db.SaveMeta(member.Id, ServerGlobals.MetaKeys.AppSettings, settingsJson);
+			await db.SaveMeta(member.Id, FitnessGlobals.MetaKeys.AppSettings, settingsJson);
 
 			var m = await db.GetMember(member);
 

@@ -198,7 +198,7 @@
 								{
 									<MudItem xs="6" sm="4" md="3">
 										<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.Weight"
-															HideSpinButtons="true" T="decimal?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetWeight" Format="0.###"
+															HideSpinButtons="true" T="decimal?" Disabled="@DisableControls" Min="0" Max="@FitnessGlobals.MaxSetWeight" Format="0.###"
 															Adornment="Adornment.End" AdornmentText="@context.Item.WeightUnit.Label()" Placeholder="--"
 															For="@(() => context.Item.Weight)" />
 										<div class="mb-2">
@@ -219,7 +219,7 @@
 									{
 										<MudItem xs="5" sm="4" md="3">
 											<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.Reps"
-																T="int?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetReps" Placeholder="--"
+																T="int?" Disabled="@DisableControls" Min="0" Max="@FitnessGlobals.MaxSetReps" Placeholder="--"
 																Adornment="Adornment.End" AdornmentText="reps" For="@(() => context.Item.Reps)" />
 											@if (context.Item.HasTarget)
 											{
@@ -233,7 +233,7 @@
 											<div class="@SplitTrackingCss">
 												<div class="mb-2 px-2 split-basis-weighted">
 													<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.RepsLeft"
-																		T="int?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetReps" Placeholder="--"
+																		T="int?" Disabled="@DisableControls" Min="0" Max="@FitnessGlobals.MaxSetReps" Placeholder="--"
 																		Label="Left" Adornment="Adornment.End" AdornmentText="reps" For="@(() => context.Item.RepsLeft)" />
 													@if (context.Item.HasTarget)
 													{
@@ -242,7 +242,7 @@
 												</div>
 												<div class="mb-2 px-2 split-basis-weighted">
 													<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.RepsRight"
-																		T="int?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetReps" Placeholder="--"
+																		T="int?" Disabled="@DisableControls" Min="0" Max="@FitnessGlobals.MaxSetReps" Placeholder="--"
 																		Label="Right" Adornment="Adornment.End" AdornmentText="reps" For="@(() => context.Item.RepsRight)" />
 													@if (context.Item.HasTarget)
 													{
@@ -257,7 +257,7 @@
 								{
 									<MudItem xs="6" sm="4" md="3">
 										<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.Weight"
-															HideSpinButtons="true" T="decimal?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetWeight" Format="0.###"
+															HideSpinButtons="true" T="decimal?" Disabled="@DisableControls" Min="0" Max="@FitnessGlobals.MaxSetWeight" Format="0.###"
 															Adornment="Adornment.End" AdornmentText="@context.Item.WeightUnit.Label()" Placeholder="--"
 															For="@(() => context.Item.Weight)" />
 										<div class="mb-2">
@@ -314,7 +314,7 @@
 									{
 										<MudItem xs="6" sm="4" md="3">
 											<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.Reps"
-																T="int?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetReps" Placeholder="--"
+																T="int?" Disabled="@DisableControls" Min="0" Max="@FitnessGlobals.MaxSetReps" Placeholder="--"
 																Adornment="Adornment.End" AdornmentText="reps" For="@(() => context.Item.Reps)" />
 											@if (context.Item.HasTarget)
 											{
@@ -328,7 +328,7 @@
 											<div class="@SplitTrackingCss">
 												<div class="mb-2 px-2 split-basis-solo">
 													<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.RepsLeft"
-																		T="int?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetReps" Placeholder="--"
+																		T="int?" Disabled="@DisableControls" Min="0" Max="@FitnessGlobals.MaxSetReps" Placeholder="--"
 																		Label="Left" Adornment="Adornment.End" AdornmentText="reps" For="@(() => context.Item.RepsLeft)" />
 													@if (context.Item.HasTarget)
 													{
@@ -337,7 +337,7 @@
 												</div>
 												<div class="mb-2 px-2 split-basis-solo">
 													<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.RepsRight"
-																		T="int?" Disabled="@DisableControls" Min="0" Max="@AppGlobals.MaxSetReps" Placeholder="--"
+																		T="int?" Disabled="@DisableControls" Min="0" Max="@FitnessGlobals.MaxSetReps" Placeholder="--"
 																		Label="Right" Adornment="Adornment.End" AdornmentText="reps" For="@(() => context.Item.RepsRight)" />
 													@if (context.Item.HasTarget)
 													{

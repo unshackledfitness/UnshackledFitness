@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor;
 using MudBlazor.Services;
 using Unshackled.Fitness.Core.Models;
-using Unshackled.Fitness.My.Client;
-using Unshackled.Fitness.My.Client.Services;
+using Unshackled.Studio.Core.Client;
 using Unshackled.Studio.Core.Client.Configuration;
 using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Client.Services;
@@ -25,12 +24,12 @@ builder.Services.AddTransient<CookieHandler>();
 
 // Local API Calls
 builder.Services
-    .AddHttpClient(AppGlobals.ApiConstants.LocalApi, client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
+    .AddHttpClient(Globals.ApiConstants.LocalApi, client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
     .AddHttpMessageHandler<CookieHandler>()
 	.AddHttpMessageHandler<HttpStatusCodeHandler>();
 
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
-    .CreateClient(AppGlobals.ApiConstants.LocalApi));
+    .CreateClient(Globals.ApiConstants.LocalApi));
 
 builder.Services.AddMudServices(config =>
 {

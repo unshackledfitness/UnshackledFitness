@@ -53,6 +53,6 @@
 	{
 		var result = await Mediator.SetTheme(theme);
 		if (!result.Success)
-			Snackbar.Add(result.Message ?? string.Empty, Severity.Error);
+			Snackbar.Add(result.Message ?? Globals.UnexpectedError, Severity.Error);
 	}
 }

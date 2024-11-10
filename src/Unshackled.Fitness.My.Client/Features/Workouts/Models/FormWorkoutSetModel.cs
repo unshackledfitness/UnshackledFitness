@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using FluentValidation;
+using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Studio.Core.Client.Features;
 using Unshackled.Studio.Core.Client.Models;
@@ -126,9 +127,9 @@ public class FormWorkoutSetModel : BaseObject, IGroupedSortable, ICloneable
 				.GreaterThanOrEqualTo(0)
 				.When(x => x.WeightRequired == true)
 				.WithMessage("Weight must be a positive number.")
-				.LessThanOrEqualTo(AppGlobals.MaxSetWeight)
+				.LessThanOrEqualTo(FitnessGlobals.MaxSetWeight)
 				.When(x => x.WeightRequired == true)
-				.WithMessage($"Weight must be less than {Math.Ceiling(AppGlobals.MaxSetWeight)}.");
+				.WithMessage($"Weight must be less than {Math.Ceiling(FitnessGlobals.MaxSetWeight)}.");
 
 			RuleFor(x => x.Reps)
 				.NotNull()
@@ -137,9 +138,9 @@ public class FormWorkoutSetModel : BaseObject, IGroupedSortable, ICloneable
 				.GreaterThanOrEqualTo(1)
 				.When(x => x.IsTrackingSplit == false && x.RepsRequired == true)
 				.WithMessage("Reps must be greater than zero.")
-				.LessThanOrEqualTo(AppGlobals.MaxSetReps)
+				.LessThanOrEqualTo(FitnessGlobals.MaxSetReps)
 				.When(x => x.IsTrackingSplit == false && x.RepsRequired == true)
-				.WithMessage($"Reps must be less than or equal to {AppGlobals.MaxSetReps}.");
+				.WithMessage($"Reps must be less than or equal to {FitnessGlobals.MaxSetReps}.");
 
 			RuleFor(x => x.RepsLeft)
 				.NotNull()
@@ -148,9 +149,9 @@ public class FormWorkoutSetModel : BaseObject, IGroupedSortable, ICloneable
 				.GreaterThanOrEqualTo(1)
 				.When(x => x.IsTrackingSplit == true && x.RepsRequired == true && x.RepsRight == 0)
 				.WithMessage("Left reps must be greater than zero.")
-				.LessThanOrEqualTo(AppGlobals.MaxSetReps)
+				.LessThanOrEqualTo(FitnessGlobals.MaxSetReps)
 				.When(x => x.IsTrackingSplit == true && x.RepsRequired == true && x.RepsRight == 0)
-				.WithMessage($"Left reps must be less than or equal to {AppGlobals.MaxSetReps}.");
+				.WithMessage($"Left reps must be less than or equal to {FitnessGlobals.MaxSetReps}.");
 
 			RuleFor(x => x.RepsRight)
 				.NotNull()
@@ -159,9 +160,9 @@ public class FormWorkoutSetModel : BaseObject, IGroupedSortable, ICloneable
 				.GreaterThanOrEqualTo(1)
 				.When(x => x.IsTrackingSplit == true && x.RepsRequired == true && x.RepsLeft == 0)
 				.WithMessage("Right reps must be greater than zero.")
-				.LessThanOrEqualTo(AppGlobals.MaxSetReps)
+				.LessThanOrEqualTo(FitnessGlobals.MaxSetReps)
 				.When(x => x.IsTrackingSplit == true && x.RepsRequired == true && x.RepsLeft == 0)
-				.WithMessage($"Right reps must be less than or equal to {AppGlobals.MaxSetReps}.");
+				.WithMessage($"Right reps must be less than or equal to {FitnessGlobals.MaxSetReps}.");
 		}
 	}
 }

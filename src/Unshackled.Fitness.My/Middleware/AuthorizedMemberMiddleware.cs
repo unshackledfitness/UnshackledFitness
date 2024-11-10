@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
-using Unshackled.Studio.Core.Server;
+using Unshackled.Studio.Core.Client;
 using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Middleware;
@@ -46,7 +46,7 @@ public class AuthorizedMemberMiddleware
 			return;
 		}
 
-		context.Items[ServerGlobals.MiddlewareItemKeys.Member] = new ServerMember
+		context.Items[Globals.MiddlewareItemKeys.Member] = new ServerMember
 		{
 			DateCreatedUtc = member.DateCreatedUtc,
 			DateLastModifiedUtc = member.DateLastModifiedUtc,

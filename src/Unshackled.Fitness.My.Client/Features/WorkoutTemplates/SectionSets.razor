@@ -89,7 +89,7 @@
 							@if (context.Item.RepMode == RepModes.Exact)
 							{
 								<MudItem xs="12" md="2">
-									<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.RepsTarget" Step="1" Min="0" Max="@AppGlobals.MaxSetReps"
+									<MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="@context.Item.RepsTarget" Step="1" Min="0" Max="@FitnessGlobals.MaxSetReps"
 													 HideSpinButtons="true" T="int" Immediate="true" Disabled="@DisableControls" Label="Target Reps" />
 								</MudItem>
 							}

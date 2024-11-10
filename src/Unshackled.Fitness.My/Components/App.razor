@@ -1,4 +1,5 @@
 ﻿@using Unshackled.Fitness.Core
+@using Unshackled.Studio.Core.Client
 @using Unshackled.Studio.Core.Client.Configuration
 @using Unshackled.Studio.Core.Server
 @using Unshackled.Studio.Core.Server.Utils
@@ -69,7 +70,7 @@
 	[Inject]
 	private SiteConfiguration SiteConfig { get; set; } = default!;
 
-    private IComponentRenderMode? RenderModeForPage => HttpContext.Request.Path.StartsWithSegments(ServerGlobals.AccountUrlPrefix)
+    private IComponentRenderMode? RenderModeForPage => HttpContext.Request.Path.StartsWithSegments(Globals.AccountUrlPrefix)
         ? null
 		: InteractiveWebAssembly;
 }

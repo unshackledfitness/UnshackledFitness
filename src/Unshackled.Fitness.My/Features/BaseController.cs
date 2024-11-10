@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Unshackled.Fitness.My.Middleware;
+using Unshackled.Studio.Core.Client;
 using Unshackled.Studio.Core.Client.Configuration;
-using Unshackled.Studio.Core.Server;
 
 namespace Unshackled.Fitness.My.Features;
 
@@ -16,7 +16,7 @@ public abstract class BaseController : ControllerBase
 	protected IMediator Mediator => mediator ??= HttpContext.RequestServices.GetRequiredService<IMediator>();
 	protected SiteConfiguration SiteConfig => siteConfiguration ??= HttpContext.RequestServices.GetRequiredService<SiteConfiguration>();
 
-	public ServerMember Member => HttpContext.Items.ContainsKey(ServerGlobals.MiddlewareItemKeys.Member)
-		? (ServerMember)HttpContext.Items[ServerGlobals.MiddlewareItemKeys.Member]!
+	public ServerMember Member => HttpContext.Items.ContainsKey(Globals.MiddlewareItemKeys.Member)
+		? (ServerMember)HttpContext.Items[Globals.MiddlewareItemKeys.Member]!
 		: new();
 }

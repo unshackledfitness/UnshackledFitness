@@ -1,15 +1,14 @@
 ﻿using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
+using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.Core.Models;
 using Unshackled.Studio.Core.Client.Configuration;
 using Unshackled.Studio.Core.Client.Utils;
-using Unshackled.Studio.Core.Data;
 using Unshackled.Studio.Core.Data.Entities;
 using Unshackled.Studio.Core.Data.Extensions;
-using Unshackled.Studio.Core.Server;
 using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Extensions;
@@ -73,7 +72,7 @@ public static class MemberExtensions
 
 	public static async Task<AppSettings> GetMemberSettings(this FitnessDbContext db, long memberId)
 	{
-		string? settingsJson = await db.MemberMeta.GetMeta(memberId, ServerGlobals.MetaKeys.AppSettings);
+		string? settingsJson = await db.MemberMeta.GetMeta(memberId, FitnessGlobals.MetaKeys.AppSettings);
 
 		if (!string.IsNullOrEmpty(settingsJson))
 		{
@@ -86,7 +85,7 @@ public static class MemberExtensions
 	public static async Task SaveMemberSettings(this FitnessDbContext db, long memberId, AppSettings settings)
 	{
 		string settingsJson = JsonSerializer.Serialize(settings);
-		await db.SaveMeta(memberId, ServerGlobals.MetaKeys.AppSettings, settingsJson);
+		await db.SaveMeta(memberId, FitnessGlobals.MetaKeys.AppSettings, settingsJson);
 	}
 
 	private static async Task AddSampleData(FitnessDbContext db, long memberId)
