@@ -7,12 +7,6 @@
 A workout planner/tracker for weight lifters. It is a cross-platform hosted WebAssembly Blazor PWA with a vertical slice architecture that supports MS SQL Server, MySQL, and PostgreSql databases through Entity Framework.
 
 
-
-## Demo
-
-A hosted version is available at https://unshackled.fitness. A 30-day, no credit card required, free trial is available.
-
-
 ## Run Locally
 
 Install the [.NET SDK](https://dotnet.microsoft.com/en-us/download) for your platform. Then, install the EF Core tools for the .NET CLI.
