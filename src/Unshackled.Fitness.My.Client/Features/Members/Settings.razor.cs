@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using MudBlazor.Utilities;
 using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Extensions;
 using Unshackled.Studio.Core.Client.Components;
@@ -12,7 +13,10 @@ public partial class SettingsBase : BaseComponent
 
 	public bool Saving { get; set; } = false;
 
-	protected AppSettings Settings { get; set; } = new();
+	protected AppSettings Settings { get; set; } = new(); 
+	protected MudColor? ActivityColor { get; set; }
+	protected MudColor? MixedColor { get; set; }
+	protected MudColor? WorkoutColor { get; set; }
 
 	protected override async Task OnParametersSetAsync()
 	{
@@ -26,6 +30,15 @@ public partial class SettingsBase : BaseComponent
 		base.OnInitialized();
 
 		Settings = (AppSettings)((Member)State.ActiveMember).Settings.Clone();
+
+		if (!string.IsNullOrEmpty(Settings.ActivityDisplayColor))
+			ActivityColor = new(Settings.ActivityDisplayColor);
+
+		if (!string.IsNullOrEmpty(Settings.MixedDisplayColor))
+			MixedColor = new(Settings.MixedDisplayColor);
+
+		if (!string.IsNullOrEmpty(Settings.WorkoutDisplayColor))
+			WorkoutColor = new(Settings.WorkoutDisplayColor);
 	}
 
 	protected async Task HandleApplySettingsClicked()
@@ -35,6 +48,18 @@ public partial class SettingsBase : BaseComponent
 		ShowNotification(result);
 		Saving = false;
 		StateHasChanged();
+	}
+
+	public void HandleActivityColorChanged(MudColor color)
+	{
+		ActivityColor = color;
+		Settings.ActivityDisplayColor = color.Value;
+	}
+
+	public void HandleMixedColorChanged(MudColor color)
+	{
+		MixedColor = color;
+		Settings.MixedDisplayColor = color.Value;
 	}
 
 	protected async Task HandleRestoreDefaultsClicked()
@@ -57,5 +82,11 @@ public partial class SettingsBase : BaseComponent
 			Saving = false;
 			StateHasChanged();
 		}
+	}
+
+	public void HandleWorkoutColorChanged(MudColor color)
+	{
+		WorkoutColor = color;
+		Settings.WorkoutDisplayColor = color.Value;
 	}
 }

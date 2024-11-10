@@ -45,6 +45,6 @@ public class DashboardController : BaseController
 	[HttpPost("workout-stats")]
 	public async Task<IActionResult> GetWorkoutStats([FromBody] DateTime toDateUtc)
 	{
-		return Ok(await Mediator.Send(new GetWorkoutStats.Query(Member.Id, toDateUtc)));
+		return Ok(await Mediator.Send(new GetDashboardStats.Query(Member.Id, toDateUtc)));
 	}
 }

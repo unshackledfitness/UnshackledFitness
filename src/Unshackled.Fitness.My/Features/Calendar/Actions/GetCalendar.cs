@@ -46,12 +46,26 @@ public class GetCalendar
 				.Where(x => x.MemberId == request.MemberId)
 				.OrderBy(x => x.DateRecorded)
 				.Select(x => x.DateRecorded.Year)
-				.FirstOrDefaultAsync();
+				.FirstOrDefaultAsync(cancellationToken);
 
 			for (int i = oldestYear; i <= DateTimeOffset.Now.Year; i++)
 			{
 				model.YearsAvailable.Add(i);
 			}
+
+			var activities = await db.Activities
+				.Include(x => x.ActivityType)
+				.Where(x => x.MemberId == request.MemberId
+					&& x.DateEvent >= fromDateTime
+					&& x.DateEvent <= toDateTime)
+				.OrderBy(x => x.DateEvent)
+				.Select(x => new
+				{
+					x.DateEvent,
+					x.Title,
+					x.ActivityType.Color
+				})
+				.ToListAsync(cancellationToken);
 
 			var workouts = await db.Workouts
 				.Where(x => x.MemberId == request.MemberId
@@ -64,7 +78,7 @@ public class GetCalendar
 					x.DateCompleted,
 					x.Title
 				})
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
 			var blocks = await db.Metrics
 				.AsNoTracking()
@@ -84,12 +98,13 @@ public class GetCalendar
 					x.RecordedValue,
 					Color = x.MetricDefinition.HighlightColor,
 				})
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
 
 			// Fill Blocks
 			DateOnly currentDate = model.FromDate;
 			DateTime currentDateTime = fromDateTime;
+			int activityIdx = 0;
 			int workoutIdx = 0;
 			int blockIdx = 0;
 			while (currentDate <= model.ToDate)
@@ -98,6 +113,23 @@ public class GetCalendar
 				{
 					Date = currentDate
 				};
+
+				// add activities for the current date
+				while (activityIdx < activities.Count
+					&& activities[activityIdx].DateEvent >= currentDateTime
+					&& activities[activityIdx].DateEvent < currentDateTime.AddDays(1))
+				{
+					CalendarBlockModel activity = new()
+					{
+						FilterId = "activity",
+						Title = activities[activityIdx].Title,
+						Color = activities[activityIdx].Color,
+						IsCentered = false
+					};
+
+					day.Blocks.Add(activity);
+					activityIdx++;
+				}
 
 				// add workouts for the current date
 				while (workoutIdx < workouts.Count
@@ -172,11 +204,18 @@ public class GetCalendar
 					SortOrder = x.SortOrder,
 					Title = x.Title
 				})
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
 			model.BlockFilterGroups.AddRange(defGroups);
 
 			// Fill block definitions
+			model.BlockFilters.Add(new CalendarBlockFilterModel
+			{
+				Color = request.Model.ActivityColor,
+				FilterId = "activity",
+				ListGroupSid = "default",
+				Title = "Activities"
+			});
 			model.BlockFilters.Add(new CalendarBlockFilterModel
 			{
 				Color = request.Model.WorkoutColor,
@@ -198,7 +237,7 @@ public class GetCalendar
 					SubTitle = x.SubTitle,
 					Title = x.Title
 				})
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
 			model.BlockFilters.AddRange(definitions);
 

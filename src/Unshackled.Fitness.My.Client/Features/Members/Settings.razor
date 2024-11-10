@@ -18,6 +18,30 @@
 		</MudSelect>
 	</SettingContent>
 </SettingItem>
+<SettingItem>
+	<LabelContent>Activity Display Color</LabelContent>
+	<SettingContent>
+		<MudColorPicker Label="Display Color" ColorPickerMode="ColorPickerMode.HEX" Variant="Variant.Outlined" Clearable="true" ShowToolbar="true"
+						AnchorOrigin="Origin.CenterCenter" TransformOrigin="Origin.CenterCenter"
+						Value="@ActivityColor" ValueChanged="@HandleActivityColorChanged" @bind-Text="@Settings.ActivityDisplayColor" />
+	</SettingContent>
+</SettingItem>
+<SettingItem>
+	<LabelContent>Workout Display Color</LabelContent>
+	<SettingContent>
+		<MudColorPicker Label="Display Color" ColorPickerMode="ColorPickerMode.HEX" Variant="Variant.Outlined" Clearable="true" ShowToolbar="true"
+						AnchorOrigin="Origin.CenterCenter" TransformOrigin="Origin.CenterCenter"
+						Value="@WorkoutColor" ValueChanged="@HandleWorkoutColorChanged" @bind-Text="@Settings.WorkoutDisplayColor" />
+	</SettingContent>
+</SettingItem>
+<SettingItem>
+	<LabelContent>Mixed Activity/Workout Display Color</LabelContent>
+	<SettingContent>
+		<MudColorPicker Label="Display Color" ColorPickerMode="ColorPickerMode.HEX" Variant="Variant.Outlined" Clearable="true" ShowToolbar="true"
+						AnchorOrigin="Origin.CenterCenter" TransformOrigin="Origin.CenterCenter"
+						Value="@MixedColor" ValueChanged="@HandleMixedColorChanged" @bind-Text="@Settings.MixedDisplayColor" />
+	</SettingContent>
+</SettingItem>
 
 <MudText Typo="Typo.body2" Color="Color.Tertiary" Class="mt-12">Dashboard</MudText>
 <MudDivider DividerType="DividerType.FullWidth" Class="my-2" />

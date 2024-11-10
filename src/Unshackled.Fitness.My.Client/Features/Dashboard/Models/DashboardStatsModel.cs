@@ -1,22 +1,27 @@
 ﻿using System.Text.Json.Serialization;
+using Unshackled.Fitness.Core.Enums;
+using Unshackled.Fitness.Core.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Dashboard.Models;
 
-public class WorkoutStatsModel
+public class DashboardStatsModel
 {
 	public DateTime ToDateUtc { get; set; } = DateTime.UtcNow;
-	public List<WorkoutModel> Workouts { get; set; } = new();
-	public List<int> Years { get; set; } = new();
+	public List<StatBlockModel> StatBlocks { get; set; } = [];
+	public List<int> Years { get; set; } = [];
+	public int TotalActivities { get; set; }
 	public int TotalWorkouts { get; set; }
 	public decimal TotalVolumeLb { get; set; }
 	public decimal TotalVolumeKg { get; set; }
+	public int TotalSeconds { get; set; }
+	public double TotalDistanceMeters { get; set; }
 
 	[JsonIgnore]
 	public WeekModel[] Weeks { get; set; } = new WeekModel[53];
 
-	public void Fill()
+	public void Fill(AppSettings settings)
 	{
-		int workoutIdx = 0;
+		int statBlockIdx = 0;
 		DateTime toDate = ToDateUtc.ToLocalTime().Date;
 		DateTime currentDate = ToDateUtc.ToLocalTime().Date.AddYears(-1);
 		int firstDayOfWeek = (int)currentDate.DayOfWeek;
@@ -33,15 +38,32 @@ public class WorkoutStatsModel
 				if (d >= firstDayOfWeek && currentDate < toDate)
 				{
 					Weeks[w].Days[d].Date = currentDate;
-					while (workoutIdx < Workouts.Count && Workouts[workoutIdx].DateCompletedUtc.ToLocalTime().Date == currentDate)
+					while (statBlockIdx < StatBlocks.Count && StatBlocks[statBlockIdx].DateCompletedUtc.ToLocalTime().Date == currentDate)
 					{
-						Weeks[w].Days[d].WorkoutCount++;
-						if (Weeks[w].Days[d].WorkoutCount == 1)
-							Weeks[w].Days[d].WorkoutTitle = Workouts[workoutIdx].Title;
-						else
-							Weeks[w].Days[d].WorkoutTitle = string.Empty;
+						Weeks[w].Days[d].BlockCount++;
 
-						workoutIdx++;
+						string color = StatBlocks[statBlockIdx].Type switch
+						{
+							StatBlockTypes.Activity => settings.ActivityDisplayColor,
+							StatBlockTypes.Workout => settings.WorkoutDisplayColor,
+							_ => string.Empty
+						};
+
+						if (Weeks[w].Days[d].BlockCount == 1)
+						{
+							Weeks[w].Days[d].BlockTitle = StatBlocks[statBlockIdx].Title;
+							Weeks[w].Days[d].BlockColor = color;
+						}
+						else
+						{
+							Weeks[w].Days[d].BlockTitle = string.Empty;
+							if (Weeks[w].Days[d].BlockColor != color)
+							{
+								Weeks[w].Days[d].BlockColor = settings.MixedDisplayColor;
+							}
+						}
+
+						statBlockIdx++;
 					}
 
 					currentDate = currentDate.AddDays(1);
@@ -53,7 +75,7 @@ public class WorkoutStatsModel
 
 	public int GetActiveDays()
 	{
-		return Workouts
+		return StatBlocks
 			.Select(x => x.DateCompletedUtc.ToString("yyyy-MM-dd"))
 			.Distinct()
 			.Count();
@@ -82,8 +104,9 @@ public class WorkoutStatsModel
 	public class DayModel
 	{
 		public DateTime? Date { get; set; }
-		public int WorkoutCount { get; set; }
-		public string WorkoutTitle { get; set; } = string.Empty;
+		public int BlockCount { get; set; }
+		public string BlockTitle { get; set; } = string.Empty;
+		public string BlockColor { get; set; } = string.Empty;
 
 		public string Description
 		{
@@ -92,12 +115,12 @@ public class WorkoutStatsModel
 				if (Date == null)
 					return string.Empty;
 
-				if (WorkoutCount == 0)
-					return $"No workouts on {Date.Value.ToString("D")}";
+				if (BlockCount == 0)
+					return $"No activities/workouts on {Date.Value.ToString("D")}";
 
-				return WorkoutCount > 1
-					? $"{WorkoutCount} workouts on {Date.Value.ToString("D")}"
-					: $"{WorkoutTitle} on {Date.Value.ToString("D")}";
+				return BlockCount > 1
+					? $"{BlockCount} activities/workouts on {Date.Value.ToString("D")}"
+					: $"{BlockTitle} on {Date.Value.ToString("D")}";
 			}
 		}
 	}

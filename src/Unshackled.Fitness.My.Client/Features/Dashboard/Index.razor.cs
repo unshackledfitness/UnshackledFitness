@@ -6,7 +6,7 @@ namespace Unshackled.Fitness.My.Client.Features.Dashboard;
 
 public class IndexBase : BaseComponent
 {
-	public WorkoutStatsModel Model { get; set; } = new();
+	public DashboardStatsModel Model { get; set; } = new();
 
 	protected override async Task OnInitializedAsync()
 	{

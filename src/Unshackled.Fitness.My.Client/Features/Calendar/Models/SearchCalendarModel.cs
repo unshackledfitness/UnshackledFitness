@@ -6,5 +6,6 @@ public class SearchCalendarModel
 	public DateOnly FromDate { get; set; }
 	public DateTime ToDateUtc { get; set; }
 	public DateTime FromDateUtc { get; set; }
+	public string? ActivityColor { get; set; }
 	public string? WorkoutColor { get; set; }
 }

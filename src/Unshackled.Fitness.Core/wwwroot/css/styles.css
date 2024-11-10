@@ -28,7 +28,7 @@
 
 @font-face {
   font-family: 'Roboto';
-  src: url(/fonts/Roboto-SemiBold.woff) format("woff");
+  src: url(/fonts/Roboto-Medium.woff) format("woff");
   font-style: normal;
   font-weight: 600;
 }

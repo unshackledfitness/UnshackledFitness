@@ -10,6 +10,11 @@ public class AppSettings : ICloneable
 	// General
 	public UnitSystems DefaultUnits { get; set; } = UnitSystems.Metric;
 
+	// Dashboard
+	public string ActivityDisplayColor { get; set; } = "#4e85f6ff";
+	public string WorkoutDisplayColor { get; set; } = "#2660f5ff";
+	public string MixedDisplayColor { get; set; } = "#1841a3ff";
+
 	// Strength
 	public int DisplaySplitTracking { get; set; } = 0;
 	public bool HideCompleteSets { get; set; } = false;
@@ -22,10 +27,13 @@ public class AppSettings : ICloneable
 		return new AppSettings
 		{
 			AppTheme = AppTheme,
+			ActivityDisplayColor = ActivityDisplayColor,
 			DefaultUnits = DefaultUnits,
 			DisplaySplitTracking = DisplaySplitTracking,
 			HideCompleteSets = HideCompleteSets,
-			MetricsDashboardDisplay = MetricsDashboardDisplay
+			MetricsDashboardDisplay = MetricsDashboardDisplay,
+			MixedDisplayColor = MixedDisplayColor,
+			WorkoutDisplayColor = WorkoutDisplayColor
 		};
 	}
 }

@@ -54,7 +54,8 @@
 							{
 								@if (Model.Weeks[w].Days[d].Date != null)
 								{
-									<div class="@(Model.Weeks[w].Days[d]!.WorkoutCount > 0 ? "day on" : "day off")"
+									<div class="@(Model.Weeks[w].Days[d]!.BlockCount > 0 ? "day on" : "day off")"
+										 style="@(string.IsNullOrEmpty(Model.Weeks[w].Days[d].BlockColor) ? string.Empty : $"background-color: {Model.Weeks[w].Days[d].BlockColor}")"
 										 title="@Model.Weeks[w].Days[d].Description">
 										<span class="sr-only">@Model.Weeks[w].Days[d].Description</span>
 									</div>

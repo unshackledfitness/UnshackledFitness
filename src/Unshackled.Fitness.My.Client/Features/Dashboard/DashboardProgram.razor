@@ -1,9 +1,9 @@
 ﻿@inherits DashboardProgramBase
 
-@if (Templates.Any())
-{
-	<MudPaper Class="d-flex flex-column gap-0 align-center h-100">
-		<MudText Align="Align.Center" Color="Color.Tertiary">@(Templates.Count > 1 ? "Today's Workouts" : "Today's Workout")</MudText>
+<MudPaper Class="d-flex flex-column gap-0 align-center h-100">
+	<MudText Align="Align.Center" Color="Color.Tertiary">@(Templates.Count > 1 ? "Today's Workouts" : "Today's Workout")</MudText>
+	@if (Templates.Any())
+	{
 		<ListView TItem="ProgramListModel" Items="@Templates" Class="w-100">
 			<ItemRenderer>
 				@if (!context.Item.IsStarted)
@@ -50,7 +50,14 @@
 				}
 			</ItemRenderer>
 		</ListView>
-	</MudPaper>
-}
+	}
+	else
+	{
+		<div class="d-flex flex-row gap-2 align-center mt-3">
+			<MudIcon Icon="@Icons.Material.Filled.Hotel" Size="Size.Small" />
+			<MudText Class="mt-1">Rest Day</MudText>
+		</div>
+	}
+</MudPaper>
 
 

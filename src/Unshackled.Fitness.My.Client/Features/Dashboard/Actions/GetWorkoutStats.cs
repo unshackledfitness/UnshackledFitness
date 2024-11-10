@@ -5,7 +5,7 @@ namespace Unshackled.Fitness.My.Client.Features.Dashboard.Actions;
 
 public class GetWorkoutStats
 {
-	public class Query : IRequest<WorkoutStatsModel>
+	public class Query : IRequest<DashboardStatsModel>
 	{
 		public DateTime FromDate { get; private set; }
 
@@ -15,14 +15,14 @@ public class GetWorkoutStats
 		}
 	}
 
-	public class Handler : BaseDashboardHandler, IRequestHandler<Query, WorkoutStatsModel>
+	public class Handler : BaseDashboardHandler, IRequestHandler<Query, DashboardStatsModel>
 	{
 		public Handler(HttpClient httpClient) : base(httpClient) { }
 
-		public async Task<WorkoutStatsModel> Handle(Query request, CancellationToken cancellationToken)
+		public async Task<DashboardStatsModel> Handle(Query request, CancellationToken cancellationToken)
 		{
-			return await PostToResultAsync<DateTime, WorkoutStatsModel>($"{baseUrl}workout-stats", request.FromDate) ??
-				new WorkoutStatsModel();
+			return await PostToResultAsync<DateTime, DashboardStatsModel>($"{baseUrl}workout-stats", request.FromDate) ??
+				new DashboardStatsModel();
 		}
 	}
 }

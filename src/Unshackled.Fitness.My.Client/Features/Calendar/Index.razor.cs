@@ -5,18 +5,14 @@ using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Calendar.Actions;
 using Unshackled.Fitness.My.Client.Features.Calendar.Models;
 using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Enums;
 using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Client.Models.Calendars;
 using Unshackled.Studio.Core.Client.Utils;
 
 namespace Unshackled.Fitness.My.Client.Features.Calendar;
 
-public class IndexBase : BaseComponent, IAsyncDisposable
+public class IndexBase : BaseComponent
 {
-	[CascadingParameter(Name = AppFrame.ParameterThemeProvider)]
-	protected MudThemeProvider ThemeProvider { get; set; } = default!;
-
 	[Inject] protected ILocalStorage localStorageService { get; set; } = default!;
 
 	protected CalendarModel CalendarModel { get; set; } = new();
@@ -26,10 +22,9 @@ public class IndexBase : BaseComponent, IAsyncDisposable
 	protected bool IsLoading { get; set; } = true;
 	protected bool IsSaving { get; set; } = false;
 	protected bool DisableControls => IsSaving || IsLoading;
-	protected string ThemeColor { get; set; } = string.Empty;
 	protected Dictionary<string, bool> FilterVisibility { get; set; } = new();
 	protected List<PresetModel> Presets { get; set; } = new();
-	protected bool SystemIsDark { get; set; } = false;
+	protected Member ActiveMember => (Member)State.ActiveMember;
 
 	private string visibilityKey = "MetricVisibility";
 	private string searchKey = "SearchCalendar";
@@ -43,35 +38,18 @@ public class IndexBase : BaseComponent, IAsyncDisposable
 		await InitializeSearchForm();
 		FilterVisibility = await localStorageService.GetItemAsync<Dictionary<string, bool>>(visibilityKey) ?? new();
 
-		SetThemeColor();
-		State.OnThemeChange += HandleThemeChanged;
-
 		await GetCalendar();
 		IsLoading = false;
 
 		Presets = await Mediator.Send(new ListPresets.Query());
 	}
 
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-		if (firstRender && ThemeProvider is not null)
-		{
-			SystemIsDark = await ThemeProvider.GetSystemPreference();
-			StateHasChanged();
-		}
-	}
-
-	public override ValueTask DisposeAsync()
-	{
-		State.OnThemeChange -= HandleThemeChanged;
-		return base.DisposeAsync();
-	}
-
 	private async Task GetCalendar()
 	{
 		SearchModel.FromDateUtc = SearchModel.FromDate.ToDateTime(new TimeOnly(0, 0, 0), DateTimeKind.Local).ToUniversalTime();
 		SearchModel.ToDateUtc = SearchModel.ToDate.ToDateTime(new TimeOnly(0, 0, 0), DateTimeKind.Local).ToUniversalTime();
-		SearchModel.WorkoutColor = ThemeColor;
+		SearchModel.ActivityColor = ActiveMember.Settings.ActivityDisplayColor;
+		SearchModel.WorkoutColor = ActiveMember.Settings.WorkoutDisplayColor;
 
 		CalendarModel = await Mediator.Send(new GetCalendar.Query(SearchModel));
 
@@ -176,22 +154,6 @@ public class IndexBase : BaseComponent, IAsyncDisposable
 		IsDrawerOpen = true;
 	}
 
-	protected void HandleThemeChanged()
-	{
-		SetThemeColor();
-		foreach (var day in CalendarModel.Days)
-		{
-			foreach (var block in day.Blocks)
-			{
-				if (block.FilterId == "workout")
-				{
-					block.Color = ThemeColor;
-				}
-			}
-		}
-		StateHasChanged();
-	}
-
 	private async Task InitializeSearchForm(bool reset = false)
 	{
 		var defaultModel = new FormSearchModel
@@ -239,19 +201,5 @@ public class IndexBase : BaseComponent, IAsyncDisposable
 				}
 			}
 		}
-	}
-
-	private void SetThemeColor()
-	{
-		AppTheme theme = new();
-		ThemeColor = State.Theme switch
-		{
-			Themes.Dark => theme.PaletteDark.Primary.Value,
-			Themes.Light => theme.PaletteLight.Primary.Value,
-			Themes.System => SystemIsDark
-				? theme.PaletteDark.Primary.Value
-				: theme.PaletteLight.Primary.Value,
-			_ => theme.PaletteLight.Primary.Value
-		};
 	}
 }
