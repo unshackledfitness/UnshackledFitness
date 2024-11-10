@@ -149,11 +149,11 @@ Add a migration for the current release and your database.
 
 ```bash
 # MS SQL Server
-dotnet ef migrations add v1.8.0 -c MsSqlServerDbContext -s ../Unshackled.Fitness.Web -o Migrations
+dotnet ef migrations add v1.2.0 -c MsSqlServerDbContext -s ../Unshackled.Fitness.Web -o Migrations
 # MySQL Server
-dotnet ef migrations add v1.8.0 -c MySqlServerDbContext -s ../Unshackled.Fitness.Web -o Migrations
+dotnet ef migrations add v1.2.0 -c MySqlServerDbContext -s ../Unshackled.Fitness.Web -o Migrations
 # PostgreSQL Server
-dotnet ef migrations add v1.8.0 -c PostgresSqlServerDbContext -s ../Unshackled.Fitness.Web -o Migrations
+dotnet ef migrations add v1.2.0 -c PostgresSqlServerDbContext -s ../Unshackled.Fitness.Web -o Migrations
 ```
 
 Apply the migration
