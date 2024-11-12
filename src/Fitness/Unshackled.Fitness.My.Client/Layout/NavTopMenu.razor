@@ -1,0 +1,26 @@
+﻿@inherits Unshackled.Studio.Core.Client.Components.BaseComponent
+
+<MudNavMenu>
+	<MudNavLink Icon="@Icons.Material.Filled.Dashboard" Href="/" Match="NavLinkMatch.All">Dashboard</MudNavLink>
+	<MudNavLink Icon="@Icons.Material.Filled.CalendarMonth" Href="/calendar" Match="NavLinkMatch.Prefix">Calendar</MudNavLink>
+
+	<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+
+	<MudNavGroup Title="Activities" Icon="@Icons.Material.Filled.DirectionsRun" Expanded="true">
+		<MudNavLink Href="/activities" Match="NavLinkMatch.Prefix">Activities</MudNavLink>
+		<MudNavLink Href="/activity-types" Match="NavLinkMatch.Prefix">Activity Types</MudNavLink>
+		<MudNavLink Href="/activity-targets" Match="NavLinkMatch.Prefix">Targets</MudNavLink>
+	</MudNavGroup>
+
+	<MudNavGroup Title="Strength Training" Icon="@Icons.Material.Filled.FitnessCenter" Expanded="true">
+		<MudNavLink Href="/workouts" Match="NavLinkMatch.Prefix">Workouts</MudNavLink>
+		<MudNavLink Href="/exercises" Match="NavLinkMatch.Prefix">Exercises</MudNavLink>
+		<MudNavLink Href="/templates" Match="NavLinkMatch.Prefix">Templates</MudNavLink>
+		<MudNavLink Href="/programs" Match="NavLinkMatch.Prefix">Programs</MudNavLink>
+	</MudNavGroup>
+
+	<MudNavGroup Title="Metrics" Icon="@Icons.Material.Filled.InsertChart" Expanded="true">
+		<MudNavLink Href="/metrics" Match="NavLinkMatch.Prefix">All Metrics</MudNavLink>
+		<MudNavLink Href="/metric-definitions" Match="NavLinkMatch.Prefix">Definitions</MudNavLink>
+	</MudNavGroup>
+</MudNavMenu>

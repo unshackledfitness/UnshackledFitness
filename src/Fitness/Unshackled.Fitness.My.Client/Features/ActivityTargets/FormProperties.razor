@@ -1,0 +1,87 @@
+﻿@inherits FormPropertiesBase
+
+<EditForm id="@FormId" Model="@Model" OnValidSubmit="HandleFormSubmitted">
+	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
+	<MudGrid Spacing="3" Class="mb-3">
+		<MudItem xs="12">
+			<MudTextField Label="Title" Variant="Variant.Outlined" Margin="Margin.Dense" Immediate="true" Disabled="@DisableControls"
+						  FullWidth="true" For="@(() => Model.Title)" @bind-Value="@Model.Title" />
+		</MudItem>
+
+		@* --- Activity Type --- *@
+		<MudItem xs="12">
+			<MudSelect T="string" Label="Activity Type" Variant="Variant.Outlined" FullWidth="true" Margin="Margin.Dense"
+					   Value="@Model.ActivityTypeSid" For="@(() => Model.ActivityTypeSid)" ValueChanged="@HandleActivityTypeChange">
+
+				@foreach (var item in ActivityTypes)
+				{
+					<MudSelectItem T="string" Value="@item.Sid">@item.Title</MudSelectItem>
+				}
+			</MudSelect>
+		</MudItem>
+
+		@* --- Target Distance --- *@
+		<MudItem xs="6">
+			<MudNumericField T="double?" Label="Target Distance" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+							 Min="0" Max="@double.MaxValue" Format="0.###" @bind-Value="@Model.TargetDistance" For="@(() => Model.TargetDistance)" />
+		</MudItem>
+		<MudItem xs="6">
+			<DistanceUnitSelect Disabled="@DisableControls" Label="Unit" AllOption="false" Margin="Margin.Dense" @bind-Value="@Model.TargetDistanceUnit" />
+		</MudItem>
+
+		@* --- Target Time --- *@
+		<MudItem xs="12">
+			<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="mb-1">Target Time</MudText>
+			<TimeInput Variant="Variant.Outlined" Margin="Margin.Dense" Disabled="@DisableControls" @bind-Value="Model.TargetTimeSeconds" />
+		</MudItem>
+
+		@* --- Target Pace --- *@
+		<MudItem xs="12">
+			<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="mb-1">Target Pace</MudText>
+			<TimeInput Variant="Variant.Outlined" Margin="Margin.Dense" Disabled="@DisableControls" @bind-Value="Model.TargetPace" />
+		</MudItem>
+
+		@* --- Target Power --- *@
+		<MudItem xs="12">
+			<MudNumericField T="double?" Label="Target Power" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+							 Min="0" Max="@double.MaxValue" Format="0.###" Adornment="Adornment.End" AdornmentText="W"
+							 @bind-Value="@Model.TargetPower" For="@(() => Model.TargetPower)" />
+		</MudItem>
+
+		@* --- Target Cadence --- *@
+		<MudItem xs="6">
+			<MudNumericField T="double?" Label="Target Cadence" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+							 Min="0" Max="@double.MaxValue" Format="0.###" @bind-Value="@Model.TargetCadence" For="@(() => Model.TargetCadence)" />
+		</MudItem>
+		<MudItem xs="6">
+			<CadenceUnitSelect Disabled="@DisableControls" Label="Unit" Margin="Margin.Dense" @bind-Value="@Model.TargetCadenceUnit" />
+		</MudItem>
+
+		@* --- Target Heart Rate --- *@
+		<MudItem xs="12">
+			<MudNumericField T="int?" Label="Target Heart Rate" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+							 Min="0" Max="@int.MaxValue" Format="0.###" Adornment="Adornment.End" AdornmentText="bpm"
+							 @bind-Value="@Model.TargetHeartRateBpm" For="@(() => Model.TargetHeartRateBpm)" />
+		</MudItem>
+
+		@* --- Target Calories --- *@
+		<MudItem xs="12">
+			<MudNumericField T="int?" Label="Target Calories" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+							 Min="0" Max="@int.MaxValue" Format="0.###" @bind-Value="@Model.TargetCalories" For="@(() => Model.TargetCalories)" />
+		</MudItem>
+
+		<MudItem xs="12">
+			<MudTextField Label="Notes" Lines="5" Variant="Variant.Outlined" Margin="Margin.Dense"
+						  FullWidth="true" Disabled="@DisableControls"
+						  For="@(() => Model.Notes)" @bind-Value="@Model.Notes" />
+		</MudItem>
+	</MudGrid>
+
+	@if (FormToolbar != null)
+	{
+		<MudToolBar Gutters="false" Class="mt-4">
+			@FormToolbar
+		</MudToolBar>
+	}
+</EditForm>
+

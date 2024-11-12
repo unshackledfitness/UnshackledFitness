@@ -1,0 +1,73 @@
+﻿@page "/activity-targets"
+@inherits IndexBase
+
+<DynamicPageTitle IsLoading="@IsLoading" LoadingTitle="Loading Targets..." Title="Targets" />
+
+<MudBreadcrumbs Items="@Breadcrumbs" />
+
+<MudText Typo="Typo.h4" Class="mb-6">Targets</MudText>
+
+<div Class="mb-6">
+	<SearchForm @bind-Model="@SearchModel" Class="mb-6" SearchClicked="@(() => DoSearch(1))" ResetClicked="@HandleResetClicked" Disable="@IsLoading">
+		<SearchFields>
+			<MudGrid Spacing="2">
+				<MudItem xs="12" sm="4">
+					<MudSelect T="string" Label="Activity Type" Variant="Variant.Outlined" FullWidth="true" Margin="Margin.Dense" Disabled="@IsLoading" @bind-Value="@SearchModel.ActivityTypeSid">
+						@foreach (var item in ActivityTypes)
+						{
+							<MudSelectItem T="string" Value="@item.Sid">@item.Title</MudSelectItem>
+						}
+					</MudSelect>
+				</MudItem>
+				<MudItem xs="12" sm="8">
+					<MudTextField Label="Title" Variant="Variant.Outlined" FullWidth="true" Margin="Margin.Dense" T="string" @bind-Value="@SearchModel.Title" Disabled="@IsLoading" />
+				</MudItem>
+			</MudGrid>
+		</SearchFields>
+	</SearchForm>
+	@if (IsMemberActive)
+	{
+		<MudToolBar Class="mb-2" Gutters="false" Dense="true">
+			<ProgressButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls"
+							IsWorking="@(IsWorking && TrackNowSid == string.Empty)" WorkingText="Opening"
+							OnClick="@(() => HandleAddClicked())">New</ProgressButton>
+			<MudMenu Label="Sort" StartIcon="@Icons.Material.Filled.Sort" Class="ms-2">
+				<MudMenuItem OnClick="@(() => HandleSortByClicked(0, nameof(TargetListItem.Title)))">Title (Asc)</MudMenuItem>
+				<MudMenuItem OnClick="@(() => HandleSortByClicked(1, nameof(TargetListItem.Title)))">Title (Desc)</MudMenuItem>
+			</MudMenu>
+		</MudToolBar>
+	}
+	<ListView Class="mb-6" Items="@SearchResults.Data" PageSize="@SearchResults.PageSize" Page="@SearchModel.Page" TotalItems="@SearchResults.Total" IsLoading="@IsLoading"
+			  PageSelected="@HandlePageSelected">
+		<ItemRenderer>
+			<div class="d-flex flex-row gap-4 align-center">
+				@if (IsMemberActive)
+				{
+					<div>
+						<ProgressButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@DisableControls"
+										IsWorking="@(context.Item.Sid == TrackNowSid)" WorkingText="Opening" Size="Size.Small" Class="my-2 my-md-0"
+										OnClick="@(() => HandleTrackNowClicked(context.Item))">Track</ProgressButton>
+					</div>
+				}
+				<div class="flex-grow-1">
+					<MudLink Typo="Typo.subtitle1" Href="@($"/templates/{context.Item.Sid}")">@context.Item.Title</MudLink>
+					<MudText Typo="Typo.body1" Color="Color.Tertiary">@context.Item.ActivityTypeName</MudText>
+				</div>
+			</div>
+		</ItemRenderer>
+		<EmptyListRenderer>
+			<MudText Align="Align.Center" Class="mt-4">No activity targets matched your search.</MudText>
+		</EmptyListRenderer>
+	</ListView>
+</div>
+
+<SideDrawer @bind-Open="DrawerOpen" Icon="@DrawerIcon" Title="@DrawerTitle">
+	<FormProperties Model="@FormModel" ActivityTypes="@ActivityTypes" OnFormSubmitted="@HandleAddFormSubmitted">
+		<FormToolbar>
+			<MudSpacer />
+			<ProgressButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" IsWorking="@IsWorking" WorkingText="Adding">Add</ProgressButton>
+			<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@HandleCancelAddClicked">Cancel</MudButton>
+			<MudSpacer />
+		</FormToolbar>
+	</FormProperties>
+</SideDrawer>

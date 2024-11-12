@@ -1,0 +1,250 @@
+﻿@inherits FormPropertiesBase
+
+<EditForm id="@FormId" Model="@Model" OnValidSubmit="HandleFormSubmitted">
+	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
+	<MudGrid Spacing="3" Class="mb-4">
+
+		@* --- Title --- *@
+		<MudItem xs="12">
+			<MudTextField Label="Title" Variant="Variant.Outlined" Disabled="@DisableControls" Margin="Margin.Dense"
+						  FullWidth="true" @bind-Value="@Model.Title" For="@(() => Model.Title)" />
+		</MudItem>
+
+		@* --- Activity Type --- *@
+		<MudItem xs="12">
+			<MudSelect T="string" Label="Activity Type" Variant="Variant.Outlined" FullWidth="true" Margin="Margin.Dense"
+					   Value="@Model.ActivityTypeSid" For="@(() => Model.ActivityTypeSid)" ValueChanged="@HandleActivityTypeChange">
+
+				@foreach (var item in ActivityTypes)
+				{
+					<MudSelectItem T="string" Value="@item.Sid">@item.Title</MudSelectItem>
+				}
+			</MudSelect>
+		</MudItem>
+
+
+		@* --- Event Type --- *@
+		<MudItem xs="12">
+			<EventTypeSelect AllOption="false" Label="Event Type" Margin="Margin.Dense" Disabled="@DisableControls" @bind-Value="@Model.EventType" />
+		</MudItem>
+
+		@* --- Event Date --- *@
+		<MudItem xs="6">
+			<MudDatePicker Label="Activity Date" Variant="Variant.Outlined" Margin="Margin.Dense" DateFormat="@Model.DateFormat(Model.DateEvent)" Disabled="@DisableControls"
+						   @bind-Date="@Model.DateEventInput" For="@(() => Model.DateEvent)" Color="Color.Secondary" />
+		</MudItem>
+		<MudItem xs="6">
+			<MudTimePicker Label="Start Time" AmPm="true" Variant="Variant.Outlined" Margin="Margin.Dense" TimeFormat="h:mm tt" Disabled="@DisableControls" Color="Color.Secondary"
+						   @bind-Time="@Model.TimeEventInput" For="@(() => Model.TimeEventInput)" AnchorOrigin="Origin.TopRight" TransformOrigin="Origin.TopRight" />
+		</MudItem>
+
+	</MudGrid>
+
+	<MudTabs Elevation="0" Centered="true" ApplyEffectsToContainer="true" PanelClass="pt-6" Class="mb-6" MinimumTabWidth="100px">
+		<MudTabPanel Text="Stats">
+			<MudGrid Spacing="3">
+
+		<MudItem xs="12">
+					<MudText Typo="Typo.caption" Color="Color.Secondary">Distance</MudText>
+		</MudItem>
+
+		@* --- Total Distance --- *@
+		<MudItem xs="6">
+					<MudNumericField T="double?" Label="Total Distance" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+							 Min="0" Max="@double.MaxValue" Format="0.###" @bind-Value="@Model.TotalDistance" For="@(() => Model.TotalDistance)" />
+		</MudItem>
+		<MudItem xs="6">
+			<DistanceUnitSelect Disabled="@DisableControls" Label="Unit" AllOption="false" Margin="Margin.Dense" @bind-Value="@Model.TotalDistanceUnit" />
+		</MudItem>
+
+		@* --- Minimum Altitude --- *@
+		<MudItem xs="6">
+					<MudNumericField T="double?" Label="Minimum Altitude" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+							 Min="0" Max="@double.MaxValue" Format="0.###" @bind-Value="@Model.MinimumAltitude" For="@(() => Model.MinimumAltitude)" />
+		</MudItem>
+		<MudItem xs="6">
+			<DistanceUnitSelect Disabled="@DisableControls" Label="Unit" AllOption="false" Margin="Margin.Dense" @bind-Value="@Model.MinimumAltitudeUnit" />
+		</MudItem>
+
+		@* --- Maximum Altitude --- *@
+		<MudItem xs="6">
+					<MudNumericField T="double?" Label="Maximum Altitude" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+							 Min="0" Max="@double.MaxValue" Format="0.###" @bind-Value="@Model.MaximumAltitude" For="@(() => Model.MaximumAltitude)" />
+		</MudItem>
+		<MudItem xs="6">
+			<DistanceUnitSelect Disabled="@DisableControls" Label="Unit" AllOption="false" Margin="Margin.Dense" @bind-Value="@Model.MaximumAltitudeUnit" />
+		</MudItem>
+
+		@* --- Total Ascent --- *@
+		<MudItem xs="6">
+					<MudNumericField T="double?" Label="Total Ascent" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+							 Min="0" Max="@double.MaxValue" Format="0.###" @bind-Value="@Model.TotalAscent" For="@(() => Model.TotalAscent)" />
+		</MudItem>
+		<MudItem xs="6">
+			<DistanceUnitSelect Disabled="@DisableControls" Label="Unit" AllOption="false" Margin="Margin.Dense" @bind-Value="@Model.TotalAscentUnit" />
+		</MudItem>
+
+		@* --- Total Descent --- *@
+		<MudItem xs="6">
+					<MudNumericField T="double?" Label="Total Descent" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+							 Min="0" Max="@double.MaxValue" Format="0.###" @bind-Value="@Model.TotalDescent" For="@(() => Model.TotalDescent)" />
+		</MudItem>
+		<MudItem xs="6">
+			<DistanceUnitSelect Disabled="@DisableControls" Label="Unit" AllOption="false" Margin="Margin.Dense" @bind-Value="@Model.TotalDescentUnit" />
+		</MudItem>
+
+		<MudItem xs="12">
+					<MudText Typo="Typo.caption" Color="Color.Secondary">Time</MudText>
+		</MudItem>
+
+		@* --- Total Time --- *@
+		<MudItem xs="12">
+					<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="mb-1">Total Time</MudText>
+					<TimeInput Variant="Variant.Outlined" Margin="Margin.Dense" Disabled="@DisableControls" @bind-Value="Model.TotalTimeSeconds" />
+		</MudItem>
+
+		@* --- Pace --- *@
+		<MudItem xs="12">
+					<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="mb-1">Average Pace</MudText>
+					<TimeInput Variant="Variant.Outlined" Margin="Margin.Dense" Disabled="@DisableControls" @bind-Value="Model.AveragePace" />
+		</MudItem>
+		<MudItem xs="12">
+					<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="mb-1">Maximum Pace</MudText>
+					<TimeInput Variant="Variant.Outlined" Margin="Margin.Dense" Disabled="@DisableControls" @bind-Value="Model.MaximumPace" />
+		</MudItem>
+
+		@* --- Average Speed --- *@
+		<MudItem xs="6">
+					<MudNumericField T="double?" Label="Average Speed" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+							 Min="0" Max="@double.MaxValue" Format="0.###" @bind-Value="@Model.AverageSpeed" For="@(() => Model.AverageSpeed)" />
+		</MudItem>
+		<MudItem xs="6">
+			<SpeedUnitSelect Disabled="@DisableControls" Label="Unit" AllOption="false" Margin="Margin.Dense" @bind-Value="@Model.AverageSpeedUnit" />
+		</MudItem>
+
+
+		@* --- Maximum Speed --- *@
+		<MudItem xs="6">
+					<MudNumericField T="double?" Label="Maximum Speed" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+							 Min="0" Max="@double.MaxValue" Format="0.###" @bind-Value="@Model.MaximumSpeed" For="@(() => Model.MaximumSpeed)" />
+		</MudItem>
+		<MudItem xs="6">
+			<SpeedUnitSelect Disabled="@DisableControls" Label="Unit" AllOption="false" Margin="Margin.Dense" @bind-Value="@Model.MaximumSpeedUnit" />
+		</MudItem>
+
+
+				@* --- Power --- *@
+				<MudItem xs="12" sm="6">
+					<MudNumericField T="double?" Label="Average Power" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+									 Min="0" Max="@double.MaxValue" Format="0.###" Adornment="Adornment.End" AdornmentText="W"
+									 @bind-Value="@Model.AveragePower" For="@(() => Model.AveragePower)" />
+				</MudItem>
+				<MudItem xs="12" sm="6">
+					<MudNumericField T="double?" Label="Maximum Power" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+									 Min="0" Max="@double.MaxValue" Format="0.###" Adornment="Adornment.End" AdornmentText="W"
+									 @bind-Value="@Model.MaximumPower" For="@(() => Model.MaximumPower)" />
+				</MudItem>
+
+
+		@* --- Cadence --- *@
+		<MudItem xs="6">
+					<MudNumericField T="double?" Label="Average Cadence" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+									 Min="0" Max="@double.MaxValue" Format="0.###" @bind-Value="@Model.AverageCadence" For="@(() => Model.AverageCadence)" />
+		</MudItem>
+		<MudItem xs="6">
+					<CadenceUnitSelect Disabled="@DisableControls" Label="Unit" Margin="Margin.Dense" @bind-Value="@Model.CadenceUnit" />
+				</MudItem>
+
+
+				<MudItem xs="12" sm="6">
+					<MudNumericField T="double?" Label="Maximum Cadence" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+									 Min="0" Max="@double.MaxValue" Format="0.###" Adornment="Adornment.End" AdornmentText="@Model.CadenceUnit.Label()"
+							 @bind-Value="@Model.MaximumCadence" For="@(() => Model.MaximumCadence)" />
+		</MudItem>
+
+		<MudItem xs="12">
+					<MudText Typo="Typo.caption" Color="Color.Secondary">Health</MudText>
+		</MudItem>
+
+		@* --- Heart Rate --- *@
+				<MudItem xs="12" sm="6">
+					<MudNumericField T="int?" Label="Average Heart Rate" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+							 Min="0" Max="@int.MaxValue" Format="0.###" Adornment="Adornment.End" AdornmentText="bpm"
+							 @bind-Value="@Model.AverageHeartRateBpm" For="@(() => Model.AverageHeartRateBpm)" />
+		</MudItem>
+				<MudItem xs="12" sm="6">
+					<MudNumericField T="int?" Label="Maximum Heart Rate" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+							 Min="0" Max="@int.MaxValue" Format="0.###" Adornment="Adornment.End" AdornmentText="bpm"
+							 @bind-Value="@Model.MaximumHeartRateBpm" For="@(() => Model.MaximumHeartRateBpm)" />
+		</MudItem>
+
+				@* --- Total Calories --- *@
+				<MudItem xs="12" sm="6">
+					<MudNumericField T="int?" Label="Total Calories" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+									 Min="0" Max="@int.MaxValue" Format="0.###" @bind-Value="@Model.TotalCalories" For="@(() => Model.TotalCalories)" />
+				</MudItem>
+			</MudGrid>
+		</MudTabPanel>
+		<MudTabPanel Text="Targets">
+			<MudGrid Spacing="3">
+
+				@* --- Target Distance --- *@
+				<MudItem xs="6">
+					<MudNumericField T="double?" Label="Target Distance" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+									 Min="0" Max="@double.MaxValue" Format="0.###" @bind-Value="@Model.TargetDistance" For="@(() => Model.TargetDistance)" />
+				</MudItem>
+				<MudItem xs="6">
+					<DistanceUnitSelect Disabled="@DisableControls" Label="Unit" AllOption="false" Margin="Margin.Dense" @bind-Value="@Model.TargetDistanceUnit" />
+				</MudItem>
+
+				@* --- Target Time --- *@
+				<MudItem xs="12">
+					<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="mb-1">Target Time</MudText>
+					<TimeInput Variant="Variant.Outlined" Margin="Margin.Dense" Disabled="@DisableControls" @bind-Value="Model.TargetTimeSeconds" />
+				</MudItem>
+
+				@* --- Target Pace --- *@
+				<MudItem xs="12">
+					<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="mb-1">Target Pace</MudText>
+					<TimeInput Variant="Variant.Outlined" Margin="Margin.Dense" Disabled="@DisableControls" @bind-Value="Model.TargetPace" />
+				</MudItem>
+
+				@* --- Target Power --- *@
+				<MudItem xs="12" sm="6">
+					<MudNumericField T="double?" Label="Target Power" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+									 Min="0" Max="@double.MaxValue" Format="0.###" Adornment="Adornment.End" AdornmentText="W"
+									 @bind-Value="@Model.TargetPower" For="@(() => Model.TargetPower)" />
+				</MudItem>
+
+				@* --- Target Cadence --- *@
+				<MudItem xs="12" sm="6">
+					<MudNumericField T="double?" Label="Target Cadence" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+									 Min="0" Max="@double.MaxValue" Format="0.###" Adornment="Adornment.End" AdornmentText="@Model.CadenceUnit.Label()"
+									 @bind-Value="@Model.TargetCadence" For="@(() => Model.TargetCadence)" />
+				</MudItem>
+
+				@* --- Target Heart Rate --- *@
+				<MudItem xs="12" sm="6">
+					<MudNumericField T="int?" Label="Target Heart Rate" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+									 Min="0" Max="@int.MaxValue" Format="0.###" Adornment="Adornment.End" AdornmentText="bpm"
+									 @bind-Value="@Model.TargetHeartRateBpm" For="@(() => Model.TargetHeartRateBpm)" />
+				</MudItem>
+
+				@* --- Target Calories --- *@
+				<MudItem xs="12" sm="6">
+					<MudNumericField T="int?" Label="Target Calories" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"
+									 Min="0" Max="@int.MaxValue" Format="0.###" @bind-Value="@Model.TargetCalories" For="@(() => Model.TargetCalories)" />
+				</MudItem>
+
+			</MudGrid>
+		</MudTabPanel>
+		<MudTabPanel Text="Notes">
+			<MudTextField Label="Notes" Lines="8" Variant="Variant.Outlined" Margin="Margin.Dense" Disabled="@DisableControls" @bind-Value="@Model.Notes" For="@(() => Model.Notes)" />
+		</MudTabPanel>
+	</MudTabs>
+
+	@if (ChildContent != null)
+	{
+		@ChildContent
+	}
+</EditForm>

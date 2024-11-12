@@ -1,0 +1,13 @@
+﻿@inherits TimeInputBase
+
+<div class="d-flex flex-row gap-1 align-center">
+	@if (!string.IsNullOrEmpty(Label))
+	{
+		<MudText Typo="@Typo" Align="Align.Start" Class="me-1">@Label</MudText>
+	}
+	<MudNumericField T="int?" Variant="@Variant" Margin="@Margin" Disabled="@Disabled" Min="0" Format="D2" Label="@HourLabel" Placeholder="@Placeholder" Value="@Hours" ValueChanged="@HandleHourChanged" />
+	<div class="colon">:</div>
+	<MudNumericField T="int?" Variant="@Variant" Margin="@Margin" Disabled="@Disabled" Min="0" Max="59" Format="D2" Label="@MinuteLabel" Value="@Minutes" Placeholder="@Placeholder" ValueChanged="@HandleMinChanged" />
+	<div class="colon">:</div>
+	<MudNumericField T="int?" Variant="@Variant" Margin="@Margin" Disabled="@Disabled" Min="0" Max="59" Format="D2" Label="@SecondLabel" Value="@Seconds" Placeholder="@Placeholder" ValueChanged="@HandleSecChanged" />
+</div>
