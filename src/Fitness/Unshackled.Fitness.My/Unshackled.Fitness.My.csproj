@@ -14,11 +14,10 @@
 		<ProjectReference Include="..\Unshackled.Fitness.Core.Data\Unshackled.Fitness.Core.Data.csproj" />
 		<ProjectReference Include="..\Unshackled.Fitness.My.Client\Unshackled.Fitness.My.Client.csproj" />
 		<PackageReference Include="AutoMapper" Version="13.0.1" />
-		<PackageReference Include="Azure.Storage.Queues" Version="12.20.0" />
 		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.8" />
-		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.8" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.11" />
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.11" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
