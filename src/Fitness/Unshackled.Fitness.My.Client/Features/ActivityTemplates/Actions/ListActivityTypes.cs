@@ -1,13 +1,13 @@
 ﻿using MediatR;
-using Unshackled.Fitness.My.Client.Features.ActivityTargets.Models;
+using Unshackled.Fitness.My.Client.Features.ActivityTemplates.Models;
 
-namespace Unshackled.Fitness.My.Client.Features.ActivityTargets.Actions;
+namespace Unshackled.Fitness.My.Client.Features.ActivityTemplates.Actions;
 
 public class ListActivityTypes
 {
 	public class Query : IRequest<List<ActivityTypeListModel>> { }
 
-	public class Handler : BaseActivityTargetHandler, IRequestHandler<Query, List<ActivityTypeListModel>>
+	public class Handler : BaseActivityTemplateHandler, IRequestHandler<Query, List<ActivityTypeListModel>>
 	{
 		public Handler(HttpClient httpClient) : base(httpClient) { }
 

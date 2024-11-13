@@ -1,37 +1,14 @@
-﻿<span class="result"><span class="distance">@distance?.ToString("0.##")</span>@DisplayLabel()</span>
+﻿<span class="result"><span class="distance">@Distance?.ToString("0.##")</span>@DisplayLabel()</span>
 
 @code {
-	[Parameter] public double? DistanceMeters { get; set; }
-	[Parameter] public UnitSystems UnitSystem { get; set; }
-	[Parameter] public bool UseLargeUnits { get; set; }
-
-	private double? distance;
-	private DistanceUnits units;
-
-	protected override void OnParametersSet()
-	{
-		base.OnParametersSet();
-
-		if (DistanceMeters.HasValue)
-		{
-			if (UnitSystem == UnitSystems.Imperial)
-			{
-				units = UseLargeUnits ? DistanceUnits.Mile : DistanceUnits.Feet;
-			}
-			else
-			{
-				units = UseLargeUnits ? DistanceUnits.Kilometer : DistanceUnits.Meter;
-			}
-			distance = units.ConvertFromMeters(DistanceMeters.Value);
-		}
-		
-	}
+	[Parameter] public double? Distance { get; set; }
+	[Parameter] public DistanceUnits DistanceUnit { get; set; }
 
 	MarkupString DisplayLabel()
 	{
-		if (units != DistanceUnits.Any)
+		if (DistanceUnit != DistanceUnits.Any)
 		{
-			return (MarkupString)$"<span class=\"post-result-label\">{units.Label()}</span>";
+			return (MarkupString)$"<span class=\"post-result-label\">{DistanceUnit.Label()}</span>";
 		}
 		return (MarkupString)string.Empty;
 	}

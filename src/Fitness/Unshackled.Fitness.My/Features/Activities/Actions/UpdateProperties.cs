@@ -5,7 +5,6 @@ using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Activities.Models;
 using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
 using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Activities.Actions;
@@ -52,36 +51,58 @@ public class UpdateProperties
 
 			activity.ActivityTypeId = activityTypeId;
 			activity.AverageCadence = request.Model.AverageCadence;
+			activity.AverageCadenceUnit = request.Model.AverageCadenceUnit;
 			activity.AverageHeartRateBpm = request.Model.AverageHeartRateBpm;
 			activity.AveragePace = request.Model.AveragePace;
 			activity.AveragePower = request.Model.AveragePower;
 			activity.AverageSpeed = request.Model.AverageSpeed;
-			activity.CadenceUnit = request.Model.CadenceUnit;
+			activity.AverageSpeedN = request.Model.AverageSpeedUnit.ConvertToMetersPerSecond(request.Model.AverageSpeed);
+			activity.AverageSpeedUnit = request.Model.AverageSpeedUnit;
 			activity.DateEvent = request.Model.DateEvent.Value;
 			activity.DateEventUtc = request.Model.DateEventUtc;
 			activity.EventType = request.Model.EventType;
-			activity.MaximumAltitude = request.Model.MaximumAltitudeUnit.ConvertToMeters(request.Model.MaximumAltitude);
+			activity.MaximumAltitude = request.Model.MaximumAltitude;
+			activity.MaximumAltitudeN = request.Model.MaximumAltitudeUnit.ConvertToMeters(request.Model.MaximumAltitude);
+			activity.MaximumAltitudeUnit = request.Model.MaximumAltitudeUnit;
 			activity.MaximumCadence = request.Model.MaximumCadence;
+			activity.MaximumCadenceUnit = request.Model.MaximumCadenceUnit;
 			activity.MaximumHeartRateBpm = request.Model.MaximumHeartRateBpm;
 			activity.MaximumPace = request.Model.MaximumPace;
 			activity.MaximumPower = request.Model.MaximumPower;
 			activity.MaximumSpeed = request.Model.MaximumSpeed;
-			activity.MemberId = request.MemberId;
-			activity.MinimumAltitude = request.Model.MinimumAltitudeUnit.ConvertToMeters(request.Model.MinimumAltitude);
-			activity.Notes = request.Model.Notes;
+			activity.MaximumSpeedN = request.Model.MaximumSpeedUnit.ConvertToMetersPerSecond(request.Model.MaximumSpeed);
+			activity.MaximumSpeedUnit = request.Model.MaximumSpeedUnit;
+			activity.MinimumAltitude = request.Model.MinimumAltitude;
+			activity.MinimumAltitudeN = request.Model.MinimumAltitudeUnit.ConvertToMeters(request.Model.MinimumAltitude);
+			activity.MinimumAltitudeUnit = request.Model.MinimumAltitudeUnit;
+			activity.Notes = request.Model.Notes?.Trim();
 			activity.TargetCadence = request.Model.TargetCadence;
+			activity.TargetCadenceUnit = request.Model.TargetCadenceUnit;
 			activity.TargetCalories = request.Model.TargetCalories;
-			activity.TargetDistanceMeters = request.Model.TargetDistanceUnit.ConvertToMeters(request.Model.TargetDistance);
+			activity.TargetDistance = request.Model.TargetDistance;
+			activity.TargetDistanceUnit = request.Model.TargetDistanceUnit;
+			activity.TargetDistanceN = request.Model.TargetDistanceUnit.ConvertToMeters(request.Model.TargetDistance);
 			activity.TargetHeartRateBpm = request.Model.TargetHeartRateBpm;
 			activity.TargetPace = request.Model.TargetPace;
 			activity.TargetPower = request.Model.TargetPower;
 			activity.TargetTimeSeconds = request.Model.TargetTimeSeconds;
 			activity.Title = request.Model.Title.Trim();
-			activity.TotalAscentMeters =  request.Model.TotalAscentUnit.ConvertToMeters(request.Model.TotalAscent);
+			activity.TotalAscent = request.Model.TotalAscent;
+			activity.TotalAscentN = request.Model.TotalAscentUnit.ConvertToMeters(request.Model.TotalAscent);
+			activity.TotalAscentUnit = request.Model.TotalAscentUnit;
 			activity.TotalCalories = request.Model.TotalCalories;
-			activity.TotalDescentMeters =  request.Model.TotalDescentUnit.ConvertToMeters(request.Model.TotalDescent);
-			activity.TotalDistanceMeters =  request.Model.TotalDistanceUnit.ConvertToMeters(request.Model.TotalDistance);
+			activity.TotalDescent = request.Model.TotalDescent;
+			activity.TotalDescentN = request.Model.TotalDescentUnit.ConvertToMeters(request.Model.TotalDescent);
+			activity.TotalDescentUnit = request.Model.TotalDescentUnit;
+			activity.TotalDistance = request.Model.TotalDistance;
+			activity.TotalDistanceN = request.Model.TotalDistanceUnit.ConvertToMeters(request.Model.TotalDistance);
+			activity.TotalDistanceUnit = request.Model.TotalDistanceUnit;
 			activity.TotalTimeSeconds = request.Model.TotalTimeSeconds ?? 0;
+
+			// Mark modified to avoid missing string case changes.
+			db.Entry(activity).Property(x => x.Notes).IsModified = true;
+			db.Entry(activity).Property(x => x.Title).IsModified = true;
+
 			await db.SaveChangesAsync(cancellationToken);
 
 			return new CommandResult(true, "Activity updated.");

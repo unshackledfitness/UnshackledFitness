@@ -13,7 +13,7 @@ public class ActivityPlanEntity : BaseMemberEntity
 	public DateTime? DateLastActivityUtc { get; set; }
 	public int NextScheduleIndex { get; set; }
 
-	public List<ActivityPlanTargetEntity> Targets { get; set; } = new();
+	public List<ActivityPlanTemplateEntity> Templates { get; set; } = new();
 
 	public class TypeConfiguration : BaseMemberEntityTypeConfiguration<ActivityPlanEntity>, IEntityTypeConfiguration<ActivityPlanEntity>
 	{
@@ -26,7 +26,6 @@ public class ActivityPlanEntity : BaseMemberEntity
 			config.Property(x => x.Title)
 				.HasMaxLength(255)
 				.IsRequired();
-
 
 			config.HasIndex(x => new { x.MemberId, x.DateStarted });
 			config.HasIndex(x => new { x.MemberId, x.Title });

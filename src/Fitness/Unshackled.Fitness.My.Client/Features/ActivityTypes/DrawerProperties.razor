@@ -9,7 +9,7 @@
 		</MudItem>
 		<MudItem xs="12">
 			<MudColorPicker Label="Color" ColorPickerMode="ColorPickerMode.HEX" Variant="Variant.Outlined" Clearable="true" ShowToolbar="true"
-							AnchorOrigin="Origin.TopLeft" TransformOrigin="Origin.TopLeft"
+							AnchorOrigin="Origin.TopLeft" TransformOrigin="Origin.TopLeft" Disabled="@DisableControls"
 							Value="@EditingColor" ValueChanged="@HandleEditingColorChanged" @bind-Text="@Model.Color" />
 		</MudItem>
 		<MudItem xs="12">

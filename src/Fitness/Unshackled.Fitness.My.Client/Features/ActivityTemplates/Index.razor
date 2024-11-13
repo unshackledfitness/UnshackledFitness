@@ -1,11 +1,11 @@
-﻿@page "/activity-targets"
+﻿@page "/activity-templates"
 @inherits IndexBase
 
-<DynamicPageTitle IsLoading="@IsLoading" LoadingTitle="Loading Targets..." Title="Targets" />
+<DynamicPageTitle IsLoading="@IsLoading" LoadingTitle="Loading Templates..." Title="Templates" />
 
 <MudBreadcrumbs Items="@Breadcrumbs" />
 
-<MudText Typo="Typo.h4" Class="mb-6">Targets</MudText>
+<MudText Typo="Typo.h4" Class="mb-6">Templates</MudText>
 
 <div Class="mb-6">
 	<SearchForm @bind-Model="@SearchModel" Class="mb-6" SearchClicked="@(() => DoSearch(1))" ResetClicked="@HandleResetClicked" Disable="@IsLoading">
@@ -28,12 +28,10 @@
 	@if (IsMemberActive)
 	{
 		<MudToolBar Class="mb-2" Gutters="false" Dense="true">
-			<ProgressButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls"
-							IsWorking="@(IsWorking && TrackNowSid == string.Empty)" WorkingText="Opening"
-							OnClick="@(() => HandleAddClicked())">New</ProgressButton>
+			<MudButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@(DisableControls || !HasActivityTypes)" OnClick="@(() => HandleAddClicked())">New</MudButton>
 			<MudMenu Label="Sort" StartIcon="@Icons.Material.Filled.Sort" Class="ms-2">
-				<MudMenuItem OnClick="@(() => HandleSortByClicked(0, nameof(TargetListItem.Title)))">Title (Asc)</MudMenuItem>
-				<MudMenuItem OnClick="@(() => HandleSortByClicked(1, nameof(TargetListItem.Title)))">Title (Desc)</MudMenuItem>
+				<MudMenuItem OnClick="@(() => HandleSortByClicked(0, nameof(TemplateListItem.Title)))">Title (Asc)</MudMenuItem>
+				<MudMenuItem OnClick="@(() => HandleSortByClicked(1, nameof(TemplateListItem.Title)))">Title (Desc)</MudMenuItem>
 			</MudMenu>
 		</MudToolBar>
 	}
@@ -50,13 +48,21 @@
 					</div>
 				}
 				<div class="flex-grow-1">
-					<MudLink Typo="Typo.subtitle1" Href="@($"/templates/{context.Item.Sid}")">@context.Item.Title</MudLink>
+					<MudLink Typo="Typo.subtitle1" Href="@($"/activity-templates/{context.Item.Sid}")">@context.Item.Title</MudLink>
 					<MudText Typo="Typo.body1" Color="Color.Tertiary">@context.Item.ActivityTypeName</MudText>
 				</div>
 			</div>
 		</ItemRenderer>
 		<EmptyListRenderer>
-			<MudText Align="Align.Center" Class="mt-4">No activity targets matched your search.</MudText>
+			@if (HasActivityTypes)
+			{
+				<MudText Align="Align.Center" Class="mt-4">No templates matched your search.</MudText>
+			}
+			else
+			{
+				<MudText Align="Align.Center" Class="my-4">You have not created any activity types. Planning templates can not be added until you have at least one activity type defined.</MudText>
+				<MudText Align="Align.Center"><MudLink Typo="Typo.body2" Class="d-block" Href="/activity-types">Go to Activity Types</MudLink></MudText>
+			}
 		</EmptyListRenderer>
 	</ListView>
 </div>
@@ -66,7 +72,7 @@
 		<FormToolbar>
 			<MudSpacer />
 			<ProgressButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" IsWorking="@IsWorking" WorkingText="Adding">Add</ProgressButton>
-			<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@HandleCancelAddClicked">Cancel</MudButton>
+			<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@HandleCancelClicked">Cancel</MudButton>
 			<MudSpacer />
 		</FormToolbar>
 	</FormProperties>

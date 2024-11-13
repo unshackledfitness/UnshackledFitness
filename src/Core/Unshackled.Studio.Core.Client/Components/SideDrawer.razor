@@ -1,4 +1,4 @@
-﻿<MudDrawer Open="@Open" Class="details-drawer" Anchor="@Anchor.End" Elevation="1" Variant="@DrawerVariant.Temporary" Color="@Color" >
+﻿<MudDrawer Open="@Open" Class="details-drawer" Anchor="@Anchor.End" Elevation="1" Variant="@DrawerVariant.Temporary" Color="@Color" OpenChanged="HandleOpenChanged" >
 	<MudDrawerHeader Class="flex-column pa-0">
 		<div class="d-flex flex-row gap-2 align-center py-2 ps-4 pe-1">
 			@if (!string.IsNullOrEmpty(Icon))
@@ -7,7 +7,7 @@
 			}
 			<MudText Typo="Typo.subtitle1" Class="flex-grow-1">@Title</MudText>
 			<div>
-				<MudIconButton Icon="@Icons.Material.Filled.Close" OnClick="@(() => HandleCloseDrawerClicked())" />
+				<MudIconButton Icon="@Icons.Material.Filled.Close" OnClick="@(() => HandleOpenChanged(false))" />
 			</div>
 		</div>
 		<MudDivider DividerType="DividerType.FullWidth" />
@@ -29,9 +29,9 @@
 	[Parameter] public EventCallback<bool> OpenChanged { get; set; }
 	[Parameter] public Color Color { get; set; } = Color.Surface;
 
-	protected async Task HandleCloseDrawerClicked()
+	protected async Task HandleOpenChanged(bool open) 
 	{
-		if(Open)
+		if (!open)
 		{
 			await OpenChanged.InvokeAsync(false);
 		}

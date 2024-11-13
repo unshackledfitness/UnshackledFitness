@@ -7,7 +7,6 @@ public abstract class BaseSearchComponent<TModel, TResults> : BaseComponent
 	where TModel : ISearchModel, new() 
 	where TResults : class, new()
 {
-	[Inject] protected ILocalStorage localStorageService { get; set; } = default!;
 	protected SearchResult<TResults> SearchResults { get; set; }
 	protected TModel SearchModel { get; set; }
 	protected bool IsLoading { get; set; } = true;

@@ -12,7 +12,8 @@ public class ActivityListModel : BaseMemberObject
 	public string ActivityTypeSid { get; set; } = string.Empty;
 	public string ActivityTypeTitle { get; set; } = string.Empty;
 	public string ActivityTypeColor { get; set; } = string.Empty;
-	public double TotalDistanceMeters { get; set; }
+	public double TotalDistance { get; set; }
+	public DistanceUnits TotalDistanceUnit { get; set; }
 	public int TotalTimeSeconds { get; set; }
 	public int TotalCalories { get; set; }
 }

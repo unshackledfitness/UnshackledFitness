@@ -2,16 +2,16 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.Core.Models;
-using Unshackled.Fitness.My.Client.Features.Activities.Actions;
-using Unshackled.Fitness.My.Client.Features.Activities.Models;
+using Unshackled.Fitness.My.Client.Features.ActivityTemplates.Actions;
+using Unshackled.Fitness.My.Client.Features.ActivityTemplates.Models;
 using Unshackled.Studio.Core.Client.Components;
 
-namespace Unshackled.Fitness.My.Client.Features.Activities;
+namespace Unshackled.Fitness.My.Client.Features.ActivityTemplates;
 
 public class SingleBase : BaseComponent
 {
-	[Parameter] public string ActivitySid { get; set; } = string.Empty;
-	protected ActivityModel ActivityModel { get; set; } = new();
+	[Parameter] public string ActivityTemplateSid { get; set; } = string.Empty;
+	protected ActivityTemplateModel TemplateModel { get; set; } = new();
 	protected List<ActivityTypeListModel> ActivityTypes { get; set; } = [];
 	protected bool IsLoading { get; set; } = true;
 	protected bool IsWorking { get; set; } = false;
@@ -25,7 +25,7 @@ public class SingleBase : BaseComponent
 		await base.OnParametersSetAsync();
 
 		IsLoading = true;
-		ActivityModel = await Mediator.Send(new GetActivity.Query(ActivitySid));
+		TemplateModel = await Mediator.Send(new GetTemplate.Query(ActivityTemplateSid));
 		ActivityTypes = await Mediator.Send(new ListActivityTypes.Query());
 		IsLoading = false;
 	}
@@ -33,8 +33,8 @@ public class SingleBase : BaseComponent
 	protected override async Task OnInitializedAsync()
 	{
 		await base.OnInitializedAsync();
-		Breadcrumbs.Add(new BreadcrumbItem("Activities", "/activities", false));
-		Breadcrumbs.Add(new BreadcrumbItem("Activity", null, true));
+		Breadcrumbs.Add(new BreadcrumbItem("Templates", "/activity-templates", false));
+		Breadcrumbs.Add(new BreadcrumbItem("Template", null, true));
 
 		DefaultUnits = ((Member)State.ActiveMember).Settings.DefaultUnits;
 	}

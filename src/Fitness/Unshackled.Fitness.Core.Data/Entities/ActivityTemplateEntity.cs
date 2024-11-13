@@ -5,28 +5,31 @@ using Unshackled.Studio.Core.Data.Entities;
 
 namespace Unshackled.Fitness.Core.Data.Entities;
 
-public class ActivityTargetEntity : BaseMemberEntity
+public class ActivityTemplateEntity : BaseMemberEntity
 {
 	public long ActivityTypeId { get; set; }
 	public virtual ActivityTypeEntity ActivityType { get; set; } = default!;
 	public string Title { get; set; } = string.Empty;
 	public EventTypes EventType {  get; set; }
-	public int? TargetTimeSeconds { get; set; }
-	public double? TargetDistanceMeters { get; set; }
-	public int? TargetCalories { get; set; }
-	public int? TargetPace { get; set; }
-	public int? TargetHeartRateBpm { get; set; }
 	public double? TargetCadence { get; set; }
+	public CadenceUnits TargetCadenceUnit { get; set; }
+	public int? TargetCalories { get; set; }
+	public double? TargetDistance { get; set; }
+	public double? TargetDistanceN { get; set; }
+	public DistanceUnits TargetDistanceUnit { get; set; }
+	public int? TargetHeartRateBpm { get; set; }
+	public int? TargetPace { get; set; }
 	public double? TargetPower { get; set; }
+	public int? TargetTimeSeconds { get; set; }
 	public string? Notes { get; set; }
 
-	public class TypeConfiguration : BaseMemberEntityTypeConfiguration<ActivityTargetEntity>, IEntityTypeConfiguration<ActivityTargetEntity>
+	public class TypeConfiguration : BaseMemberEntityTypeConfiguration<ActivityTemplateEntity>, IEntityTypeConfiguration<ActivityTemplateEntity>
 	{
-		public override void Configure(EntityTypeBuilder<ActivityTargetEntity> config)
+		public override void Configure(EntityTypeBuilder<ActivityTemplateEntity> config)
 		{
 			base.Configure(config);
 
-			config.ToTable("ActivityTargets");
+			config.ToTable("ActivityTemplates");
 
 			config.Property(a => a.Title)
 				.HasMaxLength(255)

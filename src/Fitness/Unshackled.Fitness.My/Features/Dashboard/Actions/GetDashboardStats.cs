@@ -103,8 +103,8 @@ public class GetDashboardStats
 			}
 
 			model.TotalDistanceMeters = await db.Activities
-				.Where(x => x.MemberId == request.MemberId && x.TotalDistanceMeters.HasValue)
-				.SumAsync(x => x.TotalDistanceMeters!.Value, cancellationToken);
+				.Where(x => x.MemberId == request.MemberId && x.TotalDistanceN.HasValue)
+				.SumAsync(x => x.TotalDistanceN!.Value, cancellationToken);
 
 			var workoutTimes = await db.Workouts
 				.AsNoTracking()

@@ -64,7 +64,7 @@
 					<MudGrid Spacing="2">
 						<MudItem xs="4">
 							<CaptionedProperty Align="Align.Center" Title="Total Distance">
-								<DistanceLabel DistanceMeters="@context.Item.TotalDistanceMeters" UnitSystem="@AppSettings.DefaultUnits" UseLargeUnits="true" />
+								<DistanceLabel Distance="@context.Item.TotalDistance" DistanceUnit="@context.Item.TotalDistanceUnit" />
 							</CaptionedProperty>
 						</MudItem>
 						<MudItem xs="4">
@@ -93,9 +93,13 @@
 	</ListView>
 </div>
 
-<SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
-	@if (DrawerView == Views.Add)
-	{
-		<DrawerAdd ActivityTypes="@ActivityTypes" OnActivityAdded="HandleActivityAdded" OnCanceled="@HandleCancelClicked" />
-	}
+<SideDrawer Title="Add Activity" @bind-Open="@DrawerOpen">
+	<FormProperties ActivityTypes="@ActivityTypes" DisableFormControls="@DisableControls" FormId="@FormId" Model="@FormModel" OnFormSubmitted="@HandleAddSubmitted">
+		<MudToolBar Gutters="false">
+			<MudSpacer />
+			<ProgressButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" IsWorking="@IsWorking" WorkingText="Saving">Add</ProgressButton>
+			<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@(() => DrawerOpen = false)">Cancel</MudButton>
+			<MudSpacer />
+		</MudToolBar>
+	</FormProperties>
 </SideDrawer>

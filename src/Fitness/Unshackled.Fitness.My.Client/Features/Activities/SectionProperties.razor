@@ -29,19 +29,19 @@
 	@if (!IsEditing)
 	{
 		<MudGrid Spacing="2">
-			@if (Activity.TotalDistanceMeters > 0)
+			@if (Activity.TotalDistance > 0)
 			{
 				<MudItem xs="4" md="3" lg="2">
 					<MudPaper Class="h-100" Elevation="@StatElevation">
 						<CaptionedProperty Align="Align.Center" Title="Total Distance">
 							<MudText Typo="Typo.h5">
-								<DistanceLabel DistanceMeters="@Activity.TotalDistanceMeters" UnitSystem="@AppSettings.DefaultUnits" UseLargeUnits="true" />
+								<DistanceLabel Distance="@Activity.TotalDistance" DistanceUnit="@Activity.TotalDistanceUnit" />
 							</MudText>
 						</CaptionedProperty>
-						@if (Activity.TargetDistanceMeters.HasValue && Activity.TargetDistanceMeters > 0)
+						@if (Activity.TargetDistance.HasValue && Activity.TargetDistance > 0)
 						{
 							<MudText Typo="Typo.caption" Color="Color.Tertiary" Align="Align.Center">
-								<span>Target:</span> <DistanceLabel DistanceMeters="@Activity.TargetDistanceMeters" UnitSystem="@AppSettings.DefaultUnits" UseLargeUnits="true" />
+								<span>Target:</span> <DistanceLabel Distance="@Activity.TargetDistance" DistanceUnit="@Activity.TargetDistanceUnit" />
 							</MudText>
 						}
 					</MudPaper>
@@ -71,7 +71,7 @@
 					<MudPaper Class="h-100" Elevation="@StatElevation">
 						<CaptionedProperty Align="Align.Center" Title="Minimum Altitude">
 							<MudText Typo="Typo.h5">
-								<DistanceLabel DistanceMeters="@Activity.MinimumAltitude" UnitSystem="@AppSettings.DefaultUnits" />
+								<DistanceLabel Distance="@Activity.MinimumAltitude" DistanceUnit="@Activity.MinimumAltitudeUnit" />
 							</MudText>
 						</CaptionedProperty>
 					</MudPaper>
@@ -83,31 +83,31 @@
 					<MudPaper Class="h-100" Elevation="@StatElevation">
 						<CaptionedProperty Align="Align.Center" Title="Maximum Altitude">
 							<MudText Typo="Typo.h5">
-								<DistanceLabel DistanceMeters="@Activity.MaximumAltitude" UnitSystem="@AppSettings.DefaultUnits" />
+								<DistanceLabel Distance="@Activity.MaximumAltitude" DistanceUnit="@Activity.MaximumAltitudeUnit" />
 							</MudText>
 						</CaptionedProperty>
 					</MudPaper>
 				</MudItem>
 			}
-			@if (Activity.TotalAscentMeters > 0)
+			@if (Activity.TotalAscent > 0)
 			{
 				<MudItem xs="4" md="3" lg="2">
 					<MudPaper Class="h-100" Elevation="@StatElevation">
 						<CaptionedProperty Align="Align.Center" Title="Total Ascent">
 							<MudText Typo="Typo.h5">
-								<DistanceLabel DistanceMeters="@Activity.TotalAscentMeters" UnitSystem="@AppSettings.DefaultUnits" />
+								<DistanceLabel Distance="@Activity.TotalAscent" DistanceUnit="@Activity.TotalAscentUnit" />
 							</MudText>
 						</CaptionedProperty>
 					</MudPaper>
 				</MudItem>
 			}
-			@if (Activity.TotalDescentMeters > 0)
+			@if (Activity.TotalDescent > 0)
 			{
 				<MudItem xs="4" md="3" lg="2">
 					<MudPaper Class="h-100" Elevation="@StatElevation">
 						<CaptionedProperty Align="Align.Center" Title="Total Descent">
 							<MudText Typo="Typo.h5">
-								<DistanceLabel DistanceMeters="@Activity.TotalDescentMeters" UnitSystem="@AppSettings.DefaultUnits" />
+								<DistanceLabel Distance="@Activity.TotalDescent" DistanceUnit="@Activity.TotalDescentUnit" />
 							</MudText>
 						</CaptionedProperty>
 					</MudPaper>
@@ -149,7 +149,7 @@
 					<MudPaper Class="h-100" Elevation="@StatElevation">
 						<CaptionedProperty Align="Align.Center" Title="Average Speed">
 							<MudText Typo="Typo.h5">
-								<SpeedLabel MetersPerSecond="@Activity.AverageSpeed" UnitSystem="@AppSettings.DefaultUnits" UseLargeUnits="true" />
+								<SpeedLabel Speed="@Activity.AverageSpeed" SpeedUnit="@Activity.AverageSpeedUnit" />
 							</MudText>
 						</CaptionedProperty>
 					</MudPaper>
@@ -161,7 +161,7 @@
 					<MudPaper Class="h-100" Elevation="@StatElevation">
 						<CaptionedProperty Align="Align.Center" Title="Maximum Speed">
 							<MudText Typo="Typo.h5">
-								<SpeedLabel MetersPerSecond="@Activity.MaximumSpeed" UnitSystem="@AppSettings.DefaultUnits" UseLargeUnits="true" />
+								<SpeedLabel Speed="@Activity.MaximumSpeed" SpeedUnit="@Activity.MaximumSpeedUnit" />
 							</MudText>
 						</CaptionedProperty>
 					</MudPaper>
@@ -203,13 +203,13 @@
 						<MudPaper Class="h-100" Elevation="@StatElevation">
 							<CaptionedProperty Align="Align.Center" Title="Average Cadence">
 								<MudText Typo="Typo.h5">
-									<CadenceLabel Cadence="@Activity.AverageCadence" />
+									<CadenceLabel Cadence="@Activity.AverageCadence" CadenceUnit="@Activity.AverageCadenceUnit" />
 								</MudText>
 							</CaptionedProperty>
 						@if (Activity.TargetCadence.HasValue && Activity.TargetCadence > 0)
 						{
 							<MudText Typo="Typo.caption" Color="Color.Tertiary" Align="Align.Center">
-								<span>Target:</span> <CadenceLabel Cadence="@Activity.TargetCadence" />
+								<span>Target:</span> <CadenceLabel Cadence="@Activity.TargetCadence" CadenceUnit="@Activity.TargetCadenceUnit" />
 							</MudText>
 						}
 						</MudPaper>
@@ -221,7 +221,7 @@
 					<MudPaper Class="h-100" Elevation="@StatElevation">
 						<CaptionedProperty Align="Align.Center" Title="Maximum Cadence">
 							<MudText Typo="Typo.h5">
-								<CadenceLabel Cadence="@Activity.MaximumCadence" />
+								<CadenceLabel Cadence="@Activity.MaximumCadence" CadenceUnit="@Activity.MaximumCadenceUnit" />
 							</MudText>
 						</CaptionedProperty>
 					</MudPaper>

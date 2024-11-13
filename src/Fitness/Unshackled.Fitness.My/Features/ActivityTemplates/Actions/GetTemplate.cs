@@ -2,13 +2,13 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
-using Unshackled.Fitness.My.Client.Features.Activities.Models;
+using Unshackled.Fitness.My.Client.Features.ActivityTemplates.Models;
 
-namespace Unshackled.Fitness.My.Features.Activities.Actions;
+namespace Unshackled.Fitness.My.Features.ActivityTemplates.Actions;
 
-public class GetActivity
+public class GetTemplate
 {
-	public class Query : IRequest<ActivityModel>
+	public class Query : IRequest<ActivityTemplateModel>
 	{
 		public long Id { get; private set; }
 		public long MemberId { get; private set; }
@@ -20,13 +20,13 @@ public class GetActivity
 		}
 	}
 
-	public class Handler : BaseHandler, IRequestHandler<Query, ActivityModel>
+	public class Handler : BaseHandler, IRequestHandler<Query, ActivityTemplateModel>
 	{
 		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
 
-		public async Task<ActivityModel> Handle(Query request, CancellationToken cancellationToken)
+		public async Task<ActivityTemplateModel> Handle(Query request, CancellationToken cancellationToken)
 		{
-			return await mapper.ProjectTo<ActivityModel>(db.Activities
+			return await mapper.ProjectTo<ActivityTemplateModel>(db.ActivityTemplates
 				.AsNoTracking()
 				.Where(x => x.Id == request.Id && x.MemberId == request.MemberId))
 				.SingleOrDefaultAsync(cancellationToken) ?? new();

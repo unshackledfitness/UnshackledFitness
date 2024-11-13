@@ -48,7 +48,6 @@ public class TimeInputBase : ComponentBase
 
 		if (ValueChanged.HasDelegate && initSecs != seconds)
 		{
-			Console.WriteLine($"Seconds: {seconds}");
 			ValueChanged.InvokeAsync(seconds);
 		}
 	}

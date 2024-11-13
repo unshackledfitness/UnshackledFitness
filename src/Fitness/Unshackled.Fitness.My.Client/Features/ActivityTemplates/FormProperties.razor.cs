@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Components;
-using Unshackled.Fitness.My.Client.Features.ActivityTargets.Models;
+using Unshackled.Fitness.My.Client.Features.ActivityTemplates.Models;
 using Unshackled.Studio.Core.Client.Components;
 
-namespace Unshackled.Fitness.My.Client.Features.ActivityTargets;
+namespace Unshackled.Fitness.My.Client.Features.ActivityTemplates;
 
-public class FormPropertiesBase : BaseFormComponent<FormTargetModel, FormTargetModel.Validator>
+public class FormPropertiesBase : BaseFormComponent<FormTemplateModel, FormTemplateModel.Validator>
 {
 	[Parameter] public List<ActivityTypeListModel> ActivityTypes { get; set; } = [];
 
@@ -20,6 +20,7 @@ public class FormPropertiesBase : BaseFormComponent<FormTargetModel, FormTargetM
 				var actType = ActivityTypes.Where(x => x.Sid == typeSid).FirstOrDefault();
 				if (actType != null)
 				{
+					Model.EventType = actType.DefaultEventType;
 					Model.TargetCadenceUnit = actType.DefaultCadenceUnits;
 					Model.TargetDistanceUnit = actType.DefaultDistanceUnits;
 				}

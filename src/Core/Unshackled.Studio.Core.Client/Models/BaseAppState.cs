@@ -5,6 +5,7 @@ public abstract class BaseAppState : IAppState
 	public required virtual IMember ActiveMember { get; set; }
 	public bool IsMemberLoaded { get; set; } = false;
 	public bool IsServerError { get; set; } = false;
+	public virtual string StoragePrefix => string.Empty;
 
 	public event Action? OnActiveMemberChange;
 	public event Action? OnMemberLoadedChange;

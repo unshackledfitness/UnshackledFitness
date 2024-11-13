@@ -5,7 +5,6 @@ using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Activities.Models;
 using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
 using Unshackled.Studio.Core.Data.Extensions;
 using Unshackled.Studio.Core.Server.Extensions;
 

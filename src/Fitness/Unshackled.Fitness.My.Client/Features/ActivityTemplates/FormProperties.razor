@@ -20,6 +20,11 @@
 			</MudSelect>
 		</MudItem>
 
+		@* --- Event Type --- *@
+		<MudItem xs="12">
+			<EventTypeSelect AllOption="false" Label="Event Type" Margin="Margin.Dense" Disabled="@DisableControls" @bind-Value="@Model.EventType" />
+		</MudItem>
+
 		@* --- Target Distance --- *@
 		<MudItem xs="6">
 			<MudNumericField T="double?" Label="Target Distance" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls"

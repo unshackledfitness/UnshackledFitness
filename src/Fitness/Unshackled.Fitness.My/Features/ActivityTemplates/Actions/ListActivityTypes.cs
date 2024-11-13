@@ -2,9 +2,9 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
-using Unshackled.Fitness.My.Client.Features.ActivityTargets.Models;
+using Unshackled.Fitness.My.Client.Features.ActivityTemplates.Models;
 
-namespace Unshackled.Fitness.My.Features.ActivityTargets.Actions;
+namespace Unshackled.Fitness.My.Features.ActivityTemplates.Actions;
 
 public class ListActivityTypes
 {

@@ -1,8 +1,8 @@
 ﻿using Unshackled.Studio.Core.Client.Models;
 
-namespace Unshackled.Fitness.My.Client.Features.ActivityTargets.Models;
+namespace Unshackled.Fitness.My.Client.Features.ActivityTemplates.Models;
 
-public class TargetListItem : BaseObject
+public class TemplateListItem : BaseObject
 {
 	public string Title { get; set; } = string.Empty;
 	public string ActivityTypeSid { get; set; } = string.Empty;

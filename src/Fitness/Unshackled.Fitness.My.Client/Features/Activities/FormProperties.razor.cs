@@ -20,12 +20,14 @@ public class FormPropertiesBase : BaseFormComponent<FormActivityModel, FormActiv
 			{
 				var actType = ActivityTypes.Where(x => x.Sid == typeSid).FirstOrDefault();
 				if (actType != null) {
+					Model.AverageCadenceUnit = actType.DefaultCadenceUnits;
 					Model.AverageSpeedUnit = actType.DefaultSpeedUnits;
-					Model.CadenceUnit = actType.DefaultCadenceUnits;
 					Model.EventType = actType.DefaultEventType;
 					Model.MaximumAltitudeUnit = actType.DefaultElevationUnits;
+					Model.MaximumCadenceUnit = actType.DefaultCadenceUnits;
 					Model.MaximumSpeedUnit = actType.DefaultSpeedUnits;
 					Model.MinimumAltitudeUnit = actType.DefaultElevationUnits;
+					Model.TargetCadenceUnit = actType.DefaultCadenceUnits;
 					Model.TargetDistanceUnit = actType.DefaultDistanceUnits;
 					Model.TotalAscentUnit = actType.DefaultElevationUnits;
 					Model.TotalDescentUnit = actType.DefaultElevationUnits;

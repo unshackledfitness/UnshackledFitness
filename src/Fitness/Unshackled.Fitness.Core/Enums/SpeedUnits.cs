@@ -11,16 +11,51 @@ public enum SpeedUnits
 
 public static class SpeedUnitsExtensions
 {
-	public static double ConversionFactor(this SpeedUnits unit)
+	public static double ConvertFromMetersPerSecond(this SpeedUnits? unit, double? mps)
 	{
-		// To m/s
+		if (unit == null || mps == null)
+			return 0;
+
+		return unit.Value.ConvertFromMetersPerSecond(mps);
+	}
+
+	public static double ConvertFromMetersPerSecond(this SpeedUnits unit, double? mps)
+	{
+		if (mps == null)
+			return 0;
+
+		// From mps
 		return unit switch
 		{
-			SpeedUnits.MetersPerSecond => 1, 
-			SpeedUnits.KilometersPerHour => 3.6,
-			SpeedUnits.FeetPerSecond => 0.3048,
-			SpeedUnits.MilesPerHour => 2.237,
-			_ => 1,
+			SpeedUnits.MetersPerSecond => mps.Value,
+			SpeedUnits.KilometersPerHour => 3.6 * mps.Value,
+			SpeedUnits.FeetPerSecond => 3.28084 * mps.Value,
+			SpeedUnits.MilesPerHour => 2.23694 * mps.Value,
+			_ => mps.Value,
+		};
+	}
+
+	public static double ConvertToMetersPerSecond(this SpeedUnits? unit, double? value)
+	{
+		if (unit == null || value == null)
+			return 0;
+
+		return unit.Value.ConvertToMetersPerSecond(value);
+	}
+
+	public static double ConvertToMetersPerSecond(this SpeedUnits unit, double? value)
+	{
+		if (value == null)
+			return 0;
+
+		// From mps
+		return unit switch
+		{
+			SpeedUnits.MetersPerSecond => value.Value,
+			SpeedUnits.KilometersPerHour => 0.277778 * value.Value,
+			SpeedUnits.FeetPerSecond => 0.3048 * value.Value,
+			SpeedUnits.MilesPerHour => 0.44704 * value.Value,
+			_ => value.Value,
 		};
 	}
 

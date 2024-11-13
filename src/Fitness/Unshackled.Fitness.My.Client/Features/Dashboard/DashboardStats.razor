@@ -56,7 +56,7 @@
 		<MudPaper Class="h-100">
 			<MudText Typo="Typo.body2" Color="Color.Tertiary" Align="Align.Center">Total Distance</MudText>
 			<MudText Typo="Typo.h4" Align="Align.Center" Class="my-4">
-				<DistanceLabel DistanceMeters="@Model.TotalDistanceMeters" UnitSystem="@ActiveMember.Settings.DefaultUnits" UseLargeUnits="true" />
+				<DistanceLabel Distance="@(DistanceUnit.ConvertFromMeters(Model.TotalDistanceMeters))" DistanceUnit="@DistanceUnit" />
 			</MudText>
 			@if (Model.Years.Any())
 			{

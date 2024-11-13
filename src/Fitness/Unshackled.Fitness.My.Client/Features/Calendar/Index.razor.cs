@@ -1,11 +1,9 @@
 using System.Text.Json;
-using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Calendar.Actions;
 using Unshackled.Fitness.My.Client.Features.Calendar.Models;
 using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Client.Models.Calendars;
 using Unshackled.Studio.Core.Client.Utils;
 
@@ -13,8 +11,6 @@ namespace Unshackled.Fitness.My.Client.Features.Calendar;
 
 public class IndexBase : BaseComponent
 {
-	[Inject] protected ILocalStorage localStorageService { get; set; } = default!;
-
 	protected CalendarModel CalendarModel { get; set; } = new();
 	protected SearchCalendarModel SearchModel { get; set; } = new();
 	protected FormSearchModel FormModel { get; set; } = new();

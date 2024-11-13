@@ -11,16 +11,11 @@ public class LocalStorage : ILocalStorage
 	protected readonly IAppState appState;
 	protected string basePrefix = string.Empty;
 
-	public class Keys
-	{
-		public const string IngredientTitles = "IngredientTitles";
-	}
-
 	public LocalStorage(ILocalStorageService localStorage, IAppState appState)
 	{
 		this.localStorage = localStorage;
 		this.appState = appState;
-		this.basePrefix = $"uf_{appState.ActiveMember.Sid}_";
+		this.basePrefix = $"{appState.StoragePrefix}{appState.ActiveMember.Sid}_";
 	}
 
 	public async Task RemoveItemAsync(string key)

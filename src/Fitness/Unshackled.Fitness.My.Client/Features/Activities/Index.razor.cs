@@ -1,4 +1,6 @@
 using MudBlazor;
+using Unshackled.Fitness.Core;
+using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Activities.Actions;
 using Unshackled.Fitness.My.Client.Features.Activities.Models;
@@ -8,23 +10,13 @@ namespace Unshackled.Fitness.My.Client.Features.Activities;
 
 public class IndexBase : BaseSearchComponent<SearchActivitiesModel, ActivityListModel>
 {
-	protected enum Views
-	{
-		None,
-		Add
-	}
-
+	public const string FormId = "formAddActivity";
 	protected DateRange DateRangeSearch { get; set; } = new DateRange();
-	protected bool DrawerOpen => DrawerView != Views.None;
-	protected Views DrawerView { get; set; } = Views.None;
-	protected string DrawerTitle => DrawerView switch
-	{
-		Views.Add => "Add Activity",
-		_ => string.Empty
-	};
+	protected bool DrawerOpen { get; set; }
 	protected List<ActivityTypeListModel> ActivityTypes { get; set; } = [];
 	protected bool HasActivityTypes => ActivityTypes.Count > 0;
-	protected AppSettings AppSettings => ((Member)State.ActiveMember).Settings;	
+	protected AppSettings AppSettings => ((Member)State.ActiveMember).Settings;
+	protected FormActivityModel FormModel { get; set; } = new();
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -41,6 +33,14 @@ public class IndexBase : BaseSearchComponent<SearchActivitiesModel, ActivityList
 
 		ActivityTypes = await Mediator.Send(new ListActivityTypes.Query());
 
+		string? templateSid = await GetLocalSettingString(FitnessGlobals.LocalStorageKeys.TrackActivityTemplateSid);
+		if (!string.IsNullOrEmpty(templateSid))
+		{
+			await RemoveLocalSetting(FitnessGlobals.LocalStorageKeys.TrackActivityTemplateSid);
+			FormModel = await Mediator.Send(new GetTemplateForm.Query(templateSid));
+			DrawerOpen = true;
+		}
+
 		await DoSearch(1);
 	}
 
@@ -54,21 +54,24 @@ public class IndexBase : BaseSearchComponent<SearchActivitiesModel, ActivityList
 		IsLoading = false;
 	}
 
-	protected async Task HandleActivityAdded(string sid)
+	protected async Task HandleAddSubmitted(FormActivityModel model)
 	{
-		DrawerView = Views.None;
-		await DoSearch(SearchModel.Page);
+		IsWorking = true;
+		var result = await Mediator.Send(new AddActivity.Command(model));
+		ShowNotification(result);
+		if (result.Success)
+		{
+			DrawerOpen = false;
+			await DoSearch(SearchModel.Page);
+		}
+		IsWorking = false;
 	}
 
 	protected void HandleAddActivityClicked()
 	{
-
-		DrawerView = Views.Add;
-	}
-
-	protected void HandleCancelClicked()
-	{
-		DrawerView = Views.None;
+		FormModel = new();
+		FormModel.SetUnits(AppSettings.DefaultUnits == UnitSystems.Metric);
+		DrawerOpen = true;
 	}
 
 	protected void HandleDateRangeChanged(DateRange dateRange)

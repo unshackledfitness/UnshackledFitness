@@ -5,7 +5,6 @@ using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Activities.Models;
 using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
 using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Activities.Actions;
@@ -42,35 +41,53 @@ public class AddActivity
 			{
 				ActivityTypeId = activityTypeId,
 				AverageCadence = request.Model.AverageCadence,
+				AverageCadenceUnit = request.Model.AverageCadenceUnit,
 				AverageHeartRateBpm = request.Model.AverageHeartRateBpm,
 				AveragePace = request.Model.AveragePace,
 				AveragePower = request.Model.AveragePower,
 				AverageSpeed = request.Model.AverageSpeed,
-				CadenceUnit = request.Model.CadenceUnit,
+				AverageSpeedN = request.Model.AverageSpeedUnit.ConvertToMetersPerSecond(request.Model.AverageSpeed),
+				AverageSpeedUnit = request.Model.AverageSpeedUnit,
 				DateEvent = request.Model.DateEvent.Value,
 				DateEventUtc = request.Model.DateEventUtc,
 				EventType = request.Model.EventType,
-				MaximumAltitude = request.Model.MaximumAltitudeUnit.ConvertToMeters(request.Model.MaximumAltitude),
+				MaximumAltitude = request.Model.MaximumAltitude,
+				MaximumAltitudeN = request.Model.MaximumAltitudeUnit.ConvertToMeters(request.Model.MaximumAltitude),
+				MaximumAltitudeUnit = request.Model.MaximumAltitudeUnit,
 				MaximumCadence = request.Model.MaximumCadence,
+				MaximumCadenceUnit = request.Model.MaximumCadenceUnit,
 				MaximumHeartRateBpm = request.Model.MaximumHeartRateBpm,
 				MaximumPace = request.Model.MaximumPace,
 				MaximumPower = request.Model.MaximumPower,
 				MaximumSpeed = request.Model.MaximumSpeed,
+				MaximumSpeedN = request.Model.MaximumSpeedUnit.ConvertToMetersPerSecond(request.Model.MaximumSpeed),
+				MaximumSpeedUnit = request.Model.MaximumSpeedUnit,
 				MemberId = request.MemberId,
-				MinimumAltitude = request.Model.MinimumAltitudeUnit.ConvertToMeters(request.Model.MinimumAltitude),
+				MinimumAltitude = request.Model.MinimumAltitude,
+				MinimumAltitudeN = request.Model.MinimumAltitudeUnit.ConvertToMeters(request.Model.MinimumAltitude),
+				MinimumAltitudeUnit = request.Model.MinimumAltitudeUnit,
 				Notes = request.Model.Notes,
 				TargetCadence = request.Model.TargetCadence,
+				TargetCadenceUnit = request.Model.TargetCadenceUnit,
 				TargetCalories = request.Model.TargetCalories,
-				TargetDistanceMeters = request.Model.TargetDistanceUnit.ConvertToMeters(request.Model.TargetDistance),
+				TargetDistance = request.Model.TargetDistance,
+				TargetDistanceUnit = request.Model.TargetDistanceUnit,
+				TargetDistanceN = request.Model.TargetDistanceUnit.ConvertToMeters(request.Model.TargetDistance),
 				TargetHeartRateBpm = request.Model.TargetHeartRateBpm,
 				TargetPace = request.Model.TargetPace,
 				TargetPower = request.Model.TargetPower,
 				TargetTimeSeconds = request.Model.TargetTimeSeconds,
 				Title = request.Model.Title.Trim(),
-				TotalAscentMeters =  request.Model.TotalAscentUnit.ConvertToMeters(request.Model.TotalAscent),
+				TotalAscent = request.Model.TotalAscent,
+				TotalAscentN =  request.Model.TotalAscentUnit.ConvertToMeters(request.Model.TotalAscent),
+				TotalAscentUnit = request.Model.TotalAscentUnit,
 				TotalCalories = request.Model.TotalCalories,
-				TotalDescentMeters =  request.Model.TotalDescentUnit.ConvertToMeters(request.Model.TotalDescent),
-				TotalDistanceMeters =  request.Model.TotalDistanceUnit.ConvertToMeters(request.Model.TotalDistance),
+				TotalDescent = request.Model.TotalDescent,
+				TotalDescentN =  request.Model.TotalDescentUnit.ConvertToMeters(request.Model.TotalDescent),
+				TotalDescentUnit = request.Model.TotalDescentUnit,
+				TotalDistance = request.Model.TotalDistance,
+				TotalDistanceN =  request.Model.TotalDistanceUnit.ConvertToMeters(request.Model.TotalDistance),
+				TotalDistanceUnit = request.Model.TotalDistanceUnit,
 				TotalTimeSeconds = request.Model.TotalTimeSeconds ?? 0
 			};
 			db.Activities.Add(activity);

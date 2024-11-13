@@ -11,6 +11,7 @@ public class BaseComponent : ComponentBase, IAsyncDisposable
 	[Inject] protected NavigationManager NavManager { get; set; } = default!;
 	[Inject] protected ISnackbar Snackbar { get; set; } = default!;
 	[Inject] protected IAppState State { get; set; } = default!;
+	[Inject] protected ILocalStorage localStorageService { get; set; } = default!;
 
 	protected bool IsMemberActive { get; set; } = false;
 
@@ -37,6 +38,11 @@ public class BaseComponent : ComponentBase, IAsyncDisposable
 		return ValueTask.CompletedTask;
 	}
 
+	public async Task<string?> GetLocalSettingString(string key)
+	{
+		return await localStorageService.GetItemAsStringAsync(key);
+	}
+
 	protected void HandleActiveMemberChange()
 	{
 		IsMemberActive = State.ActiveMember.IsActive;
@@ -49,6 +55,16 @@ public class BaseComponent : ComponentBase, IAsyncDisposable
 			Snackbar.Add(Globals.UnexpectedError, Severity.Error);
 		else
 			Snackbar.Add(result.Message ?? string.Empty, result.Success ? Severity.Success : Severity.Error);
+	}
+
+	public async Task RemoveLocalSetting(string key)
+	{
+		await localStorageService.RemoveItemAsync(key);
+	}
+
+	public async Task SaveLocalSetting(string key, string value)
+	{
+		await localStorageService.SetItemAsStringAsync(key, value, CancellationToken.None);
 	}
 
 	protected void ShowNotification(bool success, string message)

@@ -17,8 +17,8 @@ public class FitnessDbContext : BaseDbContext
 
 	public DbSet<ActivityEntity> Activities => Set<ActivityEntity>();
 	public DbSet<ActivityPlanEntity> ActivityPlans => Set<ActivityPlanEntity>();
-	public DbSet<ActivityPlanTargetEntity> ActivityPlanTargets => Set<ActivityPlanTargetEntity>();
-	public DbSet<ActivityTargetEntity> ActivityTargets => Set<ActivityTargetEntity>();
+	public DbSet<ActivityPlanTemplateEntity> ActivityPlanSessions => Set<ActivityPlanTemplateEntity>();
+	public DbSet<ActivityTemplateEntity> ActivityTemplates => Set<ActivityTemplateEntity>();
 	public DbSet<ActivityTypeEntity> ActivityTypes => Set<ActivityTypeEntity>();
 	public DbSet<ExerciseEntity> Exercises => Set<ExerciseEntity>();
 	public DbSet<ExportFileEntity> ExportFiles => Set<ExportFileEntity>();
@@ -41,8 +41,8 @@ public class FitnessDbContext : BaseDbContext
 	{
 		builder.ApplyConfiguration(new ActivityEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ActivityPlanEntity.TypeConfiguration());
-		builder.ApplyConfiguration(new ActivityPlanTargetEntity.TypeConfiguration());
-		builder.ApplyConfiguration(new ActivityTargetEntity.TypeConfiguration());
+		builder.ApplyConfiguration(new ActivityPlanTemplateEntity.TypeConfiguration());
+		builder.ApplyConfiguration(new ActivityTemplateEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ActivityTypeEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ExerciseEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ExportFileEntity.TypeConfiguration());

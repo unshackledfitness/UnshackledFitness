@@ -2,35 +2,35 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
-using Unshackled.Fitness.My.Client.Features.ActivityTargets.Models;
+using Unshackled.Fitness.My.Client.Features.ActivityTemplates.Models;
 using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Data.Extensions;
 using Unshackled.Studio.Core.Server.Extensions;
 
-namespace Unshackled.Fitness.My.Features.ActivityTargets.Actions;
+namespace Unshackled.Fitness.My.Features.ActivityTemplates.Actions;
 
-public class SearchTargets
+public class SearchTemplates
 {
-	public class Query : IRequest<SearchResult<TargetListItem>>
+	public class Query : IRequest<SearchResult<TemplateListItem>>
 	{
 		public long MemberId { get; private set; }
-		public SearchTargetsModel Model { get; private set; }
+		public SearchTemplatesModel Model { get; private set; }
 
-		public Query(long memberId, SearchTargetsModel model)
+		public Query(long memberId, SearchTemplatesModel model)
 		{
 			MemberId = memberId;
 			Model = model;
 		}
 	}
 
-	public class Handler : BaseHandler, IRequestHandler<Query, SearchResult<TargetListItem>>
+	public class Handler : BaseHandler, IRequestHandler<Query, SearchResult<TemplateListItem>>
 	{
 		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
 
-		public async Task<SearchResult<TargetListItem>> Handle(Query request, CancellationToken cancellationToken)
+		public async Task<SearchResult<TemplateListItem>> Handle(Query request, CancellationToken cancellationToken)
 		{
-			var result = new SearchResult<TargetListItem>();
-			var query = db.ActivityTargets
+			var result = new SearchResult<TemplateListItem>();
+			var query = db.ActivityTemplates
 				.AsNoTracking()
 				.Where(x => x.MemberId == request.MemberId);
 
@@ -60,7 +60,7 @@ public class SearchTargets
 				.Skip(request.Model.Skip)
 				.Take(request.Model.PageSize);
 
-			result.Data = await mapper.ProjectTo<TargetListItem>(query)
+			result.Data = await mapper.ProjectTo<TemplateListItem>(query)
 				.ToListAsync(cancellationToken);
 
 			return result;
