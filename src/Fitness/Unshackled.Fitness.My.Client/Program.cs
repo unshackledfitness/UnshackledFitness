@@ -44,10 +44,10 @@ builder.Services.AddMudServices(config =>
 	config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
 });
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(new Assembly[] {
-			Assembly.GetExecutingAssembly(),
-			typeof(AppState).Assembly
-		}));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies([
+	Assembly.GetExecutingAssembly(),
+	typeof(AppState).Assembly
+]));
 
 builder.Services.AddScoped<IRenderStateService, RenderStateService>();
 builder.Services.AddBlazoredLocalStorage();

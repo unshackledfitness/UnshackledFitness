@@ -72,7 +72,7 @@ public partial class IndexBase : BaseSearchComponent<SearchSessionsModel, Sessio
 	{
 		IsWorking = true;
 		TrackNowSid = item.Sid;
-		await SaveLocalSetting(FitnessGlobals.LocalStorageKeys.TrackTrainingSessionSid, TrackNowSid);
+		await SaveLocalString(FitnessGlobals.LocalStorageKeys.TrackTrainingSessionSid, TrackNowSid);
 		NavManager.NavigateTo($"/activities");
 	}
 }

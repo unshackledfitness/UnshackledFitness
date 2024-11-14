@@ -9,27 +9,20 @@ public class LocalStorage : ILocalStorage
 
 	protected readonly ILocalStorageService localStorage;
 	protected readonly IAppState appState;
-	protected string basePrefix = string.Empty;
 
 	public LocalStorage(ILocalStorageService localStorage, IAppState appState)
 	{
 		this.localStorage = localStorage;
 		this.appState = appState;
-		this.basePrefix = $"{appState.StoragePrefix}{appState.ActiveMember.Sid}_";
 	}
 
-	public async Task RemoveItemAsync(string key)
-	{
-		string prefixedKey = $"{basePrefix}{key}";
-		if (await localStorage.ContainKeyAsync(prefixedKey))
-			await localStorage.RemoveItemAsync(prefixedKey);
-	}
+	protected string BasePrefix => $"{appState.StoragePrefix}{appState.ActiveMember.Sid}_";
 
 	public async Task<TOut?> GetItemAsync<TOut>(string key)
 	{
 		try
 		{
-			string prefixedKey = $"{basePrefix}{key}";
+			string prefixedKey = $"{BasePrefix}{key}";
 			if (await localStorage.ContainKeyAsync(prefixedKey))
 				return await localStorage.GetItemAsync<TOut>(prefixedKey);
 			return default;
@@ -44,7 +37,7 @@ public class LocalStorage : ILocalStorage
 	{
 		try
 		{
-			string prefixedKey = $"{basePrefix}{key}";
+			string prefixedKey = $"{BasePrefix}{key}";
 			if (await localStorage.ContainKeyAsync(prefixedKey))
 				return await localStorage.GetItemAsStringAsync(prefixedKey);
 			return string.Empty;
@@ -55,6 +48,13 @@ public class LocalStorage : ILocalStorage
 		}
 	}
 
+	public async Task RemoveItemAsync(string key)
+	{
+		string prefixedKey = $"{BasePrefix}{key}";
+		if (await localStorage.ContainKeyAsync(prefixedKey))
+			await localStorage.RemoveItemAsync(prefixedKey);
+	}
+
 	public async Task SetItemAsync<TIn>(string key, TIn value)
 	{
 		await SetItemAsync(key, value, CancellationToken.None);
@@ -62,7 +62,7 @@ public class LocalStorage : ILocalStorage
 
 	public async Task SetItemAsync<TIn>(string key, TIn value, CancellationToken cancellationToken)
 	{
-		await localStorage.SetItemAsync($"{basePrefix}{key}", value, cancellationToken);
+		await localStorage.SetItemAsync($"{BasePrefix}{key}", value, cancellationToken);
 	}
 
 	public async Task SetItemAsStringAsync(string key, string value)
@@ -72,6 +72,6 @@ public class LocalStorage : ILocalStorage
 
 	public async Task SetItemAsStringAsync(string key, string value, CancellationToken cancellationToken)
 	{
-		await localStorage.SetItemAsStringAsync($"{basePrefix}{key}", value, cancellationToken);
+		await localStorage.SetItemAsStringAsync($"{BasePrefix}{key}", value, cancellationToken);
 	}
 }

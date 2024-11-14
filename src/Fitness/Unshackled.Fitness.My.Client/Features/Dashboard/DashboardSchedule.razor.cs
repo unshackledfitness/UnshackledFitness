@@ -57,7 +57,7 @@ public class DashboardProgramBase : BaseComponent
 	protected async Task HandleTrackActivityClicked(string sid)
 	{
 		IsWorking = true;
-		await SaveLocalSetting(FitnessGlobals.LocalStorageKeys.TrackTrainingSessionSid, sid);
+		await SaveLocalString(FitnessGlobals.LocalStorageKeys.TrackTrainingSessionSid, sid);
 		NavManager.NavigateTo($"/activities");
 		IsWorking = false;
 	}

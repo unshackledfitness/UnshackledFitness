@@ -38,7 +38,12 @@ public class BaseComponent : ComponentBase, IAsyncDisposable
 		return ValueTask.CompletedTask;
 	}
 
-	public async Task<string?> GetLocalSettingString(string key)
+	public async Task<bool?> GetLocalBool(string key)
+	{
+		return await localStorageService.GetItemAsync<bool?>(key);
+	}
+
+	public async Task<string?> GetLocalString(string key)
 	{
 		return await localStorageService.GetItemAsStringAsync(key);
 	}
@@ -62,7 +67,12 @@ public class BaseComponent : ComponentBase, IAsyncDisposable
 		await localStorageService.RemoveItemAsync(key);
 	}
 
-	public async Task SaveLocalSetting(string key, string value)
+	public async Task SaveLocalBool(string key, bool value)
+	{
+		await localStorageService.SetItemAsync<bool>(key, value, CancellationToken.None);
+	}
+
+	public async Task SaveLocalString(string key, string value)
 	{
 		await localStorageService.SetItemAsStringAsync(key, value, CancellationToken.None);
 	}

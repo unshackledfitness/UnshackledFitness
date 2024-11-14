@@ -33,7 +33,7 @@ public class IndexBase : BaseSearchComponent<SearchActivitiesModel, ActivityList
 
 		ActivityTypes = await Mediator.Send(new ListActivityTypes.Query());
 
-		string? sessionSid = await GetLocalSettingString(FitnessGlobals.LocalStorageKeys.TrackTrainingSessionSid);
+		string? sessionSid = await GetLocalString(FitnessGlobals.LocalStorageKeys.TrackTrainingSessionSid);
 		if (!string.IsNullOrEmpty(sessionSid))
 		{
 			await RemoveLocalSetting(FitnessGlobals.LocalStorageKeys.TrackTrainingSessionSid);
