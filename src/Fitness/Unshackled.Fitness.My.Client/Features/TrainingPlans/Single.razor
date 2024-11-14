@@ -1,0 +1,34 @@
+﻿@page "/training-plans/{PlanSid}"
+@inherits SingleBase
+
+<DynamicPageTitle IsLoading="@IsLoading" LoadingTitle="Loading Training Plan" Title="Training Plan" />
+
+<MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
+
+@if (IsLoading)
+{
+	<DefaultProgress />
+}
+else
+{
+	@if (!string.IsNullOrEmpty(Plan.Sid))
+	{
+		@if (IsMemberActive)
+		{
+			<MudToolBar Gutters="false">
+				<MudSpacer />
+				<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@(IsEditing || IsWorking)" />
+			</MudToolBar>
+		}
+
+		<SectionProperties @bind-Plan="@Plan" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
+						   OnIsEditingSectionChange="@HandleIsEditingSectionChange" />
+
+		<SectionSessions Plan="@Plan" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
+						 OnIsEditingSectionChange="@HandleIsEditingSectionChange" PlanUpdated="@HandlePlanUpdated" />
+	}
+	else
+	{
+		<MudAlert Severity="Severity.Error" Dense="true">The training plan was not found.</MudAlert>
+	}
+}

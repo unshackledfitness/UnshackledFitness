@@ -39,8 +39,8 @@
 		}
 	</DialogContent>
 	<DialogActions>
-		<MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(string.IsNullOrEmpty(SelectedSid) || ConfirmSelected != SelectedExercise)"
+		<MudButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@(string.IsNullOrEmpty(SelectedSid) || ConfirmSelected != SelectedExercise)"
 				   OnClick="Submit">Merge</MudButton>
-		<MudButton OnClick="Cancel">Cancel</MudButton>
+		<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="Cancel">Cancel</MudButton>
 	</DialogActions>
 </MudDialog>

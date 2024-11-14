@@ -13,7 +13,7 @@ public class TrainingPlanEntity : BaseMemberEntity
 	public DateTime? DateLastActivityUtc { get; set; }
 	public string? Description { get; set; }
 	public int LengthWeeks { get; set; }
-	public int NextScheduleIndex { get; set; }
+	public int NextSessionIndex { get; set; }
 
 	public List<TrainingPlanSessionEntity> PlanSessions { get; set; } = new();
 

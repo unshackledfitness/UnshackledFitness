@@ -46,7 +46,8 @@ public class GetSessionForm
 					TargetPace = x.TargetPace,
 					TargetPower = x.TargetPower,
 					TargetTimeSeconds = x.TargetTimeSeconds,
-					Title = x.Title
+					Title = x.Title,
+					TrainingSessionSid = x.Id.Encode()
 				})
 				.SingleOrDefaultAsync(cancellationToken) ?? new();
 

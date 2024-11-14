@@ -7,7 +7,7 @@ namespace Unshackled.Fitness.My.Client.Features.Dashboard.Actions;
 
 public class SkipWorkout
 {
-	public class Command : IRequest<CommandResult<ProgramListModel>>
+	public class Command : IRequest<CommandResult<ScheduledListModel>>
 	{
 		public string ProgramSid { get; private set; }
 
@@ -17,14 +17,14 @@ public class SkipWorkout
 		}
 	}
 
-	public class Handler : BaseDashboardHandler, IRequestHandler<Command, CommandResult<ProgramListModel>>
+	public class Handler : BaseDashboardHandler, IRequestHandler<Command, CommandResult<ScheduledListModel>>
 	{
 		public Handler(HttpClient httpClient) : base(httpClient) { }
 
-		public async Task<CommandResult<ProgramListModel>> Handle(Command request, CancellationToken cancellationToken)
+		public async Task<CommandResult<ScheduledListModel>> Handle(Command request, CancellationToken cancellationToken)
 		{
-			return await PostToCommandResultAsync<string, ProgramListModel>($"{baseUrl}skip-workout", request.ProgramSid)
-				?? new CommandResult<ProgramListModel>(false, Globals.UnexpectedError);
+			return await PostToCommandResultAsync<string, ScheduledListModel>($"{baseUrl}skip-workout", request.ProgramSid)
+				?? new CommandResult<ScheduledListModel>(false, Globals.UnexpectedError);
 		}
 	}
 }

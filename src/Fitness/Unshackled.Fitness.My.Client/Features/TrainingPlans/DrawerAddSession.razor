@@ -1,0 +1,26 @@
+﻿<ListView TItem="SessionListModel" Items="@Sessions">
+	<ItemRenderer>
+		<div class="d-flex flex-row gap-2 align-center">
+			<div>
+				<MudIconButton Icon="@Icons.Material.Filled.AddCircle" Color="Color.Secondary" OnClick="@(() => Submit(context.Item))" />
+			</div>
+			<div class="flex-grow-1">
+				<MudText>@context.Item.Title</MudText>
+				@if (!string.IsNullOrEmpty(context.Item.ActivityTypes))
+				{
+					<MudText Typo="Typo.caption" Color="Color.Tertiary">@context.Item.ActivityTypes</MudText>
+				}
+			</div>
+		</div>
+	</ItemRenderer>
+</ListView>
+
+@code {
+	[Parameter] public List<SessionListModel> Sessions { get; set; } = new();
+	[Parameter] public EventCallback<SessionListModel> OnAddClicked { get; set; }
+
+	private async Task Submit(SessionListModel model)
+	{
+		await OnAddClicked.InvokeAsync(model);
+	}
+}

@@ -88,7 +88,8 @@ public class AddActivity
 				TotalDistance = request.Model.TotalDistance,
 				TotalDistanceN =  request.Model.TotalDistanceUnit.ConvertToMeters(request.Model.TotalDistance),
 				TotalDistanceUnit = request.Model.TotalDistanceUnit,
-				TotalTimeSeconds = request.Model.TotalTimeSeconds ?? 0
+				TotalTimeSeconds = request.Model.TotalTimeSeconds ?? 0,
+				TrainingSessionId = request.Model.TrainingSessionSid?.DecodeLong(),
 			};
 			db.Activities.Add(activity);
 			await db.SaveChangesAsync(cancellationToken);

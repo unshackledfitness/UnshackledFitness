@@ -1,0 +1,24 @@
+﻿@inherits SectionSessionsBase
+
+<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing">
+
+	<SectionHeader Typo="Typo.h5" Title="@Plan.ProgramType.Title()" IsEditMode="@IsEditMode" IsEditing="@IsEditing" DisableControls="@DisableControls"
+				   OnCancelClicked="@HandleCancelEditClicked" OnSaveClicked="@HandleSaveClicked">
+
+		<EditModeToolbar>
+			<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@DisableSectionControls" title="Edit" OnClick="@(() => HandleEditClicked())" />
+		</EditModeToolbar>
+
+	</SectionHeader>
+
+	@if (Plan.ProgramType == ProgramTypes.FixedRepeating)
+	{
+		<ViewFixedRepeating IsEditing="@IsEditing" IsSaving="@IsSaving" Plan="@Plan" Sessions="@Sessions" @bind-FormModel="@FormModel" />
+	}
+	else
+	{
+		<ViewSequential IsEditing="@IsEditing" IsSaving="@IsSaving" Plan="@Plan" Sessions="@Sessions" @bind-FormModel="@FormModel" />
+	}
+
+</SectionComponent>
+

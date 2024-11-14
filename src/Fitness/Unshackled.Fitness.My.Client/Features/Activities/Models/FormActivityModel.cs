@@ -9,6 +9,7 @@ namespace Unshackled.Fitness.My.Client.Features.Activities.Models;
 public class FormActivityModel : BaseMemberObject
 {
 	public string? ActivityTypeSid { get; set; }
+	public string? TrainingSessionSid { get; set; }
 	public double? AverageCadence { get; set; }
 	public CadenceUnits AverageCadenceUnit { get; set; }
 	public int? AverageHeartRateBpm { get; set; }

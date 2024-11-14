@@ -22,10 +22,10 @@ public class DashboardController : BaseController
 		return Ok(await Mediator.Send(new ListMetrics.Query(Member.Id, displayDateUtc)));
 	}
 
-	[HttpPost("list-program-items")]
-	public async Task<IActionResult> ListProgramItems([FromBody] DateTime displayDateUtc)
+	[HttpPost("list-scheduled-items")]
+	public async Task<IActionResult> ListScheduledItems([FromBody] DateTime displayDateUtc)
 	{
-		return Ok(await Mediator.Send(new ListProgramItems.Query(Member.Id, displayDateUtc)));
+		return Ok(await Mediator.Send(new ListScheduledItems.Query(Member.Id, displayDateUtc)));
 	}
 
 	[HttpPost("save-metric")]
@@ -33,6 +33,13 @@ public class DashboardController : BaseController
 	public async Task<IActionResult> SaveMetric([FromBody] SaveMetricModel model)
 	{
 		return Ok(await Mediator.Send(new SaveMetric.Command(Member.Id, model)));
+	}
+
+	[HttpPost("skip-training-session")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> SkipTrainingSession([FromBody] string planSid)
+	{
+		return Ok(await Mediator.Send(new SkipTrainingSession.Command(Member.Id, planSid)));
 	}
 
 	[HttpPost("skip-workout")]

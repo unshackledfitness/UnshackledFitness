@@ -78,7 +78,7 @@
 							  For="@(() => FormAddModel.Description)" @bind-Value="@FormAddModel.Description" />
 			</MudItem>
 			<MudItem xs="12">
-				<MudText Typo="Typo.subtitle1">Choose A Program Type</MudText>
+				<MudText Typo="Typo.subtitle1" Class="mt-4">Choose A Program Type</MudText>
 			</MudItem>
 			<MudItem xs="12">
 				<MudRadioGroup T="ProgramTypes" @bind-Value="@FormAddModel.ProgramType" Disabled="@DisableControls">
@@ -97,10 +97,10 @@
 				</MudRadioGroup>
 			</MudItem>
 		</MudGrid>
-		<MudToolBar Gutters="false">
+		<MudToolBar Gutters="false" Class="mt-6">
 			<MudSpacer />
-			<MudButton Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit" Disabled="@DisableControls">Create</MudButton>
-			<MudButton Variant="Variant.Filled" Disabled="@DisableControls" OnClick="@(() => HandleCancelAddClicked())">Cancel</MudButton>
+			<MudButton Variant="Variant.Filled" Color="Color.Secondary" ButtonType="ButtonType.Submit" Disabled="@DisableControls">Create</MudButton>
+			<MudButton Variant="Variant.Outlined" Color="Color.Secondary" Disabled="@DisableControls" OnClick="@(() => HandleCancelAddClicked())">Cancel</MudButton>
 			<MudSpacer />
 		</MudToolBar>
 	</EditForm>

@@ -4,8 +4,8 @@
 
 <MudToolBar Gutters="false" Class="mt-4">
 	<MudSpacer />
-	<ProgressButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@IsSaving" IsWorking="@IsSaving" WorkingText="Saving"
+	<ProgressButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@IsSaving" IsWorking="@IsSaving" WorkingText="Saving"
 					OnClick="@(() => HandleUpdateClicked())">Save</ProgressButton>
-	<MudButton Variant="Variant.Outlined" Color="Color.Primary" Disabled="@IsSaving" OnClick="@(() => HandleCancelClicked())">Cancel</MudButton>
+	<MudButton Variant="Variant.Outlined" Color="Color.Secondary" Disabled="@IsSaving" OnClick="@(() => HandleCancelClicked())">Cancel</MudButton>
 	<MudSpacer />
 </MudToolBar>

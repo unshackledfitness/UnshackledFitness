@@ -38,6 +38,8 @@ public class IndexBase : BaseSearchComponent<SearchActivitiesModel, ActivityList
 		{
 			await RemoveLocalSetting(FitnessGlobals.LocalStorageKeys.TrackTrainingSessionSid);
 			FormModel = await Mediator.Send(new GetSessionForm.Query(sessionSid));
+			FormModel.DateEvent = DateTime.Now;
+			FormModel.DateEventUtc = FormModel.DateEvent.Value.ToUniversalTime();
 			DrawerOpen = true;
 		}
 
@@ -58,12 +60,12 @@ public class IndexBase : BaseSearchComponent<SearchActivitiesModel, ActivityList
 	{
 		IsWorking = true;
 		var result = await Mediator.Send(new AddActivity.Command(model));
-		ShowNotification(result);
 		if (result.Success)
 		{
 			DrawerOpen = false;
 			await DoSearch(SearchModel.Page);
 		}
+		ShowNotification(result);
 		IsWorking = false;
 	}
 

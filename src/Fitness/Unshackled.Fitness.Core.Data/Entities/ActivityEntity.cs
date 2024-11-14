@@ -9,6 +9,7 @@ public class ActivityEntity : BaseMemberEntity
 {
 	public virtual ActivityTypeEntity ActivityType { get; set; } = default!;
 	public long ActivityTypeId { get; set; }
+	public long? TrainingSessionId { get; set; }
 	public double? AverageCadence { get; set; }
 	public CadenceUnits AverageCadenceUnit { get; set; }
 	public int? AverageHeartRateBpm { get; set; }	
