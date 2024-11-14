@@ -33,11 +33,11 @@ public class IndexBase : BaseSearchComponent<SearchActivitiesModel, ActivityList
 
 		ActivityTypes = await Mediator.Send(new ListActivityTypes.Query());
 
-		string? templateSid = await GetLocalSettingString(FitnessGlobals.LocalStorageKeys.TrackActivityTemplateSid);
-		if (!string.IsNullOrEmpty(templateSid))
+		string? sessionSid = await GetLocalSettingString(FitnessGlobals.LocalStorageKeys.TrackTrainingSessionSid);
+		if (!string.IsNullOrEmpty(sessionSid))
 		{
-			await RemoveLocalSetting(FitnessGlobals.LocalStorageKeys.TrackActivityTemplateSid);
-			FormModel = await Mediator.Send(new GetTemplateForm.Query(templateSid));
+			await RemoveLocalSetting(FitnessGlobals.LocalStorageKeys.TrackTrainingSessionSid);
+			FormModel = await Mediator.Send(new GetSessionForm.Query(sessionSid));
 			DrawerOpen = true;
 		}
 

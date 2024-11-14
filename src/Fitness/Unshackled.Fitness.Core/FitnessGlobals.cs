@@ -8,7 +8,7 @@ public class FitnessGlobals
 
 	public static class LocalStorageKeys
 	{
-		public const string TrackActivityTemplateSid = "trackActivityTemplateSid";
+		public const string TrackTrainingSessionSid = "trackTrainingSessionSid";
 	}
 
 	public static class MetaKeys

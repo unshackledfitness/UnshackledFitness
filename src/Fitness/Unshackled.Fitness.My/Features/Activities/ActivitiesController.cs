@@ -30,11 +30,11 @@ public class ActivitiesController : BaseController
 		return Ok(await Mediator.Send(new GetActivity.Query(Member.Id, id)));
 	}
 
-	[HttpGet("get-template-form/{sid}")]
+	[HttpGet("get-session-form/{sid}")]
 	[DecodeId]
 	public async Task<IActionResult> GetTemplateForm(long id)
 	{
-		return Ok(await Mediator.Send(new GetTemplateForm.Query(Member.Id, id)));
+		return Ok(await Mediator.Send(new GetSessionForm.Query(Member.Id, id)));
 	}
 
 	[HttpGet("list-types")]

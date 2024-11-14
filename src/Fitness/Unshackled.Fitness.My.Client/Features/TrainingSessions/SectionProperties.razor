@@ -1,0 +1,121 @@
+﻿@inherits SectionPropertiesBase
+
+<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-12">
+
+	<SectionHeader Title="@Session.Title" IsEditMode="@IsEditMode" IsEditing="@IsEditing" EditingClass="mb-4" FormId="@FormId" Breakpoint="Breakpoint.Sm" 
+				   OnCancelClicked="@HandleEditCancelClicked">
+		<TitleContent>
+			<div class="mb-6">
+				<div class="d-flex flex-row gap-2 align-center">
+					<div><MudElement HtmlTag="div" Style="@Session.ActivityTypeColor.SwatchStyle(".75em")" /></div>
+					<div class="pt-1 flex-grow-1 d-flex flex-row gap-2">
+						<MudText Typo="Typo.body2" Color="Color.Tertiary">@Session.EventType.Title():</MudText>
+						<MudText Typo="Typo.body2" Color="Color.Tertiary">@Session.ActivityTypeTitle</MudText>
+					</div>
+				</div>
+				<MudText Typo="Typo.h4">@Session.Title</MudText>
+			</div>
+		</TitleContent>
+
+		<EditModeToolbar>
+			<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@(DisableSectionControls || IsUpdating)"
+						   OnClick="@(() => HandleEditClicked())" />
+			<MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@(DisableSectionControls || IsUpdating)"
+						   OnClick="@(() => HandleDeleteClicked())" />
+		</EditModeToolbar>
+	</SectionHeader>
+
+	@if (!IsEditing)
+	{
+		<MudGrid Spacing="2">
+			@if (Session.TargetDistance > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Target Distance">
+							<MudText Typo="Typo.h5">
+								<DistanceLabel Distance="@Session.TargetDistance" DistanceUnit="@Session.TargetDistanceUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Session.TargetTimeSeconds > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Target Time">
+							<MudText Typo="Typo.h5">
+								<TimeLabel Seconds="@((int)Session.TargetTimeSeconds)" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Session.TargetPace > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Target Pace">
+							<MudText Typo="Typo.h5">
+								<TimeLabel Seconds="@((int)Session.TargetPace)" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Session.TargetPower > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Target Power">
+							<MudText Typo="Typo.h5">
+								<PowerLabel Power="@Session.TargetPower" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Session.TargetCadence > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Target Cadence">
+							<MudText Typo="Typo.h5">
+								<CadenceLabel Cadence="@Session.TargetCadence" CadenceUnit="@Session.TargetCadenceUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Session.TargetHeartRateBpm > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Target Heart Rate">
+							<MudText Typo="Typo.h5">
+								<HeartRateLabel BPM="@Session.TargetHeartRateBpm" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Session.TargetCalories > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Target Calories">
+							<MudText Typo="Typo.h5">
+								<CaloriesLabel Calories="@Session.TargetCalories" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+		</MudGrid>
+	}
+	else
+	{
+		<FormProperties ActivityTypes="@ActivityTypes" FormId="@FormId" Model="@Model" OnCanceled="@HandleEditCancelClicked" OnFormSubmitted="@HandleFormSubmitted" />
+	}
+</SectionComponent>

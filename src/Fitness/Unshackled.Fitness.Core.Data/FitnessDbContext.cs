@@ -16,9 +16,6 @@ public class FitnessDbContext : BaseDbContext
 		DbConfiguration dbConfig) : base(options, connectionStrings, dbConfig) { }
 
 	public DbSet<ActivityEntity> Activities => Set<ActivityEntity>();
-	public DbSet<ActivityPlanEntity> ActivityPlans => Set<ActivityPlanEntity>();
-	public DbSet<ActivityPlanTemplateEntity> ActivityPlanSessions => Set<ActivityPlanTemplateEntity>();
-	public DbSet<ActivityTemplateEntity> ActivityTemplates => Set<ActivityTemplateEntity>();
 	public DbSet<ActivityTypeEntity> ActivityTypes => Set<ActivityTypeEntity>();
 	public DbSet<ExerciseEntity> Exercises => Set<ExerciseEntity>();
 	public DbSet<ExportFileEntity> ExportFiles => Set<ExportFileEntity>();
@@ -28,6 +25,9 @@ public class FitnessDbContext : BaseDbContext
 	public DbSet<MetricEntity> Metrics => Set<MetricEntity>();
 	public DbSet<ProgramEntity> Programs => Set<ProgramEntity>();
 	public DbSet<ProgramTemplateEntity> ProgramTemplates => Set<ProgramTemplateEntity>();
+	public DbSet<TrainingPlanEntity> TrainingPlans => Set<TrainingPlanEntity>();
+	public DbSet<TrainingPlanSessionEntity> TrainingPlanSessions => Set<TrainingPlanSessionEntity>();
+	public DbSet<TrainingSessionEntity> TrainingSessions => Set<TrainingSessionEntity>();
 	public DbSet<WorkoutEntity> Workouts => Set<WorkoutEntity>();
 	public DbSet<WorkoutSetEntity> WorkoutSets => Set<WorkoutSetEntity>();
 	public DbSet<WorkoutSetGroupEntity> WorkoutSetGroups => Set<WorkoutSetGroupEntity>();
@@ -40,9 +40,6 @@ public class FitnessDbContext : BaseDbContext
 	protected override void OnModelCreating(ModelBuilder builder)
 	{
 		builder.ApplyConfiguration(new ActivityEntity.TypeConfiguration());
-		builder.ApplyConfiguration(new ActivityPlanEntity.TypeConfiguration());
-		builder.ApplyConfiguration(new ActivityPlanTemplateEntity.TypeConfiguration());
-		builder.ApplyConfiguration(new ActivityTemplateEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ActivityTypeEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ExerciseEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ExportFileEntity.TypeConfiguration());
@@ -52,6 +49,9 @@ public class FitnessDbContext : BaseDbContext
 		builder.ApplyConfiguration(new MetricPresetEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ProgramEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ProgramTemplateEntity.TypeConfiguration());
+		builder.ApplyConfiguration(new TrainingPlanEntity.TypeConfiguration());
+		builder.ApplyConfiguration(new TrainingPlanSessionEntity.TypeConfiguration());
+		builder.ApplyConfiguration(new TrainingSessionEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new WorkoutEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new WorkoutSetEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new WorkoutSetGroupEntity.TypeConfiguration());
