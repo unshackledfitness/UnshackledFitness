@@ -1,0 +1,284 @@
+﻿@inherits SectionPropertiesBase
+
+<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-12">
+
+	<SectionHeader Title="@Activity.Title" IsEditMode="@IsEditMode" IsEditing="@IsEditing" EditingClass="mb-4" FormId="@FormId" Breakpoint="Breakpoint.Sm" 
+				   OnCancelClicked="@HandleEditCancelClicked">
+		<TitleContent>
+			<div class="mb-6">
+				<div class="d-flex flex-row gap-2 align-center">
+					<div><MudElement HtmlTag="div" Style="@Activity.ActivityTypeColor.SwatchStyle(".75em")" /></div>
+					<div class="pt-1 flex-grow-1 d-flex flex-row gap-2">
+						<MudText Typo="Typo.body2" Color="Color.Tertiary">@Activity.EventType.Title():</MudText>
+						<MudText Typo="Typo.body2" Color="Color.Tertiary">@Activity.ActivityTypeTitle</MudText>
+					</div>
+				</div>
+				<MudText Typo="Typo.h4">@Activity.Title</MudText>
+				<MudText Typo="Typo.body1">@Activity.DateEvent.ToString("f")</MudText>
+			</div>
+		</TitleContent>
+
+		<EditModeToolbar>
+			<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@(DisableSectionControls || IsUpdating)"
+						   OnClick="@(() => HandleEditClicked())" />
+			<MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@(DisableSectionControls || IsUpdating)"
+						   OnClick="@(() => HandleDeleteClicked())" />
+		</EditModeToolbar>
+	</SectionHeader>
+
+	@if (!IsEditing)
+	{
+		<MudGrid Spacing="2">
+			@if (Activity.TotalDistance > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Total Distance">
+							<MudText Typo="Typo.h5">
+								<DistanceLabel Distance="@Activity.TotalDistance" DistanceUnit="@Activity.TotalDistanceUnit" />
+							</MudText>
+						</CaptionedProperty>
+						@if (Activity.TargetDistance.HasValue && Activity.TargetDistance > 0)
+						{
+							<MudText Typo="Typo.caption" Color="Color.Tertiary" Align="Align.Center">
+								<span>Target:</span> <DistanceLabel Distance="@Activity.TargetDistance" DistanceUnit="@Activity.TargetDistanceUnit" />
+							</MudText>
+						}
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Activity.TotalTimeSeconds > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Total Time">
+							<MudText Typo="Typo.h5">
+								<TimeLabel Seconds="@((int)Activity.TotalTimeSeconds)" />
+							</MudText>
+						</CaptionedProperty>
+						@if (Activity.TargetTimeSeconds.HasValue && Activity.TargetTimeSeconds > 0)
+						{
+							<MudText Typo="Typo.caption" Color="Color.Tertiary" Align="Align.Center">
+								<span>Target:</span> <TimeLabel Seconds="@Activity.TargetTimeSeconds" />
+							</MudText>
+						}
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Activity.MinimumAltitude > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Minimum Altitude">
+							<MudText Typo="Typo.h5">
+								<DistanceLabel Distance="@Activity.MinimumAltitude" DistanceUnit="@Activity.MinimumAltitudeUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Activity.MaximumAltitude > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Maximum Altitude">
+							<MudText Typo="Typo.h5">
+								<DistanceLabel Distance="@Activity.MaximumAltitude" DistanceUnit="@Activity.MaximumAltitudeUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Activity.TotalAscent > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Total Ascent">
+							<MudText Typo="Typo.h5">
+								<DistanceLabel Distance="@Activity.TotalAscent" DistanceUnit="@Activity.TotalAscentUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Activity.TotalDescent > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Total Descent">
+							<MudText Typo="Typo.h5">
+								<DistanceLabel Distance="@Activity.TotalDescent" DistanceUnit="@Activity.TotalDescentUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Activity.AveragePace > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Average Pace">
+							<MudText Typo="Typo.h5">
+								<TimeLabel Seconds="@((int)Activity.AveragePace)" />
+							</MudText>
+						</CaptionedProperty>
+						@if (Activity.TargetPace.HasValue && Activity.TargetPace > 0)
+						{
+							<MudText Typo="Typo.caption" Color="Color.Tertiary" Align="Align.Center">
+								<span>Target:</span> <TimeLabel Seconds="@Activity.TargetPace" />
+							</MudText>
+						}
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Activity.MaximumPace > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Maximum Pace">
+							<MudText Typo="Typo.h5">
+								<TimeLabel Seconds="@((int)Activity.MaximumPace)" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Activity.AverageSpeed > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Average Speed">
+							<MudText Typo="Typo.h5">
+								<SpeedLabel Speed="@Activity.AverageSpeed" SpeedUnit="@Activity.AverageSpeedUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Activity.MaximumSpeed > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Maximum Speed">
+							<MudText Typo="Typo.h5">
+								<SpeedLabel Speed="@Activity.MaximumSpeed" SpeedUnit="@Activity.MaximumSpeedUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Activity.AveragePower > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Average Power">
+							<MudText Typo="Typo.h5">
+								<PowerLabel Power="@Activity.AveragePower" />
+							</MudText>
+						</CaptionedProperty>
+						@if (Activity.TargetPower.HasValue && Activity.TargetPower > 0)
+						{
+							<MudText Typo="Typo.caption" Color="Color.Tertiary" Align="Align.Center">
+								<span>Target:</span> <PowerLabel Power="@Activity.TargetPower" />
+							</MudText>
+						}
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Activity.MaximumPower > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Maximum Power">
+							<MudText Typo="Typo.h5">
+								<PowerLabel Power="@Activity.MaximumPower" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Activity.AverageCadence > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+						<MudPaper Class="h-100" Elevation="@StatElevation">
+							<CaptionedProperty Align="Align.Center" Title="Average Cadence">
+								<MudText Typo="Typo.h5">
+									<CadenceLabel Cadence="@Activity.AverageCadence" CadenceUnit="@Activity.AverageCadenceUnit" />
+								</MudText>
+							</CaptionedProperty>
+						@if (Activity.TargetCadence.HasValue && Activity.TargetCadence > 0)
+						{
+							<MudText Typo="Typo.caption" Color="Color.Tertiary" Align="Align.Center">
+								<span>Target:</span> <CadenceLabel Cadence="@Activity.TargetCadence" CadenceUnit="@Activity.TargetCadenceUnit" />
+							</MudText>
+						}
+						</MudPaper>
+					</MudItem>
+			}
+			@if (Activity.MaximumCadence > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Maximum Cadence">
+							<MudText Typo="Typo.h5">
+								<CadenceLabel Cadence="@Activity.MaximumCadence" CadenceUnit="@Activity.MaximumCadenceUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Activity.AverageHeartRateBpm > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Average Heart Rate">
+							<MudText Typo="Typo.h5">
+								<HeartRateLabel BPM="@Activity.AverageHeartRateBpm" />
+							</MudText>
+						</CaptionedProperty>
+						@if (Activity.TargetHeartRateBpm.HasValue && Activity.TargetHeartRateBpm > 0)
+						{
+							<MudText Typo="Typo.caption" Color="Color.Tertiary" Align="Align.Center">
+								<span>Target:</span> <HeartRateLabel BPM="@Activity.TargetHeartRateBpm" />
+							</MudText>
+						}
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Activity.MaximumHeartRateBpm > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Maximum Heart Rate">
+							<MudText Typo="Typo.h5">
+								<HeartRateLabel BPM="@Activity.MaximumHeartRateBpm" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Activity.TotalCalories > 0)
+			{
+				<MudItem xs="4" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Total Calories">
+							<MudText Typo="Typo.h5">
+								<CaloriesLabel Calories="@Activity.TotalCalories" />
+							</MudText>
+						</CaptionedProperty>
+						@if (Activity.TargetCalories.HasValue && Activity.TargetCalories > 0)
+						{
+							<MudText Typo="Typo.caption" Color="Color.Tertiary" Align="Align.Center">
+								<span>Target:</span> <CaloriesLabel Calories="@Activity.TargetCalories" />
+							</MudText>
+						}
+					</MudPaper>
+				</MudItem>
+			}
+		</MudGrid>
+	}
+	else
+	{
+		<FormProperties ActivityTypes="@ActivityTypes" FormId="@FormId" Model="@Model" OnCanceled="@HandleEditCancelClicked" OnFormSubmitted="@HandleFormSubmitted" />
+	}
+</SectionComponent>

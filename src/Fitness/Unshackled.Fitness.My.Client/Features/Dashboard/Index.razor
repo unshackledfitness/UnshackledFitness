@@ -1,0 +1,19 @@
+﻿@page "/"
+@inherits IndexBase
+
+<DynamicPageTitle Title="Dashboard" />
+
+<MudGrid Spacing="4">
+	<MudItem xs="12">
+		<DashboardStats Model="@Model" />
+	</MudItem>
+	<MudItem xs="12">
+		<DashboardStatGraph Model="@Model" OnYearChanged="@HandleYearChanged" />
+	</MudItem>
+	<MudItem xs="12">
+		<DashboardSchedule />
+	</MudItem>
+	<MudItem xs="12">
+		<DashboardMetrics />
+	</MudItem>
+</MudGrid>

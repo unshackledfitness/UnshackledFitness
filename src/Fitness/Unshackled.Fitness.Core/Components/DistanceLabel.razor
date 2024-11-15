@@ -1,0 +1,15 @@
+﻿<span class="result"><span class="distance">@Distance?.ToString("0.##")</span>@DisplayLabel()</span>
+
+@code {
+	[Parameter] public double? Distance { get; set; }
+	[Parameter] public DistanceUnits DistanceUnit { get; set; }
+
+	MarkupString DisplayLabel()
+	{
+		if (DistanceUnit != DistanceUnits.Any)
+		{
+			return (MarkupString)$"<span class=\"post-result-label\">{DistanceUnit.Label()}</span>";
+		}
+		return (MarkupString)string.Empty;
+	}
+}

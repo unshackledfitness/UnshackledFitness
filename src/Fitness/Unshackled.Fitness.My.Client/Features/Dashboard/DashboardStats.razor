@@ -1,0 +1,81 @@
+﻿@inherits DashboardStatsBase
+
+<MudGrid Spacing="4">
+	<MudItem xs="6" sm="4" md="2">
+		<MudPaper Class="h-100">
+			<MudText Typo="Typo.body2" Color="Color.Tertiary" Align="Align.Center">Quick Links</MudText>
+			<MudGrid Spacing="0" Justify="Justify.Center" Class="align-center mt-1">
+				<MudItem xs="6" Class="d-flex flex-column align-center">
+					<MudIconButton Href="/calendar" title="Calendar" Icon="@Icons.Material.Filled.CalendarMonth" />
+				</MudItem>
+				<MudItem xs="6" Class="d-flex flex-column align-center">
+					<MudIconButton Href="/training-sessions" title="Training Sessions" Icon="@Icons.Material.Filled.DirectionsRun" />
+				</MudItem>
+				<MudItem xs="6" Class="d-flex flex-column align-center">
+					<MudIconButton Href="/templates" title="Workout Templates" Icon="@Icons.Material.Filled.FitnessCenter" />
+				</MudItem>
+				<MudItem xs="6" Class="d-flex flex-column align-center">
+					<MudIconButton Href="/metrics" title="All Metrics" Icon="@Icons.Material.Filled.InsertChart" />
+				</MudItem>
+			</MudGrid>
+		</MudPaper>
+	</MudItem>
+	<MudItem xs="6" sm="4" md="2">
+		<MudPaper Class="h-100">
+			<MudText Typo="Typo.body2" Color="Color.Tertiary" Align="Align.Center">Workouts Tracked</MudText>
+			<MudText Typo="Typo.h4" Align="Align.Center" Class="my-4">@Model.TotalWorkouts</MudText>
+			@if (Model.Years.Any())
+			{
+				<MudText Typo="Typo.caption" Align="Align.Center" Color="Color.Tertiary" Class="d-block">since @FirstYear</MudText>
+			}
+		</MudPaper>
+	</MudItem>
+	<MudItem xs="6" sm="4" md="2">
+		<MudPaper Class="h-100">
+			<MudText Typo="Typo.body2" Color="Color.Tertiary" Align="Align.Center">Total Volume</MudText>
+			<MudText Typo="Typo.h4" Align="Align.Center" Class="my-4">
+				<WeightLabel WeightKg="@Model.TotalVolumeKg" WeightLb="@Model.TotalVolumeLb" UnitSystem="@ActiveMember.Settings.DefaultUnits" />
+			</MudText>
+			@if (Model.Years.Any())
+			{
+				<MudText Typo="Typo.caption" Align="Align.Center" Color="Color.Tertiary" Class="d-block">since @FirstYear</MudText>
+			}
+		</MudPaper>
+	</MudItem>
+	<MudItem xs="6" sm="4" md="2">
+		<MudPaper Class="h-100">
+			<MudText Typo="Typo.body2" Color="Color.Tertiary" Align="Align.Center">Activities Tracked</MudText>
+			<MudText Typo="Typo.h4" Align="Align.Center" Class="my-4">@Model.TotalActivities</MudText>
+			@if (Model.Years.Any())
+			{
+				<MudText Typo="Typo.caption" Align="Align.Center" Color="Color.Tertiary" Class="d-block">since @FirstYear</MudText>
+			}
+		</MudPaper>
+	</MudItem>
+	<MudItem xs="6" sm="4" md="2">
+		<MudPaper Class="h-100">
+			<MudText Typo="Typo.body2" Color="Color.Tertiary" Align="Align.Center">Total Distance</MudText>
+			<MudText Typo="Typo.h4" Align="Align.Center" Class="my-4">
+				<DistanceLabel Distance="@(DistanceUnit.ConvertFromMeters(Model.TotalDistanceMeters))" DistanceUnit="@DistanceUnit" />
+			</MudText>
+			@if (Model.Years.Any())
+			{
+				<MudText Typo="Typo.caption" Align="Align.Center" Color="Color.Tertiary" Class="d-block">since @FirstYear</MudText>
+			}
+		</MudPaper>
+	</MudItem>
+	<MudItem xs="6" sm="4" md="2">
+		<MudPaper Class="h-100">
+			<MudText Typo="Typo.body2" Color="Color.Tertiary" Align="Align.Center">Active Time</MudText>
+			<MudText Typo="Typo.h4" Align="Align.Center" Class="my-4">
+				<span class="result"><span class="time">@Model.TotalSeconds.SecondsToHours().ShortLabel()</span><span class="post-result-label">hr</span></span>
+			</MudText>
+			@if (Model.Years.Any())
+			{
+				<MudText Typo="Typo.caption" Align="Align.Center" Color="Color.Tertiary" Class="d-block">since @FirstYear</MudText>
+			}
+		</MudPaper>
+	</MudItem>
+</MudGrid>
+
+

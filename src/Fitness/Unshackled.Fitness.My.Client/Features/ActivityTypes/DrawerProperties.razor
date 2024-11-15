@@ -1,0 +1,37 @@
+﻿@inherits DrawerPropertiesBase
+
+<EditForm id="@FormId" Model="@Model" OnValidSubmit="HandleFormSubmitted">
+	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
+	<MudGrid Spacing="2" Class="mb-4">
+		<MudItem xs="12">
+			<MudTextField Label="Title" Variant="Variant.Outlined" Disabled="@DisableControls"
+						  FullWidth="true" @bind-Value="@Model.Title" For="@(() => Model.Title)" />
+		</MudItem>
+		<MudItem xs="12">
+			<MudColorPicker Label="Color" ColorPickerMode="ColorPickerMode.HEX" Variant="Variant.Outlined" Clearable="true" ShowToolbar="true"
+							AnchorOrigin="Origin.TopLeft" TransformOrigin="Origin.TopLeft" Disabled="@DisableControls"
+							Value="@EditingColor" ValueChanged="@HandleEditingColorChanged" @bind-Text="@Model.Color" />
+		</MudItem>
+		<MudItem xs="12">
+			<EventTypeSelect Label="Default Event Type" Disabled="@DisableControls" @bind-Value="@Model.DefaultEventType" />
+		</MudItem>
+		<MudItem xs="12">
+			<DistanceUnitSelect Label="Default Distance Units" Disabled="@DisableControls" @bind-Value="@Model.DefaultDistanceUnits" />
+		</MudItem>
+		<MudItem xs="12">
+			<DistanceUnitSelect Label="Default Elevation Units" Disabled="@DisableControls" @bind-Value="@Model.DefaultElevationUnits" />
+		</MudItem>
+		<MudItem xs="12">
+			<SpeedUnitSelect Label="Default Speed Units" Disabled="@DisableControls" @bind-Value="@Model.DefaultSpeedUnits" />
+		</MudItem>
+		<MudItem xs="12">
+			<CadenceUnitSelect Label="Default Cadence Units" Disabled="@DisableControls" @bind-Value="@Model.DefaultCadenceUnits" />
+		</MudItem>
+	</MudGrid>
+	<MudToolBar Gutters="false">
+		<MudSpacer />
+		<ProgressButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" IsWorking="@IsSaving" WorkingText="Saving">@SubmitLabel</ProgressButton>
+		<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@HandleCancelClicked">Cancel</MudButton>
+		<MudSpacer />
+	</MudToolBar>
+</EditForm>
