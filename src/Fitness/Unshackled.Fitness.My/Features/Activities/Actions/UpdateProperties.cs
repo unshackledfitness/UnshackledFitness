@@ -44,7 +44,7 @@ public class UpdateProperties
 
 			var activity = await db.Activities
 				.Where(x => x.Id == activityId && x.MemberId == request.MemberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (activity == null)
 				return new CommandResult(false, "Invalid activity.");
@@ -76,6 +76,7 @@ public class UpdateProperties
 			activity.MinimumAltitudeN = request.Model.MinimumAltitudeUnit.ConvertToMeters(request.Model.MinimumAltitude);
 			activity.MinimumAltitudeUnit = request.Model.MinimumAltitudeUnit;
 			activity.Notes = request.Model.Notes?.Trim();
+			activity.Rating = request.Model.Rating;
 			activity.TargetCadence = request.Model.TargetCadence;
 			activity.TargetCadenceUnit = request.Model.TargetCadenceUnit;
 			activity.TargetCalories = request.Model.TargetCalories;

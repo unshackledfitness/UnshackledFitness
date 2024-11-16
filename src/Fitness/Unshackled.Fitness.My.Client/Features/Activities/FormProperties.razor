@@ -36,6 +36,14 @@
 			<MudTimePicker Label="Start Time" AmPm="true" Variant="Variant.Outlined" Margin="Margin.Dense" TimeFormat="h:mm tt" Disabled="@DisableControls" Color="Color.Secondary"
 						   @bind-Time="@Model.TimeEventInput" For="@(() => Model.TimeEventInput)" AnchorOrigin="Origin.TopRight" TransformOrigin="Origin.TopRight" />
 		</MudItem>
+		<MudItem xs="12">
+			<div class="d-flex flex-row gap-2 align-center my-2">
+				<MudText Typo="Typo.body2">Rating</MudText>
+				<div>
+					<MudRating @bind-SelectedValue="@Model.Rating" />
+				</div>
+			</div>
+		</MudItem>
 
 	</MudGrid>
 

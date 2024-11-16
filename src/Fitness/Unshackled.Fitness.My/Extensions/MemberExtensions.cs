@@ -620,9 +620,56 @@ public static class MemberExtensions
 			DefaultDistanceUnits = DistanceUnits.Mile,
 			DefaultEventType = EventTypes.Recreational,
 			DefaultElevationUnits = DistanceUnits.Feet,
-			DefaultSpeedUnits = SpeedUnits.MilesPerHour
+			DefaultSpeedUnits = SpeedUnits.MilesPerHour,
+			MemberId = memberId,
+			Title = "Walking"
 		};
 		db.ActivityTypes.Add(activityWalking);
+		await db.SaveChangesAsync();
+
+		// **************
+		// Add training session
+		// **************
+		var sessionWalk = new TrainingSessionEntity()
+		{
+			Title = "Treadmill Walk: 30 min",
+			ActivityTypeId = activityWalking.Id,
+			EventType = EventTypes.Recreational,
+			MemberId = memberId,
+			TargetTimeSeconds = 60 * 30
+		};
+		db.TrainingSessions.Add(sessionWalk);
+		await db.SaveChangesAsync();
+
+		// **************
+		// Add training plan
+		// **************
+		var planWalk = new TrainingPlanEntity()
+		{
+			Title = "Sample Training Plan",
+			MemberId = memberId,
+			Description = "A sample plan with a daily 30 min walk on weekdays.",
+			LengthWeeks = 1,
+			ProgramType = ProgramTypes.FixedRepeating
+		};
+		db.TrainingPlans.Add(planWalk);
+		await db.SaveChangesAsync();
+
+		// **************
+		// Add training plan sessions
+		// **************
+		for (int i = 1; i < 6; i++)
+		{
+			db.TrainingPlanSessions.Add(new TrainingPlanSessionEntity()
+			{
+				MemberId = memberId,
+				DayNumber = i,
+				SortOrder = 0,
+				TrainingPlanId = planWalk.Id,
+				TrainingSessionId = sessionWalk.Id,
+				WeekNumber = 1
+			});
+		}
 		await db.SaveChangesAsync();
 
 		// **************
@@ -640,16 +687,18 @@ public static class MemberExtensions
 			new MetricDefinitionEntity
 			{
 				HighlightColor = "#1841a3ff",
+				IsOnDashboard = true,
 				ListGroupId = metricGroup.Id,
 				MemberId = memberId,
 				MetricType = MetricTypes.ExactValue,
 				SortOrder = 0,
 				SubTitle = "lb",
-				Title = "Body Weight"
+				Title = "Body Weight",
 			},
 			new MetricDefinitionEntity
 			{
 				HighlightColor = "#1841a3ff",
+				IsOnDashboard = true,
 				ListGroupId = metricGroup.Id,
 				MemberId = memberId,
 				MetricType = MetricTypes.Counter,

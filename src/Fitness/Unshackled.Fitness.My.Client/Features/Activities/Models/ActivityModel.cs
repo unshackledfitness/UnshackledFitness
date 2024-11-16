@@ -30,6 +30,7 @@ public class ActivityModel : BaseMemberObject
 	public double? MinimumAltitude { get; set; }
 	public DistanceUnits MinimumAltitudeUnit { get; set; }
 	public string? Notes { get; set; }
+	public int Rating { get; set; }
 	public double? TargetCadence { get; set; }
 	public CadenceUnits TargetCadenceUnit { get; set; }
 	public int? TargetCalories { get; set; }

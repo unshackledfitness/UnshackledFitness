@@ -75,6 +75,7 @@ public class SectionPropertiesBase : BaseSectionComponent
 		Model.MinimumAltitude = Activity.MinimumAltitude;
 		Model.MinimumAltitudeUnit = Activity.MinimumAltitudeUnit;
 		Model.Notes = Activity.Notes;
+		Model.Rating = Activity.Rating;
 		Model.Sid = Activity.Sid;
 		Model.TargetCadence = Activity.TargetCadence;
 		Model.TargetCadenceUnit = Activity.TargetCadenceUnit;
@@ -132,6 +133,8 @@ public class SectionPropertiesBase : BaseSectionComponent
 			Activity.MaximumSpeedUnit = model.MaximumSpeedUnit;
 			Activity.MinimumAltitude = model.MinimumAltitude;
 			Activity.MinimumAltitudeUnit = model.MinimumAltitudeUnit;
+			Activity.Notes = model.Notes;
+			Activity.Rating = model.Rating;
 			Activity.TargetCadence = model.TargetCadence;
 			Activity.TargetCadenceUnit = model.TargetCadenceUnit;
 			Activity.TargetCalories = model.TargetCalories;

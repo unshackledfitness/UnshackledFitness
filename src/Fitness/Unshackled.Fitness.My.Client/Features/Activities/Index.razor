@@ -53,6 +53,10 @@
 						</div>
 						<div>
 							<div class="d-flex flex-row gap-3 align-center">
+								@if (context.Item.Rating > 0)
+								{
+									<div><MudRating ReadOnly="true" Size="Size.Small" SelectedValue="@context.Item.Rating" /></div>
+								}
 								<MudText Typo="Typo.caption" Class="d-block">@context.Item.DateEventUtc.ToLocalTime().ToString("d")</MudText>
 								<MudText Typo="Typo.caption" Color="Color.Tertiary">@context.Item.EventType.Title()</MudText>
 							</div>
@@ -77,6 +81,14 @@
 						</MudItem>
 					</MudGrid>
 				</MudItem>
+				@if (!string.IsNullOrEmpty(context.Item.Notes))
+				{
+					<MudItem xs="12" Class="px-6 ps-sm-12">
+						<MudAlert Severity="Severity.Normal" NoIcon="true">
+							<MudText Typo="Typo.body2">@((MarkupString)context.Item.Notes.ReplaceLineBreaks("<br />"))</MudText>
+						</MudAlert>
+					</MudItem>
+				}
 			</MudGrid>
 		</ItemRenderer>
 		<EmptyListRenderer>
