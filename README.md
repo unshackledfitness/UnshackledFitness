@@ -4,7 +4,7 @@
 
 # Unshackled Fitness
 
-A workout planner/tracker for weight lifters. It is a cross-platform hosted WebAssembly Blazor PWA with a vertical slice architecture that supports MS SQL Server, MySQL, and PostgreSql databases through Entity Framework.
+A workout planner and notebook. It is a cross-platform, hosted WebAssembly Blazor PWA with a vertical slice architecture that supports MS SQL Server, MySQL, and PostgreSql databases through Entity Framework.
 
 
 ## Run Locally
@@ -17,7 +17,7 @@ dotnet tool install --global dotnet-ef
 Clone the project
 
 ```bash
-  git clone https://github.com/unshackled-fitness/Unshackled.Fitness.git Unshackled.Fitness
+  git clone https://github.com/unshackled-studio/Unshackled.Fitness.git Unshackled.Fitness
 ```
 
 Go to the project directory
@@ -31,16 +31,16 @@ Copy and rename the sample-appsettings.json files for the Blazor server and clie
 
 ```bash
 # Windows
-copy .\src\Unshackled.Fitness.My\sample-appsettings.json .\src\Unshackled.Fitness.My\appsettings.json
-copy .\src\Unshackled.Fitness.My\sample-appsettings.Development.json .\src\Unshackled.Fitness.My\appsettings.Development.json
-copy .\src\Unshackled.Fitness.My.Client\wwwroot\sample-appsettings.json .\src\Unshackled.Fitness.My.Client\wwwroot\appsettings.json
-copy .\src\Unshackled.Fitness.My.Client\wwwroot\sample-appsettings.Development.json .\src\Unshackled.Fitness.My.Client\wwwroot\appsettings.Development.json
+copy .\src\Fitness\Unshackled.Fitness.My\sample-appsettings.json .\src\Fitness\Unshackled.Fitness.My\appsettings.json
+copy .\src\Fitness\Unshackled.Fitness.My\sample-appsettings.Development.json .\src\Fitness\Unshackled.Fitness.My\appsettings.Development.json
+copy .\src\Fitness\Unshackled.Fitness.My.Client\wwwroot\sample-appsettings.json .\src\Fitness\Unshackled.Fitness.My.Client\wwwroot\appsettings.json
+copy .\src\Fitness\Unshackled.Fitness.My.Client\wwwroot\sample-appsettings.Development.json .\src\Fitness\Unshackled.Fitness.My.Client\wwwroot\appsettings.Development.json
 
 # Mac OS/Linux
-cp ./src/Unshackled.Fitness.My/sample-appsettings.json ./src/Unshackled.Fitness.My/appsettings.json
-cp ./src/Unshackled.Fitness.My/sample-appsettings.Development.json ./src/Unshackled.Fitness.My/appsettings.Development.json
-cp ./src/Unshackled.Fitness.My.Client/wwwroot/sample-appsettings.json ./src/Unshackled.Fitness.My.Client/wwwroot/appsettings.json
-cp ./src/Unshackled.Fitness.My.Client/wwwroot/sample-appsettings.Development.json ./src/Unshackled.Fitness.My.Client/wwwroot/appsettings.Development.json
+cp ./src/Fitness/Unshackled.Fitness.My/sample-appsettings.json ./src/Fitness/Unshackled.Fitness.My/appsettings.json
+cp ./src/Fitness/Unshackled.Fitness.My/sample-appsettings.Development.json ./src/Fitness/Unshackled.Fitness.My/appsettings.Development.json
+cp ./src/Fitness/Unshackled.Fitness.My.Client/wwwroot/sample-appsettings.json ./src/Fitness/Unshackled.Fitness.My.Client/wwwroot/appsettings.json
+cp ./src/Fitness/Unshackled.Fitness.My.Client/wwwroot/sample-appsettings.Development.json ./src/Fitness/Unshackled.Fitness.My.Client/wwwroot/appsettings.Development.json
 ```
 
 ### Configure App Settings ###
@@ -137,17 +137,17 @@ Open the solution file or project folder in your favorite editor and complete th
 
 In your terminal, move to the Unshackled.Fitness.Core.Data directory from the main project directory
 ```bash
-cd ./src/Unshackled.Fitness.Core.Data
+cd ./src/Fitness/Unshackled.Fitness.Core.Data
 ```
 Add a migration for the current release and your database.
 
 ```bash
 # MS SQL Server
-dotnet ef migrations add v1.2.0 -c MsSqlServerDbContext -s ../Unshackled.Fitness.Web -o Migrations
+dotnet ef migrations add v2.0.0 -c MsSqlServerDbContext -s ../Unshackled.Fitness.Web -o Migrations
 # MySQL Server
-dotnet ef migrations add v1.2.0 -c MySqlServerDbContext -s ../Unshackled.Fitness.Web -o Migrations
+dotnet ef migrations add v2.0.0 -c MySqlServerDbContext -s ../Unshackled.Fitness.Web -o Migrations
 # PostgreSQL Server
-dotnet ef migrations add v1.2.0 -c PostgresSqlServerDbContext -s ../Unshackled.Fitness.Web -o Migrations
+dotnet ef migrations add v2.0.0 -c PostgresSqlServerDbContext -s ../Unshackled.Fitness.Web -o Migrations
 ```
 
 Apply the migration
@@ -163,7 +163,7 @@ dotnet ef database update --context PostgreSqlServerDbContext -s ../Unshackled.F
 ### Run the Website ###
 Move to the Unshackled.Fitness.My directory from the main project directory.
 ```bash
-cd ./src/Unshackled.Fitness.My
+cd ./src/Fitness/Unshackled.Fitness.My
 ```
 By default, the website will run at https://localhost:5580. You can change these settings under Properties/launchSettings.json.
 
