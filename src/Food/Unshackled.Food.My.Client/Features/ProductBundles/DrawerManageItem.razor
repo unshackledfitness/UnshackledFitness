@@ -1,0 +1,67 @@
+﻿<div class="d-flex flex-row gap-4 align-center">
+	<MudIconButton Icon="@Icons.Material.Filled.RemoveCircleOutline" Disabled="@(quantity <= 0)" OnClick="@(() => HandleCounterSubtractClicked())" />
+	<MudNumericField T="int" Label="quantity" Variant="Variant.Outlined" Min="0" Max="@maxValue" Step="1" HideSpinButtons="true" @bind-Value="@quantity" />
+	<MudIconButton Icon="@Icons.Material.Filled.AddCircleOutline" Disabled="@(quantity >= maxValue)" OnClick="@(() => HandleCounterAddClicked())" />
+</div>
+
+<MudToolBar Gutters="false" Class="mt-6">
+	<MudSpacer />
+	<MudButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@(quantity == 0 || quantity > maxValue)" OnClick="@(() => HandleSaveClicked())">Save</MudButton>
+	<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@(() => HandleCancelClicked())">Cancel</MudButton>
+	<MudSpacer />
+</MudToolBar>
+
+<MudDivider DividerType="DividerType.FullWidth" Class="my-6" />
+
+<div class="d-flex flex-column gap-3">
+	<MudButton StartIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" FullWidth="true" OnClick="@(() => HandleDeleteClicked())">Delete Product</MudButton>
+	<MudButton StartIcon="@Icons.Material.Filled.Widgets" Variant="Variant.Filled" FullWidth="true" Href="@($"/products/{Product.ProductSid}")">Go to Product Page</MudButton>
+</div>
+
+@code {
+	[Parameter] public FormProductModel Product { get; set; } = new();
+	[Parameter] public EventCallback OnDeleted { get; set; }
+	[Parameter] public EventCallback<int> OnSubmitted { get; set; }
+	[Parameter] public EventCallback OnCanceled { get; set; }
+
+	private int quantity;
+	private int maxValue = 99999;
+
+	protected override void OnParametersSet()
+	{
+		base.OnParametersSet();
+
+		quantity = Product.Quantity;
+	}
+
+	private void HandleCounterAddClicked()
+	{
+		if (quantity == 0 || quantity < maxValue)
+		{
+			quantity++;
+		}
+	}
+
+	private async Task HandleDeleteClicked()
+	{
+		await OnDeleted.InvokeAsync();
+	}
+
+	private async Task HandleSaveClicked()
+	{
+		await OnSubmitted.InvokeAsync(quantity);
+	}
+
+	private async Task HandleCancelClicked()
+	{
+		await OnCanceled.InvokeAsync();
+	}
+	
+	private void HandleCounterSubtractClicked()
+	{
+		if (quantity > 0)
+		{
+			quantity--;
+		}
+	}
+}

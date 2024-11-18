@@ -1,0 +1,43 @@
+﻿@using MudBlazor.Utilities
+
+<div class="@CssClass" @onclick="@HandleClick">
+	<svg id="Cookbook" xmlns="http://www.w3.org/2000/svg" width="@SvgWidth" height="@SvgHeight" viewBox="0 0 600 500">
+		<defs>
+			<style>
+				.cls-1 {
+					fill: currentColor;
+					stroke-width: 0px;
+				}
+			</style>
+		</defs>
+		<path id="SVG" class="cls-1" d="m570.59,118h-192.76c-7.85,0-15.1,4.19-19.03,10.98l-39.37,68.2,29.77,51.57c18.3-1.32,36.62,7.64,46.41,24.59,13.65,23.64,30.37,96.86,6.73,110.51-23.64,13.65-78.69-37.44-92.34-61.08-9.78-16.93-8.39-37.25,1.87-52.43l-17.37-30.09-17.83,30.89c10.29,15.19,11.69,35.53,1.9,52.49l-43.94,76.1c-2.73,4.73-8.78,6.35-13.5,3.62-4.73-2.73-6.35-8.78-3.62-13.5l38.52-66.72c2.73-4.73,1.11-10.77-3.62-13.5-4.73-2.73-10.77-1.11-13.5,3.62l-38.52,66.72c-2.73,4.73-8.78,6.35-13.5,3.62s-6.35-8.78-3.62-13.5l38.52-66.72c2.73-4.73,1.11-10.77-3.62-13.5-4.73-2.73-10.77-1.11-13.5,3.62l-38.52,66.72c-2.73,4.73-8.78,6.35-13.5,3.62-4.73-2.73-6.35-8.78-3.62-13.5l43.94-76.1c9.78-16.93,28.06-25.89,46.34-24.6l30.3-52.49-52.03-90.12c-3.03-5.25-1.23-11.97,4.02-15.01l18.33-10.58c5.25-3.03,11.97-1.23,15.01,4.02l39.58,68.55,17.78-30.8h0s55.83-96.71,55.83-96.71c4.23-7.32-1.06-16.48-9.51-16.48h-192.76c-7.85,0-15.1,4.19-19.03,10.98L28.43,226s-62.49,107.92,124.71,216c187.06,108,249.42,0,249.42,0l177.55-307.52c4.23-7.32-1.06-16.48-9.51-16.48Z" />
+
+	</svg>
+</div>
+
+@code {
+	[Parameter] public string? Class { get; set; }
+	[Parameter] public string? Width { get; set; }
+	[Parameter] public string? Height { get; set; }
+	[Parameter] public LogoLayouts Layout { get; set; } = LogoLayouts.NoText;
+	[Parameter] public string? Href { get; set; }
+
+	[Inject] protected NavigationManager NavManager { get; set; } = default!;
+
+	protected string CssClass => new CssBuilder("logo-layout")
+		.AddClass(Class)
+		.Build();
+
+	protected string SvgWidth => string.IsNullOrEmpty(Width) ? "100%" : Width;
+
+	protected string SvgHeight => string.IsNullOrEmpty(Height) ? "100%" : Height;
+
+	protected void HandleClick()
+	{
+		if (!string.IsNullOrEmpty(Href))
+		{
+			NavManager.NavigateTo(Href);
+		}
+	}
+
+}

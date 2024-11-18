@@ -1,0 +1,40 @@
+﻿@inherits Unshackled.Studio.Core.Client.Components.BaseComponent
+
+<MudNavMenu>
+	<MudNavLink Icon="@Icons.Material.Filled.Dashboard" Href="/" Match="NavLinkMatch.All">Dashboard</MudNavLink>
+	<MudNavLink Icon="@Icons.Material.Filled.CollectionsBookmark" Href="/cookbooks" Match="NavLinkMatch.Prefix">Cookbooks</MudNavLink>
+	<MudNavLink Icon="@Icons.Material.Filled.Groups" Href="/households" Match="NavLinkMatch.Prefix">Households</MudNavLink>
+
+	@if (ActiveMember.ActiveCookbook != null)
+	{
+		<MudDivider Class="my-2" />
+
+		<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block ml-4">@ActiveMember.ActiveCookbook.Title Menu</MudText>
+		<MudNavGroup Title="Cookbook" Icon="@Icons.Material.Filled.MenuBook" Expanded="true">
+			<MudNavLink Href="/find-recipes" Match="NavLinkMatch.Prefix">Recipes</MudNavLink>
+		</MudNavGroup>
+	}
+
+	@if (ActiveMember.ActiveHousehold != null)
+	{
+		<MudDivider Class="my-2" />
+
+		<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block ml-4">@ActiveMember.ActiveHousehold.Title Menu</MudText>
+		<MudNavGroup Title="Meal Prep" Icon="@Icons.Material.Filled.Dining" Expanded="true">
+			<MudNavLink Href="/recipes" Match="NavLinkMatch.Prefix">Recipes</MudNavLink>
+			<MudNavLink Href="/ingredients" Match="NavLinkMatch.Prefix">Ingredients</MudNavLink>
+		</MudNavGroup>
+		<MudNavGroup Title="Shopping" Icon="@Icons.Material.Filled.ShoppingBag" Expanded="true">
+			<MudNavLink Href="/shopping-lists" Match="NavLinkMatch.Prefix">Shopping Lists</MudNavLink>
+			<MudNavLink Href="/products" Match="NavLinkMatch.Prefix">Products</MudNavLink>
+			<MudNavLink Href="/product-bundles" Match="NavLinkMatch.Prefix">Product Bundles</MudNavLink>
+			<MudNavLink Href="/stores" Match="NavLinkMatch.Prefix">Stores</MudNavLink>
+		</MudNavGroup>
+	}
+</MudNavMenu>
+
+@code {
+
+	private Member ActiveMember => (Member)State.ActiveMember;
+
+}

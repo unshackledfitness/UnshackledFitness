@@ -1,0 +1,55 @@
+﻿@inherits SectionPropertiesBase
+
+<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
+		
+	<SectionHeader Title="@Recipe.Title" IsEditMode="@IsEditMode" IsEditing="@IsEditing" FormId="@FormId" Breakpoint="Breakpoint.Sm"
+				   OnCancelClicked="@(() => HandleEditCancelClicked())">
+		<EditModeToolbar>
+			<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@DisableSectionControls" OnClick="@(() => HandleEditClicked())" />
+			<MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@DisableSectionControls" OnClick="@(() => HandleDeleteClicked())" />
+		</EditModeToolbar>
+	</SectionHeader>
+	
+	@if (!IsEditing)
+	{
+		@if (!string.IsNullOrEmpty(Recipe.Description))
+		{
+			<MudText Typo="Typo.body1">@Recipe.Description</MudText>
+		}
+
+		@if (RecipeTags.Any())
+		{
+			<div Class="my-4">
+				@foreach (string tag in RecipeTags)
+				{
+					<MudChip T="string" Variant="Variant.Outlined">@tag</MudChip>
+				}
+			</div>
+		}
+
+		<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+		<div class="flex-summary">
+			<div class="summary-item">
+				<MudText Class="summary-label" Color="Color.Tertiary">Prep Time</MudText>
+				<MudText Class="summary-value">@Recipe.PrepTime.ToString(@"hh\:mm")</MudText>
+				<MudText Class="summary-caption" Color="Color.Tertiary">hr:min</MudText>
+			</div>
+			<MudDivider Vertical="true" FlexItem="true" />
+			<div class="summary-item">
+				<MudText Class="summary-label" Color="Color.Tertiary">Cook Time</MudText>
+				<MudText Class="summary-value">@Recipe.CookTime.ToString(@"hh\:mm")</MudText>
+				<MudText Class="summary-caption" Color="Color.Tertiary">hr:min</MudText>
+			</div>
+			<MudDivider Vertical="true" FlexItem="true" />
+			<div class="summary-item">
+				<MudText Class="summary-label" Color="Color.Tertiary">Servings</MudText>
+				<MudText Class="summary-value">@((Recipe.TotalServings * Scale).ToHtmlFraction())</MudText>
+			</div>
+		</div>
+		<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+	}
+	else
+	{
+		<FormProperties Model="@Model" FormId="@FormId" DisableFormControls="@DisableControls" OnFormSubmitted="@HandleFormSubmitted" />
+	}
+</SectionComponent>

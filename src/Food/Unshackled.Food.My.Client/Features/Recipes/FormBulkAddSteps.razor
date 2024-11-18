@@ -1,0 +1,13 @@
+﻿@inherits FormBulkAddStepsBase
+
+<EditForm Model="@Model" OnValidSubmit="HandleFormSubmitted">
+	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
+	<MudTextField Label="Steps (One per line)" Variant="Variant.Outlined" FullWidth="true" AutoFocus="true" Disabled="@DisableControls" Margin="Margin.Dense" Lines="15"
+					@bind-Value="@Model.BulkText" For="@(() => Model.BulkText)" />
+	<MudToolBar Gutters="false" Class="mt-3">
+		<MudSpacer />
+		<MudButton Color="Color.Primary" ButtonType="ButtonType.Submit" Disabled="@DisableControls">Add</MudButton>
+		<MudButton Disabled="@DisableControls" OnClick="@(() => HandleCancelClicked())">Cancel</MudButton>
+		<MudSpacer />
+	</MudToolBar>
+</EditForm>

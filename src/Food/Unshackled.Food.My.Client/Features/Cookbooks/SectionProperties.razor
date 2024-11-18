@@ -1,0 +1,60 @@
+﻿@inherits SectionPropertiesBase
+
+<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
+
+	<SectionHeader IsEditMode="@IsEditMode" IsEditing="@IsEditing" EditingClass="mb-4" EditingTitle="Edit Cookbook" HideDefaultToolbar="@(Cookbook.MemberSid == State.ActiveMember.Sid)"
+				   OnCancelClicked="HandleEditCancelClicked" FormId="@FormId">
+		<TitleContent>
+			<MudText Typo="Typo.h4">@Cookbook.Title</MudText>
+			<MudText Typo="Typo.body1">Created On: @Cookbook.DateCreatedUtc.ToLocalTime().ToString("d")</MudText>
+		</TitleContent>
+		<EditModeToolbar>
+			<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@DisableSectionControls" OnClick="@(() => HandleEditClicked())" />
+			<MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@DisableSectionControls" OnClick="@(() => HandleDeleteClicked())" />
+		</EditModeToolbar>
+		<DefaultToolbar>
+			<MudButton Variant="Variant.Outlined" Color="Color.Error" OnClick="@(() => HandleLeaveCookbookClicked())">Leave Cookbook</MudButton>
+		</DefaultToolbar>
+	</SectionHeader>
+
+	@if (IsEditing)
+	{
+		<FormProperties Model="@Model" FormId="@FormId" DisableFormControls="@DisableControls" OnFormSubmitted="@HandleFormSubmitted" />
+	}
+	else if (IsDeleting)
+	{
+		@if (!IsConfirmingDelete)
+		{
+			<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+
+			<MudText Typo="Typo.h6" Class="mb-4">Delete Cookbook and Data</MudText>
+
+			<MudText>Deleting a cookbook deletes all the data contained within it and cannot be undone.</MudText>
+
+			<MudText Class="mb-4">
+				Use the button below if you want to continue to delete this cookbook.
+			</MudText>
+
+			<MudToolBar Gutters="false">
+				<MudButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@DisableControls" OnClick="@(() => IsConfirmingDelete = true)">
+					Delete Cookbook
+				</MudButton>
+				<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@(() => HandleDeleteCancelClicked())">Cancel</MudButton>
+			</MudToolBar>
+		}
+		else
+		{
+			<MudAlert Severity="Severity.Error" NoIcon="true" Variant="Variant.Outlined" Class="mt-2">
+				<MudCheckBox @bind-Value="@IsDeleteConfirmed" UncheckedColor="Color.Error" Color="Color.Error" Label="I understand deleting this cookbook is permanent and cannot be reversed." />
+
+				<MudText Typo="Typo.body1" Class="mt-4" Color="Color.Error">Enter the full name of this cookbook, <strong>@Cookbook.Title</strong>, to confirm you want to delete it.</MudText>
+				<MudTextField Variant="Variant.Outlined" Error="true" Disabled="@(!IsDeleteConfirmed)" @bind-Value="@DeleteVerification" Immediate="true" />
+
+				<MudToolBar Gutters="false" Class="mt-2">
+					<MudButton Variant="Variant.Filled" Color="Color.Error" Disabled="@(!IsDeleteVerified())" OnClick="@(() => HandleDeleteClicked())">Delete</MudButton>
+					<MudButton Variant="Variant.Outlined" Color="Color.Error" OnClick="@(() => HandleDeleteCancelClicked())">Cancel</MudButton>
+				</MudToolBar>
+			</MudAlert>
+		}
+	}
+</SectionComponent>

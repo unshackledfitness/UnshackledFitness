@@ -1,0 +1,22 @@
+﻿@inherits FormStoreLocationBase
+
+<EditForm Model="@Model" OnValidSubmit="HandleFormSubmitted">
+	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
+	<MudGrid Spacing="1" Class="mb-4">
+		<MudItem xs="12" sm="6">
+			<MudTextField Label="Title" Variant="Variant.Outlined" Immediate="true" Disabled="@DisableControls"
+						  FullWidth="true" For="@(() => Model.Title)" @bind-Value="@Model.Title" />
+		</MudItem>
+		<MudItem xs="12" sm="6">
+			<MudTextField Label="Short Description" Variant="Variant.Outlined" FullWidth="true" Disabled="@IsSaving"
+						  For="@(() => Model.Description)" @bind-Value="@Model.Description" />
+		</MudItem>
+	</MudGrid>
+	<MudToolBar Gutters="false">
+		<MudSpacer />
+		<MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@DisableControls" ButtonType="ButtonType.Submit">@SubmitButtonLabel</MudButton>
+		<MudButton Variant="Variant.Outlined" Color="Color.Primary" Disabled="@DisableControls" OnClick="@(() => HandleCancelClicked())">Cancel</MudButton>
+		<MudSpacer />
+	</MudToolBar>
+</EditForm>
+

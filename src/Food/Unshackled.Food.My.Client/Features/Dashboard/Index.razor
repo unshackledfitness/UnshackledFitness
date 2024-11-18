@@ -1,0 +1,9 @@
+﻿@page "/"
+@inherits IndexBase
+
+<DynamicPageTitle Title="Dashboard" />
+
+<div class="d-flex flex-row flex-wrap gap-3 justify-center align-center mb-6">
+	<DashboardTile Href="/recipes" Icon="@Icons.Material.Filled.Dining" Title="Recipes" />
+	<DashboardTile Href="/shopping-lists" Icon="@Icons.Material.Filled.ShoppingBag" Title="Shopping Lists" />
+</div>

@@ -1,0 +1,52 @@
+﻿<MudDialog Class="pb-2">
+	<DialogContent>
+		<MudText Typo="Typo.body1" Class="mb-6">
+			Choose the product to keep. The unselected (deleted) product will be replaced by the selected product 
+			in recipes and shopping lists.
+		</MudText>
+		@if (IsLoading)
+		{
+			<DefaultProgress />
+		}
+		else
+		{
+			<MudRadioGroup T="string" @bind-Value="@SelectedSid" Class="d-flex flex-column align-start mb-sm-6">
+				@foreach (var item in Products)
+				{
+					<MudRadio Value="@item.Sid" Class="mb-4">
+						<div class="border-l border-solid mud-border-tertiary ps-2">
+							@if (!string.IsNullOrEmpty(item.Category))
+							{
+								<MudText Typo="Typo.caption" Class="d-block" Color="Color.Secondary">@item.Category</MudText>
+							}
+							@if (!string.IsNullOrEmpty(item.Brand))
+							{
+								<MudText Typo="Typo.body1" Color="Color.Primary">@item.Brand</MudText>
+							}
+							<div class="d-flex flex-row gap-2">
+								<MudText Typo="Typo.subtitle1" Class="d-block">@item.Title</MudText>
+							</div>
+							@if (!string.IsNullOrEmpty(item.Description))
+							{
+								<MudText Typo="Typo.body2" Color="Color.Tertiary">@item.Description</MudText>
+							}
+							<MudText Typo="Typo.caption" Class="d-block">Added @item.DateCreatedUtc.ToLocalTime().ToString("F"))</MudText>
+						</div>
+					</MudRadio>
+				}
+			</MudRadioGroup>
+			@if(!string.IsNullOrEmpty(SelectedSid))
+			{
+				<MudText Typo="Typo.body1" Class="mb-6">
+					Merging products cannot be undone. Please confirm your choice by typing the exact name of the selected product: <strong>@SelectedProduct</strong>
+				</MudText>
+				<MudTextField Variant="Variant.Outlined" FullWidth="true" Immediate="true" @bind-Value="ConfirmSelected" Validation="@(new Func<string?, string?>(IsMatch))" OnlyValidateIfDirty="true" />
+			}
+		}
+	</DialogContent>
+	<DialogActions>
+		<MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(string.IsNullOrEmpty(SelectedSid) || ConfirmSelected != SelectedProduct)"
+				   OnClick="Submit">Merge</MudButton>
+		<MudButton OnClick="Cancel">Cancel</MudButton>
+	</DialogActions>
+</MudDialog>

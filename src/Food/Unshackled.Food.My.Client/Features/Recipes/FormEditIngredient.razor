@@ -1,0 +1,31 @@
+﻿@inherits FormEditIngredientBase
+
+<EditForm Model="@Model" OnValidSubmit="@HandleFormSubmitted">
+	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
+	<MudGrid Spacing="1" Class="mb-3">
+		<MudItem xs="12" sm="2">
+			<MudTextField T="string" Label="Amount" Variant="Variant.Outlined" Immediate="true" FullWidth="true" Disabled="@DisableControls"
+						  MaxLength="15" @bind-Value="@Model.AmountText" For="@(() => Model.AmountText)" />
+		</MudItem>
+		<MudItem xs="12" sm="2">
+			<MeasurementUnitSelect Label="Units" Variant="Variant.Outlined" Immediate="true" FullWidth="true" Disabled="@DisableControls"
+								   Value="@Model.AmountUnit" For="@(() => Model.AmountUnit)"
+								   ValueChanged="@HandleAmountUnitChanged"/>
+			<MudTextField Label="Displayed As" Variant="Variant.Outlined" Immediate="true" FullWidth="true"
+						  Disabled="@(DisableControls || Model.AmountUnit != MeasurementUnits.Item)" MaxLength="25"
+						  @bind-Value="@Model.AmountLabel" For="@(() => Model.AmountLabel)" />
+		</MudItem>
+		<MudItem xs="12" sm="8">
+			<MudAutocomplete T="string" Label="Ingredient" Variant="Variant.Outlined" Immediate="true" FullWidth="true" Disabled="@DisableControls"
+							 ResetValueOnEmptyText="true" CoerceText="false" CoerceValue="true" SelectOnActivation="false" SelectValueOnTab="true"
+							 SearchFunc="@SearchIngredients"
+							 @bind-Value="@Model.Title" For="@(() => Model.Title)" />
+			<MudTextField Label="Prep Note" Variant="Variant.Outlined" Immediate="true" FullWidth="true" Disabled="@DisableControls"
+						  @bind-Value="@Model.PrepNote" For="@(() => Model.PrepNote)" />
+		</MudItem>
+	</MudGrid>
+	<MudToolBar Gutters="false">
+		<MudButton Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit" Disabled="@DisableControls">Save</MudButton>
+		<MudButton Variant="Variant.Outlined" Disabled="@DisableControls" OnClick="@(() => HandleCancelClicked())">Cancel</MudButton>
+	</MudToolBar>
+</EditForm>

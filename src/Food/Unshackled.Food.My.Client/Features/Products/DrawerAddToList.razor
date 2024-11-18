@@ -1,0 +1,39 @@
+﻿@inherits DrawerAddToListBase
+
+<MudText Typo="Typo.subtitle1" Color="Color.Tertiary" Class="mb-3">Choose Shopping List</MudText>
+<MudRadioGroup T="string" @bind-Value="@SelectedListSid">
+	<ListView TItem="ShoppingListModel" Items="@ShoppingLists">
+		<ItemRenderer>
+			<div class="d-flex flex-row gap-2 align-center">
+				<div>
+					<MudRadio T="string" Disabled="@IsSaving" Value="context.Item.Sid" />
+				</div>
+				<div class="flex-grow-1 align-self-center">
+					<MudText Typo="Typo.subtitle1" Class="d-block">@context.Item.Title</MudText>
+						@if (!string.IsNullOrEmpty(context.Item.Description))
+					{
+						<MudText Typo="Typo.body2" Color="Color.Tertiary">@context.Item.Description</MudText>
+					}
+				</div>
+			</div>
+		</ItemRenderer>
+		<EmptyListRenderer>
+			<MudText Align="Align.Center" Class="mt-4">No shopping lists were found.</MudText>
+		</EmptyListRenderer>
+	</ListView>
+</MudRadioGroup>
+
+<MudText Typo="Typo.subtitle1" Color="Color.Tertiary" Class="mt-6 mb-3">Set Quantity</MudText>
+<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+<div class="d-flex flex-row gap-4 align-center">
+	<MudIconButton Icon="@Icons.Material.Filled.RemoveCircleOutline" Color="Color.Primary" OnClick="@(() => HandleCounterSubtractClicked())" />
+	<MudText Typo="Typo.subtitle1">@Quantity</MudText>
+	<MudIconButton Icon="@Icons.Material.Filled.AddCircleOutline" Color="Color.Primary" OnClick="@(() => HandleCounterAddClicked())" />
+</div>
+
+<MudToolBar Gutters="false" Class="mt-4">
+	<MudSpacer />
+	<MudButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@string.IsNullOrEmpty(SelectedListSid)" OnClick="@(() => HandleAddSelected())">Add</MudButton>
+	<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@HandleCancelClicked">Cancel</MudButton>
+	<MudSpacer />
+</MudToolBar>

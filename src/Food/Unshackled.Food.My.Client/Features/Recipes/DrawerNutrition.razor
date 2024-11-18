@@ -1,0 +1,11 @@
+﻿@inherits DrawerNutritionBase
+
+@if (LabelModel.HasItemMismatch)
+{
+	<MudAlert Severity="Severity.Error" Class="mb-4">There is a unit mismatch between one or more ingredients and their product substitutions. The nutrition information for this recipe may not be accurate.</MudAlert>
+}
+else if (HasMissingProductSubstitutions)
+{
+	<MudAlert Severity="Severity.Warning" Class="mb-4">One or more ingredients does not have a product substitution. The nutrition information for this recipe may not be accurate.</MudAlert>
+}
+<NutritionLabel Item="@LabelModel" xs="12" />

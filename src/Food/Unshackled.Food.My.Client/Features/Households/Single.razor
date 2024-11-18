@@ -1,0 +1,34 @@
+﻿@page "/households/{HouseholdSid}"
+@inherits SingleBase
+
+<DynamicPageTitle IsLoading="@IsLoading" LoadingTitle="Loading Household" FallbackTitle="Household" Title="@Household.Title" />
+
+<MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
+
+@if (IsLoading)
+{
+	<DefaultProgress />
+}
+else
+{
+	@if (string.IsNullOrEmpty(Household.Sid))
+	{
+		<MudAlert Severity="Severity.Error" Dense="true">The group was not found.</MudAlert>
+	}
+	else
+	{
+		<MudToolBar Gutters="false" Dense="true">
+			<MudSpacer />
+			@if (CanEdit)
+			{
+				<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@IsEditing" />
+			}
+		</MudToolBar>
+
+		<SectionProperties @bind-Household="@Household" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
+				   OnIsEditingSectionChange="@HandleSectionEditing" />
+
+		<SectionMembers Household="@Household" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
+						OnIsEditingSectionChange="@HandleSectionEditing" />
+	}
+}

@@ -1,0 +1,36 @@
+﻿@page "/member/app-settings"
+@inherits SettingsBase
+
+<DynamicPageTitle Title="App Settings" />
+
+<MudBreadcrumbs Items="@Breadcrumbs" />
+
+<MudText Typo="Typo.h4" Class="mb-6">App Settings</MudText>
+
+<MudText Typo="Typo.body2" Color="Color.Tertiary" Class="mt-12">Shopping Lists</MudText>
+<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+<SettingItem>
+	<LabelContent>Default Item In Cart Visibility</LabelContent>
+	<SettingContent>
+		<MudSelect T="bool" Variant="Variant.Outlined" FullWidth="true" @bind-Value="@Settings.HideIsInCart">
+			<MudSelectItem T="bool" Value="@false">Show</MudSelectItem>
+			<MudSelectItem T="bool" Value="@true">Hide</MudSelectItem>
+		</MudSelect>
+	</SettingContent>
+</SettingItem>
+
+
+
+<div class="d-flex flex-row justify-end mt-9">
+	<MudButton Disabled="@Saving" Size="Size.Small" OnClick="@(() => HandleRestoreDefaultsClicked())">Restore Defaults</MudButton>
+</div>
+<MudDivider DividerType="DividerType.FullWidth" Class="mb-4" />
+<MudToolBar Gutters="false">
+	<MudSpacer />
+	<ProgressButton Color="Color.Secondary" Variant="Variant.Filled" Disabled="@Saving" IsWorking="@Saving" WorkingText="@("Saving...")"
+					OnClick="@(() => HandleApplySettingsClicked())">
+		Apply Settings
+	</ProgressButton>
+	<MudButton Color="Color.Secondary" Variant="Variant.Outlined" Disabled="@Saving" Href="/member">Cancel</MudButton>
+	<MudSpacer />
+</MudToolBar>

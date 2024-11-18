@@ -1,0 +1,54 @@
+﻿@inherits SectionLocationsBase
+
+<div class="my-6">
+	<SectionHeader Title="Aisles/Departments" Typo="Typo.h5" Class="mb-2" />
+
+	<SortableListView TItem="FormStoreLocationModel" Items="@Locations" ToolbarAlignment="HorizontalAlignment.Left" ToolbarPosition="@ToolbarPositions.Top"
+						  IsSortingChanged="HandleIsSorting" SortOrderChanged="@HandleSortChanged" DisableSort="@DisableControls">
+		<ItemRenderer>
+			<div class="d-flex flex-row gap-4 align-center">
+				<div class="flex-grow-1">
+					<MudLink Typo="Typo.subtitle1" Class="d-block" Href="@($"/stores/{StoreSid}/aisles/{context.Item.Sid}")">@context.Item.Title</MudLink>
+					@if (!string.IsNullOrEmpty(context.Item.Description))
+					{
+						<MudText Typo="Typo.body1" Color="Color.Tertiary">@context.Item.Description</MudText>
+					}
+				</div>
+				<div class="d-flex flex-row gap-2 align-center">
+					<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" Disabled="@DisableControls" OnClick="@(() => HandleEditClicked(context.Item))" />
+				</div>
+			</div>
+		</ItemRenderer>
+		<DraggableItemRenderer>
+			<MudPaper Elevation="2" Class="py-2 px-4 my-2">
+				<div class="d-flex flex-row gap-4 align-center">
+					<div>
+						<MudIcon Icon="@Icons.Material.Filled.DragIndicator" />
+					</div>
+					<div>
+						<MudText Typo="Typo.body1">@context.Title</MudText>
+					</div>
+				</div>
+			</MudPaper>
+		</DraggableItemRenderer>
+		<EmptyListRenderer>
+			<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+			<MudAlert Severity="Severity.Normal" Icon="@Icons.Material.Filled.Info">You have not added any aisles or departments.</MudAlert>
+			<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+		</EmptyListRenderer>
+		<ListTools>
+			<MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls" OnClick="@(() => HandleAddClicked())">Add</MudButton>
+		</ListTools>
+	</SortableListView>
+</div>
+
+<SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
+	@if (DrawerView == Views.Add)
+	{
+		<DrawerStoreLocation Model="@AddFormModel" SubmitButtonLabel="Add" OnFormSubmitted="@HandleAddFormSubmitted" OnCanceled="@HandleCancelClicked" />
+	}
+	else if (DrawerView == Views.Edit)
+	{
+		<DrawerStoreLocation Model="@EditingModel" SubmitButtonLabel="Save" OnFormSubmitted="@HandleEditFormSubmitted" OnCanceled="@HandleCancelClicked" OnDeleted="@HandleDeleteClicked" />
+	}
+</SideDrawer>

@@ -1,0 +1,57 @@
+﻿@page "/recipes"
+@inherits IndexBase
+
+<DynamicPageTitle  IsLoading="@IsLoading" LoadingTitle="Loading Recipes..." Title="My Recipes" />
+
+<MudBreadcrumbs Items="@Breadcrumbs" />
+
+<SectionHeader Title="Recipes" Class="mb-4" />
+<div class="mb-6">
+	<SearchForm @bind-Model="@SearchModel" SearchClicked="@(() => DoSearch(1))" ResetClicked="@HandleResetClicked">
+		<SearchFields>
+			<MudGrid Spacing="1">
+				<MudItem xs="12" sm="4">
+					<MudTextField Label="Title" Variant="Variant.Outlined" FullWidth="true" Margin="Margin.Dense"
+								  T="string" @bind-Value="@SearchModel.Title" Disabled="@IsLoading" />
+				</MudItem>
+				<MudItem xs="12" sm="4">
+					<CuisineSelect MultiSelection="true" Margin="Margin.Dense" Disabled="@IsLoading" @bind-SelectedValues="@SearchModel.SelectedCuisines" />
+				</MudItem>
+				<MudItem xs="12" sm="4">
+					<DietSelect MultiSelection="true" Margin="Margin.Dense" Disabled="@IsLoading" @bind-SelectedValues="@SearchModel.SelectedDiets" />
+				</MudItem>
+			</MudGrid>
+		</SearchFields>
+	</SearchForm>
+</div>
+
+@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+{
+	<MudToolBar Class="mt-6" Gutters="false" Dense="true">
+		<MudButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@IsLoading" OnClick="@(() => HandleAddClicked())">New</MudButton>
+	</MudToolBar>
+}
+
+<ListView Class="mb-6" Items="@SearchResults.Data" PageSize="@SearchResults.PageSize" Page="@SearchModel.Page" TotalItems="@SearchResults.Total" IsLoading="@IsLoading"
+		  PageSelected="@HandlePageSelected">
+	<ItemRenderer>
+		<MudGrid Spacing="2">
+			<MudItem xs="12" sm="8" md="10">
+				<MudLink Typo="Typo.subtitle1" Href="@($"/recipes/{context.Item.Sid}")" Class="d-block">@context.Item.Title</MudLink>
+				@if(context.Item.DietTags.Any())
+				{
+					<MudText Typo="Typo.body2" Color="Color.Tertiary">@String.Join(", ", context.Item.DietTags)</MudText>
+				}
+			</MudItem>
+			<MudItem xs="6" sm="2" md="1">
+				<CaptionedProperty Align="Align.Center" Title="Prep Time" Value="@context.Item.PrepTime.ToString(@"hh\:mm")" />
+			</MudItem>
+			<MudItem xs="6" sm="2" md="1">
+				<CaptionedProperty Align="Align.Center" Title="Cook Time" Value="@context.Item.CookTime.ToString(@"hh\:mm")" />
+			</MudItem>
+		</MudGrid>
+	</ItemRenderer>
+	<EmptyListRenderer>
+		<MudText Align="Align.Center" Class="mt-4">No recipes matched your search.</MudText>
+	</EmptyListRenderer>
+</ListView>

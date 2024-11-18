@@ -1,0 +1,34 @@
+﻿@page "/cookbooks/{CookbookSid}"
+@inherits SingleBase
+
+<DynamicPageTitle IsLoading="@IsLoading" LoadingTitle="Loading Cookbook" FallbackTitle="Cookbook" Title="@Cookbook.Title" />
+
+<MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
+
+@if (IsLoading)
+{
+	<DefaultProgress />
+}
+else
+{
+	@if (string.IsNullOrEmpty(Cookbook.Sid))
+	{
+		<MudAlert Severity="Severity.Error" Dense="true">The group was not found.</MudAlert>
+	}
+	else
+	{
+		<MudToolBar Gutters="false" Dense="true">
+			<MudSpacer />
+			@if (CanEdit)
+			{
+				<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@IsEditing" />
+			}
+		</MudToolBar>
+
+		<SectionProperties @bind-Cookbook="@Cookbook" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
+				   OnIsEditingSectionChange="@HandleSectionEditing" />
+
+		<SectionMembers Cookbook="@Cookbook" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
+						OnIsEditingSectionChange="@HandleSectionEditing" />
+	}
+}

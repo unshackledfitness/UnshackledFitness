@@ -1,0 +1,41 @@
+﻿@if (AlwaysShow || Amount > 0)
+{
+	<div class="d-flex flex-row gap-2 justify-space-between">
+		<div class="d-flex flex-row gap-x-2 flex-wrap @TitleClass">
+			<MudText>@GetTitleMarkup()</MudText>
+			<MudText Color="Color.Tertiary">@Math.Round(Amount, 1, MidpointRounding.AwayFromZero).ToString("0.#")@Units.Label()</MudText>
+		</div>
+		@if (ShowRDA)
+		{
+			<MudText>@GetPercentRDA()</MudText>
+		}
+	</div>
+	<MudDivider DividerType="DividerType.FullWidth" />
+}
+
+@code {
+	[Parameter] public Nutrients Nutrient { get; set; }
+	[Parameter] public string TitleClass { get; set; } = string.Empty;
+	[Parameter] public decimal Amount { get; set; }
+	[Parameter] public NutritionUnits Units { get; set; }
+	[Parameter] public bool AlwaysShow { get; set; } = false;
+	[Parameter] public bool BoldTitle { get; set; } = false;
+	[Parameter] public bool ShowRDA { get; set; } = true;
+
+	private MarkupString GetTitleMarkup()
+	{
+		string output = string.Empty;
+		if (BoldTitle)
+			output = $"<strong>{Nutrient.Title()}</strong>";
+		else
+			output = Nutrient.Title();
+
+		return (MarkupString)output;
+	}
+
+	private string GetPercentRDA()
+	{
+		decimal nAmount = Units.NormalizeAmount(Amount);
+		return Nutrient.PercentRDA(nAmount).ToString("P0");
+	}
+}

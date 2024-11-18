@@ -1,0 +1,39 @@
+﻿@page "/ingredients"
+@inherits IndexBase
+
+<DynamicPageTitle Title="Ingredients" />
+
+<MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
+
+<MudText Typo="Typo.h4" Class="mb-6">Ingredients</MudText>
+
+<div Class="mb-4">
+	<SearchForm T="SearchIngredientModel" @bind-Model="@SearchModel" Class="mb-6" SearchClicked="@(() => DoSearch(1))"
+				ResetClicked="@HandleResetClicked" Disable="@IsLoading">
+		<SearchFields>
+			<MudGrid Spacing="1">
+				<MudItem xs="12">
+					<MudTextField Label="Title" Variant="Variant.Outlined" FullWidth="true" Margin="Margin.Dense"
+									T="string" @bind-Value="@SearchModel.Title" Disabled="@IsLoading" />
+				</MudItem>
+			</MudGrid>
+		</SearchFields>
+	</SearchForm>
+
+	<ListView TItem="IngredientListModel" Items="@SearchResults.Data" IsLoading="@IsLoading" TotalItems="@SearchResults.Total" Page="@SearchModel.Page"
+				PageSize="SearchModel.PageSize" PageSelected="@HandlePageSelected">
+		<ItemRenderer>
+			<div class="d-flex flex-row gap-4 align-center">
+				<div class="flex-grow-1">
+					<MudLink Typo="Typo.subtitle1" Class="d-block" Href="@($"/ingredients/{context.Item.IngredientKey}")">@context.Item.Title</MudLink>
+					<MudText Typo="Typo.body1" Color="Color.Tertiary">Used in @(context.Item.RecipeCount == 1 ? "1 recipe" : $"{context.Item.RecipeCount} recipes")</MudText>
+				</div>
+				<CaptionedProperty Title="Substitutions" Align="Align.Center" Value="@context.Item.SubstitutionsCount.ToString()" />
+			</div>
+		</ItemRenderer>
+		<EmptyListRenderer>
+			<MudText Align="Align.Center" Class="mt-4">No ingredients matched your search.</MudText>
+		</EmptyListRenderer>
+	</ListView>
+
+</div>

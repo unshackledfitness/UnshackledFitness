@@ -1,0 +1,74 @@
+﻿@inherits SectionSubstitutionsBase
+
+<SectionComponent IsEditMode="@IsEditMode" IsEditing="@DrawerOpen" Class="mb-6">
+	<SectionHeader Title="Product Substitutions" Typo="Typo.h5" IsEditMode="@IsEditMode">
+		<EditModeToolbar>
+			<MudIconButton Icon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls" OnClick="@(() => HandleAddClicked())" />
+		</EditModeToolbar>
+	</SectionHeader>
+	@if (!IsEditMode)
+	{
+		<ListView TItem="ProductSubstitutionModel" Items="@Ingredient.Substitutions">
+			<ItemRenderer>
+				<div class="d-flex flex-row gap-3 align-center">
+					<CaptionedProperty Align="Align.Center" Title="Primary" Class="mb-3">
+						<YesNo Value="@context.Item.IsPrimary" Align="Align.Center" ColorYes="Color.Primary" ShowLabel="false" />
+					</CaptionedProperty>
+					<div class="flex-grow-1">
+						@if (!string.IsNullOrEmpty(context.Item.Brand))
+						{
+							<MudText Typo="Typo.body2">@context.Item.Brand</MudText>
+						}
+						<MudLink Typo="Typo.subtitle1" Class="d-block" Color="Color.Primary" Href="@($"/products/{context.Item.ProductSid}")">@context.Item.Title</MudLink>
+						@if (!string.IsNullOrEmpty(context.Item.Description))
+						{
+							<MudText Typo="Typo.body2">@context.Item.Description</MudText>
+						}
+					</div>
+				</div>
+			</ItemRenderer>
+			<EmptyListRenderer>
+				<MudText Align="Align.Center" Class="mt-4">No product substitutions found.</MudText>
+			</EmptyListRenderer>
+		</ListView>
+	}
+	else
+	{
+		<ListView TItem="ProductSubstitutionModel" Items="@Ingredient.Substitutions">
+			<ItemRenderer>
+				<MudGrid Spacing="2" Class="align-center">
+					<MudItem xs="12" sm="10">
+						@if (!string.IsNullOrEmpty(context.Item.Brand))
+						{
+							<MudText Typo="Typo.body2">@context.Item.Brand</MudText>
+						}
+						<MudText Typo="Typo.subtitle1" Class="d-block">@context.Item.Title</MudText>
+						@if (!string.IsNullOrEmpty(context.Item.Description))
+						{
+							<MudText Typo="Typo.body2">@context.Item.Description</MudText>
+						}
+					</MudItem>
+					<MudItem xs="12" sm="2" Class="d-flex flex-row align-center justify-end">
+						@if (context.Item.IsPrimary)
+						{
+							<YesNo Align="Align.Center" ColorYes="Color.Primary" Value="@context.Item.IsPrimary" ShowLabel="false" Class="mx-3" />
+ 						}
+						else
+						{
+							<MudIconButton Icon="@Icons.Material.Filled.DoNotDisturbOn" Color="Color.Default" Disabled="@DisableControls" title="Make Primary"
+											OnClick="@(() => HandleSetPrimaryClicked(context.Item))" />
+						}
+						<MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@DisableControls" title="Delete" OnClick="@(() => HandleDeleteClicked(context.Item))" />
+					</MudItem>
+				</MudGrid>
+			</ItemRenderer>
+			<EmptyListRenderer>
+				<MudText Align="Align.Center" Class="mt-4">No product substitutions found.</MudText>
+			</EmptyListRenderer>
+		</ListView>
+	}
+</SectionComponent>
+
+<SideDrawer Open="@DrawerOpen" Icon="@Icons.Material.Filled.ShoppingBag" Title="Add Substitution" OpenChanged="@HandleCancelAddClicked">
+	<FormAddSubstitution StartingSearch="@StartingSearch" OnSubstitutionAdded="@HandleSubstitutionAdded" />
+</SideDrawer>

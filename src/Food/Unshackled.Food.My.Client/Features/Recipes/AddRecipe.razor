@@ -1,0 +1,11 @@
+﻿@page "/recipes/add"
+@inherits AddRecipeBase
+
+<DynamicPageTitle Title="Add Recipe" />
+
+<MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
+
+<MudPaper Class="pa-6">
+	<SectionHeader Title="Add Recipe" IsEditing="true" EditingClass="mb-4" OnCancelClicked="HandleCancelClicked" FormId="@FormId" />
+	<FormProperties Model="@Model" FormId="@FormId" OnFormSubmitted="@HandleFormSubmitted" />
+</MudPaper>

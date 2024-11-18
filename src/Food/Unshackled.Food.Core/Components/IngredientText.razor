@@ -1,0 +1,28 @@
+﻿<text>@GetLabel()</text>
+
+@code {
+	[Parameter] public decimal Amount { get; set; }
+
+	[Parameter] public string AmountLabel { get; set; } = string.Empty;
+
+	[Parameter] public string? PrepNote { get; set; }
+
+	[Parameter] public string Title { get; set; } = string.Empty;
+
+	[Parameter] public string? Href { get; set; }
+
+	protected MarkupString GetLabel()
+	{
+		string amount = $"<span class=\"amt\">{Amount.ToHtmlFraction()}</span>";
+		string amountLabel = string.IsNullOrEmpty(AmountLabel)? string.Empty : $" <span class=\"amt-label\">{AmountLabel}</span>";
+		string prepNote = string.IsNullOrEmpty(PrepNote) ? string.Empty : $", <span class=\"prep\">{PrepNote}</span>";
+
+		string titleText = Title;
+		if (!string.IsNullOrEmpty(Href))
+		{
+			titleText = $"<a class=\"mud-typography mud-link mud-link-underline-hover\" href=\"{Href}\">{Title}</a>";
+		}
+
+		return (MarkupString)$"<span class=\"label-unit\">{amount}{amountLabel} {titleText}{prepNote}</span>";
+	}
+}

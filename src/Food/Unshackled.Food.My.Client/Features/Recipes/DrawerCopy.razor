@@ -1,0 +1,17 @@
+﻿@inherits DrawerCopyBase
+
+@if (IsCompleted)
+{
+	<MudText Typo="Typo.h3" Align="Align.Center" Color="Color.Primary" Class="mb-12">Success</MudText>
+	<MudText Align="Align.Center" Class="mb-12">The recipe has been copied to @SelectedHousehold</MudText>
+	<MudToolBar Gutters="false">
+		<MudSpacer />
+		<MudButton Variant="Variant.Filled" Color="Color.Secondary" Href="@($"/recipes/{NewSid}")">Go To Copy</MudButton>
+		<MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@(() => HandleCancelClicked())">Close</MudButton>
+		<MudSpacer />
+	</MudToolBar>
+}
+else
+{
+	<FormCopyRecipe Model="@CopyModel" Groups="@MemberHouseholds" DisableFormControls="@IsWorking" OnFormSubmitted="@HandleCopyFormSubmitted" OnCanceled="@HandleCancelClicked" />
+}

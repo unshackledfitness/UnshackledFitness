@@ -1,0 +1,93 @@
+﻿<div class="d-flex flex-row gap-4 align-center">
+	<MudIconButton Icon="@Icons.Material.Filled.RemoveCircleOutline" Disabled="@(quantity <= 0)" OnClick="@(() => HandleCounterSubtractClicked())" />
+	<MudNumericField T="int" Label="quantity" Variant="Variant.Outlined" Min="0" Max="@maxValue" Step="1" HideSpinButtons="true" @bind-Value="@quantity" />
+	<MudIconButton Icon="@Icons.Material.Filled.AddCircleOutline" Disabled="@(quantity >= maxValue)" OnClick="@(() => HandleCounterAddClicked())" />
+</div>
+
+<MudToolBar Gutters="false" Class="mt-6">
+	<MudSpacer />
+	<MudButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@(quantity == 0 || quantity > maxValue)" OnClick="@(() => HandleSaveClicked())">Save</MudButton>
+	<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@(() => HandleCancelClicked())">Cancel</MudButton>
+	<MudSpacer />
+</MudToolBar>
+
+@if (Item.RecipeAmounts.Any())
+{
+	<MudDivider DividerType="DividerType.FullWidth" Class="my-6" />
+
+	<div class="d-flex flex-column gap-3">
+		<MudText Typo="Typo.body2">Recipe Requirements: </MudText>
+		@foreach (var amt in Item.RecipeAmounts)
+		{
+			<MudText Typo="Typo.body2">
+				<IngredientText Amount="@amt.Amount" AmountLabel="@amt.UnitLabel" Title="@amt.RecipeTitle" Href="@($"/recipes/{amt.RecipeSid}")" />
+			</MudText>
+		}
+	</div>
+}
+
+<MudDivider DividerType="DividerType.FullWidth" Class="my-6" />
+
+<div class="d-flex flex-column gap-3">
+	<MudButton StartIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" FullWidth="true" OnClick="@(() => HandleDeleteClicked())">Delete Item</MudButton>
+	@if (HasStore)
+	{
+		<MudButton StartIcon="@Icons.Material.Filled.EditLocation" Variant="Variant.Filled" FullWidth="true" OnClick="@(() => HandleLocationChangeClicked())">Change Store Location</MudButton>
+	}
+	<MudButton StartIcon="@Icons.Material.Filled.Widgets" Variant="Variant.Filled" FullWidth="true" Href="@($"/products/{Item.ProductSid}")">Go to Product Page</MudButton>
+</div>
+
+@code {
+	[Parameter] public bool HasStore { get; set; }
+	[Parameter] public FormListItemModel Item { get; set; } = new();
+	[Parameter] public EventCallback OnDeleted { get; set; }
+	[Parameter] public EventCallback<int> OnSubmitted { get; set; }
+	[Parameter] public EventCallback OnCanceled { get; set; }
+	[Parameter] public EventCallback OnLocationChange { get; set; }
+
+	private int quantity;
+	private int maxValue = 99999;
+
+	protected override void OnParametersSet()
+	{
+		base.OnParametersSet();
+
+		quantity = Item.Quantity;
+	}
+
+	private void HandleCounterAddClicked()
+	{
+		if (quantity == 0 || quantity < maxValue)
+		{
+			quantity++;
+		}
+	}
+
+	private async Task HandleDeleteClicked()
+	{
+		await OnDeleted.InvokeAsync();
+	}
+
+	private async Task HandleLocationChangeClicked()
+	{
+		await OnLocationChange.InvokeAsync();
+	}
+
+	private async Task HandleSaveClicked()
+	{
+		await OnSubmitted.InvokeAsync(quantity);
+	}
+
+	private async Task HandleCancelClicked()
+	{
+		await OnCanceled.InvokeAsync();
+	}
+	
+	private void HandleCounterSubtractClicked()
+	{
+		if (quantity > 0)
+		{
+			quantity--;
+		}
+	}
+}

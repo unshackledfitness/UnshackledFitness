@@ -1,0 +1,45 @@
+﻿<div class="d-flex flex-row gap-4 align-center">
+	<MudIconButton Icon="@Icons.Material.Filled.RemoveCircleOutline" Disabled="@(Quantity <= 0)" OnClick="@(() => HandleCounterSubtractClicked())" />
+	<MudNumericField T="int" Label="Quantity" Variant="Variant.Outlined" Min="0" Max="@MaxValue" Step="1" HideSpinButtons="true" @bind-Value="@Quantity" />
+	<MudIconButton Icon="@Icons.Material.Filled.AddCircleOutline" Disabled="@(Quantity >= MaxValue)" OnClick="@(() => HandleCounterAddClicked())" />
+</div>
+
+<MudToolBar Gutters="false" Class="mt-6">
+	<MudSpacer />
+	<MudButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@(Quantity == 0)" OnClick="@(() => HandleSaveClicked())">Save</MudButton>
+	<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@(() => HandleCancelClicked())">Cancel</MudButton>
+	<MudSpacer />
+</MudToolBar>
+
+@code {
+	[Parameter] public int Quantity { get; set; }
+	[Parameter] public int MaxValue { get; set; }
+	[Parameter] public EventCallback<int> OnSubmitted { get; set; }
+	[Parameter]	public EventCallback OnCanceled { get; set; }
+
+	private void HandleCounterAddClicked()
+	{
+		if (Quantity == 0 || Quantity < MaxValue)
+		{
+			Quantity++;
+		}
+	}
+
+	private async Task HandleSaveClicked()
+	{
+		await OnSubmitted.InvokeAsync(Quantity);
+	}
+
+	private async Task HandleCancelClicked()
+	{
+		await OnCanceled.InvokeAsync();
+	}
+	
+	private void HandleCounterSubtractClicked()
+	{
+		if (Quantity > 0)
+		{
+			Quantity--;
+		}
+	}
+}

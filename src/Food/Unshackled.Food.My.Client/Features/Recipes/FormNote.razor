@@ -1,0 +1,15 @@
+﻿@inherits FormNoteBase
+
+<EditForm Model="@Model" OnValidSubmit="HandleFormSubmitted">
+	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
+	<MudGrid Spacing="2" Class="mb-3">
+		<MudItem xs="12">
+			<MudTextField Label="Note" Variant="Variant.Outlined" FullWidth="true" Disabled="@DisableControls" Lines="5"
+					@bind-Value="@Model.Note" For="@(() => Model.Note)" />
+		</MudItem>
+		<MudItem xs="12">
+			<MudButton Color="Color.Primary" ButtonType="ButtonType.Submit" Disabled="@DisableControls">Save</MudButton>
+			<MudButton Disabled="@DisableControls" OnClick="@(() => HandleCancelClicked())">Cancel</MudButton>
+		</MudItem>
+	</MudGrid>
+</EditForm>

@@ -1,0 +1,119 @@
+﻿@inherits SectionPropertiesBase
+
+<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
+	<SectionHeader Title="@Product.Title" IsEditMode="@IsEditMode" IsEditing="@IsEditing" EditingClass="mb-4" FormId="@FormId" Breakpoint="Breakpoint.Sm" 
+				   OnCancelClicked="@(() => HandleEditCancelClicked())">
+		<TitleContent>
+			@if (!string.IsNullOrEmpty(Product.Brand))
+			{
+				<MudText Typo="Typo.subtitle1">@Product.Brand</MudText>
+			}
+			<MudText Typo="Typo.h4">@Product.Title</MudText>
+		</TitleContent>
+		<EditModeToolbar>
+			<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@DisableSectionControls" OnClick="@(() => HandleEditClicked())" />
+			<MudToggleIconButton Icon="@Icons.Material.Filled.Archive" ToggledIcon="@Icons.Material.Filled.Unarchive"
+									Color="Color.Default" ToggledColor="Color.Warning"
+									Disabled="@(DisableSectionControls || IsEditing)" title="@(Product.IsArchived ? "Restore" : "Archive")"
+									Toggled="@Product.IsArchived" ToggledChanged="@(() => HandleToggleArchiveClicked())" />
+		</EditModeToolbar>
+	</SectionHeader>
+	
+	@if (!IsEditing)
+	{
+		@if (!string.IsNullOrEmpty(Product.Description))
+		{
+			<MudText Typo="Typo.body1" Color="Color.Tertiary">@Product.Description</MudText>
+		}
+
+		<MudGrid Spacing="2" Class="mt-6 mb-4">
+			@if (Product.ServingSize > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Serving Size">
+							<MudText Typo="Typo.h6">
+								<ServingSizeLabel ServingSize="@Product.ServingSize" ServingSizeUnit="@Product.ServingSizeUnit" 
+												  ServingSizeMetric="@Product.ServingSizeMetric" ServingSizeMetricUnit="@Product.ServingSizeMetricUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.ServingsPerContainer > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Servings Per Container">
+							<MudText Typo="Typo.h6">
+								@Product.ServingsPerContainer.ToString("0.##")
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.TotalServings > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Total Servings">
+							<MudText Typo="Typo.h6">
+								<ServingSizeLabel ServingSizeMetric="@Product.TotalServingsMetric" ServingSizeMetricUnit="@Product.ServingSizeMetricUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+		</MudGrid>
+
+
+		@if (Product.HasNutritionInfo)
+		{
+			<MudGrid Spacing="2" Class="mb-4">
+				<MudItem xs="12">
+					<MudText Typo="Typo.body2" Color="Color.Tertiary">Per Serving</MudText>
+				</MudItem>				
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Protein">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Protein" AmountUnit="@Product.ProteinUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Carbohydrates">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Carbohydrates" AmountUnit="@Product.CarbohydratesUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Fat">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Fat" AmountUnit="@Product.FatUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Calories">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Calories" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			</MudGrid>
+		}
+	}
+	else
+	{
+		<FormProduct Model="@Model" FormId="@FormId" DisableFormControls="@DisableControls" OnFormSubmitted="@HandleFormSubmitted" />
+	}
+</SectionComponent>

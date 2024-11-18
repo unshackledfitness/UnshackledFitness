@@ -1,0 +1,38 @@
+﻿@page "/product-bundles/{ProductBundleSid}"
+@inherits SingleBase
+
+<DynamicPageTitle  IsLoading="@IsLoading" LoadingTitle="Loading Product Bundle" FallbackTitle="Product Bundle" Title="@ProductBundle.Title" />
+
+<MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
+
+@if (IsLoading)
+{
+	<DefaultProgress />
+}
+else
+{
+	@if (string.IsNullOrEmpty(ProductBundle.Sid))
+	{
+		<MudAlert Severity="Severity.Error" Dense="true">The product bundle was not found.</MudAlert>
+	}
+	else
+	{
+		@if(ProductBundle.HouseholdSid != ActiveMember.ActiveHousehold?.HouseholdSid)
+		{
+			<MudAlert Severity="Severity.Warning" ContentAlignment="HorizontalAlignment.Center" Class="mb-4">
+				You are viewing a product bundle that is not in your active group. <MudLink Class="d-inline-block ms-4" Color="Color.Warning" OnClick="@(() => HandleSwitchHousehold())">Switch Household</MudLink>
+			</MudAlert>
+		}
+
+		<MudToolBar Gutters="false" Dense="true" Class="mb-4">
+			@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+			{
+				<MudSpacer />
+				<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@IsEditing" />
+			}
+		</MudToolBar>
+
+		<SectionProperties @bind-ProductBundle="@ProductBundle" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleSectionEditing" />
+		<SectionItems ProductBundle="@ProductBundle" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleSectionEditing" />
+	}
+}

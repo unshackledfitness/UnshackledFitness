@@ -1,0 +1,34 @@
+﻿@page "/ingredients/{IngredientKey}"
+@inherits SingleBase
+
+<DynamicPageTitle  IsLoading="@IsLoading" LoadingTitle="Loading Ingredient" FallbackTitle="Ingredient" Title="@Ingredient.Title" />
+
+<MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
+
+@if (IsLoading)
+{
+	<DefaultProgress />
+}
+else
+{
+	@if (string.IsNullOrEmpty(Ingredient.Key))
+	{
+		<MudAlert Severity="Severity.Error" Dense="true">The ingredient was not found.</MudAlert>
+	}
+	else
+	{
+		<MudToolBar Gutters="false" Dense="true">
+			@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+			{
+				<MudSpacer />
+				<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@IsEditing" />
+			}
+		</MudToolBar>
+
+		<SectionProperties @bind-Ingredient="@Ingredient" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
+						   OnIsEditingSectionChange="@HandleSectionEditing" />
+
+		<SectionSubstitutions Ingredient="@Ingredient" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
+							  OnIsEditingSectionChange="@HandleSectionEditing" />
+	}
+}

@@ -1,0 +1,42 @@
+﻿<MudRadioGroup T="FormListOptionModel.Options" @bind-Value="@model.SelectedOption">
+	<MudRadio T="FormListOptionModel.Options" Value="@FormListOptionModel.Options.Checkout" Color="Color.Primary" Class="align-start mb-4">
+		<MudText>Clear cart items from list and record as purchased in the product's history.</MudText>
+		<MudText Color="Color.Error" Typo="Typo.body2">No payment will be made for your items. Pay at the store.</MudText>
+	</MudRadio>
+	<MudRadio T="FormListOptionModel.Options" Value="@FormListOptionModel.Options.DeleteCart" Color="Color.Primary" Class="mb-4">
+		Clear cart items from the list without recording the purchase in the product's history.
+	</MudRadio>
+	<MudRadio T="FormListOptionModel.Options" Value="@FormListOptionModel.Options.Reset" Color="Color.Primary" Class="mb-4">
+		Remove items from cart and leave them on the list. (Reset list)
+	</MudRadio>
+	<MudRadio T="FormListOptionModel.Options" Value="@FormListOptionModel.Options.Clear" Color="Color.Primary">
+		Remove all items from the list.
+	</MudRadio>
+</MudRadioGroup>
+
+<MudToolBar Gutters="false" Class="mt-6">
+	<MudSpacer />
+	<MudButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@(model.SelectedOption == FormListOptionModel.Options.None)" 
+			   OnClick="@(() => HandleApplyClicked())">Apply</MudButton>
+	<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@(() => HandleCancelClicked())">Cancel</MudButton>
+	<MudSpacer />
+</MudToolBar>
+
+@code {
+	private FormListOptionModel model = new();
+
+	[Parameter] 
+	public EventCallback<FormListOptionModel.Options> OnSubmitted { get; set; }
+	[Parameter]
+	public EventCallback OnCanceled { get; set; }
+
+	private async Task HandleApplyClicked()
+	{
+		await OnSubmitted.InvokeAsync(model.SelectedOption);
+	}
+
+	private async Task HandleCancelClicked()
+	{
+		await OnCanceled.InvokeAsync();
+	}
+}

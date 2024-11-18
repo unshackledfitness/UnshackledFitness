@@ -1,0 +1,45 @@
+﻿@page "/products/{ProductSid}"
+@inherits SingleBase
+
+<DynamicPageTitle  IsLoading="@IsLoading" LoadingTitle="Loading Product" FallbackTitle="Product" Title="@Product.Title" />
+
+<MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
+
+@if (IsLoading)
+{
+	<DefaultProgress />
+}
+else
+{
+	@if (string.IsNullOrEmpty(Product.Sid))
+	{
+		<MudAlert Severity="Severity.Error" Dense="true">The product was not found.</MudAlert>
+	}
+	else
+	{
+		@if (Product.HouseholdSid != ActiveMember.ActiveHousehold?.HouseholdSid)
+		{
+			<MudAlert Severity="Severity.Warning" ContentAlignment="HorizontalAlignment.Center" Class="mb-4">
+				You are viewing a product that is not in your active group. <MudLink Class="d-inline-block ms-4" Color="Color.Warning" OnClick="@(() => HandleSwitchHousehold())">Switch Household</MudLink>
+			</MudAlert>
+		}
+
+		<MudToolBar Gutters="false" Dense="true" Class="mb-4">
+			@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+			{
+				<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@IsEditMode" OnClick="@(() => HandleAddToListClicked())">Add To List</MudButton>
+				<MudSpacer />
+				<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@IsEditing" />
+			}
+		</MudToolBar>
+
+		<SectionProperties @bind-Product="@Product" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleSectionEditing" />
+
+		<SideDrawer Title="@GetDrawerTitle()" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
+			@if (DrawerView == Views.AddToList)
+			{
+				<DrawerAddToList ShoppingLists="@ShoppingLists" OnCanceled="@HandleCancelClicked" OnAdded="@HandleAddToListSubmitted" />
+			}
+		</SideDrawer>
+	}
+}

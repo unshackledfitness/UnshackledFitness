@@ -1,0 +1,18 @@
+﻿@inherits SectionPropertiesBase
+
+<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
+
+	<SectionHeader Title="@ShoppingList.Title" SubTitle="@ShoppingList.StoreName" IsEditMode="@IsEditMode" IsEditing="@IsEditing" Breakpoint="Breakpoint.Sm" EditingClass="mb-4" 
+				   OnCancelClicked="@(() => HandleEditCancelClicked())" FormId="@FormId">
+		<EditModeToolbar>
+			<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@DisableSectionControls" OnClick="@(() => HandleEditClicked())" />
+			<MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@(DisableSectionControls || DisableControls)"
+						   title="Delete" OnClick="@(() => HandleDeleteClicked())" />
+		</EditModeToolbar>
+	</SectionHeader>
+	
+	@if (IsEditing)
+	{
+		<FormProperties Model="@Model" FormId="@FormId" DisableFormControls="@DisableControls" OnFormSubmitted="@HandleFormSubmitted" />
+	}
+</SectionComponent>

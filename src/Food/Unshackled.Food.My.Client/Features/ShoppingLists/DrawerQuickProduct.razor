@@ -1,0 +1,41 @@
+﻿<MudText Class="mt-2 mb-6">
+	Create a quick, unbranded product that can be updated (or merged) after purchasing it at the store.
+</MudText>
+
+<EditForm Model="@Model" OnValidSubmit="HandleSaveClicked">
+	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
+	<MudGrid Spacing="2">
+		<MudItem xs="12" sm="10">
+			<MudTextField Label="Title" Variant="Variant.Outlined" Immediate="true" Required="true" FullWidth="true"
+						  @bind-Value="@Model.Title" For="@(() => Model.Title)" />
+		</MudItem>
+		<MudItem xs="6" sm="2">
+			<MudNumericField T="int" Label="Qty" Variant="Variant.Outlined" Min="1" Max="99999" Step="1" 
+							 @bind-Value="@Model.Quantity" For="@(() => Model.Quantity)" />
+		</MudItem>
+	</MudGrid>
+	<MudToolBar Gutters="false" Class="mt-6">
+		<MudSpacer />
+		<MudButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@string.IsNullOrEmpty(Model.Title)" ButtonType="ButtonType.Submit">Save</MudButton>
+		<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@(() => HandleCancelClicked())">Cancel</MudButton>
+		<MudSpacer />
+	</MudToolBar>
+</EditForm>
+
+@code {
+	[Parameter] public EventCallback<AddQuickProductModel> OnSubmitted { get; set; }
+	[Parameter]	public EventCallback OnCanceled { get; set; }
+
+	protected AddQuickProductModel Model { get; set; } = new();
+	protected AddQuickProductModel.Validator ModelValidator { get; set; } = new();
+
+	private async Task HandleSaveClicked()
+	{
+		await OnSubmitted.InvokeAsync(Model);
+	}
+
+	private async Task HandleCancelClicked()
+	{
+		await OnCanceled.InvokeAsync();
+	}
+}

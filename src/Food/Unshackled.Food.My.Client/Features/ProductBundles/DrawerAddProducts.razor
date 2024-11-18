@@ -1,0 +1,52 @@
+﻿@inherits DrawerAddProductsBase
+
+<SearchForm T="SearchProductsModel" @bind-Model="@SearchModel" Class="mb-6" SearchClicked="@(() => DoSearch(1))"
+			ResetClicked="@HandleResetClicked" Disable="@IsLoading" ForceColumnLayout="true">
+	<SearchFields>
+		<MudGrid Spacing="1">
+			<MudItem xs="12">
+				<MudTextField Label="Title" Variant="Variant.Outlined" FullWidth="true" Margin="Margin.Dense"
+								T="string" @bind-Value="@SearchModel.Title" Disabled="@IsLoading" />
+			</MudItem>
+		</MudGrid>
+	</SearchFields>
+</SearchForm>
+
+<MudToolBar Class="mt-6" Gutters="false" Dense="true">
+	<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@(DisableControls || !Selected.Any())" OnClick="@(() => HandleAddSelected())">
+		@(Selected.Any() ? $"Add ({Selected.Count})" : "Add")
+	</MudButton>
+	<MudButton StartIcon="@Icons.Material.Filled.ClearAll" Disabled="@(DisableControls || !Selected.Any())" OnClick="@(() => HandleClearSelected())">Clear All</MudButton>
+</MudToolBar>
+
+<ListView TItem="ProductListModel" Items="@SearchResults.Data" IsLoading="@IsLoading" TotalItems="@SearchResults.Total" Page="@SearchModel.Page"
+			PageSize="SearchModel.PageSize" PageSelected="@HandlePageSelected">
+	<ItemRenderer>
+		<div class="d-flex flex-row gap-2 align-center">
+			<div>
+				<MudCheckBox T="bool" Disabled="@DisableCheckbox(context.Item.Sid)" Value="@IsSelected(context.Item.Sid)"
+								ValueChanged="@((bool value) => HandleCheckboxChanged(value, context.Item))" />
+			</div>
+			<MudGrid Spacing="2" Class="flex-grow-1 align-center">
+				<MudItem xs="12" sm="10">
+					@if (!string.IsNullOrEmpty(context.Item.Brand))
+					{
+						<MudText Typo="Typo.body1">@context.Item.Brand</MudText>
+					}
+					<MudText Typo="Typo.subtitle1" Class="d-block" Color="Color.Primary">@context.Item.Title</MudText>
+						@if (!string.IsNullOrEmpty(context.Item.Description))
+					{
+						<MudText Typo="Typo.body2" Color="Color.Tertiary">@context.Item.Description</MudText>
+					}
+				</MudItem>
+				<MudItem xs="6" sm="2">
+					<MudNumericField T="int" Label="Qty" Variant="Variant.Outlined" Margin="Margin.Dense" Disabled="@DisableControls" Min="0" Max="99999" Step="1" 
+										Value="@context.Item.Quantity" ValueChanged="@((int qty) => HandleQuantityChanged(context.Item, qty))" />
+				</MudItem>
+			</MudGrid>
+		</div>
+	</ItemRenderer>
+	<EmptyListRenderer>
+		<MudText Align="Align.Center" Class="mt-4">No products matched your search.</MudText>
+	</EmptyListRenderer>
+</ListView>

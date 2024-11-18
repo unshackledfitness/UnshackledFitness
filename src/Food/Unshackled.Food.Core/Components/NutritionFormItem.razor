@@ -1,0 +1,12 @@
+﻿<MudItem xs="12" sm="4" Class="d-flex flex-row gap-2 align-center">
+	<MudText Class="flex-grow-1">@Nutrient.Title()</MudText>
+</MudItem>
+
+<MudItem xs="4" sm="4">
+	<MudNumericField T="decimal" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls" Min="@Min" Max="@Max" Format="0.###"
+						Value="@Value" ValueChanged="@ValueChanged" />
+</MudItem>
+
+<MudItem xs="4" sm="4">
+	<NutritionUnitSelect Variant="Variant.Outlined" Margin="Margin.Dense" Disabled="DisableControls" Immediate="true" Value="@Unit" ValueChanged="@UnitChanged" AllowPercent="@AllowPercent" />
+</MudItem>

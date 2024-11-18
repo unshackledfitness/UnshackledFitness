@@ -1,0 +1,42 @@
+﻿@inherits FormAddSubstitutionBase
+
+<SearchForm T="SearchProductModel" @bind-Model="@SearchModel" Class="mb-6" SearchClicked="@(() => DoSearch(1))"
+			ResetClicked="@HandleResetClicked" Disable="@DisableControls" ForceColumnLayout="true">
+	<SearchFields>
+		<MudGrid Spacing="2">
+			<MudItem xs="12">
+				<MudTextField Label="Brand" Variant="Variant.Outlined" FullWidth="true" Margin="Margin.Dense"
+							  T="string" @bind-Value="@SearchModel.Brand" Disabled="@DisableControls" />
+			</MudItem>
+			<MudItem xs="12">
+				<MudTextField Label="Title" Variant="Variant.Outlined" FullWidth="true" Margin="Margin.Dense"
+							  T="string" @bind-Value="@SearchModel.Title" Disabled="@DisableControls" />
+			</MudItem>
+		</MudGrid>
+	</SearchFields>
+</SearchForm>
+
+<ListView TItem="ProductListModel" Items="@SearchResults.Data" IsLoading="@IsLoading" TotalItems="@SearchResults.Total" Page="@SearchModel.Page"
+			PageSize="SearchModel.PageSize" PageSelected="@HandlePageSelected">
+	<ItemRenderer>
+		<div class="d-flex flex-row gap-2 align-center">
+			<div>
+				<MudIconButton Icon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls" OnClick="@(() => HandleAddClicked(context.Item))" />
+			</div>
+			<div>
+				@if (!string.IsNullOrEmpty(context.Item.Brand))
+				{
+					<MudText Typo="Typo.body1">@context.Item.Brand</MudText>
+				}
+				<MudLink Typo="Typo.subtitle1" Class="d-block" Color="Color.Secondary" Href="@($"/products/{context.Item.Sid}")">@context.Item.Title</MudLink>
+				@if (!string.IsNullOrEmpty(context.Item.Description))
+				{
+					<MudText Typo="Typo.body2" Color="Color.Tertiary">@context.Item.Description</MudText>
+				}
+			</div>
+		</div>
+	</ItemRenderer>
+	<EmptyListRenderer>
+		<MudText Align="Align.Center" Class="mt-4">No products matched your search.</MudText>
+	</EmptyListRenderer>
+</ListView>

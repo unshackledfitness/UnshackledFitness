@@ -1,0 +1,35 @@
+﻿<MudText Typo="Typo.h4">Nutrition Facts</MudText>
+<div class="d-flex flex-row gap-2">
+	<MudText>Serving Size</MudText>
+	<ServingSizeLabel ServingSize="@Item.ServingSize" ServingSizeUnit="@Item.ServingSizeUnit" ServingSizeMetric="@Item.ServingSizeMetric" ServingSizeMetricUnit="@Item.ServingSizeMetricUnit" />
+</div>
+<div class="d-flex flex-row gap-2">
+	<MudText>Servings Per Container</MudText>
+	<MudText Color="Color.Tertiary">@Item.ServingsPerContainer.ToString("0.#")</MudText>
+</div>
+<MudDivider DividerType="DividerType.FullWidth" Class="my-2" Style="border-width: 10px" />
+<MudGrid Spacing="2">
+	<MudItem xs="12">
+		<MudText Typo="Typo.caption" Class="d-block">Amount Per Serving</MudText>
+		<MudDivider DividerType="DividerType.FullWidth" />
+
+		<MudText><strong>Calories</strong> @Item.Calories</MudText>
+		<MudDivider DividerType="DividerType.FullWidth" />
+
+		<MudDivider DividerType="DividerType.FullWidth" Style="border-width: 5px" />
+	</MudItem>
+
+	<MudItem xs="@xs" sm="@sm" md="@md" lg="@lg" xl="@xl">
+		<MudText Typo="Typo.caption" Class="d-block" Align="Align.End">% Daily Value*</MudText>
+		<MudDivider DividerType="DividerType.FullWidth" />
+		<NutritionLabelRow Nutrient="@Nutrients.Fat" Amount="@Item.Fat" Units="@Item.FatUnit" AlwaysShow="true" BoldTitle="true" />
+		<NutritionLabelRow Nutrient="@Nutrients.Carbohydrates" Amount="@Item.Carbohydrates" Units="@Item.CarbohydratesUnit" AlwaysShow="true" BoldTitle="true" />
+		<MudDivider DividerType="DividerType.FullWidth" />
+		<NutritionLabelRow Nutrient="@Nutrients.Protein" Amount="@Item.Protein" Units="@Item.ProteinUnit" AlwaysShow="true" BoldTitle="true" ShowRDA="false" />
+	</MudItem>
+</MudGrid>
+
+<MudText Typo="Typo.caption" Class="d-block mt-3">
+	* Percent Daily Values are based on a 2,000 calorie diet. Your daily values may be higher
+	or lower depending on your calorie needs.
+</MudText>

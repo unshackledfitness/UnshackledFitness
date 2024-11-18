@@ -1,0 +1,73 @@
+﻿@page "/households"
+@inherits IndexBase
+
+<DynamicPageTitle IsLoading="@IsLoading" LoadingTitle="Loading Households..." Title="Households" />
+
+<MudBreadcrumbs Items="@Breadcrumbs" />
+
+<MudText Typo="Typo.h4" Class="mb-6">Households</MudText>
+
+@if (IsMemberActive)
+{
+	<MudToolBar Gutters="false" Dense="true" Class="mb-2">
+		<MudButton StartIcon="@Icons.Material.Filled.AddCircle" OnClick="@(() => HandleAddClicked())">New</MudButton>
+	</MudToolBar>
+}
+
+<ListView Class="mb-4" Items="@Households" IsLoading="@IsLoading">
+	<ItemRenderer>
+		<MudGrid Spacing="2" Class="align-center justify-center">
+			<MudItem xs="3" sm="2" md="1">
+				@if (ActiveMember.ActiveHousehold != null && context.Item.Sid == ActiveMember.ActiveHousehold.HouseholdSid)
+				{
+					<MudButton Variant="Variant.Filled" Color="Color.Error" FullWidth="true" Disabled="@DisableControls" OnClick="@(() => HandleCloseClicked(context.Item))">Close</MudButton>
+				}
+				else if (IsMemberActive && context.Item.IsInvite)
+				{
+					<MudButton Variant="Variant.Filled" Color="Color.Secondary" FullWidth="true" Disabled="@DisableControls" OnClick="@(() => HandleJoinClicked(context.Item))">Join</MudButton>
+				}
+				else
+				{
+					<MudButton Variant="Variant.Filled" Color="Color.Secondary" FullWidth="true" Disabled="@DisableControls" OnClick="@(() => HandleOpenClicked(context.Item))">Open</MudButton>
+				}
+			</MudItem>
+			<MudItem xs="9" sm="9" md="10">
+				@if(context.Item.IsInvite)
+				{
+					<MudText Typo="Typo.subtitle1">@context.Item.Title</MudText>
+					<MudText Typo="Typo.caption">Invited On: @context.Item.DateCreatedUtc.ToLocalTime().ToString("d")</MudText>
+				}
+				else
+				{
+					<MudLink Typo="Typo.subtitle1" Class="d-block" Href="@($"/households/{context.Item.Sid}")">@context.Item.Title</MudLink>
+					<MudText Typo="Typo.caption">Created On: @context.Item.DateCreatedUtc.ToLocalTime().ToString("d")</MudText>
+				}
+			</MudItem>
+			<MudItem xs="12" sm="1" Class="d-flex flex-row justify-end">
+				@if (context.Item.IsInvite)
+				{
+					<MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@DisableControls" OnClick="@(() => HandleRejectInviteClicked(context.Item))" />
+				}
+				else
+				{
+					<YesNo Class="mr-2" IconYes="@Icons.Material.Filled.Person" IconNo="@Icons.Material.Filled.PersonOutline" Align="Align.End"
+							ShowLabel="false" ToolTipYes="Owner" ToolTipNo="Not Owner" Value="@(context.Item.MemberSid == State.ActiveMember.Sid)" />
+				}
+			</MudItem>
+		</MudGrid>
+	</ItemRenderer>
+	<EmptyListRenderer>
+		<MudAlert Icon="@Icons.Material.Filled.Info" ContentAlignment="HorizontalAlignment.Center" Dense="true">You do not belong to any households.</MudAlert>
+	</EmptyListRenderer>
+</ListView>
+
+<SideDrawer @bind-Open="DrawerOpen" Icon="@DrawerIcon" Title="@DrawerTitle">
+	<FormProperties Model="@AddModel" OnFormSubmitted="@HandleAddFormSubmitted">
+		<FormToolbar>
+			<MudSpacer />
+			<ProgressButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" IsWorking="@IsWorking" WorkingText="Adding">Create</ProgressButton>
+			<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@HandleCancelAddClicked">Cancel</MudButton>
+			<MudSpacer />
+		</FormToolbar>
+	</FormProperties>
+</SideDrawer>

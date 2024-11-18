@@ -1,0 +1,26 @@
+﻿@inherits FormCopyRecipeBase
+
+<EditForm Model="@Model" OnValidSubmit="HandleFormSubmitted">
+	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
+	<MudGrid Spacing="1" Class="mb-4">
+		<MudItem xs="12">
+			<MudSelect T="string" Label="Household" Variant="Variant.Outlined" Disabled="@DisableControls" FullWidth="true" For="@(() => Model.HouseholdSid)" @bind-Value="@Model.HouseholdSid">
+				@foreach (var g in Households)
+				{
+					<MudSelectItem Value="@g.Sid">@g.Title</MudSelectItem>
+				}
+			</MudSelect>
+		</MudItem>
+		<MudItem xs="12">
+			<MudTextField Label="New Title" Variant="Variant.Outlined" Immediate="true" Disabled="@DisableControls"
+						  FullWidth="true" For="@(() => Model.Title)" @bind-Value="@Model.Title" />
+		</MudItem>
+	</MudGrid>
+	<MudToolBar Gutters="false">
+		<MudSpacer />
+		<MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@DisableControls" ButtonType="ButtonType.Submit">Copy</MudButton>
+		<MudButton Variant="Variant.Outlined" Color="Color.Primary" Disabled="@DisableControls" OnClick="@(() => HandleCancelClicked())">Cancel</MudButton>
+		<MudSpacer />
+	</MudToolBar>
+</EditForm>
+

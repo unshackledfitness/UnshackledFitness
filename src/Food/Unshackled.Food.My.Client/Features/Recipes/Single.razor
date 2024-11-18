@@ -1,0 +1,67 @@
+﻿@page "/recipes/{RecipeSid}"
+@inherits SingleBase
+
+<DynamicPageTitle  IsLoading="@IsLoading" LoadingTitle="Loading Recipe" FallbackTitle="Recipe" Title="@Recipe.Title" />
+
+<MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
+
+@if (IsLoading)
+{
+	<DefaultProgress />
+}
+else
+{
+	@if (string.IsNullOrEmpty(Recipe.Sid))
+	{
+		<MudAlert Severity="Severity.Error" Dense="true">The recipe was not found.</MudAlert>
+	}
+	else
+	{
+		@if(Recipe.HouseholdSid != ActiveMember.ActiveHousehold?.HouseholdSid)
+		{
+			<MudAlert Severity="Severity.Warning" ContentAlignment="HorizontalAlignment.Center" Class="mb-4">
+				You are viewing a recipe that is not in your active group. <MudLink Class="d-inline-block ms-4" Color="Color.Warning" OnClick="@(() => HandleSwitchHousehold())">Switch Household</MudLink>
+			</MudAlert>
+		}
+
+		@if (State.ActiveMember.IsActive && MemberHouseholds.Any())
+		{
+			<MudToolBar Gutters="false" Dense="true" Class="mb-4">
+				<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@(IsEditMode || IsAddingToList)" OnClick="@(() => HandleAddToListClicked())">Add To List</MudButton>
+				@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+				{
+					<MudSpacer />
+					<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@(IsEditing || IsAddingToList)" />
+				}
+			</MudToolBar>
+		}
+
+		<SectionProperties @bind-Recipe="@Recipe" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
+						   Scale="@Scale"  OnIsEditingSectionChange="@HandleSectionEditing" MakeRecipeClicked="@HandleMakeRecipeClicked" />
+
+		<SectionIngredients RecipeSid="@RecipeSid" Recipe="@Recipe" Groups="@Groups" Ingredients="@Ingredients" IsEditMode="@IsEditMode" 
+							@bind-Scale="Scale" DisableSectionControls="@DisableControls" OnNutritionClicked="@HandleOpenNutritionClicked"
+							OnIsEditingSectionChange="@HandleSectionEditing" UpdateComplete="@HandleUpdateIngredientsComplete" />
+
+		<SectionSteps RecipeSid="@RecipeSid" Steps="@Steps" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
+						OnIsEditingSectionChange="@HandleSectionEditing" UpdateComplete="@HandleUpdateStepsComplete" />
+
+		<SectionNotes RecipeSid="@RecipeSid" Notes="@Notes" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
+						OnIsEditingSectionChange="@HandleSectionEditing" UpdateComplete="@HandleUpdateNotesComplete" />
+
+		<SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
+			@if (DrawerView == Views.Copy)
+			{
+				<DrawerCopy Recipe="@Recipe" OnCancelClicked="@HandleCancelClicked" />
+			}
+			else if (DrawerView == Views.AddToList)
+			{
+				<DrawerAddToList Recipe="@Recipe" Scale="@Scale" OnAddedComplete="@HandleAddToListComplete" OnCancelClicked="@HandleCancelClicked" />
+			}
+			else if (DrawerView == Views.Nutrition)
+			{
+				<DrawerNutrition Recipe="@Recipe" Ingredients="@Ingredients" Scale="@Scale" />
+			}
+		</SideDrawer>
+	}
+}

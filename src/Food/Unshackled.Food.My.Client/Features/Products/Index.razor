@@ -1,0 +1,89 @@
+﻿@page "/products"
+@inherits IndexBase
+
+<DynamicPageTitle Title="Products" />
+
+<MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
+
+<SectionHeader Class="mb-6" Title="Products" />
+
+<div class="mb-4">
+	<SearchForm T="SearchProductModel" @bind-Model="@SearchModel" Class="mb-6" SearchClicked="@(() => DoSearch(1))"
+				ResetClicked="@HandleResetClicked" Disable="@IsLoading" VerticalButtons="Breakpoint.Sm">
+		<SearchFields>
+			<MudGrid Spacing="1">
+				<MudItem xs="12" sm="6" md="4">
+					<MudTextField Label="Brand" Variant="Variant.Outlined" FullWidth="true" Margin="Margin.Dense"
+									T="string" @bind-Value="@SearchModel.Brand" Disabled="@IsLoading" />
+				</MudItem>
+				<MudItem xs="12" sm="6" md="4">
+					<MudTextField Label="Title" Variant="Variant.Outlined" FullWidth="true" Margin="Margin.Dense"
+									T="string" @bind-Value="@SearchModel.Title" Disabled="@IsLoading" />
+				</MudItem>
+				<MudItem xs="12" sm="6" md="4">
+					<ArchivedSelect @bind-Value="@SearchModel.IsArchived" Margin="Margin.Dense" Disabled="@DisableControls" />
+				</MudItem>
+			</MudGrid>
+		</SearchFields>
+	</SearchForm>
+
+	<MudToolBar Class="mt-6" Gutters="false" Dense="true">
+		<MudCheckBox T="bool?" Disabled="@DisableControls" Value="@SelectAll" ValueChanged="@HandleSelectAllNoneChanged" />
+		<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@IsLoading" OnClick="@HandleAddClicked">Add</MudButton>
+		<MudButton StartIcon="@Icons.Material.Filled.MergeType" Disabled="@(DisableControls || !MergeAvailable)" OnClick="@HandleMergeClicked">Merge</MudButton>
+		<MudMenu Label="@(SelectedSids.Any() ? $"Bulk ({SelectedSids.Count} selected)" : "Bulk")" StartIcon="@Icons.Material.Filled.Checklist" 
+					Class="ms-2" Disabled="@(DisableControls || !SelectedSids.Any())" AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopLeft">
+
+			<MudMenuItem Icon="@Icons.Material.Filled.AddCircle" OnClick="@(() => HandleAddToListClicked())">Add To Shopping List</MudMenuItem>
+			<MudMenuItem Icon="@Icons.Material.Filled.Archive" 
+							OnClick="@(() => HandleBulkSetArchivedClicked())">@(IsBulkArchive ? "Archive" : "Restore")</MudMenuItem>
+		</MudMenu>
+	</MudToolBar>
+
+	<ListView TItem="ProductListModel" Items="@SearchResults.Data" IsLoading="@IsLoading" TotalItems="@SearchResults.Total" Page="@SearchModel.Page"
+				PageSize="SearchModel.PageSize" PageSelected="@HandlePageSelected">
+		<ItemRenderer>
+			<div class="d-flex flex-row gap-2 align-start">
+				<div>
+					<MudCheckBox T="bool" Disabled="@DisableCheckbox(context.Item.Sid)" Value="@SelectedSids.Contains(context.Item.Sid)"
+									ValueChanged="@((bool value) => HandleCheckboxChanged(value, context.Item.Sid))" />
+				</div>
+				<div class="flex-grow-1 align-self-center">
+					@if (!string.IsNullOrEmpty(context.Item.Brand))
+					{
+						<MudText Typo="Typo.body1">@context.Item.Brand</MudText>
+					}
+					<div class="d-flex flex-row gap-2">
+						<MudLink Typo="Typo.subtitle1" Class="d-block" Color="Color.Primary" Href="@($"/products/{context.Item.Sid}")">@context.Item.Title</MudLink>
+					</div>
+					@if (!string.IsNullOrEmpty(context.Item.Description))
+					{
+						<MudText Typo="Typo.body2" Color="Color.Tertiary">@context.Item.Description</MudText>
+					}
+				</div>
+			</div>
+		</ItemRenderer>
+		<EmptyListRenderer>
+			<MudText Align="Align.Center" Class="mt-4">No products matched your search.</MudText>
+		</EmptyListRenderer>
+	</ListView>
+
+</div>
+
+<SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
+	@if (DrawerView == Views.Add)
+	{
+		<FormProduct FormId="@FormId" Model="@FormModel" DisableFormControls="@IsSaving" OnFormSubmitted="@HandleFormAddSubmit">
+			<FormToolbar>
+				<MudSpacer />
+				<ProgressButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" IsWorking="@IsWorking" WorkingText="Adding">Create</ProgressButton>
+				<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@HandleCancelClicked">Cancel</MudButton>
+				<MudSpacer />
+			</FormToolbar>
+		</FormProduct>
+	}
+	else if (DrawerView == Views.AddToList)
+	{
+		<DrawerAddToList ShoppingLists="@ShoppingLists" OnCanceled="@HandleCancelClicked" OnAdded="@HandleAddToListSubmitted" />
+	}
+</SideDrawer>

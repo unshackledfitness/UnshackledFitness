@@ -3,6 +3,7 @@
 public class Globals
 {
 	public const string AccountUrlPrefix = "/account";
+	public const int DefaultCacheDurationMinutes = 30;
 	public const string UnexpectedError = "An unexpected error occurred.";
 
 	public static class ApiConstants

@@ -1,0 +1,52 @@
+﻿@inherits SectionItemsBase
+
+<div class="my-6">
+	<SectionHeader Title="Products" Typo="Typo.h5" Class="mb-2" />
+		
+	<MudToolBar Gutters="false">
+		<MudButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls" OnClick="@(() => HandleAddClicked())">Add</MudButton>
+	</MudToolBar>
+
+	<ListView TItem="FormProductModel" Items="@ProductBundle.Products">
+		<ItemRenderer>
+			<div class="d-flex flex-row gap-3">
+				<div class="px-3">
+					<CaptionedProperty Align="Align.Center" Title="Qty">
+						<MudText Typo="Typo.h5">@context.Item.Quantity.ToString()</MudText>
+					</CaptionedProperty>
+				</div>
+				<MudDivider FlexItem="true" Vertical="true" />				
+				<div class="flex-grow-1 align-self-center">
+					@if (!string.IsNullOrEmpty(context.Item.Brand))
+					{
+						<MudText Typo="Typo.body2">@context.Item.Brand</MudText>
+					}
+					<MudLink Typo="Typo.body1" Class="d-block" Color="Color.Primary" Href="@($"/products/{context.Item.ProductSid}")">
+						@context.Item.Title
+					</MudLink>
+					@if (!string.IsNullOrEmpty(context.Item.Description))
+					{
+						<MudText Typo="Typo.caption" Class="d-block" Color="Color.Tertiary">@context.Item.Description</MudText>
+					}
+				</div>
+				<div class="d-flex flex-row gap-2 align-center">
+					<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" Disabled="@DisableControls" OnClick="@(() => HandleEditClicked(context.Item))" />
+				</div>
+			</div>
+		</ItemRenderer>
+		<EmptyListRenderer>
+			<MudText Align="Align.Center" Class="mt-4">No products have been added.</MudText>
+		</EmptyListRenderer>
+	</ListView>
+</div>
+
+<SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
+	@if (DrawerView == Views.Add)
+	{
+		<DrawerAddProducts ProductBundleSid="@ProductBundle.Sid" SearchOnOpen="@DrawerOpen" OnProductsAdded="@HandleProductsAdded" OnCanceled="@(() => HandleCancelClicked())" />
+	}
+	else if (DrawerView == Views.Edit)
+	{
+		<DrawerManageItem Product="@EditingModel" OnCanceled="@(() => HandleCancelClicked())" OnDeleted="@HandleDeleteClicked" OnSubmitted="@HandleSaveClicked" />
+	}
+</SideDrawer>

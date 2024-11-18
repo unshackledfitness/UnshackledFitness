@@ -1,0 +1,40 @@
+﻿@using Unshackled.Food.Core.Models
+
+<MudRadioGroup T="string" @bind-Value="@StoreLocationSid">
+	@foreach (var item in StoreLocations)
+	{
+		<MudRadio T="string" Value="@item.Sid" Class="d-block" Color="Color.Secondary" UncheckedColor="Color.Default">@item.Title</MudRadio>
+	}
+	<MudRadio Value="@clearValue" Class="d-block" Color="Color.Secondary" UncheckedColor="Color.Default">Not Set</MudRadio>
+</MudRadioGroup>
+<MudToolBar Class="mt-4">
+	<MudSpacer />
+	<MudButton Variant="Variant.Filled" Disabled="@string.IsNullOrEmpty(StoreLocationSid)" Color="Color.Secondary" OnClick="@(() => HandleSetClicked())">Set</MudButton>
+	<MudButton Variant="Variant.Outlined" OnClick="@(() => HandleCancelClicked())">Cancel</MudButton>
+	<MudSpacer />
+</MudToolBar>
+
+@code {
+	[Parameter] public List<ListGroupModel> StoreLocations { get; set; } = new();
+	[Parameter] public string StoreLocationSid { get; set; } = string.Empty;
+	[Parameter] public EventCallback OnCanceled { get; set; }
+	[Parameter] public EventCallback<string> OnSubmitted { get; set; }
+
+	private const string clearValue = "-1";
+
+	protected async Task HandleCancelClicked()
+	{
+		await OnCanceled.InvokeAsync();
+	}
+
+	protected async Task HandleSetClicked()
+	{
+		if (!string.IsNullOrEmpty(StoreLocationSid))
+		{
+			if (StoreLocationSid == clearValue)
+				await OnSubmitted.InvokeAsync(string.Empty);
+			else
+				await OnSubmitted.InvokeAsync(StoreLocationSid);
+		}
+	}
+}

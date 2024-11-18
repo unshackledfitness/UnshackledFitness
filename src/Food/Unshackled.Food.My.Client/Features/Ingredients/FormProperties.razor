@@ -1,0 +1,11 @@
+﻿@inherits FormPropertiesBase
+
+<EditForm id="@FormId" Model="@Model" OnValidSubmit="HandleFormSubmitted">
+	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
+	<MudGrid Spacing="3" Class="mb-4">
+		<MudItem xs="12">
+			<MudTextField Label="Title" Variant="Variant.Outlined" Immediate="true" Disabled="@IsSaving" Required="true"
+						  FullWidth="true" For="@(() => Model.Title)" @bind-Value="@Model.Title" />
+		</MudItem>
+	</MudGrid>
+</EditForm>

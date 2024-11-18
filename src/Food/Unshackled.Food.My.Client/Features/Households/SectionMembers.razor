@@ -1,0 +1,8 @@
+﻿@inherits SectionMembersBase
+
+<div Class="mb-6">
+	<SectionHeader Title="Members" Typo="Typo.h5" Class="mb-4" />
+	
+	<ListMembers Household="@Household" IsEditMode="@IsEditMode" DisableSectionControls="@DisableSectionControls" OnIsEditingChange="@UpdateIsEditingSection" />
+	<ListInvites Household="@Household" IsEditMode="@IsEditMode" DisableSectionControls="@DisableSectionControls" OnIsEditingSectionChange="@UpdateIsEditingSection" />
+</div>

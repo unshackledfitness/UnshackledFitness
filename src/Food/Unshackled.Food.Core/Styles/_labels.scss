@@ -1,0 +1,18 @@
+﻿/// <reference path="./styles.scss" />
+
+.label-unit {
+
+	.amt {
+		display: inline-block;
+	}
+
+	.amt-label {
+		display: inline-block;
+		color: var(--mud-palette-tertiary);
+		margin-left: .125em;
+	}
+
+	.prep {
+		color: var(--mud-palette-tertiary);
+	}
+}

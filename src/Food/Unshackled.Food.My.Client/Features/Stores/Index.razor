@@ -1,0 +1,51 @@
+﻿@page "/stores"
+@inherits IndexBase
+
+<DynamicPageTitle Title="Stores" />
+
+<MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
+
+@if (!Adding)
+{
+	<MudText Typo="Typo.h4" Class="mb-6">Stores</MudText>
+
+	<div class="mb-6">
+		<SearchForm T="SearchStoreModel" @bind-Model="@SearchModel" Class="mb-6" SearchClicked="@(() => DoSearch(1))"
+					ResetClicked="@HandleResetClicked" Disable="@IsLoading" VerticalButtons="Breakpoint.Sm">
+			<SearchFields>
+				<MudGrid Spacing="1">
+					<MudItem xs="12">
+						<MudTextField Label="Title" Variant="Variant.Outlined" FullWidth="true" Margin="Margin.Dense"
+									  T="string" @bind-Value="@SearchModel.Title" Disabled="@IsLoading" />
+					</MudItem>
+				</MudGrid>
+			</SearchFields>
+		</SearchForm>
+
+		<MudToolBar Class="mt-6" Gutters="false" Dense="true">
+			<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@IsLoading" OnClick="@HandleAddClicked">Add</MudButton>
+		</MudToolBar>
+
+		<ListView TItem="StoreListModel" Items="@SearchResults.Data" IsLoading="@IsLoading" TotalItems="@SearchResults.Total" Page="@SearchModel.Page"
+				  PageSize="SearchModel.PageSize" PageSelected="@HandlePageSelected">
+			<ItemRenderer>
+				<MudLink Typo="Typo.subtitle1" Class="d-block" Color="Color.Primary" Href="@($"/stores/{context.Item.Sid}")">@context.Item.Title</MudLink>
+				@if (!string.IsNullOrEmpty(context.Item.Description))
+				{
+					<MudText Typo="Typo.body2" Color="Color.Tertiary">@context.Item.Description</MudText>
+				}
+			</ItemRenderer>
+			<EmptyListRenderer>
+				<MudText Align="Align.Center" Class="mt-4">No stores matched your search.</MudText>
+			</EmptyListRenderer>
+		</ListView>
+
+	</div>
+}
+else
+{
+	<SectionComponent IsEditMode="true" IsEditing="true">
+		<SectionHeader Title="Add Store" IsEditing="true" EditingClass="mb-4" OnCancelClicked="@HandleCancelClicked" FormId="@FormId" />
+		<FormProperties Model="@FormModel" FormId="@FormId" DisableFormControls="@IsSaving" OnFormSubmitted="@HandleFormAddSubmit" />
+	</SectionComponent>
+}
