@@ -143,21 +143,21 @@ Add a migration for the current release and your database.
 
 ```bash
 # MS SQL Server
-dotnet ef migrations add v2.0.0 -c MsSqlServerDbContext -s ../Unshackled.Fitness.Web -o Migrations
+dotnet ef migrations add v2.0.0 -c MsSqlServerDbContext -s ../Unshackled.Fitness.My -o Migrations
 # MySQL Server
-dotnet ef migrations add v2.0.0 -c MySqlServerDbContext -s ../Unshackled.Fitness.Web -o Migrations
+dotnet ef migrations add v2.0.0 -c MySqlServerDbContext -s ../Unshackled.Fitness.My -o Migrations
 # PostgreSQL Server
-dotnet ef migrations add v2.0.0 -c PostgresSqlServerDbContext -s ../Unshackled.Fitness.Web -o Migrations
+dotnet ef migrations add v2.0.0 -c PostgresSqlServerDbContext -s ../Unshackled.Fitness.My -o Migrations
 ```
 
 Apply the migration
 ```bash
 # MS SQL Server
-dotnet ef database update --context MsSqlServerDbContext -s ../Unshackled.Fitness.Web
+dotnet ef database update --context MsSqlServerDbContext -s ../Unshackled.Fitness.My
 # MySQL Server
-dotnet ef database update --context MySqlServerDbContext -s ../Unshackled.Fitness.Web
+dotnet ef database update --context MySqlServerDbContext -s ../Unshackled.Fitness.My
 # PostgreSQL Server
-dotnet ef database update --context PostgreSqlServerDbContext -s ../Unshackled.Fitness.Web
+dotnet ef database update --context PostgreSqlServerDbContext -s ../Unshackled.Fitness.My
 ```
 
 ### Run the Website ###
