@@ -3,7 +3,7 @@
 @if(IsEditMode || Ingredients.Any())
 {
 	<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
-		<SectionHeader Title="Ingredients" Typo="Typo.h5" IsEditMode="@IsEditMode" IsEditing="@IsEditing" DisableControls="@DisableControls"
+		<SectionHeader Title="Ingredients" Typo="Typo.h5" IsEditMode="@IsEditMode" IsEditing="@IsEditing" DisableControls="@DisableControls" Class="mb-4" EditingClass="mb-4"
 						OnCancelClicked="@(() => HandleCancelEditClicked())" OnSaveClicked="@HandleUpdateClicked">
 			<DefaultToolbar>
 				<MudToggleIconButton Disabled="@DisableSectionControls" Icon="@Icons.Material.Filled.ShoppingBag" ToggledIcon="@Icons.Material.Filled.ShoppingBag"
@@ -79,91 +79,81 @@
 		}
 		else
 		{
-			@if (!IsBulkAdding)
-			{
-				<SortableGroupedList TGroup="FormIngredientGroupModel" TItem="FormEditIngredientModel" Groups="@FormGroups" Items="@FormIngredients"
-										ToolbarAlignment="HorizontalAlignment.Left" ToolbarPosition="ToolbarPositions.Top"
-										IsSortingChanged="HandleIsSorting" SortOrderChanged="@HandleSortChanged">
-					<GroupRenderer>
-						<MudText Typo="Typo.body1" Class="mt-4 mb-2">@context.Title</MudText>
-					</GroupRenderer>
-					<ItemRenderer>
-						@if (!context.Item.IsEditing)
-						{
-							<MudGrid Spacing="2" Class="align-center">
-								<MudItem xs="12" sm="9">
-									<MudText>
-										<IngredientText Amount="@(context.Item.Amount * Scale)" AmountLabel="@context.Item.AmountLabel"
-														Title="@context.Item.Title" PrepNote="@context.Item.PrepNote" />
-									</MudText>
-								</MudItem>
-								<MudItem xs="12" sm="3" Class="d-flex flex-row gap-1 align-center">
-									<MudSpacer />
-									<MudIconButton Icon="@Icons.Material.Filled.Edit" title="Edit" Disabled="@DisableControls" OnClick="@(() => HandleEditItemClicked(context.Item))" />
-									<MudIconButton Icon="@Icons.Material.Filled.Delete" title="Remove" Disabled="@DisableControls" OnClick="@(() => HandleDeleteClicked(context.Item))" />
-								</MudItem>
-							</MudGrid>
-						}
-						else
-						{
-							<FormEditIngredient Model="@context.Item" DisableFormControls="@DisableControls" OnFormSubmitted="@HandleEditFormSubmitted" 
-												OnCanceled="@(() => HandleCancelEditItemClicked(context.Item))" />
-						}
-					</ItemRenderer>
-					<DraggableGroupRenderer>
-						<MudPaper Elevation="2" Class="pa-4 my-4">
-							<MudGrid Spacing="2" Class="align-center">
-								<MudItem xs="1">
-									<MudIcon Icon="@Icons.Material.Filled.DragHandle" />
-								</MudItem>
-								<MudItem xs="11">
-									<MudText>
-										@(string.IsNullOrEmpty(context.Title) ? "Household: <No title>" : context.Title)
-									</MudText>
-								</MudItem>
-							</MudGrid>
-						</MudPaper>
-					</DraggableGroupRenderer>
-					<DraggableItemRenderer>
-						<MudPaper Elevation="2" Class="pa-4 my-4">
-							<MudGrid Spacing="2" Class="align-center">
-								<MudItem xs="1">
-									<MudIcon Icon="@Icons.Material.Filled.DragHandle" />
-								</MudItem>
-								<MudItem xs="11">
-									<MudText>
-										<IngredientText Amount="@(context.Amount * Scale)" AmountLabel="@context.AmountLabel"
-														Title="@context.Title" PrepNote="@context.PrepNote" />
-									</MudText>
-								</MudItem>
-							</MudGrid>
-						</MudPaper>
-					</DraggableItemRenderer>
-					<EmptyListRenderer>
-						<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
-						<MudAlert Severity="Severity.Normal" Icon="@Icons.Material.Filled.Info">You have not added any ingredients.</MudAlert>
-						<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
-					</EmptyListRenderer>
-					<NewZoneRenderer>
-						<MudText Typo="Typo.body1" Class="my-4">Drop here to create a new group.</MudText>
-					</NewZoneRenderer>
-					<ListTools>
-						<MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@(DisableControls || IsAdding)"
-									OnClick="@(() => HandleAddClicked())">Add</MudButton>
-						<MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@(DisableControls || IsAdding)"
-									OnClick="@(() => HandleBulkAddClicked())">Bulk Add</MudButton>
-					</ListTools>
-				</SortableGroupedList>
-
-				@if (IsAdding)
-				{
-					<FormAddIngredient Model="@AddFormModel" OnFormSubmitted="@HandleAddFormSubmitted" OnCanceled="@HandleCancelAddClicked" />
-				}
-			}
-			else
-			{
-				<FormBulkAddIngredients Model="@BulkAddFormModel" OnFormSubmitted="@HandleBulkAddFormSubmitted" OnCanceled="@HandleCancelBulkAddClicked" />
-			}
+			<SortableGroupedList TGroup="FormIngredientGroupModel" TItem="FormIngredientModel" Groups="@FormGroups" Items="@FormIngredients"
+									ToolbarAlignment="HorizontalAlignment.Left" ToolbarPosition="ToolbarPositions.Top"
+									IsSortingChanged="HandleIsSorting" SortOrderChanged="@HandleSortChanged">
+				<GroupRenderer>
+					<MudText Typo="Typo.body1" Class="mt-4 mb-2">@context.Title</MudText>
+				</GroupRenderer>
+				<ItemRenderer>
+					<div class="d-flex flex-row gap-4 align-center">
+						<MudText Class="flex-grow-1">
+							<IngredientText Amount="@(context.Item.Amount * Scale)" AmountLabel="@context.Item.AmountLabel"
+											Title="@context.Item.Title" PrepNote="@context.Item.PrepNote" />
+						</MudText>
+						<div>
+							<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" title="Edit" Disabled="@DisableControls" OnClick="@(() => HandleEditItemClicked(context.Item))" />
+						</div>
+					</div>
+				</ItemRenderer>
+				<DraggableGroupRenderer>
+					<MudPaper Elevation="2" Class="pa-4 my-4">
+						<MudGrid Spacing="2" Class="align-center">
+							<MudItem xs="1">
+								<MudIcon Icon="@Icons.Material.Filled.DragHandle" />
+							</MudItem>
+							<MudItem xs="11">
+								<MudText>
+									@(string.IsNullOrEmpty(context.Title) ? "Household: <No title>" : context.Title)
+								</MudText>
+							</MudItem>
+						</MudGrid>
+					</MudPaper>
+				</DraggableGroupRenderer>
+				<DraggableItemRenderer>
+					<MudPaper Elevation="2" Class="pa-4 my-4">
+						<MudGrid Spacing="2" Class="align-center">
+							<MudItem xs="1">
+								<MudIcon Icon="@Icons.Material.Filled.DragHandle" />
+							</MudItem>
+							<MudItem xs="11">
+								<MudText>
+									<IngredientText Amount="@(context.Amount * Scale)" AmountLabel="@context.AmountLabel"
+													Title="@context.Title" PrepNote="@context.PrepNote" />
+								</MudText>
+							</MudItem>
+						</MudGrid>
+					</MudPaper>
+				</DraggableItemRenderer>
+				<EmptyListRenderer>
+					<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+					<MudAlert Severity="Severity.Normal" Icon="@Icons.Material.Filled.Info">You have not added any ingredients.</MudAlert>
+					<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+				</EmptyListRenderer>
+				<NewZoneRenderer>
+					<MudText Typo="Typo.body1" Class="my-4">Drop here to create a new group.</MudText>
+				</NewZoneRenderer>
+				<ListTools>
+					<MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls"
+								OnClick="@(() => HandleAddClicked())">Add</MudButton>
+					<MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@DisableControls"
+								OnClick="@(() => HandleBulkAddClicked())">Bulk Add</MudButton>
+				</ListTools>
+			</SortableGroupedList>
 		}
 	</SectionComponent>
+	
+
+	<SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
+		@if(DrawerView == Views.AddIngredient || DrawerView == Views.EditIngredient)
+		{
+			<DrawerIngredient Model="@CurrentFormModel" DisableFormControls="@DisableControls" IsAdding="@(DrawerView == Views.AddIngredient)"
+							  OnFormSubmitted="@HandleIngredientFormSubmitted" OnDeleted="@HandleDeleteClicked" OnCanceled="@(() => HandleCancelClicked())" />
+		}
+		else if (DrawerView == Views.BulkAdd)
+		{
+			<DrawerBulkAddIngredients Model="@BulkAddFormModel" OnFormSubmitted="@HandleBulkAddFormSubmitted" OnCanceled="@HandleCancelClicked" />
+		}
+	</SideDrawer>
+
 }

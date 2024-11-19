@@ -7,9 +7,11 @@ using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Recipes;
 
-public class FormEditIngredientBase : BaseFormComponent<FormEditIngredientModel, FormEditIngredientModel.Validator>
+public class DrawerIngredientBase : BaseFormComponent<FormIngredientModel, FormIngredientModel.Validator>
 {
 	[Inject] protected IMediator Mediator { get; set; } = default!;
+	[Parameter] public bool IsAdding { get; set; }
+	[Parameter] public EventCallback OnDeleted { get; set; }
 
 	protected string initialAmoutLabel = string.Empty;
 
@@ -34,6 +36,11 @@ public class FormEditIngredientBase : BaseFormComponent<FormEditIngredientModel,
 		{
 			Model.AmountLabel = string.Empty;
 		}
+	}
+
+	protected async Task HandleDeleteClicked()
+	{
+		await OnDeleted.InvokeAsync();
 	}
 
 	protected async Task<IEnumerable<string>> SearchIngredients(string value, CancellationToken cancellationToken)

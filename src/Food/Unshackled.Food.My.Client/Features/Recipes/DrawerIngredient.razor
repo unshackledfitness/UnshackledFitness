@@ -1,31 +1,46 @@
-﻿@inherits FormEditIngredientBase
+﻿@inherits DrawerIngredientBase
 
 <EditForm Model="@Model" OnValidSubmit="@HandleFormSubmitted">
 	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
 	<MudGrid Spacing="1" Class="mb-3">
-		<MudItem xs="12" sm="2">
+		<MudItem xs="12">
 			<MudTextField T="string" Label="Amount" Variant="Variant.Outlined" Immediate="true" FullWidth="true" Disabled="@DisableControls"
 						  MaxLength="15" @bind-Value="@Model.AmountText" For="@(() => Model.AmountText)" />
 		</MudItem>
-		<MudItem xs="12" sm="2">
+		<MudItem xs="12">
 			<MeasurementUnitSelect Label="Units" Variant="Variant.Outlined" Immediate="true" FullWidth="true" Disabled="@DisableControls"
 								   Value="@Model.AmountUnit" For="@(() => Model.AmountUnit)"
-								   ValueChanged="@HandleAmountUnitChanged"/>
-			<MudTextField Label="Displayed As" Variant="Variant.Outlined" Immediate="true" FullWidth="true"
+								   ValueChanged="@HandleAmountUnitChanged" />
+		</MudItem>
+		<MudItem xs="12">
+			<MudTextField Label="Display Unit As" Variant="Variant.Outlined" Immediate="true" FullWidth="true"
 						  Disabled="@(DisableControls || Model.AmountUnit != MeasurementUnits.Item)" MaxLength="25"
 						  @bind-Value="@Model.AmountLabel" For="@(() => Model.AmountLabel)" />
 		</MudItem>
-		<MudItem xs="12" sm="8">
+		<MudItem xs="12">
 			<MudAutocomplete T="string" Label="Ingredient" Variant="Variant.Outlined" Immediate="true" FullWidth="true" Disabled="@DisableControls"
 							 ResetValueOnEmptyText="true" CoerceText="false" CoerceValue="true" SelectOnActivation="false" SelectValueOnTab="true"
 							 SearchFunc="@SearchIngredients"
 							 @bind-Value="@Model.Title" For="@(() => Model.Title)" />
+		</MudItem>
+		<MudItem xs="12">
 			<MudTextField Label="Prep Note" Variant="Variant.Outlined" Immediate="true" FullWidth="true" Disabled="@DisableControls"
 						  @bind-Value="@Model.PrepNote" For="@(() => Model.PrepNote)" />
 		</MudItem>
 	</MudGrid>
 	<MudToolBar Gutters="false">
-		<MudButton Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit" Disabled="@DisableControls">Save</MudButton>
-		<MudButton Variant="Variant.Outlined" Disabled="@DisableControls" OnClick="@(() => HandleCancelClicked())">Cancel</MudButton>
+		<MudSpacer />
+		<MudButton Variant="Variant.Filled" Color="Color.Secondary" ButtonType="ButtonType.Submit" Disabled="@DisableControls">Apply</MudButton>
+		<MudButton Variant="Variant.Outlined" Color="Color.Secondary" Disabled="@DisableControls" OnClick="@(() => HandleCancelClicked())">Cancel</MudButton>
+		<MudSpacer />
 	</MudToolBar>
 </EditForm>
+
+@if (!IsAdding) 
+{
+	<MudDivider DividerType="DividerType.FullWidth" Class="my-6" />
+
+	<div class="d-flex flex-column gap-3">
+		<MudButton StartIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" FullWidth="true" OnClick="@(() => HandleDeleteClicked())">Delete Ingredient</MudButton>
+	</div>
+}

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Unshackled.Food.Core.Enums;
 using Unshackled.Food.Core.Models;
 using Unshackled.Food.Core.Models.Recipes;
 using Unshackled.Food.Core.Utils;
@@ -12,6 +13,14 @@ namespace Unshackled.Food.My.Client.Features.Recipes;
 
 public class SectionIngredientsBase : BaseSectionComponent
 {
+	protected enum Views
+	{
+		None,
+		AddIngredient,
+		EditIngredient,
+		BulkAdd
+	}
+
 	[Parameter] public string RecipeSid { get; set; } = string.Empty;
 	[Parameter] public RecipeModel Recipe { get; set; } = new();
 	[Parameter] public List<RecipeIngredientGroupModel> Groups { get; set; } = new();
@@ -22,21 +31,26 @@ public class SectionIngredientsBase : BaseSectionComponent
 	[Parameter] public EventCallback OnNutritionClicked { get; set; }
 
 	protected List<FormIngredientGroupModel> FormGroups { get; set; } = new();
-	protected List<FormEditIngredientModel> FormIngredients { get; set; } = new(); 
+	protected List<FormIngredientModel> FormIngredients { get; set; } = new(); 
 	protected List<FormIngredientGroupModel> DeletedHouseholds { get; set; } = new();
-	protected List<FormEditIngredientModel> DeletedIngredients { get; set; } = new();
-	protected FormAddIngredientModel AddFormModel { get; set; } = new();
+	protected List<FormIngredientModel> DeletedIngredients { get; set; } = new();
+	protected FormIngredientModel CurrentFormModel { get; set; } = new();
 	protected FormBulkAddIngredientModel BulkAddFormModel { get; set; } = new();
 	protected bool IsWorking { get; set; } = false;
-	protected bool IsAdding { get; set; } = false;
-	protected bool IsBulkAdding { get; set; } = false;
 	protected bool IsEditing { get; set; } = false;
 	protected bool IsSorting { get; set; } = false;
-	protected bool DisableControls => IsWorking || IsSorting || IsAdding || IsBulkAdding;
+	protected bool DisableControls => IsWorking || IsSorting;
 	protected NutritionLabelModel LabelModel { get; set; } = new();
-	protected bool HasMissingProductSubstitutions => Ingredients.Where(x => x.HasSubstitution == false).Any();
-	protected bool IsEditingItem => FormIngredients.Where(x => x.IsEditing == true).Any();
 	protected bool ShowProducts { get; set; } = false;
+	protected bool DrawerOpen => DrawerView != Views.None;
+	protected Views DrawerView { get; set; } = Views.None;
+	protected string DrawerTitle => DrawerView switch
+	{
+		Views.AddIngredient => "Add Ingredient",
+		Views.BulkAdd => "Bulk Add Ingredients",
+		Views.EditIngredient => "Edit Ingredient",
+		_ => string.Empty
+	};
 
 	protected override void OnParametersSet()
 	{
@@ -45,57 +59,24 @@ public class SectionIngredientsBase : BaseSectionComponent
 		LabelModel.LoadNutritionLabel(Recipe.TotalServings, Scale, Ingredients.ToList<ILabelIngredient>());
 	}
 
-	protected override async Task OnInitializedAsync()
-	{
-		await base.OnInitializedAsync();
-
-		AddFormModel = new()
-		{
-			RecipeSid = RecipeSid
-		};
-	}
-
 	protected void HandleAddClicked()
 	{
-		IsAdding = true;
-	}
-
-	protected void HandleAddFormSubmitted(FormAddIngredientModel model)
-	{
-		if (!string.IsNullOrEmpty(model.Amount))
+		CurrentFormModel = new()
 		{
-			IsWorking = true;
-			var result = IngredientUtils.ParseAmount(model.Amount);
-			string gSid = FormGroups.LastOrDefault()?.Sid ?? Guid.NewGuid().ToString();
-			FormIngredients.Add(new()
-			{
-				Amount = result.Amount,
-				AmountUnit = result.AmountUnit,
-				AmountLabel = result.AmountLabel,
-				AmountText = result.AmountText,
-				Sid = Guid.NewGuid().ToString(),
-				ListGroupSid = gSid,
-				IsNew = true,
-				Key = model.Title.NormalizeKey(),
-				PrepNote = model.PrepNote,
-				RecipeSid = model.RecipeSid,
-				SortOrder = FormIngredients.Count,
-				Title = model.Title
-			});
+			RecipeSid = RecipeSid,
+			AmountUnit = MeasurementUnits.Item
+		};
 
-			// Reset form
-			AddFormModel = new()
-			{
-				RecipeSid = RecipeSid
-			};
-			IsWorking = false;
-			StateHasChanged();
-		}
+		DrawerView = Views.AddIngredient;
 	}
 
 	protected void HandleBulkAddClicked()
 	{
-		IsBulkAdding = true;
+		BulkAddFormModel = new()
+		{
+			RecipeSid = RecipeSid
+		};
+		DrawerView = Views.BulkAdd;
 	}
 
 	protected void HandleBulkAddFormSubmitted(FormBulkAddIngredientModel model) 
@@ -119,9 +100,7 @@ public class SectionIngredientsBase : BaseSectionComponent
 						AmountUnit = result.AmountUnit,
 						AmountLabel = result.AmountLabel,
 						AmountText = result.AmountText,
-						Sid = Guid.NewGuid().ToString(),
 						ListGroupSid = gSid,
-						IsNew = true,
 						Key = result.Title.NormalizeKey(),
 						PrepNote = result.PrepNote,
 						RecipeSid = model.RecipeSid,
@@ -132,17 +111,12 @@ public class SectionIngredientsBase : BaseSectionComponent
 			}
 			IsWorking = false;
 		}
-		IsBulkAdding = false;
+		DrawerView = Views.None;
 	}
 
-	protected void HandleCancelAddClicked()
+	protected void HandleCancelClicked()
 	{
-		IsAdding = false;
-	}
-
-	protected void HandleCancelBulkAddClicked()
-	{
-		IsBulkAdding = false;
+		DrawerView = Views.None;
 	}
 
 	protected async Task HandleCancelEditClicked()
@@ -150,22 +124,22 @@ public class SectionIngredientsBase : BaseSectionComponent
 		IsEditing = await UpdateIsEditingSection(false);
 	}
 
-	protected void HandleCancelEditItemClicked(FormEditIngredientModel item)
+	protected void HandleDeleteClicked()
 	{
-		item.IsEditing = false;
-	}
+		FormIngredients.Remove(CurrentFormModel);
 
-	protected void HandleDeleteClicked(FormEditIngredientModel item)
-	{
-		FormIngredients.Remove(item);
-
-		DeletedIngredients.Add(item);
+		if (!string.IsNullOrEmpty(CurrentFormModel.Sid))
+		{
+			DeletedIngredients.Add(CurrentFormModel);
+		}
 
 		// Adjust sort order for remaining sets
 		for (int i = 0; i < FormIngredients.Count; i++)
 		{
 			FormIngredients[i].SortOrder = i;
 		}
+
+		DrawerView = Views.None;
 	}
 
 	protected async Task HandleEditClicked()
@@ -174,31 +148,39 @@ public class SectionIngredientsBase : BaseSectionComponent
 		IsEditing = await UpdateIsEditingSection(true);
 	}
 
-	protected void HandleEditFormSubmitted(FormEditIngredientModel model)
+	protected void HandleIngredientFormSubmitted(FormIngredientModel model)
 	{
 		IsWorking = true;
 		var result = IngredientUtils.ParseNumber(model.AmountText);
-		var item = FormIngredients.Where(x => x.Sid == model.Sid).Single();
-		item.Amount = result.Amount;
-		item.AmountText = model.AmountText;
-		item.AmountUnit = model.AmountUnit;
-		item.AmountLabel = model.AmountLabel;
-		item.Title = model.Title;
-		item.Key = model.Title.NormalizeKey();
-		item.PrepNote = model.PrepNote;
-		item.IsEditing = false;
+		if (!string.IsNullOrEmpty(model.Sid)) // Update
+		{
+			CurrentFormModel.Amount = result.Amount;
+			CurrentFormModel.AmountText = model.AmountText;
+			CurrentFormModel.AmountUnit = model.AmountUnit;
+			CurrentFormModel.AmountLabel = model.AmountLabel;
+			CurrentFormModel.Title = model.Title;
+			CurrentFormModel.Key = model.Title.NormalizeKey();
+			CurrentFormModel.PrepNote = model.PrepNote;
+		}
+		else // Add
+		{
+			string gSid = FormGroups.LastOrDefault()?.Sid ?? Guid.NewGuid().ToString();
+			model.ListGroupSid = gSid;
+			model.Amount = result.Amount;
+			FormIngredients.Add(model);
+		}
 		IsWorking = false;
+		DrawerView = Views.None;
 	}
 
-	protected void HandleEditItemClicked(FormEditIngredientModel item)
+	protected void HandleEditItemClicked(FormIngredientModel item)
 	{
-		item.IsEditing = true;
-		IsAdding = false;
+		DrawerView = Views.EditIngredient;
+		CurrentFormModel = item;
 	}
 
 	protected void HandleIsSorting(bool isSorting)
 	{
-		IsAdding = false;
 		IsSorting = isSorting;
 		StateHasChanged();
 	}
@@ -217,7 +199,7 @@ public class SectionIngredientsBase : BaseSectionComponent
 		}
 	}
 
-	protected void HandleSortChanged(SortableGroupResult<FormIngredientGroupModel, FormEditIngredientModel> result)
+	protected void HandleSortChanged(SortableGroupResult<FormIngredientGroupModel, FormIngredientModel> result)
 	{
 		FormGroups = result.Groups;
 		FormIngredients = result.Items;
@@ -252,7 +234,7 @@ public class SectionIngredientsBase : BaseSectionComponent
 		DeletedIngredients.Clear();
 		DeletedHouseholds.Clear();
 		FormIngredients = Ingredients
-			.Select(x => new FormEditIngredientModel
+			.Select(x => new FormIngredientModel
 			{
 				Amount = x.Amount,
 				AmountLabel = x.AmountLabel,
@@ -260,7 +242,6 @@ public class SectionIngredientsBase : BaseSectionComponent
 				AmountText = x.AmountText,
 				Sid = x.Sid,
 				ListGroupSid = x.ListGroupSid,
-				IsEditing = false,
 				Key = x.Key,
 				PrepNote = x.PrepNote,
 				RecipeSid = x.RecipeSid,

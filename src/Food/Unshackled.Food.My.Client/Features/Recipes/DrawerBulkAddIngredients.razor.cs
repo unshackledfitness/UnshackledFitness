@@ -3,7 +3,7 @@ using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Recipes;
 
-public class FormBulkAddIngredientsBase : BaseFormComponent<FormBulkAddIngredientModel, FormBulkAddIngredientModel.Validator>
+public class DrawerBulkAddIngredientsBase : BaseFormComponent<FormBulkAddIngredientModel, FormBulkAddIngredientModel.Validator>
 {
 
 }

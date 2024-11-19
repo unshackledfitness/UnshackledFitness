@@ -7,7 +7,7 @@ using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Food.My.Client.Features.Recipes.Models;
 
-public class FormEditIngredientModel : IGroupedSortable, ICloneable
+public class FormIngredientModel : IGroupedSortable, ICloneable
 {
 	public string Sid { get; set; } = string.Empty;
 	public string RecipeSid { get; set; } = string.Empty;
@@ -20,22 +20,16 @@ public class FormEditIngredientModel : IGroupedSortable, ICloneable
 	public MeasurementUnits AmountUnit { get; set; } = MeasurementUnits.mg;
 	public string AmountLabel { get; set; } = string.Empty;
 	public string? PrepNote { get; set; }
-	public bool IsNew { get; set; }
-
-	[JsonIgnore]
-	public bool IsEditing { get; set; }
 
 	public object Clone()
 	{
-		return new FormEditIngredientModel()
+		return new FormIngredientModel()
 		{
 			Amount = Amount,
 			AmountText = AmountText,
 			AmountUnit = AmountUnit,
 			AmountLabel = AmountLabel,
 			ListGroupSid = ListGroupSid,
-			IsEditing = IsEditing,
-			IsNew = IsNew,
 			Key = Key,
 			PrepNote = PrepNote,
 			RecipeSid = RecipeSid,
@@ -45,7 +39,7 @@ public class FormEditIngredientModel : IGroupedSortable, ICloneable
 		};
 	}
 
-	public class Validator : BaseValidator<FormEditIngredientModel>
+	public class Validator : BaseValidator<FormIngredientModel>
 	{
 		public Validator()
 		{

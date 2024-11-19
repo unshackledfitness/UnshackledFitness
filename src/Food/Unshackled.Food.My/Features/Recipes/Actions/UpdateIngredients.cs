@@ -89,7 +89,7 @@ public class UpdateIngredients
 				foreach (var item in request.Model.Ingredients)
 				{
 					// Add new
-					if(item.IsNew)
+					if(string.IsNullOrEmpty(item.Sid))
 					{
 						db.RecipeIngredients.Add(new RecipeIngredientEntity
 						{
