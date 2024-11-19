@@ -21,8 +21,8 @@
 		@StylesheetUtils.PrintRoot(SiteConfig.AppThemeColor)
 	</style>
 
-	<link rel="stylesheet" href="_content/MudBlazor/MudBlazor.min.css" />
-	<link rel="stylesheet" href="_content/Unshackled.Fitness.Core/css/styles.min.css" />
+	<link rel="stylesheet" href="@Assets["_content/MudBlazor/MudBlazor.min.css"]" />
+	<link rel="stylesheet" href="@Assets["_content/Unshackled.Fitness.Core/css/styles.min.css"]" />
 	<link rel="shortcut icon" href="@Assets["favicon.ico"]">
 	@if (RenderModeForPage == InteractiveWebAssembly)
 	{
@@ -41,11 +41,11 @@
 	{
 		<script src="_framework/blazor.web.js"></script>
 		<script src="@Assets["service-worker.js"]"></script>
-		<script src="_content/MudBlazor/MudBlazor.min.js"></script>
+		<script src="@Assets["_content/MudBlazor/MudBlazor.min.js"]></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/moment@2.30.1"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.1"></script>
-		<script src="_content/Unshackled.Fitness.Core/js/interop-charts.js"></script>
+		<script src="@Assets["_content/Unshackled.Fitness.Core/js/interop-charts.js"]"></script>
 		<script src="@Assets["js/interop-qrcode.js"]"></script>
 		<script src="@Assets["js/qrcode.min.js"]"></script>
 	}
@@ -57,7 +57,7 @@
 			ssr: { disableDomPreservation: true }
 		  });
 		</script>
-		<script src="js/interop-form.js"></script>
+		<script src="@Assets["js/interop-form.js"]"></script>
 	}
 </body>
 
