@@ -1,6 +1,5 @@
 using System.Reflection;
 using FluentValidation;
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -16,7 +15,6 @@ using Unshackled.Studio.Core.Client.Configuration;
 using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Data;
 using Unshackled.Studio.Core.Data.Entities;
-using Unshackled.Studio.Core.Server.Extensions;
 using Unshackled.Studio.Core.Server.Middleware;
 using Unshackled.Studio.Core.Server.Services;
 
@@ -63,7 +61,6 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
-builder.Services.AddScoped<AuthenticationStateProvider, PersistingServerAuthenticationStateProvider>();
 
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(options =>
@@ -97,7 +94,8 @@ builder.Services.AddIdentityCore<UserEntity>(options => {
 	.AddDefaultTokenProviders();
 
 builder.Services.AddRazorComponents()
-	.AddInteractiveWebAssemblyComponents();
+	.AddInteractiveWebAssemblyComponents()
+	.AddAuthenticationStateSerialization();
 
 builder.Services.AddControllers();
 
@@ -149,7 +147,7 @@ else
 
 app.UseHttpsRedirection();
 
-app.UseStaticFiles();
+app.MapStaticAssets();
 app.UseAntiforgery();
 
 app.UseMiddleware<AuthorizedUserMiddleware>();
