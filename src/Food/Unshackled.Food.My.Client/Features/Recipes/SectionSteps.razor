@@ -3,8 +3,8 @@
 @if(IsEditMode || Steps.Any())
 {
 	<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
-		<SectionHeader Title="Steps" Typo="Typo.h5" IsEditMode="@IsEditMode" IsEditing="@IsEditing" DisableControls="@DisableControls" OnCancelClicked="@(() => HandleCancelEditClicked())"
-					   OnSaveClicked="HandleUpdateClicked">
+		<SectionHeader Title="Steps" Typo="Typo.h5" IsEditMode="@IsEditMode" IsEditing="@IsEditing" DisableControls="@DisableControls" Class="mb-4" EditingClass="mb-4"
+		OnCancelClicked="@(() => HandleCancelEditClicked())" OnSaveClicked="HandleUpdateClicked">
 			<EditModeToolbar>
 				<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@DisableSectionControls" OnClick="@(() => HandleEditClicked())" />
 			</EditModeToolbar>
@@ -21,6 +21,13 @@
 						</div>
 						<div class="flex-grow-1">
 							<MudText>@context.Item.Instructions</MudText>
+							@if (context.Item.Ingredients.Any())
+							{
+								<div class="flex-grow-1 mt-2">
+									<MudText Typo="Typo.caption" Class="d-block" Color="Color.Tertiary">Ingredients Used</MudText>
+									<MudText Typo="Typo.body2">@context.Item.IngredientList</MudText>
+								</div>
+							}
 						</div>
 					</div>
 				</ItemRenderer>
@@ -33,76 +40,70 @@
 		}
 		else
 		{
-			@if (!IsBulkAdding)
-			{
-				<SortableListView TItem="FormStepModel" Items="@FormSteps" SortOrderChanged="@HandleSortChanged" IsSortingChanged="@HandleIsSorting"
-								  ToolbarPosition="ToolbarPositions.Top" ToolbarAlignment="HorizontalAlignment.Left" DisableSort="@(IsAdding || DisableControls)">
-					<ItemRenderer>
-						@if (!context.Item.IsEditing)
-						{
-							<MudGrid Spacing="2" Class="align-stretch">
-								<MudItem xs="1" Class="d-flex flex-row gap-2 justify-space-between">
-									<MudText>@(context.Item.SortOrder + 1)</MudText>
-									<MudDivider Vertical="true" FlexItem="true" />
-								</MudItem>
-								<MudItem xs="11" sm="10">
-									<MudText>@context.Item.Instructions</MudText>
-									@if (context.Item.Ingredients.Any())
-									{
-										<div class="mt-2 py-2 px-4">
-											<MudText Typo="Typo.body2" Color="Color.Tertiary">Ingredients Used</MudText>
-											<MudText Typo="Typo.body1">@context.Item.IngredientList</MudText>
-										</div>
-									}
-								</MudItem>
-								<MudItem xs="12" sm="1" Class="d-flex flex-row gap-1 align-start">
-									<MudSpacer />
-									<MudIconButton Icon="@Icons.Material.Filled.Edit" title="Edit" Disabled="@DisableControls" OnClick="@(() => HandleEditItemClicked(context.Item))" />
-									<MudIconButton Icon="@Icons.Material.Filled.Delete" title="Remove" Disabled="@DisableControls" OnClick="@(() => HandleDeleteClicked(context.Item))" />
-								</MudItem>
-							</MudGrid>
-						}
-						else
-						{
-							<FormStep Model="@context.Item" Ingredients="@Ingredients" DisableFormControls="@DisableControls"
-									  OnFormSubmitted="@HandleEditFormSubmitted" OnCanceled="@(() => HandleCancelEditItemClicked(context.Item))" />
-						}
-					</ItemRenderer>
-					<EmptyListRenderer>
-						<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
-						<MudAlert Severity="Severity.Normal" Icon="@Icons.Material.Filled.Info">You have not added any steps.</MudAlert>
-						<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
-					</EmptyListRenderer>
-					<ListTools>
-						<MudButton Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@(DisableControls || IsAdding)"
-								   OnClick="@(() => HandleAddClicked())">Add</MudButton>
-						<MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@(DisableControls || IsAdding)"
-								   OnClick="@(() => HandleBulkAddClicked())">Bulk Add</MudButton>
-					</ListTools>
-					<DraggableItemRenderer>
-						<MudPaper Elevation="2" Class="pa-4 my-4">
-							<MudGrid Spacing="2" Class="align-stretch">
-								<MudItem xs="1">
-									<MudIcon Icon="@Icons.Material.Filled.DragHandle" />
-								</MudItem>
-								<MudItem xs="11">
-									<MudText>@context.Instructions.ToShortString(50, "...")</MudText>
-								</MudItem>
-							</MudGrid>
-						</MudPaper>
-					</DraggableItemRenderer>
-				</SortableListView>
-				
-				@if (IsAdding)
-				{
-					<FormStep Model="@AddFormModel" Ingredients="@Ingredients" SubmitButtonLabel="Add" 
-							  OnFormSubmitted="@HandleAddFormSubmitted" OnCanceled="@HandleCancelAddClicked" />
-				}
-			}
-			else
-			{
-				<FormBulkAddSteps Model="@BulkAddFormModel" OnFormSubmitted="@HandleBulkAddFormSubmitted" OnCanceled="@HandleCancelBulkAddClicked" />
-			}
+			<SortableListView TItem="FormStepModel" Items="@FormSteps" SortOrderChanged="@HandleSortChanged" IsSortingChanged="@HandleIsSorting"
+								ToolbarPosition="ToolbarPositions.Top" ToolbarAlignment="HorizontalAlignment.Left" DisableSort="@DisableControls">
+				<ItemRenderer>
+					<div class="d-flex flex-row gap-4 align-center">
+						<div class="d-flex flex-row flex-grow-1 gap-4 align-start">
+							<div class="d-flex flex-row gap-2 justify-space-between">
+								<MudText>@(context.Item.SortOrder + 1)</MudText>
+								<MudDivider Vertical="true" FlexItem="true" />
+							</div>
+							<div class="flex-grow-1">
+								<MudText>@context.Item.Instructions</MudText>
+								@if (context.Item.Ingredients.Any())
+								{
+									<div class="flex-grow-1 mt-2">
+										<MudText Typo="Typo.caption" Class="d-block" Color="Color.Tertiary">Ingredients Used</MudText>
+										<MudText Typo="Typo.body2">@context.Item.IngredientList</MudText>
+									</div>
+								}
+							</div>
+						</div>
+						<div>
+							<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" title="Edit" Disabled="@DisableControls" OnClick="@(() => HandleEditItemClicked(context.Item))" />
+						</div>
+					</div>
+				</ItemRenderer>
+				<EmptyListRenderer>
+					<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+					<MudAlert Severity="Severity.Normal" Icon="@Icons.Material.Filled.Info">You have not added any steps.</MudAlert>
+					<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+				</EmptyListRenderer>
+				<ListTools>
+					<MudButton Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls"
+								OnClick="@(() => HandleAddClicked())">Add</MudButton>
+					<MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@DisableControls"
+								OnClick="@(() => HandleBulkAddClicked())">Bulk Add</MudButton>
+				</ListTools>
+				<DraggableItemRenderer>
+					<MudPaper Elevation="2" Class="pa-4 my-4">
+						<MudGrid Spacing="2" Class="align-stretch">
+							<MudItem xs="1">
+								<MudIcon Icon="@Icons.Material.Filled.DragHandle" />
+							</MudItem>
+							<MudItem xs="11">
+								<MudText>@context.Instructions.ToShortString(50, "...")</MudText>
+							</MudItem>
+						</MudGrid>
+					</MudPaper>
+				</DraggableItemRenderer>
+			</SortableListView>
 		}
 	</SectionComponent>
+
+	<SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
+		@if (DrawerView == Views.AddStep)
+		{
+			<DrawerStep Model="@CurrentFormModel" Ingredients="@Ingredients" IsAdding="true" OnFormSubmitted="@HandleAddFormSubmitted" OnCanceled="@HandleCancelClicked" />
+		}
+		else if (DrawerView == Views.EditStep)
+		{
+			<DrawerStep Model="@CurrentFormModel" Ingredients="@Ingredients" IsAdding="false" OnFormSubmitted="@HandleEditFormSubmitted" OnDeleted="@HandleDeleteClicked" OnCanceled="@HandleCancelClicked" />
+		}
+		else if (DrawerView == Views.BulkAdd)
+		{
+			<DrawerBulkAddSteps Model="@BulkAddFormModel" OnFormSubmitted="@HandleBulkAddFormSubmitted" OnCanceled="@HandleCancelClicked" />
+		}
+	</SideDrawer>
 }

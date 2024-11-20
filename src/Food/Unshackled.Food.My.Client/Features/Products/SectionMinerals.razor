@@ -1,0 +1,182 @@
+﻿@inherits SectionMineralsBase
+
+<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
+	<SectionHeader IsEditMode="@IsEditMode" IsEditing="@IsEditing" EditingClass="mb-4" FormId="@FormId" Breakpoint="Breakpoint.Sm" 
+				   OnCancelClicked="@(() => HandleEditCancelClicked())">
+		<TitleContent>
+			<div class="d-flex flex-row gap-2 align-end mb-3">
+				<MudText Typo="Typo.subtitle1">Minerals</MudText>
+				<MudText Typo="Typo.body2" Color="Color.Tertiary">per serving</MudText>
+			</div>
+		</TitleContent>
+		<EditModeToolbar>
+			<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@DisableSectionControls" OnClick="@(() => HandleEditClicked())" />
+		</EditModeToolbar>
+	</SectionHeader>
+	
+	@if (!IsEditing)
+	{
+		<MudGrid Spacing="2" Class="mb-4">
+			@if (Product.Calcium > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Calcium">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Calcium" AmountUnit="@Product.CalciumUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.Chloride > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Chloride">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Chloride" AmountUnit="@Product.ChlorideUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.Chromium > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Chromium">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Chromium" AmountUnit="@Product.ChromiumUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.Copper > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Copper">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Copper" AmountUnit="@Product.CopperUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.Iodine > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Iodine">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Iodine" AmountUnit="@Product.IodineUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.Iron > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Iron">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Iron" AmountUnit="@Product.IronUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.Magnesium > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Magnesium">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Magnesium" AmountUnit="@Product.MagnesiumUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.Manganese > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Manganese">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Manganese" AmountUnit="@Product.ManganeseUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.Molybdenum > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Molybdenum">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Molybdenum" AmountUnit="@Product.MolybdenumUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.Phosphorus > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Phosphorus">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Phosphorus" AmountUnit="@Product.PhosphorusUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.Potassium > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Potassium">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Potassium" AmountUnit="@Product.PotassiumUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.Selenium > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Selenium">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Selenium" AmountUnit="@Product.SeleniumUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.Zinc > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Zinc">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Zinc" AmountUnit="@Product.ZincUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+		</MudGrid>
+	}
+	else
+	{
+		<FormMinerals Model="@Model" FormId="@FormId" DisableFormControls="@DisableControls" OnFormSubmitted="@HandleFormSubmitted" />
+	}
+</SectionComponent>

@@ -1,0 +1,29 @@
+﻿@inherits FormVitaminsBase
+
+<EditForm id="@FormId" Model="@Model" OnValidSubmit="HandleFormSubmitted">
+	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
+	<MudGrid Spacing="3">
+		@******* Vitamins *******@
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.Biotin" Min="0M" Max="99999M" @bind-Value="@Model.Biotin" @bind-Unit="@Model.BiotinUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.Choline" Min="0M" Max="99999M" @bind-Value="@Model.Choline" @bind-Unit="@Model.CholineUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.Folate" Min="0M" Max="99999M" @bind-Value="@Model.Folate" @bind-Unit="@Model.FolateUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.Niacin" Min="0M" Max="99999M" @bind-Value="@Model.Niacin" @bind-Unit="@Model.NiacinUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.PantothenicAcid" Min="0M" Max="99999M" @bind-Value="@Model.PantothenicAcid" @bind-Unit="@Model.PantothenicAcidUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.Riboflavin" Min="0M" Max="99999M" @bind-Value="@Model.Riboflavin" @bind-Unit="@Model.RiboflavinUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.Thiamin" Min="0M" Max="99999M" @bind-Value="@Model.Thiamin" @bind-Unit="@Model.ThiaminUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.VitaminA" Min="0M" Max="99999M" @bind-Value="@Model.VitaminA" @bind-Unit="@Model.VitaminAUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.VitaminB6" Min="0M" Max="99999M" @bind-Value="@Model.VitaminB6" @bind-Unit="@Model.VitaminB6Unit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.VitaminB12" Min="0M" Max="99999M" @bind-Value="@Model.VitaminB12" @bind-Unit="@Model.VitaminB12Unit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.VitaminC" Min="0M" Max="99999M" @bind-Value="@Model.VitaminC" @bind-Unit="@Model.VitaminCUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.VitaminD" Min="0M" Max="99999M" @bind-Value="@Model.VitaminD" @bind-Unit="@Model.VitaminDUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.VitaminE" Min="0M" Max="99999M" @bind-Value="@Model.VitaminE" @bind-Unit="@Model.VitaminEUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.VitaminK" Min="0M" Max="99999M" @bind-Value="@Model.VitaminK" @bind-Unit="@Model.VitaminKUnit" />
+	</MudGrid>
+
+	@if (FormToolbar != null)
+	{
+		<MudToolBar Gutters="false" Class="mt-4">
+			@FormToolbar
+		</MudToolBar>
+	}
+</EditForm>

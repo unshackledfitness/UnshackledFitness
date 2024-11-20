@@ -1,10 +1,33 @@
 ﻿using Unshackled.Food.Core.Enums;
+using Unshackled.Food.Core.Models.Products;
 using Unshackled.Food.Core.Models.Recipes;
 
 namespace Unshackled.Food.Core.Utils;
 
 public static class FoodCalculator
 {
+	public static NutrientResult GetNutrientResult(Nutrients resultNutrient, NutritionUnits resultUnit, decimal reqAmt, NutritionUnits reqUnit)
+	{
+		NutrientResult result = new()
+		{
+			Amount = reqAmt,
+			Unit = reqUnit
+		};
+
+		if (result.Unit == NutritionUnits.pdv)
+		{
+			result.AmountN = resultNutrient.RDAinMg((int)Math.Round(result.Amount, 0, MidpointRounding.AwayFromZero));
+			result.Unit = resultUnit;
+			result.Amount = result.Unit.DeNormalizeAmount(result.AmountN);
+		}
+		else
+		{
+			result.AmountN = result.Unit.NormalizeAmount(result.Amount);
+		}
+
+		return result;
+	}
+
 	public static NutritionCalcResult NutritionalContent(
 		MeasurementUnits ingredientUnit, decimal ingredientAmountN, decimal nutrientPerServingAmountN,
 		ServingSizeUnits servingSizeUnit, decimal servingSizeAmountN,

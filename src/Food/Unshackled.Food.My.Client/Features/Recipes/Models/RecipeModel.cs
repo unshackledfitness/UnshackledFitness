@@ -1,4 +1,5 @@
-﻿using Unshackled.Food.Core.Models;
+﻿using System.Text.Json.Serialization;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.Core.Models.Recipes;
 
 namespace Unshackled.Food.My.Client.Features.Recipes.Models;
@@ -76,6 +77,10 @@ public class RecipeModel : BaseHouseholdObject, IRecipeTags
 	public bool IsVegetarian { get; set; }
 	public bool IsVegan { get; set; }
 
-	public TimeSpan PrepTime => new TimeSpan(0, PrepTimeMinutes, 0);
-	public TimeSpan CookTime => new TimeSpan(0, CookTimeMinutes, 0);
+
+	[JsonIgnore]
+	public TimeSpan PrepTime => new(0, PrepTimeMinutes, 0);
+
+	[JsonIgnore]
+	public TimeSpan CookTime => new(0, CookTimeMinutes, 0);
 }

@@ -12,6 +12,7 @@ public class DrawerNutritionBase : BaseComponent
 	[Parameter] public List<RecipeIngredientModel> Ingredients { get; set; } = new();
 	[Parameter] public decimal Scale { get; set; }
 	protected NutritionLabelModel LabelModel { get; set; } = new();
+	protected bool HasMissingNutritionInfo => Ingredients.Where(x => x.HasNutritionInfo == false).Any();
 	protected bool HasMissingProductSubstitutions => Ingredients.Where(x => x.HasSubstitution == false).Any();
 
 	protected override void OnParametersSet()

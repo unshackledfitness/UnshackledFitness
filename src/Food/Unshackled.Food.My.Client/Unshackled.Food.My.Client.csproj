@@ -26,4 +26,10 @@
 		<ProjectReference Include="..\Unshackled.Food.Core\Unshackled.Food.Core.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Update="Features\Products\FormServings.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
+	</ItemGroup>
+
 </Project>

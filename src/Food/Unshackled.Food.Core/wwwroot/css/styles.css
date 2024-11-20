@@ -28,7 +28,7 @@
 
 @font-face {
   font-family: 'Roboto';
-  src: url(/fonts/Roboto-SemiBold.woff) format("woff");
+  src: url(/fonts/Roboto-Medium.woff) format("woff");
   font-style: normal;
   font-weight: 600;
 }
@@ -120,41 +120,6 @@ a {
   padding: .4rem 1rem;
 }
 
-.flex-summary {
-  font-size: 1rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  width: 100%;
-}
-
-.flex-summary .summary-item {
-  padding: .5em;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-basis: 50%;
-}
-
-.flex-summary .summary-item .summary-label {
-  font-size: .8em;
-}
-
-.flex-summary .summary-item .summary-value {
-  font-size: 1em;
-}
-
-@media (min-width: 600px) {
-  .flex-summary .summary-item .summary-value {
-    font-size: 1.2em;
-  }
-}
-
-.flex-summary .summary-item .summary-caption {
-  font-size: .6em;
-}
-
 .valid.modified:not([type=checkbox]) {
   outline: 1px solid var(--mud-palette-success);
 }
@@ -195,20 +160,6 @@ a {
 
 .mud-input-control.mud-input-control-margin-dense.mud-input-outlined-with-label {
   margin: 0;
-}
-
-.label-unit .amt {
-  display: inline-block;
-}
-
-.label-unit .amt-label {
-  display: inline-block;
-  color: var(--mud-palette-tertiary);
-  margin-left: .125em;
-}
-
-.label-unit .prep {
-  color: var(--mud-palette-tertiary);
 }
 
 html, body, #app {
@@ -529,10 +480,6 @@ html, body, #app {
   margin-right: .5em;
 }
 
-.mud-drawer-content .mud-nav-item .mud-nav-link {
-  padding: .2rem 1rem;
-}
-
 .mud-collapse-container .mud-nav-item {
   font-size: .95rem;
 }
@@ -651,43 +598,6 @@ html, body, #app {
   padding-right: 12px;
   align-self: center;
   cursor: pointer;
-}
-
-.recipe-step {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.recipe-dialog-instructions {
-  font-size: 1.2rem;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  margin: 1.5em 2em;
-}
-
-@media (min-width: 600px) {
-  .recipe-dialog-instructions {
-    font-size: 1.3rem;
-    margin: 1.5em 3em;
-  }
-}
-
-@media (min-width: 960px) {
-  .recipe-dialog-instructions {
-    font-size: 1.4rem;
-    margin: 1.5em 0;
-  }
-}
-
-@media (min-width: 1280px) {
-  .recipe-dialog-instructions {
-    font-size: 1.5rem;
-    margin: 1.5em 0;
-    justify-content: center;
-  }
 }
 
 .search {
@@ -1298,4 +1208,114 @@ p ul li {
 
 .calendar .cal-grid .day.day-alt {
   background-color: var(--mud-palette-table-striped);
+}
+
+.custom-legend {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  margin: .5rem 0 1rem;
+}
+
+.custom-legend .legend-item {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.custom-legend .legend-item .color-block {
+  width: 2rem;
+  height: 1rem;
+}
+
+.flex-summary {
+  font-size: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.flex-summary .summary-item {
+  padding: .5em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-basis: 50%;
+}
+
+.flex-summary .summary-item .summary-label {
+  font-size: .8em;
+}
+
+.flex-summary .summary-item .summary-value {
+  font-size: 1em;
+}
+
+@media (min-width: 600px) {
+  .flex-summary .summary-item .summary-value {
+    font-size: 1.2em;
+  }
+}
+
+.flex-summary .summary-item .summary-caption {
+  font-size: .6em;
+}
+
+.label-unit .amt {
+  display: inline-block;
+}
+
+.label-unit .amt-label {
+  display: inline-block;
+  color: var(--mud-palette-tertiary);
+  margin-left: .125em;
+}
+
+.label-unit .prep {
+  color: var(--mud-palette-tertiary);
+}
+
+.label-unit .small-label {
+  font-size: .8em;
+}
+
+.recipe-step {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.recipe-dialog-instructions {
+  font-size: 1.2rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  margin: 1.5em 2em;
+}
+
+@media (min-width: 600px) {
+  .recipe-dialog-instructions {
+    font-size: 1.3rem;
+    margin: 1.5em 3em;
+  }
+}
+
+@media (min-width: 960px) {
+  .recipe-dialog-instructions {
+    font-size: 1.4rem;
+    margin: 1.5em 0;
+  }
+}
+
+@media (min-width: 1280px) {
+  .recipe-dialog-instructions {
+    font-size: 1.5rem;
+    margin: 1.5em 0;
+    justify-content: center;
+  }
 }

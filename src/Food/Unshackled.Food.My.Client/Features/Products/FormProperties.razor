@@ -1,0 +1,26 @@
+﻿@inherits FormPropertiesBase
+
+<EditForm id="@FormId" Model="@Model" OnValidSubmit="HandleFormSubmitted">
+	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
+	<MudGrid Spacing="3">
+		<MudItem xs="12">
+			<MudTextField Label="Brand" Variant="Variant.Outlined" Immediate="true" Disabled="@IsSaving" Margin="Margin.Dense"
+						  FullWidth="true" For="@(() => Model.Brand)" @bind-Value="@Model.Brand" />
+		</MudItem>
+		<MudItem xs="12">
+			<MudTextField Label="Title" Variant="Variant.Outlined" Immediate="true" Disabled="@IsSaving" Required="true" Margin="Margin.Dense"
+						  FullWidth="true" For="@(() => Model.Title)" @bind-Value="@Model.Title" />
+		</MudItem>
+		<MudItem xs="12">
+			<MudTextField Label="Description" Variant="Variant.Outlined" Immediate="true" Disabled="@IsSaving" Margin="Margin.Dense"
+						  FullWidth="true" For="@(() => Model.Description)" @bind-Value="@Model.Description" />
+		</MudItem>
+	</MudGrid>
+
+	@if (FormToolbar != null)
+	{
+		<MudToolBar Gutters="false" Class="mt-4">
+			@FormToolbar
+		</MudToolBar>
+	}
+</EditForm>

@@ -5,7 +5,7 @@ using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Products;
 
-public class FormProductBase : BaseFormComponent<FormProductModel, FormProductModel.Validator>
+public class FormServingsBase : BaseFormComponent<FormProductModel, FormProductModel.Validator>
 {
 
 	private string originalUnitText = string.Empty;

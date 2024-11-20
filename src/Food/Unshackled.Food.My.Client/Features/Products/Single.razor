@@ -35,6 +35,27 @@ else
 
 		<SectionProperties @bind-Product="@Product" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleSectionEditing" />
 
+		@if (Product.HasServings || IsEditMode)
+		{
+			<SectionServings @bind-Product="@Product" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleSectionEditing" />
+		}
+		@if (Product.HasMacros || IsEditMode)
+		{
+			<SectionMacros @bind-Product="@Product" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleSectionEditing" />
+		}
+		@if (Product.HasDietary || IsEditMode)
+		{
+			<SectionDietary @bind-Product="@Product" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleSectionEditing" />
+		}
+		@if (Product.HasVitamins || IsEditMode)
+		{
+			<SectionVitamins @bind-Product="@Product" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleSectionEditing" />
+		}
+		@if (Product.HasMinerals || IsEditMode)
+		{
+			<SectionMinerals @bind-Product="@Product" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleSectionEditing" />
+		}
+
 		<SideDrawer Title="@GetDrawerTitle()" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
 			@if (DrawerView == Views.AddToList)
 			{

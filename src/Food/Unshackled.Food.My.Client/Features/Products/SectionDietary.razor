@@ -1,0 +1,122 @@
+﻿@inherits SectionDietaryBase
+
+<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
+	<SectionHeader IsEditMode="@IsEditMode" IsEditing="@IsEditing" EditingClass="mb-4" FormId="@FormId" Breakpoint="Breakpoint.Sm" 
+				   OnCancelClicked="@(() => HandleEditCancelClicked())">
+		<TitleContent>
+			<div class="d-flex flex-row gap-2 align-end mb-3">
+				<MudText Typo="Typo.subtitle1">Dietary Information</MudText>
+				<MudText Typo="Typo.body2" Color="Color.Tertiary">per serving</MudText>
+			</div>
+		</TitleContent>
+		<EditModeToolbar>
+			<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@DisableSectionControls" OnClick="@(() => HandleEditClicked())" />
+		</EditModeToolbar>
+	</SectionHeader>
+	
+	@if (!IsEditing)
+	{
+		<MudGrid Spacing="2" Class="mb-4">
+			@if (Product.Cholesterol > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Cholesterol">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Cholesterol" AmountUnit="@Product.CholesterolUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.Sodium > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Sodium">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Sodium" AmountUnit="@Product.SodiumUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.DietaryFiber > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Dietary Fiber">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.DietaryFiber" AmountUnit="@Product.DietaryFiberUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.SolubleFiber > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Soluble Fiber">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.SolubleFiber" AmountUnit="@Product.SolubleFiberUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.InsolubleFiber > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Insoluble Fiber">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.InsolubleFiber" AmountUnit="@Product.InsolubleFiberUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.TotalSugars > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Total Sugars">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.TotalSugars" AmountUnit="@Product.TotalSugarsUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.AddedSugars > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Added Sugars">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.AddedSugars" AmountUnit="@Product.AddedSugarsUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.SugarAlcohols > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Sugar Alcohols">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.SugarAlcohols" AmountUnit="@Product.SugarAlcoholsUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+		</MudGrid>
+	}
+	else
+	{
+		<FormDietary Model="@Model" FormId="@FormId" DisableFormControls="@DisableControls" OnFormSubmitted="@HandleFormSubmitted" />
+	}
+</SectionComponent>

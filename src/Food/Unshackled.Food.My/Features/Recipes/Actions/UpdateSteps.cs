@@ -43,7 +43,7 @@ public class UpdateSteps
 
 			var recipe = await db.Recipes
 				.Where(x => x.Id == request.RecipeId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if(recipe == null)
 				return new CommandResult(false, "Invalid recipe.");
@@ -51,7 +51,7 @@ public class UpdateSteps
 			var currentSteps = await db.RecipeSteps
 				.Where(x => x.RecipeId == request.RecipeId)
 				.OrderBy(x => x.SortOrder)
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
 			using var transaction = await db.Database.BeginTransactionAsync();
 
@@ -70,7 +70,7 @@ public class UpdateSteps
 						// Remove step ingredients
 						await db.RecipeStepIngredients
 							.Where(x => x.RecipeStepId == existing.Id)
-							.DeleteFromQueryAsync();
+							.DeleteFromQueryAsync(cancellationToken);
 
 						db.RecipeSteps.Remove(existing);
 					}
@@ -109,7 +109,7 @@ public class UpdateSteps
 							// Remove existing step ingredients
 							await db.RecipeStepIngredients
 								.Where(x => x.RecipeStepId == step.Id)
-								.DeleteFromQueryAsync();
+								.DeleteFromQueryAsync(cancellationToken);
 						}
 					}
 

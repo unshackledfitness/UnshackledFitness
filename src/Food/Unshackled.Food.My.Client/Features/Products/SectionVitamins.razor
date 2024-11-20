@@ -1,0 +1,194 @@
+﻿@inherits SectionVitaminsBase
+
+<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
+	<SectionHeader IsEditMode="@IsEditMode" IsEditing="@IsEditing" EditingClass="mb-4" FormId="@FormId" Breakpoint="Breakpoint.Sm" 
+	OnCancelClicked="@(() => HandleEditCancelClicked())">
+		<TitleContent>
+			<div class="d-flex flex-row gap-2 align-end mb-3">
+				<MudText Typo="Typo.subtitle1">Vitamins</MudText>
+				<MudText Typo="Typo.body2" Color="Color.Tertiary">per serving</MudText>
+			</div>
+		</TitleContent>
+		<EditModeToolbar>
+			<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@DisableSectionControls" OnClick="@(() => HandleEditClicked())" />
+		</EditModeToolbar>
+	</SectionHeader>
+
+	@if (!IsEditing)
+	{
+		<MudGrid Spacing="2" Class="mb-4">
+			@if (Product.Biotin > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Biotin">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Biotin" AmountUnit="@Product.BiotinUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.Choline > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Choline">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Choline" AmountUnit="@Product.CholineUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.Folate > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Folate">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Folate" AmountUnit="@Product.FolateUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.Niacin > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Niacin">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Niacin" AmountUnit="@Product.NiacinUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.PantothenicAcid > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Pantothenic Acid">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.PantothenicAcid" AmountUnit="@Product.PantothenicAcidUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.Riboflavin > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Riboflavin">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Riboflavin" AmountUnit="@Product.RiboflavinUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.Thiamin > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Thiamin">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Thiamin" AmountUnit="@Product.ThiaminUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.VitaminA > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Vitamin A">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.VitaminA" AmountUnit="@Product.VitaminAUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.VitaminB6 > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Vitamin B6">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.VitaminB6" AmountUnit="@Product.VitaminB6Unit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.VitaminB12 > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Vitamin B12">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.VitaminB12" AmountUnit="@Product.VitaminB12Unit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.VitaminC > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Vitamin C">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.VitaminC" AmountUnit="@Product.VitaminCUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.VitaminD > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Vitamin D">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.VitaminD" AmountUnit="@Product.VitaminDUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.VitaminE > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Vitamin E">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.VitaminE" AmountUnit="@Product.VitaminEUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.VitaminK > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Vitamin K">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.VitaminK" AmountUnit="@Product.VitaminKUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+		</MudGrid>
+	}
+	else
+	{
+		<FormVitamins Model="@Model" FormId="@FormId" DisableFormControls="@DisableControls" OnFormSubmitted="@HandleFormSubmitted" />
+	}
+</SectionComponent>

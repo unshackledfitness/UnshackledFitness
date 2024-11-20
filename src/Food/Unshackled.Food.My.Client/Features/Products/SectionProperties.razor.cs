@@ -22,29 +22,8 @@ public class SectionPropertiesBase : BaseSectionComponent
 
 	protected async Task HandleEditClicked()
 	{
-		Model = new()
-		{
-			Brand = Product.Brand,
-			Calories = Product.Calories,
-			Carbohydrates = Product.Carbohydrates,
-			CarbohydratesUnit = Product.CarbohydratesUnit,
-			Description = Product.Description,
-			Fat = Product.Fat,
-			FatUnit = Product.FatUnit,
-			HasNutritionInfo = Product.HasNutritionInfo,
-			Protein = Product.Protein,
-			ProteinUnit = Product.ProteinUnit,
-			ServingSizeText = Product.ServingSize.ToString("0.###"),
-			ServingSize = Product.ServingSize,
-			ServingSizeMetric = Product.ServingSizeMetric,
-			ServingSizeMetricUnit = Product.ServingSizeMetricUnit,
-			ServingSizeUnit = Product.ServingSizeUnit,
-			ServingSizeUnitLabel = Product.ServingSizeUnitLabel,
-			ServingsPerContainer = Product.ServingsPerContainer,
-			Sid = Product.Sid,
-			Title = Product.Title,
-		};
-
+		Model = new();
+		Model.Fill(Product);
 		IsEditing = await UpdateIsEditingSection(true);
 	}
 

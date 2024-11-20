@@ -22,9 +22,9 @@ public class SetTheme
 	{
 		private readonly AppState state = default!;
 
-		public Handler(HttpClient httpClient, AppState state) : base(httpClient)
+		public Handler(HttpClient httpClient, IAppState state) : base(httpClient)
 		{
-			this.state = state;
+			this.state = (AppState)state;
 		}
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)

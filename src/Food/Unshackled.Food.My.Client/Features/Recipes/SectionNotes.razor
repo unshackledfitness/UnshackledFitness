@@ -3,7 +3,7 @@
 @if(IsEditMode || Notes.Any())
 {
 	<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
-		<SectionHeader Title="Notes" Typo="Typo.h5" IsEditMode="@IsEditMode" IsEditing="@IsEditing" DisableControls="@DisableControls"
+		<SectionHeader Title="Notes" Typo="Typo.h5" IsEditMode="@IsEditMode" IsEditing="@IsEditing" DisableControls="@DisableControls" Class="mb-4" EditingClass="mb-4"
 					   OnCancelClicked="@(() => HandleCancelEditClicked())" OnSaveClicked="HandleUpdateClicked">
 			<EditModeToolbar>
 				<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@DisableSectionControls" OnClick="@(() => HandleEditClicked())" />
@@ -34,33 +34,23 @@
 		else
 		{
 			<SortableListView TItem="FormNoteModel" Items="@FormNotes" SortOrderChanged="@HandleSortChanged" IsSortingChanged="@HandleIsSorting" 
-				ToolbarPosition="ToolbarPositions.Top" ToolbarAlignment="HorizontalAlignment.Left" DisableSort="@(IsAdding || DisableControls)">
+				ToolbarPosition="ToolbarPositions.Top" ToolbarAlignment="HorizontalAlignment.Left" DisableSort="@DisableControls">
 				<ItemRenderer>
-					@if (!context.Item.IsEditing)
-					{
-						<MudGrid Spacing="2" Class="align-stretch">
-							<MudItem xs="1" Class="d-flex flex-row gap-2 justify-space-between">
-								<MudText>@(context.Item.SortOrder + 1)</MudText>
-								<MudDivider Vertical="true" FlexItem="true" />
-							</MudItem>
-							<MudItem xs="11" sm="10">
-								<MudText>@((MarkupString)context.Item.Note.ReplaceLineBreaks("<br />"))</MudText>
-							</MudItem>
-							<MudItem xs="12" sm="1" Class="d-flex flex-row gap-1 align-start">
-								<MudSpacer />
-								<MudIconButton Icon="@Icons.Material.Filled.Edit" title="Edit" Disabled="@DisableControls" OnClick="@(() => HandleEditItemClicked(context.Item))" />
-								<MudIconButton Icon="@Icons.Material.Filled.Delete" title="Remove" Disabled="@DisableControls" OnClick="@(() => HandleDeleteClicked(context.Item))" />
-							</MudItem>
-						</MudGrid>
-					}
-					else
-					{
-						<FormNote Model="@context.Item" DisableFormControls="@DisableControls" OnFormSubmitted="@HandleEditFormSubmitted" 
-								  OnCanceled="@(() => HandleCancelEditItemClicked(context.Item))" />
-					}
+					<div class="d-flex flex-row gap-4 align-start">
+						<div class="d-flex flex-row gap-2 justify-space-between">
+							<MudText>@(context.Item.SortOrder + 1)</MudText>
+							<MudDivider Vertical="true" FlexItem="true" />
+						</div>
+						<div class="flex-grow-1">
+							<MudText>@((MarkupString)context.Item.Note.ReplaceLineBreaks("<br />"))</MudText>
+						</div>
+						<div>
+							<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" Disabled="@DisableControls" OnClick="@(() => HandleEditItemClicked(context.Item))" />
+						</div>
+					</div>
 				</ItemRenderer>
 				<ListTools>
-					<MudButton Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@(DisableControls || IsAdding)"
+					<MudButton Variant="Variant.Text" Color="Color.Default" StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls"
 								OnClick="@(() => HandleAddClicked())">Add</MudButton>
 				</ListTools>
 				<DraggableItemRenderer>
@@ -76,11 +66,17 @@
 					</MudPaper>
 				</DraggableItemRenderer>
 			</SortableListView>
-
-			@if (IsAdding)
-			{
-				<FormNote Model="@AddFormModel" DisableFormControls="@DisableControls" OnFormSubmitted="@HandleAddFormSubmitted" OnCanceled="@HandleCancelAddClicked" />
-			}
 		}
+
+		<SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
+			@if (DrawerView == Views.AddNote)
+			{
+				<DrawerNote Model="@CurrentFormModel" DisableFormControls="@DisableControls" IsAdding="true" OnFormSubmitted="@HandleAddFormSubmitted" OnCanceled="@HandleCancelClicked" />
+			}
+			else if (DrawerView == Views.EditNote)
+			{
+				<DrawerNote Model="@CurrentFormModel" DisableFormControls="@DisableControls" IsAdding="false" OnFormSubmitted="@HandleEditFormSubmitted" OnDeleted="@HandleDeleteClicked" OnCanceled="@HandleCancelClicked" />
+			}
+		</SideDrawer>
 	</SectionComponent>
 }

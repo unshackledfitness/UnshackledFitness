@@ -1,7 +1,7 @@
 ﻿<MudText Typo="Typo.h4">Nutrition Facts</MudText>
 <div class="d-flex flex-row gap-2">
 	<MudText>Serving Size</MudText>
-	<ServingSizeLabel ServingSize="@Item.ServingSize" ServingSizeUnit="@Item.ServingSizeUnit" ServingSizeMetric="@Item.ServingSizeMetric" ServingSizeMetricUnit="@Item.ServingSizeMetricUnit" />
+	<MudText Color="Color.Tertiary">@GetServingSizeLabel()</MudText>
 </div>
 <div class="d-flex flex-row gap-2">
 	<MudText>Servings Per Container</MudText>
@@ -16,17 +16,72 @@
 		<MudText><strong>Calories</strong> @Item.Calories</MudText>
 		<MudDivider DividerType="DividerType.FullWidth" />
 
+		<MudText Class="ms-3">Calories from Fat @Item.CaloriesFromFat</MudText>
 		<MudDivider DividerType="DividerType.FullWidth" Style="border-width: 5px" />
 	</MudItem>
 
 	<MudItem xs="@xs" sm="@sm" md="@md" lg="@lg" xl="@xl">
 		<MudText Typo="Typo.caption" Class="d-block" Align="Align.End">% Daily Value*</MudText>
 		<MudDivider DividerType="DividerType.FullWidth" />
-		<NutritionLabelRow Nutrient="@Nutrients.Fat" Amount="@Item.Fat" Units="@Item.FatUnit" AlwaysShow="true" BoldTitle="true" />
-		<NutritionLabelRow Nutrient="@Nutrients.Carbohydrates" Amount="@Item.Carbohydrates" Units="@Item.CarbohydratesUnit" AlwaysShow="true" BoldTitle="true" />
+		<NutritionLabelRow Nutrient="@Nutrients.TotalFat" Amount="@Item.TotalFat" Units="@Item.TotalFatUnit" AlwaysShow="true" BoldTitle="true" />
+		<NutritionLabelRow Nutrient="@Nutrients.SaturatedFat" Amount="@Item.SaturatedFat" Units="@Item.SaturatedFatUnit" TitleClass="ms-3" AlwaysShow="true" />
+		<NutritionLabelRow Nutrient="@Nutrients.PolyunsaturatedFat" Amount="@Item.PolyunsaturatedFat" Units="@Item.PolyunsaturatedFatUnit" TitleClass="ms-3" ShowRDA="false" />
+		<NutritionLabelRow Nutrient="@Nutrients.MonounsaturatedFat" Amount="@Item.MonounsaturatedFat" Units="@Item.MonounsaturatedFatUnit" TitleClass="ms-3" ShowRDA="false" />
+		<NutritionLabelRow Nutrient="@Nutrients.TransFat" Amount="@Item.TransFat" Units="@Item.TransFatUnit" TitleClass="ms-3" AlwaysShow="true" ShowRDA="false" />
+		<NutritionLabelRow Nutrient="@Nutrients.Cholesterol" Amount="@Item.Cholesterol" Units="@Item.CholesterolUnit" AlwaysShow="true" BoldTitle="true" />
+		<NutritionLabelRow Nutrient="@Nutrients.Sodium" Amount="@Item.Sodium" Units="@Item.SodiumUnit" AlwaysShow="true" BoldTitle="true" />
+		<NutritionLabelRow Nutrient="@Nutrients.TotalCarbohydrates" Amount="@Item.TotalCarbohydrates" Units="@Item.TotalCarbohydratesUnit" AlwaysShow="true" BoldTitle="true" />
+		<NutritionLabelRow Nutrient="@Nutrients.DietaryFiber" Amount="@Item.DietaryFiber" Units="@Item.DietaryFiberUnit" TitleClass="ms-3" AlwaysShow="true" />
+		<NutritionLabelRow Nutrient="@Nutrients.SolubleFiber" Amount="@Item.SolubleFiber" Units="@Item.SolubleFiberUnit" TitleClass="ms-6" ShowRDA="false" />
+		<NutritionLabelRow Nutrient="@Nutrients.InsolubleFiber" Amount="@Item.InsolubleFiber" Units="@Item.InsolubleFiberUnit" TitleClass="ms-6" ShowRDA="false" />
+		<NutritionLabelRow Nutrient="@Nutrients.TotalSugars" Amount="@Item.TotalSugars" Units="@Item.TotalSugarsUnit" TitleClass="ms-3" AlwaysShow="true" ShowRDA="false" />
+		<div class="d-flex flex-row gap-2 justify-space-between">
+			<div class="d-flex flex-row gap-x-2 flex-wrap ms-6">
+				<MudText>Includes</MudText>
+				<MudText Color="Color.Tertiary">@Item.AddedSugars.ToString("0.##")@Item.AddedSugarsUnit.Label()</MudText>
+				<MudText>Added Sugars</MudText>
+			</div>
+			<MudText>@Nutrients.AddedSugars.PercentRDA(Item.AddedSugarsUnit.NormalizeAmount(Item.AddedSugars)).ToString("P0")</MudText>
+		</div>
 		<MudDivider DividerType="DividerType.FullWidth" />
+		<NutritionLabelRow Nutrient="@Nutrients.SugarAlcohols" Amount="@Item.SugarAlcohols" Units="@Item.SugarAlcoholsUnit" TitleClass="ms-6" ShowRDA="false" />
 		<NutritionLabelRow Nutrient="@Nutrients.Protein" Amount="@Item.Protein" Units="@Item.ProteinUnit" AlwaysShow="true" BoldTitle="true" ShowRDA="false" />
 	</MudItem>
+
+	@if (HasVitaminOrMineral())
+	{
+		<MudItem xs="@xs" sm="@sm" md="@md" lg="@lg" xl="@xl">
+			<MudText Typo="Typo.caption" Class="d-block" Align="Align.End">% Daily Value*</MudText>
+			<MudDivider DividerType="DividerType.FullWidth" />
+			<NutritionLabelRow Nutrient="@Nutrients.VitaminA" Amount="@Item.VitaminA" Units="@Item.VitaminAUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.VitaminB6" Amount="@Item.VitaminB6" Units="@Item.VitaminB6Unit" />
+			<NutritionLabelRow Nutrient="@Nutrients.VitaminB12" Amount="@Item.VitaminB12" Units="@Item.VitaminB12Unit" />
+			<NutritionLabelRow Nutrient="@Nutrients.VitaminC" Amount="@Item.VitaminC" Units="@Item.VitaminCUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.VitaminD" Amount="@Item.VitaminD" Units="@Item.VitaminDUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.VitaminE" Amount="@Item.VitaminE" Units="@Item.VitaminEUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.VitaminK" Amount="@Item.VitaminK" Units="@Item.VitaminKUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.Biotin" Amount="@Item.Biotin" Units="@Item.BiotinUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.Choline" Amount="@Item.Choline" Units="@Item.CholineUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.Folate" Amount="@Item.Folate" Units="@Item.FolateUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.Niacin" Amount="@Item.Niacin" Units="@Item.NiacinUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.PantothenicAcid" Amount="@Item.PantothenicAcid" Units="@Item.PantothenicAcidUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.Riboflavin" Amount="@Item.Riboflavin" Units="@Item.RiboflavinUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.Thiamin" Amount="@Item.Thiamin" Units="@Item.ThiaminUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.Calcium" Amount="@Item.Calcium" Units="@Item.CalciumUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.Chloride" Amount="@Item.Chloride" Units="@Item.ChlorideUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.Chromium" Amount="@Item.Chromium" Units="@Item.ChromiumUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.Copper" Amount="@Item.Copper" Units="@Item.CopperUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.Iodine" Amount="@Item.Iodine" Units="@Item.IodineUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.Iron" Amount="@Item.Iron" Units="@Item.IronUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.Magnesium" Amount="@Item.Magnesium" Units="@Item.MagnesiumUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.Manganese" Amount="@Item.Manganese" Units="@Item.ManganeseUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.Molybdenum" Amount="@Item.Molybdenum" Units="@Item.MolybdenumUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.Phosphorus" Amount="@Item.Phosphorus" Units="@Item.PhosphorusUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.Potassium" Amount="@Item.Potassium" Units="@Item.PotassiumUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.Selenium" Amount="@Item.Selenium" Units="@Item.SeleniumUnit" />
+			<NutritionLabelRow Nutrient="@Nutrients.Zinc" Amount="@Item.Zinc" Units="@Item.ZincUnit" />
+		</MudItem>
+	}
 </MudGrid>
 
 <MudText Typo="Typo.caption" Class="d-block mt-3">

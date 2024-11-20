@@ -7,20 +7,16 @@ namespace Unshackled.Food.My.Client.Features.Recipes.Models;
 
 public class FormStepModel : ISortable, ICloneable
 {
-	public string Sid { get; set; } = Guid.NewGuid().ToString();
+	public string Sid { get; set; } = string.Empty;
 	public string RecipeSid { get; set; } = string.Empty;
 	public string Instructions { get; set; } = string.Empty;
 	public int SortOrder { get; set; }
 	public bool IsNew { get; set; }
-	public bool IsDeleted { get; set; }
 
-	[JsonIgnore]
-	public bool IsEditing { get; set; }
+	public List<FormStepIngredientModel> Ingredients { get; set; } = new();
 
 	[JsonIgnore]
 	public string IngredientList => String.Join(", ", Ingredients.Select(x => x.Title).ToArray());
-
-	public List<FormStepIngredientModel> Ingredients { get; set; } = new();
 
 	public object Clone()
 	{
@@ -28,8 +24,6 @@ public class FormStepModel : ISortable, ICloneable
 		{
 			Ingredients = Ingredients,
 			Instructions = Instructions,
-			IsDeleted = IsDeleted,
-			IsEditing = IsEditing,
 			IsNew = IsNew,
 			RecipeSid = RecipeSid,
 			Sid = Sid,

@@ -10,27 +10,45 @@ namespace Unshackled.Food.My.Client.Features.Recipes;
 
 public class SectionStepsBase : BaseSectionComponent
 {
+	protected enum Views
+	{
+		None,
+		AddStep,
+		EditStep,
+		BulkAdd
+	}
+
 	[Parameter] public string RecipeSid { get; set; } = string.Empty;
+	[Parameter] public List<RecipeIngredientModel> Ingredients { get; set; } = new();
 	[Parameter] public List<RecipeStepModel> Steps { get; set; } = new();
 	[Parameter] public EventCallback UpdateComplete { get; set; }
 
-	protected List<FormStepIngredientModel> Ingredients { get; set; } = new();
 	protected List<FormStepModel> FormSteps { get; set; } = new();
 	protected List<FormStepModel> DeletedSteps { get; set; } = new();
-	protected FormStepModel AddFormModel { get; set; } = new();
+	protected FormStepModel CurrentFormModel { get; set; } = new();
 	protected FormBulkAddStepModel BulkAddFormModel { get; set; } = new();
 
 	protected bool IsWorking { get; set; } = false;
 	protected bool IsEditing { get; set; } = false;
-	protected bool IsAdding { get; set; } = false;
-	protected bool IsBulkAdding { get; set; } = false;
 	protected bool IsSorting { get; set; } = false;
-	protected bool IsEditingItem => FormSteps.Where(x => x.IsEditing == true).Any();
-	protected bool DisableControls => IsWorking || IsSorting || IsAdding || IsBulkAdding;
+	protected bool DisableControls => IsWorking || IsSorting;
+	protected bool DrawerOpen => DrawerView != Views.None;
+	protected Views DrawerView { get; set; } = Views.None;
+	protected string DrawerTitle => DrawerView switch
+	{
+		Views.AddStep => "Add Step",
+		Views.BulkAdd => "Bulk Add Steps",
+		Views.EditStep => "Edit Step",
+		_ => string.Empty
+	};
 
 	protected void HandleAddClicked()
 	{
-		IsAdding = true;
+		CurrentFormModel = new()
+		{
+			RecipeSid = RecipeSid
+		};
+		DrawerView = Views.AddStep;
 	}
 
 	protected void HandleAddFormSubmitted(FormStepModel model)
@@ -45,13 +63,17 @@ public class SectionStepsBase : BaseSectionComponent
 			RecipeSid = RecipeSid,
 			SortOrder = FormSteps.Count()
 		});
-		AddFormModel = new();
 		IsWorking = false;
+		DrawerView = Views.None;
 	}
 
 	protected void HandleBulkAddClicked()
 	{
-		IsBulkAdding = true;
+		BulkAddFormModel = new()
+		{
+			RecipeSid = RecipeSid
+		};
+		DrawerView = Views.BulkAdd;
 	}
 
 	protected void HandleBulkAddFormSubmitted(FormBulkAddStepModel model)
@@ -76,7 +98,6 @@ public class SectionStepsBase : BaseSectionComponent
 				{
 					FormSteps.Add(new()
 					{
-						Sid = Guid.NewGuid().ToString(),
 						Instructions = instructions,
 						IsNew = true,
 						RecipeSid = RecipeSid,
@@ -86,17 +107,12 @@ public class SectionStepsBase : BaseSectionComponent
 			}
 			IsWorking = false;
 		}
-		IsBulkAdding = false;
+		DrawerView = Views.None;
 	}
 
-	protected void HandleCancelAddClicked()
+	protected void HandleCancelClicked()
 	{
-		IsAdding = false;
-	}
-
-	protected void HandleCancelBulkAddClicked()
-	{
-		IsBulkAdding = false;
+		DrawerView = Views.None;
 	}
 
 	protected async Task HandleCancelEditClicked()
@@ -104,48 +120,65 @@ public class SectionStepsBase : BaseSectionComponent
 		IsEditing = await UpdateIsEditingSection(false);
 	}
 
-	protected void HandleCancelEditItemClicked(FormStepModel item)
+	protected void HandleDeleteClicked()
 	{
-		item.IsEditing = false;
-	}
+		FormSteps.Remove(CurrentFormModel);
 
-	protected void HandleDeleteClicked(FormStepModel item)
-	{
-		FormSteps.Remove(item);
-		DeletedSteps.Add(item);
+		if (!CurrentFormModel.IsNew)
+		{
+			DeletedSteps.Add(CurrentFormModel);
+		}
 
 		// Adjust sort order for remaining sets
 		for (int i = 0; i < FormSteps.Count; i++)
 		{
 			FormSteps[i].SortOrder = i;
 		}
+
+		DrawerView = Views.None;
 	}
 
 	protected async Task HandleEditClicked()
 	{
-		await LoadFormSteps();
+		DeletedSteps.Clear();
+		FormSteps = Steps
+			.Select(x => new FormStepModel
+			{
+				Sid = x.Sid,
+				Instructions = x.Instructions,
+				IsNew = false,
+				RecipeSid = x.RecipeSid,
+				SortOrder = x.SortOrder,
+				Ingredients = x.Ingredients
+					.Select(y => new FormStepIngredientModel
+					{
+						RecipeIngredientSid = y.RecipeIngredientSid,
+						RecipeStepSid = y.RecipeStepSid,
+						Title = y.Title
+					})
+					.ToList()
+			})
+			.ToList();
 		IsEditing = await UpdateIsEditingSection(true);
 	}
 
 	protected void HandleEditFormSubmitted(FormStepModel model)
 	{
 		IsWorking = true;
-		var item = FormSteps.Where(x => x.Sid == model.Sid).Single();
-		item.Instructions = model.Instructions;
-		item.Ingredients = model.Ingredients;
-		item.IsEditing = false;
+		CurrentFormModel.Instructions = model.Instructions;
+		CurrentFormModel.Ingredients = model.Ingredients;
 		IsWorking = false;
+		DrawerView = Views.None;
 	}
 
 	protected void HandleEditItemClicked(FormStepModel item)
 	{
-		item.IsEditing = true;
-		IsAdding = false;
+		CurrentFormModel = item;
+		DrawerView = Views.EditStep;
 	}
 
 	protected void HandleIsSorting(bool isSorting)
 	{
-		IsAdding = false;
 		IsSorting = isSorting;
 	}
 
@@ -180,44 +213,5 @@ public class SectionStepsBase : BaseSectionComponent
 		IsSorting = false;
 		IsWorking = false;
 		IsEditing = await UpdateIsEditingSection(false);
-	}
-	protected async Task LoadFormSteps()
-	{
-		DeletedSteps.Clear();
-		FormSteps = Steps
-			.Select(x => new FormStepModel
-			{
-				Sid = x.Sid,
-				Instructions = x.Instructions,
-				IsEditing = false,
-				IsNew = false,
-				RecipeSid = x.RecipeSid,
-				SortOrder = x.SortOrder,
-				Ingredients = x.Ingredients
-					.Select(y => new FormStepIngredientModel
-					{
-						Checked = true,
-						RecipeIngredientSid = y.RecipeIngredientSid,
-						RecipeStepSid = y.RecipeStepSid,
-						SortOrder = y.SortOrder,
-						Title = y.Title
-					})
-					.ToList()
-			})
-			.ToList();
-
-		// Get all ingredients for recipe
-		var ingredients = await Mediator.Send(new ListStepIngredientsForRecipe.Query(RecipeSid));
-		Ingredients = ingredients
-			.Select(x => new FormStepIngredientModel()
-			{
-				Checked = string.IsNullOrEmpty(x.RecipeStepSid) ? false : true,
-				RecipeIngredientSid = x.RecipeIngredientSid,
-				RecipeStepSid = x.RecipeStepSid,
-				Title = x.Title,
-				SortOrder = x.SortOrder,
-			})
-			.ToList();
-
 	}
 }

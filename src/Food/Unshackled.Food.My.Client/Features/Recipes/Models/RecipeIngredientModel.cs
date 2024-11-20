@@ -29,9 +29,44 @@ public class RecipeIngredientModel : BaseHouseholdObject, IGroupedSortable, ILab
 	public ServingSizeMetricUnits? ServingSizeMetricUnit { get; set; }
 	public decimal? ServingsPerContainer { get; set; }
 	public int? Calories { get; set; }
-	public decimal? FatN { get; set; }
-	public decimal? CarbohydratesN { get; set; }
+	public int? CaloriesFromFat { get; set; }
+	public decimal? TotalFatN { get; set; }
+	public decimal? SaturatedFatN { get; set; }
+	public decimal? TransFatN { get; set; }
+	public decimal? CholesterolN { get; set; }
+	public decimal? TotalCarbohydratesN { get; set; }
+	public decimal? DietaryFiberN { get; set; }
+	public decimal? TotalSugarsN { get; set; }
+	public decimal? AddedSugarsN { get; set; }
 	public decimal? ProteinN { get; set; }
+	public decimal? BiotinN { get; set; }
+	public decimal? CholineN { get; set; }
+	public decimal? FolateN { get; set; }
+	public decimal? NiacinN { get; set; }
+	public decimal? PantothenicAcidN { get; set; }
+	public decimal? RiboflavinN { get; set; }
+	public decimal? ThiaminN { get; set; }
+	public decimal? VitaminAN { get; set; }
+	public decimal? VitaminB6N { get; set; }
+	public decimal? VitaminB12N { get; set; }
+	public decimal? VitaminCN { get; set; }
+	public decimal? VitaminDN { get; set; }
+	public decimal? VitaminEN { get; set; }
+	public decimal? VitaminKN { get; set; }
+	public decimal? CalciumN { get; set; }
+	public decimal? ChlorideN { get; set; }
+	public decimal? ChromiumN { get; set; }
+	public decimal? CopperN { get; set; }
+	public decimal? IodineN { get; set; }
+	public decimal? IronN { get; set; }
+	public decimal? MagnesiumN { get; set; }
+	public decimal? ManganeseN { get; set; }
+	public decimal? MolybdenumN { get; set; }
+	public decimal? PhosphorusN { get; set; }
+	public decimal? PotassiumN { get; set; }
+	public decimal? SeleniumN { get; set; }
+	public decimal? SodiumN { get; set; }
+	public decimal? ZincN { get; set; }
 
 	[JsonIgnore]
 	public bool IsUnitMismatch { get; set; } = false;

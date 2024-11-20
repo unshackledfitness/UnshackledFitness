@@ -1,0 +1,28 @@
+﻿@inherits FormMineralsBase
+
+<EditForm id="@FormId" Model="@Model" OnValidSubmit="HandleFormSubmitted">
+	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
+	<MudGrid Spacing="3">
+		@******* Minerals *******@
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.Calcium" Min="0M" Max="99999M" @bind-Value="@Model.Calcium" @bind-Unit="@Model.CalciumUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.Chloride" Min="0M" Max="99999M" @bind-Value="@Model.Chloride" @bind-Unit="@Model.ChlorideUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.Chromium" Min="0M" Max="99999M" @bind-Value="@Model.Chromium" @bind-Unit="@Model.ChromiumUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.Copper" Min="0M" Max="99999M" @bind-Value="@Model.Copper" @bind-Unit="@Model.CopperUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.Iodine" Min="0M" Max="99999M" @bind-Value="@Model.Iodine" @bind-Unit="@Model.IodineUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.Iron" Min="0M" Max="99999M" @bind-Value="@Model.Iron" @bind-Unit="@Model.IronUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.Magnesium" Min="0M" Max="99999M" @bind-Value="@Model.Magnesium" @bind-Unit="@Model.MagnesiumUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.Manganese" Min="0M" Max="99999M" @bind-Value="@Model.Manganese" @bind-Unit="@Model.ManganeseUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.Molybdenum" Min="0M" Max="99999M" @bind-Value="@Model.Molybdenum" @bind-Unit="@Model.MolybdenumUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.Phosphorus" Min="0M" Max="99999M" @bind-Value="@Model.Phosphorus" @bind-Unit="@Model.PhosphorusUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.Potassium" Min="0M" Max="99999M" @bind-Value="@Model.Potassium" @bind-Unit="@Model.PotassiumUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.Selenium" Min="0M" Max="99999M" @bind-Value="@Model.Selenium" @bind-Unit="@Model.SeleniumUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.Zinc" Min="0M" Max="99999M" @bind-Value="@Model.Zinc" @bind-Unit="@Model.ZincUnit" />
+	</MudGrid>
+
+	@if (FormToolbar != null)
+	{
+		<MudToolBar Gutters="false" Class="mt-4">
+			@FormToolbar
+		</MudToolBar>
+	}
+</EditForm>

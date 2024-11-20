@@ -5,20 +5,30 @@
 @code {
 	[Parameter] public decimal ServingSize { get; set; }
 	[Parameter] public ServingSizeUnits ServingSizeUnit { get; set; }
+	[Parameter] public string ServingSizeUnitLabel { get; set; } = string.Empty;
 	[Parameter] public decimal ServingSizeMetric { get; set; }
 	[Parameter] public ServingSizeMetricUnits ServingSizeMetricUnit { get; set; }
 
 	protected MarkupString GetServingSizeLabel()
 	{
 		var amount = $"<span class=\"amt\">{ServingSize.ToHtmlFraction()}</span>";
-		string amountLabel = $"<span class=\"amt-label\">{ServingSizeUnit.Label()}</span>";
+		
+		string amountLabel = string.Empty;
+		if (ServingSizeUnit == ServingSizeUnits.Item && !string.IsNullOrEmpty(ServingSizeUnitLabel))
+		{
+			amountLabel = $"<span class=\"amt-label\">{ServingSizeUnitLabel}</span>";
+		}
+		else
+		{
+			amountLabel = $"<span class=\"amt-label\">{ServingSizeUnit.Label()}</span>";
+		}
 
 		string metricAmount = $"<span class=\"amt\">{ServingSizeMetric.ToString("0.#")}</span>";
 		string metricAmountLabel = $"<span class=\"amt-label\">{ServingSizeMetricUnit.Label()}</span>";
 
 		if (ServingSize > 0 && ServingSizeMetric > 0)
 		{
-			return (MarkupString)$"{amount}{amountLabel} ({metricAmount}{metricAmountLabel})";
+			return (MarkupString)$"{amount}{amountLabel} <span class=\"small-label\">({metricAmount}{metricAmountLabel})</span>";
 		}
 		else if (ServingSize > 0)
 		{

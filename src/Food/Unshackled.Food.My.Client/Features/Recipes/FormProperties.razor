@@ -4,30 +4,29 @@
 	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
 	<MudGrid Spacing="1" Class="mb-4">
 		<MudItem xs="12">
-			<MudTextField Label="Title" Variant="Variant.Outlined" Immediate="true" Disabled="@DisableControls"
-						  FullWidth="true" For="@(() => Model.Title)" @bind-Value="@Model.Title" />
+			<MudTextField Label="Title" Variant="Variant.Outlined" Immediate="true" Disabled="@DisableControls" FullWidth="true" Margin="Margin.None"
+						  For="@(() => Model.Title)" @bind-Value="@Model.Title" />
 		</MudItem>
 		<MudItem xs="12">
-			<MudTextField Label="Short Description" Lines="5" Variant="Variant.Outlined"
-						  FullWidth="true" Disabled="@IsSaving"
+			<MudTextField Label="Short Description" Lines="5" Variant="Variant.Outlined" FullWidth="true" Disabled="@IsSaving" Margin="Margin.None"
 						  For="@(() => Model.Description)" @bind-Value="@Model.Description" />
 		</MudItem>
 		<MudItem xs="12" sm="4">
-			<CuisineSelect AllOption="false" MultiSelection="true" Disabled="@DisableControls" @bind-SelectedValues="@Model.SelectedCuisines" />
+			<CuisineSelect AllOption="false" MultiSelection="true" Margin="Margin.None" Disabled="@DisableControls" @bind-SelectedValues="@Model.SelectedCuisines" />
 		</MudItem>
 		<MudItem xs="12" sm="4">
-			<DietSelect AllOption="false" MultiSelection="true" Disabled="@DisableControls" @bind-SelectedValues="@Model.SelectedDiets" />
+			<DietSelect AllOption="false" MultiSelection="true" Margin="Margin.None" Disabled="@DisableControls" @bind-SelectedValues="@Model.SelectedDiets" />
 		</MudItem>
 		<MudItem xs="12" sm="4">
-			<MudTimePicker Label="Prep Time" Variant="Variant.Outlined" @bind-Time="@Model.PrepTime" OpenTo="OpenTo.Minutes" Editable="true" Disabled="@DisableControls"
-						   Text="@TimePrep" TextChanged="@HandlePrepTimeTextChange" For="@(() => Model.PrepTime)" />
+			<MudTimePicker Label="Prep Time" Variant="Variant.Outlined" Color="Color.Secondary" @bind-Time="@Model.PrepTime" OpenTo="OpenTo.Minutes" Editable="true" Disabled="@DisableControls"
+						   Text="@TimePrep" TextChanged="@HandlePrepTimeTextChange" For="@(() => Model.PrepTime)" Margin="Margin.None" />
 		</MudItem>
 		<MudItem xs="12" sm="4">
-			<MudTimePicker Label="Cook Time" Variant="Variant.Outlined" @bind-Time="@Model.CookTime" OpenTo="OpenTo.Minutes" Editable="true" Disabled="@DisableControls"
-						   Text="@TimeCook" TextChanged="@HandleCookTimeTextChange" For="@(() => Model.CookTime)" />
+			<MudTimePicker Label="Cook Time" Variant="Variant.Outlined" Color="Color.Secondary" @bind-Time="@Model.CookTime" OpenTo="OpenTo.Minutes" Editable="true" Disabled="@DisableControls"
+						   Text="@TimeCook" TextChanged="@HandleCookTimeTextChange" For="@(() => Model.CookTime)" Margin="Margin.None" />
 		</MudItem>
 		<MudItem xs="12" sm="4">
-			<MudNumericField Label="Servings" Variant="Variant.Outlined" Immediate="true" Disabled="@DisableControls"
+			<MudNumericField Label="Servings" Variant="Variant.Outlined" Immediate="true" Disabled="@DisableControls" Margin="Margin.None"
 							 FullWidth="true" For="@(() => Model.TotalServings)" @bind-Value="@Model.TotalServings" Min="0" />
 		</MudItem>
 	</MudGrid>

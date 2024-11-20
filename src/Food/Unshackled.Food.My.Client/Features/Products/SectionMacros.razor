@@ -1,0 +1,122 @@
+﻿@inherits SectionMacrosBase
+
+<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
+	<SectionHeader IsEditMode="@IsEditMode" IsEditing="@IsEditing" EditingClass="mb-4" FormId="@FormId" Breakpoint="Breakpoint.Sm" 
+	OnCancelClicked="@(() => HandleEditCancelClicked())">
+		<TitleContent>
+			<div class="d-flex flex-row gap-2 align-end mb-3">
+				<MudText Typo="Typo.subtitle1">Macros</MudText>
+				<MudText Typo="Typo.body2" Color="Color.Tertiary">per serving</MudText>
+			</div>
+		</TitleContent>
+		<EditModeToolbar>
+			<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@DisableSectionControls" OnClick="@(() => HandleEditClicked())" />
+		</EditModeToolbar>
+	</SectionHeader>
+
+	@if (!IsEditing)
+	{
+		<MudGrid Spacing="2" Class="mb-4">
+			@if (Product.Protein > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Protein">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Protein" AmountUnit="@Product.ProteinUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.TotalCarbohydrates > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Total Carbohydrates">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.TotalCarbohydrates" AmountUnit="@Product.TotalCarbohydratesUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.TotalFat > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Total Fat">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.TotalFat" AmountUnit="@Product.TotalFatUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.SaturatedFat > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Saturated Fat">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.SaturatedFat" AmountUnit="@Product.SaturatedFatUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.PolyunsaturatedFat > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Polyunsaturated Fat">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.PolyunsaturatedFat" AmountUnit="@Product.PolyunsaturatedFatUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.MonounsaturatedFat > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Monounsaturated Fat">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.MonounsaturatedFat" AmountUnit="@Product.MonounsaturatedFatUnit" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.Calories > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Calories">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.Calories" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+			@if (Product.CaloriesFromFat > 0)
+			{
+				<MudItem xs="6" md="3" lg="2">
+					<MudPaper Class="h-100" Elevation="@StatElevation">
+						<CaptionedProperty Align="Align.Center" Title="Calories From Fat">
+							<MudText Typo="Typo.h6">
+								<NutrientLabel Amount="@Product.CaloriesFromFat" />
+							</MudText>
+						</CaptionedProperty>
+					</MudPaper>
+				</MudItem>
+			}
+		</MudGrid>
+	}
+	else
+	{
+		<FormMacros Model="@Model" FormId="@FormId" DisableFormControls="@DisableControls" OnFormSubmitted="@HandleFormSubmitted" />
+	}
+</SectionComponent>

@@ -1,0 +1,29 @@
+﻿@inherits FormDietaryBase
+
+<EditForm id="@FormId" Model="@Model" OnValidSubmit="HandleFormSubmitted">
+	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
+	<MudGrid Spacing="3">
+		@******* Cholesterol *******@
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.Cholesterol" Min="0M" Max="99999M" @bind-Value="@Model.Cholesterol" @bind-Unit="@Model.CholesterolUnit" />
+
+		@******* Sodium *******@
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.Sodium" Min="0M" Max="99999M" @bind-Value="@Model.Sodium" @bind-Unit="@Model.SodiumUnit" />
+
+		@******* Fibers *******@
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.DietaryFiber" Min="0M" Max="99999M" @bind-Value="@Model.DietaryFiber" @bind-Unit="@Model.DietaryFiberUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.SolubleFiber" Min="0M" Max="99999M" @bind-Value="@Model.SolubleFiber" @bind-Unit="@Model.SolubleFiberUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.InsolubleFiber" Min="0M" Max="99999M" @bind-Value="@Model.InsolubleFiber" @bind-Unit="@Model.InsolubleFiberUnit" />
+
+		@******* Sugars *******@
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.TotalSugars" Min="0M" Max="99999M" @bind-Value="@Model.TotalSugars" @bind-Unit="@Model.TotalSugarsUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.AddedSugars" Min="0M" Max="99999M" AllowPercent="false" @bind-Value="@Model.AddedSugars" @bind-Unit="@Model.AddedSugarsUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.SugarAlcohols" Min="0M" Max="99999M" AllowPercent="false" @bind-Value="@Model.SugarAlcohols" @bind-Unit="@Model.SugarAlcoholsUnit" />
+	</MudGrid>
+
+	@if (FormToolbar != null)
+	{
+		<MudToolBar Gutters="false" Class="mt-4">
+			@FormToolbar
+		</MudToolBar>
+	}
+</EditForm>

@@ -19,7 +19,7 @@
 
 		@if (RecipeTags.Any())
 		{
-			<div Class="my-4">
+			<div Class="d-flex flex-row flex-wrap my-4">
 				@foreach (string tag in RecipeTags)
 				{
 					<MudChip T="string" Variant="Variant.Outlined">@tag</MudChip>

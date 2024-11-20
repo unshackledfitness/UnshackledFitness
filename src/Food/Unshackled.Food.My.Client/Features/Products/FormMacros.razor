@@ -1,0 +1,42 @@
+﻿@inherits FormMacrosBase
+
+<EditForm id="@FormId" Model="@Model" OnValidSubmit="HandleFormSubmitted">
+	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
+	<MudGrid Spacing="3">
+		@******* Protein *******@
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.Protein" Min="0M" Max="99999M" AllowPercent="false" @bind-Value="@Model.Protein" @bind-Unit="@Model.ProteinUnit" />
+
+		@******* Carbohydrates *******@
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.TotalCarbohydrates" Min="0M" Max="99999M" @bind-Value="@Model.TotalCarbohydrates" @bind-Unit="@Model.TotalCarbohydratesUnit" />
+
+		@******* Fats *******@
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.TotalFat" Min="0M" Max="99999M" @bind-Value="@Model.TotalFat" @bind-Unit="@Model.TotalFatUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.SaturatedFat" Min="0M" Max="99999M" @bind-Value="@Model.SaturatedFat" @bind-Unit="@Model.SaturatedFatUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.PolyunsaturatedFat" Min="0M" Max="99999M" AllowPercent="false" @bind-Value="@Model.PolyunsaturatedFat" @bind-Unit="@Model.PolyunsaturatedFatUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.MonounsaturatedFat" Min="0M" Max="99999M" AllowPercent="false" @bind-Value="@Model.MonounsaturatedFat" @bind-Unit="@Model.MonounsaturatedFatUnit" />
+		<NutritionFormItem DisableControls="@DisableControls" Nutrient="@Nutrients.TransFat" Min="0M" Max="99999M" AllowPercent="false" @bind-Value="@Model.TransFat" @bind-Unit="@Model.TransFatUnit" />
+
+		@******* Calories *******@
+		<MudItem xs="12" sm="4">
+			<MudText>Calories</MudText>
+		</MudItem>
+		<MudItem xs="12" sm="8">
+			<MudNumericField T="int" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls" Min="0" Max="99999" @bind-Value="@Model.Calories" For="@(() => Model.Calories)" />
+		</MudItem>
+
+		@******* Calories From Fat *******@
+		<MudItem xs="12" sm="4">
+			<MudText>Calories From Fat</MudText>
+		</MudItem>
+		<MudItem xs="12" sm="8">
+			<MudNumericField T="int" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons="true" Disabled="@DisableControls" Min="0" Max="99999" @bind-Value="@Model.CaloriesFromFat" For="@(() => Model.CaloriesFromFat)" />
+		</MudItem>
+	</MudGrid>
+
+	@if (FormToolbar != null)
+	{
+		<MudToolBar Gutters="false" Class="mt-4">
+			@FormToolbar
+		</MudToolBar>
+	}
+</EditForm>

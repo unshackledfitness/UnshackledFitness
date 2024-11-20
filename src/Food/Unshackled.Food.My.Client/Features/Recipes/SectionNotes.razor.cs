@@ -9,24 +9,41 @@ namespace Unshackled.Food.My.Client.Features.Recipes;
 
 public class SectionNotesBase : BaseSectionComponent
 {
+	protected enum Views
+	{
+		None,
+		AddNote,
+		EditNote
+	}
+
 	[Parameter] public string RecipeSid { get; set; } = string.Empty;
 	[Parameter] public List<RecipeNoteModel> Notes { get; set; } = new();
 	[Parameter] public EventCallback UpdateComplete { get; set; }
 
 	protected List<FormNoteModel> FormNotes { get; set; } = new();
 	protected List<FormNoteModel> DeletedNotes { get; set; } = new();
-	protected FormNoteModel AddFormModel { get; set; } = new();
+	protected FormNoteModel CurrentFormModel { get; set; } = new();
 
 	protected bool IsWorking { get; set; } = false;
-	protected bool IsAdding { get; set; } = false;
 	protected bool IsEditing { get; set; } = false;
 	protected bool IsSorting { get; set; } = false; 
 	protected bool DisableControls => IsWorking;
-	protected bool IsEditingItem => FormNotes.Where(x => x.IsEditing == true).Any();
+	protected bool DrawerOpen => DrawerView != Views.None;
+	protected Views DrawerView { get; set; } = Views.None;
+	protected string DrawerTitle => DrawerView switch
+	{
+		Views.AddNote => "Add Note",
+		Views.EditNote => "Edit Note",
+		_ => string.Empty
+	};
 
 	protected void HandleAddClicked()
 	{
-		IsAdding = true;
+		CurrentFormModel = new()
+		{
+			RecipeSid = RecipeSid,
+		};
+		DrawerView = Views.AddNote;
 	}
 
 	protected void HandleAddFormSubmitted(FormNoteModel model)
@@ -40,14 +57,13 @@ public class SectionNotesBase : BaseSectionComponent
 			RecipeSid = RecipeSid,
 			SortOrder = FormNotes.Count()
 		});
-		AddFormModel = new();
-		IsAdding = false;
 		IsWorking = false;
+		DrawerView = Views.None;
 	}
 
-	protected void HandleCancelAddClicked()
+	protected void HandleCancelClicked()
 	{
-		IsAdding = false;
+		DrawerView = Views.None;
 	}
 
 	protected async Task HandleCancelEditClicked()
@@ -55,21 +71,22 @@ public class SectionNotesBase : BaseSectionComponent
 		IsEditing = await UpdateIsEditingSection(false);
 	}
 
-	protected void HandleCancelEditItemClicked(FormNoteModel item)
+	protected void HandleDeleteClicked()
 	{
-		item.IsEditing = false;
-	}
+		FormNotes.Remove(CurrentFormModel);
 
-	protected void HandleDeleteClicked(FormNoteModel item)
-	{
-		FormNotes.Remove(item);
-		DeletedNotes.Add(item);
+		if (!CurrentFormModel.IsNew)
+		{
+			DeletedNotes.Add(CurrentFormModel);
+		}
 
 		// Adjust sort order for remaining sets
 		for (int i = 0; i < FormNotes.Count; i++)
 		{
 			FormNotes[i].SortOrder = i;
 		}
+
+		DrawerView = Views.None;
 	}
 
 	protected async Task HandleEditClicked()
@@ -83,19 +100,18 @@ public class SectionNotesBase : BaseSectionComponent
 		IsWorking = true;
 		var item = FormNotes.Where(x => x.Sid == model.Sid).Single();
 		item.Note = model.Note;
-		item.IsEditing = false;
 		IsWorking = false;
+		DrawerView = Views.None;
 	}
 
 	protected void HandleEditItemClicked(FormNoteModel item)
 	{
-		item.IsEditing = true;
-		IsAdding = false;
+		CurrentFormModel = item;
+		DrawerView = Views.EditNote;
 	}
 
 	protected void HandleIsSorting(bool isSorting)
 	{
-		IsAdding = false;
 		IsSorting = isSorting;
 	}
 
@@ -139,17 +155,11 @@ public class SectionNotesBase : BaseSectionComponent
 			.Select(x => new FormNoteModel
 			{
 				Sid = x.Sid,
-				IsEditing = false,
 				IsNew = false,
 				Note = x.Note,
 				RecipeSid = x.RecipeSid,
 				SortOrder = x.SortOrder
 			})
 			.ToList();
-
-		if (FormNotes.Count == 0)
-		{
-			IsAdding = true;
-		}
 	}
 }

@@ -1,0 +1,26 @@
+﻿@inherits DrawerNoteBase
+
+<EditForm Model="@Model" OnValidSubmit="HandleFormSubmitted">
+	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
+	<MudGrid Spacing="2" Class="mb-3">
+		<MudItem xs="12">
+			<MudTextField Label="Note" Variant="Variant.Outlined" FullWidth="true" Disabled="@DisableControls" Lines="5"
+					@bind-Value="@Model.Note" For="@(() => Model.Note)" />
+		</MudItem>
+	</MudGrid>
+	<MudToolBar Gutters="false">
+		<MudSpacer />
+		<MudButton Variant="Variant.Filled" Color="Color.Secondary" ButtonType="ButtonType.Submit" Disabled="@DisableControls">Apply</MudButton>
+		<MudButton Variant="Variant.Outlined" Color="Color.Secondary" Disabled="@DisableControls" OnClick="@(() => HandleCancelClicked())">Cancel</MudButton>
+		<MudSpacer />
+	</MudToolBar>
+</EditForm>
+
+@if (!IsAdding)
+{
+	<MudDivider DividerType="DividerType.FullWidth" Class="my-6" />
+
+	<div class="d-flex flex-column gap-3">
+		<MudButton StartIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" FullWidth="true" OnClick="@(() => HandleDeleteClicked())">Delete Note</MudButton>
+	</div>
+}
