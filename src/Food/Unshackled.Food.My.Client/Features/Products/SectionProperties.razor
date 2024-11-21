@@ -4,6 +4,10 @@
 	<SectionHeader Title="@Product.Title" IsEditMode="@IsEditMode" IsEditing="@IsEditing" EditingClass="mb-4" FormId="@FormId" Breakpoint="Breakpoint.Sm" 
 				   OnCancelClicked="@(() => HandleEditCancelClicked())">
 		<TitleContent>
+			@if (!string.IsNullOrEmpty(Product.Category))
+			{
+				<MudText Typo="Typo.body2" Color="Color.Tertiary">@Product.Category</MudText>
+			}
 			@if (!string.IsNullOrEmpty(Product.Brand))
 			{
 				<MudText Typo="Typo.subtitle1">@Product.Brand</MudText>
@@ -28,6 +32,6 @@
 	}
 	else
 	{
-		<FormProperties Model="@Model" FormId="@FormId" DisableFormControls="@DisableControls" OnFormSubmitted="@HandleFormSubmitted" />
+		<FormProperties Model="@Model" FormId="@FormId" Categories="@Categories" DisableFormControls="@DisableControls" OnFormSubmitted="@HandleFormSubmitted" />
 	}
 </SectionComponent>

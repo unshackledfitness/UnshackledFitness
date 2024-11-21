@@ -51,12 +51,12 @@ public class MergeProducts
 			var keptProduct = await db.Products
 				.AsNoTracking()
 				.Where(x => x.Id == keptId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			var deletedProduct = await db.Products
 				.AsNoTracking()
 				.Where(x => x.Id == deletedId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (keptProduct != null && deletedProduct != null)
 			{
@@ -70,17 +70,17 @@ public class MergeProducts
 
 						var keptSubs = await db.ProductSubstitutions
 							.Where(x => x.ProductId == keptProduct.Id)
-							.ToListAsync();
+							.ToListAsync(cancellationToken);
 
 						var deletingSubs = await db.ProductSubstitutions
 							.AsNoTracking()
 							.Where(x => x.ProductId == deletedProduct.Id)
-							.ToListAsync();
+							.ToListAsync(cancellationToken);
 
 						// Delete old substitutions
 						await db.ProductSubstitutions
 								.Where(x => x.ProductId == deletedProduct.Id)
-								.DeleteFromQueryAsync();
+								.DeleteFromQueryAsync(cancellationToken);
 
 						foreach (var dSub in deletingSubs)
 						{
@@ -113,17 +113,17 @@ public class MergeProducts
 
 						var keptLocs = await db.StoreProductLocations
 							.Where(x => x.ProductId == keptProduct.Id)
-							.ToListAsync();
+							.ToListAsync(cancellationToken);
 
 						var deletingLocs = await db.StoreProductLocations
 							.AsNoTracking()
 							.Where(x => x.ProductId == deletedProduct.Id)
-							.ToListAsync();
+							.ToListAsync(cancellationToken);
 
 						// Delete old store locations
 						await db.StoreProductLocations
 							.Where(x => x.ProductId == deletedProduct.Id)
-							.DeleteFromQueryAsync();
+							.DeleteFromQueryAsync(cancellationToken);
 
 						foreach (var dLoc in deletingLocs)
 						{
@@ -150,17 +150,17 @@ public class MergeProducts
 
 						var keptItems = await db.ShoppingListItems
 							.Where(x => x.ProductId == keptProduct.Id)
-							.ToListAsync();
+							.ToListAsync(cancellationToken);
 
 						var deletingItems = await db.ShoppingListItems
 							.AsNoTracking()
 							.Where(x => x.ProductId == deletedProduct.Id)
-							.ToListAsync();
+							.ToListAsync(cancellationToken);
 
 						// Delete old shopping list items
 						await db.ShoppingListItems
 							.Where(x => x.ProductId == deletedProduct.Id)
-							.DeleteFromQueryAsync();
+							.DeleteFromQueryAsync(cancellationToken);
 
 						foreach (var dItem in deletingItems)
 						{
@@ -204,7 +204,7 @@ public class MergeProducts
 						 * FINAL Remove Product
 						 * *****************************************/
 						await db.Products.Where(x => x.Id == deletedId)
-							.DeleteFromQueryAsync();
+							.DeleteFromQueryAsync(cancellationToken);
 
 						// Commit transaction if all commands succeed, transaction will auto-rollback
 						// when disposed if any command fails

@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Unshackled.Food.Core;
 using Unshackled.Food.Core.Data;
 using Unshackled.Food.Core.Enums;
 using Unshackled.Food.My.Client.Features.Products.Models;
 using Unshackled.Food.My.Extensions;
 using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Data.Extensions;
+using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Food.My.Features.Products.Actions;
 
@@ -39,10 +41,24 @@ public class SearchProducts
 
 			var query = db.Products
 				.AsNoTracking()
+				.Include(x => x.Category)
 				.Where(x => x.HouseholdId == request.HouseholdId && x.IsArchived == request.Model.IsArchived);
 
 			if (!string.IsNullOrEmpty(request.Model.Title))
 				query = query.Where(x => x.Title != null && x.Title.Contains(request.Model.Title));
+
+			if (!string.IsNullOrEmpty(request.Model.CategorySid))
+			{
+				if (request.Model.CategorySid == FoodGlobals.UncategorizedKey)
+				{
+					query = query.Where(x => x.ProductCategoryId == null);
+				}
+				else
+				{
+					long categoryId = request.Model.CategorySid.DecodeLong();
+					query = query.Where(x => x.ProductCategoryId != null && x.ProductCategoryId == categoryId);
+				}
+			}
 
 			result.Total = await query.CountAsync(cancellationToken);
 

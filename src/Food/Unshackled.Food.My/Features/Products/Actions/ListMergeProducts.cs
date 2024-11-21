@@ -32,7 +32,7 @@ public class ListMergeProducts
 		public async Task<List<MergeProductModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
 			if (!await db.HasHouseholdPermission(request.HouseholdId, request.MemberId, PermissionLevels.Read))
-				return new();
+				return [];
 
 			List<MergeProductModel> models = new();
 			var ids = request.Sids.DecodeLong();
@@ -40,8 +40,9 @@ public class ListMergeProducts
 			{
 				var products = await mapper.ProjectTo<MergeProductModel>(db.Products
 					.AsNoTracking()
+					.Include(x => x.Category)
 					.Where(x => ids.Contains(x.Id)))
-					.ToListAsync();
+					.ToListAsync(cancellationToken);
 
 				if (products.Any())
 					models.AddRange(products);

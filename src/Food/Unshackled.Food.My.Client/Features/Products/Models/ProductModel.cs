@@ -11,6 +11,8 @@ public class ProductModel : BaseHouseholdObject, INutrition
 	public string? Brand { get; set; }
 	public string Title { get; set; } = string.Empty;
 	public string? Description { get; set; }
+	public string CategorySid { get; set; } = string.Empty;
+	public string Category { get; set; } = string.Empty;
 	public bool IsArchived { get; set; }
 	public bool HasNutritionInfo { get; set; }
 	public decimal ServingSize { get; set; }

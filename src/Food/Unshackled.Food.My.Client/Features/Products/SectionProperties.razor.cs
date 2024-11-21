@@ -16,9 +16,17 @@ public class SectionPropertiesBase : BaseSectionComponent
 	protected bool IsEditing { get; set; } = false;
 	protected bool IsSaving { get; set; }
 	protected FormProductModel Model { get; set; } = new();
+	protected List<ProductCategoryModel> Categories { get; set; } = [];
 
 	protected bool DisableControls => IsSaving;
 	public int StatElevation => IsEditMode ? 0 : 1;
+
+	protected override async Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
+
+		Categories = await Mediator.Send(new ListProductCategories.Query());
+	}
 
 	protected async Task HandleEditClicked()
 	{

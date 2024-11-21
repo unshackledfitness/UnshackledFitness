@@ -23,6 +23,7 @@ public class FoodDbContext : BaseDbContext
 	public DbSet<HouseholdMemberEntity> HouseholdMembers => Set<HouseholdMemberEntity>();
 	public DbSet<ProductBundleItemEntity> ProductBundleItems => Set<ProductBundleItemEntity>();
 	public DbSet<ProductBundleEntity> ProductBundles => Set<ProductBundleEntity>();
+	public DbSet<ProductCategoryEntity> ProductCategories => Set<ProductCategoryEntity>();
 	public DbSet<ProductEntity> Products => Set<ProductEntity>();
 	public DbSet<ProductSubstitutionEntity> ProductSubstitutions => Set<ProductSubstitutionEntity>();
 	public DbSet<RecipeEntity> Recipes => Set<RecipeEntity>();
@@ -47,6 +48,7 @@ public class FoodDbContext : BaseDbContext
 		builder.ApplyConfiguration(new HouseholdMemberEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ProductBundleEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ProductBundleItemEntity.TypeConfiguration());
+		builder.ApplyConfiguration(new ProductCategoryEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ProductEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ProductSubstitutionEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new RecipeEntity.TypeConfiguration());

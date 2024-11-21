@@ -31,9 +31,10 @@ public class GetProduct
 			if (await db.HasProductPermission(request.ProductId, request.MemberId, PermissionLevels.Read))
 			{
 				return await mapper.ProjectTo<ProductModel>(db.Products
-				.AsNoTracking()
-				.Where(x => x.Id == request.ProductId))
-				.SingleOrDefaultAsync() ?? new();
+					.AsNoTracking()
+					.Include(x => x.Category)
+					.Where(x => x.Id == request.ProductId))
+					.SingleOrDefaultAsync(cancellationToken) ?? new();
 			}
 			return new();
 		}

@@ -37,6 +37,18 @@ public class ProductsController : BaseController
 		return Ok(await Mediator.Send(new BulkArchiveRestore.Command(Member.Id, Member.ActiveHouseholdId, model)));
 	}
 
+	[HttpPost("bulk-set-category")]
+	public async Task<IActionResult> BulkSetCategory([FromBody] BulkCategoryModel model)
+	{
+		return Ok(await Mediator.Send(new BulkSetCategory.Command(Member.Id, Member.ActiveHouseholdId, model)));
+	}
+
+	[HttpGet("list-product-categories")]
+	public async Task<IActionResult> ListProductCategories()
+	{
+		return Ok(await Mediator.Send(new ListProductCategories.Query(Member.Id, Member.ActiveHouseholdId)));
+	}
+
 	[HttpGet("list-shopping-lists")]
 	public async Task<IActionResult> ListShoppingLists()
 	{

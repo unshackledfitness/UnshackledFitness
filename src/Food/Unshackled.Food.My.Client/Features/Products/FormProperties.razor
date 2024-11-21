@@ -4,16 +4,26 @@
 	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
 	<MudGrid Spacing="3">
 		<MudItem xs="12">
-			<MudTextField Label="Brand" Variant="Variant.Outlined" Immediate="true" Disabled="@IsSaving" Margin="Margin.Dense"
+			<MudTextField Label="Brand" Variant="Variant.Outlined" Immediate="true" Disabled="@IsSaving"
 						  FullWidth="true" For="@(() => Model.Brand)" @bind-Value="@Model.Brand" />
 		</MudItem>
 		<MudItem xs="12">
-			<MudTextField Label="Title" Variant="Variant.Outlined" Immediate="true" Disabled="@IsSaving" Required="true" Margin="Margin.Dense"
+			<MudTextField Label="Title" Variant="Variant.Outlined" Immediate="true" Disabled="@IsSaving" Required="true"
 						  FullWidth="true" For="@(() => Model.Title)" @bind-Value="@Model.Title" />
 		</MudItem>
 		<MudItem xs="12">
-			<MudTextField Label="Description" Variant="Variant.Outlined" Immediate="true" Disabled="@IsSaving" Margin="Margin.Dense"
+			<MudTextField Label="Description" Variant="Variant.Outlined" Immediate="true" Disabled="@IsSaving"
 						  FullWidth="true" For="@(() => Model.Description)" @bind-Value="@Model.Description" />
+		</MudItem>
+		<MudItem xs="12">
+			<MudSelect Label="Category" T="string" Variant="Variant.Outlined" FullWidth="true" Disabled="@IsSaving"
+					   @bind-Value="@Model.CategorySid" For="@(() => Model.CategorySid)" Placeholder="-- Select a category --">
+
+				@foreach (var item in Categories)
+				{
+					<MudSelectItem T="string" Value="@item.Sid">@item.Title</MudSelectItem>
+				}
+			</MudSelect>
 		</MudItem>
 	</MudGrid>
 

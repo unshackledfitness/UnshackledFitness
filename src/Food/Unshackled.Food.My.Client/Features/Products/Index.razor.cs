@@ -17,11 +17,13 @@ public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListMode
 	{
 		None,
 		Add,
-		AddToList
+		AddToList,
+		BulkCategory
 	}
 
 	protected const string FormId = "formAddProduct";
 	public FormProductModel FormModel { get; set; } = new();
+	protected List<ProductCategoryModel> Categories { get; set; } = [];
 	protected List<ShoppingListModel> ShoppingLists { get; set; } = [];
 	public bool IsSaving { get; set; } = false;
 	protected bool MaxSelectionReached => SelectedSids.Count == FoodGlobals.MaxSelectionLimit;
@@ -36,6 +38,7 @@ public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListMode
 	{
 		Views.Add => "Add Product",
 		Views.AddToList => "Add To List",
+		Views.BulkCategory => "Set Category",
 		_ => string.Empty
 	};
 
@@ -49,6 +52,7 @@ public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListMode
 
 		await DoSearch(SearchModel.Page);
 
+		Categories = await Mediator.Send(new ListProductCategories.Query());
 		ShoppingLists = await Mediator.Send(new ListShoppingLists.Query());
 	}
 
@@ -98,6 +102,36 @@ public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListMode
 			ClearSelected();
 		IsWorking = false;
 		StateHasChanged();
+	}
+
+	protected async Task HandleBulkCategorySubmitted(string categorySid)
+	{
+		DrawerView = Views.None;
+		if (!string.IsNullOrEmpty(categorySid) && SelectedSids.Any())
+		{
+			IsWorking = true;
+			BulkCategoryModel model = new()
+			{
+				CategorySid = categorySid,
+				ProductSids = SelectedSids
+			};
+
+			var result = await Mediator.Send(new BulkSetCategory.Command(model));
+			if (result.Success)
+			{
+				await DoSearch(SearchModel.Page);
+			}
+			ShowNotification(result);
+			IsWorking = false;
+		}
+	}
+
+	protected void HandleBulkSetCategoryClicked()
+	{
+		if (SelectedSids.Any())
+		{
+			DrawerView = Views.BulkCategory;
+		}
 	}
 
 	protected async Task HandleBulkSetArchivedClicked()

@@ -10,6 +10,8 @@ public class ProductEntity : BaseHouseholdEntity, INutrition
 	public string? Brand { get; set; }
 	public string Title { get; set; } = string.Empty;
 	public string? Description { get; set; }
+	public long? ProductCategoryId { get; set; }
+	public virtual ProductCategoryEntity? Category { get; set; }
 	public bool IsArchived { get; set; }
 	public bool HasNutritionInfo { get; set; }
 	public decimal ServingSize { get; set; }
@@ -437,6 +439,10 @@ public class ProductEntity : BaseHouseholdEntity, INutrition
 
 			config.Property(x => x.ZincN)
 				.HasPrecision(12, 6);
+
+			config.HasOne(x => x.Category)
+				.WithMany(x => x.Products)
+				.HasForeignKey(x => x.ProductCategoryId);
 
 			config.HasIndex(x => new { x.HouseholdId, x.Title });
 		}

@@ -12,15 +12,26 @@
 				ResetClicked="@HandleResetClicked" Disable="@IsLoading" VerticalButtons="Breakpoint.Sm">
 		<SearchFields>
 			<MudGrid Spacing="1">
-				<MudItem xs="12" sm="6" md="4">
+				<MudItem xs="12" sm="6" md="3">
 					<MudTextField Label="Brand" Variant="Variant.Outlined" FullWidth="true" Margin="Margin.Dense"
 									T="string" @bind-Value="@SearchModel.Brand" Disabled="@IsLoading" />
 				</MudItem>
-				<MudItem xs="12" sm="6" md="4">
+				<MudItem xs="12" sm="6" md="3">
 					<MudTextField Label="Title" Variant="Variant.Outlined" FullWidth="true" Margin="Margin.Dense"
 									T="string" @bind-Value="@SearchModel.Title" Disabled="@IsLoading" />
 				</MudItem>
-				<MudItem xs="12" sm="6" md="4">
+				<MudItem xs="12" sm="6" md="3">
+					<MudSelect Label="Category" T="string" Variant="Variant.Outlined" FullWidth="true" Margin="Margin.Dense"
+							   @bind-Value="@SearchModel.CategorySid" Disabled="@IsLoading">
+						<MudSelectItem T="string" Value="null">Any</MudSelectItem>
+						<MudSelectItem T="string" Value="@FoodGlobals.UncategorizedKey">Uncategorized</MudSelectItem>
+						@foreach (var item in Categories)
+						{
+							<MudSelectItem T="string" Value="@item.Sid">@item.Title</MudSelectItem>
+						}
+					</MudSelect>
+				</MudItem>
+				<MudItem xs="12" sm="6" md="3">
 					<ArchivedSelect @bind-Value="@SearchModel.IsArchived" Margin="Margin.Dense" Disabled="@DisableControls" />
 				</MudItem>
 			</MudGrid>
@@ -32,11 +43,10 @@
 		<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@IsLoading" OnClick="@HandleAddClicked">Add</MudButton>
 		<MudButton StartIcon="@Icons.Material.Filled.MergeType" Disabled="@(DisableControls || !MergeAvailable)" OnClick="@HandleMergeClicked">Merge</MudButton>
 		<MudMenu Label="@(SelectedSids.Any() ? $"Bulk ({SelectedSids.Count} selected)" : "Bulk")" StartIcon="@Icons.Material.Filled.Checklist" 
-					Class="ms-2" Disabled="@(DisableControls || !SelectedSids.Any())" AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopLeft">
-
+				 Class="ms-2" Disabled="@(DisableControls || !SelectedSids.Any())" AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopLeft">
 			<MudMenuItem Icon="@Icons.Material.Filled.AddCircle" OnClick="@(() => HandleAddToListClicked())">Add To Shopping List</MudMenuItem>
-			<MudMenuItem Icon="@Icons.Material.Filled.Archive" 
-							OnClick="@(() => HandleBulkSetArchivedClicked())">@(IsBulkArchive ? "Archive" : "Restore")</MudMenuItem>
+			<MudMenuItem Icon="@Icons.Material.Filled.Category" OnClick="@(() => HandleBulkSetCategoryClicked())">Set Category</MudMenuItem>
+			<MudMenuItem Icon="@Icons.Material.Filled.Archive" OnClick="@(() => HandleBulkSetArchivedClicked())">@(IsBulkArchive ? "Archive" : "Restore")</MudMenuItem>
 		</MudMenu>
 	</MudToolBar>
 
@@ -49,6 +59,10 @@
 									ValueChanged="@((bool value) => HandleCheckboxChanged(value, context.Item.Sid))" />
 				</div>
 				<div class="flex-grow-1 align-self-center">
+					@if (!string.IsNullOrEmpty(context.Item.Category))
+					{
+						<MudText Typo="Typo.caption" Class="d-block" Color="Color.Tertiary">@context.Item.Category</MudText>
+					}
 					@if (!string.IsNullOrEmpty(context.Item.Brand))
 					{
 						<MudText Typo="Typo.body1">@context.Item.Brand</MudText>
@@ -58,7 +72,7 @@
 					</div>
 					@if (!string.IsNullOrEmpty(context.Item.Description))
 					{
-						<MudText Typo="Typo.body2" Color="Color.Tertiary">@context.Item.Description</MudText>
+						<MudText Typo="Typo.body2" Color="Color.Tertiary" Class="mt-1">@context.Item.Description</MudText>
 					}
 				</div>
 			</div>
@@ -85,5 +99,9 @@
 	else if (DrawerView == Views.AddToList)
 	{
 		<DrawerAddToList ShoppingLists="@ShoppingLists" OnCanceled="@HandleCancelClicked" OnAdded="@HandleAddToListSubmitted" />
+	}
+	else if (DrawerView == Views.BulkCategory)
+	{
+		<DrawerBulkCategory Categories="@Categories" OnCanceled="@HandleCancelClicked" OnSetCategory="@HandleBulkCategorySubmitted" />
 	}
 </SideDrawer>

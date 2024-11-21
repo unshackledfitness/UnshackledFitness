@@ -12,6 +12,7 @@ public class FormProductModel : INutritionForm
 	public string? Brand { get; set; }
 	public string Title { get; set; } = string.Empty;
 	public string? Description { get; set; }
+	public string CategorySid { get; set; } = string.Empty;
 	public bool HasNutritionInfo { get; set; }
 	public string ServingSizeText { get; set; } = string.Empty;
 	public decimal ServingSize { get; set; }
