@@ -7,10 +7,23 @@ namespace Unshackled.Food.My.Client.Features.Stores;
 
 public class IndexBase : BaseSearchComponent<SearchStoreModel, StoreListModel>
 {
+	protected enum Views
+	{
+		None,
+		Add
+	}
+
 	protected const string FormId = "formAddStore";
 	protected FormStoreModel FormModel { get; set; } = new();
-	protected bool Adding { get; set; } = false;
 	protected bool IsSaving { get; set; } = false;
+	protected bool DrawerOpen => DrawerView != Views.None;
+	protected Views DrawerView { get; set; } = Views.None;
+
+	protected string DrawerTitle => DrawerView switch
+	{
+		Views.Add => "Add Store",
+		_ => string.Empty
+	};
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -36,12 +49,12 @@ public class IndexBase : BaseSearchComponent<SearchStoreModel, StoreListModel>
 	protected void HandleAddClicked()
 	{
 		FormModel = new();
-		Adding = true;
+		DrawerView = Views.Add;
 	}
 
 	protected void HandleCancelClicked()
 	{
-		Adding = false;
+		DrawerView = Views.None;
 	}
 
 	protected async Task HandleFormAddSubmit(FormStoreModel model)
@@ -53,7 +66,7 @@ public class IndexBase : BaseSearchComponent<SearchStoreModel, StoreListModel>
 		{
 			NavManager.NavigateTo($"/stores/{result.Payload}");
 		}
-		Adding = false;
+		DrawerView = Views.None;
 		IsSaving = false;
 	}
 }

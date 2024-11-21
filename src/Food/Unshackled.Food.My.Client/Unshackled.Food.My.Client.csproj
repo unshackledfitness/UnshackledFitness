@@ -30,6 +30,9 @@
 	  <Content Update="Features\Products\FormServings.razor">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	  </Content>
+	  <Content Update="Features\Stores\DrawerChangeLocation.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
 	</ItemGroup>
 
 </Project>

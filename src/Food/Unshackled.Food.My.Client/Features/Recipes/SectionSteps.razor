@@ -4,7 +4,7 @@
 {
 	<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
 		<SectionHeader Title="Steps" Typo="Typo.h5" IsEditMode="@IsEditMode" IsEditing="@IsEditing" DisableControls="@DisableControls" Class="mb-4" EditingClass="mb-4"
-		OnCancelClicked="@(() => HandleCancelEditClicked())" OnSaveClicked="HandleUpdateClicked">
+					   OnCancelClicked="@(() => HandleCancelEditClicked())" OnSaveClicked="HandleUpdateClicked">
 			<EditModeToolbar>
 				<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@DisableSectionControls" OnClick="@(() => HandleEditClicked())" />
 			</EditModeToolbar>

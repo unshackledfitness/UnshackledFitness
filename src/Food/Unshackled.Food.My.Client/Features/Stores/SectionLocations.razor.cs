@@ -17,7 +17,7 @@ public class SectionLocationsBase : BaseSectionComponent
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public string StoreSid { get; set; } = string.Empty;
 
-	protected List<FormStoreLocationModel> Locations { get; set; } = new();
+	protected List<FormStoreLocationModel> Locations { get; set; } = [];
 	protected FormStoreLocationModel AddFormModel { get; set; } = new();
 	protected FormStoreLocationModel EditingModel { get; set; } = new();
 	protected bool IsWorking { get; set; } = false;

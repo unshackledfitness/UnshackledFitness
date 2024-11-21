@@ -23,11 +23,26 @@ public class StoresController : BaseController
 		return Ok(await Mediator.Send(new AddLocation.Command(Member.Id, Member.ActiveHouseholdId, model)));
 	}
 
+	[HttpPost("change-product-location")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> ChangeProductLocation([FromBody] ChangeLocationModel model)
+	{
+		return Ok(await Mediator.Send(new ChangeProductLocation.Command(Member.Id, model)));
+	}
+
 	[HttpPost("delete")]
 	[ActiveMemberRequired]
 	public async Task<IActionResult> Delete([FromBody] string sid)
 	{
 		return Ok(await Mediator.Send(new DeleteStore.Command(Member.Id, sid)));
+	}
+
+	[HttpPost("delete/{sid}/product")]
+	[DecodeId]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> DeleteProductLocation(long id, [FromBody] string sid)
+	{
+		return Ok(await Mediator.Send(new DeleteProductLocation.Command(Member.Id, id, sid)));
 	}
 
 	[HttpPost("delete-location")]

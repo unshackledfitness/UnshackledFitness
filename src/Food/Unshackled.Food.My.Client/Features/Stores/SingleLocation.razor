@@ -24,53 +24,73 @@ else
 			</MudAlert>
 		}
 
-		<SectionHeader Title="@($"Products In {StoreLocation.Title}")" Class="mb-4" />
+		<MudToolBar Gutters="false" Dense="true" Class="mb-4">
+			@if (CanEdit)
+			{
+				<MudSpacer />
+				<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@IsEditing" />
+			}
+		</MudToolBar>
 
-		<SortableListView TItem="FormProductLocationModel" Items="@FormLocations" IsSortingChanged="HandleIsSorting" SortOrderChanged="@HandleSortChanged">
-			<ItemRenderer>
-				<div class="d-flex flex-row gap-3 align-center">
-					<div>
-						<MudAvatar Variant="Variant.Outlined">@(context.RowIndex + 1)</MudAvatar>
-					</div>
-					<div class="flex-grow-1">
-						@if (!string.IsNullOrEmpty(context.Item.Brand))
-						{
-							<MudText Typo="Typo.body1">@context.Item.Brand</MudText>
-						}
-						<MudLink Typo="Typo.subtitle1" Class="d-block" Color="Color.Primary" Href="@($"/products/{context.Item.ProductSid}")">@context.Item.Title</MudLink>
-						@if (!string.IsNullOrEmpty(context.Item.Description))
-						{
-							<MudText Typo="Typo.body1" Color="Color.Tertiary">@context.Item.Description</MudText>
-						}
-					</div>
-				</div>
-			</ItemRenderer>
-			<DraggableItemRenderer>
-				<MudPaper Elevation="2" Class="py-2 px-4 my-2">
-					<div class="d-flex flex-row gap-4 align-center">
+		<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditMode" Class="mb-6">
+			<SectionHeader Title="@($"Products In {StoreLocation.Title}")" Typo="Typo.h5" IsEditMode="false" IsEditing="@false" DisableControls="@DisableControls" Class="mb-4" EditingClass="mb-4" />
+
+			<SortableListView TItem="FormProductLocationModel" Items="@FormProducts" IsSortingChanged="HandleIsSorting" SortOrderChanged="@HandleSortChanged" AllowSort="@CanEdit">
+				<ItemRenderer>
+					<div class="d-flex flex-row gap-3 align-center">
 						<div>
-							<MudIcon Icon="@Icons.Material.Filled.DragIndicator" />
+							<MudAvatar Variant="Variant.Outlined">@(context.RowIndex + 1)</MudAvatar>
 						</div>
-						<div>
-							<MudText Typo="Typo.body1">@context.Title</MudText>
+						<div class="flex-grow-1">
+							@if (!string.IsNullOrEmpty(context.Item.Brand))
+							{
+								<MudText Typo="Typo.body1">@context.Item.Brand</MudText>
+							}
+							<MudLink Typo="Typo.subtitle1" Class="d-block" Color="Color.Primary" Href="@($"/products/{context.Item.ProductSid}")">@context.Item.Title</MudLink>
+							@if (!string.IsNullOrEmpty(context.Item.Description))
+							{
+								<MudText Typo="Typo.body1" Color="Color.Tertiary">@context.Item.Description</MudText>
+							}
 						</div>
+						@if (IsEditMode)
+						{
+							<div>
+								<MudIconButton Icon="@Icons.Material.Filled.SwapHoriz" OnClick="@(() => HandleChangeAisleClicked(context.Item))" />
+								<MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="@(() => HandleDeleteClicked(context.Item))" />
+							</div>
+						}
 					</div>
-				</MudPaper>
-			</DraggableItemRenderer>
-			<EmptyListRenderer>
-				<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
-				<MudAlert Severity="Severity.Normal" Icon="@Icons.Material.Filled.Info">You have not added any products to this aisle/department.</MudAlert>
-				<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
-			</EmptyListRenderer>
-		</SortableListView>
+				</ItemRenderer>
+				<DraggableItemRenderer>
+					<MudPaper Elevation="2" Class="py-2 px-4 my-2">
+						<div class="d-flex flex-row gap-4 align-center">
+							<div>
+								<MudIcon Icon="@Icons.Material.Filled.DragIndicator" />
+							</div>
+							<div>
+								<MudText Typo="Typo.body1">@context.Title</MudText>
+							</div>
+						</div>
+					</MudPaper>
+				</DraggableItemRenderer>
+				<EmptyListRenderer>
+					<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+					<MudAlert Severity="Severity.Normal" Icon="@Icons.Material.Filled.Info">You have not added any products to this aisle/department.</MudAlert>
+					<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+				</EmptyListRenderer>
+			</SortableListView>
+		</SectionComponent>
 
 		@if(!string.IsNullOrEmpty(List))
 		{
 			<MudButton Href="@($"/shopping-lists/{List}")" Class="my-6" StartIcon="@Icons.Material.Filled.ArrowBack">To Shopping List</MudButton>
 		}
-		else
-		{
-			<MudButton Href="@($"/stores/{StoreSid}")" Class="my-6" StartIcon="@Icons.Material.Filled.ArrowBack">To Store</MudButton>
-		}
+
+		<SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
+			@if (DrawerView == Views.ChangeLocation)
+			{
+				<DrawerChangeLocation StoreLocations="@Locations" StoreLocationSid="@CurrentItem.StoreLocationSid" OnSubmitted="@HandleChangeLocationSubmitted" OnCanceled="@HandleCancelClicked" />
+			}
+		</SideDrawer>
 	}
 }

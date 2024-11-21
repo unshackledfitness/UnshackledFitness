@@ -7,6 +7,9 @@ public static class MemberExtensions
 {
 	public static bool HasHouseholdPermissionLevel(this Member member, PermissionLevels level)
 	{
+		if (!member.IsActive)
+			return false;
+
 		if (member.ActiveHousehold == null)
 			return false;
 

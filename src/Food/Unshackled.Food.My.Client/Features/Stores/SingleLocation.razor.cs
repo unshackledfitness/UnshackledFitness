@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Unshackled.Food.Core.Enums;
 using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Extensions;
 using Unshackled.Food.My.Client.Features.Stores.Actions;
@@ -10,6 +11,13 @@ namespace Unshackled.Food.My.Client.Features.Stores;
 
 public class SingleLocationBase : BaseComponent, IAsyncDisposable
 {
+	protected enum Views
+	{
+		None,
+		ChangeLocation
+	}
+
+	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public string StoreSid { get; set; } = string.Empty;
 	[Parameter] public string StoreLocationSid { get; set; } = string.Empty;
 
@@ -18,12 +26,25 @@ public class SingleLocationBase : BaseComponent, IAsyncDisposable
 	public string? List {  get; set; }
 
 	protected StoreLocationModel StoreLocation { get; set; } = new();
-	protected List<FormProductLocationModel> FormLocations { get; set; } = new();
+	protected List<FormProductLocationModel> FormProducts { get; set; } = [];
+	protected List<FormStoreLocationModel> Locations { get; set; } = [];
 	protected bool IsLoading { get; set; } = true;
+	protected bool IsEditMode { get; set; } = false;
+	protected bool IsEditing { get; set; } = false;
 	protected bool IsSorting { get; set; } = false;
 	protected bool IsWorking { get; set; } = false;
 	protected bool DisableControls => IsWorking || IsSorting;
 	protected Member ActiveMember => (Member)State.ActiveMember;
+	protected bool CanEdit => ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write);
+	protected FormProductLocationModel CurrentItem { get; set; } = new();
+	protected bool DrawerOpen => DrawerView != Views.None;
+	protected Views DrawerView { get; set; } = Views.None;
+
+	protected string DrawerTitle => DrawerView switch
+	{
+		Views.ChangeLocation => "Change Aisle/Department",
+		_ => string.Empty
+	};
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -44,9 +65,9 @@ public class SingleLocationBase : BaseComponent, IAsyncDisposable
 
 		State.OnActiveMemberChange += StateHasChanged;
 
-		StoreLocation = await Mediator.Send(new GetStoreLocation.Query(StoreLocationSid));
+		await LoadProducts();
 
-		LoadForm();
+		Locations = await Mediator.Send(new ListStoreLocations.Query(StoreSid));
 
 		IsLoading = false;
 		StateHasChanged();
@@ -56,6 +77,63 @@ public class SingleLocationBase : BaseComponent, IAsyncDisposable
 	{
 		State.OnActiveMemberChange -= StateHasChanged;
 		return base.DisposeAsync();
+	}
+
+	protected void HandleCancelClicked()
+	{
+		DrawerView = Views.None;
+	}
+
+	protected void HandleChangeAisleClicked(FormProductLocationModel item)
+	{
+		CurrentItem = item;
+		DrawerView = Views.ChangeLocation;
+	}
+
+	protected async Task HandleChangeLocationSubmitted(string locationSid)
+	{
+		DrawerView = Views.None;
+
+		if (CurrentItem.StoreLocationSid != locationSid)
+		{
+			IsWorking = true;
+			ChangeLocationModel model = new()
+			{
+				ProductSid = CurrentItem.ProductSid,
+				StoreSid = StoreSid,
+				StoreLocationSid = locationSid
+			};
+			var result = await Mediator.Send(new ChangeProductLocation.Command(model));
+			if (result.Success)
+			{
+				await LoadProducts();
+			}
+			ShowNotification(result);
+			IsWorking = false;
+			StateHasChanged();
+		}
+	}
+
+	protected async Task HandleDeleteClicked(FormProductLocationModel item)
+	{
+		bool? confirm = await DialogService.ShowMessageBox(
+				"Confirm Delete",
+				"Are you sure you want to remove this item from the aisle/department?",
+				yesText: "Delete", cancelText: "Cancel");
+
+		if (confirm.HasValue && confirm.Value)
+		{
+			IsWorking = true;
+
+			var result = await Mediator.Send(new DeleteProductLocation.Command(StoreSid, item.ProductSid));
+			ShowNotification(result);
+			if (result.Success)
+			{
+				await LoadProducts();
+			}
+			IsWorking = false;
+			StateHasChanged();
+		}
 	}
 
 	protected void HandleIsSorting(bool isSorting)
@@ -71,7 +149,7 @@ public class SingleLocationBase : BaseComponent, IAsyncDisposable
 		ShowNotification(result);
 		if (result.Success)
 		{
-			FormLocations = list;
+			FormProducts = list;
 		}
 		IsWorking = false;
 		StateHasChanged();
@@ -82,9 +160,10 @@ public class SingleLocationBase : BaseComponent, IAsyncDisposable
 		await Mediator.OpenMemberHousehold(StoreLocation.HouseholdSid);
 	}
 
-	protected void LoadForm()
+	protected async Task LoadProducts()
 	{
-		FormLocations = StoreLocation.ProductLocations
+		StoreLocation = await Mediator.Send(new GetStoreLocation.Query(StoreLocationSid));
+		FormProducts = StoreLocation.ProductLocations
 			.Select(x => (FormProductLocationModel)x.Clone())
 			.ToList();
 	}
