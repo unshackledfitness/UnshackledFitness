@@ -75,6 +75,10 @@
 						<MudText Typo="Typo.body2" Color="Color.Tertiary" Class="mt-1">@context.Item.Description</MudText>
 					}
 				</div>
+				<div>
+					<MudIconButton Icon="@(context.Item.IsPinned ? Icons.Material.Filled.PushPin : Icons.Material.Outlined.PushPin)" Color="@(context.Item.IsPinned ? Color.Primary : Color.Tertiary)"
+								   OnClick="@(() => HandleTogglePinnedClicked(context.Item))" />
+				</div>
 			</div>
 		</ItemRenderer>
 		<EmptyListRenderer>
@@ -87,7 +91,7 @@
 <SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
 	@if (DrawerView == Views.Add)
 	{
-		<FormProperties FormId="@FormId" Model="@FormModel" DisableFormControls="@IsSaving" OnFormSubmitted="@HandleFormAddSubmit">
+		<FormProperties FormId="@FormId" Model="@FormModel" DisableFormControls="@IsWorking" OnFormSubmitted="@HandleFormAddSubmit">
 			<FormToolbar>
 				<MudSpacer />
 				<ProgressButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" IsWorking="@IsWorking" WorkingText="Adding">Create</ProgressButton>

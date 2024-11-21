@@ -10,7 +10,7 @@ using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Food.My.Features.Products.Actions;
 
-public class ToggleIsArchived
+public class ToggleIsPinned
 {
 	public class Command : IRequest<CommandResult<bool>>
 	{
@@ -47,14 +47,14 @@ public class ToggleIsArchived
 			if (product is null)
 				return new CommandResult<bool>(false, "Invalid product.");
 
-			product.IsArchived = !product.IsArchived;
+			product.IsPinned = !product.IsPinned;
 			await db.SaveChangesAsync(cancellationToken);
 
-			string msg = "Product archived.";
-			if (!product.IsArchived)
-				msg = "Product restored.";
+			string msg = "Product pinned.";
+			if (!product.IsPinned)
+				msg = "Product unpinned.";
 
-			return new CommandResult<bool>(true, msg, product.IsArchived);
+			return new CommandResult<bool>(true, msg, product.IsPinned);
 		}
 	}
 }

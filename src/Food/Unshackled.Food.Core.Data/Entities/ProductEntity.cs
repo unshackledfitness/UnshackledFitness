@@ -13,6 +13,7 @@ public class ProductEntity : BaseHouseholdEntity, INutrition
 	public long? ProductCategoryId { get; set; }
 	public virtual ProductCategoryEntity? Category { get; set; }
 	public bool IsArchived { get; set; }
+	public bool IsPinned { get; set; }
 	public bool HasNutritionInfo { get; set; }
 	public decimal ServingSize { get; set; }
 	public decimal ServingSizeN { get; set; }

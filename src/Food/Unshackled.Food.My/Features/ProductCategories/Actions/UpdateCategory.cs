@@ -40,12 +40,16 @@ public class UpdateCategory
 
 			var category = await db.ProductCategories
 				.Where(x => x.Id == categoryId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (category == null)
 				return new CommandResult(false, "Invalid category.");
 
 			category.Title = request.Model.Title.Trim();
+
+			// Mark modified to avoid missing string case changes.
+			db.Entry(category).Property(x => x.Title).IsModified = true;
+
 			await db.SaveChangesAsync(cancellationToken);
 
 			return new CommandResult(true, "Category updated.");

@@ -24,7 +24,7 @@ else
 			</MudAlert>
 		}
 
-		<MudToolBar Gutters="false" Dense="true" Class="mb-4">
+		<MudToolBar Gutters="false" Dense="true" Class="mb-1">
 			@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
 			{
 				<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@IsEditMode" OnClick="@(() => HandleAddToListClicked())">Add To List</MudButton>

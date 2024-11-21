@@ -1,8 +1,8 @@
 ﻿@inherits SectionPropertiesBase
 
-<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
+<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6" Dividers="true">
 	<SectionHeader Title="@Product.Title" IsEditMode="@IsEditMode" IsEditing="@IsEditing" EditingClass="mb-4" FormId="@FormId" Breakpoint="Breakpoint.Sm" 
-				   OnCancelClicked="@(() => HandleEditCancelClicked())">
+	OnCancelClicked="@(() => HandleEditCancelClicked())">
 		<TitleContent>
 			@if (!string.IsNullOrEmpty(Product.Category))
 			{
@@ -21,6 +21,10 @@
 									Disabled="@(DisableSectionControls || IsEditing)" title="@(Product.IsArchived ? "Restore" : "Archive")"
 									Toggled="@Product.IsArchived" ToggledChanged="@(() => HandleToggleArchiveClicked())" />
 		</EditModeToolbar>
+		<DefaultToolbar>
+			<MudIconButton Icon="@(Product.IsPinned ? Icons.Material.Filled.PushPin : Icons.Material.Outlined.PushPin)" Color="@(Product.IsPinned ? Color.Primary : Color.Tertiary)"
+						   OnClick="@(() => HandleTogglePinnedClicked(Product))" />
+		</DefaultToolbar>
 	</SectionHeader>
 	
 	@if (!IsEditing)

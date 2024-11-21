@@ -25,7 +25,6 @@ public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListMode
 	public FormProductModel FormModel { get; set; } = new();
 	protected List<ProductCategoryModel> Categories { get; set; } = [];
 	protected List<ShoppingListModel> ShoppingLists { get; set; } = [];
-	public bool IsSaving { get; set; } = false;
 	protected bool MaxSelectionReached => SelectedSids.Count == FoodGlobals.MaxSelectionLimit;
 	protected bool MergeAvailable => SelectedSids.Count == 2;
 	protected List<string> SelectedSids { get; set; } = new();
@@ -87,7 +86,6 @@ public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListMode
 
 	protected void HandleAddToListClicked()
 	{
-		FormModel = new();
 		DrawerView = Views.AddToList;
 	}
 
@@ -119,6 +117,7 @@ public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListMode
 			var result = await Mediator.Send(new BulkSetCategory.Command(model));
 			if (result.Success)
 			{
+				ClearSelected();
 				await DoSearch(SearchModel.Page);
 			}
 			ShowNotification(result);
@@ -192,7 +191,7 @@ public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListMode
 
 	protected async Task HandleFormAddSubmit(FormProductModel model)
 	{
-		IsSaving = true;
+		IsWorking = true;
 		var result = await Mediator.Send(new AddProduct.Command(model));
 		ShowNotification(result);
 		if (result.Success)
@@ -200,7 +199,7 @@ public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListMode
 			NavManager.NavigateTo($"/products/{result.Payload}");
 		}
 		DrawerView = Views.None;
-		IsSaving = false;
+		IsWorking = false;
 	}
 
 	protected async Task HandleMergeClicked()
@@ -256,5 +255,17 @@ public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListMode
 			SelectedSids = SearchResults.Data.Select(x => x.Sid).ToList();
 			SelectAll = true;
 		}
+	}
+
+	protected async Task HandleTogglePinnedClicked(ProductListModel item)
+	{
+		IsWorking = true;
+		var result = await Mediator.Send(new ToggleIsPinned.Command(item.Sid));
+		if (result.Success)
+		{
+			item.IsPinned = result.Payload;
+		}
+		ShowNotification(result);
+		IsWorking = false;
 	}
 }

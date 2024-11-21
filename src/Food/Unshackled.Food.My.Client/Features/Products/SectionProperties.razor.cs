@@ -14,11 +14,11 @@ public class SectionPropertiesBase : BaseSectionComponent
 
 	protected const string FormId = "formProductProperties";
 	protected bool IsEditing { get; set; } = false;
-	protected bool IsSaving { get; set; }
+	protected bool IsWorking { get; set; }
 	protected FormProductModel Model { get; set; } = new();
 	protected List<ProductCategoryModel> Categories { get; set; } = [];
 
-	protected bool DisableControls => IsSaving;
+	protected bool DisableControls => IsWorking;
 	public int StatElevation => IsEditMode ? 0 : 1;
 
 	protected override async Task OnInitializedAsync()
@@ -42,26 +42,38 @@ public class SectionPropertiesBase : BaseSectionComponent
 
 	protected async Task HandleFormSubmitted(FormProductModel model)
 	{
-		IsSaving = true;
+		IsWorking = true;
 		var result = await Mediator.Send(new UpdateProduct.Command(model));
 		ShowNotification(result);
 		if (result.Success)
 		{
 			await ProductChanged.InvokeAsync(result.Payload);
 		}
-		IsSaving = false;
+		IsWorking = false;
 		IsEditing = await UpdateIsEditingSection(false);
 	}
 
 	protected async Task HandleToggleArchiveClicked()
 	{
-		IsSaving = true;
+		IsWorking = true;
 		var result = await Mediator.Send(new ToggleIsArchived.Command(Product.Sid));
 		if (result.Success)
 		{
 			Product.IsArchived = result.Payload;
 		}
 		ShowNotification(result);
-		IsSaving = false;
+		IsWorking = false;
+	}
+
+	protected async Task HandleTogglePinnedClicked(ProductModel item)
+	{
+		IsWorking = true;
+		var result = await Mediator.Send(new ToggleIsPinned.Command(item.Sid));
+		if (result.Success)
+		{
+			item.IsPinned = result.Payload;
+		}
+		ShowNotification(result);
+		IsWorking = false;
 	}
 }
