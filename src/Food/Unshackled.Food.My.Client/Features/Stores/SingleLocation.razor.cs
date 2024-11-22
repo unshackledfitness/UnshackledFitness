@@ -9,7 +9,7 @@ using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Stores;
 
-public class SingleLocationBase : BaseComponent, IAsyncDisposable
+public class SingleLocationBase : BaseComponent<Member>, IAsyncDisposable
 {
 	protected enum Views
 	{
@@ -34,7 +34,6 @@ public class SingleLocationBase : BaseComponent, IAsyncDisposable
 	protected bool IsSorting { get; set; } = false;
 	protected bool IsWorking { get; set; } = false;
 	protected bool DisableControls => IsWorking || IsSorting;
-	protected Member ActiveMember => (Member)State.ActiveMember;
 	protected bool CanEdit => ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write);
 	protected FormProductLocationModel CurrentItem { get; set; } = new();
 	protected bool DrawerOpen => DrawerView != Views.None;

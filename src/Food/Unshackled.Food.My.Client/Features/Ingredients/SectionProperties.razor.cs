@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.Ingredients.Actions;
 using Unshackled.Food.My.Client.Features.Ingredients.Models;
 using Unshackled.Studio.Core.Client.Components;
@@ -6,7 +7,7 @@ using Unshackled.Studio.Core.Client.Extensions;
 
 namespace Unshackled.Food.My.Client.Features.Ingredients;
 
-public class SectionPropertiesBase : BaseSectionComponent
+public class SectionPropertiesBase : BaseSectionComponent<Member>
 {
 	[Parameter] public IngredientModel Ingredient { get; set; } = new();
 	[Parameter] public EventCallback<IngredientModel> IngredientChanged { get; set; }

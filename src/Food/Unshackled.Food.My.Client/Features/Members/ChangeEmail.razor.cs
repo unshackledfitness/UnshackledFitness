@@ -1,10 +1,11 @@
 using MudBlazor;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.Members.Actions;
 using Unshackled.Food.My.Client.Features.Members.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Members;
-public class ChangeEmailBase : BaseComponent
+public class ChangeEmailBase : BaseComponent<Member>
 {
 	protected FormChangeEmailModel Model { get; set; } = new();
 	protected FormChangeEmailModel.Validator ModelValidator { get; set; } = new();

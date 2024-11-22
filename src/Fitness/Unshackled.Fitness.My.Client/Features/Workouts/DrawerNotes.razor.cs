@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Components;
+using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Workouts.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Workouts;
 
-public class DrawerNotesBase : BaseComponent
+public class DrawerNotesBase : BaseComponent<Member>
 {
 	[Parameter] public string WorkoutSetSid { get; set; } = string.Empty;
 	[Parameter] public string? SetNotes { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Unshackled.Food.Core;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.Dashboard.Actions;
 using Unshackled.Food.My.Client.Features.Dashboard.Models;
 using Unshackled.Studio.Core.Client.Components;
@@ -6,7 +7,7 @@ using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Food.My.Client.Features.Dashboard;
 
-public class IndexBase : BaseComponent
+public class IndexBase : BaseComponent<Member>
 {
 	protected enum Views
 	{

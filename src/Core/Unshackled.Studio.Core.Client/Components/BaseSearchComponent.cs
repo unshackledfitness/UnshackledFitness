@@ -3,9 +3,10 @@ using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Studio.Core.Client.Components;
 
-public abstract class BaseSearchComponent<TModel, TResults> : BaseComponent 
+public abstract class BaseSearchComponent<TModel, TResults, TMember> : BaseComponent<TMember>
 	where TModel : ISearchModel, new() 
 	where TResults : class, new()
+	where TMember: IMember
 {
 	protected SearchResult<TResults> SearchResults { get; set; }
 	protected TModel SearchModel { get; set; }

@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.ProductCategories.Actions;
 using Unshackled.Food.My.Client.Features.ProductCategories.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.ProductCategories;
 
-public class IndexBase : BaseComponent
+public class IndexBase : BaseComponent<Member>
 {
 	protected enum Views
 	{

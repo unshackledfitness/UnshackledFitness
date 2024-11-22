@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using MudBlazor;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.Members.Actions;
 using Unshackled.Food.My.Client.Features.Members.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Members;
-public class EnableAuthenticatorBase : BaseComponent
+public class EnableAuthenticatorBase : BaseComponent<Member>
 {
 	[Inject] protected IJSRuntime JS { get; set; } = default!;
 

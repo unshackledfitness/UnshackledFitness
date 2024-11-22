@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Fitness.Core.Enums;
+using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Actions;
 using Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.WorkoutTemplates;
 
-public class SectionTasksBase : BaseSectionComponent
+public class SectionTasksBase : BaseSectionComponent<Member>
 {
 	[Parameter] public string TemplateSid { get; set; } = string.Empty;
 	[Parameter] public WorkoutTaskTypes TaskType { get; set; } = WorkoutTaskTypes.PreWorkout;

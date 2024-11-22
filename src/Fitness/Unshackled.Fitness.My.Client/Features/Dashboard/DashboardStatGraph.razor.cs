@@ -5,14 +5,13 @@ using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Dashboard;
 
-public class DashboardStatGraphBase : BaseComponent
+public class DashboardStatGraphBase : BaseComponent<Member>
 {
 	[Parameter] public DashboardStatsModel Model { get; set; } = default!;
 	[Parameter] public EventCallback<DateTime> OnYearChanged { get; set; }
 	protected DateTime ToDateUtc { get; set; } = DateTimeOffset.Now.Date.AddDays(1).ToUniversalTime();
 	public string LabelYear { get; set; } = "Past Year";
 	public bool IsWorking { get; set; }
-	public Member ActiveMember => (Member)State.ActiveMember;
 
 	protected override async Task OnParametersSetAsync()
 	{

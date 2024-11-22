@@ -6,11 +6,11 @@ using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Exercises;
 
-public class SectionRecordsBase : BaseSectionComponent
+public class SectionRecordsBase : BaseSectionComponent<Member>
 {
 	[Parameter] public ExerciseModel Exercise { get; set; } = new();
 
-	protected AppSettings AppSettings => ((Member)State.ActiveMember).Settings;
+	protected AppSettings AppSettings => ActiveMember.Settings;
 
 	protected bool IsLoading { get; set; } = true;
 	protected List<RecordListModel> Records { get; set; } = new();

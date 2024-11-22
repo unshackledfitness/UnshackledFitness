@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.ProductBundles.Actions;
 using Unshackled.Food.My.Client.Features.ProductBundles.Models;
 using Unshackled.Studio.Core.Client.Components;
@@ -7,7 +8,7 @@ using Unshackled.Studio.Core.Client.Configuration;
 
 namespace Unshackled.Food.My.Client.Features.ProductBundles;
 
-public class IndexBase : BaseSearchComponent<SearchProductBundlesModel, ProductBundleListModel>
+public class IndexBase : BaseSearchComponent<SearchProductBundlesModel, ProductBundleListModel, Member>
 {
 	[Inject] protected ClientConfiguration ClientConfig { get; set; } = default!;
 	[Inject] protected IDialogService DialogService { get; set; } = default!;

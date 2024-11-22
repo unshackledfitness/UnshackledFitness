@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Components;
+using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Workouts.Actions;
 using Unshackled.Fitness.My.Client.Features.Workouts.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Workouts;
 
-public class SectionNotesBase : BaseSectionComponent
+public class SectionNotesBase : BaseSectionComponent<Member>
 {
 	[Parameter] public FormWorkoutModel Workout { get; set; } = new();
 	[Parameter] public EventCallback<FormWorkoutModel> WorkoutChanged { get; set; }

@@ -4,7 +4,7 @@
 @if(IsEditMode || Invites.Any())
 {
 	<MudText Typo="Typo.h5" Class="mt-6">Member Invites</MudText>
-	@if (IsEditMode && IsMemberActive)
+	@if (IsEditMode && ActiveMember.IsActive)
 	{
 		<MudToolBar Gutters="false">
 			<MudButton StartIcon="@Icons.Material.Filled.AddCircle" Color="Color.Primary" Disabled="@DisableControls" Size="Size.Small"
@@ -21,7 +21,7 @@
 							<MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.Email" Title="Invite Sent" />
 						</CaptionedProperty>
 					}
-					else if (IsMemberActive)
+					else if (ActiveMember.IsActive)
 					{
 						<MudMenu Icon="@Icons.Material.Filled.MoreVert" Disabled="@DisableControls">
 							<MudMenuItem OnClick="@(() => HandleDeleteClicked(context.Item))">Delete</MudMenuItem>

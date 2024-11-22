@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.TrainingPlans.Actions;
 using Unshackled.Fitness.My.Client.Features.TrainingPlans.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.TrainingPlans;
 
-public class SingleBase : BaseComponent
+public class SingleBase : BaseComponent<Member>
 {
 	[Parameter] public string PlanSid { get; set; } = string.Empty;
 	protected bool IsLoading { get; set; } = true;

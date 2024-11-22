@@ -1,6 +1,6 @@
 ﻿@inherits SectionTasksBase
 
-@if (IsMemberActive || Tasks.Any())
+@if (ActiveMember.IsActive || Tasks.Any())
 {
 	<div class="mb-6">
 		@if (Tasks.Any())
@@ -11,7 +11,7 @@
 				{
 					<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
 					<div class="d-flex flex-row gap-3 align-center">
-						@if (IsMemberActive)
+						@if (ActiveMember.IsActive)
 						{
 							<div>
 								<MudCheckBox Size="Size.Medium" Color="Color.Primary" Disabled="@DisableControls" Value="task.Completed" 

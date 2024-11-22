@@ -9,7 +9,7 @@ using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Food.My.Client.Features.ShoppingLists;
 
-public class SectionItemsBase : BaseSectionComponent
+public class SectionItemsBase : BaseSectionComponent<Member>
 {
 	protected enum Views
 	{
@@ -39,7 +39,6 @@ public class SectionItemsBase : BaseSectionComponent
 	protected Views DrawerView {  get; set; } = Views.None;
 	protected bool HideInCart { get; set; } = true;
 	protected FormListItemModel EditingModel { get; set; } = new();
-	protected Member ActiveMember => (Member)State.ActiveMember;
 
 	private string currentStoreSid = string.Empty;
 

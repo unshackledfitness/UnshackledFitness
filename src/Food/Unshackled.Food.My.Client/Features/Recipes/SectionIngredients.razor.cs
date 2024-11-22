@@ -11,7 +11,7 @@ using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Food.My.Client.Features.Recipes;
 
-public class SectionIngredientsBase : BaseSectionComponent
+public class SectionIngredientsBase : BaseSectionComponent<Member>
 {
 	protected enum Views
 	{

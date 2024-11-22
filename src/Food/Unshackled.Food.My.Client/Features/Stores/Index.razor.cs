@@ -1,11 +1,12 @@
 using MudBlazor;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.Stores.Actions;
 using Unshackled.Food.My.Client.Features.Stores.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Stores;
 
-public class IndexBase : BaseSearchComponent<SearchStoreModel, StoreListModel>
+public class IndexBase : BaseSearchComponent<SearchStoreModel, StoreListModel, Member>
 {
 	protected enum Views
 	{

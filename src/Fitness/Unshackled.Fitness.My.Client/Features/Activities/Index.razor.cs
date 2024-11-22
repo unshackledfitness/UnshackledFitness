@@ -8,14 +8,14 @@ using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Activities;
 
-public class IndexBase : BaseSearchComponent<SearchActivitiesModel, ActivityListModel>
+public class IndexBase : BaseSearchComponent<SearchActivitiesModel, ActivityListModel, Member>
 {
 	public const string FormId = "formAddActivity";
 	protected DateRange DateRangeSearch { get; set; } = new DateRange();
 	protected bool DrawerOpen { get; set; }
 	protected List<ActivityTypeListModel> ActivityTypes { get; set; } = [];
 	protected bool HasActivityTypes => ActivityTypes.Count > 0;
-	protected AppSettings AppSettings => ((Member)State.ActiveMember).Settings;
+	protected AppSettings AppSettings => ActiveMember.Settings;
 	protected FormActivityModel FormModel { get; set; } = new();
 
 	protected override async Task OnInitializedAsync()

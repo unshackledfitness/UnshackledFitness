@@ -11,20 +11,23 @@
 
 	<div class="mb-4">
 		<SearchForm T="SearchProductBundlesModel" @bind-Model="@SearchModel" Class="mb-6" SearchClicked="@(() => DoSearch(1))"
-					ResetClicked="@HandleResetClicked" Disable="@IsLoading" VerticalButtons="Breakpoint.Sm">
+		ResetClicked="@HandleResetClicked" Disable="@IsLoading" VerticalButtons="Breakpoint.Sm">
 			<SearchFields>
 				<MudGrid Spacing="1">
 					<MudItem xs="12">
 						<MudTextField Label="Title" Variant="Variant.Outlined" FullWidth="true" Margin="Margin.Dense"
-									  T="string" @bind-Value="@SearchModel.Title" Disabled="@IsLoading" />
+						T="string" @bind-Value="@SearchModel.Title" Disabled="@IsLoading" />
 					</MudItem>
 				</MudGrid>
 			</SearchFields>
 		</SearchForm>
 
-		<MudToolBar Class="mt-6" Gutters="false" Dense="true">
-			<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@IsLoading" OnClick="@HandleAddClicked">Add</MudButton>
-		</MudToolBar>
+		@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+		{
+			<MudToolBar Class="mt-6" Gutters="false" Dense="true">
+				<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@IsLoading" OnClick="@HandleAddClicked">Add</MudButton>
+			</MudToolBar>
+		}
 
 		<ListView TItem="ProductBundleListModel" Items="@SearchResults.Data" IsLoading="@IsLoading" TotalItems="@SearchResults.Total" Page="@SearchModel.Page"
 				  PageSize="SearchModel.PageSize" PageSelected="@HandlePageSelected">

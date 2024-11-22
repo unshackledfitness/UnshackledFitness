@@ -6,10 +6,8 @@ using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Recipes;
 
-public partial class IndexBase : BaseSearchComponent<SearchRecipeModel, RecipeListModel>
+public partial class IndexBase : BaseSearchComponent<SearchRecipeModel, RecipeListModel, Member>
 {
-	protected Member ActiveMember => (Member)State.ActiveMember;
-
 	protected override async Task OnInitializedAsync()
 	{
 		await base.OnInitializedAsync();

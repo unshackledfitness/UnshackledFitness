@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Components;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.CookbookRecipes.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.CookbookRecipes;
 
-public class SectionIngredientsBase : BaseSectionComponent
+public class SectionIngredientsBase : BaseSectionComponent<Member>
 {
 	[Parameter] public List<RecipeIngredientGroupModel> Groups { get; set; } = [];
 	[Parameter] public List<RecipeIngredientModel> Ingredients { get; set; } = [];

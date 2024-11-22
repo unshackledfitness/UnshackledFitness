@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.Recipes.Actions;
 using Unshackled.Food.My.Client.Features.Recipes.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Recipes;
 
-public class DrawerCopyBase : BaseComponent
+public class DrawerCopyBase : BaseComponent<Member>
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public RecipeModel Recipe { get; set; } = new();
@@ -25,10 +26,15 @@ public class DrawerCopyBase : BaseComponent
 		await base.OnInitializedAsync();
 		MemberHouseholds = await Mediator.Send(new ListMemberHouseholds.Query());
 
+		string currentHouseholdSid = string.Empty;
+		var member = (Member)State.ActiveMember;
+		if (member.ActiveHousehold != null && MemberHouseholds.Where(x => x.Sid == member.ActiveHousehold.HouseholdSid).Any())
+			currentHouseholdSid = member.ActiveHousehold.HouseholdSid;
+
 		CopyModel = new()
 		{
 			RecipeSid = Recipe.Sid,
-			HouseholdSid = Recipe.HouseholdSid,
+			HouseholdSid = currentHouseholdSid,
 			Title = Recipe.Title
 		};
 

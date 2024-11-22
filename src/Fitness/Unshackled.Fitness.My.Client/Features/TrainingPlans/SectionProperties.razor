@@ -5,7 +5,7 @@
 	<SectionHeader Title="@GetSectionTitle()" SubTitle="@GetSectionSubTitle()" IsEditMode="@IsEditMode" IsEditing="@IsEditing" FormId="@FormId"
 				   Class="mb-4" EditingClass="mb-3" Breakpoint="Breakpoint.Sm" OnCancelClicked="HandleCancelClicked">
 		<DefaultToolbar>
-			@if (IsMemberActive)
+			@if (ActiveMember.IsActive)
 			{
 				@if (Plan.DateStarted.HasValue)
 				{

@@ -7,7 +7,7 @@ using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Workouts;
 
-public class DrawerStatsBase : BaseSearchComponent<SearchSetModel, CompletedSetModel>
+public class DrawerStatsBase : BaseSearchComponent<SearchSetModel, CompletedSetModel, Member>
 {
 	[Parameter] public string ExcludeWorkoutSid { get; set; } = string.Empty;
 	[Parameter] public string ExerciseSid { get; set; } = string.Empty;
@@ -17,7 +17,7 @@ public class DrawerStatsBase : BaseSearchComponent<SearchSetModel, CompletedSetM
 	[Parameter] public int? SecondsTarget { get; set; }
 
 	protected List<CompletedSetGroupModel> Groups { get; set; } = new();
-	protected AppSettings AppSettings => ((Member)State.ActiveMember).Settings;
+	protected AppSettings AppSettings => ActiveMember.Settings;
 
 	protected override async Task OnInitializedAsync()
 	{

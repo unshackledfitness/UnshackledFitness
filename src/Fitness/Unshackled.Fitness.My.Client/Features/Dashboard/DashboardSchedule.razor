@@ -15,7 +15,7 @@
 								<MudLink Class="d-block" Href="@($"/templates/{context.Item.Sid}")" Disabled="@(IsWorking || IsSkipping)">@context.Item.Title</MudLink>
 								<MudText Typo="Typo.caption" Color="Color.Tertiary">from <a href="@($"/programs/{context.Item.ParentSid}")">@context.Item.ParentTitle</a></MudText>
 							</div>
-							@if (IsMemberActive)
+							@if (ActiveMember.IsActive)
 							{
 								<div>
 									@if (context.Item.ProgramType == ProgramTypes.Sequential)
@@ -60,7 +60,7 @@
 								<MudLink Class="d-block" Href="@($"/training-sessions/{context.Item.Sid}")" Disabled="@(IsWorking || IsSkipping)">@context.Item.Title</MudLink>
 								<MudText Typo="Typo.caption" Color="Color.Tertiary">from <a href="@($"/training-programs/{context.Item.ParentSid}")">@context.Item.ParentTitle</a></MudText>
 							</div>
-							@if (IsMemberActive)
+							@if (ActiveMember.IsActive)
 							{
 								<div>
 									@if (context.Item.ProgramType == ProgramTypes.Sequential)

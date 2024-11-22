@@ -8,7 +8,7 @@ using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Households;
 
-public class IndexBase : BaseComponent
+public class IndexBase : BaseComponent<Member>
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	protected const string FormId = "formAddHousehold";
@@ -17,7 +17,6 @@ public class IndexBase : BaseComponent
 	protected bool DisableControls => IsLoading || IsWorking;
 	protected List<HouseholdListModel> Households { get; set; } = new();
 	protected FormHouseholdModel AddModel { get; set; } = new();
-	protected Member ActiveMember => (Member)State.ActiveMember;
 
 	protected string DrawerIcon => Icons.Material.Filled.AddCircle;
 	protected bool DrawerOpen { get; set; } = false;

@@ -12,7 +12,7 @@
 									   OnClick="@(() => HandleApplyPresetClicked(context.Item))" />
 					</div>
 					<MudText Class="flex-grow-1">@context.Item.Title</MudText>
-					@if (IsMemberActive)
+					@if (ActiveMember.IsActive)
 					{
 						<div>
 							<MudMenu Icon="@Icons.Material.Filled.MoreVert" AnchorOrigin="Origin.TopRight" TransformOrigin="Origin.TopRight" Disabled="@IsSaving">
@@ -34,7 +34,7 @@
 		<MudCheckBox T="bool?" Value="@GetAllCheckboxState()" Color="Color.Primary" UncheckedColor="Color.Default" Disabled="@IsSaving"
 					 ValueChanged="@((bool? value) => HandleCheckAllClicked(value))" Label="Check All/None" />
 	</div>
-	@if (IsMemberActive)
+	@if (ActiveMember.IsActive)
 	{
 		<div>
 			<MudButton StartIcon="@Icons.Material.Filled.SaveAs" Disabled="@IsSaving" OnClick="@(() => HandleAddPresetClicked())">Save As Preset</MudButton>

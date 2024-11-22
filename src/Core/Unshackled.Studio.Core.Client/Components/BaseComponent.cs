@@ -5,7 +5,7 @@ using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Studio.Core.Client.Components;
 
-public class BaseComponent : ComponentBase, IAsyncDisposable
+public class BaseComponent<TMember> : ComponentBase, IAsyncDisposable where TMember : IMember
 {
 	[Inject] protected IMediator Mediator { get; set; } = default!;
 	[Inject] protected NavigationManager NavManager { get; set; } = default!;
@@ -13,7 +13,7 @@ public class BaseComponent : ComponentBase, IAsyncDisposable
 	[Inject] protected IAppState State { get; set; } = default!;
 	[Inject] protected ILocalStorage localStorageService { get; set; } = default!;
 
-	protected bool IsMemberActive { get; set; } = false;
+	protected TMember ActiveMember { get; private set; } = default!;
 
 	protected List<BreadcrumbItem> DefaultBreadcrumbs => new()
 	{
@@ -27,7 +27,7 @@ public class BaseComponent : ComponentBase, IAsyncDisposable
 		await base.OnInitializedAsync();
 
 		Breadcrumbs = DefaultBreadcrumbs;
-		IsMemberActive = State.ActiveMember.IsActive;
+		ActiveMember = (TMember)State.ActiveMember;
 
 		State.OnActiveMemberChange += HandleActiveMemberChange;
 	}
@@ -50,7 +50,7 @@ public class BaseComponent : ComponentBase, IAsyncDisposable
 
 	protected void HandleActiveMemberChange()
 	{
-		IsMemberActive = State.ActiveMember.IsActive;
+		ActiveMember = (TMember)State.ActiveMember;
 		StateHasChanged();
 	}
 

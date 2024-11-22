@@ -15,7 +15,7 @@
 			}
 		</TitleContent>
 		<EditModeToolbar>
-			@if (IsMemberActive)
+			@if (ActiveMember.IsActive)
 			{
 				<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@(DisableSectionControls || DisableControls)" Class="me-2"
 							   title="Edit" OnClick="@(() => HandleEditClicked())" />

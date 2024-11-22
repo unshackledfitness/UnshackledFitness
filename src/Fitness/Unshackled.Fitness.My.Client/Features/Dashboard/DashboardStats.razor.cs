@@ -6,12 +6,11 @@ using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Dashboard;
 
-public class DashboardStatsBase : BaseComponent
+public class DashboardStatsBase : BaseComponent<Member>
 {
 	[Parameter] public DashboardStatsModel Model { get; set; } = default!;
 	protected string FirstYear { get; set; } = string.Empty;
 	protected DistanceUnits DistanceUnit { get; set; }
-	protected Member ActiveMember => (Member)State.ActiveMember;
 
 	protected override void OnParametersSet()
 	{

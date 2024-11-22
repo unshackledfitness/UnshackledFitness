@@ -8,7 +8,7 @@ using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.ActivityTypes;
 
-public class IndexBase : BaseComponent
+public class IndexBase : BaseComponent<Member>
 {
 	protected enum Views
 	{
@@ -20,7 +20,7 @@ public class IndexBase : BaseComponent
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	protected bool IsLoading { get; set; } = false;
 	protected bool IsWorking { get; set; } = false;
-	protected bool DisableControls => IsLoading || IsWorking || !IsMemberActive;
+	protected bool DisableControls => IsLoading || IsWorking || !ActiveMember.IsActive;
 	protected bool DrawerOpen => DrawerView != Views.None;
 
 	protected Views DrawerView { get; set; } = Views.None;

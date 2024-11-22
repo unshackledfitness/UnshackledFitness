@@ -1,4 +1,5 @@
-﻿@inherits AppFrameBase
+﻿@typeparam TMember where TMember : IMember
+@inherits AppFrameBase<TMember>
 
 <MudThemeProvider @ref="@ThemeProvider" IsDarkMode="@GetThemeIsDark()" Theme="@CustomTheme" />
 <MudDialogProvider BackdropClick="false" Position="DialogPosition.Center" MaxWidth="MaxWidth.Medium" />

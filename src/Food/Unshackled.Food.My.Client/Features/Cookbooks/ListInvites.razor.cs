@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.Cookbooks.Actions;
 using Unshackled.Food.My.Client.Features.Cookbooks.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Cookbooks;
 
-public class ListInvitesBase : BaseSectionComponent
+public class ListInvitesBase : BaseSectionComponent<Member>
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public CookbookModel Cookbook { get; set; } = new();

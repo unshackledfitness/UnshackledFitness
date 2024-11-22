@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Studio.Core.Client.Enums;
+using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Studio.Core.Client.Components;
 
-public partial class AppFrameBase : BaseComponent, IAsyncDisposable
+public partial class AppFrameBase<TMember> : BaseComponent<TMember>, IAsyncDisposable where TMember : IMember
 {
 	public const string ParameterThemeProvider = "ThemeProvider";
 	

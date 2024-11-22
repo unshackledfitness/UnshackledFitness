@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.ShoppingLists.Actions;
 using Unshackled.Food.My.Client.Features.ShoppingLists.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.ShoppingLists;
 
-public class SectionPropertiesBase : BaseSectionComponent
+public class SectionPropertiesBase : BaseSectionComponent<Member>
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public ShoppingListModel ShoppingList { get; set; } = new();

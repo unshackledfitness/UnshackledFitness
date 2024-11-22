@@ -8,7 +8,7 @@ using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Households;
 
-public class SectionPropertiesBase : BaseSectionComponent
+public class SectionPropertiesBase : BaseSectionComponent<Member>
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public HouseholdModel Household { get; set; } = new();
@@ -23,7 +23,6 @@ public class SectionPropertiesBase : BaseSectionComponent
 	protected bool IsSaving { get; set; } = false;
 	protected FormHouseholdModel Model { get; set; } = new();
 	protected FormHouseholdModel.Validator ModelValidator {  get; set; } = new();
-	protected Member ActiveMember => (Member)State.ActiveMember;
 
 	protected bool DisableControls => IsSaving;
 

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.Core.Models.ShoppingLists;
 using Unshackled.Food.My.Client.Features.Recipes.Actions;
 using Unshackled.Food.My.Client.Features.Recipes.Models;
@@ -6,7 +7,7 @@ using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Recipes;
 
-public class DrawerAddToListBase : BaseComponent
+public class DrawerAddToListBase : BaseComponent<Member>
 {
 	[Parameter] public RecipeModel Recipe { get; set; } = new();
 	[Parameter] public decimal Scale { get; set; } = 1M;

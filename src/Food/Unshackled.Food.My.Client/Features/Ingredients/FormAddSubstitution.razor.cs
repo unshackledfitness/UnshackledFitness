@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Components;
-using Unshackled.Food.Core.Components;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.Ingredients.Actions;
 using Unshackled.Food.My.Client.Features.Ingredients.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Ingredients;
 
-public class FormAddSubstitutionBase : BaseSearchComponent<SearchProductModel, ProductListModel>
+public class FormAddSubstitutionBase : BaseSearchComponent<SearchProductModel, ProductListModel, Member>
 {
 	[Parameter] public SearchProductModel StartingSearch { get; set; } = new();
 	[Parameter] public EventCallback<string> OnSubstitutionAdded { get; set; }

@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Components;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.Dashboard.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Dashboard;
 
-public class DrawerAddToListBase : BaseComponent
+public class DrawerAddToListBase : BaseComponent<Member>
 {
 	[Parameter] public List<ShoppingListModel> ShoppingLists { get; set; } = new();
 	[Parameter] public EventCallback<AddToListModel> OnAdded { get; set; }

@@ -33,7 +33,7 @@
 		</SearchFields>
 	</SearchForm>
 	<MudToolBar Class="mb-2" Gutters="false" Dense="true">
-		@if (IsMemberActive)
+		@if (ActiveMember.IsActive)
 		{
 			<MudButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@(DisableControls || !HasActivityTypes)" OnClick="@(() => HandleAddActivityClicked())">New</MudButton>
 		}

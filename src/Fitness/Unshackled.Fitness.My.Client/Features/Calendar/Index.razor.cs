@@ -9,7 +9,7 @@ using Unshackled.Studio.Core.Client.Utils;
 
 namespace Unshackled.Fitness.My.Client.Features.Calendar;
 
-public class IndexBase : BaseComponent
+public class IndexBase : BaseComponent<Member>
 {
 	protected CalendarModel CalendarModel { get; set; } = new();
 	protected SearchCalendarModel SearchModel { get; set; } = new();
@@ -19,8 +19,7 @@ public class IndexBase : BaseComponent
 	protected bool IsSaving { get; set; } = false;
 	protected bool DisableControls => IsSaving || IsLoading;
 	protected Dictionary<string, bool> FilterVisibility { get; set; } = new();
-	protected List<PresetModel> Presets { get; set; } = new();
-	protected Member ActiveMember => (Member)State.ActiveMember;
+	protected List<PresetModel> Presets { get; set; } = [];
 
 	private string visibilityKey = "MetricVisibility";
 	private string searchKey = "SearchCalendar";

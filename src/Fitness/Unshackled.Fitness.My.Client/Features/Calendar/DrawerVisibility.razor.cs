@@ -1,13 +1,14 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Calendar.Models;
 using Unshackled.Studio.Core.Client.Components;
 using Unshackled.Studio.Core.Client.Models.Calendars;
 
 namespace Unshackled.Fitness.My.Client.Features.Calendar;
 
-public class DrawerVisibilityBase : BaseComponent
+public class DrawerVisibilityBase : BaseComponent<Member>
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public List<CalendarBlockFilterGroupModel> FilterGroups { get; set; } = new();

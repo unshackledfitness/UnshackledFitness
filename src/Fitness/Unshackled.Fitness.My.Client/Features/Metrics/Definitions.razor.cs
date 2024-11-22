@@ -2,6 +2,7 @@
 using MudBlazor;
 using MudBlazor.Utilities;
 using Unshackled.Fitness.Core.Enums;
+using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Metrics.Actions;
 using Unshackled.Fitness.My.Client.Features.Metrics.Models;
 using Unshackled.Studio.Core.Client.Components;
@@ -9,7 +10,7 @@ using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Metrics;
 
-public class DefinitionsBase : BaseComponent
+public class DefinitionsBase : BaseComponent<Member>
 {
 	protected enum Views
 	{

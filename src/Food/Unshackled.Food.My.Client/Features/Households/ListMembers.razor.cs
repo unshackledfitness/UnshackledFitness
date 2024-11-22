@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Food.Core.Components;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.Households.Actions;
 using Unshackled.Food.My.Client.Features.Households.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Households;
 
-public class ListMembersBase : BaseSearchComponent<MemberSearchModel, MemberListModel>
+public class ListMembersBase : BaseSearchComponent<MemberSearchModel, MemberListModel, Member>
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public HouseholdModel Household { get; set; } = new();

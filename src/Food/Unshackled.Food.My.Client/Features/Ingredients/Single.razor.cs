@@ -8,7 +8,7 @@ using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Ingredients;
 
-public class SingleBase : BaseComponent, IAsyncDisposable
+public class SingleBase : BaseComponent<Member>, IAsyncDisposable
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public string IngredientKey { get; set; } = string.Empty;
@@ -17,7 +17,6 @@ public class SingleBase : BaseComponent, IAsyncDisposable
 	protected bool IsEditMode { get; set; } = false;
 	protected bool IsEditing { get; set; } = false;
 	protected bool DisableControls => !IsEditMode || IsEditing;
-	protected Member ActiveMember => (Member)State.ActiveMember;
 
 	protected override async Task OnParametersSetAsync()
 	{

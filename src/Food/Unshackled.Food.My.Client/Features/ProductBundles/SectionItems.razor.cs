@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Food.Core;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.ProductBundles.Actions;
 using Unshackled.Food.My.Client.Features.ProductBundles.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.ProductBundles;
 
-public class SectionItemsBase : BaseSectionComponent
+public class SectionItemsBase : BaseSectionComponent<Member>
 {
 	protected enum Views
 	{

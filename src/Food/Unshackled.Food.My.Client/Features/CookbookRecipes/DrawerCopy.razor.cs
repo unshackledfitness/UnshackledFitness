@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.CookbookRecipes.Actions;
 using Unshackled.Food.My.Client.Features.CookbookRecipes.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.CookbookRecipes;
 
-public class DrawerCopyBase : BaseComponent
+public class DrawerCopyBase : BaseComponent<Member>
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public RecipeModel Recipe { get; set; } = new();

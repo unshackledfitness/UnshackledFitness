@@ -1,10 +1,11 @@
 ﻿using MudBlazor;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.Recipes.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Recipes;
 
-public class AddRecipeBase : BaseComponent
+public class AddRecipeBase : BaseComponent<Member>
 {
 	protected const string FormId = "formAddRecipe";
 	protected FormRecipeModel Model { get; set; } = new();

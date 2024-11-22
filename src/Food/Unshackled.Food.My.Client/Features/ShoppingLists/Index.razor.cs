@@ -1,11 +1,12 @@
 using MudBlazor;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.ShoppingLists.Actions;
 using Unshackled.Food.My.Client.Features.ShoppingLists.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.ShoppingLists;
 
-public class IndexBase : BaseSearchComponent<SearchShoppingListsModel, ShoppingListModel>
+public class IndexBase : BaseSearchComponent<SearchShoppingListsModel, ShoppingListModel, Member>
 {
 	protected const string FormId = "formAddShoppingList";
 	protected FormShoppingListModel FormModel { get; set; } = new();

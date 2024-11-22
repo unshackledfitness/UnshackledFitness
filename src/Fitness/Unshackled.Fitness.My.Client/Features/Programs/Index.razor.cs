@@ -1,12 +1,13 @@
 using MudBlazor;
 using Unshackled.Fitness.Core.Enums;
+using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Programs.Actions;
 using Unshackled.Fitness.My.Client.Features.Programs.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Programs;
 
-public class IndexBase : BaseSearchComponent<SearchProgramModel, ProgramListModel>
+public class IndexBase : BaseSearchComponent<SearchProgramModel, ProgramListModel, Member>
 {
 	protected FormAddProgramModel FormAddModel { get; set; } = new();
 	protected FormAddProgramModel.Validator FormValidator { get; set; } = new();

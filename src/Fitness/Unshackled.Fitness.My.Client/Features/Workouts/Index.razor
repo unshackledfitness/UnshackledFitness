@@ -25,7 +25,7 @@
 		</SearchFields>
 	</SearchForm>
 	<MudToolBar Class="mb-2" Gutters="false" Dense="true">
-		@if (IsMemberActive)
+		@if (ActiveMember.IsActive)
 		{
 			<ProgressButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls" IsWorking="@IsWorking" WorkingText="Opening"
 							OnClick="@(() => HandleAddClicked())">New</ProgressButton>

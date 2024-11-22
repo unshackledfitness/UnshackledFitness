@@ -1,11 +1,12 @@
 using MudBlazor;
+using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Workouts.Actions;
 using Unshackled.Fitness.My.Client.Features.Workouts.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Workouts;
 
-public class IndexBase : BaseSearchComponent<SearchWorkoutModel, WorkoutListModel>
+public class IndexBase : BaseSearchComponent<SearchWorkoutModel, WorkoutListModel, Member>
 {
 	protected DateRange DateRangeSearch { get; set; } = new DateRange();
 	protected string DrawerIcon => Icons.Material.Filled.AddCircle;

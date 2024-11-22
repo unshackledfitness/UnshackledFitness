@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Food.Core.Enums;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.Cookbooks.Actions;
 using Unshackled.Food.My.Client.Features.Cookbooks.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Cookbooks;
 
-public class SingleBase : BaseComponent
+public class SingleBase : BaseComponent<Member>
 {
 	[Parameter] public string CookbookSid { get; set; } = string.Empty; 
 	protected bool IsLoading { get; set; } = true;

@@ -13,7 +13,7 @@ else
 {
 	@if (!string.IsNullOrEmpty(Plan.Sid))
 	{
-		@if (IsMemberActive)
+		@if (ActiveMember.IsActive)
 		{
 			<MudToolBar Gutters="false">
 				<MudSpacer />

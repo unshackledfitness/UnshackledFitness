@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Exercises.Actions;
 using Unshackled.Fitness.My.Client.Features.Exercises.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Exercises;
 
-public class SingleBase : BaseComponent
+public class SingleBase : BaseComponent<Member>
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public string Sid { get; set; } = string.Empty;

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Fitness.Core.Enums;
+using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Actions;
 using Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Models;
@@ -9,7 +10,7 @@ using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.WorkoutTemplates;
 
-public class SectionSetsBase : BaseSectionComponent
+public class SectionSetsBase : BaseSectionComponent<Member>
 {
 	[Parameter] public string TemplateSid { get; set; } = string.Empty;
 	[Parameter] public EventCallback<List<TemplateSetModel>> SetsUpdated { get; set; }

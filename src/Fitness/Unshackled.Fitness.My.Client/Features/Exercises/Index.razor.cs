@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Fitness.Core.Enums;
+using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Exercises.Actions;
 using Unshackled.Fitness.My.Client.Features.Exercises.Models;
 using Unshackled.Studio.Core.Client.Components;
@@ -8,7 +9,7 @@ using Unshackled.Studio.Core.Client.Configuration;
 
 namespace Unshackled.Fitness.My.Client.Features.Exercises;
 
-public partial class IndexBase : BaseSearchComponent<SearchExerciseModel, ExerciseModel>
+public partial class IndexBase : BaseSearchComponent<SearchExerciseModel, ExerciseModel, Member>
 {
 	[Inject] protected ClientConfiguration ClientConfig { get; set; } = default!;
 	[Inject] protected IDialogService DialogService { get; set; } = default!;

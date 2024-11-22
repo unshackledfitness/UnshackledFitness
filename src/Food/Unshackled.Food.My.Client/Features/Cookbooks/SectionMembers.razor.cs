@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Components;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.Cookbooks.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Cookbooks;
 
-public class SectionMembersBase : BaseSectionComponent
+public class SectionMembersBase : BaseSectionComponent<Member>
 {
 	[Parameter] public CookbookModel Cookbook { get; set; } = new();
 

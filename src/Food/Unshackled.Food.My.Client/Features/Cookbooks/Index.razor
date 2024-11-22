@@ -7,7 +7,7 @@
 
 <MudText Typo="Typo.h4" Class="mb-6">Cookbooks</MudText>
 
-@if (IsMemberActive)
+@if (ActiveMember.IsActive)
 {
 	<MudToolBar Gutters="false" Dense="true" Class="mb-2">
 		<MudButton StartIcon="@Icons.Material.Filled.AddCircle" OnClick="@(() => HandleAddClicked())">New</MudButton>
@@ -22,7 +22,7 @@
 				{
 					<MudButton Variant="Variant.Filled" Color="Color.Error" FullWidth="true" Disabled="@DisableControls" OnClick="@(() => HandleCloseClicked(context.Item))">Close</MudButton>
 				}
-				else if (IsMemberActive && context.Item.IsInvite)
+				else if (ActiveMember.IsActive && context.Item.IsInvite)
 				{
 					<MudButton Variant="Variant.Filled" Color="Color.Secondary" FullWidth="true" Disabled="@DisableControls" OnClick="@(() => HandleJoinClicked(context.Item))">Join</MudButton>
 				}

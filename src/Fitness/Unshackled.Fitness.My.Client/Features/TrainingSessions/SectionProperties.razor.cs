@@ -9,7 +9,7 @@ using Unshackled.Studio.Core.Client.Configuration;
 
 namespace Unshackled.Fitness.My.Client.Features.TrainingSessions;
 
-public class SectionPropertiesBase : BaseSectionComponent
+public class SectionPropertiesBase : BaseSectionComponent<Member>
 {
 	[Inject] protected ClientConfiguration ClientConfig { get; set; } = default!;
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
@@ -21,7 +21,7 @@ public class SectionPropertiesBase : BaseSectionComponent
 	protected bool IsEditing { get; set; } = false;
 	protected bool IsUpdating { get; set; } = false;
 	protected FormSessionModel Model { get; set; } = new();
-	protected AppSettings AppSettings => ((Member)State.ActiveMember).Settings;
+	protected AppSettings AppSettings => ActiveMember.Settings;
 
 	public bool DisableControls => IsUpdating;
 	public int StatElevation => IsEditMode ? 0 : 1;

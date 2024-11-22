@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.Recipes.Actions;
 using Unshackled.Food.My.Client.Features.Recipes.Models;
 using Unshackled.Studio.Core.Client.Components;
@@ -7,7 +8,7 @@ using Unshackled.Studio.Core.Client.Extensions;
 
 namespace Unshackled.Food.My.Client.Features.Recipes;
 
-public class SectionNotesBase : BaseSectionComponent
+public class SectionNotesBase : BaseSectionComponent<Member>
 {
 	protected enum Views
 	{

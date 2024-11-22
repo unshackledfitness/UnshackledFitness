@@ -5,7 +5,7 @@ using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Studio.Core.Client.Components;
 
-public class BaseSectionComponent : ComponentBase, IAsyncDisposable
+public class BaseSectionComponent<TMember> : ComponentBase, IAsyncDisposable where TMember : IMember
 {
 	[Inject] protected IMediator Mediator { get; set; } = default!;
 	[Inject] protected ISnackbar Snackbar { get; set; } = default!;
@@ -15,12 +15,12 @@ public class BaseSectionComponent : ComponentBase, IAsyncDisposable
 	[Parameter] public bool DisableSectionControls { get; set; } = false;
 	[Parameter] public EventCallback<bool> OnIsEditingSectionChange { get; set; }
 
-	protected bool IsMemberActive { get; set; } = false;
+	protected TMember ActiveMember { get; private set; } = default!;
 
 	protected override async Task OnInitializedAsync()
 	{
 		await base.OnInitializedAsync();
-		IsMemberActive = State.ActiveMember.IsActive;
+		ActiveMember = (TMember)State.ActiveMember;
 
 		State.OnActiveMemberChange += HandleActiveMemberChange;
 	}
@@ -33,7 +33,7 @@ public class BaseSectionComponent : ComponentBase, IAsyncDisposable
 
 	protected void HandleActiveMemberChange()
 	{
-		IsMemberActive = State.ActiveMember.IsActive;
+		ActiveMember = (TMember)State.ActiveMember;
 		StateHasChanged();
 	}
 

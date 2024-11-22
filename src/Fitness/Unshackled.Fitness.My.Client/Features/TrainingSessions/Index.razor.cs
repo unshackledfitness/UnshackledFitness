@@ -8,7 +8,7 @@ using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.TrainingSessions;
 
-public partial class IndexBase : BaseSearchComponent<SearchSessionsModel, SessionListItem>
+public partial class IndexBase : BaseSearchComponent<SearchSessionsModel, SessionListItem, Member>
 {
 	protected override bool DisableControls => IsLoading || IsWorking;
 	protected List<ActivityTypeListModel> ActivityTypes { get; set; } = [];
@@ -44,7 +44,7 @@ public partial class IndexBase : BaseSearchComponent<SearchSessionsModel, Sessio
 
 	protected void HandleAddClicked()
 	{
-		bool isMetric = ((Member)State.ActiveMember).Settings.DefaultUnits == UnitSystems.Metric;
+		bool isMetric = ActiveMember.Settings.DefaultUnits == UnitSystems.Metric;
 		FormModel = new();
 		FormModel.SetUnits(isMetric);
 		DrawerOpen = true;

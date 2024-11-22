@@ -8,7 +8,7 @@ using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Recipes;
 
-public class SingleBase : BaseComponent, IAsyncDisposable
+public class SingleBase : BaseComponent<Member>, IAsyncDisposable
 {
 	protected enum Views
 	{
@@ -35,7 +35,6 @@ public class SingleBase : BaseComponent, IAsyncDisposable
 	protected decimal Scale { get; set; } = 1M;
 	protected bool DrawerOpen => DrawerView != Views.None;
 	protected Views DrawerView { get; set; } = Views.None;
-	protected Member ActiveMember => (Member)State.ActiveMember;
 
 	protected string DrawerTitle => DrawerView switch
 	{

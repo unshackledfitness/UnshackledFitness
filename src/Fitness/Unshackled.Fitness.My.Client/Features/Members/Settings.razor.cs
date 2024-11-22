@@ -7,7 +7,7 @@ using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Members;
 
-public partial class SettingsBase : BaseComponent
+public partial class SettingsBase : BaseComponent<Member>
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 

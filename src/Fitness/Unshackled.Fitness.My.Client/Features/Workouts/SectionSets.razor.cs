@@ -12,7 +12,7 @@ using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Workouts;
 
-public class SectionSetsBase : BaseSectionComponent
+public class SectionSetsBase : BaseSectionComponent<Member>
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public FormWorkoutModel Workout { get; set; } = new();
@@ -31,7 +31,7 @@ public class SectionSetsBase : BaseSectionComponent
 		: Icons.Material.Filled.Edit;
 
 	protected bool DrawerOpen => OpenStats || OpenNotes || OpenAddSet || OpenProperties;
-	protected AppSettings AppSettings => ((Member)State.ActiveMember).Settings;
+	protected AppSettings AppSettings => ActiveMember.Settings;
 
 	protected string DrawerTitle => OpenStats
 		? "Previous Stats"
@@ -45,7 +45,7 @@ public class SectionSetsBase : BaseSectionComponent
 
 	protected bool HideCompleted { get; set; } = true;
 
-	protected bool IsEditing => IsMemberActive && IsWorkoutStarted && (!IsWorkoutComplete || IsEditMode);
+	protected bool IsEditing => ActiveMember.IsActive && IsWorkoutStarted && (!IsWorkoutComplete || IsEditMode);
 
 	protected bool IsWorking { get; set; }
 

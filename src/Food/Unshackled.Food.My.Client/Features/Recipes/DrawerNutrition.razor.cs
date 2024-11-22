@@ -6,7 +6,7 @@ using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Recipes;
 
-public class DrawerNutritionBase : BaseComponent
+public class DrawerNutritionBase : BaseComponent<Member>
 {
 	[Parameter] public RecipeModel Recipe { get; set; } = new();
 	[Parameter] public List<RecipeIngredientModel> Ingredients { get; set; } = new();

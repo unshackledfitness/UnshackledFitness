@@ -1,11 +1,12 @@
 using MudBlazor;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.Members.Actions;
 using Unshackled.Food.My.Client.Features.Members.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Members;
 
-public class TwoFactorAuthenticationBase : BaseComponent
+public class TwoFactorAuthenticationBase : BaseComponent<Member>
 {
 	protected bool IsLoading { get; set; } = true;
 	protected bool IsWorking { get; set; }

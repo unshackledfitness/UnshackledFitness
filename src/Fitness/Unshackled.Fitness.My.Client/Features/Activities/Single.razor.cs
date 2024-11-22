@@ -8,7 +8,7 @@ using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Activities;
 
-public class SingleBase : BaseComponent
+public class SingleBase : BaseComponent<Member>
 {
 	[Parameter] public string ActivitySid { get; set; } = string.Empty;
 	protected ActivityModel ActivityModel { get; set; } = new();

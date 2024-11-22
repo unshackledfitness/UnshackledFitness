@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.Ingredients.Actions;
 using Unshackled.Food.My.Client.Features.Ingredients.Models;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Food.My.Client.Features.Ingredients;
 
-public class SectionSubstitutionsBase : BaseSectionComponent
+public class SectionSubstitutionsBase : BaseSectionComponent<Member>
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public IngredientModel Ingredient { get; set; } = new();
