@@ -18,6 +18,7 @@ public class FoodDbContext : BaseDbContext
 	public DbSet<CookbookEntity> Cookbooks => Set<CookbookEntity>();
 	public DbSet<CookbookInviteEntity> CookbookInvites => Set<CookbookInviteEntity>();
 	public DbSet<CookbookMemberEntity> CookbookMembers => Set<CookbookMemberEntity>();
+	public DbSet<CookbookRecipeEntity> CookbookRecipes => Set<CookbookRecipeEntity>();
 	public DbSet<HouseholdEntity> Households => Set<HouseholdEntity>();
 	public DbSet<HouseholdInviteEntity> HouseholdInvites => Set<HouseholdInviteEntity>();
 	public DbSet<HouseholdMemberEntity> HouseholdMembers => Set<HouseholdMemberEntity>();
@@ -43,6 +44,7 @@ public class FoodDbContext : BaseDbContext
 		builder.ApplyConfiguration(new CookbookEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new CookbookInviteEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new CookbookMemberEntity.TypeConfiguration());
+		builder.ApplyConfiguration(new CookbookRecipeEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new HouseholdEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new HouseholdInviteEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new HouseholdMemberEntity.TypeConfiguration());

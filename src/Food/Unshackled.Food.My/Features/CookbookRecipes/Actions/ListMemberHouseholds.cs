@@ -3,11 +3,11 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Food.Core.Data;
 using Unshackled.Food.Core.Enums;
-using Unshackled.Food.My.Client.Features.Recipes.Models;
+using Unshackled.Food.My.Client.Features.CookbookRecipes.Models;
 
-namespace Unshackled.Food.My.Features.Recipes.Actions;
+namespace Unshackled.Food.My.Features.CookbookRecipes.Actions;
 
-public class ListMemberGroups
+public class ListMemberHouseholds
 {
 	public class Query : IRequest<List<HouseholdListModel>>
 	{
@@ -33,7 +33,7 @@ public class ListMemberGroups
 					.Where(x => x.MemberId == request.MemberId && x.PermissionLevel >= PermissionLevels.Write)
 					.Select(x => x.Household)
 					.OrderBy(x => x.Title))
-					.ToListAsync();
+					.ToListAsync(cancellationToken);
 		}
 	}
 }

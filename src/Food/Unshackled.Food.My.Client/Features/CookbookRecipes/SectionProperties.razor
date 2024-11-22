@@ -1,0 +1,42 @@
+﻿@inherits SectionPropertiesBase
+
+<SectionComponent IsEditMode="@IsEditMode" Class="mb-6">
+		
+	<SectionHeader Title="@Recipe.Title" />
+	
+	@if (!string.IsNullOrEmpty(Recipe.Description))
+	{
+		<MudText Typo="Typo.body1">@Recipe.Description</MudText>
+	}
+
+	@if (RecipeTags.Any())
+	{
+		<div Class="d-flex flex-row flex-wrap my-4">
+			@foreach (string tag in RecipeTags)
+			{
+				<MudChip T="string" Variant="Variant.Outlined">@tag</MudChip>
+			}
+		</div>
+	}
+
+	<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+	<div class="flex-summary">
+		<div class="summary-item">
+			<MudText Class="summary-label" Color="Color.Tertiary">Prep Time</MudText>
+			<MudText Class="summary-value">@Recipe.PrepTime.ToString(@"hh\:mm")</MudText>
+			<MudText Class="summary-caption" Color="Color.Tertiary">hr:min</MudText>
+		</div>
+		<MudDivider Vertical="true" FlexItem="true" />
+		<div class="summary-item">
+			<MudText Class="summary-label" Color="Color.Tertiary">Cook Time</MudText>
+			<MudText Class="summary-value">@Recipe.CookTime.ToString(@"hh\:mm")</MudText>
+			<MudText Class="summary-caption" Color="Color.Tertiary">hr:min</MudText>
+		</div>
+		<MudDivider Vertical="true" FlexItem="true" />
+		<div class="summary-item">
+			<MudText Class="summary-label" Color="Color.Tertiary">Servings</MudText>
+			<MudText Class="summary-value">@((Recipe.TotalServings * Scale).ToHtmlFraction())</MudText>
+		</div>
+	</div>
+	<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+</SectionComponent>

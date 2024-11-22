@@ -13,7 +13,7 @@ public class ListMemberHouseholds
 
 		public async Task<List<HouseholdListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
-			return await GetResultAsync<List<HouseholdListModel>>($"{baseUrl}list-member-groups") ??
+			return await GetResultAsync<List<HouseholdListModel>>($"{baseUrl}list-member-households") ??
 				new List<HouseholdListModel>();
 		}
 	}

@@ -1,0 +1,40 @@
+﻿@inherits SectionIngredientsBase
+
+<SectionComponent Class="mb-6">
+	<SectionHeader Title="Ingredients" Typo="Typo.h5" Class="mb-4">
+		<DefaultToolbar>
+			<MudMenu Label="@($"Scale: {GetScaleFraction()}")" AnchorOrigin="Origin.TopRight" TransformOrigin="Origin.TopRight">
+				<MudMenuItem OnClick="@(() => HandleScaleChanged(0.25M))">1/4x</MudMenuItem>
+				<MudMenuItem OnClick="@(() => HandleScaleChanged(0.5M))">1/2x</MudMenuItem>
+				<MudMenuItem OnClick="@(() => HandleScaleChanged(0.75M))">3/4x</MudMenuItem>
+				<MudMenuItem OnClick="@(() => HandleScaleChanged(1M))">1x</MudMenuItem>
+				<MudMenuItem OnClick="@(() => HandleScaleChanged(2M))">2x</MudMenuItem>
+				<MudMenuItem OnClick="@(() => HandleScaleChanged(3M))">3x</MudMenuItem>
+				<MudMenuItem OnClick="@(() => HandleScaleChanged(4M))">4x</MudMenuItem>
+			</MudMenu>
+		</DefaultToolbar>
+	</SectionHeader>
+
+	<GroupedList Groups="@Groups" Items="@Ingredients">
+		<GroupRenderer>
+			<MudText Typo="Typo.body1" Class="mt-4 mb-2">@context.Title</MudText>
+		</GroupRenderer>
+		<ItemRenderer>
+			<div class="d-flex flex-row gap-2 align-center justify-space-between">
+				<div class="flex-grow-1">
+					<MudText>
+						<IngredientText Amount="@(context.Item.Amount * Scale)" AmountLabel="@context.Item.AmountLabel"
+										Title="@context.Item.Title" PrepNote="@context.Item.PrepNote" />
+					</MudText>
+				</div>
+			</div>
+					
+		</ItemRenderer>
+		<EmptyListRenderer>
+			<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+			<MudAlert Severity="Severity.Normal" Icon="@Icons.Material.Filled.Info">Recipe does not have any ingredients.</MudAlert>
+			<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+		</EmptyListRenderer>
+	</GroupedList>
+		
+</SectionComponent>

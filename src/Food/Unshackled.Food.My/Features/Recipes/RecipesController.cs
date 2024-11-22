@@ -17,6 +17,13 @@ public class RecipesController : BaseController
 		return Ok(await Mediator.Send(new AddRecipe.Command(Member.Id, Member.ActiveHouseholdId, model)));
 	}
 
+	[HttpPost("add-to-cookbook")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> AddToCookbook([FromBody] AddToCookbookModel model)
+	{
+		return Ok(await Mediator.Send(new AddToCookbook.Command(Member.Id, model)));
+	}
+
 	[HttpPost("add-to-shopping-list")]
 	[ActiveMemberRequired]
 	public async Task<IActionResult> AddToShoppingList([FromBody] AddRecipeToListModel model)
@@ -92,10 +99,16 @@ public class RecipesController : BaseController
 		return Ok(await Mediator.Send(new ListIngredientTitles.Query(Member.ActiveHouseholdId, Member.Id)));
 	}
 
-	[HttpGet("list-member-groups")]
-	public async Task<IActionResult> ListMemberGroups()
+	[HttpGet("list-member-cookbooks")]
+	public async Task<IActionResult> ListMemberCookbooks()
 	{
-		return Ok(await Mediator.Send(new ListMemberGroups.Query(Member.Id)));
+		return Ok(await Mediator.Send(new ListMemberCookbooks.Query(Member.Id)));
+	}
+
+	[HttpGet("list-member-households")]
+	public async Task<IActionResult> ListMemberHouseholds()
+	{
+		return Ok(await Mediator.Send(new ListMemberHouseholds.Query(Member.Id)));
 	}
 
 	[HttpGet("list-shopping-lists")]

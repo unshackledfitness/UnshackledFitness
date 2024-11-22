@@ -20,7 +20,7 @@ else
 		@if(ShoppingList.HouseholdSid != ActiveMember.ActiveHousehold?.HouseholdSid)
 		{
 			<MudAlert Severity="Severity.Warning" ContentAlignment="HorizontalAlignment.Center" Class="mb-4">
-				You are viewing a shopping list that is not in your active group. <MudLink Class="d-inline-block ms-4" Color="Color.Warning" OnClick="@(() => HandleSwitchHousehold())">Switch Household</MudLink>
+				You are viewing a shopping list that is not in your active household. <MudLink Class="d-inline-block ms-4" Color="Color.Warning" OnClick="@(() => HandleSwitchHousehold())">Switch Household</MudLink>
 			</MudAlert>
 		}
 

@@ -1,24 +1,23 @@
 ﻿using AutoMapper;
 using Unshackled.Food.Core.Data.Entities;
-using Unshackled.Food.My.Client.Features.Recipes.Models;
+using Unshackled.Food.My.Client.Features.CookbookRecipes.Models;
 using Unshackled.Studio.Core.Server.Extensions;
 
-namespace Unshackled.Food.My.Features.Recipes;
+namespace Unshackled.Food.My.Features.CookbookRecipes;
 
 public class MappingProfile : Profile
 {
 	public MappingProfile()
 	{
-		CreateMap<CookbookEntity, CookbookListModel>()
-			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()));
 		CreateMap<HouseholdEntity, HouseholdListModel>()
 			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()))
 			.ForMember(d => d.MemberSid, m => m.MapFrom(s => s.MemberId.Encode()));
-		CreateMap<RecipeEntity, RecipeModel>()
-			.ForMember(d => d.HouseholdSid, m => m.MapFrom(s => s.HouseholdId.Encode()))
-			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()));
 		CreateMap<RecipeEntity, RecipeListModel>()
-			.ForMember(d => d.HouseholdSid, m => m.MapFrom(s => s.HouseholdId.Encode()))
+			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()));
+		CreateMap<RecipeEntity, RecipeModel>()
+			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()));
+		CreateMap<RecipeIngredientEntity, RecipeIngredientModel>()
+			.ForMember(d => d.ListGroupSid, m => m.MapFrom(s => s.ListGroupId.Encode()))
 			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()));
 		CreateMap<RecipeIngredientGroupEntity, RecipeIngredientGroupModel>()
 			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()))
@@ -37,7 +36,5 @@ public class MappingProfile : Profile
 			.ForMember(d => d.PrepNote, m => m.MapFrom(s => s.RecipeIngredient != null ? s.RecipeIngredient.PrepNote : string.Empty))
 			.ForMember(d => d.Title, m => m.MapFrom(s => s.RecipeIngredient != null ? s.RecipeIngredient.Title : string.Empty))
 			.ForMember(d => d.SortOrder, m => m.MapFrom(s => s.RecipeIngredient != null ? s.RecipeIngredient.SortOrder : 0));
-		CreateMap<ShoppingListEntity, ShoppingListModel>()
-			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()));
 	}
 }

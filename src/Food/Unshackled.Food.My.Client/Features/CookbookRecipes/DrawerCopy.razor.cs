@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Food.My.Client.Features.Recipes.Actions;
-using Unshackled.Food.My.Client.Features.Recipes.Models;
+using Unshackled.Food.My.Client.Features.CookbookRecipes.Actions;
+using Unshackled.Food.My.Client.Features.CookbookRecipes.Models;
 using Unshackled.Studio.Core.Client.Components;
 
-namespace Unshackled.Food.My.Client.Features.Recipes;
+namespace Unshackled.Food.My.Client.Features.CookbookRecipes;
 
 public class DrawerCopyBase : BaseComponent
 {
@@ -28,7 +28,6 @@ public class DrawerCopyBase : BaseComponent
 		CopyModel = new()
 		{
 			RecipeSid = Recipe.Sid,
-			HouseholdSid = Recipe.HouseholdSid,
 			Title = Recipe.Title
 		};
 

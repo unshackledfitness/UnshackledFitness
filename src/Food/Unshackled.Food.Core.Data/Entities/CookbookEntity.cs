@@ -9,7 +9,6 @@ public class CookbookEntity : BaseMemberEntity
 	public string Title { get; set; } = string.Empty;
 	public string? Description { get; set; }
 
-	public List<RecipeEntity> Recipes { get; set; } = [];
 	public List<CookbookMemberEntity> Memberships { get; set; } = [];
 	public List<CookbookInviteEntity> Invites { get; set; } = [];
 
@@ -23,14 +22,10 @@ public class CookbookEntity : BaseMemberEntity
 
 			config.Property(x => x.Title)
 				.HasMaxLength(255)
-			.IsRequired();
+				.IsRequired();
 
 			config.Property(x => x.Description)
 				.HasMaxLength(500);
-
-			config.HasMany(x => x.Recipes)
-				.WithMany(x => x.Cookbooks)
-				.UsingEntity("CookbookRecipes");
 		}
 	}
 }

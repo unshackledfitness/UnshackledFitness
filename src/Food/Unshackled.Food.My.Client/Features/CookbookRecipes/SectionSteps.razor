@@ -1,0 +1,31 @@
+﻿@inherits SectionStepsBase
+
+	<SectionComponent Class="mb-6">
+		<SectionHeader Title="Steps" Typo="Typo.h5" Class="mb-4" />
+
+		<ListView Items="@Steps">
+			<ItemRenderer>
+				<div class="d-flex flex-row gap-4 align-start">
+					<div class="d-flex flex-row gap-2 justify-space-between">
+						<MudText>@(context.Item.SortOrder + 1)</MudText>
+						<MudDivider Vertical="true" FlexItem="true" />
+					</div>
+					<div class="flex-grow-1">
+						<MudText>@context.Item.Instructions</MudText>
+						@if (context.Item.Ingredients.Any())
+						{
+							<div class="flex-grow-1 mt-2">
+								<MudText Typo="Typo.caption" Class="d-block" Color="Color.Tertiary">Ingredients Used</MudText>
+								<MudText Typo="Typo.body2">@context.Item.IngredientList</MudText>
+							</div>
+						}
+					</div>
+				</div>
+			</ItemRenderer>
+			<EmptyListRenderer>
+				<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+				<MudAlert Severity="Severity.Normal" Icon="@Icons.Material.Filled.Info">Recipe does not have any steps.</MudAlert>
+				<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+			</EmptyListRenderer>
+		</ListView>
+	</SectionComponent>

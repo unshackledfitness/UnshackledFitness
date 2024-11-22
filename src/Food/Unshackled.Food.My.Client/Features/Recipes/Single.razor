@@ -20,21 +20,20 @@ else
 		@if(Recipe.HouseholdSid != ActiveMember.ActiveHousehold?.HouseholdSid)
 		{
 			<MudAlert Severity="Severity.Warning" ContentAlignment="HorizontalAlignment.Center" Class="mb-4">
-				You are viewing a recipe that is not in your active group. <MudLink Class="d-inline-block ms-4" Color="Color.Warning" OnClick="@(() => HandleSwitchHousehold())">Switch Household</MudLink>
+				You are viewing a recipe that is not in your active household. <MudLink Class="d-inline-block ms-4" Color="Color.Warning" OnClick="@(() => HandleSwitchHousehold())">Switch Household</MudLink>
 			</MudAlert>
 		}
 
-		@if (State.ActiveMember.IsActive && MemberHouseholds.Any())
-		{
-			<MudToolBar Gutters="false" Dense="true" Class="mb-4">
-				<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@(IsEditMode || IsAddingToList)" OnClick="@(() => HandleAddToListClicked())">Add To List</MudButton>
-				@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
-				{
-					<MudSpacer />
-					<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@(IsEditing || IsAddingToList)" />
-				}
-			</MudToolBar>
-		}
+		<MudToolBar Gutters="false" Dense="true" Class="mb-4">
+			<MudButton StartIcon="@Icons.Material.Filled.FileCopy" Disabled="@IsEditMode" OnClick="@(() => HandleCopyToClicked())">Copy to...</MudButton>
+			@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+			{
+				<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@IsEditMode" OnClick="@(() => HandleAddToListClicked())">List</MudButton>
+				<MudButton StartIcon="@Icons.Material.Filled.Share" Disabled="@IsEditMode" OnClick="@(() => HandleAddToCookbookClicked())">Cookbook</MudButton>
+				<MudSpacer />
+				<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@(IsEditing || IsAddingToList)" />
+			}
+		</MudToolBar>
 
 		<SectionProperties @bind-Recipe="@Recipe" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
 						   Scale="@Scale"  OnIsEditingSectionChange="@HandleSectionEditing" MakeRecipeClicked="@HandleMakeRecipeClicked" />
@@ -57,6 +56,10 @@ else
 			else if (DrawerView == Views.AddToList)
 			{
 				<DrawerAddToList Recipe="@Recipe" Scale="@Scale" OnAddedComplete="@HandleAddToListComplete" OnCancelClicked="@HandleCancelClicked" />
+			}
+			else if (DrawerView == Views.AddToCookbook)
+			{
+				<DrawerAddToCookbook Recipe="@Recipe" OnSubmitted="@HandleAddToCookbookSubmitted" OnCancelClicked="@HandleCancelClicked" />
 			}
 			else if (DrawerView == Views.Nutrition)
 			{

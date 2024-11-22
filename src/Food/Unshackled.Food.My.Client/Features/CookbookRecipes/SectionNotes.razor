@@ -1,0 +1,22 @@
+﻿@inherits SectionNotesBase
+
+@if (Notes.Count > 0)
+{
+	<SectionComponent Class="mb-6">
+		<SectionHeader Title="Notes" Typo="Typo.h5" Class="mb-4" />
+
+		<ListView Items="@Notes">
+			<ItemRenderer>
+				<div class="d-flex flex-row gap-4 align-start">
+					<div class="d-flex flex-row gap-2 justify-space-between">
+						<MudText>@(context.Item.SortOrder + 1)</MudText>
+						<MudDivider Vertical="true" FlexItem="true" />
+					</div>
+					<div class="flex-grow-1">
+						<MudText>@((MarkupString)context.Item.Note.ReplaceLineBreaks("<br />"))</MudText>
+					</div>
+				</div>
+			</ItemRenderer>
+		</ListView>
+	</SectionComponent>
+}

@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
 using Unshackled.Food.Core.Data;
-using Unshackled.Food.My.Client.Features.Recipes.Models;
+using Unshackled.Food.My.Client.Features.CookbookRecipes.Models;
 using Unshackled.Food.My.Extensions;
 using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Server.Extensions;
 
-namespace Unshackled.Food.My.Features.Recipes.Actions;
+namespace Unshackled.Food.My.Features.CookbookRecipes.Actions;
 
 public class CopyRecipe
 {

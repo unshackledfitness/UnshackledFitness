@@ -1,16 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using System.Text.Json.Serialization;
 using Unshackled.Food.Core.Models.Recipes;
+using Unshackled.Studio.Core.Client.Models;
 
-namespace Unshackled.Food.Core.Data.Entities;
+namespace Unshackled.Food.My.Client.Features.CookbookRecipes.Models;
 
-public class RecipeEntity : BaseHouseholdEntity, IRecipeTags
+public class RecipeModel : BaseObject, IRecipeTags
 {
 	public string Title { get; set; } = string.Empty;
 	public string? Description { get; set; }
 	public int CookTimeMinutes { get; set; }
 	public int PrepTimeMinutes { get; set; }
 	public int TotalServings { get; set; }
+
+	// Meal types
+	public bool IsBreakfast { get; set; }
+	public bool IsDessert { get; set; }
+	public bool IsDinner { get; set; }
+	public bool IsDrink { get; set; }
+	public bool IsLunch { get; set; }
+	public bool IsSalad { get; set; }
+	public bool IsSideDish { get; set; }
+	public bool IsSnackAppetizer { get; set; }
 
 	// Cuisine types
 	public bool IsAustralianCuisine { get; set; }
@@ -58,30 +68,23 @@ public class RecipeEntity : BaseHouseholdEntity, IRecipeTags
 	public bool IsWesternEuropeanCuisine { get; set; }
 	public bool IsVietnameseCuisine { get; set; }
 
-	// Diet types
+	// Allergen and meal plan types
 	public bool IsGlutenFree { get; set; }
+	public bool IsLowCarb { get; set; }
+	public bool IsLowFat { get; set; }
+	public bool IsLowSodium { get; set; }
 	public bool IsNutFree { get; set; }
 	public bool IsVegetarian { get; set; }
 	public bool IsVegan { get; set; }
 
-	public virtual List<RecipeIngredientGroupEntity> Groups { get; set; } = [];
-	public virtual List<RecipeIngredientEntity> Ingredients { get; set; } = [];
-	public virtual List<RecipeStepEntity> Steps { get; set; } = [];
-	public virtual List<RecipeNoteEntity> Notes { get; set; } = [];
+	public List<RecipeIngredientGroupModel> Groups { get; set; } = [];
+	public List<RecipeIngredientModel> Ingredients { get; set; } = [];
+	public List<RecipeStepModel> Steps { get; set; } = [];
+	public List<RecipeNoteModel> Notes { get; set; } = [];
 
-	public class TypeConfiguration : BaseHouseholdEntityTypeConfiguration<RecipeEntity>, IEntityTypeConfiguration<RecipeEntity>
-	{
-		public override void Configure(EntityTypeBuilder<RecipeEntity> config)
-		{
-			base.Configure(config);
+	[JsonIgnore]
+	public TimeSpan PrepTime => new(0, PrepTimeMinutes, 0);
 
-			config.ToTable("Recipes");
-
-			config.Property(x => x.Title)
-				.HasMaxLength(255)
-				.IsRequired();
-
-			config.HasIndex(x => new { x.HouseholdId, x.Title });
-		}
-	}
+	[JsonIgnore]
+	public TimeSpan CookTime => new(0, CookTimeMinutes, 0);
 }

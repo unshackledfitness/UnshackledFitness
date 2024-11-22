@@ -1,16 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using System.Text.Json.Serialization;
+using Unshackled.Food.Core.Enums;
 using Unshackled.Food.Core.Models.Recipes;
+using Unshackled.Food.My.Client.Extensions;
+using Unshackled.Studio.Core.Client.Models;
 
-namespace Unshackled.Food.Core.Data.Entities;
+namespace Unshackled.Food.My.Client.Features.CookbookRecipes.Models;
 
-public class RecipeEntity : BaseHouseholdEntity, IRecipeTags
+public class SearchRecipeModel : SearchModel, IRecipeTags
 {
-	public string Title { get; set; } = string.Empty;
-	public string? Description { get; set; }
-	public int CookTimeMinutes { get; set; }
-	public int PrepTimeMinutes { get; set; }
-	public int TotalServings { get; set; }
+	public string? Title { get; set; }
 
 	// Cuisine types
 	public bool IsAustralianCuisine { get; set; }
@@ -64,24 +62,29 @@ public class RecipeEntity : BaseHouseholdEntity, IRecipeTags
 	public bool IsVegetarian { get; set; }
 	public bool IsVegan { get; set; }
 
-	public virtual List<RecipeIngredientGroupEntity> Groups { get; set; } = [];
-	public virtual List<RecipeIngredientEntity> Ingredients { get; set; } = [];
-	public virtual List<RecipeStepEntity> Steps { get; set; } = [];
-	public virtual List<RecipeNoteEntity> Notes { get; set; } = [];
-
-	public class TypeConfiguration : BaseHouseholdEntityTypeConfiguration<RecipeEntity>, IEntityTypeConfiguration<RecipeEntity>
+	[JsonIgnore]
+	public IEnumerable<CuisineTypes> SelectedCuisines
 	{
-		public override void Configure(EntityTypeBuilder<RecipeEntity> config)
+		get
 		{
-			base.Configure(config);
+			return this.GetSelectedCuisines();
+		}
+		set
+		{
+			this.SetSelectedCuisines(value);
+		}
+	}
 
-			config.ToTable("Recipes");
-
-			config.Property(x => x.Title)
-				.HasMaxLength(255)
-				.IsRequired();
-
-			config.HasIndex(x => new { x.HouseholdId, x.Title });
+	[JsonIgnore]
+	public IEnumerable<DietTypes> SelectedDiets
+	{
+		get
+		{
+			return this.GetSelectedDiets();
+		}
+		set
+		{
+			this.SetSelectedDiets(value);
 		}
 	}
 }

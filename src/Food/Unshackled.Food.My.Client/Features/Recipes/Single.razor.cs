@@ -15,6 +15,7 @@ public class SingleBase : BaseComponent, IAsyncDisposable
 		None,
 		Copy,
 		AddToList,
+		AddToCookbook,
 		Nutrition
 	}
 
@@ -22,12 +23,10 @@ public class SingleBase : BaseComponent, IAsyncDisposable
 	[Parameter] public string RecipeSid { get; set; } = string.Empty; 
 	protected bool IsLoading { get; set; } = true;
 	protected RecipeModel Recipe { get; set; } = new();
-	protected FormCopyRecipeModel CopyModel { get; set; } = new();
 	protected List<RecipeIngredientGroupModel> Groups { get; set; } = new();
 	protected List<RecipeIngredientModel> Ingredients { get; set; } = new();
 	protected List<RecipeStepModel> Steps { get; set; } = new();
 	protected List<RecipeNoteModel> Notes { get; set; } = new();
-	protected List<HouseholdListModel> MemberHouseholds { get; set; } = new();
 	protected bool IsAddingToList { get; set; } = false;
 	protected bool IsEditMode { get; set; } = false;
 	protected bool IsEditing { get; set; } = false;
@@ -42,6 +41,7 @@ public class SingleBase : BaseComponent, IAsyncDisposable
 	{
 		Views.Copy => "Copy To...",
 		Views.AddToList => "Add To List",
+		Views.AddToCookbook => "Add To Cookbook",
 		Views.Nutrition => "Nutrition Info",
 		_ => string.Empty
 	};
@@ -56,7 +56,6 @@ public class SingleBase : BaseComponent, IAsyncDisposable
 		Ingredients = await Mediator.Send(new ListRecipeIngredients.Query(RecipeSid));
 		Steps = await Mediator.Send(new ListRecipeSteps.Query(RecipeSid));
 		Notes = await Mediator.Send(new ListRecipeNotes.Query(RecipeSid));
-		MemberHouseholds = await Mediator.Send(new ListMemberHouseholds.Query());
 		DrawerView = Views.None;
 		IsLoading = false;
 	}
@@ -74,6 +73,25 @@ public class SingleBase : BaseComponent, IAsyncDisposable
 	{
 		State.OnActiveMemberChange -= StateHasChanged;
 		return base.DisposeAsync();
+	}
+
+	protected void HandleAddToCookbookClicked()
+	{
+		DrawerView = Views.AddToCookbook;
+	}
+
+	protected async Task HandleAddToCookbookSubmitted(string sid)
+	{
+		DrawerView = Views.None;
+		IsWorking = true;
+		AddToCookbookModel model = new()
+		{
+			CookbookSid = sid,
+			RecipeSid = Recipe.Sid
+		};
+		var result = await Mediator.Send(new AddToCookbook.Command(model));
+		ShowNotification(result);
+		IsWorking = false;
 	}
 
 	protected void HandleAddToListClicked()
