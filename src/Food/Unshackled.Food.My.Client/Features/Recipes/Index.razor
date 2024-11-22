@@ -55,3 +55,17 @@
 		<MudText Align="Align.Center" Class="mt-4">No recipes matched your search.</MudText>
 	</EmptyListRenderer>
 </ListView>
+
+<SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
+	@if (DrawerView == Views.Add)
+	{
+		<FormProperties FormId="@FormId" Model="@FormModel" DisableFormControls="@IsWorking" OnFormSubmitted="@HandleFormAddSubmitted">
+			<FormToolbar>
+				<MudSpacer />
+				<ProgressButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" IsWorking="@IsWorking" WorkingText="Adding">Create</ProgressButton>
+				<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@HandleCancelClicked">Cancel</MudButton>
+				<MudSpacer />
+			</FormToolbar>
+		</FormProperties>
+	}
+</SideDrawer>

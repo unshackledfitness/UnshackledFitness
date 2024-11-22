@@ -1,5 +1,7 @@
 ﻿using MudBlazor;
+using Unshackled.Food.Core.Enums;
 using Unshackled.Food.Core.Models;
+using Unshackled.Food.My.Client.Extensions;
 using Unshackled.Food.My.Client.Features.Recipes.Actions;
 using Unshackled.Food.My.Client.Features.Recipes.Models;
 using Unshackled.Studio.Core.Client.Components;
@@ -8,6 +10,23 @@ namespace Unshackled.Food.My.Client.Features.Recipes;
 
 public partial class IndexBase : BaseSearchComponent<SearchRecipeModel, RecipeListModel, Member>
 {
+	protected enum Views
+	{
+		None,
+		Add
+	}
+
+
+	protected const string FormId = "formAddRecipe";
+	protected FormRecipeModel FormModel { get; set; } = new();
+	protected bool DrawerOpen => DrawerView != Views.None;
+	protected Views DrawerView { get; set; } = Views.None;
+	protected string DrawerTitle => DrawerView switch
+	{
+		Views.Add => "Add Recipe",
+		_ => string.Empty
+	};
+
 	protected override async Task OnInitializedAsync()
 	{
 		await base.OnInitializedAsync();
@@ -30,7 +49,20 @@ public partial class IndexBase : BaseSearchComponent<SearchRecipeModel, RecipeLi
 
 	protected void HandleAddClicked()
 	{
-		NavManager.NavigateTo("/recipes/add");
+		DrawerView = Views.Add;
+	}
+
+	protected void HandleCancelClicked()
+	{
+		DrawerView = Views.None;
+	}
+
+	protected async Task HandleFormAddSubmitted(FormRecipeModel model)
+	{
+		var result = await Mediator.Send(new AddRecipe.Command(model));
+		ShowNotification(result);
+		if (result.Success)
+			NavManager.NavigateTo($"/recipes/{result.Payload}");
 	}
 
 }

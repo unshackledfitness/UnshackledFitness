@@ -2,7 +2,7 @@
 
 <EditForm id="@FormId" Model="@Model" OnValidSubmit="HandleFormSubmitted">
 	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
-	<MudGrid Spacing="1" Class="mb-4">
+	<MudGrid Spacing="2" Class="mb-4">
 		<MudItem xs="12">
 			<MudTextField Label="Title" Variant="Variant.Outlined" Immediate="true" Disabled="@DisableControls" FullWidth="true" Margin="Margin.None"
 						  For="@(() => Model.Title)" @bind-Value="@Model.Title" />
@@ -11,10 +11,10 @@
 			<MudTextField Label="Short Description" Lines="5" Variant="Variant.Outlined" FullWidth="true" Disabled="@IsSaving" Margin="Margin.None"
 						  For="@(() => Model.Description)" @bind-Value="@Model.Description" />
 		</MudItem>
-		<MudItem xs="12" sm="4">
+		<MudItem xs="12" sm="6">
 			<CuisineSelect AllOption="false" MultiSelection="true" Margin="Margin.None" Disabled="@DisableControls" @bind-SelectedValues="@Model.SelectedCuisines" />
 		</MudItem>
-		<MudItem xs="12" sm="4">
+		<MudItem xs="12" sm="6">
 			<DietSelect AllOption="false" MultiSelection="true" Margin="Margin.None" Disabled="@DisableControls" @bind-SelectedValues="@Model.SelectedDiets" />
 		</MudItem>
 		<MudItem xs="12" sm="4">
@@ -30,5 +30,12 @@
 							 FullWidth="true" For="@(() => Model.TotalServings)" @bind-Value="@Model.TotalServings" Min="0" />
 		</MudItem>
 	</MudGrid>
+
+	@if (FormToolbar != null)
+	{
+		<MudToolBar Gutters="false" Class="mt-4">
+			@FormToolbar
+		</MudToolBar>
+	}
 </EditForm>
 
