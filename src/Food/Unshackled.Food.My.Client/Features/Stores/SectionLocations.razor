@@ -4,7 +4,7 @@
 	<SectionHeader Title="Aisles/Departments" Typo="Typo.h5" Class="mb-2" />
 
 	<SortableListView TItem="FormStoreLocationModel" Items="@Locations" ToolbarAlignment="HorizontalAlignment.Left" ToolbarPosition="@ToolbarPositions.Top"
-					  IsSortingChanged="HandleIsSorting" SortOrderChanged="@HandleSortChanged" DisableSort="@DisableControls">
+	IsSortingChanged="HandleIsSorting" SortOrderChanged="@HandleSortChanged" DisableSort="@DisableControls" AllowSort="@CanEdit">
 		<ItemRenderer>
 			<div class="d-flex flex-row gap-4 align-center">
 				<div class="flex-grow-1">
@@ -14,9 +14,12 @@
 						<MudText Typo="Typo.body1" Color="Color.Tertiary">@context.Item.Description</MudText>
 					}
 				</div>
-				<div class="d-flex flex-row gap-2 align-center">
-					<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" Disabled="@DisableControls" OnClick="@(() => HandleEditClicked(context.Item))" />
-				</div>
+				@if (CanEdit)
+				{
+					<div class="d-flex flex-row gap-2 align-center">
+						<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" Disabled="@DisableControls" OnClick="@(() => HandleEditClicked(context.Item))" />
+					</div>
+				}
 			</div>
 		</ItemRenderer>
 		<DraggableItemRenderer>
@@ -37,7 +40,10 @@
 			<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
 		</EmptyListRenderer>
 		<ListTools>
-			<MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls" OnClick="@(() => HandleAddClicked())">Add</MudButton>
+			@if (CanEdit)
+			{
+				<MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls" OnClick="@(() => HandleAddClicked())">Add</MudButton>
+			}
 		</ListTools>
 	</SortableListView>
 </div>

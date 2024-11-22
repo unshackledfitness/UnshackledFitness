@@ -48,6 +48,7 @@ public class ActivitiesController : BaseController
 	{
 		return Ok(await Mediator.Send(new SearchActivities.Query(Member.Id, model)));
 	}
+
 	[HttpPost("update")]
 	[ActiveMemberRequired]
 	public async Task<IActionResult> Update([FromBody] FormActivityModel model)

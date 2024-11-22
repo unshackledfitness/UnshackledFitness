@@ -38,6 +38,7 @@ public class ProductsController : BaseController
 	}
 
 	[HttpPost("bulk-set-category")]
+	[ActiveMemberRequired]
 	public async Task<IActionResult> BulkSetCategory([FromBody] BulkCategoryModel model)
 	{
 		return Ok(await Mediator.Send(new BulkSetCategory.Command(Member.Id, Member.ActiveHouseholdId, model)));
@@ -63,6 +64,7 @@ public class ProductsController : BaseController
 	}
 
 	[HttpPost("merge/list")]
+	[ActiveMemberRequired]
 	public async Task<IActionResult> ListMergeModels([FromBody] List<string> uids)
 	{
 		return Ok(await Mediator.Send(new ListMergeProducts.Query(Member.Id, Member.ActiveHouseholdId, uids)));

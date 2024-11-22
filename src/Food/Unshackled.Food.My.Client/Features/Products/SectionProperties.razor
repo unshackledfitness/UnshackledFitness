@@ -23,7 +23,7 @@
 		</EditModeToolbar>
 		<DefaultToolbar>
 			<MudIconButton Icon="@(Product.IsPinned ? Icons.Material.Filled.PushPin : Icons.Material.Outlined.PushPin)" Color="@(Product.IsPinned ? Color.Primary : Color.Tertiary)"
-						   Disabled="@ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Read)"
+						   Disabled="@(!ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Read))"
 						   OnClick="@(() => HandleTogglePinnedClicked(Product))" />
 		</DefaultToolbar>
 	</SectionHeader>

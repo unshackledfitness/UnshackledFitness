@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Food.Core;
+using Unshackled.Food.Core.Enums;
 using Unshackled.Food.Core.Models;
+using Unshackled.Food.My.Client.Extensions;
 using Unshackled.Food.My.Client.Features.ShoppingLists.Actions;
 using Unshackled.Food.My.Client.Features.ShoppingLists.Models;
 using Unshackled.Studio.Core.Client.Components;
@@ -39,6 +41,7 @@ public class SectionItemsBase : BaseSectionComponent<Member>
 	protected Views DrawerView {  get; set; } = Views.None;
 	protected bool HideInCart { get; set; } = true;
 	protected FormListItemModel EditingModel { get; set; } = new();
+	protected bool CanEdit => ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write);
 
 	private string currentStoreSid = string.Empty;
 
@@ -344,27 +347,30 @@ public class SectionItemsBase : BaseSectionComponent<Member>
 
 	protected async Task HandleToggleIsInCart(FormListItemModel item)
 	{
-		IsWorking = await UpdateIsEditingSection(true);
-		ToggleListItemModel model = new()
+		if (CanEdit)
 		{
-			ProductSid = item.ProductSid,
-			ShoppingListSid = ShoppingList.Sid,
-			ToggleValue = !item.IsInCart
-		};
-		var result = await Mediator.Send(new ToggleIsInCart.Command(model));
-		if (result.Success)
-		{
-			item.IsInCart = model.ToggleValue;
+			IsWorking = await UpdateIsEditingSection(true);
+			ToggleListItemModel model = new()
+			{
+				ProductSid = item.ProductSid,
+				ShoppingListSid = ShoppingList.Sid,
+				ToggleValue = !item.IsInCart
+			};
+			var result = await Mediator.Send(new ToggleIsInCart.Command(model));
+			if (result.Success)
+			{
+				item.IsInCart = model.ToggleValue;
 
-			var sourceItem = Items.Where(x => x.ProductSid == model.ProductSid).Single();
-			sourceItem.IsInCart = model.ToggleValue;
+				var sourceItem = Items.Where(x => x.ProductSid == model.ProductSid).Single();
+				sourceItem.IsInCart = model.ToggleValue;
+			}
+			else
+			{
+				ShowNotification(result);
+			}
+			IsWorking = await UpdateIsEditingSection(false);
+			StateHasChanged();
 		}
-		else
-		{
-			ShowNotification(result);
-		}
-		IsWorking = await UpdateIsEditingSection(false);
-		StateHasChanged();
 	}
 
 	public bool IsEndOfList()

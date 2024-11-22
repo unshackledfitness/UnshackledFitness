@@ -74,6 +74,7 @@ public class ShoppingListsController : BaseController
 	}
 
 	[HttpPost("get-add-to-list-items")]
+	[ActiveMemberRequired]
 	public async Task<IActionResult> GetAddToListItems([FromBody] SelectListModel model)
 	{
 		return Ok(await Mediator.Send(new GetAddToListItems.Query(Member.Id, model)));

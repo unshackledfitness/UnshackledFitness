@@ -3,20 +3,23 @@
 <div Class="mb-6">
 	<MudToolBar Gutters="false" Class="mb-4">
 		<MudToggleIconButton Icon="@Icons.Material.Filled.VisibilityOff" ToggledIcon="@Icons.Material.Filled.VisibilityOff" Color="Color.Default" ToggledColor="Color.Secondary"
-							 Disabled="@DisableControls" title="Toggle Cart Visibility" Size="Size.Small" ToggledSize="Size.Small" @bind-Toggled="@HideInCart" />
+		Disabled="@DisableControls" title="Toggle Cart Visibility" Size="Size.Small" ToggledSize="Size.Small" @bind-Toggled="@HideInCart" />
 
-		<MudMenu Label="Add" StartIcon="@Icons.Material.Filled.AddCircle" AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopLeft">
-			<MudMenuItem OnClick="@(() => HandleAddProductClicked())">Products</MudMenuItem>
-			<MudMenuItem OnClick="@(() => HandleAddBundleClicked())">Product Bundle</MudMenuItem>
-			<MudMenuItem OnClick="@(() => HandleAddRecipeClicked())">Recipe</MudMenuItem>
-		</MudMenu>
-		@if (Items.Any())
+		@if (CanEdit)
 		{
-
-			<MudMenu Label="Actions" StartIcon="@Icons.Material.Filled.MiscellaneousServices" Disabled="DisableControls" AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopLeft">
-				<MudMenuItem OnClick="@(() => HandleResetList())">Reset List</MudMenuItem>
-				<MudMenuItem OnClick="@(() => HandleClearList())">Clear List</MudMenuItem>
+			<MudMenu Label="Add" StartIcon="@Icons.Material.Filled.AddCircle" AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopLeft">
+				<MudMenuItem OnClick="@(() => HandleAddProductClicked())">Products</MudMenuItem>
+				<MudMenuItem OnClick="@(() => HandleAddBundleClicked())">Product Bundle</MudMenuItem>
+				<MudMenuItem OnClick="@(() => HandleAddRecipeClicked())">Recipe</MudMenuItem>
 			</MudMenu>
+			@if (Items.Any())
+			{
+
+				<MudMenu Label="Actions" StartIcon="@Icons.Material.Filled.MiscellaneousServices" Disabled="DisableControls" AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopLeft">
+					<MudMenuItem OnClick="@(() => HandleResetList())">Reset List</MudMenuItem>
+					<MudMenuItem OnClick="@(() => HandleClearList())">Clear List</MudMenuItem>
+				</MudMenu>
+			}
 		}
 	</MudToolBar>
 
@@ -28,7 +31,7 @@
 					<MudText Typo="Typo.body1" Class="flex-grow-1">
 						@context.Title
 					</MudText>
-					@if (context.Sid != FoodGlobals.UncategorizedKey)
+					@if (CanEdit && context.Sid != FoodGlobals.UncategorizedKey)
 					{
 						<div>
 							<MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Sort" Href="@($"/stores/{ShoppingList.StoreSid}/aisles/{context.Sid}?list={ShoppingList.Sid}")">
@@ -62,9 +65,12 @@
 							<MudText Typo="Typo.caption" Class="@IsInCartCss(context.Item, "d-block")" Color="Color.Tertiary">@context.Item.Description</MudText>
 						}
 					</div>
-					<div>
-						<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" title="Manage Item" OnClick="@(() => HandleManageItemClicked(context.Item))" />
-					</div>
+					@if (CanEdit)
+					{
+						<div>
+							<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" title="Manage Item" OnClick="@(() => HandleManageItemClicked(context.Item))" />
+						</div>
+					}
 				</div>
 				@if (IsLastInGroup(context.Item))
 				{
@@ -73,11 +79,11 @@
 			}
 		</ItemRenderer>
 		<EmptyListRenderer>
-			<MudText Align="Align.Center" Class="mt-4">The list is empty.</MudText>
+			<MudAlert Elevation="0" NoIcon="true" ContentAlignment="HorizontalAlignment.Center" Class="mt-4">The list is empty.</MudAlert>
 		</EmptyListRenderer>
 	</GroupedList>
 
-	@if (IsEndOfList())
+	@if (CanEdit && IsEndOfList())
 	{
 		<MudToolBar>
 			<MudSpacer />

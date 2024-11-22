@@ -10,12 +10,14 @@ namespace Unshackled.Food.My.Features.ProductCategories;
 public class ProductCategoriesController : BaseController
 {
 	[HttpPost("add")]
+	[ActiveMemberRequired]
 	public async Task<IActionResult> Add([FromBody] FormCategoryModel model)
 	{
 		return Ok(await Mediator.Send(new AddCategory.Command(Member.Id, Member.ActiveHouseholdId, model)));
 	}
 
 	[HttpPost("delete")]
+	[ActiveMemberRequired]
 	public async Task<IActionResult> Delete([FromBody] string sid)
 	{
 		return Ok(await Mediator.Send(new DeleteCategory.Command(Member.Id, Member.ActiveHouseholdId, sid)));
@@ -28,6 +30,7 @@ public class ProductCategoriesController : BaseController
 	}
 
 	[HttpPost("update")]
+	[ActiveMemberRequired]
 	public async Task<IActionResult> Update([FromBody] FormCategoryModel model)
 	{
 		return Ok(await Mediator.Send(new UpdateCategory.Command(Member.Id, Member.ActiveHouseholdId, model)));

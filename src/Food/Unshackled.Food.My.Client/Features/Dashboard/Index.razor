@@ -45,7 +45,14 @@ else
 						<MudText Typo="Typo.body2" Align="Align.Center">@item.Brand</MudText>
 					}
 					<MudText Typo="Typo.body1" Align="Align.Center" Color="Color.Primary">
-						<MudLink OnClick="@(() => HandleAddToListClicked(item.Sid))">@item.Title</MudLink>
+						@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+						{
+							<MudLink OnClick="@(() => HandleAddToListClicked(item.Sid))">@item.Title</MudLink>
+						}
+						else 
+						{
+							<text>@item.Title</text>
+						}
 					</MudText>
 					@if (!string.IsNullOrEmpty(item.Description))
 					{

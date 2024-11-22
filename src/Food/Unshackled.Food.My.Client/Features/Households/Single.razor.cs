@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Food.Core.Enums;
 using Unshackled.Food.Core.Models;
+using Unshackled.Food.My.Client.Extensions;
 using Unshackled.Food.My.Client.Features.Households.Actions;
 using Unshackled.Food.My.Client.Features.Households.Models;
 using Unshackled.Studio.Core.Client.Components;
@@ -17,7 +18,7 @@ public class SingleBase : BaseComponent<Member>
 	protected bool IsEditing { get; set; } = false;
 	protected bool DisableControls => !IsEditMode || IsEditing;
 
-	protected bool CanEdit => Household.PermissionLevel == PermissionLevels.Admin;
+	protected bool CanEdit => ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Admin);
 
 	protected override async Task OnParametersSetAsync()
 	{

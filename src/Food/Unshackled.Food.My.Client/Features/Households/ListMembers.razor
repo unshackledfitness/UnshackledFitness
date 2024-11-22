@@ -1,6 +1,6 @@
 ﻿@inherits ListMembersBase
 
-<SearchForm @bind-Model="@SearchModel" Class="mb-6" Disable="@DisableControls" SearchClicked="@(() => DoSearch(1))" ResetClicked="@HandleResetClicked">
+<SearchForm @bind-Model="@SearchModel" Class="mb-6" SearchClicked="@(() => DoSearch(1))" ResetClicked="@HandleResetClicked">
 	<SearchFields>
 		<MudGrid Spacing="1">
 			<MudItem xs="12" sm="12">

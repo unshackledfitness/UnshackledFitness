@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Unshackled.Food.Core.Enums;
 using Unshackled.Food.Core.Models;
+using Unshackled.Food.My.Client.Extensions;
 using Unshackled.Food.My.Client.Features.Stores.Actions;
 using Unshackled.Food.My.Client.Features.Stores.Models;
 using Unshackled.Studio.Core.Client.Components;
@@ -23,9 +25,10 @@ public class SectionLocationsBase : BaseSectionComponent<Member>
 	protected FormStoreLocationModel EditingModel { get; set; } = new();
 	protected bool IsWorking { get; set; } = false;
 	protected bool IsSorting { get; set; } = false;
-	protected bool DisableControls => IsWorking || IsSorting || DisableSectionControls;
+	protected bool DisableControls => !CanEdit || IsWorking || IsSorting || DisableSectionControls;
 	protected bool DrawerOpen => DrawerView != Views.None;
 	protected Views DrawerView { get; set; } = Views.None;
+	protected bool CanEdit => ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write);
 
 	protected string DrawerTitle => DrawerView switch
 	{

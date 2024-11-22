@@ -2,10 +2,13 @@
 
 <div class="my-6">
 	<SectionHeader Title="Products" Typo="Typo.h5" Class="mb-2" />
-		
-	<MudToolBar Gutters="false">
-		<MudButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls" OnClick="@(() => HandleAddClicked())">Add</MudButton>
-	</MudToolBar>
+
+	@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+	{
+		<MudToolBar Gutters="false">
+			<MudButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls" OnClick="@(() => HandleAddClicked())">Add</MudButton>
+		</MudToolBar>
+	}
 
 	<ListView TItem="FormProductModel" Items="@ProductBundle.Products">
 		<ItemRenderer>
@@ -29,9 +32,12 @@
 						<MudText Typo="Typo.caption" Class="d-block" Color="Color.Tertiary">@context.Item.Description</MudText>
 					}
 				</div>
-				<div class="d-flex flex-row gap-2 align-center">
-					<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" Disabled="@DisableControls" OnClick="@(() => HandleEditClicked(context.Item))" />
-				</div>
+				@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+				{
+					<div class="d-flex flex-row gap-2 align-center">
+						<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" Disabled="@DisableControls" OnClick="@(() => HandleEditClicked(context.Item))" />
+					</div>
+				}
 			</div>
 		</ItemRenderer>
 		<EmptyListRenderer>

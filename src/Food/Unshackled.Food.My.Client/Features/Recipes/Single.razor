@@ -24,16 +24,19 @@ else
 			</MudAlert>
 		}
 
-		<MudToolBar Gutters="false" Dense="true" Class="mb-4">
-			<MudButton StartIcon="@Icons.Material.Filled.FileCopy" Disabled="@IsEditMode" OnClick="@(() => HandleCopyToClicked())">Copy to...</MudButton>
-			@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
-			{
-				<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@IsEditMode" OnClick="@(() => HandleAddToListClicked())">List</MudButton>
-				<MudButton StartIcon="@Icons.Material.Filled.Share" Disabled="@IsEditMode" OnClick="@(() => HandleAddToCookbookClicked())">Cookbook</MudButton>
-				<MudSpacer />
-				<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@(IsEditing || IsAddingToList)" />
-			}
-		</MudToolBar>
+		@if (ActiveMember.IsActive)
+		{
+			<MudToolBar Gutters="false" Dense="true" Class="mb-4">
+				<MudButton StartIcon="@Icons.Material.Filled.FileCopy" Disabled="@IsEditMode" OnClick="@(() => HandleCopyToClicked())">Copy to...</MudButton>
+				@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+				{
+					<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@IsEditMode" OnClick="@(() => HandleAddToListClicked())">List</MudButton>
+					<MudButton StartIcon="@Icons.Material.Filled.Share" Disabled="@IsEditMode" OnClick="@(() => HandleAddToCookbookClicked())">Cookbook</MudButton>
+					<MudSpacer />
+					<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@(IsEditing || IsAddingToList)" />
+				}
+			</MudToolBar>
+		}
 
 		<SectionProperties @bind-Recipe="@Recipe" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
 						   Scale="@Scale"  OnIsEditingSectionChange="@HandleSectionEditing" MakeRecipeClicked="@HandleMakeRecipeClicked" />

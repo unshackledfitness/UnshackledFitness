@@ -7,21 +7,27 @@
 
 <MudText Typo="Typo.h4" Class="mb-6">Categories</MudText>
 
-<MudToolBar Gutters="false" Dense="true">
-	<MudButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@IsLoading" OnClick="@HandleAddClicked">Add</MudButton>
-</MudToolBar>
+@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+{
+	<MudToolBar Gutters="false" Dense="true">
+		<MudButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@IsLoading" OnClick="@HandleAddClicked">Add</MudButton>
+	</MudToolBar>
+}
 
 <ListView TItem="CategoryModel" Items="@Categories" IsLoading="@IsLoading">
 	<ItemRenderer>
-		<MudGrid Spacing="2" Justify="Justify.Center">
-			<MudItem xs="12" sm="8" md="10" lg="11">
+		<div class="d-flex flex-row gap-4 align-center">
+			<div class="flex-grow-1">
 				<MudText Typo="Typo.subtitle1">@context.Item.Title</MudText>
 				<MudText Typo="Typo.body2">Products: @context.Item.ItemCount</MudText>
-			</MudItem>
-			<MudItem xs="12" sm="4" md="2" lg="1" Class="d-flex flex-row justify-end">
-				<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" OnClick="@(() => HandleEditClicked(context.Item))" />
-			</MudItem>
-		</MudGrid>
+			</div>
+			@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+			{
+				<div>
+					<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" OnClick="@(() => HandleEditClicked(context.Item))" />
+				</div>
+			}
+		</div>
 	</ItemRenderer>
 	<EmptyListRenderer>
 		<MudText Align="Align.Center" Class="mt-4">No categories have been created.</MudText>

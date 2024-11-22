@@ -17,13 +17,16 @@ else
 	}
 	else
 	{
-		<MudToolBar Gutters="false" Dense="true" Class="mb-4">
-			<MudButton StartIcon="@Icons.Material.Filled.FileCopy" OnClick="@(() => HandleCopyToClicked())">Copy to...</MudButton>
-			@if (ActiveMember.HasCookbookPermissionLevel(PermissionLevels.Write))
-			{
-				<MudButton StartIcon="@Icons.Material.Filled.Delete">Remove from Cookbook</MudButton>
-			}
-		</MudToolBar>
+		@if (ActiveMember.IsActive)
+		{
+			<MudToolBar Gutters="false" Dense="true" Class="mb-4">
+				<MudButton StartIcon="@Icons.Material.Filled.FileCopy" OnClick="@(() => HandleCopyToClicked())">Copy to...</MudButton>
+				@if (ActiveMember.HasCookbookPermissionLevel(PermissionLevels.Write))
+				{
+					<MudButton StartIcon="@Icons.Material.Filled.Delete">Remove from Cookbook</MudButton>
+				}
+			</MudToolBar>
+		}
 
 		<SectionProperties @bind-Recipe="@Recipe" Scale="@Scale" />
 
