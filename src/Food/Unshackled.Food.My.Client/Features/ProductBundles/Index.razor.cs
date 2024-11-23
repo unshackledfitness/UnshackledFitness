@@ -13,10 +13,22 @@ public class IndexBase : BaseSearchComponent<SearchProductBundlesModel, ProductB
 	[Inject] protected ClientConfiguration ClientConfig { get; set; } = default!;
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 
+	protected enum Views
+	{
+		None,
+		Add
+	}
+
 	protected const string FormId = "formAddProductBundle";
 	protected FormProductBundleModel FormModel { get; set; } = new();
-	protected bool Adding { get; set; } = false;
 	protected bool IsSaving { get; set; } = false;
+	protected bool DrawerOpen => DrawerView != Views.None;
+	protected Views DrawerView { get; set; } = Views.None;
+	protected string DrawerTitle => DrawerView switch
+	{
+		Views.Add => "Add Bundle",
+		_ => string.Empty
+	};
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -42,16 +54,17 @@ public class IndexBase : BaseSearchComponent<SearchProductBundlesModel, ProductB
 	protected void HandleAddClicked()
 	{
 		FormModel = new();
-		Adding = true;
+		DrawerView = Views.Add;
 	}
 
 	protected void HandleCancelClicked()
 	{
-		Adding = false;
+		DrawerView = Views.None;
 	}
 
 	protected async Task HandleFormAddSubmit(FormProductBundleModel model)
 	{
+		DrawerView = Views.None;
 		IsSaving = true;
 		var result = await Mediator.Send(new AddProductBundle.Command(model));
 		ShowNotification(result);
@@ -59,7 +72,6 @@ public class IndexBase : BaseSearchComponent<SearchProductBundlesModel, ProductB
 		{
 			NavManager.NavigateTo($"/product-bundles/{result.Payload}");
 		}
-		Adding = false;
 		IsSaving = false;
 	}
 }

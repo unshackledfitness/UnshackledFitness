@@ -22,6 +22,7 @@ public class MappingProfile : Profile
 			.ForMember(d => d.Description, m => m.MapFrom(s => s.Product != null ? s.Product.Description : null))
 			.ForMember(d => d.Title, m => m.MapFrom(s => s.Product != null ? s.Product.Title : null));
 		CreateMap<ProductEntity, ProductListModel>()
-			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()));
+			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()))
+			.ForMember(d => d.Category, m => m.MapFrom(s => s.Category != null ? s.Category.Title : null)); ;
 	}
 }

@@ -1,7 +1,5 @@
 ﻿using MudBlazor;
-using Unshackled.Food.Core.Enums;
 using Unshackled.Food.Core.Models;
-using Unshackled.Food.My.Client.Extensions;
 using Unshackled.Food.My.Client.Features.Recipes.Actions;
 using Unshackled.Food.My.Client.Features.Recipes.Models;
 using Unshackled.Studio.Core.Client.Components;
@@ -15,7 +13,6 @@ public partial class IndexBase : BaseSearchComponent<SearchRecipeModel, RecipeLi
 		None,
 		Add
 	}
-
 
 	protected const string FormId = "formAddRecipe";
 	protected FormRecipeModel FormModel { get; set; } = new();

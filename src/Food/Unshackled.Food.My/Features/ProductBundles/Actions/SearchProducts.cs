@@ -62,7 +62,7 @@ public class SearchProducts
 			query = query.Skip(request.Model.Skip).Take(request.Model.PageSize);
 
 			result.Data = await mapper.ProjectTo<ProductListModel>(query)
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
 			return result;
 		}
