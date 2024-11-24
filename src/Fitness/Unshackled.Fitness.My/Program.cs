@@ -12,7 +12,7 @@ using Unshackled.Fitness.My.Features;
 using Unshackled.Fitness.My.Middleware;
 using Unshackled.Fitness.My.Services;
 using Unshackled.Studio.Core.Client.Configuration;
-using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Studio.Core.Client.Services;
 using Unshackled.Studio.Core.Data;
 using Unshackled.Studio.Core.Data.Entities;
 using Unshackled.Studio.Core.Server.Middleware;
@@ -127,7 +127,7 @@ builder.Services.AddValidatorsFromAssemblies([
 
 builder.Services.TryAddScoped<IWebAssemblyHostEnvironment, ServerHostEnvironment>();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<IRenderStateService, RenderStateService>();
+builder.Services.AddScoped<IRenderStateService, Unshackled.Studio.Core.Server.Services.RenderStateService>();
 builder.Services.AddSingleton<IEmailSender<UserEntity>, SmtpService>();
 
 var app = builder.Build();

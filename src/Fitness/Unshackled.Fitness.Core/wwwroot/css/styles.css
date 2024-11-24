@@ -451,6 +451,27 @@ html, body, #app {
   background-color: var(--mud-palette-surface);
 }
 
+.mud-dialog.dialog-grow div.outline-none {
+  height: 100%;
+}
+
+.mud-dialog.dialog-grow div.outline-none > div:not(.fixed) {
+  height: 100%;
+}
+
+.mud-dialog.dialog-grow div.outline-none > div:not(.fixed) .mud-dialog-content {
+  height: 100%;
+}
+
+.mud-dialog.dialog-grow div.outline-none > div:not(.fixed) .mud-dialog-content .mud-container {
+  height: 100%;
+}
+
+.mud-dialog.dialog-fill {
+  width: calc(100% - 2em);
+  max-height: calc(100vh - 2em);
+}
+
 .mud-expansion-panels {
   border-radius: 1rem;
 }

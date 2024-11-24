@@ -5,6 +5,7 @@ using Unshackled.Food.My.Client.Extensions;
 using Unshackled.Food.My.Client.Features.Recipes.Actions;
 using Unshackled.Food.My.Client.Features.Recipes.Models;
 using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Studio.Core.Client.Services;
 
 namespace Unshackled.Food.My.Client.Features.Recipes;
 
@@ -20,6 +21,7 @@ public class SingleBase : BaseComponent<Member>, IAsyncDisposable
 	}
 
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
+	[Inject] IScreenWakeLockService ScreenLockService { get; set; } = null!;
 	[Parameter] public string RecipeSid { get; set; } = string.Empty; 
 	protected bool IsLoading { get; set; } = true;
 	protected RecipeModel Recipe { get; set; } = new();
@@ -113,13 +115,15 @@ public class SingleBase : BaseComponent<Member>, IAsyncDisposable
 		DrawerView = Views.Copy;
 	}
 
-	protected void HandleMakeRecipeClicked()
+	protected async Task HandleMakeRecipeClicked()
 	{
-		var options = new DialogOptions { 
-			BackgroundClass = "bg-blur", 
-			MaxWidth = MaxWidth.ExtraExtraLarge, 
+		var options = new DialogOptions 
+		{ 
+			BackgroundClass = "bg-blur",
+			FullScreen = true,
 			FullWidth = true,
-			CloseButton = true };
+			CloseButton = true 
+		};
 
 		var parameters = new DialogParameters
 		{
@@ -128,7 +132,14 @@ public class SingleBase : BaseComponent<Member>, IAsyncDisposable
 			{ nameof(DialogMakeRecipe.Scale), Scale },
 		};
 
-		DialogService.Show<DialogMakeRecipe>(Recipe.Title, parameters, options);
+		var dialog = await DialogService.ShowAsync<DialogMakeRecipe>(Recipe.Title, parameters, options);
+		var result = await dialog.Result;
+
+		// Make sure screen lock is released when dialog is closed.
+		if (result != null && ScreenLockService.HasWakeLock())
+		{
+			await ScreenLockService.ReleaseWakeLock();
+		}
 	}
 
 	protected void HandleOpenNutritionClicked()

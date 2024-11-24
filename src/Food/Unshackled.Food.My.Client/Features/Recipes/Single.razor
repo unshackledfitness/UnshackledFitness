@@ -27,10 +27,14 @@ else
 		@if (ActiveMember.IsActive)
 		{
 			<MudToolBar Gutters="false" Dense="true" Class="mb-4">
+				@if (Steps.Count > 0)
+				{
+					<MudButton Color="Color.Secondary" StartIcon="@Icons.Material.Filled.LocalDining" Disabled="@IsEditMode" OnClick="@(() => HandleMakeRecipeClicked())">Make It</MudButton>
+				}
 				<MudButton StartIcon="@Icons.Material.Filled.FileCopy" Disabled="@IsEditMode" OnClick="@(() => HandleCopyToClicked())">Copy to...</MudButton>
 				@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
 				{
-					<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@IsEditMode" OnClick="@(() => HandleAddToListClicked())">List</MudButton>
+					<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@IsEditMode" OnClick="@(() => HandleAddToListClicked())">Shopping List</MudButton>
 					<MudButton StartIcon="@Icons.Material.Filled.Share" Disabled="@IsEditMode" OnClick="@(() => HandleAddToCookbookClicked())">Cookbook</MudButton>
 					<MudSpacer />
 					<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@(IsEditing || IsAddingToList)" />
@@ -39,7 +43,7 @@ else
 		}
 
 		<SectionProperties @bind-Recipe="@Recipe" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
-						   Scale="@Scale"  OnIsEditingSectionChange="@HandleSectionEditing" MakeRecipeClicked="@HandleMakeRecipeClicked" />
+						   Scale="@Scale"  OnIsEditingSectionChange="@HandleSectionEditing" />
 
 		<SectionIngredients RecipeSid="@RecipeSid" Recipe="@Recipe" Groups="@Groups" Ingredients="@Ingredients" IsEditMode="@IsEditMode" 
 							@bind-Scale="Scale" DisableSectionControls="@DisableControls" OnNutritionClicked="@HandleOpenNutritionClicked"

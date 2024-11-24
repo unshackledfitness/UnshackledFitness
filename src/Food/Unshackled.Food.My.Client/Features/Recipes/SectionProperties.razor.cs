@@ -13,7 +13,6 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public RecipeModel Recipe { get; set; } = new();
 	[Parameter] public EventCallback<RecipeModel> RecipeChanged { get; set; }
-	[Parameter] public EventCallback MakeRecipeClicked { get; set; }
 	[Parameter] public decimal Scale { get; set; }
 
 	protected const string FormId = "formRecipeProperties";
@@ -130,10 +129,5 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 		}
 		IsSaving = false;
 		IsEditing = await UpdateIsEditingSection(false);
-	}
-
-	protected async Task HandleMakeRecipeClicked()
-	{
-		await MakeRecipeClicked.InvokeAsync();
 	}
 }

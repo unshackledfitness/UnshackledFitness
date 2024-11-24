@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Studio.Core.Client.Services;
 
 namespace Unshackled.Studio.Core.Client.Components;
 

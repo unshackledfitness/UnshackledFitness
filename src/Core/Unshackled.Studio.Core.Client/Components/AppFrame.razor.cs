@@ -79,6 +79,15 @@ public partial class AppFrameBase<TMember> : BaseComponent<TMember>, IAsyncDispo
 		NavManager.Refresh(true);
 	}
 
+	protected void HandleSwipeEnd(SwipeEventArgs args)
+	{
+		if (args.SwipeDirection == SwipeDirection.LeftToRight)
+		{
+			Open = true;
+			StateHasChanged();
+		}
+	}
+
 	protected async Task HandleThemeSwitch(Themes setTheme)
 	{
 		if (UseTheme != setTheme)

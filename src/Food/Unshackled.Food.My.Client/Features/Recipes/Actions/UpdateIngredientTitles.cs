@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Unshackled.Food.Core;
 using Unshackled.Food.My.Client.Features.Recipes.Models;
-using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Client.Services;
 
 namespace Unshackled.Food.My.Client.Features.Recipes.Actions;

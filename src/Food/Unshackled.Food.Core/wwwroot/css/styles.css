@@ -451,6 +451,27 @@ html, body, #app {
   background-color: var(--mud-palette-surface);
 }
 
+.mud-dialog.dialog-grow div.outline-none {
+  height: 100%;
+}
+
+.mud-dialog.dialog-grow div.outline-none > div:not(.fixed) {
+  height: 100%;
+}
+
+.mud-dialog.dialog-grow div.outline-none > div:not(.fixed) .mud-dialog-content {
+  height: 100%;
+}
+
+.mud-dialog.dialog-grow div.outline-none > div:not(.fixed) .mud-dialog-content > div, .mud-dialog.dialog-grow div.outline-none > div:not(.fixed) .mud-dialog-content .mud-container {
+  height: 100%;
+}
+
+.mud-dialog.dialog-fill {
+  width: calc(100%);
+  max-height: calc(100vh);
+}
+
 .mud-expansion-panels {
   border-radius: 1rem;
 }
@@ -1316,6 +1337,5 @@ p ul li {
   .recipe-dialog-instructions {
     font-size: 1.5rem;
     margin: 1.5em 0;
-    justify-content: center;
   }
 }

@@ -1,143 +1,82 @@
 ﻿@using Unshackled.Food.My.Client.Features.Recipes.Models
 
-<MudDialog Gutters="false" Class="dialog-grow dialog-fill h-100">
+<MudDialog Gutters="false" Class="dialog-grow h-100">
 	<DialogContent>
-		<MudContainer>
-			<div class="d-flex flex-column h-100">
-				<div class="d-flex flex-row align-center justify-space-between d-md-none">
-					<div>
-						<MudIconButton Icon="@Icons.Material.Filled.ChevronLeft" Size="Size.Large" Disabled="@DisableBack" OnClick="@(() => CurrentStepIndex--)" />
-					</div>
-					<div>
-						<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" Size="Size.Large" Disabled="@DisableForward" OnClick="@(() => CurrentStepIndex++)" />
-					</div>
-				</div>
-				<div class="flex-grow-1">
-					<MudGrid Justify="Justify.SpaceBetween" Class="align-center h-100">
-						<MudItem md="1" Class="d-none d-md-block">
-							<MudIconButton Icon="@Icons.Material.Filled.ChevronLeft" Size="Size.Large" Disabled="@DisableBack" OnClick="@(() => CurrentStepIndex--)" />
-						</MudItem>
-						<MudItem xs="12" md="8" lg="6" Class="h-100">
-							<div class="recipe-step @(CurrentStepIndex < 0 ? "d-flex" : "d-none")">
-								<MudText Typo="Typo.h5" Color="Color.Tertiary" Align="Align.Center">Gather Ingredients</MudText>
-								
-								<div class="d-flex flex-column justify-center flex-grow-1">
-									<div class="my-6">
-										<MudMenu Label="@($"Scale: {Scale.ToString("#.##")}x")" AnchorOrigin="Origin.TopLeft" TransformOrigin="Origin.TopLeft">
-											<MudMenuItem OnClick="@(() => HandleScaleChanged(0.25M))">0.25x</MudMenuItem>
-											<MudMenuItem OnClick="@(() => HandleScaleChanged(0.5M))">0.5x</MudMenuItem>
-											<MudMenuItem OnClick="@(() => HandleScaleChanged(1M))">1x</MudMenuItem>
-											<MudMenuItem OnClick="@(() => HandleScaleChanged(2M))">2x</MudMenuItem>
-											<MudMenuItem OnClick="@(() => HandleScaleChanged(3M))">3x</MudMenuItem>
-											<MudMenuItem OnClick="@(() => HandleScaleChanged(4M))">4x</MudMenuItem>
-										</MudMenu>
-										<ListView Items="@Ingredients">
-											<ItemRenderer>
-												<MudGrid Spacing="2" Class="align-center">
-													<MudItem xs="2" sm="1">
-														<MudCheckBox T="bool" Color="Color.Primary" />
-													</MudItem>
-													<MudItem xs="10" sm="11">
-														<MudText>
-															<IngredientText Amount="@(context.Item.Amount * Scale)" AmountLabel="@context.Item.AmountLabel"
-																				Title="@context.Item.Title" PrepNote="@context.Item.PrepNote" />
-														</MudText>
-													</MudItem>
-												</MudGrid>
-											</ItemRenderer>
-										</ListView>
-									</div>
-								</div>
+		<MudSwipeArea OnSwipeEnd="@HandleSwipeEnd" Style="width: 100%; height:100%" Sensitivity="100">
+			<MudContainer>
+				<div class="d-flex flex-column h-100">
+					<div class="d-flex flex-row align-center justify-space-between d-md-none">
+						<div>
+							<MudIconButton Icon="@Icons.Material.Filled.ChevronLeft" Size="Size.Large" Disabled="@DisableBack" OnClick="@(() => currentStepIndex--)" />
+						</div>
+						@if (CanScreenLock)
+						{
+							<div class="d-flex flex-row gap-4 justify-center align-center">
+								<MudSwitch Color="Color.Secondary" Label="Keep Screen On" LabelPosition="LabelPosition.End" T="bool" Value="@IsScreenLocked" ValueChanged="@HandleScreenLocked" />
 							</div>
-								
-							@foreach (var step in Steps)
-							{
-								<div class="recipe-step @(step.SortOrder == CurrentStepIndex ? "d-flex" : "d-none")">
+						}
+						<div>
+							<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" Size="Size.Large" Disabled="@DisableForward" OnClick="@(() => currentStepIndex++)" />
+						</div>
+					</div>
+					@if (CanScreenLock)
+					{
+						<div class="d-none d-md-flex flex-row gap-4 justify-center mb-6">
+							<MudSwitch Color="Color.Secondary" Label="Keep Screen On" LabelPosition="LabelPosition.End" T="bool" Value="@IsScreenLocked" ValueChanged="@HandleScreenLocked" />
+						</div>
+					}
+					<div class="flex-grow-1">
+						<MudGrid Justify="Justify.SpaceBetween" Class="align-start h-100">
+							<MudItem md="1" Class="d-none d-md-block">
+								<MudIconButton Icon="@Icons.Material.Filled.ChevronLeft" Size="Size.Large" Disabled="@DisableBack" OnClick="@(() => currentStepIndex--)" />
+							</MudItem>
+							<MudItem xs="12" md="8" lg="6" Class="h-100">
+								@foreach (var step in Steps)
+								{
+									<div class="recipe-step @(step.SortOrder == currentStepIndex ? "d-flex" : "d-none")">
 
-									<MudText Typo="Typo.h5" Align="Align.Center">Step @(step.SortOrder + 1)/@Steps.Count</MudText>
+										<MudText Typo="Typo.h4" Align="Align.Center">Step @(step.SortOrder + 1)/@Steps.Count</MudText>
 
-									<MudText Class="recipe-dialog-instructions">@step.Instructions</MudText>
+										<MudText Class="recipe-dialog-instructions">@step.Instructions</MudText>
 
-									@if (step.Ingredients.Any())
-									{
-										<div class="mt-6">
-											<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block">Ingredients Used</MudText>
-											<div class="d-flex flex-row flex-wrap gap-2 mt-4">
-												@foreach (var ing in step.Ingredients)
-												{
-													<MudCheckBox T="bool" Color="Color.Primary">
-														<IngredientText Amount="@(ing.Amount * Scale)" AmountLabel="@ing.AmountLabel"
-																		Title="@ing.Title" PrepNote="@ing.PrepNote" />
-													</MudCheckBox>
-												}
+										@if (step.Ingredients.Any())
+										{
+											<div class="mt-6">
+												<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block">Ingredients Used</MudText>
+												<div class="d-flex flex-row flex-wrap gap-2 mt-4">
+													@foreach (var ing in step.Ingredients)
+													{
+														<MudCheckBox T="bool" Color="Color.Primary">
+															<IngredientText Amount="@(ing.Amount * Scale)" AmountLabel="@ing.AmountLabel"
+															Title="@ing.Title" PrepNote="@ing.PrepNote" />
+														</MudCheckBox>
+													}
+												</div>
 											</div>
-										</div>
-									}
-								</div>
-							}
-
-							<div class="recipe-step @(CurrentStepIndex >= Steps.Count ? "d-flex" : "d-none")">
-								<MudText Typo="Typo.h5" Align="Align.Center">Recipe Complete</MudText>
-
-								<div class="recipe-dialog-instructions align-center">
-									<div class="mt-12">
-										<MudIcon Icon="@Icons.Material.Filled.LocalDining" Style="font-size: 4em;" />
+										}
 									</div>
-									<MudText Typo="Typo.subtitle1" Align="Align.Center" Class="mt-4 mb-12">Enjoy your meal!</MudText>
+								}
+
+								<div class="recipe-step @(currentStepIndex >= Steps.Count ? "d-flex" : "d-none")">
+									<MudText Typo="Typo.h5" Align="Align.Center">Recipe Complete</MudText>
+
+									<div class="recipe-dialog-instructions align-center">
+										<div class="mt-12">
+											<MudIcon Icon="@Icons.Material.Filled.LocalDining" Style="font-size: 4em;" />
+										</div>
+										<MudText Typo="Typo.subtitle1" Align="Align.Center" Class="mt-4 mb-12">Enjoy your meal!</MudText>
+										<MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@(() => MudDialog.Cancel())">Close</MudButton>
+									</div>
 								</div>
-								<div class="d-flex flex-column align-center">
-									<MudButton OnClick="@(() => MudDialog.Cancel())">Close</MudButton>
-								</div>
-							</div>
-						</MudItem>
-						<MudItem md="1" Class="d-none d-md-block">
-							<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" Size="Size.Large" Disabled="@DisableForward" OnClick="@(() => CurrentStepIndex++)" />
-						</MudItem>
-					</MudGrid>
+							</MudItem>
+							<MudItem md="1" Class="d-none d-md-block">
+								<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" Size="Size.Large" Disabled="@DisableForward" OnClick="@(() => currentStepIndex++)" />
+							</MudItem>
+						</MudGrid>
+					</div>
 				</div>
-			</div>
-		</MudContainer>
+			</MudContainer>
+		</MudSwipeArea>
 	</DialogContent>
 </MudDialog>
 
-@code {
-	[CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
-
-	[Parameter] public List<RecipeIngredientModel> Ingredients { get; set; } = new();
-	[Parameter] public List<RecipeStepModel> Steps { get; set; } = new();
-	[Parameter] public decimal Scale { get; set; }
-
-	protected int CurrentStepIndex = -1;
-	protected bool DisableBack => CurrentStepIndex == -1 
-		|| (CurrentStepIndex == 0 && !Ingredients.Any());
-
-	protected bool DisableForward => CurrentStepIndex >= Steps.Count;
-
-	protected override void OnInitialized()
-	{
-		base.OnInitialized();
-		if (Ingredients.Any())
-		{
-			CurrentStepIndex = -1;
-		}
-		else
-		{
-			CurrentStepIndex = 0;
-		}
-	}
-
-	protected MarkupString GetIngredientListTitle(RecipeStepIngredientModel model)
-	{
-		var scaledValue = (model.Amount * Scale).ToHtmlFraction();
-		var titleAndPrep = string.IsNullOrEmpty(model.PrepNote) ? model.Title : $"{model.Title}, {model.PrepNote}";
-		return (MarkupString)$"{scaledValue} {model.AmountLabel} {titleAndPrep}";
-	}
-
-	protected void HandleScaleChanged(decimal value)
-	{
-		if (value != Scale)
-		{
-			Scale = value;
-		}
-	}
-}

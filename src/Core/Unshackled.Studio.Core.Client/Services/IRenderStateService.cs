@@ -1,4 +1,4 @@
-﻿namespace Unshackled.Studio.Core.Client.Models;
+﻿namespace Unshackled.Studio.Core.Client.Services;
 
 public interface IRenderStateService
 {

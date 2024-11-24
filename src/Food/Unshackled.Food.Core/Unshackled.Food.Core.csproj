@@ -20,4 +20,8 @@
 	  <ProjectReference Include="..\..\Core\Unshackled.Studio.Core.Client\Unshackled.Studio.Core.Client.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="wwwroot\css\" />
+	</ItemGroup>
+
 </Project>

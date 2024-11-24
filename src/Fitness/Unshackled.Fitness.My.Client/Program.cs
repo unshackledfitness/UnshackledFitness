@@ -48,7 +48,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies([
 	typeof(AppState).Assembly
 ]));
 
-builder.Services.AddScoped<IRenderStateService, RenderStateService>();
+builder.Services.AddSingleton<IRenderStateService, RenderStateService>();
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<IAppState, AppState>();
 builder.Services.AddScoped<HttpStatusCodeHandler>();

@@ -1,0 +1,25 @@
+﻿/// <reference path="./core-styles.scss" />
+
+.mud-dialog.dialog-grow {
+
+	div.outline-none {
+		height: 100%;
+
+		& > div:not(.fixed) {
+			height: 100%;
+
+			.mud-dialog-content {
+				height: 100%;
+
+				& > div, .mud-container {
+					height: 100%;
+				}
+			}
+		}
+	}
+}
+
+.mud-dialog.dialog-fill {
+    width: calc(100%);
+	max-height: calc(100vh);
+}
