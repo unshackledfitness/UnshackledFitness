@@ -31,7 +31,7 @@ public class CopyRecipe
 			long householdId = request.Model.HouseholdSid.DecodeLong();
 			long recipeId = request.Model.RecipeSid.DecodeLong();
 
-			return await db.CopyRecipe(householdId, recipeId, request.MemberId, request.Model.Title, cancellationToken);
+			return await db.CopyRecipe(householdId, recipeId, request.MemberId, request.Model.Title, request.Model.TagKeys, cancellationToken);
 		}
 	}
 }

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Unshackled.Food.Core.Enums;
-using Unshackled.Food.Core.Models.Recipes;
+using Unshackled.Food.Core.Models;
 using Unshackled.Studio.Core.Client.Extensions;
 
 namespace Unshackled.Food.Core.Components;

@@ -8,6 +8,7 @@ using Unshackled.Food.My.Client.Features.Recipes.Models;
 using Unshackled.Food.My.Extensions;
 using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Data.Extensions;
+using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Food.My.Features.Recipes.Actions;
 
@@ -36,17 +37,33 @@ public class SearchRecipes
 			if (await db.HasHouseholdPermission(request.HouseholdId, request.MemberId, PermissionLevels.Read))
 			{
 				var result = new SearchResult<RecipeListModel>();
-				var query = db.Recipes
-					.AsNoTracking()
-					.Where(x => x.HouseholdId == request.HouseholdId);
+
+				IQueryable<RecipeEntity> query;
+				if (request.Model.TagSids.Count > 0)
+				{
+
+					var tagIds = request.Model.TagSids.DecodeLong();
+
+					var queryTags = db.RecipeTags
+						.Where(x => tagIds.Contains(x.TagId))
+						.Select(x => x.RecipeId)
+						.Distinct();
+
+					query = from rid in queryTags
+							join r in db.Recipes on rid equals r.Id
+							where r.HouseholdId == request.HouseholdId
+							select r;
+				}
+				else
+				{
+					query = db.Recipes
+						.Where(x => x.HouseholdId == request.HouseholdId);
+				}
 
 				if (!string.IsNullOrEmpty(request.Model.Title))
 				{
 					query = query.Where(x => x.Title.Contains(request.Model.Title));
 				}
-
-				query = query.QueryCuisines(request.Model.SelectedCuisines);
-				query = query.QueryDiets(request.Model.SelectedDiets);
 
 				result.Total = await query.CountAsync(cancellationToken);
 
@@ -59,7 +76,8 @@ public class SearchRecipes
 
 				query = query.Skip(request.Model.Skip).Take(request.Model.PageSize);
 
-				result.Data = await mapper.ProjectTo<RecipeListModel>(query)
+				result.Data = await mapper.ProjectTo<RecipeListModel>(query
+					.Include(x => x.Tags))
 					.ToListAsync(cancellationToken);
 
 				return result;

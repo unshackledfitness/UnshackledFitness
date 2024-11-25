@@ -1,9 +1,9 @@
-﻿@using Unshackled.Food.Core.Models.ShoppingLists
+﻿@using Unshackled.Food.Core.Models
 
 @inherits RecipeListBuilderBase
 
 <MudText Typo="Typo.h6">Set Ingredient Quantities</MudText>
-<ListView TItem="AddToListModel" Items="@Items" IsLoading="@IsLoading">
+<ListView TItem="AddToShoppingListModel" Items="@Items" IsLoading="@IsLoading">
 	<ItemRenderer>
 		<MudGrid Spacing="2">
 			<MudItem xs="12">

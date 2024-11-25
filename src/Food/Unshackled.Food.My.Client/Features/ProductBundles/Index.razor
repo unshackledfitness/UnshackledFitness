@@ -32,7 +32,7 @@
 		<MudLink Typo="Typo.subtitle1" Class="d-block" Color="Color.Primary" Href="@($"/product-bundles/{context.Item.Sid}")">@context.Item.Title</MudLink>
 	</ItemRenderer>
 	<EmptyListRenderer>
-		<MudText Align="Align.Center" Class="mt-4">No product bundles matched your search.</MudText>
+		<MudAlert Elevation="0" ContentAlignment="HorizontalAlignment.Center" NoIcon="true" Class="mt-4">No product bundles matched your search.</MudAlert>
 	</EmptyListRenderer>
 </ListView>
 

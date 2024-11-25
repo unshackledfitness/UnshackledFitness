@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Components;
-using Unshackled.Food.Core.Models.ShoppingLists;
+using Unshackled.Food.Core.Models;
 
 namespace Unshackled.Food.My.Client.Components;
 
 public class RecipeListBuilderBase : ComponentBase
 {
 	[Parameter] public bool IsLoading { get; set; }
-	[Parameter] public List<AddToListModel> Items { get; set; } = [];
+	[Parameter] public List<AddToShoppingListModel> Items { get; set; } = [];
 
-	protected void HandleCounterSubtractClicked(AddToListModel model)
+	protected void HandleCounterSubtractClicked(AddToShoppingListModel model)
 	{
 		if (model.Quantity > 0)
 		{
@@ -16,7 +16,7 @@ public class RecipeListBuilderBase : ComponentBase
 		}
 	}
 
-	protected void HandleCounterAddClicked(AddToListModel model)
+	protected void HandleCounterAddClicked(AddToShoppingListModel model)
 	{
 		model.Quantity++;
 	}

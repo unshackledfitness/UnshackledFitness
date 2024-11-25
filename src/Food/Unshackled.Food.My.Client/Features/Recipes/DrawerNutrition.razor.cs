@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components;
 using Unshackled.Food.Core.Models;
-using Unshackled.Food.Core.Models.Recipes;
 using Unshackled.Food.My.Client.Features.Recipes.Models;
 using Unshackled.Studio.Core.Client.Components;
 

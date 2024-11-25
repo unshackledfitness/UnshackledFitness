@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.Core.Models.ShoppingLists;
 using Unshackled.Food.My.Client.Features.ShoppingLists.Models;
 using Unshackled.Food.My.Features.ShoppingLists.Actions;

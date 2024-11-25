@@ -20,16 +20,17 @@ public class DrawerCopyBase : BaseComponent<Member>
 	protected bool IsCompleted { get; set; } = false;
 	protected string SelectedHousehold { get; set; } = string.Empty;
 	protected string NewSid { get; set; } = string.Empty;
+	protected List<RecipeTagSelectItem> RecipeTags { get; set; } = [];
 
 	protected override async Task OnInitializedAsync()
 	{
 		await base.OnInitializedAsync();
 		MemberHouseholds = await Mediator.Send(new ListMemberHouseholds.Query());
 
+		// Get current active household if it is in the list of writable households
 		string currentHouseholdSid = string.Empty;
-		var member = (Member)State.ActiveMember;
-		if (member.ActiveHousehold != null && MemberHouseholds.Where(x => x.Sid == member.ActiveHousehold.HouseholdSid).Any())
-			currentHouseholdSid = member.ActiveHousehold.HouseholdSid;
+		if (ActiveMember.ActiveHousehold != null && MemberHouseholds.Where(x => x.Sid == ActiveMember.ActiveHousehold.HouseholdSid).Any())
+			currentHouseholdSid = ActiveMember.ActiveHousehold.HouseholdSid;
 
 		CopyModel = new()
 		{
@@ -38,7 +39,16 @@ public class DrawerCopyBase : BaseComponent<Member>
 			Title = Recipe.Title
 		};
 
+		RecipeTags = Recipe.Tags
+			.Select(x => new RecipeTagSelectItem
+			{
+				TagKey = x.Key,
+				Title = x.Title
+			})
+			.ToList();
+
 		IsLoading = false;
+		StateHasChanged();
 	}
 
 	protected async Task HandleCancelClicked()

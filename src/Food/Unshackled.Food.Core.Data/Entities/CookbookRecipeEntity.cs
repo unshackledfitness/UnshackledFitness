@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Unshackled.Studio.Core.Data.Entities;
 
 namespace Unshackled.Food.Core.Data.Entities;
 
@@ -11,6 +12,8 @@ public class CookbookRecipeEntity
 	public virtual RecipeEntity Recipe { get; set; } = default!;
 	public long HouseholdId { get; set; }
 	public virtual HouseholdEntity Household { get; set; } = default!;
+	public long MemberId { get; set; }
+	public virtual MemberEntity Member { get; set; } = default!;
 
 	public class TypeConfiguration : IEntityTypeConfiguration<CookbookRecipeEntity>
 	{
@@ -30,6 +33,10 @@ public class CookbookRecipeEntity
 			config.HasOne(x => x.Household)
 				.WithMany()
 				.HasForeignKey(x => x.HouseholdId);
+
+			config.HasOne(x => x.Member)
+				.WithMany()
+				.HasForeignKey(x => x.MemberId);
 		}
 	}
 }

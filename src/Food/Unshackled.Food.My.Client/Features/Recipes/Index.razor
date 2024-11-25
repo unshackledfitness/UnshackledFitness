@@ -10,15 +10,12 @@
 	<SearchForm @bind-Model="@SearchModel" SearchClicked="@(() => DoSearch(1))" ResetClicked="@HandleResetClicked">
 		<SearchFields>
 			<MudGrid Spacing="1">
-				<MudItem xs="12" sm="4">
+				<MudItem xs="12" sm="6">
 					<MudTextField Label="Title" Variant="Variant.Outlined" FullWidth="true" Margin="Margin.Dense"
 								  T="string" @bind-Value="@SearchModel.Title" Disabled="@IsLoading" />
 				</MudItem>
-				<MudItem xs="12" sm="4">
-					<CuisineSelect MultiSelection="true" Margin="Margin.Dense" Disabled="@IsLoading" @bind-SelectedValues="@SearchModel.SelectedCuisines" />
-				</MudItem>
-				<MudItem xs="12" sm="4">
-					<DietSelect MultiSelection="true" Margin="Margin.Dense" Disabled="@IsLoading" @bind-SelectedValues="@SearchModel.SelectedDiets" />
+				<MudItem xs="12" sm="6">
+					<RecipeTagSelect Label="Tags" FullWidth="true" Margin="Margin.Dense" Tags="@RecipeTags" @bind-SelectedValues="@SearchModel.TagSids" Disabled="@IsLoading" />
 				</MudItem>
 			</MudGrid>
 		</SearchFields>
@@ -38,9 +35,9 @@
 		<MudGrid Spacing="2">
 			<MudItem xs="12" sm="8" md="10">
 				<MudLink Typo="Typo.subtitle1" Href="@($"/recipes/{context.Item.Sid}")" Class="d-block">@context.Item.Title</MudLink>
-				@if(context.Item.DietTags.Any())
+				@if(context.Item.Tags.Count > 0)
 				{
-					<MudText Typo="Typo.body2" Color="Color.Tertiary">@String.Join(", ", context.Item.DietTags)</MudText>
+					<MudText Typo="Typo.body2" Color="Color.Tertiary">@context.Item.TagTitles</MudText>
 				}
 			</MudItem>
 			<MudItem xs="6" sm="2" md="1">
@@ -52,7 +49,7 @@
 		</MudGrid>
 	</ItemRenderer>
 	<EmptyListRenderer>
-		<MudText Align="Align.Center" Class="mt-4">No recipes matched your search.</MudText>
+		<MudAlert Elevation="0" ContentAlignment="HorizontalAlignment.Center" NoIcon="true" Class="mt-4">No recipes matched your search.</MudAlert>
 	</EmptyListRenderer>
 </ListView>
 

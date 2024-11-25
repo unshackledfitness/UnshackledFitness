@@ -36,7 +36,6 @@ public class IndexBase : BaseComponent<Member>
 	protected override async Task OnInitializedAsync()
 	{
 		await base.OnInitializedAsync();
-		Breadcrumbs.Add(new BreadcrumbItem("Products", "/products", false));
 		Breadcrumbs.Add(new BreadcrumbItem("Categories", null, true));
 
 		await GetList();

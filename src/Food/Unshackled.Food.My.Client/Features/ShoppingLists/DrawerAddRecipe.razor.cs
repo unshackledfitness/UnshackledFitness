@@ -15,7 +15,7 @@ public class DrawerAddRecipeBase : BaseSearchComponent<SearchRecipeModel, Recipe
 
 	public bool IsSelecting { get; set; } = true;
 	protected List<RecipeListModel> Recipes { get; set; } = new();
-	protected List<AddToListModel> Items { get; set; } = new();
+	protected List<AddToShoppingListModel> Items { get; set; } = new();
 	protected RecipeListModel? SelectedRecipe {  get; set; }
 	protected decimal Scale { get; set; } = 1M;
 

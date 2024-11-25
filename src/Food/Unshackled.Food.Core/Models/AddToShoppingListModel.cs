@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Unshackled.Food.Core.Models.ShoppingLists;
+namespace Unshackled.Food.Core.Models;
 
-public class AddToListModel
+public class AddToShoppingListModel
 {
 	public string ListSid { get; set; } = string.Empty;
 	public string IngredientKey { get; set; } = string.Empty;

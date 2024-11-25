@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Components;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.Recipes.Models;
 using Unshackled.Studio.Core.Client.Components;
 
@@ -5,6 +7,7 @@ namespace Unshackled.Food.My.Client.Features.Recipes;
 
 public class FormPropertiesBase : BaseFormComponent<FormRecipeModel, FormRecipeModel.Validator>
 {
+	[Parameter] public List<RecipeTagSelectItem> RecipeTags { get; set; } = [];
 	protected string? TimeCook { get; set; } = string.Empty;
 	protected string? TimePrep { get; set; } = string.Empty;
 

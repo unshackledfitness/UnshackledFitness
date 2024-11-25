@@ -30,15 +30,20 @@ public class GetRecipe
 
 		public async Task<RecipeModel> Handle(Query request, CancellationToken cancellationToken)
 		{
-			if(await db.HasCookbookPermission(request.CookbookId, request.MemberId, PermissionLevels.Read))
+			if(await db.HasCookbookRecipePermission(request.CookbookId, request.MemberId, PermissionLevels.Read))
 			{ 
 				var recipe = await mapper.ProjectTo<RecipeModel>(db.Recipes
-				.AsNoTracking()
-				.Where(x => x.Id == request.RecipeId))
-				.SingleOrDefaultAsync(cancellationToken);
+					.Include(x => x.Tags)
+					.AsNoTracking()
+					.Where(x => x.Id == request.RecipeId))
+					.SingleOrDefaultAsync(cancellationToken);
 
 				if (recipe != null)
 				{
+					recipe.IsOwner = await db.CookbookRecipes
+						.Where(x => x.CookbookId == request.CookbookId && x.RecipeId == request.RecipeId && x.MemberId == request.MemberId)
+						.AnyAsync(cancellationToken);
+
 					recipe.Groups = await mapper.ProjectTo<RecipeIngredientGroupModel>(db.RecipeIngredientGroups
 						.AsNoTracking()
 						.Where(x => x.RecipeId == request.RecipeId)

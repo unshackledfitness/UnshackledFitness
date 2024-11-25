@@ -21,9 +21,9 @@ else
 		{
 			<MudToolBar Gutters="false" Dense="true" Class="mb-4">
 				<MudButton StartIcon="@Icons.Material.Filled.FileCopy" OnClick="@(() => HandleCopyToClicked())">Copy to...</MudButton>
-				@if (ActiveMember.HasCookbookPermissionLevel(PermissionLevels.Write))
+				@if (CanDelete)
 				{
-					<MudButton StartIcon="@Icons.Material.Filled.Delete">Remove from Cookbook</MudButton>
+					<MudButton StartIcon="@Icons.Material.Filled.Delete" OnClick="@(() => HandleDeleteClicked())">Remove from Cookbook</MudButton>
 				}
 			</MudToolBar>
 		}

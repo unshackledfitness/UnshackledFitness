@@ -1,7 +1,7 @@
 ﻿using Unshackled.Food.Core.Enums;
 using Unshackled.Food.Core.Utils;
 
-namespace Unshackled.Food.Core.Models.Recipes;
+namespace Unshackled.Food.Core.Models;
 
 public class NutritionLabelModel : INutrition
 {

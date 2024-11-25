@@ -33,11 +33,13 @@ public class FoodDbContext : BaseDbContext
 	public DbSet<RecipeNoteEntity> RecipeNotes => Set<RecipeNoteEntity>();
 	public DbSet<RecipeStepEntity> RecipeSteps => Set<RecipeStepEntity>();
 	public DbSet<RecipeStepIngredientEntity> RecipeStepIngredients => Set<RecipeStepIngredientEntity>();
+	public DbSet<RecipeTagEntity> RecipeTags => Set<RecipeTagEntity>();
 	public DbSet<ShoppingListEntity> ShoppingLists => Set<ShoppingListEntity>();
 	public DbSet<ShoppingListItemEntity> ShoppingListItems => Set<ShoppingListItemEntity>();
 	public DbSet<StoreLocationEntity> StoreLocations => Set<StoreLocationEntity>();
 	public DbSet<StoreEntity> Stores => Set<StoreEntity>();
 	public DbSet<StoreProductLocationEntity> StoreProductLocations => Set<StoreProductLocationEntity>();
+	public DbSet<TagEntity> Tags => Set<TagEntity>();
 
 	protected override void OnModelCreating(ModelBuilder builder)
 	{
@@ -59,11 +61,13 @@ public class FoodDbContext : BaseDbContext
 		builder.ApplyConfiguration(new RecipeNoteEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new RecipeStepEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new RecipeStepIngredientEntity.TypeConfiguration());
+		builder.ApplyConfiguration(new RecipeTagEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ShoppingListEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ShoppingListItemEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new StoreLocationEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new StoreEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new StoreProductLocationEntity.TypeConfiguration());
+		builder.ApplyConfiguration(new TagEntity.TypeConfiguration());
 
 		base.OnModelCreating(builder);
 	}

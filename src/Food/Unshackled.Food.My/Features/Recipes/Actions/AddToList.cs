@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Unshackled.Food.Core.Data;
-using Unshackled.Food.Core.Models.ShoppingLists;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Extensions;
 using Unshackled.Studio.Core.Client.Models;
 

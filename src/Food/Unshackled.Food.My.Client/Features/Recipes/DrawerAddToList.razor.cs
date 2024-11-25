@@ -18,7 +18,7 @@ public class DrawerAddToListBase : BaseComponent<Member>
 	public bool IsSelecting { get; set; } = true;
 	protected bool IsWorking { get; set; } = false;
 	protected List<ShoppingListModel> ShoppingLists { get; set; } = new();
-	protected List<AddToListModel> Items { get; set; } = new();
+	protected List<AddToShoppingListModel> Items { get; set; } = new();
 	protected string SelectedShoppingListSid {  get; set; } = string.Empty;
 
 	protected override async Task OnInitializedAsync()

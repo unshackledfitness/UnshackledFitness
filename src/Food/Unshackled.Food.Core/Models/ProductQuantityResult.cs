@@ -1,6 +1,6 @@
 ﻿using Unshackled.Food.Core.Enums;
 
-namespace Unshackled.Food.Core.Models.Recipes;
+namespace Unshackled.Food.Core.Models;
 public class ProductQuantityResult
 {
 	public bool IsUnitMismatch { get; set; } = false;

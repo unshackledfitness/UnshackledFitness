@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Unshackled.Food.Core.Enums;
-using Unshackled.Food.Core.Models.Recipes;
+using Unshackled.Food.Core.Models;
 
 namespace Unshackled.Food.Core.Data.Entities;
 

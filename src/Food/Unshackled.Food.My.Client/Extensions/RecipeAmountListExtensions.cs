@@ -1,4 +1,4 @@
-﻿using Unshackled.Food.Core.Models.Recipes;
+﻿using Unshackled.Food.Core.Models;
 
 namespace Unshackled.Food.My.Client.Extensions;
 

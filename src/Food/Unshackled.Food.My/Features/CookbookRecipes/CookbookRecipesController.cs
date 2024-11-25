@@ -16,6 +16,13 @@ public class CookbookRecipesController : BaseController
 		return Ok(await Mediator.Send(new CopyRecipe.Command(Member.Id, model)));
 	}
 
+	[HttpPost("delete")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> Delete([FromBody] string sid)
+	{
+		return Ok(await Mediator.Send(new DeleteRecipe.Command(Member.Id, Member.ActiveCookbookId, sid)));
+	}
+
 	[HttpGet("get/{sid}")]
 	[DecodeId]
 	public async Task<IActionResult> GetRecipe(long id)
@@ -27,6 +34,12 @@ public class CookbookRecipesController : BaseController
 	public async Task<IActionResult> ListMemberHouseholds()
 	{
 		return Ok(await Mediator.Send(new ListMemberHouseholds.Query(Member.Id)));
+	}
+
+	[HttpGet("list-recipe-tags")]
+	public async Task<IActionResult> ListRecipeTags()
+	{
+		return Ok(await Mediator.Send(new ListRecipeTags.Query(Member.Id, Member.ActiveCookbookId)));
 	}
 
 	[HttpPost("search")]

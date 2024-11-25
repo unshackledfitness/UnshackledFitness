@@ -1,7 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using Unshackled.Food.Core.Enums;
 using Unshackled.Food.Core.Models;
-using Unshackled.Food.Core.Models.Recipes;
 
 namespace Unshackled.Food.My.Client.Features.Products.Models;
 

@@ -1,6 +1,6 @@
 ﻿using Unshackled.Food.Core.Enums;
 
-namespace Unshackled.Food.Core.Models.Products;
+namespace Unshackled.Food.Core.Models;
 
 public class NutrientResult
 {

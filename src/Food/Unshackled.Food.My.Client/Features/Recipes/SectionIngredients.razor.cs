@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Unshackled.Food.Core.Enums;
 using Unshackled.Food.Core.Models;
-using Unshackled.Food.Core.Models.Recipes;
 using Unshackled.Food.Core.Utils;
 using Unshackled.Food.My.Client.Features.Recipes.Actions;
 using Unshackled.Food.My.Client.Features.Recipes.Models;

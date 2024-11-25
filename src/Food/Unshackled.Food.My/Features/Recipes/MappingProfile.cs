@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Unshackled.Food.Core.Data.Entities;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.Recipes.Models;
 using Unshackled.Studio.Core.Server.Extensions;
 
@@ -39,5 +40,8 @@ public class MappingProfile : Profile
 			.ForMember(d => d.SortOrder, m => m.MapFrom(s => s.RecipeIngredient != null ? s.RecipeIngredient.SortOrder : 0));
 		CreateMap<ShoppingListEntity, ShoppingListModel>()
 			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()));
+		CreateMap<TagEntity, TagModel>()
+			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()))
+			.ForMember(d => d.HouseholdSid, m => m.MapFrom(s => s.HouseholdId.Encode()));
 	}
 }

@@ -1,4 +1,4 @@
-﻿namespace Unshackled.Food.Core.Models.Recipes;
+﻿namespace Unshackled.Food.Core.Models;
 
 public class RecipeAmountListModel
 {

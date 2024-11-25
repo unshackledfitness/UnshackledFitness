@@ -46,54 +46,6 @@ public class AddRecipe
 					CookTimeMinutes = request.Model.CookTimeMinutes,
 					Description = request.Model.Description?.Trim(),
 					HouseholdId = request.HouseholdId,
-					IsAustralianCuisine = request.Model.IsAustralianCuisine,
-					IsCajunCreoleCuisine = request.Model.IsCajunCreoleCuisine,
-					IsCaribbeanCuisine = request.Model.IsCaribbeanCuisine,
-					IsCentralAfricanCuisine = request.Model.IsCentralAfricanCuisine,
-					IsCentralAmericanCuisine = request.Model.IsCentralAmericanCuisine,
-					IsCentralAsianCuisine = request.Model.IsCentralAsianCuisine,
-					IsCentralEuropeanCuisine = request.Model.IsCentralEuropeanCuisine,
-					IsChineseCuisine = request.Model.IsChineseCuisine,
-					IsEastAfricanCuisine = request.Model.IsEastAfricanCuisine,
-					IsEastAsianCuisine = request.Model.IsEastAsianCuisine,
-					IsEasternEuropeanCuisine = request.Model.IsEasternEuropeanCuisine,
-					IsFilipinoCuisine = request.Model.IsFilipinoCuisine,
-					IsFrenchCuisine = request.Model.IsFrenchCuisine,
-					IsFusionCuisine = request.Model.IsFusionCuisine,
-					IsGermanCuisine = request.Model.IsGermanCuisine,
-					IsGlutenFree = request.Model.IsGlutenFree,
-					IsGreekCuisine = request.Model.IsGreekCuisine,
-					IsIndianCuisine = request.Model.IsIndianCuisine,
-					IsIndonesianCuisine = request.Model.IsIndonesianCuisine,
-					IsItalianCuisine = request.Model.IsItalianCuisine,
-					IsJapaneseCuisine = request.Model.IsJapaneseCuisine,
-					IsKoreanCuisine = request.Model.IsKoreanCuisine,
-					IsMexicanCuisine = request.Model.IsMexicanCuisine,
-					IsNativeAmericanCuisine = request.Model.IsNativeAmericanCuisine,
-					IsNorthAfricanCuisine = request.Model.IsNorthAfricanCuisine,
-					IsNorthAmericanCuisine = request.Model.IsNorthAmericanCuisine,
-					IsNorthernEuropeanCuisine = request.Model.IsNorthernEuropeanCuisine,
-					IsNutFree = request.Model.IsNutFree,
-					IsOceanicCuisine = request.Model.IsOceanicCuisine,
-					IsPakistaniCuisine = request.Model.IsPakistaniCuisine,
-					IsPolishCuisine = request.Model.IsPolishCuisine,
-					IsPolynesianCuisine = request.Model.IsPolynesianCuisine,
-					IsRussianCuisine = request.Model.IsRussianCuisine,
-					IsSoulFoodCuisine = request.Model.IsSoulFoodCuisine,
-					IsSouthAfricanCuisine = request.Model.IsSouthAfricanCuisine,
-					IsSouthAmericanCuisine = request.Model.IsSouthAmericanCuisine,
-					IsSouthAsianCuisine = request.Model.IsSouthAsianCuisine,
-					IsSoutheastAsianCuisine = request.Model.IsSoutheastAsianCuisine,
-					IsSouthernEuropeanCuisine = request.Model.IsSouthernEuropeanCuisine,
-					IsSpanishCuisine = request.Model.IsSpanishCuisine,
-					IsTexMexCuisine = request.Model.IsTexMexCuisine,
-					IsThaiCuisine = request.Model.IsThaiCuisine,
-					IsVegan = request.Model.IsVegan,
-					IsVegetarian = request.Model.IsVegetarian,
-					IsVietnameseCuisine = request.Model.IsVietnameseCuisine,
-					IsWestAfricanCuisine = request.Model.IsWestAfricanCuisine,
-					IsWestAsianCuisine = request.Model.IsWestAsianCuisine,
-					IsWesternEuropeanCuisine = request.Model.IsWesternEuropeanCuisine,
 					PrepTimeMinutes = request.Model.PrepTimeMinutes,
 					Title = request.Model.Title.Trim(),
 					TotalServings = request.Model.TotalServings
@@ -110,6 +62,23 @@ public class AddRecipe
 				};
 				db.RecipeIngredientGroups.Add(group);
 				await db.SaveChangesAsync(cancellationToken);
+
+				if (request.Model.TagSids.Count > 0)
+				{
+					foreach (string tagSid in request.Model.TagSids)
+					{
+						long tagId = tagSid.DecodeLong();
+						if (tagId > 0)
+						{
+							db.RecipeTags.Add(new()
+							{
+								RecipeId = recipe.Id,
+								TagId = tagId,
+							});
+						}
+					}
+					await db.SaveChangesAsync(cancellationToken);
+				}
 
 				await transaction.CommitAsync(cancellationToken);
 

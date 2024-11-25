@@ -18,11 +18,11 @@ public class DeleteMember
 		public string CookbookMemberSid { get; private set; }
 		public long CookbookId { get; private set; }
 
-		public Command(long adminMemberId, string groupMemberId, long groupId)
+		public Command(long adminMemberId, string cookbookMemberId, long cookbookId)
 		{
 			AdminMemberId = adminMemberId;
-			CookbookMemberSid = groupMemberId;
-			CookbookId = groupId;
+			CookbookMemberSid = cookbookMemberId;
+			CookbookId = cookbookId;
 		}
 	}
 
@@ -44,24 +44,29 @@ public class DeleteMember
 
 			if (await db.Cookbooks
 				.Where(x => x.Id == request.CookbookId && x.MemberId == memberId)
-				.AnyAsync())
+				.AnyAsync(cancellationToken))
 				return new CommandResult(false, "The group owner cannot be removed.");
 
-			var groupMember = await db.CookbookMembers
+			var cookbookMember = await db.CookbookMembers
 				.Where(x => x.CookbookId == request.CookbookId && x.MemberId == memberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
-			if (groupMember == null)
+			if (cookbookMember == null)
 				return new CommandResult(false, "Invalid group member.");
 
 			// if active group for member in any app, remove it
 			await db.MemberMeta
-				.Where(x => x.Id == memberId && x.MetaKey == FoodGlobals.MetaKeys.ActiveCookbookId && x.MetaValue == request.CookbookId.ToString())
-				.DeleteFromQueryAsync();
-						
+				.Where(x => x.Id == cookbookMember.MemberId && x.MetaKey == FoodGlobals.MetaKeys.ActiveCookbookId && x.MetaValue == request.CookbookId.ToString())
+				.DeleteFromQueryAsync(cancellationToken);
+
+			// Remove member's recipes
+			await db.CookbookRecipes
+				.Where(x => x.CookbookId == request.CookbookId && x.MemberId == cookbookMember.MemberId)
+				.DeleteFromQueryAsync(cancellationToken);
+
 			// Remove membership
-			db.CookbookMembers.Remove(groupMember);
-			await db.SaveChangesAsync();
+			db.CookbookMembers.Remove(cookbookMember);
+			await db.SaveChangesAsync(cancellationToken);
 
 			return new CommandResult(true, "Member has been removed from the group.");
 		}

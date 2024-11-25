@@ -17,12 +17,12 @@
 			<MudText Typo="Typo.body1">@Recipe.Description</MudText>
 		}
 
-		@if (RecipeTags.Any())
+		@if (Recipe.Tags.Any())
 		{
 			<div Class="d-flex flex-row flex-wrap my-4">
-				@foreach (string tag in RecipeTags)
+				@foreach (var tag in Recipe.Tags)
 				{
-					<MudChip T="string" Variant="Variant.Outlined">@tag</MudChip>
+					<MudChip T="string" Variant="Variant.Outlined">@tag.Title</MudChip>
 				}
 			</div>
 		}
@@ -50,6 +50,6 @@
 	}
 	else
 	{
-		<FormProperties Model="@Model" FormId="@FormId" DisableFormControls="@DisableControls" OnFormSubmitted="@HandleFormSubmitted" />
+		<FormProperties Model="@Model" FormId="@FormId" RecipeTags="@RecipeTags" DisableFormControls="@DisableControls" OnFormSubmitted="@HandleFormSubmitted" />
 	}
 </SectionComponent>

@@ -14,6 +14,21 @@ public static class CookbookExtensions
 			.AnyAsync();
 	}
 
+	public static async Task<bool> HasCookbookRecipePermission(this FoodDbContext db, long recipeId, long memberId, PermissionLevels permission)
+	{
+		long cookbookId = await db.CookbookRecipes
+			.Where(x => x.RecipeId == recipeId)
+			.Select(x => x.CookbookId)
+			.SingleOrDefaultAsync();
+
+		if (cookbookId == 0)
+			return false;
+
+		return await db.CookbookMembers
+			.Where(x => x.CookbookId == cookbookId && x.MemberId == memberId && x.PermissionLevel >= permission)
+			.AnyAsync();
+	}
+
 	public static async Task<CookbookMemberEntity?> HasMember(this DbSet<CookbookMemberEntity> cookbookMembers, long memberId, long cookbookId)
 	{
 		return await cookbookMembers

@@ -8,7 +8,6 @@ using Unshackled.Food.Core.Data.Entities;
 using Unshackled.Food.Core.Enums;
 using Unshackled.Food.Core.Extensions;
 using Unshackled.Food.Core.Models;
-using Unshackled.Food.Core.Models.Recipes;
 using Unshackled.Food.My.Extensions;
 using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Server.Extensions;

@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Food.Core.Models;
-using Unshackled.Food.My.Client.Extensions;
 using Unshackled.Food.My.Client.Features.CookbookRecipes.Models;
 using Unshackled.Studio.Core.Client.Components;
 
@@ -14,11 +13,4 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	[Parameter] public EventCallback<RecipeModel> RecipeChanged { get; set; }
 	[Parameter] public EventCallback MakeRecipeClicked { get; set; }
 	[Parameter] public decimal Scale { get; set; }
-	public List<string> RecipeTags { get; set; } = [];
-
-	protected override void OnParametersSet()
-	{
-		base.OnParametersSet();
-		RecipeTags = Recipe.GetSelectedTags();
-	}
 }

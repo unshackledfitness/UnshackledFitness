@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using Unshackled.Food.Core.Enums;
-using Unshackled.Food.Core.Models.Recipes;
+using Unshackled.Food.Core.Models;
 
 namespace Unshackled.Food.Core.Utils;
 

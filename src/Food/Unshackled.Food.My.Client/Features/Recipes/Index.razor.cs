@@ -16,6 +16,7 @@ public partial class IndexBase : BaseSearchComponent<SearchRecipeModel, RecipeLi
 
 	protected const string FormId = "formAddRecipe";
 	protected FormRecipeModel FormModel { get; set; } = new();
+	protected List<RecipeTagSelectItem> RecipeTags { get; set; } = [];
 	protected bool DrawerOpen => DrawerView != Views.None;
 	protected Views DrawerView { get; set; } = Views.None;
 	protected string DrawerTitle => DrawerView switch
@@ -28,6 +29,8 @@ public partial class IndexBase : BaseSearchComponent<SearchRecipeModel, RecipeLi
 	{
 		await base.OnInitializedAsync();
 		Breadcrumbs.Add(new BreadcrumbItem("Recipes", null, true));
+
+		RecipeTags = await Mediator.Send(new ListRecipeTags.Query());
 
 		SearchKey = "SearchRecipes";
 		SearchModel = await GetLocalSetting(SearchKey) ?? new();
@@ -42,6 +45,7 @@ public partial class IndexBase : BaseSearchComponent<SearchRecipeModel, RecipeLi
 		await SaveLocalSetting(SearchKey, SearchModel);
 		SearchResults = await Mediator.Send(new SearchRecipes.Query(SearchModel));
 		IsLoading = false;
+		StateHasChanged();
 	}
 
 	protected void HandleAddClicked()

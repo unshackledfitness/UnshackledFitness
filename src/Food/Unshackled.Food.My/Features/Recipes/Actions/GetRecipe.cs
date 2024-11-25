@@ -31,9 +31,10 @@ public class GetRecipe
 			if(await db.HasRecipePermission(request.RecipeId, request.MemberId, PermissionLevels.Read))
 			{ 
 				return await mapper.ProjectTo<RecipeModel>(db.Recipes
-				.AsNoTracking()
-				.Where(x => x.Id == request.RecipeId))
-				.SingleOrDefaultAsync() ?? new();
+					.AsNoTracking()
+					.Include(x => x.Tags)
+					.Where(x => x.Id == request.RecipeId))
+					.SingleOrDefaultAsync(cancellationToken) ?? new();
 			}
 			return new();
 		}

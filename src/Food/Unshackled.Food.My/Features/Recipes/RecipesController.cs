@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.Core.Models.ShoppingLists;
 using Unshackled.Food.My.Client.Features.Recipes.Models;
 using Unshackled.Food.My.Features.Recipes.Actions;
@@ -110,6 +111,12 @@ public class RecipesController : BaseController
 	public async Task<IActionResult> ListMemberHouseholds()
 	{
 		return Ok(await Mediator.Send(new ListMemberHouseholds.Query(Member.Id)));
+	}
+
+	[HttpGet("list-recipe-tags")]
+	public async Task<IActionResult> ListRecipeTags()
+	{
+		return Ok(await Mediator.Send(new ListRecipeTags.Query(Member.Id, Member.ActiveHouseholdId)));
 	}
 
 	[HttpGet("list-shopping-lists")]

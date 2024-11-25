@@ -7,6 +7,7 @@ using Unshackled.Food.Core.Data.Entities;
 using Unshackled.Food.Core.Enums;
 using Unshackled.Food.My.Client.Features.Recipes.Models;
 using Unshackled.Food.My.Extensions;
+using Unshackled.Studio.Core.Client;
 using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Server.Extensions;
 
@@ -46,6 +47,7 @@ public class AddToCookbook
 				return new CommandResult(false, "Invalid recipe.");
 
 			RecipeEntity? recipe = await db.Recipes
+				.Include(x => x.Tags)
 				.AsNoTracking()
 				.Where(x => x.Id == recipeId)
 				.SingleOrDefaultAsync(cancellationToken);
@@ -64,7 +66,8 @@ public class AddToCookbook
 			{
 				RecipeId = recipeId,
 				CookbookId = cookbookId,
-				HouseholdId = recipe.HouseholdId
+				HouseholdId = recipe.HouseholdId,
+				MemberId = request.MemberId
 			});
 			await db.SaveChangesAsync(cancellationToken);
 

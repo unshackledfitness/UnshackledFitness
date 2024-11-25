@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using Unshackled.Food.Core.Models.Recipes;
+using Unshackled.Food.Core.Models;
 using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Food.My.Client.Features.ShoppingLists.Models;

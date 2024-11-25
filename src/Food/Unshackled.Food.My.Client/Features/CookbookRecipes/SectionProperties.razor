@@ -9,16 +9,6 @@
 		<MudText Typo="Typo.body1">@Recipe.Description</MudText>
 	}
 
-	@if (RecipeTags.Any())
-	{
-		<div Class="d-flex flex-row flex-wrap my-4">
-			@foreach (string tag in RecipeTags)
-			{
-				<MudChip T="string" Variant="Variant.Outlined">@tag</MudChip>
-			}
-		</div>
-	}
-
 	<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
 	<div class="flex-summary">
 		<div class="summary-item">

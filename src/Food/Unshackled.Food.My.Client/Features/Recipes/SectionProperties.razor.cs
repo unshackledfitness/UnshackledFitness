@@ -1,7 +1,7 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Food.Core.Models;
-using Unshackled.Food.My.Client.Extensions;
 using Unshackled.Food.My.Client.Features.Recipes.Actions;
 using Unshackled.Food.My.Client.Features.Recipes.Models;
 using Unshackled.Studio.Core.Client.Components;
@@ -19,74 +19,29 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	protected bool IsEditing { get; set; } = false;
 	protected bool IsSaving { get; set; }
 	protected FormRecipeModel Model { get; set; } = new();
-	public List<string> RecipeTags { get; set; } = new();
+	protected List<RecipeTagSelectItem> RecipeTags { get; set; } = [];
 
 	protected bool DisableControls => IsSaving;
 
-	protected override void OnParametersSet()
+	protected override async Task OnInitializedAsync()
 	{
-		base.OnParametersSet();
-		RecipeTags = Recipe.GetSelectedTags();
+		await base.OnInitializedAsync();
+		RecipeTags = await Mediator.Send(new ListRecipeTags.Query());
+		Console.WriteLine(JsonSerializer.Serialize(RecipeTags));
 	}
 
 	protected async Task HandleEditClicked()
 	{
 		Model = new()
 		{
-			Title = Recipe.Title,
-			Description = Recipe.Description,
 			CookTimeMinutes = Recipe.CookTimeMinutes,
+			Description = Recipe.Description,
+			HouseholdSid = Recipe.HouseholdSid,
 			PrepTimeMinutes = Recipe.PrepTimeMinutes,
-			TotalServings = Recipe.TotalServings,
 			Sid = Recipe.Sid,
-			IsAustralianCuisine = Recipe.IsAustralianCuisine,
-			IsCajunCreoleCuisine = Recipe.IsCajunCreoleCuisine,
-			IsCaribbeanCuisine = Recipe.IsCaribbeanCuisine,
-			IsCentralAfricanCuisine = Recipe.IsCentralAfricanCuisine,
-			IsCentralAmericanCuisine = Recipe.IsCentralAmericanCuisine,
-			IsCentralAsianCuisine = Recipe.IsCentralAsianCuisine,
-			IsCentralEuropeanCuisine = Recipe.IsCentralEuropeanCuisine,
-			IsChineseCuisine = Recipe.IsChineseCuisine,
-			IsEastAfricanCuisine = Recipe.IsEastAfricanCuisine,
-			IsEastAsianCuisine = Recipe.IsEastAsianCuisine,
-			IsEasternEuropeanCuisine = Recipe.IsEasternEuropeanCuisine,
-			IsFilipinoCuisine = Recipe.IsFilipinoCuisine,
-			IsFrenchCuisine = Recipe.IsFrenchCuisine,
-			IsFusionCuisine = Recipe.IsFusionCuisine,
-			IsGermanCuisine = Recipe.IsGermanCuisine,
-			IsGlutenFree = Recipe.IsGlutenFree,
-			IsGreekCuisine = Recipe.IsGreekCuisine,
-			IsIndianCuisine = Recipe.IsIndianCuisine,
-			IsIndonesianCuisine = Recipe.IsIndonesianCuisine,
-			IsItalianCuisine = Recipe.IsItalianCuisine,
-			IsJapaneseCuisine = Recipe.IsJapaneseCuisine,
-			IsKoreanCuisine = Recipe.IsKoreanCuisine,
-			IsMexicanCuisine = Recipe.IsMexicanCuisine,
-			IsNativeAmericanCuisine = Recipe.IsNativeAmericanCuisine,
-			IsNorthAfricanCuisine = Recipe.IsNorthAfricanCuisine,
-			IsNorthAmericanCuisine = Recipe.IsNorthAmericanCuisine,
-			IsNorthernEuropeanCuisine = Recipe.IsNorthernEuropeanCuisine,
-			IsNutFree = Recipe.IsNutFree,
-			IsOceanicCuisine = Recipe.IsOceanicCuisine,
-			IsPakistaniCuisine = Recipe.IsPakistaniCuisine,
-			IsPolishCuisine = Recipe.IsPolishCuisine,
-			IsPolynesianCuisine = Recipe.IsPolynesianCuisine,
-			IsRussianCuisine = Recipe.IsRussianCuisine,
-			IsSoulFoodCuisine = Recipe.IsSoulFoodCuisine,
-			IsSouthAfricanCuisine = Recipe.IsSouthAfricanCuisine,
-			IsSouthAmericanCuisine = Recipe.IsSouthAmericanCuisine,
-			IsSouthAsianCuisine = Recipe.IsSouthAsianCuisine,
-			IsSoutheastAsianCuisine = Recipe.IsSoutheastAsianCuisine,
-			IsSouthernEuropeanCuisine = Recipe.IsSouthernEuropeanCuisine,
-			IsSpanishCuisine = Recipe.IsSpanishCuisine,
-			IsTexMexCuisine = Recipe.IsTexMexCuisine,
-			IsThaiCuisine = Recipe.IsThaiCuisine,
-			IsVegan = Recipe.IsVegan,
-			IsVegetarian = Recipe.IsVegetarian,
-			IsVietnameseCuisine = Recipe.IsVietnameseCuisine,
-			IsWestAfricanCuisine = Recipe.IsWestAfricanCuisine,
-			IsWestAsianCuisine = Recipe.IsWestAsianCuisine,
-			IsWesternEuropeanCuisine = Recipe.IsWesternEuropeanCuisine
+			TagSids = Recipe.Tags.Select(x => x.Sid).ToList(),
+			Title = Recipe.Title,
+			TotalServings = Recipe.TotalServings
 		};
 
 		IsEditing = await UpdateIsEditingSection(true);

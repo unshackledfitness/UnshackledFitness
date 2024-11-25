@@ -8,10 +8,14 @@ namespace Unshackled.Food.My.Client.Features.CookbookRecipes;
 
 public partial class IndexBase : BaseSearchComponent<SearchRecipeModel, RecipeListModel, Member>
 {
+	protected List<RecipeTagSelectItem> RecipeTags { get; set; } = [];
+
 	protected override async Task OnInitializedAsync()
 	{
 		await base.OnInitializedAsync();
-		Breadcrumbs.Add(new BreadcrumbItem("Recipes", null, true));
+		Breadcrumbs.Add(new BreadcrumbItem("Cookbook Recipes", null, true));
+
+		RecipeTags = await Mediator.Send(new ListRecipeTags.Query());
 
 		SearchKey = "SearchCookbookRecipes";
 		SearchModel = await GetLocalSetting(SearchKey) ?? new();

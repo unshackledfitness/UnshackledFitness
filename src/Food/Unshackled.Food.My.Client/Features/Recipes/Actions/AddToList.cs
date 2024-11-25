@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Unshackled.Food.Core.Models.ShoppingLists;
+using Unshackled.Food.Core.Models;
 using Unshackled.Studio.Core.Client;
 using Unshackled.Studio.Core.Client.Models;
 

@@ -31,6 +31,10 @@ else
 			<MudItem xs="12">
 				<MudTextField Label="New Title" Variant="Variant.Outlined" Immediate="true" FullWidth="true" For="@(() => CopyModel.Title)" @bind-Value="@CopyModel.Title" />
 			</MudItem>
+			<MudItem xs="12">
+				<RecipeTagSelect Label="Tags" FullWidth="true" Margin="Margin.None" Tags="@RecipeTags" @bind-SelectedValues="CopyModel.TagKeys" />
+				<MudText Typo="Typo.caption">Selected tags that do not exist in the target household will be created.</MudText>
+			</MudItem>
 		</MudGrid>
 		<MudToolBar Gutters="false">
 			<MudSpacer />

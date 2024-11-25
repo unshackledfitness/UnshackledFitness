@@ -5,7 +5,7 @@ using Unshackled.Food.Core.Data;
 using Unshackled.Food.Core.Data.Entities;
 using Unshackled.Food.Core.Enums;
 using Unshackled.Food.Core.Extensions;
-using Unshackled.Food.Core.Models.Recipes;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.Core.Models.ShoppingLists;
 using Unshackled.Food.Core.Utils;
 using Unshackled.Studio.Core.Client;
@@ -139,7 +139,7 @@ public static class ShoppingListExtensions
 		}
 	}
 
-	public static async Task<List<AddToListModel>> GetRecipeItemsToAddToList(this FoodDbContext db, long memberId, SelectListModel selectModel)
+	public static async Task<List<AddToShoppingListModel>> GetRecipeItemsToAddToList(this FoodDbContext db, long memberId, SelectListModel selectModel)
 	{
 		long shoppingListId = selectModel.ListSid.DecodeLong();
 
@@ -187,7 +187,7 @@ public static class ShoppingListExtensions
 		if (!ingredients.Any())
 			return new();
 
-		List<AddToListModel> list = new();
+		List<AddToShoppingListModel> list = new();
 		foreach (var ingredient in ingredients)
 		{
 			if (ingredient.ProductId > 0) // Has substitution
@@ -198,7 +198,7 @@ public static class ShoppingListExtensions
 					ingredient.ServingSizeUnit, ingredient.ServingSizeN, ingredient.ServingSizeMetricUnit,
 					ingredient.ServingSizeMetricN, ingredient.ServingsPerContainer);
 
-				AddToListModel model = new()
+				AddToShoppingListModel model = new()
 				{
 					IngredientKey = ingredient.Key,
 					IngredientTitle = ingredient.Title,
@@ -216,7 +216,7 @@ public static class ShoppingListExtensions
 			else // No product substitution
 			{
 				decimal scaledAmount = ingredient.Amount * selectModel.Scale;
-				AddToListModel model = new()
+				AddToShoppingListModel model = new()
 				{
 					IngredientKey = ingredient.Key,
 					IngredientTitle = ingredient.Title,
