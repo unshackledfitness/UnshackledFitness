@@ -51,9 +51,9 @@ public static class ShoppingListExtensions
 
 						List<RecipeAmountListModel> recipeAmts = JsonSerializer.Deserialize<List<RecipeAmountListModel>>(
 							itemEntity.RecipeAmountsJson ?? string.Empty
-						) ?? new();
+						) ?? [];
 
-						recipeAmts.AddRequiredAmount(model.RecipeSid, item.RequiredAmount, model.RecipeTitle, item.RequiredAmountLabel);
+						recipeAmts.AddRequiredAmount(model.RecipeSid, item.RequiredAmount, item.PortionUsed, model.RecipeTitle, item.RequiredAmountLabel);
 
 						itemEntity.RecipeAmountsJson = JsonSerializer.Serialize(recipeAmts);
 					}
@@ -64,6 +64,7 @@ public static class ShoppingListExtensions
 								new()
 								{
 									Amount = item.RequiredAmount,
+									PortionUsed = item.PortionUsed,
 									RecipeSid = model.RecipeSid,
 									RecipeTitle = model.RecipeTitle,
 									UnitLabel = item.RequiredAmountLabel
@@ -111,6 +112,7 @@ public static class ShoppingListExtensions
 							new()
 							{
 								Amount = item.RequiredAmount,
+								PortionUsed = item.PortionUsed,
 								RecipeSid = model.RecipeSid,
 								RecipeTitle = model.RecipeTitle,
 								UnitLabel = item.RequiredAmountLabel
@@ -185,18 +187,35 @@ public static class ShoppingListExtensions
 				}).ToListAsync();
 
 		if (!ingredients.Any())
-			return new();
+			return [];
 
-		List<AddToShoppingListModel> list = new();
+		var currentListItems = await db.ShoppingListItems
+			.Where(x => x.ShoppingListId == shoppingListId)
+			.ToListAsync();
+
+		List<AddToShoppingListModel> list = [];
 		foreach (var ingredient in ingredients)
 		{
 			if (ingredient.ProductId > 0) // Has substitution
 			{
+				var currentProductInList = currentListItems
+					.Where(x => x.ProductId == ingredient.ProductId)
+					.SingleOrDefault();
+
+				int quantityInList = 0;
+				decimal portionsInList = 0M;
+				if (currentProductInList != null)
+				{
+					var recipeAmts = JsonSerializer.Deserialize<List<RecipeAmountListModel>>(currentProductInList.RecipeAmountsJson ?? string.Empty) ?? [];
+					quantityInList = currentProductInList.Quantity;
+					portionsInList = recipeAmts.Sum(x => x.PortionUsed);
+				}
+
 				decimal scaledAmountN = ingredient.AmountN * selectModel.Scale;
 
 				var result = FoodCalculator.ProductQuantityRequired(ingredient.AmountUnit, scaledAmountN,
 					ingredient.ServingSizeUnit, ingredient.ServingSizeN, ingredient.ServingSizeMetricUnit,
-					ingredient.ServingSizeMetricN, ingredient.ServingsPerContainer);
+					ingredient.ServingSizeMetricN, ingredient.ServingsPerContainer, portionsInList, quantityInList);
 
 				AddToShoppingListModel model = new()
 				{
@@ -204,26 +223,30 @@ public static class ShoppingListExtensions
 					IngredientTitle = ingredient.Title,
 					IsUnitMismatch = result.IsUnitMismatch,
 					ListSid = selectModel.ListSid,
+					PortionUsed = result.PortionUsed,
 					ProductSid = ingredient.ProductId.Encode(),
 					ProductTitle = $"{ingredient.ProductBrand} {ingredient.ProductTitle}".Trim(),
-					Quantity = result.Quantity,
-					QuantityInList = ingredient.Quantity,
+					Quantity = result.QuantityToAdd,
+					QuantityInList = quantityInList,
 					RequiredAmount = ingredient.Amount,
-					RequiredAmountLabel = ingredient.AmountLabel
+					RequiredAmountLabel = ingredient.AmountLabel,
+					RecipeAmountsJson = currentProductInList?.RecipeAmountsJson,
 				};
 				list.Add(model);
 			}
 			else // No product substitution
 			{
 				decimal scaledAmount = ingredient.Amount * selectModel.Scale;
+				int quantity = ingredient.AmountUnit == MeasurementUnits.Item ? (int)Math.Ceiling(scaledAmount) : 1;
 				AddToShoppingListModel model = new()
 				{
 					IngredientKey = ingredient.Key,
 					IngredientTitle = ingredient.Title,
 					ListSid = selectModel.ListSid,
+					PortionUsed = quantity,
 					ProductSid = string.Empty,
 					ProductTitle = ingredient.Title,
-					Quantity = ingredient.AmountUnit == MeasurementUnits.Item ? (int)Math.Ceiling(scaledAmount) : 1,
+					Quantity = quantity,
 					QuantityInList = 0,
 					RequiredAmount = scaledAmount,
 					RequiredAmountLabel = ingredient.AmountLabel

@@ -88,14 +88,16 @@ public static class FoodCalculator
 		MeasurementUnits ingredientUnit, decimal ingredientAmountN,
 		ServingSizeUnits servingSizeUnit, decimal servingSizeAmountN,
 		ServingSizeMetricUnits servingSizeMetricUnit, decimal servingSizeMetricAmountN,
-		decimal servingsPerContainer)
+		decimal servingsPerContainer, decimal portionsInList, int quantityInList)
 	{
 		ProductQuantityResult result = new();
 		// ingredient uses the generic item unit
 		if (ingredientUnit == MeasurementUnits.Item)
 		{
 			// Assume using full container replacement item:
-			result.Quantity = (int)Math.Ceiling(ingredientAmountN);
+			result.QuantityRequired = (int)Math.Ceiling(ingredientAmountN);
+			result.PortionUsed = result.QuantityRequired;
+			result.QuantityToAdd = result.QuantityRequired;
 		}
 		// ingredient uses a standard unit
 		else
@@ -105,7 +107,9 @@ public static class FoodCalculator
 			// No serving size info
 			if (containerSize <= 0)
 			{
-				result.Quantity = 1;
+				result.PortionUsed = 1;
+				result.QuantityRequired = 1;
+				result.QuantityToAdd = GetQuantityToAdd(result.QuantityRequired, quantityInList);
 				return result;
 			}
 
@@ -122,7 +126,10 @@ public static class FoodCalculator
 				(!ingredientUnit.IsVolume() && !servingSizeUnit.IsVolume()))
 			{
 				// Calculate number of products required to cover ingredient volume
-				result.Quantity = (int)Math.Ceiling(ingredientAmountN / containerSize);
+				result.PortionUsed = ingredientAmountN / containerSize;
+				decimal totalServingsNeeded = result.PortionUsed + portionsInList;
+
+				result.QuantityRequired = (int)Math.Ceiling(totalServingsNeeded);
 			}
 
 			// comparing an ingredient volume to a product weight OR an ingredient weight to a product volume, we can't calculate
@@ -130,8 +137,19 @@ public static class FoodCalculator
 			{
 				result.IsUnitMismatch = true;
 			}
+
+			// Determine quantity to add to list
+			result.QuantityToAdd = GetQuantityToAdd(result.QuantityRequired, quantityInList);
 		}
 
 		return result;
+	}
+
+	private static int GetQuantityToAdd(int quantityReq, int quantityInList)
+	{
+		int quantityToAdd = quantityReq - quantityInList;
+		if (quantityToAdd < 0)
+			quantityToAdd = 0;
+		return quantityToAdd;
 	}
 }

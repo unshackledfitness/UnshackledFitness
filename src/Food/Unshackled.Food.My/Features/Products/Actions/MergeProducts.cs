@@ -190,7 +190,7 @@ public class MergeProducts
 										List<RecipeAmountListModel> kRecipeAmts = JsonSerializer.Deserialize<List<RecipeAmountListModel>>(kItem.RecipeAmountsJson ?? string.Empty) ?? new();
 										foreach (var dra in dRecipeAmts)
 										{
-											kRecipeAmts.AddRequiredAmount(dra.RecipeSid, dra.Amount, dra.RecipeTitle, dra.UnitLabel);											
+											kRecipeAmts.AddRequiredAmount(dra.RecipeSid, dra.Amount, dra.PortionUsed, dra.RecipeTitle, dra.UnitLabel);											
 										}
 										kItem.RecipeAmountsJson = JsonSerializer.Serialize(kRecipeAmts);
 									}

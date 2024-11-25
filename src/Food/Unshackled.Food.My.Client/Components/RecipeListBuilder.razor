@@ -44,6 +44,20 @@
 							<MudText>@context.Item.TotalQuantity</MudText>
 						</CaptionedProperty>
 					</MudItem>
+					@if (context.Item.RecipeAmounts.Any())
+					{
+						<MudItem xs="12">
+							<div class="d-flex flex-column gap-1 mb-2">
+								<MudText Typo="Typo.body2">Other Recipe Requirements: </MudText>
+								@foreach (var amt in context.Item.RecipeAmounts)
+								{
+									<MudText Typo="Typo.body2">
+										<IngredientText Amount="@amt.Amount" AmountLabel="@amt.UnitLabel" Title="@amt.RecipeTitle" />
+									</MudText>
+								}
+							</div>
+						</MudItem>
+					}
 				</MudGrid>
 			</MudItem>
 		</MudGrid>
