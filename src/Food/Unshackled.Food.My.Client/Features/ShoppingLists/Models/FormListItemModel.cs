@@ -20,30 +20,8 @@ public class FormListItemModel : IGroupedSortable, ICloneable
 	public string? Description { get; set; }
 	public int Quantity { get; set; }
 	public bool IsInCart { get; set; }
-	public string? RecipeAmountsJson { get; set; }
 
-	[JsonIgnore]
-	private List<RecipeAmountListModel>? recipeAmts;
-
-	[JsonIgnore]
-	public List<RecipeAmountListModel> RecipeAmounts
-	{
-		get
-		{
-			if (recipeAmts == null)
-			{
-				if (!string.IsNullOrEmpty(RecipeAmountsJson))
-				{
-					recipeAmts = JsonSerializer.Deserialize<List<RecipeAmountListModel>>(RecipeAmountsJson) ?? new();
-				}
-				else
-				{
-					recipeAmts = new();
-				}
-			}
-			return recipeAmts;
-		}
-	}
+	public List<RecipeAmountListModel> RecipeAmounts { get; set; } = [];
 
 	[JsonIgnore]
 	public bool IsSaving { get; set; } = false;
@@ -66,7 +44,7 @@ public class FormListItemModel : IGroupedSortable, ICloneable
 			Quantity = Quantity,
 			IsInCart = IsInCart,
 			IsSaving = IsSaving,
-			RecipeAmountsJson = RecipeAmountsJson,
+			RecipeAmounts = RecipeAmounts,
 		};
 	}
 }

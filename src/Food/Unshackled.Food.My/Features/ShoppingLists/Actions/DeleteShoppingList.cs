@@ -49,6 +49,11 @@ public class DeleteShoppingList
 
 			try
 			{
+				// Remove recipe items on the list
+				await db.ShoppingListRecipeItems
+					.Where(x => x.ShoppingListId == shoppingList.Id)
+					.DeleteFromQueryAsync(cancellationToken);
+
 				// Remove items on the list
 				await db.ShoppingListItems
 					.Where(x => x.ShoppingListId == shoppingList.Id)

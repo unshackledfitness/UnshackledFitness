@@ -1,13 +1,10 @@
-﻿using System.Text.Json;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Food.Core;
 using Unshackled.Food.Core.Data;
 using Unshackled.Food.Core.Data.Entities;
 using Unshackled.Food.Core.Enums;
-using Unshackled.Food.Core.Extensions;
-using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Extensions;
 using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Server.Extensions;
@@ -104,7 +101,7 @@ public class MergeProducts
 								db.ProductSubstitutions.Add(kSub);
 							}
 						}
-						await db.SaveChangesAsync();
+						await db.SaveChangesAsync(cancellationToken);
 
 						/********************************************
 						 * Product Store Locations
@@ -141,7 +138,7 @@ public class MergeProducts
 								db.StoreProductLocations.Add(kLoc);
 							}
 						}
-						await db.SaveChangesAsync();
+						await db.SaveChangesAsync(cancellationToken);
 
 						/********************************************
 						 * Shopping List Items
@@ -174,29 +171,61 @@ public class MergeProducts
 									ProductId = keptProduct.Id,
 									Quantity = dItem.Quantity,
 									ShoppingListId = dItem.ShoppingListId,
-									RecipeAmountsJson = dItem.RecipeAmountsJson,
 								};
 								db.ShoppingListItems.Add(kItem);
 							}
 							else // In list
 							{
 								kItem.Quantity += dItem.Quantity;
-
-								if (!string.IsNullOrEmpty(dItem.RecipeAmountsJson))
-								{
-									List<RecipeAmountListModel> dRecipeAmts = JsonSerializer.Deserialize<List<RecipeAmountListModel>>(dItem.RecipeAmountsJson) ?? new();
-									if (dRecipeAmts.Count > 0)
-									{
-										List<RecipeAmountListModel> kRecipeAmts = JsonSerializer.Deserialize<List<RecipeAmountListModel>>(kItem.RecipeAmountsJson ?? string.Empty) ?? new();
-										foreach (var dra in dRecipeAmts)
-										{
-											kRecipeAmts.AddRequiredAmount(dra.RecipeSid, dra.Amount, dra.PortionUsed, dra.RecipeTitle, dra.UnitLabel);											
-										}
-										kItem.RecipeAmountsJson = JsonSerializer.Serialize(kRecipeAmts);
-									}
-								}
 							}
-							await db.SaveChangesAsync();
+							await db.SaveChangesAsync(cancellationToken);
+						}
+
+						keptItems = null;
+						deletingItems = null;
+
+						/********************************************
+						 * Shopping List Recipe Items
+						 * *****************************************/
+						var keptRecipeItems = await db.ShoppingListRecipeItems
+							.Where(x => x.ProductId == keptProduct.Id)
+							.ToListAsync(cancellationToken);
+
+						var deletingRecipeItems = await db.ShoppingListRecipeItems
+							.AsNoTracking()
+							.Where(x => x.ProductId == deletedProduct.Id)
+							.ToListAsync(cancellationToken);
+
+						// Delete old shopping list items
+						await db.ShoppingListRecipeItems
+							.Where(x => x.ProductId == deletedProduct.Id)
+							.DeleteFromQueryAsync(cancellationToken);
+
+						foreach (var dItem in deletingRecipeItems)
+						{
+							var kItem = keptRecipeItems.Where(x => x.ShoppingListId == dItem.ShoppingListId && x.RecipeId == dItem.RecipeId)
+								.SingleOrDefault();
+
+							if (kItem == null) // Not in list
+							{
+								kItem = new()
+								{
+									Amount = dItem.Amount,
+									IngredientKey = dItem.IngredientKey,
+									PortionUsed = dItem.PortionUsed,
+									ProductId = keptProduct.Id,
+									RecipeId = dItem.RecipeId,
+									ShoppingListId = dItem.ShoppingListId,
+									UnitLabel = dItem.UnitLabel
+								};
+								db.ShoppingListRecipeItems.Add(kItem);
+							}
+							else // In list
+							{
+								kItem.Amount += dItem.Amount;
+								kItem.PortionUsed += dItem.PortionUsed;
+							}
+							await db.SaveChangesAsync(cancellationToken);
 						}
 
 						/********************************************
@@ -207,13 +236,13 @@ public class MergeProducts
 
 						// Commit transaction if all commands succeed, transaction will auto-rollback
 						// when disposed if any command fails
-						await transaction.CommitAsync();
+						await transaction.CommitAsync(cancellationToken);
 
 						return new CommandResult(true, "Products successfully merged.");
 					}
 					catch
 					{
-						await transaction.RollbackAsync();
+						await transaction.RollbackAsync(cancellationToken);
 						return new CommandResult(false, "An error occurred while processing the merge.");
 					}
 				}

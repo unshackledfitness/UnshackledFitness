@@ -7,11 +7,11 @@ namespace Unshackled.Food.Core.Data.Entities;
 public class RecipeIngredientEntity : BaseHouseholdEntity
 {
 	public long RecipeId { get; set; }
-	public RecipeEntity? Recipe { get; set; }
+	public virtual RecipeEntity Recipe { get; set; } = default!;
 	public string Key { get; set; } = string.Empty;
 	public string Title { get; set; } = string.Empty;
 	public long ListGroupId { get; set; }
-	public virtual RecipeIngredientGroupEntity? ListGroup { get; set; }
+	public virtual RecipeIngredientGroupEntity ListGroup { get; set; } = default!;
 	public int SortOrder { get; set; }
 	public decimal Amount { get; set; }
 	public decimal AmountN { get; set; } // Amount in mg or ml

@@ -16,30 +16,8 @@ public class AddToShoppingListModel
 	public int QuantityInList { get; set; }
 	public decimal PortionUsed { get; set; }
 	public bool IsUnitMismatch { get; set; } = false;
-	public string? RecipeAmountsJson { get; set; }
 
-	[JsonIgnore]
-	private List<RecipeAmountListModel>? recipeAmts;
-
-	[JsonIgnore]
-	public List<RecipeAmountListModel> RecipeAmounts
-	{
-		get
-		{
-			if (recipeAmts == null)
-			{
-				if (!string.IsNullOrEmpty(RecipeAmountsJson))
-				{
-					recipeAmts = JsonSerializer.Deserialize<List<RecipeAmountListModel>>(RecipeAmountsJson) ?? [];
-				}
-				else
-				{
-					recipeAmts = [];
-				}
-			}
-			return recipeAmts;
-		}
-	}
+	public List<RecipeAmountListModel> RecipeAmounts { get; set; } = [];
 
 	[JsonIgnore]
 	public int TotalQuantity => Quantity + QuantityInList;

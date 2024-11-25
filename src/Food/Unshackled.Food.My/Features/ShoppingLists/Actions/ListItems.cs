@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Unshackled.Food.Core;
 using Unshackled.Food.Core.Data;
 using Unshackled.Food.Core.Enums;
+using Unshackled.Food.Core.Models;
 using Unshackled.Food.My.Client.Features.ShoppingLists.Models;
 using Unshackled.Food.My.Extensions;
 using Unshackled.Studio.Core.Server.Extensions;
@@ -32,31 +33,52 @@ public class ListItems
 		{
 			if (await db.HasShoppingListPermission(request.ShoppingListId, request.MemberId, PermissionLevels.Read))
 			{
-				return await (from i in db.ShoppingListItems
-							  join l in db.ShoppingLists on i.ShoppingListId equals l.Id
-							  join p in db.Products on i.ProductId equals p.Id
-							  join pl in db.StoreProductLocations on new { i.ProductId, l.StoreId } equals new { pl.ProductId, StoreId = (long?)pl.StoreId } into locations
-							  from pl in locations.DefaultIfEmpty()
-							  join sl in db.StoreLocations on pl.StoreLocationId equals sl.Id into storeLocations
-							  from sl in storeLocations.DefaultIfEmpty()
-							  where i.ShoppingListId == request.ShoppingListId
-							  select new FormListItemModel
-							  {
-								  Brand = p.Brand,
-								  Description = p.Description,
-								  IsInCart = i.IsInCart,
-								  ListGroupSid = pl != null ? pl.StoreLocationId.Encode() : FoodGlobals.UncategorizedKey,
-								  LocationSortOrder = sl != null ? sl.SortOrder : -1,
-								  ProductSid = p.Id.Encode(),
-								  Quantity = i.Quantity,
-								  RecipeAmountsJson = i.RecipeAmountsJson,
-								  ShoppingListSid = i.ShoppingListId.Encode(),
-								  SortOrder = pl != null ? pl.SortOrder : -1,
-								  StoreLocationSid = pl != null ? pl.StoreLocationId.Encode() : string.Empty,
-								  Title = p.Title
-							  }).ToListAsync();
+				var list = await (from i in db.ShoppingListItems
+								  join l in db.ShoppingLists on i.ShoppingListId equals l.Id
+								  join p in db.Products on i.ProductId equals p.Id
+								  join pl in db.StoreProductLocations on new { i.ProductId, l.StoreId } equals new { pl.ProductId, StoreId = (long?)pl.StoreId } into locations
+								  from pl in locations.DefaultIfEmpty()
+								  join sl in db.StoreLocations on pl.StoreLocationId equals sl.Id into storeLocations
+								  from sl in storeLocations.DefaultIfEmpty()
+								  where i.ShoppingListId == request.ShoppingListId
+								  select new FormListItemModel
+								  {
+									  Brand = p.Brand,
+									  Description = p.Description,
+									  IsInCart = i.IsInCart,
+									  ListGroupSid = pl != null ? pl.StoreLocationId.Encode() : FoodGlobals.UncategorizedKey,
+									  LocationSortOrder = sl != null ? sl.SortOrder : -1,
+									  ProductSid = p.Id.Encode(),
+									  Quantity = i.Quantity,
+									  ShoppingListSid = i.ShoppingListId.Encode(),
+									  SortOrder = pl != null ? pl.SortOrder : -1,
+									  StoreLocationSid = pl != null ? pl.StoreLocationId.Encode() : string.Empty,
+									  Title = p.Title
+								  }).ToListAsync(cancellationToken);
+
+				var recipeItems = await db.ShoppingListRecipeItems
+					.AsNoTracking()
+					.Include(x => x.Recipe)
+					.Where(x => x.ShoppingListId == request.ShoppingListId)
+					.Select(x => new RecipeAmountListModel
+					{
+						Amount = x.Amount,
+						PortionUsed = x.PortionUsed,
+						ProductSid = x.ProductId.Encode(),
+						RecipeSid = x.RecipeId.Encode(),
+						RecipeTitle = x.Recipe != null ? x.Recipe.Title : string.Empty,
+						UnitLabel = x.UnitLabel
+					})
+					.ToListAsync(cancellationToken);
+
+				foreach (var item in list)
+				{
+					item.RecipeAmounts = recipeItems.Where(x => x.ProductSid == item.ProductSid).ToList();
+				}
+
+				return list;
 			}
-			return new();
+			return [];
 		}
 	}
 }

@@ -58,10 +58,9 @@ public class DrawerAddRecipeBase : BaseSearchComponent<SearchRecipeModel, Recipe
 			return;
 
 		IsWorking = true;
-		var addedItems = Items.Where(x => x.Quantity > 0).ToList();
 		AddRecipeToListModel model = new()
 		{
-			List = addedItems,
+			List = Items,
 			RecipeSid = SelectedRecipe.Sid,
 			RecipeTitle = SelectedRecipe.Title,
 			ShoppingListSid = ShoppingList.Sid

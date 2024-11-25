@@ -1,10 +1,8 @@
-﻿using System.Text.Json;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Unshackled.Food.Core;
 using Unshackled.Food.Core.Data;
 using Unshackled.Food.Core.Data.Entities;
 using Unshackled.Food.Core.Enums;
-using Unshackled.Food.Core.Extensions;
 using Unshackled.Food.Core.Models;
 using Unshackled.Food.Core.Models.ShoppingLists;
 using Unshackled.Food.Core.Utils;
@@ -26,10 +24,20 @@ public static class ShoppingListExtensions
 		if (!await db.HasShoppingListPermission(shoppingListId, memberId, PermissionLevels.Write))
 			return new CommandResult(false, FoodGlobals.PermissionError);
 
+		long recipeId = model.RecipeSid.DecodeLong();
+
+		if (!await db.HasRecipePermission(recipeId, memberId, PermissionLevels.Read))
+			return new CommandResult(false, FoodGlobals.PermissionError);
+
 		long[] productIds = model.List.Select(x => x.ProductSid.DecodeLong()).ToList()
 				.Where(x => x > 0).ToArray();
+
 		var existingListItems = await db.ShoppingListItems
-			.Where(x => x.ShoppingListId == shoppingListId && productIds.Contains(x.ProductId))
+			.Where(x => x.ShoppingListId == shoppingListId)
+			.ToListAsync();
+
+		var existingRecipeItems = await db.ShoppingListRecipeItems
+			.Where(x => x.ShoppingListId == shoppingListId)
 			.ToListAsync();
 
 		using var transaction = await db.Database.BeginTransactionAsync();
@@ -41,45 +49,49 @@ public static class ShoppingListExtensions
 				long productId = item.ProductSid.DecodeLong();
 				if (productId > 0) // Product already exists
 				{
-					var itemEntity = existingListItems
-						.Where(x => x.ProductId == productId)
-						.SingleOrDefault();
-
-					if (itemEntity != null) // Already in list
+					if (item.Quantity > 0)
 					{
-						itemEntity.Quantity += item.Quantity;
+						var itemEntity = existingListItems
+							.Where(x => x.ProductId == productId)
+							.SingleOrDefault();
 
-						List<RecipeAmountListModel> recipeAmts = JsonSerializer.Deserialize<List<RecipeAmountListModel>>(
-							itemEntity.RecipeAmountsJson ?? string.Empty
-						) ?? [];
-
-						recipeAmts.AddRequiredAmount(model.RecipeSid, item.RequiredAmount, item.PortionUsed, model.RecipeTitle, item.RequiredAmountLabel);
-
-						itemEntity.RecipeAmountsJson = JsonSerializer.Serialize(recipeAmts);
-					}
-					else // Not in list
-					{
-						List<RecipeAmountListModel> recipeAmts = new()
+						if (itemEntity != null) // Already in list
+						{
+							itemEntity.Quantity += item.Quantity;
+						}
+						else // Not in list
+						{
+							itemEntity = new()
 							{
-								new()
-								{
-									Amount = item.RequiredAmount,
-									PortionUsed = item.PortionUsed,
-									RecipeSid = model.RecipeSid,
-									RecipeTitle = model.RecipeTitle,
-									UnitLabel = item.RequiredAmountLabel
-								}
+								ProductId = productId,
+								Quantity = item.Quantity,
+								ShoppingListId = shoppingListId
 							};
 
-						itemEntity = new()
+							db.ShoppingListItems.Add(itemEntity);
+						}
+					}
+
+					// Add or update item in recipe items list
+					var recipeItemEntity = existingRecipeItems.Where(x => x.ProductId == productId && x.RecipeId == recipeId).SingleOrDefault();
+					if (recipeItemEntity != null)
+					{
+						recipeItemEntity.Amount += item.RequiredAmount;
+						recipeItemEntity.PortionUsed += item.PortionUsed;
+					}
+					else
+					{
+						recipeItemEntity = new ShoppingListRecipeItemEntity
 						{
 							ProductId = productId,
-							Quantity = item.Quantity,
+							Amount = item.RequiredAmount,
+							IngredientKey = item.IngredientKey,
+							PortionUsed = item.PortionUsed,
+							RecipeId = recipeId,
 							ShoppingListId = shoppingListId,
-							RecipeAmountsJson = JsonSerializer.Serialize(recipeAmts)
+							UnitLabel = item.RequiredAmountLabel
 						};
-
-						db.ShoppingListItems.Add(itemEntity);
+						db.ShoppingListRecipeItems.Add(recipeItemEntity);
 					}
 
 					await db.SaveChangesAsync();
@@ -106,26 +118,30 @@ public static class ShoppingListExtensions
 					db.ProductSubstitutions.Add(sub);
 					await db.SaveChangesAsync();
 
-					// Add to list
-					List<RecipeAmountListModel> recipeAmts = new()
-						{
-							new()
-							{
-								Amount = item.RequiredAmount,
-								PortionUsed = item.PortionUsed,
-								RecipeSid = model.RecipeSid,
-								RecipeTitle = model.RecipeTitle,
-								UnitLabel = item.RequiredAmountLabel
-							}
-						};
-					ShoppingListItemEntity itemEntity = new()
+					if (item.Quantity > 0)
 					{
-						ProductId = qp.Id,
-						Quantity = item.Quantity,
+						// Add to list
+						ShoppingListItemEntity itemEntity = new()
+						{
+							ProductId = qp.Id,
+							Quantity = item.Quantity,
+							ShoppingListId = shoppingListId
+						};
+						db.ShoppingListItems.Add(itemEntity);
+					}
+
+					ShoppingListRecipeItemEntity recipeItemEntity = new()
+					{
+						ProductId = productId,
+						Amount = item.RequiredAmount,
+						IngredientKey = item.IngredientKey,
+						PortionUsed = item.PortionUsed,
+						RecipeId = recipeId,
 						ShoppingListId = shoppingListId,
-						RecipeAmountsJson = JsonSerializer.Serialize(recipeAmts)
+						UnitLabel = item.RequiredAmountLabel
 					};
-					db.ShoppingListItems.Add(itemEntity);
+					db.ShoppingListRecipeItems.Add(recipeItemEntity);
+
 					await db.SaveChangesAsync();
 				}
 			}
@@ -193,6 +209,20 @@ public static class ShoppingListExtensions
 			.Where(x => x.ShoppingListId == shoppingListId)
 			.ToListAsync();
 
+		var currentRecipeItems = await db.ShoppingListRecipeItems
+			.Include(x => x.Recipe)
+			.Where(x => x.ShoppingListId == shoppingListId)
+			.Select(x => new RecipeAmountListModel
+			{
+				Amount = x.Amount,
+				PortionUsed = x.PortionUsed,
+				ProductSid = x.ProductId.Encode(),
+				RecipeSid = x.RecipeId.Encode(),
+				RecipeTitle = x.Recipe != null ? x.Recipe.Title : string.Empty,
+				UnitLabel = x.UnitLabel
+			})
+			.ToListAsync();
+
 		List<AddToShoppingListModel> list = [];
 		foreach (var ingredient in ingredients)
 		{
@@ -206,9 +236,8 @@ public static class ShoppingListExtensions
 				decimal portionsInList = 0M;
 				if (currentProductInList != null)
 				{
-					var recipeAmts = JsonSerializer.Deserialize<List<RecipeAmountListModel>>(currentProductInList.RecipeAmountsJson ?? string.Empty) ?? [];
 					quantityInList = currentProductInList.Quantity;
-					portionsInList = recipeAmts.Sum(x => x.PortionUsed);
+					portionsInList = currentRecipeItems.Sum(x => x.PortionUsed);
 				}
 
 				decimal scaledAmountN = ingredient.AmountN * selectModel.Scale;
@@ -230,7 +259,7 @@ public static class ShoppingListExtensions
 					QuantityInList = quantityInList,
 					RequiredAmount = ingredient.Amount,
 					RequiredAmountLabel = ingredient.AmountLabel,
-					RecipeAmountsJson = currentProductInList?.RecipeAmountsJson,
+					RecipeAmounts = currentRecipeItems.Where(x => x.ProductSid == ingredient.ProductId.Encode()).ToList(),
 				};
 				list.Add(model);
 			}

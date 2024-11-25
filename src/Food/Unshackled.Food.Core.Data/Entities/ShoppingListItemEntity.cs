@@ -6,12 +6,11 @@ namespace Unshackled.Food.Core.Data.Entities;
 public class ShoppingListItemEntity
 {
 	public long ShoppingListId { get; set; }
-	public ShoppingListEntity ShoppingList { get; set; } = default!;
+	public virtual ShoppingListEntity ShoppingList { get; set; } = default!;
 	public long ProductId { get; set; }
 	public virtual ProductEntity Product { get; set; } = default!;
 	public int Quantity { get; set; }
 	public bool IsInCart { get; set; }
-	public string? RecipeAmountsJson { get; set; }
 
 	public class TypeConfiguration : IEntityTypeConfiguration<ShoppingListItemEntity>
 	{

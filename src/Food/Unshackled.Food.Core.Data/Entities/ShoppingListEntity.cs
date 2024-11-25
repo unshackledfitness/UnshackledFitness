@@ -9,7 +9,8 @@ public class ShoppingListEntity : BaseHouseholdEntity
 	public long? StoreId { get; set; }
 	public virtual StoreEntity? Store { get; set; }
 
-	public virtual List<ShoppingListItemEntity> Items { get; set; } = new();
+	public virtual List<ShoppingListItemEntity> Items { get; set; } = [];
+	public virtual List<ShoppingListRecipeItemEntity> RecipeItems { get; set; } = [];
 
 	public class TypeConfiguration : BaseHouseholdEntityTypeConfiguration<ShoppingListEntity>, IEntityTypeConfiguration<ShoppingListEntity>
 	{

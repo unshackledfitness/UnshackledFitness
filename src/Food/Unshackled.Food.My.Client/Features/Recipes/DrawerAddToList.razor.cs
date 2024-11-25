@@ -49,10 +49,9 @@ public class DrawerAddToListBase : BaseComponent<Member>
 	protected async Task HandleAddToListClicked()
 	{
 		IsWorking = true;
-		var addedItems = Items.Where(x => x.Quantity > 0).ToList();
 		AddRecipeToListModel model = new()
 		{
-			List = addedItems,
+			List = Items,
 			RecipeSid = Recipe.Sid,
 			RecipeTitle = Recipe.Title,
 			ShoppingListSid = SelectedShoppingListSid

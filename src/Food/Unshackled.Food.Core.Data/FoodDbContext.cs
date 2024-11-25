@@ -36,6 +36,7 @@ public class FoodDbContext : BaseDbContext
 	public DbSet<RecipeTagEntity> RecipeTags => Set<RecipeTagEntity>();
 	public DbSet<ShoppingListEntity> ShoppingLists => Set<ShoppingListEntity>();
 	public DbSet<ShoppingListItemEntity> ShoppingListItems => Set<ShoppingListItemEntity>();
+	public DbSet<ShoppingListRecipeItemEntity> ShoppingListRecipeItems => Set<ShoppingListRecipeItemEntity>();
 	public DbSet<StoreLocationEntity> StoreLocations => Set<StoreLocationEntity>();
 	public DbSet<StoreEntity> Stores => Set<StoreEntity>();
 	public DbSet<StoreProductLocationEntity> StoreProductLocations => Set<StoreProductLocationEntity>();
@@ -64,6 +65,7 @@ public class FoodDbContext : BaseDbContext
 		builder.ApplyConfiguration(new RecipeTagEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ShoppingListEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ShoppingListItemEntity.TypeConfiguration());
+		builder.ApplyConfiguration(new ShoppingListRecipeItemEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new StoreLocationEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new StoreEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new StoreProductLocationEntity.TypeConfiguration());
