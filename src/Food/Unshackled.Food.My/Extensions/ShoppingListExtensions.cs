@@ -132,7 +132,7 @@ public static class ShoppingListExtensions
 
 					ShoppingListRecipeItemEntity recipeItemEntity = new()
 					{
-						ProductId = productId,
+						ProductId = qp.Id,
 						Amount = item.RequiredAmount,
 						IngredientKey = item.IngredientKey,
 						PortionUsed = item.PortionUsed,
