@@ -1,17 +1,18 @@
 ﻿@inherits FormPropertiesBase
 
-<EditForm id="@FormId" Model="@Model" OnValidSubmit="HandleFormSubmitted">
-	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
+<MudForm id="@FormId" @ref="Form" Model="@Model" Validation="@(ModelValidator.ValidateValue)" ValidationDelay="0">
 	<MudGrid Spacing="2">
 		<MudItem xs="12">
 			<MudTextField Label="Title" Variant="Variant.Outlined" Disabled="@DisableControls"
 						  FullWidth="true" @bind-Value="@Model.Title" For="@(() => Model.Title)" />
 		</MudItem>
 		<MudItem xs="12">
-			<MuscleTypeSelect AllOption="false" MultiSelection="true" @bind-SelectedValues="@Model.Muscles" For="@(() => Model.FirstMuscleSelected)" Disabled="@DisableControls" />
+			<MuscleTypeSelect AllOption="false" MultiSelection="true" SelectedValues="@Model.Muscles" SelectedValuesChanged="@HandleMusclesChanged" @bind-Value="@Model.FirstMuscleSelected" 
+							  For="@(() => Model.FirstMuscleSelected)" Disabled="@DisableControls" />
 		</MudItem>
 		<MudItem xs="12">
-			<EquipmentTypeSelect AllOption="false" MultiSelection="true" @bind-SelectedValues="@Model.Equipment" For="@(() => Model.FirstEquipmentSelected)" Disabled="@DisableControls" />
+			<EquipmentTypeSelect AllOption="false" MultiSelection="true" SelectedValues="@Model.Equipment" SelectedValuesChanged="@HandleEquipmentChanged" @bind-Value="@Model.FirstEquipmentSelected" 
+								 For="@(() => Model.FirstEquipmentSelected)" Disabled="@DisableControls" />
 		</MudItem>
 		<MudItem xs="12">
 			<WorkoutSetTypeSelect Label="Default Set Type" @bind-Value="@Model.DefaultSetType" Disabled="@DisableControls" />
@@ -28,11 +29,11 @@
 		</MudItem>
 	</MudGrid>
 
-	@if (FormToolbar != null)
-	{
-		<MudToolBar Gutters="false" Class="mt-4">
-			@FormToolbar
-		</MudToolBar>
-	}
-</EditForm>
+	<MudToolBar Gutters="false" Class="mt-4">
+		<MudSpacer />
+		<ProgressButton Variant="Variant.Filled" Color="Color.Secondary" IsWorking="@IsWorking" WorkingText="Adding" OnClick="HandleAddClicked">Add</ProgressButton>
+		<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@HandleCancelClicked">Cancel</MudButton>
+		<MudSpacer />
+	</MudToolBar>
+</MudForm>
 

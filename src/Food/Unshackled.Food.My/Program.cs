@@ -12,6 +12,7 @@ using Unshackled.Food.My.Features;
 using Unshackled.Food.My.Middleware;
 using Unshackled.Food.My.Services;
 using Unshackled.Studio.Core.Client.Configuration;
+using Unshackled.Studio.Core.Client.Extensions;
 using Unshackled.Studio.Core.Client.Services;
 using Unshackled.Studio.Core.Data;
 using Unshackled.Studio.Core.Data.Entities;
@@ -76,6 +77,7 @@ builder.Services.ConfigureApplicationCookie(o =>
 	o.LogoutPath = "/account/logout";
 	o.ExpireTimeSpan = TimeSpan.FromDays(14);
 	o.SlidingExpiration = true;
+	o.Cookie.Name = siteConfig.SiteName?.RemoveNonAlphaNumeric() ?? "UnshackledFood";
 });
 
 builder.Services.Configure<DataProtectionTokenProviderOptions>(o => o.TokenLifespan = TimeSpan.FromHours(3));

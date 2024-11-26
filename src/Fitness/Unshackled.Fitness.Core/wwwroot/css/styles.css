@@ -463,13 +463,13 @@ html, body, #app {
   height: 100%;
 }
 
-.mud-dialog.dialog-grow div.outline-none > div:not(.fixed) .mud-dialog-content .mud-container {
+.mud-dialog.dialog-grow div.outline-none > div:not(.fixed) .mud-dialog-content > div, .mud-dialog.dialog-grow div.outline-none > div:not(.fixed) .mud-dialog-content .mud-container {
   height: 100%;
 }
 
 .mud-dialog.dialog-fill {
-  width: calc(100% - 2em);
-  max-height: calc(100vh - 2em);
+  width: calc(100%);
+  max-height: calc(100vh);
 }
 
 .mud-expansion-panels {

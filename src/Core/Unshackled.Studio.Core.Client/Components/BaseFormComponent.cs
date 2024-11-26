@@ -14,12 +14,12 @@ public class BaseFormComponent<T, TValidator> : ComponentBase where T : new() wh
 	protected bool IsSaving { get; set; } = false;
 	protected bool DisableControls => IsSaving || DisableFormControls;
 
-	protected async Task HandleCancelClicked()
+	protected async virtual Task HandleCancelClicked()
 	{
 		await OnCanceled.InvokeAsync();
 	}
 
-	protected async Task HandleFormSubmitted()
+	protected async virtual Task HandleFormSubmitted()
 	{
 		IsSaving = true;
 		await OnFormSubmitted.InvokeAsync(Model);

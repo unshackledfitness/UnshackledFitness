@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System.Text.Json.Serialization;
+using FluentValidation;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Studio.Core.Client.Models;
 
@@ -15,8 +16,12 @@ public class FormExerciseModel : BaseObject
 	public bool IsTrackingSplit { get; set; }
 
 	// Used for validation on multiselect
-	public MuscleTypes FirstMuscleSelected => Muscles.Any() ? Muscles.First() : MuscleTypes.Any;
-	public EquipmentTypes FirstEquipmentSelected => Equipment.Any() ? Equipment.First() : EquipmentTypes.Any;
+	[JsonIgnore]
+	public MuscleTypes FirstMuscleSelected { get; set; } = MuscleTypes.Any;
+
+	// Used for validation on multiselect
+	[JsonIgnore]
+	public EquipmentTypes FirstEquipmentSelected { get; set; } = EquipmentTypes.Any;
 
 	public class Validator : AbstractValidator<FormExerciseModel>
 	{
@@ -27,10 +32,35 @@ public class FormExerciseModel : BaseObject
 				.MaximumLength(255).WithMessage("Title must not exceed 255 characters.");
 
 			RuleFor(p => p.FirstMuscleSelected)
-				.Must(p => p != MuscleTypes.Any).WithMessage("At least one muscle must be selected.");
+				.Must((model, p) =>
+				{
+					Console.WriteLine($"FirstMuscleSelected: {(int)p}");
+					Console.WriteLine($"Muscles: {model.Muscles.Count()}");
+					if (model.Muscles.Count() == 0)
+					{
+						return false;
+					}
+					return true;
+				}).WithMessage("At least one muscle must be selected.");
 
 			RuleFor(p => p.FirstEquipmentSelected)
-				.Must(p => p != EquipmentTypes.Any).WithMessage("At least one equipment item must be selected.");
+				.Must((model, p) =>
+				{
+					if (model.Equipment.Count() == 0)
+					{
+						return false;
+					}
+					return true;
+				}).WithMessage("At least one equipment item must be selected.");
 		}
+
+		// Required function for handling validation of multiselection MudSelects
+		public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>
+		{
+			var result = await ValidateAsync(ValidationContext<FormExerciseModel>.CreateWithOptions((FormExerciseModel)model, x => x.IncludeProperties(propertyName)));
+			if (result.IsValid)
+				return Array.Empty<string>();
+			return result.Errors.Select(e => e.ErrorMessage);
+		};
 	}
 }
