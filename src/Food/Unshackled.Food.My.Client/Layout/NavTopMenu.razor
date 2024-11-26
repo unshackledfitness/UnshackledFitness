@@ -10,7 +10,7 @@
 		<MudDivider Class="my-2" />
 
 		<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block ml-4">@ActiveMember.ActiveCookbook.Title Menu</MudText>
-		<MudNavGroup Title="Cookbook" Icon="@Icons.Material.Filled.MenuBook" Expanded="true">
+		<MudNavGroup Title="Cookbook" Icon="@Icons.Material.Filled.MenuBook" Expanded="@isExpanded[menuCookbook]" ExpandedChanged="@((bool val) => HandleExpandedChanged(menuCookbook, val))">
 			<MudNavLink Href="/cookbook-recipes" Match="NavLinkMatch.Prefix">Recipes</MudNavLink>
 		</MudNavGroup>
 	}
@@ -20,12 +20,12 @@
 		<MudDivider Class="my-2" />
 
 		<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block ml-4">@ActiveMember.ActiveHousehold.Title Menu</MudText>
-		<MudNavGroup Title="Meal Prep" Icon="@Icons.Material.Filled.Dining" Expanded="true">
+		<MudNavGroup Title="Meal Prep" Icon="@Icons.Material.Filled.Dining" Expanded="@isExpanded[menuMealPrep]" ExpandedChanged="@((bool val) => HandleExpandedChanged(menuMealPrep, val))">
 			<MudNavLink Href="/recipes" Match="NavLinkMatch.Prefix">Recipes</MudNavLink>
 			<MudNavLink Href="/ingredients" Match="NavLinkMatch.Prefix">Ingredients</MudNavLink>
 			<MudNavLink Href="/recipe-tags" Match="NavLinkMatch.Prefix">Recipe Tags</MudNavLink>
 		</MudNavGroup>
-		<MudNavGroup Title="Shopping" Icon="@Icons.Material.Filled.ShoppingBag" Expanded="true">
+		<MudNavGroup Title="Shopping" Icon="@Icons.Material.Filled.ShoppingBag" Expanded="@isExpanded[menuShopping]" ExpandedChanged="@((bool val) => HandleExpandedChanged(menuShopping, val))">
 			<MudNavLink Href="/shopping-lists" Match="NavLinkMatch.Prefix">Shopping Lists</MudNavLink>
 			<MudNavLink Href="/products" Match="NavLinkMatch.Prefix">Products</MudNavLink>
 			<MudNavLink Href="/product-bundles" Match="NavLinkMatch.Prefix">Product Bundles</MudNavLink>
@@ -34,3 +34,33 @@
 		</MudNavGroup>
 	}
 </MudNavMenu>
+
+@code {
+	private const string menuCookbook = "MenuCookbookExpanded";
+	private const string menuMealPrep = "MenuMealPrepExpanded";
+	private const string menuShopping = "MenuShoppingExpanded";
+
+	private Dictionary<string, bool> isExpanded = new()
+	{
+		{menuCookbook, true},
+		{menuMealPrep, true},
+		{menuShopping, true}
+	};
+
+	protected override async Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
+
+		foreach (string key in isExpanded.Keys)
+		{
+			isExpanded[key] = await GetLocalBool(key) ?? true;
+		}
+	}
+
+	private async Task HandleExpandedChanged(string key, bool value)
+	{
+		isExpanded[key] = value;
+		await SaveLocalBool(key, value);
+	}
+
+}
