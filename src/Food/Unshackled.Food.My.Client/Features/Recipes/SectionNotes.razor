@@ -71,11 +71,11 @@
 		<SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
 			@if (DrawerView == Views.AddNote)
 			{
-				<DrawerNote Model="@CurrentFormModel" DisableFormControls="@DisableControls" IsAdding="true" OnFormSubmitted="@HandleAddFormSubmitted" OnCanceled="@HandleCancelClicked" />
+				<DrawerNote Model="@FormModel" DisableFormControls="@DisableControls" IsAdding="true" OnFormSubmitted="@HandleAddFormSubmitted" OnCanceled="@HandleCancelClicked" />
 			}
 			else if (DrawerView == Views.EditNote)
 			{
-				<DrawerNote Model="@CurrentFormModel" DisableFormControls="@DisableControls" IsAdding="false" OnFormSubmitted="@HandleEditFormSubmitted" OnDeleted="@HandleDeleteClicked" OnCanceled="@HandleCancelClicked" />
+				<DrawerNote Model="@FormModel" DisableFormControls="@DisableControls" IsAdding="false" OnFormSubmitted="@HandleEditFormSubmitted" OnDeleted="@HandleDeleteClicked" OnCanceled="@HandleCancelClicked" />
 			}
 		</SideDrawer>
 	</SectionComponent>

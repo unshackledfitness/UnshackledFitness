@@ -24,6 +24,7 @@ public class SectionNotesBase : BaseSectionComponent<Member>
 	protected List<FormNoteModel> FormNotes { get; set; } = new();
 	protected List<FormNoteModel> DeletedNotes { get; set; } = new();
 	protected FormNoteModel CurrentFormModel { get; set; } = new();
+	protected FormNoteModel FormModel { get; set; } = new();
 
 	protected bool IsWorking { get; set; } = false;
 	protected bool IsEditing { get; set; } = false;
@@ -40,7 +41,7 @@ public class SectionNotesBase : BaseSectionComponent<Member>
 
 	protected void HandleAddClicked()
 	{
-		CurrentFormModel = new()
+		FormModel = new()
 		{
 			RecipeSid = RecipeSid,
 		};
@@ -108,6 +109,7 @@ public class SectionNotesBase : BaseSectionComponent<Member>
 	protected void HandleEditItemClicked(FormNoteModel item)
 	{
 		CurrentFormModel = item;
+		FormModel = (FormNoteModel)item.Clone();
 		DrawerView = Views.EditNote;
 	}
 

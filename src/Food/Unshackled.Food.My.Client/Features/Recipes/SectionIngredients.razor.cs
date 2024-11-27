@@ -34,6 +34,7 @@ public class SectionIngredientsBase : BaseSectionComponent<Member>
 	protected List<FormIngredientGroupModel> DeletedHouseholds { get; set; } = new();
 	protected List<FormIngredientModel> DeletedIngredients { get; set; } = new();
 	protected FormIngredientModel CurrentFormModel { get; set; } = new();
+	protected FormIngredientModel FormModel { get; set; } = new();
 	protected FormBulkAddIngredientModel BulkAddFormModel { get; set; } = new();
 	protected bool IsWorking { get; set; } = false;
 	protected bool IsEditing { get; set; } = false;
@@ -60,7 +61,7 @@ public class SectionIngredientsBase : BaseSectionComponent<Member>
 
 	protected void HandleAddClicked()
 	{
-		CurrentFormModel = new()
+		FormModel = new()
 		{
 			RecipeSid = RecipeSid,
 			AmountUnit = MeasurementUnits.Item
@@ -147,35 +148,42 @@ public class SectionIngredientsBase : BaseSectionComponent<Member>
 		IsEditing = await UpdateIsEditingSection(true);
 	}
 
-	protected void HandleIngredientFormSubmitted(FormIngredientModel model)
-	{
-		IsWorking = true;
-		var result = IngredientUtils.ParseNumber(model.AmountText);
-		if (!string.IsNullOrEmpty(model.Sid)) // Update
-		{
-			CurrentFormModel.Amount = result.Amount;
-			CurrentFormModel.AmountText = model.AmountText;
-			CurrentFormModel.AmountUnit = model.AmountUnit;
-			CurrentFormModel.AmountLabel = model.AmountLabel;
-			CurrentFormModel.Title = model.Title;
-			CurrentFormModel.Key = model.Title.NormalizeKey();
-			CurrentFormModel.PrepNote = model.PrepNote;
-		}
-		else // Add
-		{
-			string gSid = FormGroups.LastOrDefault()?.Sid ?? Guid.NewGuid().ToString();
-			model.ListGroupSid = gSid;
-			model.Amount = result.Amount;
-			FormIngredients.Add(model);
-		}
-		IsWorking = false;
-		DrawerView = Views.None;
-	}
-
 	protected void HandleEditItemClicked(FormIngredientModel item)
 	{
 		DrawerView = Views.EditIngredient;
 		CurrentFormModel = item;
+		FormModel = (FormIngredientModel)item.Clone();
+	}
+
+	protected void HandleIngredientAddFormSubmitted(FormIngredientModel model)
+	{
+		IsWorking = true;
+
+		var result = IngredientUtils.ParseNumber(model.AmountText);
+		string gSid = FormGroups.LastOrDefault()?.Sid ?? Guid.NewGuid().ToString();
+		model.ListGroupSid = gSid;
+		model.Amount = result.Amount;
+		FormIngredients.Add(model);
+
+		IsWorking = false;
+		DrawerView = Views.None;
+	}
+
+	protected void HandleIngredientEditFormSubmitted(FormIngredientModel model)
+	{
+		IsWorking = true;
+
+		var result = IngredientUtils.ParseNumber(model.AmountText);
+		CurrentFormModel.Amount = result.Amount;
+		CurrentFormModel.AmountText = model.AmountText;
+		CurrentFormModel.AmountUnit = model.AmountUnit;
+		CurrentFormModel.AmountLabel = model.AmountLabel;
+		CurrentFormModel.Title = model.Title;
+		CurrentFormModel.Key = model.Title.NormalizeKey();
+		CurrentFormModel.PrepNote = model.PrepNote;
+
+		IsWorking = false;
+		DrawerView = Views.None;
 	}
 
 	protected void HandleIsSorting(bool isSorting)

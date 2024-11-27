@@ -26,7 +26,8 @@ public class SectionStepsBase : BaseSectionComponent<Member>
 
 	protected List<FormStepModel> FormSteps { get; set; } = new();
 	protected List<FormStepModel> DeletedSteps { get; set; } = new();
-	protected FormStepModel CurrentFormModel { get; set; } = new();
+	protected FormStepModel CurrentStepModel { get; set; } = new();
+	protected FormStepModel FormModel { get; set; } = new();
 	protected FormBulkAddStepModel BulkAddFormModel { get; set; } = new();
 
 	protected bool IsWorking { get; set; } = false;
@@ -45,7 +46,7 @@ public class SectionStepsBase : BaseSectionComponent<Member>
 
 	protected void HandleAddClicked()
 	{
-		CurrentFormModel = new()
+		FormModel = new()
 		{
 			RecipeSid = RecipeSid
 		};
@@ -123,11 +124,11 @@ public class SectionStepsBase : BaseSectionComponent<Member>
 
 	protected void HandleDeleteClicked()
 	{
-		FormSteps.Remove(CurrentFormModel);
+		FormSteps.Remove(CurrentStepModel);
 
-		if (!CurrentFormModel.IsNew)
+		if (!CurrentStepModel.IsNew)
 		{
-			DeletedSteps.Add(CurrentFormModel);
+			DeletedSteps.Add(CurrentStepModel);
 		}
 
 		// Adjust sort order for remaining sets
@@ -166,15 +167,16 @@ public class SectionStepsBase : BaseSectionComponent<Member>
 	protected void HandleEditFormSubmitted(FormStepModel model)
 	{
 		IsWorking = true;
-		CurrentFormModel.Instructions = model.Instructions;
-		CurrentFormModel.Ingredients = model.Ingredients;
+		CurrentStepModel.Instructions = model.Instructions;
+		CurrentStepModel.Ingredients = model.Ingredients;
 		IsWorking = false;
 		DrawerView = Views.None;
 	}
 
 	protected void HandleEditItemClicked(FormStepModel item)
 	{
-		CurrentFormModel = item;
+		CurrentStepModel = item;
+		FormModel = (FormStepModel)item.Clone();
 		DrawerView = Views.EditStep;
 	}
 

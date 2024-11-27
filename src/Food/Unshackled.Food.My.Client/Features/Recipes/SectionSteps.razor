@@ -95,11 +95,11 @@
 	<SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
 		@if (DrawerView == Views.AddStep)
 		{
-			<DrawerStep Model="@CurrentFormModel" Ingredients="@Ingredients" IsAdding="true" OnFormSubmitted="@HandleAddFormSubmitted" OnCanceled="@HandleCancelClicked" />
+			<DrawerStep Model="@FormModel" Ingredients="@Ingredients" IsAdding="true" OnFormSubmitted="@HandleAddFormSubmitted" OnCanceled="@HandleCancelClicked" />
 		}
 		else if (DrawerView == Views.EditStep)
 		{
-			<DrawerStep Model="@CurrentFormModel" Ingredients="@Ingredients" IsAdding="false" OnFormSubmitted="@HandleEditFormSubmitted" OnDeleted="@HandleDeleteClicked" OnCanceled="@HandleCancelClicked" />
+			<DrawerStep Model="@FormModel" Ingredients="@Ingredients" IsAdding="false" OnFormSubmitted="@HandleEditFormSubmitted" OnDeleted="@HandleDeleteClicked" OnCanceled="@HandleCancelClicked" />
 		}
 		else if (DrawerView == Views.BulkAdd)
 		{

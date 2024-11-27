@@ -144,10 +144,15 @@
 	</SectionComponent>	
 
 	<SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
-		@if(DrawerView == Views.AddIngredient || DrawerView == Views.EditIngredient)
+		@if (DrawerView == Views.AddIngredient)
 		{
-			<DrawerIngredient Model="@CurrentFormModel" DisableFormControls="@DisableControls" IsAdding="@(DrawerView == Views.AddIngredient)"
-							  OnFormSubmitted="@HandleIngredientFormSubmitted" OnDeleted="@HandleDeleteClicked" OnCanceled="@(() => HandleCancelClicked())" />
+			<DrawerIngredient Model="@FormModel" DisableFormControls="@DisableControls" IsAdding="true"
+							  OnFormSubmitted="@HandleIngredientAddFormSubmitted" OnCanceled="@(() => HandleCancelClicked())" />
+		}
+		else if (DrawerView == Views.EditIngredient)
+		{
+			<DrawerIngredient Model="@FormModel" DisableFormControls="@DisableControls" IsAdding="false"
+							  OnFormSubmitted="@HandleIngredientEditFormSubmitted" OnDeleted="@HandleDeleteClicked" OnCanceled="@(() => HandleCancelClicked())" />
 		}
 		else if (DrawerView == Views.BulkAdd)
 		{
