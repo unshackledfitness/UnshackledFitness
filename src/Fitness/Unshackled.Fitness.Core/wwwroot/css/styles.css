@@ -414,14 +414,38 @@ html, body, #app {
 }
 
 .dashboard-tile {
-  height: 110px;
-  width: 110px;
+  height: 120px;
+  width: 120px;
 }
 
 @media (min-width: 600px) {
   .dashboard-tile {
-    height: 130px;
-    width: 130px;
+    height: 150px;
+    width: 150px;
+  }
+}
+
+.dashboard-tile.dashboard-tile-sm {
+  height: 80px;
+  width: 80px;
+}
+
+@media (min-width: 600px) {
+  .dashboard-tile.dashboard-tile-sm {
+    height: 110px;
+    width: 110px;
+  }
+}
+
+.dashboard-tile.dashboard-tile-lg {
+  height: 170px;
+  width: 170px;
+}
+
+@media (min-width: 600px) {
+  .dashboard-tile.dashboard-tile-lg {
+    height: 200px;
+    width: 200px;
   }
 }
 

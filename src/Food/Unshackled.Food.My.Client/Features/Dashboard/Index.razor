@@ -12,56 +12,32 @@
 
 @if (string.IsNullOrEmpty(SelectedCategorySid))
 {
-	<MudGrid Spacing="3" Justify="Justify.Center">
+	<div class="d-flex flex-row flex-wrap gap-3 justify-center align-center mb-6">
 		@foreach (var category in PinnedCategories)
 		{
-			<MudItem xs="6" sm="4" md="3" lg="2">
-				<MudPaper Class="h-100">
-					<MudText Align="Align.Center" Typo="Typo.body1">
-						<MudLink OnClick="@(() => HandleCategoryClicked(category.Sid))">@category.Title</MudLink>
-					</MudText>
-				</MudPaper>
-			</MudItem>
+			<DashboardTile OnClick="@(() => HandleCategoryClicked(category.Sid))" Title="@category.Title" Size="Size.Large" />
 		}
-	</MudGrid>
+	</div>
 }
 else 
 {
-	<MudGrid Spacing="3" Justify="Justify.Center">
-		<MudItem xs="6" sm="4" md="3" lg="2">
-			<MudPaper Class="h-100">
-				<MudLink Class="d-flex flex-row gap-2 align-center" OnClick="@(() => HandleCategoryClearClicked())">
-					<MudIcon Icon="@Icons.Material.Filled.ArrowBack" />
-					<MudText Typo="Typo.body1">Back</MudText>
-				</MudLink>
-			</MudPaper>
-		</MudItem>
+	<div class="d-flex flex-row flex-wrap gap-3 justify-center align-center mb-6">
+		<DashboardTile OnClick="@(() => HandleCategoryClearClicked())" Icon="@Icons.Material.Filled.ArrowBack" Title="Back" Size="Size.Large" />
 		@foreach (var item in FilteredProducts)
 		{
-			<MudItem xs="6" sm="4" md="3" lg="2">
-				<MudPaper Class="h-100">
-					@if (!string.IsNullOrEmpty(item.Brand))
-					{
-						<MudText Typo="Typo.body2" Align="Align.Center">@item.Brand</MudText>
-					}
-					<MudText Typo="Typo.body1" Align="Align.Center" Color="Color.Primary">
-						@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
-						{
-							<MudLink OnClick="@(() => HandleAddToListClicked(item.Sid))">@item.Title</MudLink>
-						}
-						else 
-						{
-							<text>@item.Title</text>
-						}
-					</MudText>
-					@if (!string.IsNullOrEmpty(item.Description))
-					{
-						<MudText Typo="Typo.caption" Color="Color.Tertiary" Align="Align.Center">@item.Description</MudText>
-					}
-				</MudPaper>
-			</MudItem>
+			<DashboardTile OnClick="@(() => HandleAddToListClicked(item.Sid))" Size="Size.Large">
+				@if (!string.IsNullOrEmpty(item.Brand))
+				{
+					<MudText Typo="Typo.body2" Align="Align.Center" Color="Color.Tertiary">@item.Brand</MudText>
+				}
+				<MudText Typo="Typo.body1" Align="Align.Center" Color="Color.Primary">@item.Title</MudText>
+				@if (!string.IsNullOrEmpty(item.Description))
+				{
+					<MudText Typo="Typo.caption" Color="Color.Tertiary" Align="Align.Center">@item.Description</MudText>
+				}
+			</DashboardTile>
 		}
-	</MudGrid>
+	</div>
 }
 
 <SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">

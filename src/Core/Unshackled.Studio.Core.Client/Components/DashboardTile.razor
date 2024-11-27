@@ -1,7 +1,19 @@
-﻿<MudPaper Class="d-flex flex-column align-center justify-center dashboard-tile">
-	<MudLink Href="@Href" Class="d-block d-flex flex-column align-center" Target="@Target" Style="text-decoration: none;">
-		<MudIcon Icon="@Icon" Class="mb-2" Size="Size.Large" />
-		<MudText Align="Align.Center">@Title</MudText>
+﻿@using MudBlazor.Utilities
+
+<MudPaper Class="@CssClass">
+	<MudLink Href="@Href" Class="d-block d-flex flex-column align-center" Target="@Target" Style="text-decoration: none;" OnClick="@HandleClicked">
+		@if (!string.IsNullOrEmpty(Icon))
+		{
+			<MudIcon Icon="@Icon" Class="mb-2" Size="Size.Large" />
+		}
+		@if (ChildContent == null)
+		{
+			<MudText Align="Align.Center">@Title</MudText>
+		}
+		else
+		{
+			@ChildContent
+		}
 	</MudLink>
 </MudPaper>
 
@@ -10,4 +22,19 @@
 	[Parameter] public string Icon { get; set; } = string.Empty;
 	[Parameter] public string Href { get; set; } = string.Empty;
 	[Parameter] public string Target { get; set; } = string.Empty;
+	[Parameter] public Size Size { get; set; } = Size.Medium;
+	[Parameter] public EventCallback OnClick { get; set; }
+	[Parameter] public RenderFragment? ChildContent { get; set; }
+	[Parameter] public string? Class { get; set; }
+
+	private string CssClass => new CssBuilder("d-flex flex-column align-center justify-center dashboard-tile")
+		.AddClass(Size == Size.Large ? "dashboard-tile-lg" : string.Empty)
+		.AddClass(Size == Size.Small ? "dashboard-tile-lg" : string.Empty)
+		.AddClass(Class)
+		.Build();
+
+	private async Task HandleClicked(MouseEventArgs e) {
+		if (OnClick.HasDelegate)
+			await OnClick.InvokeAsync();
+	}
 }

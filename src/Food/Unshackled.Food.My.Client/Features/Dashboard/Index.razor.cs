@@ -1,5 +1,7 @@
 ﻿using Unshackled.Food.Core;
+using Unshackled.Food.Core.Enums;
 using Unshackled.Food.Core.Models;
+using Unshackled.Food.My.Client.Extensions;
 using Unshackled.Food.My.Client.Features.Dashboard.Actions;
 using Unshackled.Food.My.Client.Features.Dashboard.Models;
 using Unshackled.Studio.Core.Client.Components;
@@ -56,8 +58,11 @@ public class IndexBase : BaseComponent<Member>
 
 	protected void HandleAddToListClicked(string productSid)
 	{
-		SelectedProductSid = productSid;
-		DrawerView = Views.AddToList;
+		if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+		{
+			SelectedProductSid = productSid;
+			DrawerView = Views.AddToList;
+		}
 	}
 
 	protected async void HandleAddToListSubmitted(AddToListModel model)

@@ -27,7 +27,6 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	{
 		await base.OnInitializedAsync();
 		RecipeTags = await Mediator.Send(new ListRecipeTags.Query());
-		Console.WriteLine(JsonSerializer.Serialize(RecipeTags));
 	}
 
 	protected async Task HandleEditClicked()

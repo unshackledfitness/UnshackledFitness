@@ -6,8 +6,8 @@
 					@bind-Value="@Model.BulkText" For="@(() => Model.BulkText)" />
 	<MudToolBar Gutters="false" Class="mt-3">
 		<MudSpacer />
-		<MudButton Color="Color.Primary" ButtonType="ButtonType.Submit" Disabled="@DisableControls">Add</MudButton>
-		<MudButton Disabled="@DisableControls" OnClick="@(() => HandleCancelClicked())">Cancel</MudButton>
+		<MudButton Variant="Variant.Filled" Color="Color.Secondary" ButtonType="ButtonType.Submit" Disabled="@DisableControls">Add</MudButton>
+		<MudButton Variant="Variant.Outlined" Color="Color.Secondary"  Disabled="@DisableControls" OnClick="@(() => HandleCancelClicked())">Cancel</MudButton>
 		<MudSpacer />
 	</MudToolBar>
 </EditForm>
