@@ -29,9 +29,11 @@
 
 			<MudText Typo="Typo.h6" Class="mb-4">Delete Household and Data</MudText>
 
-			<MudText>Deleting a household deletes all the data contained within it and cannot be undone.</MudText>
+			<MudText Class="mb-4">Deleting a household deletes all the data contained within it and cannot be undone.</MudText>
 
-			<MudText>This includes all recipes, products, shopping lists, and stores. Any recipes that have been shared to cookbooks will also be removed from those cookbooks.</MudText>
+			<MudText Typo="Typo.body2" Class="ms-2 mb-4">- This includes all recipes, products, shopping lists, and stores.</MudText>
+
+			<MudText Typo="Typo.body2" Class="ms-2 mb-4">- Any recipes that have been shared to cookbooks will also be removed from those cookbooks.</MudText>
 
 			<MudText Class="mb-4">
 				Use the button below if you want to continue to delete this household.
@@ -53,7 +55,7 @@
 				<MudTextField Variant="Variant.Outlined" Error="true" Disabled="@(!IsDeleteConfirmed)" @bind-Value="@DeleteVerification" Immediate="true" />
 
 				<MudToolBar Gutters="false" Class="mt-2">
-					<MudButton Variant="Variant.Filled" Color="Color.Error" Disabled="@(!IsDeleteVerified())" OnClick="@(() => HandleDeleteClicked())">Delete</MudButton>
+					<MudButton Variant="Variant.Filled" Color="Color.Error" Disabled="@(!IsDeleteVerified())" OnClick="@(() => HandleDeleteConfirmClicked())">Delete</MudButton>
 					<MudButton Variant="Variant.Outlined" Color="Color.Error" OnClick="@(() => HandleDeleteCancelClicked())">Cancel</MudButton>
 				</MudToolBar>
 			</MudAlert>

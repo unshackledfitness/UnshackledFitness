@@ -37,6 +37,23 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 		IsConfirmingDelete = false;
 	}
 
+	protected async Task HandleDeleteConfirmClicked()
+	{
+		if (IsDeleteVerified())
+		{
+			IsSaving = true;
+
+			var result = await Mediator.Send(new DeleteCookbook.Command(Cookbook.Sid));
+			ShowNotification(result);
+			if (result.Success)
+			{
+				NavManager.NavigateTo("/cookbooks");
+			}
+			IsSaving = false;
+			IsDeleting = await UpdateIsEditingSection(false);
+		}
+	}
+
 	protected async Task HandleEditClicked()
 	{
 		Model = new()

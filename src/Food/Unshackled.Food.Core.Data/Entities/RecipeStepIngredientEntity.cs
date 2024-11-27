@@ -6,9 +6,9 @@ namespace Unshackled.Food.Core.Data.Entities;
 public class RecipeStepIngredientEntity
 {
 	public long RecipeStepId { get; set; }
-	public RecipeStepEntity? RecipeStep { get; set; }
+	public RecipeStepEntity RecipeStep { get; set; } = default!;
 	public long RecipeIngredientId { get; set; }
-	public RecipeIngredientEntity? RecipeIngredient { get; set; }
+	public RecipeIngredientEntity RecipeIngredient { get; set; } = default!;
 	public long RecipeId { get; set; }
 	public RecipeEntity? Recipe { get; set; }
 

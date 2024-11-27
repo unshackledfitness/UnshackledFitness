@@ -29,7 +29,11 @@
 
 			<MudText Typo="Typo.h6" Class="mb-4">Delete Cookbook and Data</MudText>
 
-			<MudText>Deleting a cookbook deletes all the data contained within it and cannot be undone.</MudText>
+			<MudText Class="mb-4">Deleting a cookbook cannot be undone.</MudText>
+
+			<MudText Typo="Typo.body2" Class="ms-2 mb-4">- This will remove all recipes, members, and invites.</MudText>
+
+			<MudText Typo="Typo.body2" Class="ms-2 mb-4">- Recipes will NOT be deleted from their original households.</MudText>
 
 			<MudText Class="mb-4">
 				Use the button below if you want to continue to delete this cookbook.
@@ -51,7 +55,7 @@
 				<MudTextField Variant="Variant.Outlined" Error="true" Disabled="@(!IsDeleteConfirmed)" @bind-Value="@DeleteVerification" Immediate="true" />
 
 				<MudToolBar Gutters="false" Class="mt-2">
-					<MudButton Variant="Variant.Filled" Color="Color.Error" Disabled="@(!IsDeleteVerified())" OnClick="@(() => HandleDeleteClicked())">Delete</MudButton>
+					<MudButton Variant="Variant.Filled" Color="Color.Error" Disabled="@(!IsDeleteVerified())" OnClick="@(() => HandleDeleteConfirmClicked())">Delete</MudButton>
 					<MudButton Variant="Variant.Outlined" Color="Color.Error" OnClick="@(() => HandleDeleteCancelClicked())">Cancel</MudButton>
 				</MudToolBar>
 			</MudAlert>

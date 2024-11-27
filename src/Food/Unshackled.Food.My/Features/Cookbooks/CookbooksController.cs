@@ -17,6 +17,13 @@ public class CookbooksController : BaseController
 		return Ok(await Mediator.Send(new AddCookbook.Command(Member.Id, hasActive, model)));
 	}
 
+	[HttpPost("delete")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> Delete([FromBody] string sid)
+	{
+		return Ok(await Mediator.Send(new DeleteCookbook.Command(Member.Id, sid)));
+	}
+
 	[HttpPost("delete-from/{sid}")]
 	[DecodeId]
 	[ActiveMemberRequired]
