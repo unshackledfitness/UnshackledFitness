@@ -8,6 +8,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\Core\Unshackled.Studio.Core.Server\Unshackled.Studio.Core.Server.csproj" />
 		<ProjectReference Include="..\Unshackled.Food.Core.Data\Unshackled.Food.Core.Data.csproj" />
 		<ProjectReference Include="..\Unshackled.Food.Core\Unshackled.Food.Core.csproj" />
 		<ProjectReference Include="..\Unshackled.Food.My.Client\Unshackled.Food.My.Client.csproj" />
