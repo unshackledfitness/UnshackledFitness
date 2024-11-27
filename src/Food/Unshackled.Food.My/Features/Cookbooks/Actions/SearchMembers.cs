@@ -18,9 +18,9 @@ public class SearchMembers
 		public long MemberId { get; private set; }
 		public MemberSearchModel Model { get; private set; }
 
-		public Query(long memberId, long groupId, MemberSearchModel model)
+		public Query(long memberId, long cookbookId, MemberSearchModel model)
 		{
-			CookbookId = groupId;
+			CookbookId = cookbookId;
 			MemberId = memberId;
 			Model = model;
 		}

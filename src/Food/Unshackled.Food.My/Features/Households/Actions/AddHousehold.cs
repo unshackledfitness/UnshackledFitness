@@ -37,23 +37,23 @@ public class AddHousehold
 
 			try
 			{
-				// Create new group
-				HouseholdEntity group = new()
+				// Create new household
+				HouseholdEntity household = new()
 				{
 					MemberId = request.MemberId,
 					Title = request.Model.Title.Trim()
 				};
-				db.Households.Add(group);
-				await db.SaveChangesAsync();
+				db.Households.Add(household);
+				await db.SaveChangesAsync(cancellationToken);
 
-				// Add member to group as Admin
-				HouseholdMemberEntity groupMember = new()
+				// Add member to household as Admin
+				HouseholdMemberEntity householdMember = new()
 				{
-					HouseholdId = group.Id,
+					HouseholdId = household.Id,
 					MemberId = request.MemberId,
 					PermissionLevel = PermissionLevels.Admin
 				};
-				db.HouseholdMembers.Add(groupMember);
+				db.HouseholdMembers.Add(householdMember);
 				await db.SaveChangesAsync(cancellationToken);
 
 				if(!request.HasActive)
@@ -62,14 +62,14 @@ public class AddHousehold
 					{
 						MemberId = request.MemberId,
 						MetaKey = FoodGlobals.MetaKeys.ActiveHouseholdId,
-						MetaValue = group.Id.ToString()
+						MetaValue = household.Id.ToString()
 					});
-					await db.SaveChangesAsync();
+					await db.SaveChangesAsync(cancellationToken);
 				}
 
 				await transaction.CommitAsync(cancellationToken);
 
-				return new CommandResult<HouseholdListModel>(true, "Household added.", mapper.Map<HouseholdListModel>(group));
+				return new CommandResult<HouseholdListModel>(true, "Household added.", mapper.Map<HouseholdListModel>(household));
 			}
 			catch
 			{

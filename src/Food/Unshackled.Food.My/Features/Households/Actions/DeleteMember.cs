@@ -18,11 +18,11 @@ public class DeleteMember
 		public string HouseholdMemberSid { get; private set; }
 		public long HouseholdId { get; private set; }
 
-		public Command(long adminMemberId, string groupMemberId, long groupId)
+		public Command(long adminMemberId, string householdMemberId, long householdId)
 		{
 			AdminMemberId = adminMemberId;
-			HouseholdMemberSid = groupMemberId;
-			HouseholdId = groupId;
+			HouseholdMemberSid = householdMemberId;
+			HouseholdId = householdId;
 		}
 	}
 
@@ -33,37 +33,37 @@ public class DeleteMember
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
 			if (request.HouseholdId == 0)
-				return new CommandResult(false, "Invalid group ID.");
+				return new CommandResult(false, "Invalid household ID.");
 
 			if (!await db.HasHouseholdPermission(request.HouseholdId, request.AdminMemberId, PermissionLevels.Admin))
 				return new CommandResult(false, FoodGlobals.PermissionError);
 
 			long memberId = request.HouseholdMemberSid.DecodeLong();
 			if (memberId == 0)
-				return new CommandResult(false, "Invalid group member ID.");
+				return new CommandResult(false, "Invalid household member ID.");
 
 			if (await db.Households
 				.Where(x => x.Id == request.HouseholdId && x.MemberId == memberId)
-				.AnyAsync())
-				return new CommandResult(false, "The group owner cannot be removed.");
+				.AnyAsync(cancellationToken))
+				return new CommandResult(false, "The household owner cannot be removed.");
 
-			var groupMember = await db.HouseholdMembers
+			var householdMember = await db.HouseholdMembers
 				.Where(x => x.HouseholdId == request.HouseholdId && x.MemberId == memberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
-			if (groupMember == null)
-				return new CommandResult(false, "Invalid group member.");
+			if (householdMember == null)
+				return new CommandResult(false, "Invalid household member.");
 
-			// if active group for member in any app, remove it
+			// if active household for member in any app, remove it
 			await db.MemberMeta
 				.Where(x => x.Id == memberId && x.MetaKey == FoodGlobals.MetaKeys.ActiveHouseholdId && x.MetaValue == request.HouseholdId.ToString())
-				.DeleteFromQueryAsync();
+				.DeleteFromQueryAsync(cancellationToken);
 						
 			// Remove membership
-			db.HouseholdMembers.Remove(groupMember);
-			await db.SaveChangesAsync();
+			db.HouseholdMembers.Remove(householdMember);
+			await db.SaveChangesAsync(cancellationToken);
 
-			return new CommandResult(true, "Member has been removed from the group.");
+			return new CommandResult(true, "Member has been removed from the household.");
 		}
 	}
 }

@@ -19,10 +19,10 @@ public class AddInvite
 		public long CookbookId { get; private set; }
 		public FormAddInviteModel Model { get; private set; }
 
-		public Command(long memberId, long groupId, FormAddInviteModel model)
+		public Command(long memberId, long cookbookId, FormAddInviteModel model)
 		{
 			MemberId = memberId;
-			CookbookId = groupId;
+			CookbookId = cookbookId;
 			Model = model;
 		}
 	}
@@ -34,7 +34,7 @@ public class AddInvite
 		public async Task<CommandResult<InviteListModel>> Handle(Command request, CancellationToken cancellationToken)
 		{
 			if (request.CookbookId == 0)
-				return new CommandResult<InviteListModel>(false, "Invalid group ID.");
+				return new CommandResult<InviteListModel>(false, "Invalid cookbook ID.");
 
 			if (!await db.HasCookbookPermission(request.CookbookId, request.MemberId, PermissionLevels.Admin))
 				return new CommandResult<InviteListModel>(false, FoodGlobals.PermissionError);
@@ -48,9 +48,9 @@ public class AddInvite
 				.Include(x => x.Member)
 				.Where(x => x.Id == request.CookbookId && x.Member.Email == request.Model.Email)
 				.AnyAsync())
-				return new CommandResult<InviteListModel>(false, "Email address is already in group.");
+				return new CommandResult<InviteListModel>(false, "Email address is already in cookbook.");
 
-			// Create new group invite
+			// Create new cookbook invite
 			CookbookInviteEntity invite = new()
 			{
 				CookbookId = request.CookbookId,
@@ -58,7 +58,7 @@ public class AddInvite
 				Permissions = request.Model.Permissions,
 			};
 			db.CookbookInvites.Add(invite);
-			await db.SaveChangesAsync();
+			await db.SaveChangesAsync(cancellationToken);
 
 			return new CommandResult<InviteListModel>(true, "Invite sent.", mapper.Map<InviteListModel>(invite));
 		}

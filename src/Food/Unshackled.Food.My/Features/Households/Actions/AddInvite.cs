@@ -19,10 +19,10 @@ public class AddInvite
 		public long HouseholdId { get; private set; }
 		public FormAddInviteModel Model { get; private set; }
 
-		public Command(long memberId, long groupId, FormAddInviteModel model)
+		public Command(long memberId, long householdId, FormAddInviteModel model)
 		{
 			MemberId = memberId;
-			HouseholdId = groupId;
+			HouseholdId = householdId;
 			Model = model;
 		}
 	}
@@ -34,23 +34,23 @@ public class AddInvite
 		public async Task<CommandResult<InviteListModel>> Handle(Command request, CancellationToken cancellationToken)
 		{
 			if (request.HouseholdId == 0)
-				return new CommandResult<InviteListModel>(false, "Invalid group ID.");
+				return new CommandResult<InviteListModel>(false, "Invalid household ID.");
 
 			if (!await db.HasHouseholdPermission(request.HouseholdId, request.MemberId, PermissionLevels.Admin))
 				return new CommandResult<InviteListModel>(false, FoodGlobals.PermissionError);
 
 			if (await db.HouseholdInvites
 				.Where(x => x.HouseholdId == request.HouseholdId && x.Email == request.Model.Email)
-				.AnyAsync())
+				.AnyAsync(cancellationToken))
 				return new CommandResult<InviteListModel>(false, "Email address has already been invited.");
 
 			if (await db.Households
 				.Include(x => x.Member)
 				.Where(x => x.Id == request.HouseholdId && x.Member.Email == request.Model.Email)
-				.AnyAsync())
-				return new CommandResult<InviteListModel>(false, "Email address is already in group.");
+				.AnyAsync(cancellationToken))
+				return new CommandResult<InviteListModel>(false, "Email address is already in household.");
 
-			// Create new group invite
+			// Create new household invite
 			HouseholdInviteEntity invite = new()
 			{
 				HouseholdId = request.HouseholdId,
@@ -58,7 +58,7 @@ public class AddInvite
 				Permissions = request.Model.Permissions,
 			};
 			db.HouseholdInvites.Add(invite);
-			await db.SaveChangesAsync();
+			await db.SaveChangesAsync(cancellationToken);
 
 			return new CommandResult<InviteListModel>(true, "Invite sent.", mapper.Map<InviteListModel>(invite));
 		}

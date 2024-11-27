@@ -32,22 +32,22 @@ public class UpdateMember
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
-			long groupId = request.Model.HouseholdSid.DecodeLong();
+			long householdId = request.Model.HouseholdSid.DecodeLong();
 
-			if (groupId == 0)
-				return new CommandResult(false, "Invalid group ID.");
+			if (householdId == 0)
+				return new CommandResult(false, "Invalid household ID.");
 
-			if (!await db.HasHouseholdPermission(groupId, request.MemberId, PermissionLevels.Admin))
+			if (!await db.HasHouseholdPermission(householdId, request.MemberId, PermissionLevels.Admin))
 				return new CommandResult(false, FoodGlobals.PermissionError);
 
 			long memberId = request.Model.MemberSid.DecodeLong();
 
 			HouseholdMemberEntity? member = await db.HouseholdMembers
-				.Where(x => x.HouseholdId == groupId && x.MemberId == memberId)
-				.SingleOrDefaultAsync();
+				.Where(x => x.HouseholdId == householdId && x.MemberId == memberId)
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (member == null)
-				return new CommandResult(false, "Invalid group member.");
+				return new CommandResult(false, "Invalid household member.");
 
 			// Update member
 			member.PermissionLevel = request.Model.PermissionLevel;

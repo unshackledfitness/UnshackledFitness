@@ -18,10 +18,10 @@ public class JoinCookbook
 		public ServerMember Member { get; private set; }
 		public string CookbookSid { get; private set; }
 
-		public Command(ServerMember member, string groupSid)
+		public Command(ServerMember member, string cookbookSid)
 		{
 			Member = member;
-			CookbookSid = groupSid;
+			CookbookSid = cookbookSid;
 		}
 	}
 
@@ -31,13 +31,13 @@ public class JoinCookbook
 
 		public async Task<CommandResult<CookbookListModel>> Handle(Command request, CancellationToken cancellationToken)
 		{
-			long groupId = request.CookbookSid.DecodeLong();
-			if (groupId == 0)
-				return new CommandResult<CookbookListModel>(false, "Invalid group ID.");
+			long cookbookId = request.CookbookSid.DecodeLong();
+			if (cookbookId == 0)
+				return new CommandResult<CookbookListModel>(false, "Invalid cookbook ID.");
 
 			var invite = await db.CookbookInvites
-				.Where(x => x.CookbookId == groupId && x.Email == request.Member.Email)
-				.SingleOrDefaultAsync();
+				.Where(x => x.CookbookId == cookbookId && x.Email == request.Member.Email)
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (invite == null)
 				return new CommandResult<CookbookListModel>(false, "Invitation not found.");
@@ -47,10 +47,10 @@ public class JoinCookbook
 			try
 			{
 
-				// Create new group membership
+				// Create new cookbook membership
 				CookbookMemberEntity hm = new()
 				{
-					CookbookId = groupId,
+					CookbookId = cookbookId,
 					MemberId = request.Member.Id,
 					PermissionLevel = invite.Permissions
 				};
@@ -58,15 +58,15 @@ public class JoinCookbook
 
 				db.CookbookInvites.Remove(invite);
 
-				await db.SaveChangesAsync();
+				await db.SaveChangesAsync(cancellationToken);
 
-				await transaction.CommitAsync();
+				await transaction.CommitAsync(cancellationToken);
 
-				var group = await mapper.ProjectTo<CookbookListModel>(db.Cookbooks
-					.Where(x => x.Id == groupId))
-					.SingleOrDefaultAsync();
+				var cookbook = await mapper.ProjectTo<CookbookListModel>(db.Cookbooks
+					.Where(x => x.Id == cookbookId))
+					.SingleOrDefaultAsync(cancellationToken);
 
-				return new CommandResult<CookbookListModel>(true, "Cookbook joined.", group);
+				return new CommandResult<CookbookListModel>(true, "Cookbook joined.", cookbook);
 			}
 			catch
 			{

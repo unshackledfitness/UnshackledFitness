@@ -15,10 +15,10 @@ public class LeaveHousehold
 		public long MemberId { get; private set; }
 		public string HouseholdSid { get; private set; }
 
-		public Command(long memberId, string groupSid)
+		public Command(long memberId, string householdSid)
 		{
 			MemberId = memberId;
-			HouseholdSid = groupSid;
+			HouseholdSid = householdSid;
 		}
 	}
 
@@ -28,32 +28,32 @@ public class LeaveHousehold
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
-			long groupId = request.HouseholdSid.DecodeLong();
-			if (groupId == 0)
-				return new CommandResult(false, "Invalid group ID.");
+			long householdId = request.HouseholdSid.DecodeLong();
+			if (householdId == 0)
+				return new CommandResult(false, "Invalid household ID.");
 
 			if (await db.Households
-				.Where(x => x.Id == groupId && x.MemberId == request.MemberId)
-				.AnyAsync())
-				return new CommandResult(false, "The group owner cannot leave the group.");
+				.Where(x => x.Id == householdId && x.MemberId == request.MemberId)
+				.AnyAsync(cancellationToken))
+				return new CommandResult(false, "The household owner cannot leave the household.");
 
-			var groupMember = await db.HouseholdMembers
-				.Where(x => x.HouseholdId == groupId && x.MemberId == request.MemberId)
-				.SingleOrDefaultAsync();
+			var householdMember = await db.HouseholdMembers
+				.Where(x => x.HouseholdId == householdId && x.MemberId == request.MemberId)
+				.SingleOrDefaultAsync(cancellationToken);
 
-			if (groupMember == null)
-				return new CommandResult(false, "You are not a member of this group.");
+			if (householdMember == null)
+				return new CommandResult(false, "You are not a member of this household.");
 
-			// if active group for member in any app, remove it
+			// if active household for member in any app, remove it
 			await db.MemberMeta
-				.Where(x => x.Id == request.MemberId && x.MetaKey == FoodGlobals.MetaKeys.ActiveHouseholdId && x.MetaValue == groupId.ToString())
-				.DeleteFromQueryAsync();
+				.Where(x => x.Id == request.MemberId && x.MetaKey == FoodGlobals.MetaKeys.ActiveHouseholdId && x.MetaValue == householdId.ToString())
+				.DeleteFromQueryAsync(cancellationToken);
 
 			// Remove membership
-			db.HouseholdMembers.Remove(groupMember);
-			await db.SaveChangesAsync();
+			db.HouseholdMembers.Remove(householdMember);
+			await db.SaveChangesAsync(cancellationToken);
 
-			return new CommandResult(true, "You have left the group.");
+			return new CommandResult(true, "You have left the household.");
 		}
 	}
 }

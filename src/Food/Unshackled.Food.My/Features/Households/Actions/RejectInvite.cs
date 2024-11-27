@@ -15,10 +15,10 @@ public class RejectInvite
 		public string Email { get; private set; }
 		public string HouseholdSid { get; private set; }
 
-		public Command(string email, string groupSid)
+		public Command(string email, string householdSid)
 		{
 			Email = email;
-			HouseholdSid = groupSid;
+			HouseholdSid = householdSid;
 		}
 	}
 
@@ -28,20 +28,20 @@ public class RejectInvite
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
-			long groupId = request.HouseholdSid.DecodeLong();
-			if (groupId == 0)
-				return new CommandResult<HouseholdListModel>(false, "Invalid group ID.");
+			long householdId = request.HouseholdSid.DecodeLong();
+			if (householdId == 0)
+				return new CommandResult<HouseholdListModel>(false, "Invalid household ID.");
 
 			var invite = await db.HouseholdInvites
-				.Where(x => x.HouseholdId == groupId && x.Email == request.Email)
-				.SingleOrDefaultAsync();
+				.Where(x => x.HouseholdId == householdId && x.Email == request.Email)
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (invite == null)
 				return new CommandResult<HouseholdListModel>(false, "Invitation not found.");
 						
 			// Remove membership
 			db.HouseholdInvites.Remove(invite);
-			await db.SaveChangesAsync();
+			await db.SaveChangesAsync(cancellationToken);
 
 			return new CommandResult(true, "Invitation rejected.");
 		}

@@ -34,7 +34,7 @@ public class ListHouseholds
 					.AsNoTracking()
 					.Where(x => x.MemberId == request.MemberId)
 					.Select(x => x.Household))
-					.ToListAsync());
+					.ToListAsync(cancellationToken));
 
 			list.AddRange(await db.HouseholdInvites
 				.Include(x => x.Household)
@@ -42,14 +42,14 @@ public class ListHouseholds
 				.Where(x => x.Email == request.MemberEmail)
 				.Select(x => new HouseholdListModel
 				{
-					// Use the invited date instead of the group creation date
+					// Use the invited date instead of the household creation date
 					DateCreatedUtc = x.DateCreatedUtc,
 					DateLastModifiedUtc = x.DateLastModifiedUtc,
 					IsInvite = true,
 					Sid = x.Household.Id.Encode(),
 					Title = x.Household.Title,
 				})
-				.ToListAsync());
+				.ToListAsync(cancellationToken));
 
 			return list.OrderBy(x => x.Title).ToList();
 		}

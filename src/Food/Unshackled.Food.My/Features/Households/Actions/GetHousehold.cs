@@ -15,10 +15,10 @@ public class GetHousehold
 		public long MemberId { get; private set; }
 		public long HouseholdId { get; private set; }
 
-		public Query(long memberId, long groupId)
+		public Query(long memberId, long householdId)
 		{
 			MemberId = memberId;
-			HouseholdId = groupId;
+			HouseholdId = householdId;
 		}
 	}
 
@@ -30,17 +30,17 @@ public class GetHousehold
 		{
 			if (await db.HasHouseholdPermission(request.HouseholdId, request.MemberId, PermissionLevels.Read))
 			{
-				var group = await mapper.ProjectTo<HouseholdModel>(db.Households
+				var household = await mapper.ProjectTo<HouseholdModel>(db.Households
 				.AsNoTracking()
 				.Where(x => x.Id == request.HouseholdId))
-				.SingleOrDefaultAsync() ?? new();
+				.SingleOrDefaultAsync(cancellationToken) ?? new();
 
-				group.PermissionLevel = await db.HouseholdMembers
+				household.PermissionLevel = await db.HouseholdMembers
 					.Where(x => x.HouseholdId == request.HouseholdId && x.MemberId == request.MemberId)
 					.Select(x => x.PermissionLevel)
-					.SingleAsync();
+					.SingleAsync(cancellationToken);
 
-				return group;
+				return household;
 			}
 			return new();
 		}

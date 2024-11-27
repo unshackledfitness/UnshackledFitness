@@ -15,9 +15,9 @@ public class ListMemberInvites
 		public long CookbookId { get; private set; }
 		public long MemberId { get; private set; }
 
-		public Query(long memberId, long groupId)
+		public Query(long memberId, long cookbookId)
 		{
-			CookbookId = groupId;
+			CookbookId = cookbookId;
 			MemberId = memberId;
 		}
 	}
@@ -29,13 +29,13 @@ public class ListMemberInvites
 		public async Task<List<InviteListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
 			if(!await db.HasCookbookPermission(request.CookbookId, request.MemberId, PermissionLevels.Read)) 
-				return new List<InviteListModel>();
+				return [];
 
 			return await mapper.ProjectTo<InviteListModel>(db.CookbookInvites
 				.AsNoTracking()
 				.Where(x => x.CookbookId == request.CookbookId)
 				.OrderBy(x => x.Email))
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 		}
 	}
 }

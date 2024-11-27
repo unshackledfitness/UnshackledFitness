@@ -32,31 +32,31 @@ public class UpdateProperties
 
 		public async Task<CommandResult<HouseholdModel>> Handle(Command request, CancellationToken cancellationToken)
 		{
-			long groupId = request.Model.Sid.DecodeLong();
+			long householdId = request.Model.Sid.DecodeLong();
 
-			if (groupId == 0)
-				return new CommandResult<HouseholdModel>(false, "Invalid group ID.");
+			if (householdId == 0)
+				return new CommandResult<HouseholdModel>(false, "Invalid household ID.");
 
-			if (!await db.HasHouseholdPermission(groupId, request.MemberId, PermissionLevels.Admin))
+			if (!await db.HasHouseholdPermission(householdId, request.MemberId, PermissionLevels.Admin))
 				return new CommandResult<HouseholdModel>(false, FoodGlobals.PermissionError);
 
-			HouseholdEntity? group = await db.Households
-				.Where(x => x.Id == groupId)
-				.SingleOrDefaultAsync();
+			HouseholdEntity? household = await db.Households
+				.Where(x => x.Id == householdId)
+				.SingleOrDefaultAsync(cancellationToken);
 
-			if (group == null)
-				return new CommandResult<HouseholdModel>(false, "Invalid group.");
+			if (household == null)
+				return new CommandResult<HouseholdModel>(false, "Invalid household.");
 
-			// Update group
-			group.Title = request.Model.Title.Trim();
+			// Update household
+			household.Title = request.Model.Title.Trim();
 			await db.SaveChangesAsync(cancellationToken);
 
-			var g = mapper.Map<HouseholdModel>(group);
+			var g = mapper.Map<HouseholdModel>(household);
 
 			g.PermissionLevel = await db.HouseholdMembers
-				.Where(x => x.HouseholdId == groupId && x.MemberId == request.MemberId)
+				.Where(x => x.HouseholdId == householdId && x.MemberId == request.MemberId)
 				.Select(x => x.PermissionLevel)
-				.SingleAsync();
+				.SingleAsync(cancellationToken);
 
 			return new CommandResult<HouseholdModel>(true, "Household updated.", g);
 		}

@@ -32,31 +32,31 @@ public class UpdateProperties
 
 		public async Task<CommandResult<CookbookModel>> Handle(Command request, CancellationToken cancellationToken)
 		{
-			long groupId = request.Model.Sid.DecodeLong();
+			long cookbookId = request.Model.Sid.DecodeLong();
 
-			if (groupId == 0)
-				return new CommandResult<CookbookModel>(false, "Invalid group ID.");
+			if (cookbookId == 0)
+				return new CommandResult<CookbookModel>(false, "Invalid cookbook ID.");
 
-			if (!await db.HasCookbookPermission(groupId, request.MemberId, PermissionLevels.Admin))
+			if (!await db.HasCookbookPermission(cookbookId, request.MemberId, PermissionLevels.Admin))
 				return new CommandResult<CookbookModel>(false, FoodGlobals.PermissionError);
 
-			CookbookEntity? group = await db.Cookbooks
-				.Where(x => x.Id == groupId)
-				.SingleOrDefaultAsync();
+			CookbookEntity? cookbook = await db.Cookbooks
+				.Where(x => x.Id == cookbookId)
+				.SingleOrDefaultAsync(cancellationToken);
 
-			if (group == null)
-				return new CommandResult<CookbookModel>(false, "Invalid group.");
+			if (cookbook == null)
+				return new CommandResult<CookbookModel>(false, "Invalid cookbook.");
 
-			// Update group
-			group.Title = request.Model.Title.Trim();
+			// Update cookbook
+			cookbook.Title = request.Model.Title.Trim();
 			await db.SaveChangesAsync(cancellationToken);
 
-			var g = mapper.Map<CookbookModel>(group);
+			var g = mapper.Map<CookbookModel>(cookbook);
 
 			g.PermissionLevel = await db.CookbookMembers
-				.Where(x => x.CookbookId == groupId && x.MemberId == request.MemberId)
+				.Where(x => x.CookbookId == cookbookId && x.MemberId == request.MemberId)
 				.Select(x => x.PermissionLevel)
-				.SingleAsync();
+				.SingleAsync(cancellationToken);
 
 			return new CommandResult<CookbookModel>(true, "Cookbook updated.", g);
 		}

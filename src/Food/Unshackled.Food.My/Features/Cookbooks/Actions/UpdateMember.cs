@@ -32,22 +32,22 @@ public class UpdateMember
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
-			long groupId = request.Model.CookbookSid.DecodeLong();
+			long cookbookId = request.Model.CookbookSid.DecodeLong();
 
-			if (groupId == 0)
-				return new CommandResult(false, "Invalid group ID.");
+			if (cookbookId == 0)
+				return new CommandResult(false, "Invalid cookbook ID.");
 
-			if (!await db.HasCookbookPermission(groupId, request.MemberId, PermissionLevels.Admin))
+			if (!await db.HasCookbookPermission(cookbookId, request.MemberId, PermissionLevels.Admin))
 				return new CommandResult(false, FoodGlobals.PermissionError);
 
 			long memberId = request.Model.MemberSid.DecodeLong();
 
 			CookbookMemberEntity? member = await db.CookbookMembers
-				.Where(x => x.CookbookId == groupId && x.MemberId == memberId)
-				.SingleOrDefaultAsync();
+				.Where(x => x.CookbookId == cookbookId && x.MemberId == memberId)
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (member == null)
-				return new CommandResult(false, "Invalid group member.");
+				return new CommandResult(false, "Invalid cookbook member.");
 
 			// Update member
 			member.PermissionLevel = request.Model.PermissionLevel;

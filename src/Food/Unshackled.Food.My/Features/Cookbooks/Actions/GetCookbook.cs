@@ -15,10 +15,10 @@ public class GetCookbook
 		public long MemberId { get; private set; }
 		public long CookbookId { get; private set; }
 
-		public Query(long memberId, long groupId)
+		public Query(long memberId, long cookbookId)
 		{
 			MemberId = memberId;
-			CookbookId = groupId;
+			CookbookId = cookbookId;
 		}
 	}
 
@@ -30,17 +30,17 @@ public class GetCookbook
 		{
 			if (await db.HasCookbookPermission(request.CookbookId, request.MemberId, PermissionLevels.Read))
 			{
-				var group = await mapper.ProjectTo<CookbookModel>(db.Cookbooks
+				var cookbook = await mapper.ProjectTo<CookbookModel>(db.Cookbooks
 				.AsNoTracking()
 				.Where(x => x.Id == request.CookbookId))
-				.SingleOrDefaultAsync() ?? new();
+				.SingleOrDefaultAsync(cancellationToken) ?? new();
 
-				group.PermissionLevel = await db.CookbookMembers
+				cookbook.PermissionLevel = await db.CookbookMembers
 					.Where(x => x.CookbookId == request.CookbookId && x.MemberId == request.MemberId)
 					.Select(x => x.PermissionLevel)
-					.SingleAsync();
+					.SingleAsync(cancellationToken);
 
-				return group;
+				return cookbook;
 			}
 			return new();
 		}

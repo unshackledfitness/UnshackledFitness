@@ -42,7 +42,7 @@ public class ListCookbooks
 				.Where(x => x.Email == request.MemberEmail)
 				.Select(x => new CookbookListModel
 				{
-					// Use the invited date instead of the group creation date
+					// Use the invited date instead of the cookbook creation date
 					DateCreatedUtc = x.DateCreatedUtc,
 					DateLastModifiedUtc = x.DateLastModifiedUtc,
 					IsInvite = true,

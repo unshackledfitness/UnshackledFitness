@@ -18,10 +18,10 @@ public class JoinHousehold
 		public ServerMember Member { get; private set; }
 		public string HouseholdSid { get; private set; }
 
-		public Command(ServerMember member, string groupSid)
+		public Command(ServerMember member, string householdSid)
 		{
 			Member = member;
-			HouseholdSid = groupSid;
+			HouseholdSid = householdSid;
 		}
 	}
 
@@ -31,13 +31,13 @@ public class JoinHousehold
 
 		public async Task<CommandResult<HouseholdListModel>> Handle(Command request, CancellationToken cancellationToken)
 		{
-			long groupId = request.HouseholdSid.DecodeLong();
-			if (groupId == 0)
-				return new CommandResult<HouseholdListModel>(false, "Invalid group ID.");
+			long householdId = request.HouseholdSid.DecodeLong();
+			if (householdId == 0)
+				return new CommandResult<HouseholdListModel>(false, "Invalid household ID.");
 
 			var invite = await db.HouseholdInvites
-				.Where(x => x.HouseholdId == groupId && x.Email == request.Member.Email)
-				.SingleOrDefaultAsync();
+				.Where(x => x.HouseholdId == householdId && x.Email == request.Member.Email)
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (invite == null)
 				return new CommandResult<HouseholdListModel>(false, "Invitation not found.");
@@ -47,10 +47,10 @@ public class JoinHousehold
 			try
 			{
 
-				// Create new group membership
+				// Create new household membership
 				HouseholdMemberEntity hm = new()
 				{
-					HouseholdId = groupId,
+					HouseholdId = householdId,
 					MemberId = request.Member.Id,
 					PermissionLevel = invite.Permissions
 				};
@@ -58,19 +58,19 @@ public class JoinHousehold
 
 				db.HouseholdInvites.Remove(invite);
 
-				await db.SaveChangesAsync();
+				await db.SaveChangesAsync(cancellationToken);
 
-				await transaction.CommitAsync();
+				await transaction.CommitAsync(cancellationToken);
 
-				var group = await mapper.ProjectTo<HouseholdListModel>(db.Households
-					.Where(x => x.Id == groupId))
-					.SingleOrDefaultAsync();
+				var household = await mapper.ProjectTo<HouseholdListModel>(db.Households
+					.Where(x => x.Id == householdId))
+					.SingleOrDefaultAsync(cancellationToken);
 
-				return new CommandResult<HouseholdListModel>(true, "Household joined.", group);
+				return new CommandResult<HouseholdListModel>(true, "Household joined.", household);
 			}
 			catch
 			{
-				await transaction.RollbackAsync();
+				await transaction.RollbackAsync(cancellationToken);
 				return new CommandResult<HouseholdListModel>(false, Globals.UnexpectedError);
 			}
 		}

@@ -15,9 +15,9 @@ public class ListMemberInvites
 		public long HouseholdId { get; private set; }
 		public long MemberId { get; private set; }
 
-		public Query(long memberId, long groupId)
+		public Query(long memberId, long householdId)
 		{
-			HouseholdId = groupId;
+			HouseholdId = householdId;
 			MemberId = memberId;
 		}
 	}
@@ -29,13 +29,13 @@ public class ListMemberInvites
 		public async Task<List<InviteListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
 			if(!await db.HasHouseholdPermission(request.HouseholdId, request.MemberId, PermissionLevels.Read)) 
-				return new List<InviteListModel>();
+				return [];
 
 			return await mapper.ProjectTo<InviteListModel>(db.HouseholdInvites
 				.AsNoTracking()
 				.Where(x => x.HouseholdId == request.HouseholdId)
 				.OrderBy(x => x.Email))
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 		}
 	}
 }

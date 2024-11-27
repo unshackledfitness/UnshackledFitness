@@ -37,23 +37,23 @@ public class AddCookbook
 
 			try
 			{
-				// Create new group
-				CookbookEntity group = new()
+				// Create new cookbook
+				CookbookEntity cookbook = new()
 				{
 					MemberId = request.MemberId,
 					Title = request.Model.Title.Trim()
 				};
-				db.Cookbooks.Add(group);
-				await db.SaveChangesAsync();
+				db.Cookbooks.Add(cookbook);
+				await db.SaveChangesAsync(cancellationToken);
 
-				// Add member to group as Admin
-				CookbookMemberEntity groupMember = new()
+				// Add member to cookbook as Admin
+				CookbookMemberEntity cookbookMember = new()
 				{
-					CookbookId = group.Id,
+					CookbookId = cookbook.Id,
 					MemberId = request.MemberId,
 					PermissionLevel = PermissionLevels.Admin
 				};
-				db.CookbookMembers.Add(groupMember);
+				db.CookbookMembers.Add(cookbookMember);
 				await db.SaveChangesAsync(cancellationToken);
 
 				if(!request.HasActive)
@@ -62,14 +62,14 @@ public class AddCookbook
 					{
 						MemberId = request.MemberId,
 						MetaKey = FoodGlobals.MetaKeys.ActiveCookbookId,
-						MetaValue = group.Id.ToString()
+						MetaValue = cookbook.Id.ToString()
 					});
-					await db.SaveChangesAsync();
+					await db.SaveChangesAsync(cancellationToken);
 				}
 
 				await transaction.CommitAsync(cancellationToken);
 
-				return new CommandResult<CookbookListModel>(true, "Cookbook added.", mapper.Map<CookbookListModel>(group));
+				return new CommandResult<CookbookListModel>(true, "Cookbook added.", mapper.Map<CookbookListModel>(cookbook));
 			}
 			catch
 			{
