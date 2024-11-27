@@ -9,9 +9,9 @@ public class ListMemberInvites
 	{
 		public string HouseholdSid { get; private set; }
 
-		public Query(string groupSid)
+		public Query(string householdSid)
 		{
-			HouseholdSid = groupSid;
+			HouseholdSid = householdSid;
 		}
 	}
 

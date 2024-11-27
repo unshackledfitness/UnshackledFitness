@@ -12,9 +12,9 @@ public class AddInvite
 		public string CookbookSid { get; private set; }
 		public FormAddInviteModel Model { get; private set; }
 
-		public Command(string groupSid, FormAddInviteModel model)
+		public Command(string cookbookSid, FormAddInviteModel model)
 		{
-			CookbookSid = groupSid;
+			CookbookSid = cookbookSid;
 			Model = model;
 		}
 	}

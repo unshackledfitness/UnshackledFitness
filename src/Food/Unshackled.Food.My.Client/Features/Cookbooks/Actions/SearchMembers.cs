@@ -11,9 +11,9 @@ public class SearchMembers
 		public string CookbookSid { get; private set; }
 		public MemberSearchModel Model { get; private set; }
 
-		public Query(string groupSid, MemberSearchModel model)
+		public Query(string cookbookSid, MemberSearchModel model)
 		{
-			CookbookSid = groupSid;
+			CookbookSid = cookbookSid;
 			Model = model;
 		}
 	}

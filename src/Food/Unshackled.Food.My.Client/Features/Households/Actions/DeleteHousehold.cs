@@ -2,27 +2,27 @@
 using Unshackled.Studio.Core.Client;
 using Unshackled.Studio.Core.Client.Models;
 
-namespace Unshackled.Food.My.Client.Features.Cookbooks.Actions;
+namespace Unshackled.Food.My.Client.Features.Households.Actions;
 
-public class LeaveCookbook
+public class DeleteHousehold
 {
 	public class Command : IRequest<CommandResult>
 	{
-		public string CookbookSid { get; private set; }
+		public string HouseholdSid { get; private set; }
 
-		public Command(string cookbookSid)
+		public Command(string householdSid)
 		{
-			CookbookSid = cookbookSid;
+			HouseholdSid = householdSid;
 		}
 	}
 
-	public class Handler : BaseCookbookHandler, IRequestHandler<Command, CommandResult>
+	public class Handler : BaseHouseholdHandler, IRequestHandler<Command, CommandResult>
 	{
 		public Handler(HttpClient httpClient) : base(httpClient) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
-			return await PostToCommandResultAsync($"{baseUrl}leave", request.CookbookSid)
+			return await PostToCommandResultAsync($"{baseUrl}delete", request.HouseholdSid)
 				?? new CommandResult(false, Globals.UnexpectedError);
 		}
 	}

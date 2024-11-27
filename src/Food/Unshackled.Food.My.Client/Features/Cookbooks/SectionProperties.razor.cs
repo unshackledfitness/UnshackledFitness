@@ -57,7 +57,7 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	{
 		bool? confirm = await DialogService.ShowMessageBox(
 				"Confirm Leaving",
-				"Are you sure you want to leave this group?",
+				"Are you sure you want to leave this cookbook?",
 				yesText: "Yes", cancelText: "Cancel");
 
 		if (confirm.HasValue && confirm.Value)
@@ -66,7 +66,7 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 			var result = await Mediator.Send(new LeaveCookbook.Command(Cookbook.Sid));
 			if (result.Success)
 			{
-				// Refresh the member if we just left the active group
+				// Refresh the member if we just left the active cookbook
 				if (ActiveMember.ActiveCookbook != null && ActiveMember.ActiveCookbook.CookbookSid == Cookbook.Sid)
 					await Mediator.GetActiveMember();
 
@@ -86,7 +86,7 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 		{
 			await CookbookChanged.InvokeAsync(result.Payload);
 
-			// If active group updated
+			// If active cookbook updated
 			if (ActiveMember.ActiveCookbook != null 
 				&& Cookbook.Sid == ActiveMember.ActiveCookbook.CookbookSid)
 			{

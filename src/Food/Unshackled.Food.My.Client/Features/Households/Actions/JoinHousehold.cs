@@ -11,9 +11,9 @@ public class JoinHousehold
 	{
 		public string HouseholdSid { get; private set; }
 
-		public Command(string groupSid)
+		public Command(string householdSid)
 		{
-			HouseholdSid = groupSid;
+			HouseholdSid = householdSid;
 		}
 	}
 

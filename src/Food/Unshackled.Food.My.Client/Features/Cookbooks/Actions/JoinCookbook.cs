@@ -11,9 +11,9 @@ public class JoinCookbook
 	{
 		public string CookbookSid { get; private set; }
 
-		public Command(string groupSid)
+		public Command(string cookbookSid)
 		{
-			CookbookSid = groupSid;
+			CookbookSid = cookbookSid;
 		}
 	}
 

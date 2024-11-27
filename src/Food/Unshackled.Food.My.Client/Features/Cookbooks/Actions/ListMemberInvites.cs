@@ -9,9 +9,9 @@ public class ListMemberInvites
 	{
 		public string CookbookSid { get; private set; }
 
-		public Query(string groupSid)
+		public Query(string cookbookSid)
 		{
-			CookbookSid = groupSid;
+			CookbookSid = cookbookSid;
 		}
 	}
 

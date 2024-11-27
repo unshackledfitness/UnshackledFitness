@@ -57,7 +57,7 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	{
 		bool? confirm = await DialogService.ShowMessageBox(
 				"Confirm Leaving",
-				"Are you sure you want to leave this group?",
+				"Are you sure you want to leave this household?",
 				yesText: "Yes", cancelText: "Cancel");
 
 		if (confirm.HasValue && confirm.Value)
@@ -66,7 +66,7 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 			var result = await Mediator.Send(new LeaveHousehold.Command(Household.Sid));
 			if (result.Success)
 			{
-				// Refresh the member if we just left the active group
+				// Refresh the member if we just left the active household
 				if (ActiveMember.ActiveHousehold != null && ActiveMember.ActiveHousehold.HouseholdSid == Household.Sid)
 					await Mediator.GetActiveMember();
 
@@ -86,7 +86,7 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 		{
 			await HouseholdChanged.InvokeAsync(result.Payload);
 
-			// If active group updated
+			// If active household updated
 			if (ActiveMember.ActiveHousehold != null 
 				&& Household.Sid == ActiveMember.ActiveHousehold.HouseholdSid)
 			{

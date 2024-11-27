@@ -11,9 +11,9 @@ public class DeleteMember
 		public string CookbookSid { get; private set; }
 		public string MemberSid { get; private set; }
 
-		public Command(string groupSid, string memberSid)
+		public Command(string cookbookSid, string memberSid)
 		{
-			CookbookSid = groupSid;
+			CookbookSid = cookbookSid;
 			MemberSid = memberSid;
 		}
 	}
