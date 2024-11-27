@@ -1,5 +1,9 @@
 {
 	"AllowedHosts": "*",
+	"AuthenticationProviders": {
+		"MicrosoftClientId": "",
+		"MicrosoftClientSecret": ""
+	},
 	"DbConfiguration": {
 		"DatabaseType": "mssql",
 		"TablePrefix": "uf_"

@@ -58,7 +58,7 @@ public class GetAuthenticatorModel
 			model.AuthenticatorUri = string.Format(
 				CultureInfo.InvariantCulture,
 				AuthenticatorModel.AuthenticatorUriFormat,
-				HttpUtility.UrlPathEncode(siteConfig.SiteName ?? "Unshackled Fitness"),
+				HttpUtility.UrlPathEncode(siteConfig.SiteName ?? "Unshackled Food"),
 				HttpUtility.UrlPathEncode(email),
 				unformattedKey);
 

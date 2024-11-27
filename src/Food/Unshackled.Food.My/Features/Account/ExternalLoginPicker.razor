@@ -1,0 +1,40 @@
+﻿@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Identity
+@using Unshackled.Studio.Core.Data.Entities
+@using Unshackled.Studio.Core.Server.Extensions
+
+@inject SignInManager<UserEntity> SignInManager
+@inject IdentityRedirectManager RedirectManager
+
+@if (externalLogins.Length > 0)
+{
+	<MudText Typo="Typo.body2" Align="Align.Center" Class="my-3" Color="Color.Tertiary">@Title</MudText>
+	<div class="d-flex flex-row gap-2 justify-content-center flex-wrap">
+		@foreach (var provider in externalLogins)
+		{
+			<form action="account/perform-external-login" method="post">
+				<AntiforgeryToken />
+				<input type="hidden" name="Provider" value="@provider.Name">
+				<input type="hidden" name="ReturnUrl" value="@ReturnUrl" />
+				<MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Default" StartIcon="@provider.Name.GetBrandIcon()">
+					@provider.DisplayName
+				</MudButton>
+			</form>
+		}
+	</div>
+}
+
+@code {
+	private AuthenticationScheme[] externalLogins = [];
+
+	[Parameter]
+	public string Title { get; set; } = "Alternate Login";
+
+    [SupplyParameterFromQuery]
+    private string? ReturnUrl { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        externalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToArray();
+    }
+}

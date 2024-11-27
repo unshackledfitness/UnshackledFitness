@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 using HashidsNet;
+using MudBlazor;
 using Unshackled.Studio.Core.Client.Configuration;
 
 namespace Unshackled.Studio.Core.Server.Extensions;
@@ -36,5 +37,15 @@ public static class StringExtensions
 			}
 			return builder.ToString();
 		}
+	}
+
+	public static string GetBrandIcon(this string provider)
+	{
+		if (provider.Equals("microsoft", StringComparison.OrdinalIgnoreCase))
+			return Icons.Custom.Brands.Microsoft;
+		else if (provider.Equals("google", StringComparison.OrdinalIgnoreCase))
+			return Icons.Custom.Brands.Google;
+
+		return string.Empty;
 	}
 }

@@ -17,7 +17,6 @@ using Unshackled.Studio.Core.Client.Services;
 using Unshackled.Studio.Core.Data;
 using Unshackled.Studio.Core.Data.Entities;
 using Unshackled.Studio.Core.Server.Middleware;
-using Unshackled.Studio.Core.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,9 +38,12 @@ SmtpSettings smtpSettings = new();
 builder.Configuration.GetSection("SmtpSettings").Bind(smtpSettings);
 builder.Services.AddSingleton(smtpSettings);
 
-DbConfiguration dbConfig = new DbConfiguration();
+DbConfiguration dbConfig = new();
 builder.Configuration.GetSection("DbConfiguration").Bind(dbConfig);
 builder.Services.AddSingleton(dbConfig);
+
+AuthenticationProviderConfiguration authProviderConfig = new();
+builder.Configuration.GetSection("AuthenticationProviders").Bind(authProviderConfig);
 
 switch (dbConfig.DatabaseType?.ToLower())
 {
@@ -64,11 +66,12 @@ builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 
 builder.Services.AddAuthorization();
-builder.Services.AddAuthentication(options =>
-	{
+builder.Services.AddAuthentication(options => {
 		options.DefaultScheme = IdentityConstants.ApplicationScheme;
 		options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
 	})
+	.AddMicrosoftAccount(authProviderConfig)
+	.AddGoogleAccount(authProviderConfig)
 	.AddIdentityCookies();
 
 builder.Services.ConfigureApplicationCookie(o =>

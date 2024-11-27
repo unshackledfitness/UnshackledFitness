@@ -1,0 +1,36 @@
+﻿@page "/member/external-logins"
+@inherits ExternalLoginsBase
+
+<DynamicPageTitle Title="Manage your external logins" />
+
+<MudBreadcrumbs Items="@Breadcrumbs" />
+
+<MudText Typo="Typo.h4" Class="mb-6">Manage your external logins</MudText>
+
+<MudText Typo="Typo.subtitle1">Registered Logins</MudText>
+<ListView Items="@Model.CurrentLogins" IsLoading="@IsLoading">
+	<ItemRenderer>
+		<div class="d-flex flex-row gap-2 align-center">
+			<MudText Typo="Typo.body1" Class="flex-grow-1">@context.Item.ProviderDisplayName</MudText>
+			@if (Model.HasPasswordSet)
+			{
+				<MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@(() => HandleRemoveProviderClicked(context.Item))">Remove</MudButton>
+			}
+		</div>
+	</ItemRenderer>
+	<EmptyListRenderer>
+		<MudAlert Elevation="0" ContentAlignment="HorizontalAlignment.Center" NoIcon="true">You do not have any external logins configured.</MudAlert>
+	</EmptyListRenderer>
+</ListView>
+
+<MudToolBar Gutters="false" Class="mt-4" >
+	<MudSpacer />
+	@if (Model.OtherLogins.Count > 0)
+	{
+		<MudButton Variant="Variant.Filled" Color="Color.Secondary" Href="/account/external-logins">Add an external login</MudButton>
+	}
+	<MudButton Href="/member" Variant="Variant.Outlined" Color="Color.Secondary">Cancel</MudButton>
+	<MudSpacer />
+</MudToolBar>
+
+

@@ -26,6 +26,18 @@ public class MembersController : BaseController
 		return Ok(await Mediator.Send(new AddAuthenticator.Command(Request.HttpContext.User, model)));
 	}
 
+	[HttpPost("add-password")]
+	public async Task<IActionResult> AddPassword([FromBody] FormSetPasswordModel model)
+	{
+		return Ok(await Mediator.Send(new AddPassword.Command(Request.HttpContext.User, model)));
+	}
+
+	[HttpPost("delete-password")]
+	public async Task<IActionResult> DeletePassword([FromBody] FormRemovePasswordModel model)
+	{
+		return Ok(await Mediator.Send(new DeletePassword.Command(Request.HttpContext.User, model)));
+	}
+
 	[HttpPost("disable-2fa")]
 	public async Task<IActionResult> Disable2fa()
 	{
@@ -36,6 +48,12 @@ public class MembersController : BaseController
 	public async Task<IActionResult> GenerateRecoveryCodes()
 	{
 		return Ok(await Mediator.Send(new GenerateRecoveryCodes.Command(Request.HttpContext.User)));
+	}
+
+	[HttpGet("get-account-status")]
+	public async Task<IActionResult> GetAccountStatus()
+	{
+		return Ok(await Mediator.Send(new GetCurrentAccountStatus.Query(Request.HttpContext.User)));
 	}
 
 	[HttpGet("get-authenticator-model")]
@@ -55,6 +73,18 @@ public class MembersController : BaseController
 	public async Task<IActionResult> GetCurrentUserEmailModel()
 	{
 		return Ok(await Mediator.Send(new GetCurrentUserEmail.Query(Request.HttpContext.User)));
+	}
+
+	[HttpGet("get-external-logins")]
+	public async Task<IActionResult> GetExternalLogins()
+	{
+		return Ok(await Mediator.Send(new GetExternalLoginsModel.Query(Request.HttpContext.User)));
+	}
+
+	[HttpPost("remove-login-provider")]
+	public async Task<IActionResult> RemoveLoginProvider([FromBody] FormProviderModel model)
+	{
+		return Ok(await Mediator.Send(new RemoveLoginProvider.Command(Request.HttpContext.User, model)));
 	}
 
 	[HttpPost("resend-verification-email")]

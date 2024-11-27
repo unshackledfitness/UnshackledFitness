@@ -43,6 +43,9 @@ DbConfiguration dbConfig = new DbConfiguration();
 builder.Configuration.GetSection("DbConfiguration").Bind(dbConfig);
 builder.Services.AddSingleton(dbConfig);
 
+AuthenticationProviderConfiguration authProviderConfig = new();
+builder.Configuration.GetSection("AuthenticationProviders").Bind(authProviderConfig);
+
 switch (dbConfig.DatabaseType?.ToLower())
 {
 	case DbConfiguration.MSSQL:
@@ -64,11 +67,12 @@ builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 
 builder.Services.AddAuthorization();
-builder.Services.AddAuthentication(options =>
-{
+builder.Services.AddAuthentication(options => {
 	options.DefaultScheme = IdentityConstants.ApplicationScheme;
 	options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
 })
+	.AddMicrosoftAccount(authProviderConfig)
+	.AddGoogleAccount(authProviderConfig)
 	.AddIdentityCookies();
 
 builder.Services.ConfigureApplicationCookie(o =>

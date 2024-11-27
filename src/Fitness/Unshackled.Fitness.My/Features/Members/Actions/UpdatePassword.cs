@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.My.Client.Features.Members.Models;
 using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
 using Unshackled.Studio.Core.Data.Entities;
 
 namespace Unshackled.Fitness.My.Features.Members.Actions;
@@ -41,6 +40,10 @@ public class UpdatePassword
 
 			if (user == null)
 				return new CommandResult(false, "Invalid user.");
+
+			bool hasPassword = await userManager.HasPasswordAsync(user);
+			if (!hasPassword)
+				return new CommandResult(false, "You do not have a password.");
 
 			var changePasswordResult = await userManager.ChangePasswordAsync(user, request.Model.OldPassword, request.Model.NewPassword);
 			if (!changePasswordResult.Succeeded)

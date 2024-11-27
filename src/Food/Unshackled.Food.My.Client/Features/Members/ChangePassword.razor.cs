@@ -17,7 +17,11 @@ public class ChangePasswordBase : BaseComponent<Member>
 	{
 		await base.OnInitializedAsync();
 		Breadcrumbs.Add(new BreadcrumbItem("Settings", "/member"));
-		Breadcrumbs.Add(new BreadcrumbItem("Change Email", null, true));
+		Breadcrumbs.Add(new BreadcrumbItem("Change Password", null, true));
+
+		var accountStatus = await Mediator.Send(new GetCurrentAccountStatus.Query());
+		if (!accountStatus.HasPassword)
+			NavManager.NavigateTo("/member/set-password");
 	}
 
 	protected async Task HandleFormSubmitted()
@@ -27,7 +31,7 @@ public class ChangePasswordBase : BaseComponent<Member>
 		ShowNotification(result);
 		if (result.Success)
 		{
-			Model = new();
+			NavManager.NavigateTo("/member");
 		}
 		IsWorking = false;
 		StateHasChanged();
