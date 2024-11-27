@@ -10,6 +10,8 @@ public static class IngredientUtils
 	{
 		value = ReplaceVulgarFractions(value);
 
+		value = ReplaceNonAlphaNumericAtStart(value);
+
 		var result = ParseNumber(value);
 		if (result.Amount > 0 && !string.IsNullOrEmpty(result.AmountText))
 		{
@@ -202,6 +204,16 @@ public static class IngredientUtils
 			{
 				value = value.Replace(code, frac);
 			}			
+		}
+
+		return value;
+	}
+
+	private static string ReplaceNonAlphaNumericAtStart(string value)
+	{
+		while (!string.IsNullOrEmpty(value) && Regex.IsMatch(value, @"^[^A-Za-z0-9]"))
+		{
+			value = value.Remove(0, 1);
 		}
 
 		return value;
