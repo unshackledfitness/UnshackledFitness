@@ -19,7 +19,7 @@ else
 {
 	<EditForm Model="@CopyModel" OnValidSubmit="HandleFormSubmitted">
 		<FluentValidationValidator Validator="CopyModelValidator"></FluentValidationValidator>
-		<MudGrid Spacing="1" Class="mb-4">
+		<MudGrid Spacing="2" Class="mb-4">
 			<MudItem xs="12">
 				<MudSelect T="string" Label="Household" Variant="Variant.Outlined" FullWidth="true" For="@(() => CopyModel.HouseholdSid)" @bind-Value="@CopyModel.HouseholdSid">
 					@foreach (var g in MemberHouseholds)

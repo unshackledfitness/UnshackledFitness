@@ -9,7 +9,7 @@
 <div class="mb-6">
 	<SearchForm @bind-Model="@SearchModel" SearchClicked="@(() => DoSearch(1))" ResetClicked="@HandleResetClicked">
 		<SearchFields>
-			<MudGrid Spacing="1">
+			<MudGrid Spacing="2">
 				<MudItem xs="12" sm="6">
 					<MudTextField Label="Title" Variant="Variant.Outlined" FullWidth="true" Margin="Margin.Dense"
 								  T="string" @bind-Value="@SearchModel.Title" Disabled="@IsLoading" />
@@ -56,7 +56,7 @@
 <SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
 	@if (DrawerView == Views.Add)
 	{
-		<FormProperties FormId="@FormId" Model="@FormModel" DisableFormControls="@IsWorking" OnFormSubmitted="@HandleFormAddSubmitted">
+		<FormProperties FormId="@FormId" Model="@FormModel" RecipeTags="@RecipeTags" DisableFormControls="@IsWorking" OnFormSubmitted="@HandleFormAddSubmitted">
 			<FormToolbar>
 				<MudSpacer />
 				<ProgressButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" IsWorking="@IsWorking" WorkingText="Adding">Create</ProgressButton>

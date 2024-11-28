@@ -10,7 +10,7 @@
 <div class="mb-6">
 	<SearchForm @bind-Model="@SearchModel" Class="mb-6" SearchClicked="@(() => DoSearch(1))" ResetClicked="@HandleResetClicked" Disable="@IsLoading">
 		<SearchFields>
-			<MudGrid Spacing="1">
+			<MudGrid Spacing="2">
 				<MudItem xs="12" sm="3">
 					<MuscleTypeSelect AllOption="true" Margin="Margin.Dense" @bind-Value="@SearchModel.MuscleType" Disabled="@DisableControls" />
 				</MudItem>

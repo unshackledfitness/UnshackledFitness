@@ -2,7 +2,7 @@
 
 <EditForm id="@FormId" Model="@Model" OnValidSubmit="HandleFormSubmitted">
 	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
-	<MudGrid Spacing="1" Class="mb-4">
+	<MudGrid Spacing="2" Class="mb-4">
 		<MudItem xs="12">
 			<MudTextField Label="Title" Variant="Variant.Outlined" Immediate="true" Disabled="@DisableControls"
 						  FullWidth="true" For="@(() => Model.Title)" @bind-Value="@Model.Title" />

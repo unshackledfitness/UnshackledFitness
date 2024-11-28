@@ -11,7 +11,7 @@
 <SearchForm T="SearchShoppingListsModel" @bind-Model="@SearchModel" Class="mb-6" SearchClicked="@(() => DoSearch(1))"
 ResetClicked="@HandleResetClicked" Disable="@IsLoading" VerticalButtons="Breakpoint.Sm">
 	<SearchFields>
-		<MudGrid Spacing="1">
+		<MudGrid Spacing="2">
 			<MudItem xs="12">
 				<MudTextField Label="Title" Variant="Variant.Outlined" FullWidth="true" Margin="Margin.Dense"
 				T="string" @bind-Value="@SearchModel.Title" Disabled="@IsLoading" />

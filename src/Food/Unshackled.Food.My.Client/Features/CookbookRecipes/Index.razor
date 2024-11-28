@@ -9,7 +9,7 @@
 <div class="mb-6">
 	<SearchForm @bind-Model="@SearchModel" SearchClicked="@(() => DoSearch(1))" ResetClicked="@HandleResetClicked">
 		<SearchFields>
-			<MudGrid Spacing="1">
+			<MudGrid Spacing="2">
 				<MudItem xs="12" sm="6">
 					<MudTextField Label="Title" Variant="Variant.Outlined" FullWidth="true" Margin="Margin.Dense"
 								  T="string" @bind-Value="@SearchModel.Title" Disabled="@IsLoading" />

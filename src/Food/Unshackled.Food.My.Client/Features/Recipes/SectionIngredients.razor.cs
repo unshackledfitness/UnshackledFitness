@@ -163,6 +163,7 @@ public class SectionIngredientsBase : BaseSectionComponent<Member>
 		string gSid = FormGroups.LastOrDefault()?.Sid ?? Guid.NewGuid().ToString();
 		model.ListGroupSid = gSid;
 		model.Amount = result.Amount;
+		model.SortOrder = FormIngredients.Count;
 		FormIngredients.Add(model);
 
 		IsWorking = false;

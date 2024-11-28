@@ -80,7 +80,7 @@
 		else
 		{
 			<SortableGroupedList TGroup="FormIngredientGroupModel" TItem="FormIngredientModel" Groups="@FormGroups" Items="@FormIngredients"
-									ToolbarAlignment="HorizontalAlignment.Left" ToolbarPosition="ToolbarPositions.Top"
+									ToolbarAlignment="HorizontalAlignment.Left" ToolbarPosition="ToolbarPositions.Top" DisableSort="@IsWorking"
 									IsSortingChanged="HandleIsSorting" SortOrderChanged="@HandleSortChanged">
 				<GroupRenderer>
 					<MudText Typo="Typo.body1" Class="mt-4 mb-2">@context.Title</MudText>
