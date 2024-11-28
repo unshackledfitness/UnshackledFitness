@@ -1,4 +1,8 @@
-﻿@using MudBlazor.Utilities
+﻿@using Microsoft.AspNetCore.Components.Routing
+@using MudBlazor.Utilities
+@implements IDisposable
+@inject NavigationManager NavManager
+@inject ISnackbar SnackBar
 
 <div class="@CssClass">
 	@if (!IsEditMode && Dividers)
@@ -20,10 +24,36 @@
 	[Parameter] public bool IsEditing { get; set; }
 	[Parameter] public string? Class { get; set; }
 	[Parameter] public bool Dividers { get; set; } = false;
+	[Parameter] public bool UseNavPrevention { get; set; } = true;
+
+	private IDisposable? registration;
+	private MarkupString Unsaved = (MarkupString)"<strong>You may have unsaved changes</strong><br />Close the section you're editing to continue.";
 
 	private string CssClass => new CssBuilder("section")
 		.AddClass(IsEditMode ? $"mud-paper mud-elevation-1 section-edit-mode" : string.Empty)
 		.AddClass(IsEditing ? $"section-editing" : string.Empty)
 		.AddClass(string.IsNullOrEmpty(Class) ? "mb-6" : Class)
 		.Build();
+
+	protected override void OnAfterRender(bool firstRender)
+	{
+		if (firstRender)
+		{
+			registration =
+				NavManager.RegisterLocationChangingHandler(OnLocationChanging);
+		}
+	}
+
+	private ValueTask OnLocationChanging(LocationChangingContext context)
+	{
+		if (UseNavPrevention && IsEditing)
+		{
+			context.PreventNavigation();
+			SnackBar.Add(Unsaved, Severity.Error);
+		}
+
+		return ValueTask.CompletedTask;
+	}
+
+	public void Dispose() => registration?.Dispose();
 }
