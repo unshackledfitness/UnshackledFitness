@@ -13,7 +13,6 @@ public class SectionTasksBase : BaseSectionComponent<Member>
 	[Parameter] public string TemplateSid { get; set; } = string.Empty;
 	[Parameter] public WorkoutTaskTypes TaskType { get; set; } = WorkoutTaskTypes.PreWorkout;
 	protected bool IsLoading { get; set; } = true;
-	protected bool IsEditing { get; set; }
 	protected bool IsWorking { get; set; }
 	protected bool DisableControls => IsLoading || IsWorking;
 	protected List<TemplateTaskModel> Tasks { get; set; } = new();

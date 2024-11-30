@@ -16,7 +16,6 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	[Parameter] public decimal Scale { get; set; }
 
 	protected const string FormId = "formRecipeProperties";
-	protected bool IsEditing { get; set; } = false;
 	protected bool IsSaving { get; set; }
 	protected FormRecipeModel Model { get; set; } = new();
 	protected List<RecipeTagSelectItem> RecipeTags { get; set; } = [];

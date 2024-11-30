@@ -14,7 +14,6 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	[Parameter] public EventCallback<FormWorkoutModel> WorkoutChanged { get; set; }
 
 	protected const string FormId = "formWorkout";
-	protected bool IsEditing { get; set; } = false;
 	protected bool DisableControls { get; set; } = false;
 	protected FormPropertiesModel Model { get; set; } = new();
 

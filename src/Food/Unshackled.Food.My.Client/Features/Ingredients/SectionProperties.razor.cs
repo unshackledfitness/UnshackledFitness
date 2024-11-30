@@ -13,7 +13,6 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	[Parameter] public EventCallback<IngredientModel> IngredientChanged { get; set; }
 
 	protected const string FormId = "formIngredientProperties";
-	protected bool IsEditing { get; set; } = false;
 	protected bool IsSaving { get; set; }
 	protected FormIngredientModel Model { get; set; } = new();
 
@@ -46,7 +45,7 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 			string newKey = model.Title.NormalizeKey();
 			if (model.Key != newKey)
 			{
-				NavManager.NavigateTo($"/ingredients/{newKey}");
+				NavigateOnSuccess($"/ingredients/{newKey}");
 			}
 			await IngredientChanged.InvokeAsync(Ingredient);
 		}

@@ -18,7 +18,6 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	[Parameter] public List<ActivityTypeListModel> ActivityTypes { get; set; } = [];
 
 	protected const string FormId = "formActivity";
-	protected bool IsEditing { get; set; } = false;
 	protected bool IsUpdating { get; set; } = false;
 	protected FormActivityModel Model { get; set; } = new();
 	protected AppSettings AppSettings => ActiveMember.Settings;

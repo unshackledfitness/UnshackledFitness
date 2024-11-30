@@ -13,7 +13,6 @@ public class SectionTemplatesBase : BaseSectionComponent<Member>
 
 	protected bool DisableControls => IsSaving;
 	protected FormUpdateTemplatesModel FormModel { get; set; } = new();
-	protected bool IsEditing { get; set; } = false;
 	protected bool IsSaving { get; set; } = false;
 	protected List<TemplateListModel> Templates { get; set; } = new();
 

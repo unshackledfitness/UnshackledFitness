@@ -14,7 +14,6 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	[Parameter] public EventCallback<TemplateModel> TemplateChanged { get; set; }
 
 	protected const string FormId = "formWorkoutTemplate";
-	protected bool IsEditing { get; set; } = false;
 	protected bool IsDuplicating { get; set; } = false;
 	protected bool IsSaving { get; set; } = false;
 	protected FormTemplateModel Model { get; set; } = new();

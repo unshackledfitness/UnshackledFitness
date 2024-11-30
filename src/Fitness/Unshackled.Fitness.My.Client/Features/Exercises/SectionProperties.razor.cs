@@ -15,7 +15,6 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 
 	protected const string FormId = "formExercise";
 	protected bool DrawerOpen { get; set; }
-	protected bool IsEditing { get; set; } = false;
 	protected bool IsUpdating { get; set; } = false;
 	protected FormExerciseModel Model { get; set; } = new();
 	protected ExerciseNoteModel FormNoteModel { get; set; } = new();

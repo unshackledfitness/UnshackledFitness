@@ -37,7 +37,6 @@ public class SectionIngredientsBase : BaseSectionComponent<Member>
 	protected FormIngredientModel FormModel { get; set; } = new();
 	protected FormBulkAddIngredientModel BulkAddFormModel { get; set; } = new();
 	protected bool IsWorking { get; set; } = false;
-	protected bool IsEditing { get; set; } = false;
 	protected bool IsSorting { get; set; } = false;
 	protected bool DisableControls => IsWorking || IsSorting;
 	protected NutritionLabelModel LabelModel { get; set; } = new();

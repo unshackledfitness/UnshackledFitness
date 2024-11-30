@@ -31,7 +31,6 @@ public class SectionStepsBase : BaseSectionComponent<Member>
 	protected FormBulkAddStepModel BulkAddFormModel { get; set; } = new();
 
 	protected bool IsWorking { get; set; } = false;
-	protected bool IsEditing { get; set; } = false;
 	protected bool IsSorting { get; set; } = false;
 	protected bool DisableControls => IsWorking || IsSorting;
 	protected bool DrawerOpen => DrawerView != Views.None;

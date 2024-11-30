@@ -14,7 +14,6 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	[Parameter] public EventCallback<ProductBundleModel> ProductBundleChanged { get; set; }
 
 	protected const string FormId = "formProductBundleProperies";
-	protected bool IsEditing { get; set; } = false;
 	protected bool IsWorking { get; set; }
 	protected FormProductBundleModel Model { get; set; } = new();
 

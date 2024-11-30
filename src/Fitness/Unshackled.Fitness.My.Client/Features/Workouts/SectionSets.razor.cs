@@ -45,7 +45,7 @@ public class SectionSetsBase : BaseSectionComponent<Member>
 
 	protected bool HideCompleted { get; set; } = true;
 
-	protected bool IsEditing => ActiveMember.IsActive && IsWorkoutStarted && (!IsWorkoutComplete || IsEditMode);
+	protected bool IsEditingWorkout => ActiveMember.IsActive && IsWorkoutStarted && (!IsWorkoutComplete || IsEditMode);
 
 	protected bool IsWorking { get; set; }
 

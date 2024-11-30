@@ -14,7 +14,6 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	[Parameter] public EventCallback<ProductModel> ProductChanged { get; set; }
 
 	protected const string FormId = "formProductProperties";
-	protected bool IsEditing { get; set; } = false;
 	protected bool IsWorking { get; set; }
 	protected FormProductModel Model { get; set; } = new();
 	protected List<ProductCategoryModel> Categories { get; set; } = [];

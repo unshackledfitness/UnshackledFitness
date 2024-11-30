@@ -11,7 +11,6 @@ public class ViewFixedRepeatingBase : BaseSectionComponent<Member>
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public FormUpdateTemplatesModel FormModel { get; set; } = new();
 	[Parameter] public EventCallback<FormUpdateTemplatesModel> FormModelChanged { get; set; }
-	[Parameter] public bool IsEditing { get; set; } = false;
 	[Parameter] public bool IsSaving { get; set; } = false;
 	[Parameter] public ProgramModel Program { get; set; } = new();
 	[Parameter] public List<TemplateListModel> Templates { get; set; } = new();

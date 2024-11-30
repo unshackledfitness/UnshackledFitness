@@ -14,7 +14,6 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	[Parameter] public EventCallback<ShoppingListModel> ShoppingListChanged { get; set; }
 
 	protected const string FormId = "formShoppingListProperies";
-	protected bool IsEditing { get; set; } = false;
 	protected bool IsWorking { get; set; }
 	protected FormShoppingListModel Model { get; set; } = new();
 

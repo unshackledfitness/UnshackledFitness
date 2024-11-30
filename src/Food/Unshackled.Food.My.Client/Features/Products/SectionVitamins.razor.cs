@@ -14,7 +14,6 @@ public class SectionVitaminsBase : BaseSectionComponent<Member>
 	[Parameter] public EventCallback<ProductModel> ProductChanged { get; set; }
 
 	protected const string FormId = "formProductVitamins";
-	protected bool IsEditing { get; set; } = false;
 	protected bool IsSaving { get; set; }
 	protected FormProductModel Model { get; set; } = new();
 

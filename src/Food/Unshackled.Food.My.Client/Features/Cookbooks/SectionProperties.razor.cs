@@ -19,7 +19,6 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	protected bool IsConfirmingDelete { get; set; } = false;
 	protected bool IsDeleteConfirmed { get; set; } = false;
 	protected bool IsDeleting { get; set; } = false;
-	protected bool IsEditing { get; set; } = false;
 	protected bool IsSaving { get; set; } = false;
 	protected FormCookbookModel Model { get; set; } = new();
 	protected FormCookbookModel.Validator ModelValidator {  get; set; } = new();

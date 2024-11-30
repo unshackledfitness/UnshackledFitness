@@ -14,7 +14,6 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	[Parameter] public EventCallback<ProgramModel> ProgramChanged { get; set; }
 
 	protected const string FormId = "formProgram";
-	protected bool IsEditing { get; set; } = false;
 	protected bool IsDuplicating { get; set; } = false;
 	protected bool IsSaving { get; set; } = false;
 	protected FormUpdateProgramModel Model { get; set; } = new();

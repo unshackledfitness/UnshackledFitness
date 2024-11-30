@@ -13,7 +13,6 @@ public class SectionSessionsBase : BaseSectionComponent<Member>
 
 	protected bool DisableControls => IsSaving;
 	protected FormUpdateSessionsModel FormModel { get; set; } = new();
-	protected bool IsEditing { get; set; } = false;
 	protected bool IsSaving { get; set; } = false;
 	protected List<SessionListModel> Sessions { get; set; } = new();
 

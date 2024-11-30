@@ -14,7 +14,6 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	[Parameter] public EventCallback<PlanModel> PlanChanged { get; set; }
 
 	protected const string FormId = "formPlan";
-	protected bool IsEditing { get; set; } = false;
 	protected bool IsDuplicating { get; set; } = false;
 	protected bool IsSaving { get; set; } = false;
 	protected FormUpdatePlanModel Model { get; set; } = new();

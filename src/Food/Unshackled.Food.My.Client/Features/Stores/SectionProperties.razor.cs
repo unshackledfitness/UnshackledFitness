@@ -14,7 +14,6 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	[Parameter] public EventCallback<StoreModel> StoreChanged { get; set; }
 
 	protected const string FormId = "formStoreProperties";
-	protected bool IsEditing { get; set; } = false;
 	protected bool IsWorking { get; set; }
 	protected FormStoreModel Model { get; set; } = new();
 

@@ -22,7 +22,6 @@ public class SectionSetsBase : BaseSectionComponent<Member>
 	protected List<FormTemplateSetModel> FormSets { get; set; } = new();
 	protected List<FormTemplateSetGroupModel> DeletedGroups { get; set; } = new();
 	protected List<FormTemplateSetModel> DeletedSets { get; set; } = new();
-	protected bool IsEditing { get; set; } = false;
 	protected bool IsSorting { get; set; } = false;
 	protected bool IsWorking { get; set; } = false;
 	protected bool DisableControls => IsWorking || IsSorting;

@@ -27,7 +27,6 @@ public class SectionNotesBase : BaseSectionComponent<Member>
 	protected FormNoteModel FormModel { get; set; } = new();
 
 	protected bool IsWorking { get; set; } = false;
-	protected bool IsEditing { get; set; } = false;
 	protected bool IsSorting { get; set; } = false; 
 	protected bool DisableControls => IsWorking;
 	protected bool DrawerOpen => DrawerView != Views.None;

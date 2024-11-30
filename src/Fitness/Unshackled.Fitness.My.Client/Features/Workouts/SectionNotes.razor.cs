@@ -12,7 +12,6 @@ public class SectionNotesBase : BaseSectionComponent<Member>
 	[Parameter] public EventCallback<FormWorkoutModel> WorkoutChanged { get; set; }
 
 	protected const string FormId = "formNotes";
-	protected bool IsEditing { get; set; } = false;
 	protected bool DisableControls { get; set; } = false;
 	protected FormNotesModel Model { get; set; } = new();
 
