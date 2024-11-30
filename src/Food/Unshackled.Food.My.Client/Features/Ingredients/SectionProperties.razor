@@ -1,6 +1,6 @@
 ﻿@inherits SectionPropertiesBase
 
-<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
+<SectionContainer IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
 	<SectionHeader Title="@Ingredient.Title" IsEditMode="@IsEditMode" IsEditing="@IsEditing" EditingClass="mb-4" FormId="@FormId" Breakpoint="Breakpoint.Sm" 
 				   OnCancelClicked="HandleEditCancelClicked">
 		<EditModeToolbar>
@@ -12,4 +12,4 @@
 	{
 		<FormProperties Model="@Model" FormId="@FormId" DisableFormControls="@DisableControls" OnFormSubmitted="@HandleFormSubmitted" />
 	}
-</SectionComponent>
+</SectionContainer>

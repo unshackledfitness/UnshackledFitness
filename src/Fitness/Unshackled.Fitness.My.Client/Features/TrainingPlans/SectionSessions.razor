@@ -1,6 +1,6 @@
 ﻿@inherits SectionSessionsBase
 
-<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing">
+<SectionContainer IsEditMode="@IsEditMode" IsEditing="@IsEditing">
 
 	<SectionHeader Typo="Typo.h5" Title="@Plan.ProgramType.Title()" IsEditMode="@IsEditMode" IsEditing="@IsEditing" DisableControls="@DisableControls"
 				   OnCancelClicked="@HandleCancelEditClicked" OnSaveClicked="@HandleSaveClicked">
@@ -20,5 +20,5 @@
 		<ViewSequential IsEditing="@IsEditing" IsSaving="@IsSaving" Plan="@Plan" Sessions="@Sessions" @bind-FormModel="@FormModel" />
 	}
 
-</SectionComponent>
+</SectionContainer>
 

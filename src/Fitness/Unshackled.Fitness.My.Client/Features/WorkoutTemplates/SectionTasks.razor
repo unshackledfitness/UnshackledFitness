@@ -2,7 +2,7 @@
 
 @if (IsEditMode || Tasks.Any())
 {
-	<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing">
+	<SectionContainer IsEditMode="@IsEditMode" IsEditing="@IsEditing">
 		<SectionHeader Typo="Typo.h5" Title="@($"{TaskType.Title()} Checklist")" IsEditMode="@IsEditMode" IsEditing="@IsEditing" DisableControls="@DisableControls" Class="mb-4" EditingClass="mb-4"
 					   OnCancelClicked="@HandleCancelEditClicked" OnSaveClicked="@HandleUpdateClicked">
 			<EditModeToolbar>
@@ -104,5 +104,5 @@
 				</ListView>
 			</SideDrawer>
 		}
-	</SectionComponent>
+	</SectionContainer>
 }

@@ -1,6 +1,6 @@
 ﻿@inherits SectionSubstitutionsBase
 
-<SectionComponent IsEditMode="@IsEditMode" IsEditing="@DrawerOpen" Class="mb-6">
+<SectionContainer IsEditMode="@IsEditMode" IsEditing="@DrawerOpen" Class="mb-6">
 	<SectionHeader Title="Product Substitutions" Typo="Typo.h5" IsEditMode="@IsEditMode">
 		<EditModeToolbar>
 			<MudIconButton Icon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls" OnClick="@(() => HandleAddClicked())" />
@@ -67,7 +67,7 @@
 			</EmptyListRenderer>
 		</ListView>
 	}
-</SectionComponent>
+</SectionContainer>
 
 <SideDrawer Open="@DrawerOpen" Icon="@Icons.Material.Filled.ShoppingBag" Title="Add Substitution" OpenChanged="@HandleCancelAddClicked">
 	<FormAddSubstitution StartingSearch="@StartingSearch" OnSubstitutionAdded="@HandleSubstitutionAdded" />

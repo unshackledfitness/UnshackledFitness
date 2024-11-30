@@ -1,6 +1,6 @@
 ﻿@inherits SectionSetsBase
 
-<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing">
+<SectionContainer IsEditMode="@IsEditMode" IsEditing="@IsEditing">
 	<SectionHeader Typo="Typo.h5" Title="Sets" IsEditMode="@IsEditMode" IsEditing="@IsEditing" DisableControls="@DisableControls" Class="mb-4" EditingClass="mb-4"
 				   OnCancelClicked="@HandleCancelEditClicked" OnSaveClicked="@HandleUpdateClicked">
 		<EditModeToolbar>
@@ -151,4 +151,4 @@
 	<SideDrawer @bind-Open="DrawerOpen" Icon="@DrawerIcon" Title="@DrawerTitle">
 		<ExercisePicker OnAdd="@HandleAddSets" />
 	</SideDrawer>
-</SectionComponent>
+</SectionContainer>

@@ -1,6 +1,6 @@
 ﻿@inherits SectionServingsBase
 
-<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
+<SectionContainer IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
 	<SectionHeader IsEditMode="@IsEditMode" IsEditing="@IsEditing" EditingClass="mb-4" FormId="@FormId" Breakpoint="Breakpoint.Sm" 
 				   OnCancelClicked="@(() => HandleEditCancelClicked())">
 		<TitleContent>
@@ -63,4 +63,4 @@
 	{
 		<FormServings Model="@Model" FormId="@FormId" DisableFormControls="@DisableControls" OnFormSubmitted="@HandleFormSubmitted" />
 	}
-</SectionComponent>
+</SectionContainer>

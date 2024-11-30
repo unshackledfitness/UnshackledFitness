@@ -1,6 +1,6 @@
 ﻿@inherits SectionPropertiesBase
 
-<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-12">
+<SectionContainer IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-12">
 
 	<SectionHeader Title="@Exercise.Title" IsEditMode="@IsEditMode" IsEditing="@IsEditing" EditingClass="mb-4" FormId="@FormId" Breakpoint="Breakpoint.Sm"
 				   OnCancelClicked="@HandleCancelEditClicked">
@@ -94,7 +94,7 @@
 	{
 		<FormProperties Model="@Model" FormId="@FormId" DisableFormControls="@DisableControls" OnFormSubmitted="@HandleFormSubmitted" />
 	}
-</SectionComponent>
+</SectionContainer>
 
 <SideDrawer Open="@DrawerOpen" Icon="@Icons.Material.Filled.StickyNote2" Title="Exercise Notes" OpenChanged="@HandleCancelEditNoteClicked">
 	<MudTextField Variant="Variant.Outlined" FullWidth="true" Label="Enter Your Notes" Lines="5" Margin="Margin.Dense" @bind-Value="FormNoteModel.Notes" />

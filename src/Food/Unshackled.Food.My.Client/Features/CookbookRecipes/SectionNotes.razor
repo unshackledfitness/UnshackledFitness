@@ -2,7 +2,7 @@
 
 @if (Notes.Count > 0)
 {
-	<SectionComponent Class="mb-6">
+	<SectionContainer Class="mb-6">
 		<SectionHeader Title="Notes" Typo="Typo.h5" Class="mb-4" />
 
 		<ListView Items="@Notes">
@@ -18,5 +18,5 @@
 				</div>
 			</ItemRenderer>
 		</ListView>
-	</SectionComponent>
+	</SectionContainer>
 }

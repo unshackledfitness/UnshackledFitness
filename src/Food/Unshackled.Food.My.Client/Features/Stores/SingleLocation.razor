@@ -32,7 +32,7 @@ else
 			}
 		</MudToolBar>
 
-		<SectionComponent IsEditMode="@IsEditMode" IsEditing="@IsEditMode" Class="mb-6">
+		<SectionContainer IsEditMode="@IsEditMode" IsEditing="@IsEditMode" Class="mb-6">
 			<SectionHeader Title="@($"Products In {StoreLocation.Title}")" Typo="Typo.h5" IsEditMode="false" IsEditing="@false" DisableControls="@DisableControls" Class="mb-4" EditingClass="mb-4" />
 
 			<SortableListView TItem="FormProductLocationModel" Items="@FormProducts" IsSortingChanged="HandleIsSorting" SortOrderChanged="@HandleSortChanged" AllowSort="@CanEdit">
@@ -79,7 +79,7 @@ else
 					<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
 				</EmptyListRenderer>
 			</SortableListView>
-		</SectionComponent>
+		</SectionContainer>
 
 		@if(!string.IsNullOrEmpty(List))
 		{
