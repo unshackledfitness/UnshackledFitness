@@ -108,15 +108,25 @@ public static class Calculator
 		int fromYear = toYear;
 		int fromMonth = toMonth - previousMonths;
 
+		// Adjust for previous year when negative
 		if (fromMonth <= 0)
 		{
 			fromMonth = fromMonth + 12;
 			fromYear--;
 		}
 
+		// Move month to next month and adjust for year change.
+		// We'll subtract a day to get the end of the previous month
+		toMonth++;
+		if (toMonth > 12)
+		{
+			toYear++;
+			toMonth = 1;
+		}
+
 		return new DateOnlyRange(
 			new DateOnly(fromYear, fromMonth, 1), 
-			new DateOnly(toYear, toMonth + 1, 1).AddDays(-1)
+			new DateOnly(toYear, toMonth, 1).AddDays(-1)
 		);
 	}
 
