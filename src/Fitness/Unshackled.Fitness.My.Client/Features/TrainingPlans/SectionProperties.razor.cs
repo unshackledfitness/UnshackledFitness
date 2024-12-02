@@ -79,11 +79,11 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	{
 		var result = await Mediator.Send(new DuplicatePlan.Command(model));
 		ShowNotification(result);
+		IsDuplicating = await UpdateIsEditingSection(false);
 		if (result.Success)
 		{
-			NavManager.NavigateTo($"/training-plans/{result.Payload}");
+			NavigateOnSuccess($"/training-plans/{result.Payload}");
 		}
-		IsDuplicating = await UpdateIsEditingSection(false);
 	}
 
 	protected async Task HandleEditClicked()

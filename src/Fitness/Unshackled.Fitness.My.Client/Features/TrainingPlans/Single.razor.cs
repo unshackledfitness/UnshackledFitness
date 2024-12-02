@@ -18,14 +18,20 @@ public class SingleBase : BaseComponent<Member>
 	protected bool DisableControls => !IsEditMode || IsEditing || IsUpdating;
 	protected PlanModel Plan { get; set; } = new();
 
+	protected override async Task OnParametersSetAsync()
+	{
+		await base.OnParametersSetAsync();
+
+		IsLoading = true;
+		Plan = await Mediator.Send(new GetPlan.Query(PlanSid));
+		IsLoading = false;
+	}
+
 	protected override async Task OnInitializedAsync()
 	{
 		await base.OnInitializedAsync();
 		Breadcrumbs.Add(new BreadcrumbItem("Training Plans", "/training-plans", false));
 		Breadcrumbs.Add(new BreadcrumbItem("Training Plan", null, true));
-
-		Plan = await Mediator.Send(new GetPlan.Query(PlanSid));
-		IsLoading = false;
 	}
 
 	protected void HandleIsEditingSectionChange(bool editing)

@@ -23,6 +23,13 @@ public class TrainingPlansController : BaseController
 		return Ok(await Mediator.Send(new DeletePlan.Command(Member.Id, sid)));
 	}
 
+	[HttpPost("duplicate")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> Duplicate([FromBody] FormUpdatePlanModel model)
+	{
+		return Ok(await Mediator.Send(new DuplicatePlan.Command(Member.Id, model)));
+	}
+
 	[HttpGet("get/{sid}")]
 	[DecodeId]
 	public async Task<IActionResult> Get(long id)
