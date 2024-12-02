@@ -3,6 +3,7 @@ using MudBlazor;
 using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Programs.Actions;
 using Unshackled.Fitness.My.Client.Features.Programs.Models;
+using Unshackled.Fitness.My.Client.Features.Workouts.Actions;
 using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Programs;
@@ -18,14 +19,20 @@ public class SingleBase : BaseComponent<Member>
 	protected bool DisableControls => !IsEditMode || IsEditing || IsUpdating;
 	protected ProgramModel Program { get; set; } = new();
 
+	protected override async Task OnParametersSetAsync()
+	{
+		await base.OnParametersSetAsync();
+
+		IsLoading = true;
+		Program = await Mediator.Send(new GetProgram.Query(ProgramSid));
+		IsLoading = false;
+	}
+
 	protected override async Task OnInitializedAsync()
 	{
 		await base.OnInitializedAsync();
 		Breadcrumbs.Add(new BreadcrumbItem("Programs", "/programs", false));
 		Breadcrumbs.Add(new BreadcrumbItem("Program", null, true));
-
-		Program = await Mediator.Send(new GetProgram.Query(ProgramSid));
-		IsLoading = false;
 	}
 
 	protected void HandleIsEditingSectionChange(bool editing)
