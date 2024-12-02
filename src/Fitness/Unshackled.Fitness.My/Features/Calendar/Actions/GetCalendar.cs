@@ -191,7 +191,7 @@ public class GetCalendar
 			{
 				Sid = "default",
 				SortOrder = -1,
-				Title = "Default"
+				Title = "Activities/Workouts"
 			});
 
 			var defGroups = await db.MetricDefinitionGroups
@@ -202,7 +202,7 @@ public class GetCalendar
 				{
 					Sid = x.Id.Encode(),
 					SortOrder = x.SortOrder,
-					Title = x.Title
+					Title = string.IsNullOrEmpty(x.Title) ? "Metrics" : x.Title,
 				})
 				.ToListAsync(cancellationToken);
 
