@@ -9,15 +9,30 @@
 			<MudItem xs="12">
 				<MudText Typo="Typo.body2" Color="Color.Tertiary">Replacing:</MudText>
 				<MudText>
-					@context.Item.IngredientTitle
+					<IngredientText Amount="@context.Item.IngredientAmount" AmountLabel="@context.Item.IngredientAmountUnitLabel" /> @context.Item.IngredientTitle
 				</MudText>
 			</MudItem>
 			<MudItem xs="12">
 				<MudText Typo="Typo.body2" Color="Color.Tertiary">With Product:</MudText>
 				<MudText>
-					@context.Item.ProductTitle
+					@if (context.Item.ContainerSizeAmount > 0)
+					{
+						<IngredientText Amount="@context.Item.ContainerSizeAmount" AmountLabel="@context.Item.ContainerSizeUnitLabel" /> @context.Item.ProductTitle
+					}
+					else
+					{
+						<text>@context.Item.ProductTitle</text>
+					}
 				</MudText>
 			</MudItem>
+			@if (context.Item.IsUnitMismatch) 
+			{
+				<MudItem xs="12">
+					<MudAlert Severity="Severity.Error" NoIcon="true" Elevation="0">
+						Recipe ingredient unit and product serving size unit are incompatible. The required quantity could not be calculated.
+					</MudAlert>
+				</MudItem>
+			}
 			<MudItem xs="12">
 				<MudGrid Spacing="1">
 					<MudItem xs="6" md="3">

@@ -50,7 +50,8 @@
 						<MudPaper Class="h-100" Elevation="@StatElevation">
 							<CaptionedProperty Align="Align.Center" Title="Total Servings">
 								<MudText Typo="Typo.h6">
-									<ServingSizeLabel ServingSizeMetric="@Product.TotalServingsMetric" ServingSizeMetricUnit="@Product.ServingSizeMetricUnit" />
+									<ServingSizeLabel ServingSize="@Product.TotalServings" ServingSizeUnit="@Product.ServingSizeUnit" ServingSizeUnitLabel="@Product.ServingSizeUnitLabel"
+													  ServingSizeMetric="@Product.TotalServingsMetric" ServingSizeMetricUnit="@Product.ServingSizeMetricUnit" />
 								</MudText>
 							</CaptionedProperty>
 						</MudPaper>

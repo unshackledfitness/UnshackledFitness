@@ -194,6 +194,8 @@ public static class ShoppingListExtensions
 					ProductId = p != null ? p.Id : 0,
 					ProductBrand = p != null ? p.Brand : string.Empty,
 					ProductTitle = p != null ? p.Title : string.Empty,
+					ServingSize = p != null ? p.ServingSize : 0,
+					ServingSizeUnitLabel = p != null ? p.ServingSizeUnitLabel : string.Empty,
 					ServingSizeN = p != null ? p.ServingSizeN : 0,
 					ServingSizeMetricN = p != null ? p.ServingSizeMetricN : 0,
 					ServingSizeMetricUnit = p != null ? p.ServingSizeMetricUnit : ServingSizeMetricUnits.mg,
@@ -237,7 +239,9 @@ public static class ShoppingListExtensions
 				if (currentProductInList != null)
 				{
 					quantityInList = currentProductInList.Quantity;
-					portionsInList = currentRecipeItems.Sum(x => x.PortionUsed);
+					portionsInList = currentRecipeItems
+						.Where(x => x.ProductSid == ingredient.ProductId.Encode())
+						.Sum(x => x.PortionUsed);
 				}
 
 				decimal scaledAmountN = ingredient.AmountN * selectModel.Scale;
@@ -248,6 +252,8 @@ public static class ShoppingListExtensions
 
 				AddToShoppingListModel model = new()
 				{
+					IngredientAmount = ingredient.Amount,
+					IngredientAmountUnitLabel = ingredient.AmountLabel,
 					IngredientKey = ingredient.Key,
 					IngredientTitle = ingredient.Title,
 					IsUnitMismatch = result.IsUnitMismatch,
@@ -260,6 +266,8 @@ public static class ShoppingListExtensions
 					RequiredAmount = ingredient.Amount,
 					RequiredAmountLabel = ingredient.AmountLabel,
 					RecipeAmounts = currentRecipeItems.Where(x => x.ProductSid == ingredient.ProductId.Encode()).ToList(),
+					ContainerSizeAmount = ingredient.ServingSize * ingredient.ServingsPerContainer,
+					ContainerSizeUnitLabel = ingredient.ServingSizeUnitLabel
 				};
 				list.Add(model);
 			}
@@ -269,6 +277,8 @@ public static class ShoppingListExtensions
 				int quantity = ingredient.AmountUnit == MeasurementUnits.Item ? (int)Math.Ceiling(scaledAmount) : 1;
 				AddToShoppingListModel model = new()
 				{
+					IngredientAmount = ingredient.Amount,
+					IngredientAmountUnitLabel = ingredient.AmountLabel,
 					IngredientKey = ingredient.Key,
 					IngredientTitle = ingredient.Title,
 					ListSid = selectModel.ListSid,
