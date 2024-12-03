@@ -3,23 +3,23 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Food.Core;
 using Unshackled.Food.Core.Data;
-using Unshackled.Food.Core.Data.Entities;
 using Unshackled.Food.Core.Enums;
 using Unshackled.Food.My.Client.Features.Households.Models;
 using Unshackled.Food.My.Extensions;
+using Unshackled.Studio.Core.Client;
 using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Food.My.Features.Households.Actions;
 
-public class UpdateMember
+public class MakeOwner
 {
 	public class Command : IRequest<CommandResult>
 	{
 		public long MemberId { get; private set; }
-		public FormMemberModel Model { get; private set; }
+		public MakeOwnerModel Model { get; private set; }
 
-		public Command(long memberId, FormMemberModel model)
+		public Command(long memberId, MakeOwnerModel model)
 		{
 			MemberId = memberId;
 			Model = model;
@@ -33,33 +33,48 @@ public class UpdateMember
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
 			long householdId = request.Model.HouseholdSid.DecodeLong();
+			long memberId = request.Model.MemberSid.DecodeLong();
 
 			if (householdId == 0)
 				return new CommandResult(false, "Invalid household ID.");
 
-			if (!await db.HasHouseholdPermission(householdId, request.MemberId, PermissionLevels.Admin))
-				return new CommandResult(false, FoodGlobals.PermissionError);
-
-			long memberId = request.Model.MemberSid.DecodeLong();
-
 			if (memberId == 0)
 				return new CommandResult(false, "Invalid member ID.");
 
-			if (await db.Households.Where(x => x.Id == householdId && x.MemberId == memberId).AnyAsync(cancellationToken))
-				return new CommandResult(false, "Cannot change the houshold owner's permissions.");
+			if (!await db.HasHouseholdPermission(householdId, request.MemberId, PermissionLevels.Admin))
+				return new CommandResult(false, FoodGlobals.PermissionError);
 
-			HouseholdMemberEntity? member = await db.HouseholdMembers
+			var household = await db.Households
+				.Where(x => x.Id == householdId && x.MemberId == request.MemberId)
+				.SingleOrDefaultAsync(cancellationToken);
+
+			if (household == null)
+				return new CommandResult(false, "You are not the current household owner.");
+
+			var member = await db.HouseholdMembers
 				.Where(x => x.HouseholdId == householdId && x.MemberId == memberId)
 				.SingleOrDefaultAsync(cancellationToken);
 
 			if (member == null)
-				return new CommandResult(false, "Invalid household member.");
+				return new CommandResult(false, "Invalid member.");
 
-			// Update member
-			member.PermissionLevel = request.Model.PermissionLevel;
-			await db.SaveChangesAsync(cancellationToken);
+			var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
 
-			return new CommandResult(true, "Household member updated.");
+			try
+			{
+				household.MemberId = memberId;
+				member.PermissionLevel = PermissionLevels.Admin;
+				await db.SaveChangesAsync(cancellationToken);
+
+				await transaction.CommitAsync(cancellationToken);
+
+				return new CommandResult(true, "Household owner has been changed.");
+			}
+			catch
+			{
+				await transaction.RollbackAsync(cancellationToken);
+				return new CommandResult(false, Globals.UnexpectedError);
+			}
 		}
 	}
 }

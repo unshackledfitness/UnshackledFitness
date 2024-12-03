@@ -8,6 +8,7 @@ namespace Unshackled.Food.My.Client.Features.Households;
 public class SectionMembersBase : BaseSectionComponent<Member>
 {
 	[Parameter] public HouseholdModel Household { get; set; } = new();
+	[Parameter] public EventCallback<HouseholdModel> HouseholdChanged { get; set; }
 
 	protected bool IsLoading { get; set; } = true;
 	protected bool IsAdding { get; set; }

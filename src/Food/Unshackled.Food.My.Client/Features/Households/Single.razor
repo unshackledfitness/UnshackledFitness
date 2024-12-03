@@ -28,7 +28,7 @@ else
 		<SectionProperties @bind-Household="@Household" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
 				   OnIsEditingSectionChange="@HandleSectionEditing" />
 
-		<SectionMembers Household="@Household" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
+		<SectionMembers @bind-Household="@Household" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
 						OnIsEditingSectionChange="@HandleSectionEditing" />
 	}
 }

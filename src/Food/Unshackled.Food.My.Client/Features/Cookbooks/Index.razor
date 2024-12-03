@@ -31,7 +31,7 @@
 					<MudButton Variant="Variant.Filled" Color="Color.Secondary" FullWidth="true" Disabled="@DisableControls" OnClick="@(() => HandleOpenClicked(context.Item))">Open</MudButton>
 				}
 			</MudItem>
-			<MudItem xs="9" sm="9" md="10">
+			<MudItem xs="7" sm="9" md="10">
 				@if(context.Item.IsInvite)
 				{
 					<MudText Typo="Typo.subtitle1">@context.Item.Title</MudText>
@@ -43,15 +43,16 @@
 					<MudText Typo="Typo.caption">Created On: @context.Item.DateCreatedUtc.ToLocalTime().ToString("d")</MudText>
 				}
 			</MudItem>
-			<MudItem xs="12" sm="1" Class="d-flex flex-row justify-end">
+			<MudItem xs="2" sm="1" Class="d-flex flex-row justify-end">
 				@if (context.Item.IsInvite)
 				{
 					<MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@DisableControls" OnClick="@(() => HandleRejectInviteClicked(context.Item))" />
 				}
 				else
 				{
-					<YesNo Class="mr-2" IconYes="@Icons.Material.Filled.Person" IconNo="@Icons.Material.Filled.PersonOutline" Align="Align.End"
-							ShowLabel="false" ToolTipYes="Owner" ToolTipNo="Not Owner" Value="@(context.Item.MemberSid == State.ActiveMember.Sid)" />
+					<CaptionedProperty Title="Owner" Align="Align.Center">
+						<YesNo Class="mr-2" Align="Align.Center" ShowLabel="false" Value="@(context.Item.MemberSid == State.ActiveMember.Sid)" />
+					</CaptionedProperty>
 				}
 			</MudItem>
 		</MudGrid>

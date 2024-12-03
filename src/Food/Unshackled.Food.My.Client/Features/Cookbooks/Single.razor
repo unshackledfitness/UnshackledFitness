@@ -28,7 +28,7 @@ else
 		<SectionProperties @bind-Cookbook="@Cookbook" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
 				   OnIsEditingSectionChange="@HandleSectionEditing" />
 
-		<SectionMembers Cookbook="@Cookbook" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
+		<SectionMembers @bind-Cookbook="@Cookbook" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
 						OnIsEditingSectionChange="@HandleSectionEditing" />
 	}
 }

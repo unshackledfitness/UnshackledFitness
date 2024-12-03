@@ -3,14 +3,17 @@
 <SectionContainer IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
 
 	<SectionHeader IsEditMode="@IsEditMode" IsEditing="@IsEditing" EditingClass="mb-4" EditingTitle="Edit Cookbook" HideDefaultToolbar="@(Cookbook.MemberSid == State.ActiveMember.Sid)"
-				   OnCancelClicked="HandleEditCancelClicked" FormId="@FormId">
+				   OnCancelClicked="HandleEditCancelClicked" FormId="@FormId" Breakpoint="Breakpoint.SmAndDown">
 		<TitleContent>
 			<MudText Typo="Typo.h4">@Cookbook.Title</MudText>
 			<MudText Typo="Typo.body1">Created On: @Cookbook.DateCreatedUtc.ToLocalTime().ToString("d")</MudText>
 		</TitleContent>
 		<EditModeToolbar>
 			<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@DisableSectionControls" OnClick="@(() => HandleEditClicked())" />
-			<MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@DisableSectionControls" OnClick="@(() => HandleDeleteClicked())" />
+			@if (Cookbook.MemberSid == State.ActiveMember.Sid)
+			{
+				<MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@DisableSectionControls" OnClick="@(() => HandleDeleteClicked())" />
+			}
 		</EditModeToolbar>
 		<DefaultToolbar>
 			<MudButton Variant="Variant.Outlined" Color="Color.Error" OnClick="@(() => HandleLeaveCookbookClicked())">Leave Cookbook</MudButton>

@@ -80,6 +80,13 @@ public class CookbooksController : BaseController
 		return Ok(await Mediator.Send(new ListMemberInvites.Query(Member.Id, id)));
 	}
 
+	[HttpPost("make-owner")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> MakeOwner([FromBody] MakeOwnerModel model)
+	{
+		return Ok(await Mediator.Send(new MakeOwner.Command(Member.Id, model)));
+	}
+
 	[HttpPost("reject-invite")]
 	[ActiveMemberRequired]
 	public async Task<IActionResult> RejectInvite([FromBody] string sid)

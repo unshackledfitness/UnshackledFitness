@@ -23,51 +23,51 @@
 				}
 				else
 				{
-					<MudMenu Icon="@Icons.Material.Filled.MoreVert" Disabled="@(DisableControls || context.Item.IsEditing)">
+					<MudMenu Icon="@Icons.Material.Filled.MoreVert" Disabled="@DisableMenu(context.Item)">
 						<MudMenuItem Disabled="@(State.ActiveMember.Sid == context.Item.MemberSid)"
 									 OnClick="@(() => HandleEditClicked(context.Item))">Edit</MudMenuItem>
+						@if (context.Item.MemberSid != Cookbook.MemberSid)
+						{
+							<MudMenuItem OnClick="@(() => HandleMakeOwnerClicked(context.Item))">Make Owner</MudMenuItem>
+						}
 						<MudMenuItem Disabled="@(State.ActiveMember.Sid == context.Item.MemberSid)"
 									 OnClick="@(() => HandleDeleteClicked(context.Item))">Delete</MudMenuItem>
 					</MudMenu>
 				}
 			</MudItem>
-			@if (!context.Item.IsEditing)
-			{
-
-				<MudItem xs="10" md="11">
-					<MudGrid Spacing="2" Class="align-center py-1">
-						<MudItem xs="12" sm="8" md="9">
-							<CaptionedProperty Align="Align.Start" Title="Email" Value="@context.Item.Email" />
-						</MudItem>
-						<MudItem xs="12" sm="4" md="3">
-							<CaptionedProperty Align="Align.Start" Title="Permissions" Value="@context.Item.PermissionLevel.Title()" />
-						</MudItem>
-					</MudGrid>
-				</MudItem>
-			}
-			else
-			{
-				<MudItem xs="10" md="11">
-					<EditForm Model="@FormMember" Context="formContext" OnSubmit="@HandleFormEditSubmitted">
-						<MudGrid Spacing="2" Class="align-center">
-							<MudItem xs="12" md="5">
-								<MudText>@EditingMember.Email</MudText>
-							</MudItem>
-							<MudItem xs="12" md="4">
-								<PermissionLevelSelect Margin="Margin.Dense" @bind-Value="@FormMember.PermissionLevel" />
-							</MudItem>
-							<MudItem xs="12" md="3" Class="d-flex flex-row align-center justify-sm-end gap-1">
-								<MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Update</MudButton>
-								<MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@(() => HandleCancelEditClicked())">Cancel</MudButton>
-							</MudItem>
-						</MudGrid>
-					</EditForm>
-				</MudItem>
-			}
+			<MudItem xs="10" md="11">
+				<MudGrid Spacing="2" Class="align-center py-1">
+					<MudItem xs="12" sm="8" md="9">
+						<CaptionedProperty Align="Align.Start" Title="Email" Value="@context.Item.Email" />
+					</MudItem>
+					<MudItem xs="12" sm="4" md="3">
+						<CaptionedProperty Align="Align.Start" Title="Permissions" Value="@context.Item.PermissionLevel.Title()" />
+					</MudItem>
+				</MudGrid>
+			</MudItem>
 		</MudGrid>
 	</ItemRenderer>
 	<EmptyListRenderer>
 		<MudText Align="Align.Center" Class="mt-4">No members matched your search.</MudText>
 	</EmptyListRenderer>
 </ListView>
+
+<SideDrawer @bind-Open="DrawerOpen" Icon="@DrawerIcon" Title="@DrawerTitle">
+	<EditForm Model="@FormMember" Context="formContext" OnSubmit="@HandleFormEditSubmitted">
+		<MudGrid Spacing="2" Class="mb-4">
+			<MudItem xs="12">
+				<MudText>Member: @EditingMember.Email</MudText>
+			</MudItem>
+			<MudItem xs="12">
+				<PermissionLevelSelect Margin="Margin.Dense" @bind-Value="@FormMember.PermissionLevel" />
+			</MudItem>
+		</MudGrid>
+		<MudToolBar Gutters="false">
+			<MudSpacer />
+			<ProgressButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" IsWorking="@IsWorking" WorkingText="Adding">Update</ProgressButton>
+			<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@HandleCancelEditClicked">Cancel</MudButton>
+			<MudSpacer />
+		</MudToolBar>
+	</EditForm>
+</SideDrawer>
 

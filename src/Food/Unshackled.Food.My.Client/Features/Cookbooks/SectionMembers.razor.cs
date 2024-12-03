@@ -8,6 +8,7 @@ namespace Unshackled.Food.My.Client.Features.Cookbooks;
 public class SectionMembersBase : BaseSectionComponent<Member>
 {
 	[Parameter] public CookbookModel Cookbook { get; set; } = new();
+	[Parameter] public EventCallback<CookbookModel> CookbookChanged { get; set; }
 
 	protected bool IsLoading { get; set; } = true;
 	protected bool IsAdding { get; set; }
