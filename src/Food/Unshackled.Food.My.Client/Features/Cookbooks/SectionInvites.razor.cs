@@ -1,16 +1,16 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Food.Core.Models;
-using Unshackled.Food.My.Client.Features.Households.Actions;
-using Unshackled.Food.My.Client.Features.Households.Models;
+using Unshackled.Food.My.Client.Features.Cookbooks.Actions;
+using Unshackled.Food.My.Client.Features.Cookbooks.Models;
 using Unshackled.Studio.Core.Client.Components;
 
-namespace Unshackled.Food.My.Client.Features.Households;
+namespace Unshackled.Food.My.Client.Features.Cookbooks;
 
-public class ListInvitesBase : BaseSectionComponent<Member>
+public class SectionInvitesBase : BaseSectionComponent<Member>
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
-	[Parameter] public HouseholdModel Household { get; set; } = new();
+	[Parameter] public CookbookModel Cookbook { get; set; } = new();
 
 	protected bool IsLoading { get; set; } = true;
 	protected bool IsWorking { get; set; } = false;
@@ -27,7 +27,7 @@ public class ListInvitesBase : BaseSectionComponent<Member>
 	{
 		await base.OnInitializedAsync();
 
-		Invites = await Mediator.Send(new ListMemberInvites.Query(Household.Sid));
+		Invites = await Mediator.Send(new ListMemberInvites.Query(Cookbook.Sid));
 		IsLoading = false;
 	}
 
@@ -70,7 +70,7 @@ public class ListInvitesBase : BaseSectionComponent<Member>
 	protected async Task HandleFormSubmitted()
 	{
 		IsWorking = true;
-		var result = await Mediator.Send(new AddInvite.Command(Household.Sid, AddModel));
+		var result = await Mediator.Send(new AddInvite.Command(Cookbook.Sid, AddModel));
 		if (result.Success && result.Payload != null)
 		{
 			Invites.Add(result.Payload);

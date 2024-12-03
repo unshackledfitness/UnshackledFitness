@@ -28,7 +28,11 @@ else
 		<SectionProperties @bind-Household="@Household" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
 				   OnIsEditingSectionChange="@HandleSectionEditing" />
 
-		<SectionMembers @bind-Household="@Household" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
-						OnIsEditingSectionChange="@HandleSectionEditing" />
+		<div Class="mb-6">
+			<SectionHeader Title="Members" Typo="Typo.h5" Class="mb-4" />
+
+			<SectionMembers @bind-Household="@Household" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingChange="@HandleSectionEditing" />
+			<SectionInvites Household="@Household" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleSectionEditing" />
+		</div>
 	}
 }
