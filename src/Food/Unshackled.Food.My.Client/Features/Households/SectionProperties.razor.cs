@@ -14,8 +14,9 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	[Parameter] public HouseholdModel Household { get; set; } = new();
 	[Parameter] public EventCallback<HouseholdModel> HouseholdChanged { get; set; }
 
-	protected string? DeleteVerification { get; set; }
 	protected const string FormId = "formHouseholdProperties";
+	protected bool CanDeleteHousehold { get; set; } = false;
+	protected string? DeleteVerification { get; set; }
 	protected bool IsConfirmingDelete { get; set; } = false;
 	protected bool IsDeleteConfirmed { get; set; } = false;
 	protected bool IsDeleting { get; set; } = false;
@@ -27,6 +28,7 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 
 	protected async Task HandleDeleteClicked()
 	{
+		CanDeleteHousehold = await Mediator.Send(new CanDeleteHousehold.Query(Household.Sid));
 		IsDeleting = await UpdateIsEditingSection(true);
 	}
 

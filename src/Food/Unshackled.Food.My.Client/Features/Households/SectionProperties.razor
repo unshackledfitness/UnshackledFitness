@@ -38,16 +38,27 @@
 
 			<MudText Typo="Typo.body2" Class="ms-2 mb-4">- Any recipes that have been shared to cookbooks will also be removed from those cookbooks.</MudText>
 
-			<MudText Class="mb-4">
-				Use the button below if you want to continue to delete this household.
-			</MudText>
+			@if (CanDeleteHousehold)
+			{
+				<MudText Class="mb-4">
+					Use the button below if you want to continue to delete this household.
+				</MudText>
 
-			<MudToolBar Gutters="false">
-				<MudButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@DisableControls" OnClick="@(() => IsConfirmingDelete = true)">
-					Delete Household
-				</MudButton>
-				<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@(() => HandleDeleteCancelClicked())">Cancel</MudButton>
-			</MudToolBar>
+				<MudToolBar Gutters="false">
+					<MudButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@DisableControls" OnClick="@(() => IsConfirmingDelete = true)">
+						Delete Household
+					</MudButton>
+					<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@(() => HandleDeleteCancelClicked())">Cancel</MudButton>
+				</MudToolBar>
+			}
+			else 
+			{
+				<MudAlert Severity="Severity.Warning" Class="mb-4">You cannot delete the household until all members (excluding the owner) are removed.</MudAlert>
+
+				<MudToolBar Gutters="false">
+					<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@(() => HandleDeleteCancelClicked())">Cancel</MudButton>
+				</MudToolBar>
+			}
 		}
 		else
 		{

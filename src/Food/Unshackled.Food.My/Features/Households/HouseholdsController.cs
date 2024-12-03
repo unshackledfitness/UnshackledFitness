@@ -18,6 +18,13 @@ public class HouseholdsController : BaseController
 		return Ok(await Mediator.Send(new AddHousehold.Command(Member.Id, hasActive, model)));
 	}
 
+	[HttpGet("can-delete/{sid}")]
+	[DecodeId]
+	public async Task<IActionResult> CanDeleteHousehold(long id)
+	{
+		return Ok(await Mediator.Send(new CanDeleteHousehold.Query(Member.Id, id)));
+	}
+
 	[HttpPost("delete")]
 	[ActiveMemberRequired]
 	public async Task<IActionResult> Delete([FromBody] string sid)

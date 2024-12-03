@@ -3,8 +3,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Food.Core;
 using Unshackled.Food.Core.Data;
-using Unshackled.Food.Core.Enums;
-using Unshackled.Food.My.Extensions;
 using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Server.Extensions;
 
@@ -35,8 +33,11 @@ public class DeleteHousehold
 			if (householdId == 0)
 				return new CommandResult(false, "Invalid household ID.");
 
-			if (!await db.HasHouseholdPermission(householdId, request.MemberId, PermissionLevels.Admin))
-				return new CommandResult(false, FoodGlobals.PermissionError);
+			if (!await db.Households.Where(x => x.Id == householdId && x.MemberId == request.MemberId).AnyAsync(cancellationToken))
+				return new CommandResult(false, "Only the owner can delete a household.");
+
+			if (await db.HouseholdMembers.Where(x => x.HouseholdId == householdId && x.MemberId != request.MemberId).AnyAsync(cancellationToken))
+				return new CommandResult(false, "A household with members cannot be deleted.");
 
 			var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
 
