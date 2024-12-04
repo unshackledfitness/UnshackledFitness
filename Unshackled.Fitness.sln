@@ -28,15 +28,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{8F306105-E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fitness", "Fitness", "{29C592C6-5588-467A-8E0D-CA771720BD27}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Food", "Food", "{49546F29-6694-4DD4-98A6-101E479A19EA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kitchen", "Kitchen", "{49546F29-6694-4DD4-98A6-101E479A19EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unshackled.Food.Core", "src\Food\Unshackled.Food.Core\Unshackled.Food.Core.csproj", "{A22733D0-C027-4786-B0BC-14332BCB3152}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unshackled.Kitchen.Core", "src\Kitchen\Unshackled.Kitchen.Core\Unshackled.Kitchen.Core.csproj", "{A22733D0-C027-4786-B0BC-14332BCB3152}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unshackled.Food.Core.Data", "src\Food\Unshackled.Food.Core.Data\Unshackled.Food.Core.Data.csproj", "{D1D7D215-9E36-4077-B564-188805080A62}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unshackled.Kitchen.Core.Data", "src\Kitchen\Unshackled.Kitchen.Core.Data\Unshackled.Kitchen.Core.Data.csproj", "{D1D7D215-9E36-4077-B564-188805080A62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unshackled.Food.My.Client", "src\Food\Unshackled.Food.My.Client\Unshackled.Food.My.Client.csproj", "{31F26AA2-8BDC-4C6B-8DBA-03A05EC249E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unshackled.Kitchen.My.Client", "src\Kitchen\Unshackled.Kitchen.My.Client\Unshackled.Kitchen.My.Client.csproj", "{31F26AA2-8BDC-4C6B-8DBA-03A05EC249E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unshackled.Food.My", "src\Food\Unshackled.Food.My\Unshackled.Food.My.csproj", "{A345BA06-3040-4499-829F-8B25BBE23747}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unshackled.Kitchen.My", "src\Kitchen\Unshackled.Kitchen.My\Unshackled.Kitchen.My.csproj", "{A345BA06-3040-4499-829F-8B25BBE23747}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
