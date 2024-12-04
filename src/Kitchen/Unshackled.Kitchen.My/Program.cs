@@ -81,7 +81,7 @@ builder.Services.ConfigureApplicationCookie(o =>
 	o.LogoutPath = "/account/logout";
 	o.ExpireTimeSpan = TimeSpan.FromDays(14);
 	o.SlidingExpiration = true;
-	o.Cookie.Name = siteConfig.SiteName?.RemoveNonAlphaNumeric() ?? "UnshackledFood";
+	o.Cookie.Name = siteConfig.SiteName?.RemoveNonAlphaNumeric() ?? "UnshackledKitchen";
 });
 
 builder.Services.Configure<DataProtectionTokenProviderOptions>(o => o.TokenLifespan = TimeSpan.FromHours(3));
