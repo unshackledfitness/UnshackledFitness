@@ -19,10 +19,10 @@ public class BulkSetCategory
 		public long HouseholdId { get; private set; }
 		public BulkCategoryModel Model { get; private set; }
 
-		public Command(long memberId, long groupId, BulkCategoryModel model)
+		public Command(long memberId, long householdId, BulkCategoryModel model)
 		{
 			MemberId = memberId;
-			HouseholdId = groupId;
+			HouseholdId = householdId;
 			Model = model;
 		}
 	}

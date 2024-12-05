@@ -20,10 +20,10 @@ public class MergeProducts
 		public string KeptUId { get; private set; }
 		public string DeletedUId { get; private set; }
 
-		public Command(long memberId, long groupId, string keptSid, string deletedSid)
+		public Command(long memberId, long householdId, string keptSid, string deletedSid)
 		{
 			MemberId = memberId;
-			HouseholdId = groupId;
+			HouseholdId = householdId;
 			KeptUId = keptSid;
 			DeletedUId = deletedSid;
 		}

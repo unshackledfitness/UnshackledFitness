@@ -1,6 +1,16 @@
 ﻿/// <reference path="./styles.scss" />
 
 .label-unit {
+	display: flex;
+	flex-direction: row;
+	gap: 0.25em;
+	column-gap: 0.25em;
+	row-gap: 0;
+	flex-wrap: wrap;
+
+	.stack {
+		display: inline-block;
+	}
 
 	.amt {
 		display: inline-block;
@@ -18,5 +28,9 @@
 
 	.small-label {
 		font-size: .8em;
+	}
+
+	&.label-unit-stacked {
+		flex-direction: column;
 	}
 }

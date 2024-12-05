@@ -16,10 +16,10 @@ public class ListCategories
 		public long HouseholdId { get; private set; }
 		public long MemberId { get; private set; }
 
-		public Query(long memberId, long groupId)
+		public Query(long memberId, long householdId)
 		{
 			MemberId = memberId;
-			HouseholdId = groupId;
+			HouseholdId = householdId;
 		}
 	}
 

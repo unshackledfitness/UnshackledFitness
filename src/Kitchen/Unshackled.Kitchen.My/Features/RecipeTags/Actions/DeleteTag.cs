@@ -18,9 +18,9 @@ public class DeleteTag
 		public long HouseholdId { get; private set; }
 		public string Sid { get; private set; }
 
-		public Command(long memberId, long groupId, string sid)
+		public Command(long memberId, long householdId, string sid)
 		{
-			HouseholdId = groupId;
+			HouseholdId = householdId;
 			MemberId = memberId;
 			Sid = sid;
 		}

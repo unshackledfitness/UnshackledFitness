@@ -18,10 +18,10 @@ public class AddCategory
 		public long HouseholdId { get; private set; }
 		public FormCategoryModel Model { get; private set; }
 
-		public Command(long memberId, long groupId, FormCategoryModel model)
+		public Command(long memberId, long householdId, FormCategoryModel model)
 		{
 			MemberId = memberId;
-			HouseholdId = groupId;
+			HouseholdId = householdId;
 			Model = model;
 		}
 	}

@@ -21,10 +21,10 @@ public class AddTag
 		public long HouseholdId { get; private set; }
 		public FormTagModel Model { get; private set; }
 
-		public Command(long memberId, long groupId, FormTagModel model)
+		public Command(long memberId, long householdId, FormTagModel model)
 		{
 			MemberId = memberId;
-			HouseholdId = groupId;
+			HouseholdId = householdId;
 			Model = model;
 		}
 	}

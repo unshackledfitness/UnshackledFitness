@@ -168,6 +168,7 @@ public class FormProductModel : INutritionForm
 		CalciumUnit = product.CalciumUnit;
 		Calories = product.Calories;
 		CaloriesFromFat = product.CaloriesFromFat;
+		CategorySid = product.CategorySid;
 		Chloride = product.Chloride;
 		ChlorideUnit = product.ChlorideUnit;
 		Cholesterol = product.Cholesterol;

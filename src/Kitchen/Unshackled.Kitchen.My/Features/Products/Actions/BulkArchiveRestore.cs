@@ -19,10 +19,10 @@ public class BulkArchiveRestore
 		public long HouseholdId { get; private set; }
 		public BulkArchiveModel Model { get; private set; }
 
-		public Command(long memberId, long groupId, BulkArchiveModel model)
+		public Command(long memberId, long householdId, BulkArchiveModel model)
 		{
 			MemberId = memberId;
-			HouseholdId = groupId;
+			HouseholdId = householdId;
 			Model = model;
 		}
 	}

@@ -20,9 +20,9 @@ public class SearchProducts
 		public long HouseholdId { get; private set; }
 		public SearchProductModel Model { get; private set; }
 
-		public Query(long memberId, long groupId, SearchProductModel model)
+		public Query(long memberId, long householdId, SearchProductModel model)
 		{
-			HouseholdId = groupId;
+			HouseholdId = householdId;
 			MemberId = memberId;
 			Model = model;
 		}

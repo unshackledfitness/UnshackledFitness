@@ -16,13 +16,13 @@ public class UpdateCategory
 	public class Command : IRequest<CommandResult>
 	{
 		public long MemberId { get; private set; }
-		public long GroupId { get; private set; }
+		public long HouseholdId { get; private set; }
 		public FormCategoryModel Model { get; private set; }
 
-		public Command(long memberId, long groupId, FormCategoryModel model)
+		public Command(long memberId, long householdId, FormCategoryModel model)
 		{
 			MemberId = memberId;
-			GroupId = groupId;
+			HouseholdId = householdId;
 			Model = model;
 		}
 	}
@@ -33,7 +33,7 @@ public class UpdateCategory
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
-			if (!await db.HasHouseholdPermission(request.GroupId, request.MemberId, PermissionLevels.Write))
+			if (!await db.HasHouseholdPermission(request.HouseholdId, request.MemberId, PermissionLevels.Write))
 				return new CommandResult(false, KitchenGlobals.PermissionError);
 
 			long categoryId = request.Model.Sid.DecodeLong();

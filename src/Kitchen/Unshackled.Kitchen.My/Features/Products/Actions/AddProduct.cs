@@ -21,10 +21,10 @@ public class AddProduct
 		public long HouseholdId { get; private set; }
 		public FormProductModel Model { get; private set; }
 
-		public Command(long memberId, long groupId, FormProductModel model)
+		public Command(long memberId, long householdId, FormProductModel model)
 		{
 			MemberId = memberId;
-			HouseholdId = groupId;
+			HouseholdId = householdId;
 			Model = model;
 		}
 	}
@@ -37,6 +37,8 @@ public class AddProduct
 		{
 			if (!await db.HasHouseholdPermission(request.HouseholdId, request.MemberId, PermissionLevels.Write))
 				return new CommandResult<string>(false, KitchenGlobals.PermissionError);
+
+			long categoryId = request.Model.CategorySid.DecodeLong();
 
 			ProductEntity product;
 			if (request.Model.HasNutritionInfo)
@@ -55,6 +57,7 @@ public class AddProduct
 					MonounsaturatedFat = request.Model.MonounsaturatedFat,
 					MonounsaturatedFatN = request.Model.MonounsaturatedFatUnit.NormalizeAmount(request.Model.MonounsaturatedFat),
 					MonounsaturatedFatUnit = request.Model.MonounsaturatedFatUnit,
+					ProductCategoryId = categoryId > 0 ? categoryId : null,
 					PolyunsaturatedFat = request.Model.PolyunsaturatedFat,
 					PolyunsaturatedFatN = request.Model.PolyunsaturatedFatUnit.NormalizeAmount(request.Model.PolyunsaturatedFat),
 					PolyunsaturatedFatUnit = request.Model.PolyunsaturatedFatUnit,
@@ -266,6 +269,7 @@ public class AddProduct
 					Description = request.Model.Description?.Trim(),
 					HasNutritionInfo = request.Model.HasNutritionInfo,
 					HouseholdId = request.HouseholdId,
+					ProductCategoryId = categoryId > 0 ? categoryId : null,
 					Title = request.Model.Title.Trim()
 				};
 			}

@@ -17,10 +17,10 @@ public class ListMergeProducts
 		public long HouseholdId { get; private set; }
 		public List<string> Sids { get; private set; }
 
-		public Query(long memberId, long groupId, List<string> sids)
+		public Query(long memberId, long householdId, List<string> sids)
 		{
 			MemberId = memberId;
-			HouseholdId = groupId;
+			HouseholdId = householdId;
 			Sids = sids;
 		}
 	}

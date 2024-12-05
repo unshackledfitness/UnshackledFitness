@@ -20,10 +20,10 @@ public class UpdateProduct
 		public long HouseholdId { get; private set; }
 		public FormProductModel Model { get; private set; }
 
-		public Command(long memberId, long groupId, FormProductModel model)
+		public Command(long memberId, long householdId, FormProductModel model)
 		{
 			MemberId = memberId;
-			HouseholdId = groupId;
+			HouseholdId = householdId;
 			Model = model;
 		}
 	}
@@ -49,10 +49,13 @@ public class UpdateProduct
 			if (product == null)
 				return new CommandResult<ProductModel>(false, "Invalid product ID");
 
+			long categoryId = request.Model.CategorySid.DecodeLong();
+
 			product.Brand = request.Model.Brand?.Trim();
 			product.Description = request.Model.Description?.Trim();
 			product.HasNutritionInfo = request.Model.CheckForNutritionInfo();
 			product.HouseholdId = request.HouseholdId;
+			product.ProductCategoryId = categoryId > 0 ? categoryId : null;
 			product.Title = request.Model.Title.Trim();
 
 			if (product.HasNutritionInfo)
@@ -373,8 +376,14 @@ public class UpdateProduct
 			db.Entry(product).Property(x => x.Description).IsModified = true;
 			db.Entry(product).Property(x => x.Title).IsModified = true;
 			db.Entry(product).Property(x => x.ServingSizeUnitLabel).IsModified = true;
-
 			await db.SaveChangesAsync(cancellationToken);
+
+			if (product.ProductCategoryId.HasValue)
+			{
+				await db.Entry(product)
+					.Reference(x => x.Category)
+					.LoadAsync(cancellationToken);
+			}
 
 			return new CommandResult<ProductModel>(true, "Product updated.", mapper.Map<ProductModel>(product));
 		}

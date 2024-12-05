@@ -19,6 +19,7 @@
 			<MudSelect Label="Category" T="string" Variant="Variant.Outlined" FullWidth="true" Disabled="@IsSaving"
 					   @bind-Value="@Model.CategorySid" For="@(() => Model.CategorySid)" Placeholder="-- Select a category --">
 
+				<MudSelectItem T="string" Value="string.Empty">Uncategorized</MudSelectItem>
 				@foreach (var item in Categories)
 				{
 					<MudSelectItem T="string" Value="@item.Sid">@item.Title</MudSelectItem>
