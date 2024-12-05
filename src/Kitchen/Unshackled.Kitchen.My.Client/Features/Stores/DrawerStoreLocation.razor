@@ -28,3 +28,13 @@
 		<MudButton StartIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" FullWidth="true" OnClick="@(() => HandleDeleteClicked())">Delete Item</MudButton>
 	</div>
 }
+else 
+{
+	<MudText Typo="Typo.body2" Color="Color.Tertiary" Class="mt-6 mb-2">Common Departments</MudText>
+	<div class="d-flex gap-1 flex-row flex-wrap">
+		@foreach (var item in EnumUtils.GetSortedValues<CommonStoreLocations>())
+		{
+			<MudChip T="CommonStoreLocations" OnClick="@(() => HandleCommonAddClicked(item))">@item.Title()</MudChip>
+		}
+	</div>
+}

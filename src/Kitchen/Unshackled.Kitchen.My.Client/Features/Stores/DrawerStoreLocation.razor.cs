@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Unshackled.Kitchen.Core.Enums;
 using Unshackled.Kitchen.My.Client.Features.Stores.Models;
 using Unshackled.Studio.Core.Client.Components;
 
@@ -15,4 +16,9 @@ public class DrawerStoreLocationBase : BaseFormComponent<FormStoreLocationModel,
 	}
 
 	public string SubmitButtonLabel => IsAdding ? "Add" : "Save";
+
+	protected void HandleCommonAddClicked(CommonStoreLocations value)
+	{
+		Model.Title = value.Title();
+	}
 }
