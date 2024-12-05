@@ -8,9 +8,11 @@ namespace Unshackled.Fitness.My.Client.Features.Dashboard;
 
 public class DashboardProgramBase : BaseComponent<Member>
 {
-	protected List<ScheduledListModel> Items { get; set; } = new();
-	public bool IsWorking { get; set; }
-	public bool IsSkipping { get; set; }
+	protected List<ScheduledListModel> Items { get; set; } = [];
+	public bool IsTrackingSession { get; set; }
+	public bool IsTrackingWorkout { get; set; }
+	public bool IsSkippingSession { get; set; }
+	public bool IsSkippingWorkout { get; set; }
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -21,7 +23,7 @@ public class DashboardProgramBase : BaseComponent<Member>
 
 	protected async Task HandleSkipSessionClicked(ScheduledListModel model)
 	{
-		IsSkipping = true;
+		IsSkippingSession = true;
 
 		var result = await Mediator.Send(new SkipTrainingSession.Command(model.ParentSid));
 		if (result.Success)
@@ -34,12 +36,12 @@ public class DashboardProgramBase : BaseComponent<Member>
 			}
 		}
 
-		IsSkipping = false;
+		IsSkippingSession = false;
 	}
 
 	protected async Task HandleSkipWorkoutClicked(ScheduledListModel model)
 	{
-		IsSkipping = true;
+		IsSkippingWorkout = true;
 
 		var result = await Mediator.Send(new SkipWorkout.Command(model.ParentSid));
 		if (result.Success)
@@ -52,20 +54,20 @@ public class DashboardProgramBase : BaseComponent<Member>
 			}
 		}
 
-		IsSkipping = false;
+		IsSkippingWorkout = false;
 	}
 
 	protected async Task HandleTrackActivityClicked(string sid)
 	{
-		IsWorking = true;
+		IsTrackingSession = true;
 		await SaveLocalString(FitnessGlobals.LocalStorageKeys.TrackTrainingSessionSid, sid);
 		NavManager.NavigateTo($"/activities");
-		IsWorking = false;
+		IsTrackingSession = false;
 	}
 
 	protected async Task HandleTrackWorkoutClicked(string sid)
 	{
-		IsWorking = true;
+		IsTrackingWorkout = true;
 		var result = await Mediator.Send(new AddWorkout.Command(sid));
 		if (result.Success)
 		{
@@ -75,6 +77,6 @@ public class DashboardProgramBase : BaseComponent<Member>
 		{
 			ShowNotification(result);
 		}
-		IsWorking = false;
+		IsTrackingWorkout = false;
 	}
 }
