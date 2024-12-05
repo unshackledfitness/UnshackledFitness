@@ -4,9 +4,9 @@
 	<SectionHeader Title="Aisles/Departments" Typo="Typo.h5" Class="mb-2" />
 
 	<SortableListView TItem="FormStoreLocationModel" Items="@Locations" ToolbarAlignment="HorizontalAlignment.Left" ToolbarPosition="@ToolbarPositions.Top"
-	IsSortingChanged="HandleIsSorting" SortOrderChanged="@HandleSortChanged" DisableSort="@DisableControls" AllowSort="@CanEdit">
+					  IsSortingChanged="HandleIsSorting" SortOrderChanged="@HandleSortChanged" DisableSort="@DisableControls" AllowSort="@CanEdit">
 		<ItemRenderer>
-			<div class="d-flex flex-row gap-4 align-center">
+			<div class="d-flex gap-4 align-center flex-row">
 				<div class="flex-grow-1">
 					<MudLink Typo="Typo.subtitle1" Class="d-block" Href="@($"/stores/{StoreSid}/aisles/{context.Item.Sid}")">@context.Item.Title</MudLink>
 					@if (!string.IsNullOrEmpty(context.Item.Description))
@@ -16,7 +16,7 @@
 				</div>
 				@if (CanEdit)
 				{
-					<div class="d-flex flex-row gap-2 align-center">
+					<div class="d-flex gap-2 align-center flex-row">
 						<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" Disabled="@DisableControls" OnClick="@(() => HandleEditClicked(context.Item))" />
 					</div>
 				}
@@ -24,7 +24,7 @@
 		</ItemRenderer>
 		<DraggableItemRenderer>
 			<MudPaper Elevation="2" Class="py-2 px-4 my-2">
-				<div class="d-flex flex-row gap-4 align-center">
+				<div class="d-flex gap-4 align-center flex-row">
 					<div>
 						<MudIcon Icon="@Icons.Material.Filled.DragIndicator" />
 					</div>
@@ -43,6 +43,7 @@
 			@if (CanEdit)
 			{
 				<MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls" OnClick="@(() => HandleAddClicked())">Add</MudButton>
+				<MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Outlined.AddCircle" Disabled="@DisableControls" OnClick="@(() => HandleBulkAddClicked())">Bulk Add</MudButton>
 			}
 		</ListTools>
 	</SortableListView>
@@ -51,10 +52,14 @@
 <SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
 	@if (DrawerView == Views.Add)
 	{
-		<DrawerStoreLocation Model="@AddFormModel" SubmitButtonLabel="Add" OnFormSubmitted="@HandleAddFormSubmitted" OnCanceled="@HandleCancelClicked" />
+		<DrawerStoreLocation Model="@AddFormModel" IsAdding="true" OnFormSubmitted="@HandleAddFormSubmitted" OnCanceled="@HandleCancelClicked" />
 	}
 	else if (DrawerView == Views.Edit)
 	{
-		<DrawerStoreLocation Model="@EditingModel" SubmitButtonLabel="Save" OnFormSubmitted="@HandleEditFormSubmitted" OnCanceled="@HandleCancelClicked" OnDeleted="@HandleDeleteClicked" />
+		<DrawerStoreLocation Model="@EditingModel" OnFormSubmitted="@HandleEditFormSubmitted" OnCanceled="@HandleCancelClicked" OnDeleted="@HandleDeleteClicked" />
+	}
+	else if (DrawerView == Views.BulkAdd)
+	{
+		<DrawerBulkAddLocations Model="@BulkAddFormModel" OnFormSubmitted="@HandleBulkAddFormSubmitted" OnCanceled="@HandleCancelClicked" />
 	}
 </SideDrawer>

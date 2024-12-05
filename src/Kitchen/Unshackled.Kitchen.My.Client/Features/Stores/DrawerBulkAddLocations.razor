@@ -1,0 +1,44 @@
+﻿@inherits DrawerBulkAddLocationBase
+
+<EditForm Model="@Model" OnValidSubmit="HandleFormSubmitted">
+	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
+	<MudGrid Spacing="1" Class="mb-4">
+		<MudItem xs="12">
+			<MudTextField T="string" Label="Prefix" Variant="Variant.Outlined" Immediate="true" Disabled="@DisableControls"
+						  FullWidth="true" For="@(() => Model.Prefix)" Value="@Model.Prefix" ValueChanged="@HandlePrefixChange" />
+		</MudItem>
+		<MudItem xs="12">
+			<MudNumericField T="int" Label="Number to Add" Variant="Variant.Outlined" Immediate="true" Disabled="@DisableControls"
+							 FullWidth="true" Min="1" Max="@int.MaxValue" Step="1" Value="@Model.NumberToAdd" ValueChanged="@HandleNumberToAddChange" />
+		</MudItem>
+		<MudItem xs="12">
+			<MudSelect T="bool" Label="Sort" Variant="Variant.Outlined" Immediate="true" Disabled="@DisableControls" FullWidth="true"
+					   Value="@Model.SortDescending" ValueChanged="@HandleSortDescendingChange">
+				<MudSelectItem T="bool" Value="@false">Low to High</MudSelectItem>
+				<MudSelectItem T="bool" Value="@true">High to Low</MudSelectItem>
+			</MudSelect>
+		</MudItem>
+	</MudGrid>
+	<MudToolBar Gutters="false">
+		<MudSpacer />
+		<MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@DisableControls" ButtonType="ButtonType.Submit">Add</MudButton>
+		<MudButton Variant="Variant.Outlined" Color="Color.Primary" Disabled="@DisableControls" OnClick="@(() => HandleCancelClicked())">Cancel</MudButton>
+		<MudSpacer />
+	</MudToolBar>
+</EditForm>
+
+@if (SampleItems.Any())
+{
+	<MudText Typo="Typo.h6" Color="Color.Tertiary">Preview</MudText>
+	<ListView Items="@SampleItems">
+		<ItemRenderer>
+			@if (SampleItems.Count < 4 || context.RowIndex != 2) {
+				<MudText Typo="Typo.subtitle1">@context.Item.Title</MudText>
+			}
+			else
+			{
+				<MudIcon Class="@(string.IsNullOrEmpty(Model.Prefix) ? string.Empty : "ms-4")" Icon="@Icons.Material.Filled.MoreVert" />
+			}
+		</ItemRenderer>
+	</ListView>
+}

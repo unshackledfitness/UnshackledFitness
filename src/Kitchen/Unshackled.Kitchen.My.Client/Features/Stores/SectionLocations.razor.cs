@@ -15,13 +15,15 @@ public class SectionLocationsBase : BaseSectionComponent<Member>
 	{
 		None,
 		Add,
-		Edit
+		Edit,
+		BulkAdd
 	}
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public string StoreSid { get; set; } = string.Empty;
 
 	protected List<FormStoreLocationModel> Locations { get; set; } = [];
 	protected FormStoreLocationModel AddFormModel { get; set; } = new();
+	protected FormBulkAddLocationModel BulkAddFormModel { get; set; } = new();
 	protected FormStoreLocationModel EditingModel { get; set; } = new();
 	protected bool IsWorking { get; set; } = false;
 	protected bool IsSorting { get; set; } = false;
@@ -34,6 +36,7 @@ public class SectionLocationsBase : BaseSectionComponent<Member>
 	{
 		Views.Add => "Add Aisle/Department",
 		Views.Edit => "Edit Aisle/Department",
+		Views.BulkAdd => "Bulk Add Aisle/Department",
 		_ => string.Empty
 	};
 
@@ -61,6 +64,35 @@ public class SectionLocationsBase : BaseSectionComponent<Member>
 		IsWorking = await UpdateIsEditingSection(true);
 
 		var result = await Mediator.Send(new AddLocation.Command(model));
+		if (result.Success)
+		{
+			Locations = await Mediator.Send(new ListStoreLocations.Query(StoreSid));
+		}
+		ShowNotification(result);
+
+		IsWorking = await UpdateIsEditingSection(false);
+		StateHasChanged();
+	}
+
+	protected async Task HandleBulkAddClicked()
+	{
+		BulkAddFormModel = new()
+		{
+			StoreSid = StoreSid,
+			NumberToAdd = 1,
+			Prefix = "Aisle ",
+			SortDescending = false
+		};
+		DrawerView = Views.BulkAdd;
+		await UpdateIsEditingSection(true);
+	}
+
+	protected async Task HandleBulkAddFormSubmitted(FormBulkAddLocationModel model)
+	{
+		DrawerView = Views.None;
+		IsWorking = await UpdateIsEditingSection(true);
+
+		var result = await Mediator.Send(new BulkAddLocations.Command(model));
 		if (result.Success)
 		{
 			Locations = await Mediator.Send(new ListStoreLocations.Query(StoreSid));

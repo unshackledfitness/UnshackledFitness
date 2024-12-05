@@ -25,4 +25,10 @@
 		<ProjectReference Include="..\Unshackled.Kitchen.Core\Unshackled.Kitchen.Core.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Update="Features\Stores\DrawerBulkAddLocations.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
+	</ItemGroup>
+
 </Project>

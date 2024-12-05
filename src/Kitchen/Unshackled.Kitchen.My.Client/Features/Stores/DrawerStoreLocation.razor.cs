@@ -6,11 +6,13 @@ namespace Unshackled.Kitchen.My.Client.Features.Stores;
 
 public class DrawerStoreLocationBase : BaseFormComponent<FormStoreLocationModel, FormStoreLocationModel.Validator>
 {
-	[Parameter] public string SubmitButtonLabel { get; set; } = "Save";
 	[Parameter] public EventCallback OnDeleted { get; set; }
+	[Parameter] public bool IsAdding { get; set; } = false;
 
 	protected async Task HandleDeleteClicked()
 	{
 		await OnDeleted.InvokeAsync();
 	}
+
+	public string SubmitButtonLabel => IsAdding ? "Add" : "Save";
 }

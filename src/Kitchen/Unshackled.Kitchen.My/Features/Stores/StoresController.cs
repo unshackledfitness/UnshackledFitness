@@ -23,6 +23,13 @@ public class StoresController : BaseController
 		return Ok(await Mediator.Send(new AddLocation.Command(Member.Id, Member.ActiveHouseholdId, model)));
 	}
 
+	[HttpPost("bulk-add-locations")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> BulkAddLocations([FromBody] FormBulkAddLocationModel model)
+	{
+		return Ok(await Mediator.Send(new BulkAddLocations.Command(Member.Id, Member.ActiveHouseholdId, model)));
+	}
+
 	[HttpPost("change-product-location")]
 	[ActiveMemberRequired]
 	public async Task<IActionResult> ChangeProductLocation([FromBody] ChangeLocationModel model)
