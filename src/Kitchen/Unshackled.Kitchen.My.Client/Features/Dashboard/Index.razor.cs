@@ -51,6 +51,11 @@ public class IndexBase : BaseComponent<Member>
 			.OrderBy(x => x.Title)
 			.ToList();
 
+		if (PinnedCategories.Count == 1)
+		{
+			SelectedCategorySid = PinnedCategories.First().Sid;
+		}
+
 		ShoppingLists = await Mediator.Send(new ListShoppingLists.Query());
 
 		IsLoading = false;
