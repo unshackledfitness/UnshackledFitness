@@ -8,8 +8,7 @@
 
 @if (externalLogins.Length > 0)
 {
-	<MudText Typo="Typo.body2" Align="Align.Center" Class="my-3" Color="Color.Tertiary">@Title</MudText>
-	<div class="d-flex flex-row gap-2 justify-content-center flex-wrap">
+	<div class="d-flex justify-content-center mt-6 flex-row flex-wrap gap-2">
 		@foreach (var provider in externalLogins)
 		{
 			<form action="account/perform-external-login" method="post">
@@ -17,18 +16,17 @@
 				<input type="hidden" name="Provider" value="@provider.Name">
 				<input type="hidden" name="ReturnUrl" value="@ReturnUrl" />
 				<MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Default" StartIcon="@provider.Name.GetBrandIcon()">
-					@provider.DisplayName
+					Continue with @provider.DisplayName
 				</MudButton>
 			</form>
 		}
 	</div>
+
+	<MudText Typo="Typo.h6" Align="Align.Center" Class="mt-4">&mdash; OR &mdash;</MudText>
 }
 
 @code {
 	private AuthenticationScheme[] externalLogins = [];
-
-	[Parameter]
-	public string Title { get; set; } = "Alternate Login";
 
     [SupplyParameterFromQuery]
     private string? ReturnUrl { get; set; }

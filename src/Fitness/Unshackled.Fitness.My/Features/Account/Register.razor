@@ -24,6 +24,8 @@
 
 <PageTitle>Create A New Account</PageTitle>
 
+<ExternalLoginPicker />
+
 <MudText Typo="Typo.h6" Class="mb-3">Create A New Account</MudText>
 <StatusMessage Message="@Message" />
 <EditForm Model="Input" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register" class="disable-on-submit">

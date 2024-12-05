@@ -15,6 +15,8 @@
 
 <PageTitle>Log In</PageTitle>
 
+<ExternalLoginPicker />
+
 <MudText Typo="Typo.h6" Class="mb-3">Log In</MudText>
 <StatusMessage Message="@errorMessage" />
 <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login" class="disable-on-submit">
@@ -44,7 +46,7 @@
 	</MudToolBar>
 </EditForm>
 
-<div class="d-flex flex-column flex-sm-row flex-wrap align-center justify-sm-center gap-2 gap-sm-4">
+<div class="d-flex flex-column flex-sm-row align-center justify-sm-center gap-sm-4 flex-wrap gap-2">
 	<div>
 		<MudLink Typo="Typo.caption" Color="Color.Secondary" Href="account/forgot-password">Forgot your password?</MudLink>
 	</div>
@@ -58,8 +60,6 @@
 		</div>
 	}
 </div>
-
-<ExternalLoginPicker />
 
 @code {
 	private string? errorMessage;
