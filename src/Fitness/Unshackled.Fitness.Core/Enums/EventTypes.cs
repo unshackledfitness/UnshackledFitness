@@ -6,7 +6,8 @@ public enum EventTypes
 	Uncategorized,
 	Training,
 	Competition,
-	Recreational
+	Recreational,
+	TherapyRecovery
 }
 
 public static class EventTypesExtensions
@@ -18,6 +19,7 @@ public static class EventTypesExtensions
 			EventTypes.Any => "Any",
 			EventTypes.Competition => "Competition",
 			EventTypes.Recreational => "Recreational",
+			EventTypes.TherapyRecovery => "Therapy/Recovery",
 			EventTypes.Training => "Training",
 			EventTypes.Uncategorized => "Uncategorized",
 			_ => string.Empty,
