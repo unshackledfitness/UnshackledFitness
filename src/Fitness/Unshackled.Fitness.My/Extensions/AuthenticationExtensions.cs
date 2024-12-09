@@ -23,8 +23,8 @@ public static class AuthenticationExtensions
 		if (authProviderConfig.HasGoogleProvider)
 		{
 			builder.AddGoogle(options => {
-				options.ClientId = authProviderConfig.MicrosoftClientId;
-				options.ClientSecret = authProviderConfig.MicrosoftClientSecret;
+				options.ClientId = authProviderConfig.GoogleClientId;
+				options.ClientSecret = authProviderConfig.GoogleClientSecret;
 			});
 		}
 

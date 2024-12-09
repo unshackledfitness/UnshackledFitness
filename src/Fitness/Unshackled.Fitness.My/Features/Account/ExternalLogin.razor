@@ -9,6 +9,7 @@
 @using Unshackled.Studio.Core.Client
 @using Unshackled.Studio.Core.Client.Configuration
 @using Unshackled.Studio.Core.Data.Entities
+@using Unshackled.Studio.Core.Server.Extensions
 
 @inject SignInManager<UserEntity> SignInManager
 @inject UserManager<UserEntity> UserManager
@@ -90,35 +91,57 @@
 			RedirectManager.RedirectTo("account/lockout");
 		}
 
-		// If the user does not have an account, create an account.
-		if (SiteConfig.AllowRegistration)
+		// Login Failed, check if user has local account
+		string email = externalLoginInfo.Principal.GetEmailClaim();
+		var user = await UserManager.FindByNameAsync(email);
+
+		// Has account with another login method
+		if (user != null)
 		{
-			if (externalLoginInfo.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+			var createResult = await UserManager.AddLoginAsync(user, externalLoginInfo);
+			if (createResult.Succeeded)
 			{
-				string? email = externalLoginInfo.Principal.FindFirstValue(ClaimTypes.Email) ?? "";
-				if (!string.IsNullOrEmpty(email))
+				Logger.LogInformation("User created an account using {Name} provider.", externalLoginInfo.LoginProvider);
+				await SignInManager.SignInAsync(user, isPersistent: false, externalLoginInfo.LoginProvider);
+				RedirectManager.RedirectTo(ReturnUrl);
+			}
+			else 
+			{
+				RedirectManager.RedirectToWithStatus("account/login", $"Could not add {externalLoginInfo.LoginProvider} login. Please log in using another method.", HttpContext);
+			}
+		}
+		// If the user does not have an account, create an account.
+		else if (user == null && SiteConfig.AllowRegistration)
+		{
+			if (!string.IsNullOrEmpty(email) && email.Contains("@"))
+			{
+				var emailStore = GetEmailStore();
+				user = CreateUser();
+
+				await UserStore.SetUserNameAsync(user, email, CancellationToken.None);
+				await emailStore.SetEmailAsync(user, email, CancellationToken.None);
+				if (SiteConfig.RequireConfirmedAccount)
+					await emailStore.SetEmailConfirmedAsync(user, true, CancellationToken.None);
+
+				var createResult = await UserManager.CreateAsync(user);
+				if (createResult.Succeeded)
 				{
-					var emailStore = GetEmailStore();
-					var user = CreateUser();
-
-					await UserStore.SetUserNameAsync(user, email, CancellationToken.None);
-					await emailStore.SetEmailAsync(user, email, CancellationToken.None);
-					if (SiteConfig.RequireConfirmedAccount)
-						await emailStore.SetEmailConfirmedAsync(user, true, CancellationToken.None);
-
-					var createResult = await UserManager.CreateAsync(user);
+					createResult = await UserManager.AddLoginAsync(user, externalLoginInfo);
 					if (createResult.Succeeded)
 					{
-						createResult = await UserManager.AddLoginAsync(user, externalLoginInfo);
-						if (result.Succeeded)
-						{
-							Logger.LogInformation("User created an account using {Name} provider.", externalLoginInfo.LoginProvider);
-							await SignInManager.SignInAsync(user, isPersistent: false, externalLoginInfo.LoginProvider);
-							RedirectManager.RedirectTo(ReturnUrl);
-						}
+						Logger.LogInformation("User created an account using {Name} provider.", externalLoginInfo.LoginProvider);
+						await SignInManager.SignInAsync(user, isPersistent: false, externalLoginInfo.LoginProvider);
+						RedirectManager.RedirectTo(ReturnUrl);
+					}
+					else
+					{
+						RedirectManager.RedirectToWithStatus("account/login", $"Could not add {externalLoginInfo.LoginProvider} login. Please log in using another method.", HttpContext);
 					}
 				}
-
+				else
+				{
+					RedirectManager.RedirectToWithStatus("account/login", $"Could not create your user account.", HttpContext);
+				}
 			}
 
 			RedirectManager.RedirectToWithStatus("account/login", "No email address provided in with external login information.", HttpContext);

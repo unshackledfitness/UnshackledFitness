@@ -24,7 +24,7 @@
 
 <PageTitle>Create A New Account</PageTitle>
 
-<ExternalLoginPicker />
+<ExternalLoginPicker Title="Create An Account With" />
 
 <MudText Typo="Typo.h6" Class="mb-3">Create A New Account</MudText>
 <StatusMessage Message="@Message" />
@@ -53,8 +53,6 @@
 		<MudSpacer />
 	</MudToolBar>
 </EditForm>
-
-<ExternalLoginPicker Title="Register using an external service" />
 
 @code {
 	private IEnumerable<IdentityError>? identityErrors;
