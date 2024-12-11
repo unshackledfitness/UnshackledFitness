@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Exercises.Actions;
 using Unshackled.Fitness.My.Client.Features.Exercises.Models;
@@ -13,10 +14,11 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	[Parameter] public ExerciseModel Exercise { get; set; } = new();
 	[Parameter] public EventCallback<ExerciseModel> ExerciseChanged { get; set; }
 
-	protected const string FormId = "formExercise";
+	protected MudForm Form { get; set; } = default!;
 	protected bool DrawerOpen { get; set; }
 	protected bool IsUpdating { get; set; } = false;
 	protected FormExerciseModel Model { get; set; } = new();
+	protected FormExerciseModel.Validator ModelValidator { get; set; } = new();
 	protected ExerciseNoteModel FormNoteModel { get; set; } = new();
 
 	public bool DisableControls => IsUpdating;
@@ -60,18 +62,35 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 		await UpdateIsEditingSection(true);
 	}
 
-	protected async Task HandleFormSubmitted(FormExerciseModel model)
+	protected async Task HandleEquipmentChanged(IEnumerable<EquipmentTypes> selected)
 	{
-		IsUpdating = true;
-		var result = await Mediator.Send(new UpdateExercise.Command(model));
-		ShowNotification(result);
-		if (result.Success)
+		Model.Equipment = selected;
+		await Form.Validate();
+	}
+
+	protected async Task HandleFormSubmitted()
+	{
+		await Form.Validate();
+
+		if (Form.IsValid)
 		{
-			if (ExerciseChanged.HasDelegate)
-				await ExerciseChanged.InvokeAsync(result.Payload);
+			IsUpdating = true;
+			var result = await Mediator.Send(new UpdateExercise.Command(Model));
+			ShowNotification(result);
+			if (result.Success)
+			{
+				if (ExerciseChanged.HasDelegate)
+					await ExerciseChanged.InvokeAsync(result.Payload);
+			}
+			IsUpdating = false;
+			IsEditing = await UpdateIsEditingSection(false);
 		}
-		IsUpdating = false;
-		IsEditing = await UpdateIsEditingSection(false);
+	}
+
+	protected async Task HandleMusclesChanged(IEnumerable<MuscleTypes> selected)
+	{
+		Model.Muscles = selected;
+		await Form.Validate();
 	}
 
 	protected async Task HandleSaveNoteClicked()

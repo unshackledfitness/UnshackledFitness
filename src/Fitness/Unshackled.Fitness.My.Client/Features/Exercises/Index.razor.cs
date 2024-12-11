@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Reflection;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.Core.Models;
@@ -14,11 +15,11 @@ public partial class IndexBase : BaseSearchComponent<SearchExerciseModel, Exerci
 	[Inject] protected ClientConfiguration ClientConfig { get; set; } = default!;
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 
-	protected const string FormId = "formExercise";
 	protected bool MaxSelectionReached => SelectedSids.Count == 2;
 	protected List<string> SelectedSids { get; set; } = new();
 	protected FormExerciseModel AddModel { get; set; } = new();
-
+	protected FormExerciseModel.Validator AddModelValidator { get; set; } = new();
+	protected MudForm Form { get; set; } = default!;
 	protected string DrawerIcon => Icons.Material.Filled.AddCircle;
 	protected bool DrawerOpen { get; set; } = false;
 	protected string DrawerTitle => "Add New Exercise";
@@ -60,16 +61,21 @@ public partial class IndexBase : BaseSearchComponent<SearchExerciseModel, Exerci
 		DrawerOpen = true;
 	}
 
-	protected async Task HandleAddFormSubmitted(FormExerciseModel model)
+	protected async Task HandleAddFormSubmitted()
 	{
-		IsWorking = true;
-		var result = await Mediator.Send(new AddExercise.Command(model));
-		ShowNotification(result);
-		if (result.Success)
+		await Form.Validate();
+
+		if (Form.IsValid)
 		{
-			NavManager.NavigateTo($"/exercises/{result.Payload}");
+			IsWorking = true;
+			var result = await Mediator.Send(new AddExercise.Command(AddModel));
+			ShowNotification(result);
+			if (result.Success)
+			{
+				NavManager.NavigateTo($"/exercises/{result.Payload}");
+			}
+			IsWorking = false;
 		}
-		IsWorking = false;
 	}
 
 	protected void HandleCancelAddClicked()
@@ -83,6 +89,12 @@ public partial class IndexBase : BaseSearchComponent<SearchExerciseModel, Exerci
 			SelectedSids.Add(sid);
 		else
 			SelectedSids.Remove(sid);
+	}
+
+	protected async Task HandleEquipmentChanged(IEnumerable<EquipmentTypes> selected)
+	{
+		AddModel.Equipment = selected;
+		await Form.Validate();
 	}
 
 	protected async Task HandleMergeClicked()
@@ -124,5 +136,11 @@ public partial class IndexBase : BaseSearchComponent<SearchExerciseModel, Exerci
 				IsWorking = false;
 			}
 		}
+	}
+
+	protected async Task HandleMusclesChanged(IEnumerable<MuscleTypes> selected)
+	{
+		AddModel.Muscles = selected;
+		await Form.Validate();
 	}
 }

@@ -2,8 +2,8 @@
 
 <SectionContainer IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-12">
 
-	<SectionHeader Title="@Exercise.Title" IsEditMode="@IsEditMode" IsEditing="@IsEditing" EditingClass="mb-4" FormId="@FormId" Breakpoint="Breakpoint.Sm"
-				   OnCancelClicked="@HandleCancelEditClicked">
+	<SectionHeader Title="@Exercise.Title" IsEditMode="@IsEditMode" IsEditing="@IsEditing" EditingClass="mb-4" Breakpoint="Breakpoint.Sm"
+				   OnCancelClicked="@HandleCancelEditClicked" OnSaveClicked="HandleFormSubmitted">
 		<EditModeToolbar>
 			<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@(DisableSectionControls || IsUpdating)"
 						   OnClick="@(() => HandleEditClicked())" />
@@ -92,7 +92,38 @@
 	}
 	else
 	{
-		<FormProperties Model="@Model" FormId="@FormId" DisableFormControls="@DisableControls" OnFormSubmitted="@HandleFormSubmitted" />
+		@* This form requires special handling to fix validation on multi-select MudSelects
+		Everything below and the setup on MuscleTypeSelect and EquipmentTypeSelect is required for proper
+		validation of the Model. *@
+		<MudForm @ref="Form" Model="@Model" Validation="@(ModelValidator.ValidateValue)" ValidationDelay="0">
+			<MudGrid Spacing="2">
+				<MudItem xs="12">
+					<MudTextField Label="Title" Variant="Variant.Outlined" Disabled="@DisableControls"
+								  FullWidth="true" @bind-Value="@Model.Title" For="@(() => Model.Title)" />
+				</MudItem>
+				<MudItem xs="12">
+					<MuscleTypeSelect AllOption="false" MultiSelection="true" SelectedValues="@Model.Muscles" SelectedValuesChanged="@HandleMusclesChanged" @bind-Value="@Model.FirstMuscleSelected"
+									  For="@(() => Model.FirstMuscleSelected)" Disabled="@DisableControls" />
+				</MudItem>
+				<MudItem xs="12">
+					<EquipmentTypeSelect AllOption="false" MultiSelection="true" SelectedValues="@Model.Equipment" SelectedValuesChanged="@HandleEquipmentChanged" @bind-Value="@Model.FirstEquipmentSelected"
+										 For="@(() => Model.FirstEquipmentSelected)" Disabled="@DisableControls" />
+				</MudItem>
+				<MudItem xs="12">
+					<WorkoutSetTypeSelect Label="Default Set Type" @bind-Value="@Model.DefaultSetType" Disabled="@DisableControls" />
+				</MudItem>
+				<MudItem xs="12">
+					<SetMetricTypeSelect Label="Default Set Metric Type" @bind-Value="@Model.DefaultSetMetricType" Disabled="@DisableControls" />
+				</MudItem>
+				<MudItem xs="12">
+					<MudSwitch @bind-Value="@Model.IsTrackingSplit" Label="Track Left/Right Independently" Color="Color.Success" />
+				</MudItem>
+				<MudItem xs="12">
+					<MudTextField Label="Description" Variant="Variant.Outlined" Disabled="@DisableControls"
+								  FullWidth="true" Lines="10" @bind-Value="@Model.Description" For="@(() => Model.Description)" />
+				</MudItem>
+			</MudGrid>
+		</MudForm>
 	}
 </SectionContainer>
 
