@@ -9,10 +9,6 @@ namespace Unshackled.Fitness.My.Client.Features.Dashboard;
 public class DashboardProgramBase : BaseComponent<Member>
 {
 	protected List<ScheduledListModel> Items { get; set; } = [];
-	public bool IsTrackingSession { get; set; }
-	public bool IsTrackingWorkout { get; set; }
-	public bool IsSkippingSession { get; set; }
-	public bool IsSkippingWorkout { get; set; }
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -23,7 +19,7 @@ public class DashboardProgramBase : BaseComponent<Member>
 
 	protected async Task HandleSkipSessionClicked(ScheduledListModel model)
 	{
-		IsSkippingSession = true;
+		model.IsSkipping = true;
 
 		var result = await Mediator.Send(new SkipTrainingSession.Command(model.ParentSid));
 		if (result.Success)
@@ -36,12 +32,12 @@ public class DashboardProgramBase : BaseComponent<Member>
 			}
 		}
 
-		IsSkippingSession = false;
+		model.IsSkipping = false;
 	}
 
 	protected async Task HandleSkipWorkoutClicked(ScheduledListModel model)
 	{
-		IsSkippingWorkout = true;
+		model.IsSkipping = true;
 
 		var result = await Mediator.Send(new SkipWorkout.Command(model.ParentSid));
 		if (result.Success)
@@ -54,21 +50,25 @@ public class DashboardProgramBase : BaseComponent<Member>
 			}
 		}
 
-		IsSkippingWorkout = false;
+		model.IsSkipping = false;
 	}
 
-	protected async Task HandleTrackActivityClicked(string sid)
+	protected async Task HandleTrackActivityClicked(ScheduledListModel model)
 	{
-		IsTrackingSession = true;
-		await SaveLocalString(FitnessGlobals.LocalStorageKeys.TrackTrainingSessionSid, sid);
+		model.IsTracking = true;
+		StateHasChanged();
+
+		await SaveLocalString(FitnessGlobals.LocalStorageKeys.TrackTrainingSessionSid, model.Sid);
 		NavManager.NavigateTo($"/activities");
-		IsTrackingSession = false;
+
+		model.IsTracking = false;
+		StateHasChanged();
 	}
 
-	protected async Task HandleTrackWorkoutClicked(string sid)
+	protected async Task HandleTrackWorkoutClicked(ScheduledListModel model)
 	{
-		IsTrackingWorkout = true;
-		var result = await Mediator.Send(new AddWorkout.Command(sid));
+		model.IsTracking = true;
+		var result = await Mediator.Send(new AddWorkout.Command(model.Sid));
 		if (result.Success)
 		{
 			NavManager.NavigateTo($"/workouts/{result.Payload}");
@@ -77,6 +77,6 @@ public class DashboardProgramBase : BaseComponent<Member>
 		{
 			ShowNotification(result);
 		}
-		IsTrackingWorkout = false;
+		model.IsTracking = false;
 	}
 }

@@ -1,4 +1,5 @@
-﻿using Unshackled.Fitness.Core.Enums;
+﻿using System.Text.Json.Serialization;
+using Unshackled.Fitness.Core.Enums;
 
 namespace Unshackled.Fitness.My.Client.Features.Dashboard.Models;
 
@@ -18,4 +19,10 @@ public class ScheduledListModel
 	public string ParentTitle { get; set; } = string.Empty;
 	public ProgramTypes ProgramType { get; set; }
 	public ItemTypes ItemType { get; set; }
+
+	[JsonIgnore]
+	public bool IsTracking { get; set; }
+
+	[JsonIgnore]
+	public bool IsSkipping { get; set; }
 }
