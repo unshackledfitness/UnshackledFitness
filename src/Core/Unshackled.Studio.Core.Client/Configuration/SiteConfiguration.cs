@@ -6,6 +6,7 @@ public class SiteConfiguration
 	public string AppThemeColor { get; set; } = string.Empty;
 	public bool AllowRegistration { get; set; } = true;
 	public bool RequireConfirmedAccount { get; set; } = true;
+	public bool ApplyMigrationsOnStartup { get; set; } = false;
 
 	public PasswordStrength PasswordStrength { get; set; } = new();
 }

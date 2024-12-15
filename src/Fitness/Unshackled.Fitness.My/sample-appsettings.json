@@ -4,9 +4,12 @@
 		"MicrosoftClientId": "",
 		"MicrosoftClientSecret": ""
 	},
+	"ConnectionStrings": {
+		"DefaultDatabase": "Data Source=Data/unshackled-fitness.sqlite"
+	},
 	"DbConfiguration": {
-		"DatabaseType": "mssql",
-		"TablePrefix": "uf_"
+		"DatabaseType": "sqlite",
+		"TablePrefix": ""
 	},
 	"HashIdConfiguration": {
 		"Alphabet": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
@@ -24,6 +27,7 @@
 		"AppThemeColor": "#194480",
 		"AllowRegistration": true,
 		"RequireConfirmedAccount": true,
+		"ApplyMigrationsOnStartup": true,
 		"PasswordStrength": {
 			"RequireDigit": true,
 			"RequireLowercase": true,

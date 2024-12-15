@@ -2,6 +2,7 @@ using System.Reflection;
 using FluentValidation;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using MudBlazor;
 using MudBlazor.Services;
@@ -17,7 +18,7 @@ using Unshackled.Studio.Core.Client.Services;
 using Unshackled.Studio.Core.Data;
 using Unshackled.Studio.Core.Data.Entities;
 using Unshackled.Studio.Core.Server.Middleware;
-using Unshackled.Studio.Core.Server.Services;
+using Unshackled.Studio.Core.Server.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,6 +57,10 @@ switch (dbConfig.DatabaseType?.ToLower())
 		break;
 	case DbConfiguration.POSTGRESQL:
 		builder.Services.AddDbContext<KitchenDbContext, PostgreSqlServerDbContext>();
+		break;
+	case DbConfiguration.SQLITE:
+		FileUtils.EnsureDataSourceDirectoryExists(connectionStrings.DefaultDatabase);
+		builder.Services.AddDbContext<KitchenDbContext, SqliteDbContext>();
 		break;
 	default:
 		break;
@@ -149,6 +154,32 @@ else
 	app.UseExceptionHandler("/Error", createScopeForErrors: true);
 	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 	app.UseHsts();
+}
+
+if (siteConfig.ApplyMigrationsOnStartup)
+{
+	using var scope = app.Services.CreateScope();
+	switch (dbConfig.DatabaseType?.ToLower())
+	{
+		case DbConfiguration.MSSQL:
+			scope.ServiceProvider.GetRequiredService<MsSqlServerDbContext>()
+				.Database.Migrate();
+			break;
+		case DbConfiguration.MYSQL:
+			scope.ServiceProvider.GetRequiredService<MySqlServerDbContext>()
+				.Database.Migrate();
+			break;
+		case DbConfiguration.POSTGRESQL:
+			scope.ServiceProvider.GetRequiredService<PostgreSqlServerDbContext>()
+				.Database.Migrate();
+			break;
+		case DbConfiguration.SQLITE:
+			scope.ServiceProvider.GetRequiredService<SqliteDbContext>()
+				.Database.Migrate();
+			break;
+		default:
+			break;
+	}
 }
 
 app.UseHttpsRedirection();

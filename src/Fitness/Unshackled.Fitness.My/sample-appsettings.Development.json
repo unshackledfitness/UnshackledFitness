@@ -1,7 +1,4 @@
 {
-	"ConnectionStrings": {
-		"DefaultDatabase": ""
-	},
 	"Logging": {
 		"LogLevel": {
 			"Default": "Information",

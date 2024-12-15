@@ -106,10 +106,12 @@ public class BaseDbContext : IdentityDbContext<UserEntity>
 			x.ToTable("UserRoles");
 		});
 
-
-		foreach (var entity in builder.Model.GetEntityTypes())
+		if (!string.IsNullOrEmpty(DbConfig.TablePrefix))
 		{
-			entity.SetTableName(DbConfig.TablePrefix + entity.GetTableName());
+			foreach (var entity in builder.Model.GetEntityTypes())
+			{
+				entity.SetTableName(DbConfig.TablePrefix + entity.GetTableName());
+			}
 		}
 
 		foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
