@@ -22,6 +22,7 @@ public static class FileUtils
 		}
 
 		string absPath = $"{Directory.GetCurrentDirectory()}{path}";
+		Console.WriteLine(absPath);
 
 		int idxLastSlash = absPath.LastIndexOf(Path.DirectorySeparatorChar);
 		if (idxLastSlash == -1)
@@ -29,5 +30,6 @@ public static class FileUtils
 
 		string dirPath = absPath.Substring(0, idxLastSlash);
 		Directory.CreateDirectory(dirPath);
+		Console.WriteLine(dirPath);
 	}
 }

@@ -123,16 +123,13 @@ builder.Services.AddMudServices(config =>
 });
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies([
-			Assembly.GetExecutingAssembly(),
-			typeof(BaseController).Assembly
-		]));
+	Assembly.GetExecutingAssembly()
+]));
 builder.Services.AddAutoMapper([
-	Assembly.GetExecutingAssembly(),
-			typeof(BaseController).Assembly
+	Assembly.GetExecutingAssembly()
 ]);
 builder.Services.AddValidatorsFromAssemblies([
-	Assembly.GetExecutingAssembly(),
-			typeof(BaseController).Assembly
+	Assembly.GetExecutingAssembly()
 ]);
 
 builder.Services.TryAddScoped<IWebAssemblyHostEnvironment, ServerHostEnvironment>();

@@ -12,6 +12,7 @@ public class PostgreSqlServerDbContext : FitnessDbContext
 
 	protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
 	{
+		base.ConfigureConventions(configurationBuilder);
 		configurationBuilder.Properties<string>().UseCollation("case_insensitive_collation");
 	}
 

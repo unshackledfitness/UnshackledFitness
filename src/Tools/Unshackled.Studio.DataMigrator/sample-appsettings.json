@@ -1,0 +1,10 @@
+{
+	"ConnectionStrings": {
+		"MsSqlDatabase": "",
+		"MySqlDatabase": "",
+		"PostgreSqlDatabase": "",
+		"SqliteDatabase": "",
+		"SourceTablePrefix": "",
+		"DestinationTablePrefix": ""
+	}
+}

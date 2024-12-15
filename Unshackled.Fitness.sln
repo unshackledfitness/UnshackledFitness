@@ -38,6 +38,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unshackled.Kitchen.My.Clien
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unshackled.Kitchen.My", "src\Kitchen\Unshackled.Kitchen.My\Unshackled.Kitchen.My.csproj", "{A345BA06-3040-4499-829F-8B25BBE23747}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{0A78140E-0177-466E-9E30-8AE9A022805D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unshackled.Studio.DataMigrator", "src\Tools\Unshackled.Studio.DataMigrator\Unshackled.Studio.DataMigrator.csproj", "{2160A6A2-DC9E-4A0A-94A9-AFD51B89B8BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +92,10 @@ Global
 		{A345BA06-3040-4499-829F-8B25BBE23747}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A345BA06-3040-4499-829F-8B25BBE23747}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A345BA06-3040-4499-829F-8B25BBE23747}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2160A6A2-DC9E-4A0A-94A9-AFD51B89B8BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2160A6A2-DC9E-4A0A-94A9-AFD51B89B8BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2160A6A2-DC9E-4A0A-94A9-AFD51B89B8BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2160A6A2-DC9E-4A0A-94A9-AFD51B89B8BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,6 +112,7 @@ Global
 		{D1D7D215-9E36-4077-B564-188805080A62} = {49546F29-6694-4DD4-98A6-101E479A19EA}
 		{31F26AA2-8BDC-4C6B-8DBA-03A05EC249E0} = {49546F29-6694-4DD4-98A6-101E479A19EA}
 		{A345BA06-3040-4499-829F-8B25BBE23747} = {49546F29-6694-4DD4-98A6-101E479A19EA}
+		{2160A6A2-DC9E-4A0A-94A9-AFD51B89B8BF} = {0A78140E-0177-466E-9E30-8AE9A022805D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {997C87DE-E339-4365-A411-2174277EBBDB}
