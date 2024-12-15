@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Unshackled.Fitness.Core.Data;
 using Unshackled.Studio.DataMigrator.Configuration;
 using Unshackled.Studio.DataMigrator.Enums;
 using Unshackled.Studio.DataMigrator.Migrators;
@@ -127,10 +128,12 @@ Console.WriteLine();
 switch (targetApp)
 {
 	case Apps.Fitness:
-		FitnessMigrator m = new FitnessMigrator(migrateConfig, targetMigration);
-		await m.Migrate();
+		FitnessMigrator fm = new(migrateConfig, targetMigration);
+		await fm.Migrate();
 		break;
 	case Apps.Kitchen:
+		KitchenMigrator km = new(migrateConfig, targetMigration);
+		await km.Migrate();
 		break;
 	default:
 		break;
