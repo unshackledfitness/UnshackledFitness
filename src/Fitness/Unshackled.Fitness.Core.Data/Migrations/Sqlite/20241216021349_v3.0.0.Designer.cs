@@ -11,7 +11,7 @@ using Unshackled.Fitness.Core.Data;
 namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 {
     [DbContext(typeof(SqliteDbContext))]
-    [Migration("20241215152814_v3.0.0")]
+    [Migration("20241216021349_v3.0.0")]
     partial class v300
     {
         /// <inheritdoc />
@@ -442,52 +442,6 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.HasIndex("MemberId", "Title", "IsArchived");
 
                     b.ToTable("Exercises", (string)null);
-                });
-
-            modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.ExportFileEntity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Container")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("DateExpirationUtc")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
-                    b.Property<long>("MemberId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("RelativePath")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DateCreatedUtc");
-
-                    b.HasIndex("DateLastModifiedUtc");
-
-                    b.HasIndex("MemberId");
-
-                    b.HasIndex("MemberId", "Container", "RelativePath");
-
-                    b.ToTable("ExportFiles", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.MetricDefinitionEntity", b =>
@@ -1644,17 +1598,6 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.ExerciseEntity", b =>
-                {
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
-                        .WithMany()
-                        .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Member");
-                });
-
-            modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.ExportFileEntity", b =>
                 {
                     b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
                         .WithMany()

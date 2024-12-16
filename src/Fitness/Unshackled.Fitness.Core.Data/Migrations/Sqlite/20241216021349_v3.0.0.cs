@@ -124,30 +124,6 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExportFiles",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Container = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
-                    RelativePath = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
-                    FileName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    DateExpirationUtc = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    DateCreatedUtc = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ExportFiles", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ExportFiles_Members_MemberId",
-                        column: x => x.MemberId,
-                        principalTable: "Members",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "MemberMeta",
                 columns: table => new
                 {
@@ -971,26 +947,6 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 columns: new[] { "MemberId", "Title", "IsArchived" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExportFiles_DateCreatedUtc",
-                table: "ExportFiles",
-                column: "DateCreatedUtc");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExportFiles_DateLastModifiedUtc",
-                table: "ExportFiles",
-                column: "DateLastModifiedUtc");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExportFiles_MemberId",
-                table: "ExportFiles",
-                column: "MemberId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExportFiles_MemberId_Container_RelativePath",
-                table: "ExportFiles",
-                columns: new[] { "MemberId", "Container", "RelativePath" });
-
-            migrationBuilder.CreateIndex(
                 name: "IX_MemberMeta_MemberId_MetaKey",
                 table: "MemberMeta",
                 columns: new[] { "MemberId", "MetaKey" },
@@ -1456,9 +1412,6 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
         {
             migrationBuilder.DropTable(
                 name: "Activities");
-
-            migrationBuilder.DropTable(
-                name: "ExportFiles");
 
             migrationBuilder.DropTable(
                 name: "MemberMeta");

@@ -18,7 +18,6 @@ public class FitnessDbContext : BaseDbContext
 	public DbSet<ActivityEntity> Activities => Set<ActivityEntity>();
 	public DbSet<ActivityTypeEntity> ActivityTypes => Set<ActivityTypeEntity>();
 	public DbSet<ExerciseEntity> Exercises => Set<ExerciseEntity>();
-	public DbSet<ExportFileEntity> ExportFiles => Set<ExportFileEntity>();
 	public DbSet<MetricDefinitionGroupEntity> MetricDefinitionGroups => Set<MetricDefinitionGroupEntity>();
 	public DbSet<MetricDefinitionEntity> MetricDefinitions => Set<MetricDefinitionEntity>();
 	public DbSet<MetricPresetEntity> MetricPresets => Set<MetricPresetEntity>();
@@ -42,7 +41,6 @@ public class FitnessDbContext : BaseDbContext
 		builder.ApplyConfiguration(new ActivityEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ActivityTypeEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ExerciseEntity.TypeConfiguration());
-		builder.ApplyConfiguration(new ExportFileEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new MetricDefinitionEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new MetricDefinitionGroupEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new MetricEntity.TypeConfiguration());
