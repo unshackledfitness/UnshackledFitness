@@ -34,8 +34,6 @@ public class FormExerciseModel : BaseObject
 			RuleFor(p => p.FirstMuscleSelected)
 				.Must((model, p) =>
 				{
-					Console.WriteLine($"FirstMuscleSelected: {(int)p}");
-					Console.WriteLine($"Muscles: {model.Muscles.Count()}");
 					if (model.Muscles.Count() == 0)
 					{
 						return false;
