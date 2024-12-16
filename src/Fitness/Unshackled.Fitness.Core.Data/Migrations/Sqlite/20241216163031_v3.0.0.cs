@@ -12,7 +12,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Members",
+                name: "uf_Members",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -25,11 +25,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Members", x => x.Id);
+                    table.PrimaryKey("PK_uf_Members", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Roles",
+                name: "uf_Roles",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
@@ -39,11 +39,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
+                    table.PrimaryKey("PK_uf_Roles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "uf_Users",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
@@ -64,11 +64,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_uf_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ActivityTypes",
+                name: "uf_ActivityTypes",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -86,16 +86,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ActivityTypes", x => x.Id);
+                    table.PrimaryKey("PK_uf_ActivityTypes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ActivityTypes_Members_MemberId",
+                        name: "FK_uf_ActivityTypes_uf_Members_MemberId",
                         column: x => x.MemberId,
-                        principalTable: "Members",
+                        principalTable: "uf_Members",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Exercises",
+                name: "uf_Exercises",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -115,16 +115,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Exercises", x => x.Id);
+                    table.PrimaryKey("PK_uf_Exercises", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Exercises_Members_MemberId",
+                        name: "FK_uf_Exercises_uf_Members_MemberId",
                         column: x => x.MemberId,
-                        principalTable: "Members",
+                        principalTable: "uf_Members",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "MemberMeta",
+                name: "uf_MemberMeta",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -135,16 +135,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MemberMeta", x => x.Id);
+                    table.PrimaryKey("PK_uf_MemberMeta", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MemberMeta_Members_MemberId",
+                        name: "FK_uf_MemberMeta_uf_Members_MemberId",
                         column: x => x.MemberId,
-                        principalTable: "Members",
+                        principalTable: "uf_Members",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "MetricDefinitionGroups",
+                name: "uf_MetricDefinitionGroups",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -157,16 +157,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MetricDefinitionGroups", x => x.Id);
+                    table.PrimaryKey("PK_uf_MetricDefinitionGroups", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MetricDefinitionGroups_Members_MemberId",
+                        name: "FK_uf_MetricDefinitionGroups_uf_Members_MemberId",
                         column: x => x.MemberId,
-                        principalTable: "Members",
+                        principalTable: "uf_Members",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "MetricPresets",
+                name: "uf_MetricPresets",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -179,16 +179,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MetricPresets", x => x.Id);
+                    table.PrimaryKey("PK_uf_MetricPresets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MetricPresets_Members_MemberId",
+                        name: "FK_uf_MetricPresets_uf_Members_MemberId",
                         column: x => x.MemberId,
-                        principalTable: "Members",
+                        principalTable: "uf_Members",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Programs",
+                name: "uf_Programs",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -206,16 +206,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Programs", x => x.Id);
+                    table.PrimaryKey("PK_uf_Programs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Programs_Members_MemberId",
+                        name: "FK_uf_Programs_uf_Members_MemberId",
                         column: x => x.MemberId,
-                        principalTable: "Members",
+                        principalTable: "uf_Members",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "TrainingPlans",
+                name: "uf_TrainingPlans",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -233,16 +233,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TrainingPlans", x => x.Id);
+                    table.PrimaryKey("PK_uf_TrainingPlans", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TrainingPlans_Members_MemberId",
+                        name: "FK_uf_TrainingPlans_uf_Members_MemberId",
                         column: x => x.MemberId,
-                        principalTable: "Members",
+                        principalTable: "uf_Members",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Workouts",
+                name: "uf_Workouts",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -273,16 +273,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Workouts", x => x.Id);
+                    table.PrimaryKey("PK_uf_Workouts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Workouts_Members_MemberId",
+                        name: "FK_uf_Workouts_uf_Members_MemberId",
                         column: x => x.MemberId,
-                        principalTable: "Members",
+                        principalTable: "uf_Members",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "WorkoutTemplates",
+                name: "uf_WorkoutTemplates",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -298,16 +298,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkoutTemplates", x => x.Id);
+                    table.PrimaryKey("PK_uf_WorkoutTemplates", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WorkoutTemplates_Members_MemberId",
+                        name: "FK_uf_WorkoutTemplates_uf_Members_MemberId",
                         column: x => x.MemberId,
-                        principalTable: "Members",
+                        principalTable: "uf_Members",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "RoleClaims",
+                name: "uf_RoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -318,16 +318,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoleClaims", x => x.Id);
+                    table.PrimaryKey("PK_uf_RoleClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RoleClaims_Roles_RoleId",
+                        name: "FK_uf_RoleClaims_uf_Roles_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "Roles",
+                        principalTable: "uf_Roles",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserClaims",
+                name: "uf_UserClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -338,16 +338,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserClaims", x => x.Id);
+                    table.PrimaryKey("PK_uf_UserClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserClaims_Users_UserId",
+                        name: "FK_uf_UserClaims_uf_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "uf_Users",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserLogins",
+                name: "uf_UserLogins",
                 columns: table => new
                 {
                     LoginProvider = table.Column<string>(type: "TEXT", nullable: false),
@@ -357,16 +357,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.PrimaryKey("PK_uf_UserLogins", x => new { x.LoginProvider, x.ProviderKey });
                     table.ForeignKey(
-                        name: "FK_UserLogins_Users_UserId",
+                        name: "FK_uf_UserLogins_uf_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "uf_Users",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserRoles",
+                name: "uf_UserRoles",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "TEXT", nullable: false),
@@ -374,21 +374,21 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRoles", x => new { x.UserId, x.RoleId });
+                    table.PrimaryKey("PK_uf_UserRoles", x => new { x.UserId, x.RoleId });
                     table.ForeignKey(
-                        name: "FK_UserRoles_Roles_RoleId",
+                        name: "FK_uf_UserRoles_uf_Roles_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "Roles",
+                        principalTable: "uf_Roles",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_UserRoles_Users_UserId",
+                        name: "FK_uf_UserRoles_uf_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "uf_Users",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserTokens",
+                name: "uf_UserTokens",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "TEXT", nullable: false),
@@ -398,16 +398,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.PrimaryKey("PK_uf_UserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
-                        name: "FK_UserTokens_Users_UserId",
+                        name: "FK_uf_UserTokens_uf_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "uf_Users",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Activities",
+                name: "uf_Activities",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -469,21 +469,21 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Activities", x => x.Id);
+                    table.PrimaryKey("PK_uf_Activities", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Activities_ActivityTypes_ActivityTypeId",
+                        name: "FK_uf_Activities_uf_ActivityTypes_ActivityTypeId",
                         column: x => x.ActivityTypeId,
-                        principalTable: "ActivityTypes",
+                        principalTable: "uf_ActivityTypes",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Activities_Members_MemberId",
+                        name: "FK_uf_Activities_uf_Members_MemberId",
                         column: x => x.MemberId,
-                        principalTable: "Members",
+                        principalTable: "uf_Members",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "TrainingSessions",
+                name: "uf_TrainingSessions",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -508,21 +508,21 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TrainingSessions", x => x.Id);
+                    table.PrimaryKey("PK_uf_TrainingSessions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TrainingSessions_ActivityTypes_ActivityTypeId",
+                        name: "FK_uf_TrainingSessions_uf_ActivityTypes_ActivityTypeId",
                         column: x => x.ActivityTypeId,
-                        principalTable: "ActivityTypes",
+                        principalTable: "uf_ActivityTypes",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_TrainingSessions_Members_MemberId",
+                        name: "FK_uf_TrainingSessions_uf_Members_MemberId",
                         column: x => x.MemberId,
-                        principalTable: "Members",
+                        principalTable: "uf_Members",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "MetricDefinitions",
+                name: "uf_MetricDefinitions",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -542,21 +542,21 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MetricDefinitions", x => x.Id);
+                    table.PrimaryKey("PK_uf_MetricDefinitions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MetricDefinitions_Members_MemberId",
+                        name: "FK_uf_MetricDefinitions_uf_Members_MemberId",
                         column: x => x.MemberId,
-                        principalTable: "Members",
+                        principalTable: "uf_Members",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_MetricDefinitions_MetricDefinitionGroups_ListGroupId",
+                        name: "FK_uf_MetricDefinitions_uf_MetricDefinitionGroups_ListGroupId",
                         column: x => x.ListGroupId,
-                        principalTable: "MetricDefinitionGroups",
+                        principalTable: "uf_MetricDefinitionGroups",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "WorkoutSetGroups",
+                name: "uf_WorkoutSetGroups",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -570,21 +570,21 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkoutSetGroups", x => x.Id);
+                    table.PrimaryKey("PK_uf_WorkoutSetGroups", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WorkoutSetGroups_Members_MemberId",
+                        name: "FK_uf_WorkoutSetGroups_uf_Members_MemberId",
                         column: x => x.MemberId,
-                        principalTable: "Members",
+                        principalTable: "uf_Members",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_WorkoutSetGroups_Workouts_WorkoutId",
+                        name: "FK_uf_WorkoutSetGroups_uf_Workouts_WorkoutId",
                         column: x => x.WorkoutId,
-                        principalTable: "Workouts",
+                        principalTable: "uf_Workouts",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "WorkoutTasks",
+                name: "uf_WorkoutTasks",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -600,21 +600,21 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkoutTasks", x => x.Id);
+                    table.PrimaryKey("PK_uf_WorkoutTasks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WorkoutTasks_Members_MemberId",
+                        name: "FK_uf_WorkoutTasks_uf_Members_MemberId",
                         column: x => x.MemberId,
-                        principalTable: "Members",
+                        principalTable: "uf_Members",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_WorkoutTasks_Workouts_WorkoutId",
+                        name: "FK_uf_WorkoutTasks_uf_Workouts_WorkoutId",
                         column: x => x.WorkoutId,
-                        principalTable: "Workouts",
+                        principalTable: "uf_Workouts",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProgramTemplates",
+                name: "uf_ProgramTemplates",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -630,26 +630,26 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProgramTemplates", x => x.Id);
+                    table.PrimaryKey("PK_uf_ProgramTemplates", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProgramTemplates_Members_MemberId",
+                        name: "FK_uf_ProgramTemplates_uf_Members_MemberId",
                         column: x => x.MemberId,
-                        principalTable: "Members",
+                        principalTable: "uf_Members",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ProgramTemplates_Programs_ProgramId",
+                        name: "FK_uf_ProgramTemplates_uf_Programs_ProgramId",
                         column: x => x.ProgramId,
-                        principalTable: "Programs",
+                        principalTable: "uf_Programs",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ProgramTemplates_WorkoutTemplates_WorkoutTemplateId",
+                        name: "FK_uf_ProgramTemplates_uf_WorkoutTemplates_WorkoutTemplateId",
                         column: x => x.WorkoutTemplateId,
-                        principalTable: "WorkoutTemplates",
+                        principalTable: "uf_WorkoutTemplates",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "WorkoutTemplateSetGroups",
+                name: "uf_WorkoutTemplateSetGroups",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -663,21 +663,21 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkoutTemplateSetGroups", x => x.Id);
+                    table.PrimaryKey("PK_uf_WorkoutTemplateSetGroups", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WorkoutTemplateSetGroups_Members_MemberId",
+                        name: "FK_uf_WorkoutTemplateSetGroups_uf_Members_MemberId",
                         column: x => x.MemberId,
-                        principalTable: "Members",
+                        principalTable: "uf_Members",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_WorkoutTemplateSetGroups_WorkoutTemplates_WorkoutTemplateId",
+                        name: "FK_uf_WorkoutTemplateSetGroups_uf_WorkoutTemplates_WorkoutTemplateId",
                         column: x => x.WorkoutTemplateId,
-                        principalTable: "WorkoutTemplates",
+                        principalTable: "uf_WorkoutTemplates",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "WorkoutTemplateTasks",
+                name: "uf_WorkoutTemplateTasks",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -692,21 +692,21 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkoutTemplateTasks", x => x.Id);
+                    table.PrimaryKey("PK_uf_WorkoutTemplateTasks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WorkoutTemplateTasks_Members_MemberId",
+                        name: "FK_uf_WorkoutTemplateTasks_uf_Members_MemberId",
                         column: x => x.MemberId,
-                        principalTable: "Members",
+                        principalTable: "uf_Members",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_WorkoutTemplateTasks_WorkoutTemplates_WorkoutTemplateId",
+                        name: "FK_uf_WorkoutTemplateTasks_uf_WorkoutTemplates_WorkoutTemplateId",
                         column: x => x.WorkoutTemplateId,
-                        principalTable: "WorkoutTemplates",
+                        principalTable: "uf_WorkoutTemplates",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "TrainingPlanSessions",
+                name: "uf_TrainingPlanSessions",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -722,26 +722,26 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TrainingPlanSessions", x => x.Id);
+                    table.PrimaryKey("PK_uf_TrainingPlanSessions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TrainingPlanSessions_Members_MemberId",
+                        name: "FK_uf_TrainingPlanSessions_uf_Members_MemberId",
                         column: x => x.MemberId,
-                        principalTable: "Members",
+                        principalTable: "uf_Members",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_TrainingPlanSessions_TrainingPlans_TrainingPlanId",
+                        name: "FK_uf_TrainingPlanSessions_uf_TrainingPlans_TrainingPlanId",
                         column: x => x.TrainingPlanId,
-                        principalTable: "TrainingPlans",
+                        principalTable: "uf_TrainingPlans",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_TrainingPlanSessions_TrainingSessions_TrainingSessionId",
+                        name: "FK_uf_TrainingPlanSessions_uf_TrainingSessions_TrainingSessionId",
                         column: x => x.TrainingSessionId,
-                        principalTable: "TrainingSessions",
+                        principalTable: "uf_TrainingSessions",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Metrics",
+                name: "uf_Metrics",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -755,21 +755,21 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Metrics", x => x.Id);
+                    table.PrimaryKey("PK_uf_Metrics", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Metrics_Members_MemberId",
+                        name: "FK_uf_Metrics_uf_Members_MemberId",
                         column: x => x.MemberId,
-                        principalTable: "Members",
+                        principalTable: "uf_Members",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Metrics_MetricDefinitions_MetricDefinitionId",
+                        name: "FK_uf_Metrics_uf_MetricDefinitions_MetricDefinitionId",
                         column: x => x.MetricDefinitionId,
-                        principalTable: "MetricDefinitions",
+                        principalTable: "uf_MetricDefinitions",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "WorkoutSets",
+                name: "uf_WorkoutSets",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -813,31 +813,31 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkoutSets", x => x.Id);
+                    table.PrimaryKey("PK_uf_WorkoutSets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WorkoutSets_Exercises_ExerciseId",
+                        name: "FK_uf_WorkoutSets_uf_Exercises_ExerciseId",
                         column: x => x.ExerciseId,
-                        principalTable: "Exercises",
+                        principalTable: "uf_Exercises",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_WorkoutSets_Members_MemberId",
+                        name: "FK_uf_WorkoutSets_uf_Members_MemberId",
                         column: x => x.MemberId,
-                        principalTable: "Members",
+                        principalTable: "uf_Members",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_WorkoutSets_WorkoutSetGroups_ListGroupId",
+                        name: "FK_uf_WorkoutSets_uf_WorkoutSetGroups_ListGroupId",
                         column: x => x.ListGroupId,
-                        principalTable: "WorkoutSetGroups",
+                        principalTable: "uf_WorkoutSetGroups",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_WorkoutSets_Workouts_WorkoutId",
+                        name: "FK_uf_WorkoutSets_uf_Workouts_WorkoutId",
                         column: x => x.WorkoutId,
-                        principalTable: "Workouts",
+                        principalTable: "uf_Workouts",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "WorkoutTemplateSets",
+                name: "uf_WorkoutTemplateSets",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -858,552 +858,552 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkoutTemplateSets", x => x.Id);
+                    table.PrimaryKey("PK_uf_WorkoutTemplateSets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WorkoutTemplateSets_Exercises_ExerciseId",
+                        name: "FK_uf_WorkoutTemplateSets_uf_Exercises_ExerciseId",
                         column: x => x.ExerciseId,
-                        principalTable: "Exercises",
+                        principalTable: "uf_Exercises",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_WorkoutTemplateSets_Members_MemberId",
+                        name: "FK_uf_WorkoutTemplateSets_uf_Members_MemberId",
                         column: x => x.MemberId,
-                        principalTable: "Members",
+                        principalTable: "uf_Members",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_WorkoutTemplateSets_WorkoutTemplateSetGroups_ListGroupId",
+                        name: "FK_uf_WorkoutTemplateSets_uf_WorkoutTemplateSetGroups_ListGroupId",
                         column: x => x.ListGroupId,
-                        principalTable: "WorkoutTemplateSetGroups",
+                        principalTable: "uf_WorkoutTemplateSetGroups",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_WorkoutTemplateSets_WorkoutTemplates_WorkoutTemplateId",
+                        name: "FK_uf_WorkoutTemplateSets_uf_WorkoutTemplates_WorkoutTemplateId",
                         column: x => x.WorkoutTemplateId,
-                        principalTable: "WorkoutTemplates",
+                        principalTable: "uf_WorkoutTemplates",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Activities_ActivityTypeId",
-                table: "Activities",
+                name: "IX_uf_Activities_ActivityTypeId",
+                table: "uf_Activities",
                 column: "ActivityTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Activities_DateCreatedUtc",
-                table: "Activities",
+                name: "IX_uf_Activities_DateCreatedUtc",
+                table: "uf_Activities",
                 column: "DateCreatedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Activities_DateLastModifiedUtc",
-                table: "Activities",
+                name: "IX_uf_Activities_DateLastModifiedUtc",
+                table: "uf_Activities",
                 column: "DateLastModifiedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Activities_MemberId",
-                table: "Activities",
+                name: "IX_uf_Activities_MemberId",
+                table: "uf_Activities",
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Activities_MemberId_DateEventUtc",
-                table: "Activities",
+                name: "IX_uf_Activities_MemberId_DateEventUtc",
+                table: "uf_Activities",
                 columns: new[] { "MemberId", "DateEventUtc" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ActivityTypes_DateCreatedUtc",
-                table: "ActivityTypes",
+                name: "IX_uf_ActivityTypes_DateCreatedUtc",
+                table: "uf_ActivityTypes",
                 column: "DateCreatedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ActivityTypes_DateLastModifiedUtc",
-                table: "ActivityTypes",
+                name: "IX_uf_ActivityTypes_DateLastModifiedUtc",
+                table: "uf_ActivityTypes",
                 column: "DateLastModifiedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ActivityTypes_MemberId",
-                table: "ActivityTypes",
+                name: "IX_uf_ActivityTypes_MemberId",
+                table: "uf_ActivityTypes",
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ActivityTypes_MemberId_Title",
-                table: "ActivityTypes",
+                name: "IX_uf_ActivityTypes_MemberId_Title",
+                table: "uf_ActivityTypes",
                 columns: new[] { "MemberId", "Title" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Exercises_DateCreatedUtc",
-                table: "Exercises",
+                name: "IX_uf_Exercises_DateCreatedUtc",
+                table: "uf_Exercises",
                 column: "DateCreatedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Exercises_DateLastModifiedUtc",
-                table: "Exercises",
+                name: "IX_uf_Exercises_DateLastModifiedUtc",
+                table: "uf_Exercises",
                 column: "DateLastModifiedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Exercises_MemberId",
-                table: "Exercises",
+                name: "IX_uf_Exercises_MemberId",
+                table: "uf_Exercises",
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Exercises_MemberId_Title_IsArchived",
-                table: "Exercises",
+                name: "IX_uf_Exercises_MemberId_Title_IsArchived",
+                table: "uf_Exercises",
                 columns: new[] { "MemberId", "Title", "IsArchived" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_MemberMeta_MemberId_MetaKey",
-                table: "MemberMeta",
+                name: "IX_uf_MemberMeta_MemberId_MetaKey",
+                table: "uf_MemberMeta",
                 columns: new[] { "MemberId", "MetaKey" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Members_DateCreatedUtc",
-                table: "Members",
+                name: "IX_uf_Members_DateCreatedUtc",
+                table: "uf_Members",
                 column: "DateCreatedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Members_DateLastModifiedUtc",
-                table: "Members",
+                name: "IX_uf_Members_DateLastModifiedUtc",
+                table: "uf_Members",
                 column: "DateLastModifiedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Members_Email",
-                table: "Members",
+                name: "IX_uf_Members_Email",
+                table: "uf_Members",
                 column: "Email",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_MetricDefinitionGroups_DateCreatedUtc",
-                table: "MetricDefinitionGroups",
+                name: "IX_uf_MetricDefinitionGroups_DateCreatedUtc",
+                table: "uf_MetricDefinitionGroups",
                 column: "DateCreatedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MetricDefinitionGroups_DateLastModifiedUtc",
-                table: "MetricDefinitionGroups",
+                name: "IX_uf_MetricDefinitionGroups_DateLastModifiedUtc",
+                table: "uf_MetricDefinitionGroups",
                 column: "DateLastModifiedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MetricDefinitionGroups_MemberId",
-                table: "MetricDefinitionGroups",
+                name: "IX_uf_MetricDefinitionGroups_MemberId",
+                table: "uf_MetricDefinitionGroups",
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MetricDefinitionGroups_MemberId_SortOrder",
-                table: "MetricDefinitionGroups",
+                name: "IX_uf_MetricDefinitionGroups_MemberId_SortOrder",
+                table: "uf_MetricDefinitionGroups",
                 columns: new[] { "MemberId", "SortOrder" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_MetricDefinitions_DateCreatedUtc",
-                table: "MetricDefinitions",
+                name: "IX_uf_MetricDefinitions_DateCreatedUtc",
+                table: "uf_MetricDefinitions",
                 column: "DateCreatedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MetricDefinitions_DateLastModifiedUtc",
-                table: "MetricDefinitions",
+                name: "IX_uf_MetricDefinitions_DateLastModifiedUtc",
+                table: "uf_MetricDefinitions",
                 column: "DateLastModifiedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MetricDefinitions_ListGroupId",
-                table: "MetricDefinitions",
+                name: "IX_uf_MetricDefinitions_ListGroupId",
+                table: "uf_MetricDefinitions",
                 column: "ListGroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MetricDefinitions_MemberId",
-                table: "MetricDefinitions",
+                name: "IX_uf_MetricDefinitions_MemberId",
+                table: "uf_MetricDefinitions",
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MetricDefinitions_MemberId_ListGroupId_SortOrder",
-                table: "MetricDefinitions",
+                name: "IX_uf_MetricDefinitions_MemberId_ListGroupId_SortOrder",
+                table: "uf_MetricDefinitions",
                 columns: new[] { "MemberId", "ListGroupId", "SortOrder" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_MetricPresets_DateCreatedUtc",
-                table: "MetricPresets",
+                name: "IX_uf_MetricPresets_DateCreatedUtc",
+                table: "uf_MetricPresets",
                 column: "DateCreatedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MetricPresets_DateLastModifiedUtc",
-                table: "MetricPresets",
+                name: "IX_uf_MetricPresets_DateLastModifiedUtc",
+                table: "uf_MetricPresets",
                 column: "DateLastModifiedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MetricPresets_MemberId",
-                table: "MetricPresets",
+                name: "IX_uf_MetricPresets_MemberId",
+                table: "uf_MetricPresets",
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MetricPresets_MemberId_Title",
-                table: "MetricPresets",
+                name: "IX_uf_MetricPresets_MemberId_Title",
+                table: "uf_MetricPresets",
                 columns: new[] { "MemberId", "Title" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Metrics_DateCreatedUtc",
-                table: "Metrics",
+                name: "IX_uf_Metrics_DateCreatedUtc",
+                table: "uf_Metrics",
                 column: "DateCreatedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Metrics_DateLastModifiedUtc",
-                table: "Metrics",
+                name: "IX_uf_Metrics_DateLastModifiedUtc",
+                table: "uf_Metrics",
                 column: "DateLastModifiedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Metrics_MemberId",
-                table: "Metrics",
+                name: "IX_uf_Metrics_MemberId",
+                table: "uf_Metrics",
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Metrics_MemberId_MetricDefinitionId_DateRecorded",
-                table: "Metrics",
+                name: "IX_uf_Metrics_MemberId_MetricDefinitionId_DateRecorded",
+                table: "uf_Metrics",
                 columns: new[] { "MemberId", "MetricDefinitionId", "DateRecorded" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Metrics_MetricDefinitionId",
-                table: "Metrics",
+                name: "IX_uf_Metrics_MetricDefinitionId",
+                table: "uf_Metrics",
                 column: "MetricDefinitionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Programs_DateCreatedUtc",
-                table: "Programs",
+                name: "IX_uf_Programs_DateCreatedUtc",
+                table: "uf_Programs",
                 column: "DateCreatedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Programs_DateLastModifiedUtc",
-                table: "Programs",
+                name: "IX_uf_Programs_DateLastModifiedUtc",
+                table: "uf_Programs",
                 column: "DateLastModifiedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Programs_MemberId",
-                table: "Programs",
+                name: "IX_uf_Programs_MemberId",
+                table: "uf_Programs",
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Programs_MemberId_Title",
-                table: "Programs",
+                name: "IX_uf_Programs_MemberId_Title",
+                table: "uf_Programs",
                 columns: new[] { "MemberId", "Title" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProgramTemplates_DateCreatedUtc",
-                table: "ProgramTemplates",
+                name: "IX_uf_ProgramTemplates_DateCreatedUtc",
+                table: "uf_ProgramTemplates",
                 column: "DateCreatedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProgramTemplates_DateLastModifiedUtc",
-                table: "ProgramTemplates",
+                name: "IX_uf_ProgramTemplates_DateLastModifiedUtc",
+                table: "uf_ProgramTemplates",
                 column: "DateLastModifiedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProgramTemplates_MemberId",
-                table: "ProgramTemplates",
+                name: "IX_uf_ProgramTemplates_MemberId",
+                table: "uf_ProgramTemplates",
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProgramTemplates_ProgramId_WeekNumber_DayNumber",
-                table: "ProgramTemplates",
+                name: "IX_uf_ProgramTemplates_ProgramId_WeekNumber_DayNumber",
+                table: "uf_ProgramTemplates",
                 columns: new[] { "ProgramId", "WeekNumber", "DayNumber" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProgramTemplates_WorkoutTemplateId",
-                table: "ProgramTemplates",
+                name: "IX_uf_ProgramTemplates_WorkoutTemplateId",
+                table: "uf_ProgramTemplates",
                 column: "WorkoutTemplateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RoleClaims_RoleId",
-                table: "RoleClaims",
+                name: "IX_uf_RoleClaims_RoleId",
+                table: "uf_RoleClaims",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
-                table: "Roles",
+                table: "uf_Roles",
                 column: "NormalizedName",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainingPlans_DateCreatedUtc",
-                table: "TrainingPlans",
+                name: "IX_uf_TrainingPlans_DateCreatedUtc",
+                table: "uf_TrainingPlans",
                 column: "DateCreatedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainingPlans_DateLastModifiedUtc",
-                table: "TrainingPlans",
+                name: "IX_uf_TrainingPlans_DateLastModifiedUtc",
+                table: "uf_TrainingPlans",
                 column: "DateLastModifiedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainingPlans_MemberId",
-                table: "TrainingPlans",
+                name: "IX_uf_TrainingPlans_MemberId",
+                table: "uf_TrainingPlans",
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainingPlans_MemberId_DateStarted",
-                table: "TrainingPlans",
+                name: "IX_uf_TrainingPlans_MemberId_DateStarted",
+                table: "uf_TrainingPlans",
                 columns: new[] { "MemberId", "DateStarted" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainingPlans_MemberId_Title",
-                table: "TrainingPlans",
+                name: "IX_uf_TrainingPlans_MemberId_Title",
+                table: "uf_TrainingPlans",
                 columns: new[] { "MemberId", "Title" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainingPlanSessions_DateCreatedUtc",
-                table: "TrainingPlanSessions",
+                name: "IX_uf_TrainingPlanSessions_DateCreatedUtc",
+                table: "uf_TrainingPlanSessions",
                 column: "DateCreatedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainingPlanSessions_DateLastModifiedUtc",
-                table: "TrainingPlanSessions",
+                name: "IX_uf_TrainingPlanSessions_DateLastModifiedUtc",
+                table: "uf_TrainingPlanSessions",
                 column: "DateLastModifiedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainingPlanSessions_MemberId",
-                table: "TrainingPlanSessions",
+                name: "IX_uf_TrainingPlanSessions_MemberId",
+                table: "uf_TrainingPlanSessions",
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainingPlanSessions_MemberId_TrainingPlanId_WeekNumber_DayNumber_SortOrder",
-                table: "TrainingPlanSessions",
+                name: "IX_uf_TrainingPlanSessions_MemberId_TrainingPlanId_WeekNumber_DayNumber_SortOrder",
+                table: "uf_TrainingPlanSessions",
                 columns: new[] { "MemberId", "TrainingPlanId", "WeekNumber", "DayNumber", "SortOrder" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainingPlanSessions_TrainingPlanId",
-                table: "TrainingPlanSessions",
+                name: "IX_uf_TrainingPlanSessions_TrainingPlanId",
+                table: "uf_TrainingPlanSessions",
                 column: "TrainingPlanId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainingPlanSessions_TrainingSessionId",
-                table: "TrainingPlanSessions",
+                name: "IX_uf_TrainingPlanSessions_TrainingSessionId",
+                table: "uf_TrainingPlanSessions",
                 column: "TrainingSessionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainingSessions_ActivityTypeId",
-                table: "TrainingSessions",
+                name: "IX_uf_TrainingSessions_ActivityTypeId",
+                table: "uf_TrainingSessions",
                 column: "ActivityTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainingSessions_DateCreatedUtc",
-                table: "TrainingSessions",
+                name: "IX_uf_TrainingSessions_DateCreatedUtc",
+                table: "uf_TrainingSessions",
                 column: "DateCreatedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainingSessions_DateLastModifiedUtc",
-                table: "TrainingSessions",
+                name: "IX_uf_TrainingSessions_DateLastModifiedUtc",
+                table: "uf_TrainingSessions",
                 column: "DateLastModifiedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainingSessions_MemberId",
-                table: "TrainingSessions",
+                name: "IX_uf_TrainingSessions_MemberId",
+                table: "uf_TrainingSessions",
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainingSessions_MemberId_ActivityTypeId_Title",
-                table: "TrainingSessions",
+                name: "IX_uf_TrainingSessions_MemberId_ActivityTypeId_Title",
+                table: "uf_TrainingSessions",
                 columns: new[] { "MemberId", "ActivityTypeId", "Title" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainingSessions_MemberId_Title",
-                table: "TrainingSessions",
+                name: "IX_uf_TrainingSessions_MemberId_Title",
+                table: "uf_TrainingSessions",
                 columns: new[] { "MemberId", "Title" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserClaims_UserId",
-                table: "UserClaims",
+                name: "IX_uf_UserClaims_UserId",
+                table: "uf_UserClaims",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserLogins_UserId",
-                table: "UserLogins",
+                name: "IX_uf_UserLogins_UserId",
+                table: "uf_UserLogins",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_RoleId",
-                table: "UserRoles",
+                name: "IX_uf_UserRoles_RoleId",
+                table: "uf_UserRoles",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
-                table: "Users",
+                table: "uf_Users",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
-                table: "Users",
+                table: "uf_Users",
                 column: "NormalizedUserName",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Workouts_DateCreatedUtc",
-                table: "Workouts",
+                name: "IX_uf_Workouts_DateCreatedUtc",
+                table: "uf_Workouts",
                 column: "DateCreatedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Workouts_DateLastModifiedUtc",
-                table: "Workouts",
+                name: "IX_uf_Workouts_DateLastModifiedUtc",
+                table: "uf_Workouts",
                 column: "DateLastModifiedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Workouts_MemberId",
-                table: "Workouts",
+                name: "IX_uf_Workouts_MemberId",
+                table: "uf_Workouts",
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Workouts_MemberId_DateStartedUtc",
-                table: "Workouts",
+                name: "IX_uf_Workouts_MemberId_DateStartedUtc",
+                table: "uf_Workouts",
                 columns: new[] { "MemberId", "DateStartedUtc" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutSetGroups_DateCreatedUtc",
-                table: "WorkoutSetGroups",
+                name: "IX_uf_WorkoutSetGroups_DateCreatedUtc",
+                table: "uf_WorkoutSetGroups",
                 column: "DateCreatedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutSetGroups_DateLastModifiedUtc",
-                table: "WorkoutSetGroups",
+                name: "IX_uf_WorkoutSetGroups_DateLastModifiedUtc",
+                table: "uf_WorkoutSetGroups",
                 column: "DateLastModifiedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutSetGroups_MemberId",
-                table: "WorkoutSetGroups",
+                name: "IX_uf_WorkoutSetGroups_MemberId",
+                table: "uf_WorkoutSetGroups",
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutSetGroups_WorkoutId_SortOrder",
-                table: "WorkoutSetGroups",
+                name: "IX_uf_WorkoutSetGroups_WorkoutId_SortOrder",
+                table: "uf_WorkoutSetGroups",
                 columns: new[] { "WorkoutId", "SortOrder" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutSets_DateCreatedUtc",
-                table: "WorkoutSets",
+                name: "IX_uf_WorkoutSets_DateCreatedUtc",
+                table: "uf_WorkoutSets",
                 column: "DateCreatedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutSets_DateLastModifiedUtc",
-                table: "WorkoutSets",
+                name: "IX_uf_WorkoutSets_DateLastModifiedUtc",
+                table: "uf_WorkoutSets",
                 column: "DateLastModifiedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutSets_ExerciseId",
-                table: "WorkoutSets",
+                name: "IX_uf_WorkoutSets_ExerciseId",
+                table: "uf_WorkoutSets",
                 column: "ExerciseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutSets_ListGroupId",
-                table: "WorkoutSets",
+                name: "IX_uf_WorkoutSets_ListGroupId",
+                table: "uf_WorkoutSets",
                 column: "ListGroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutSets_MemberId",
-                table: "WorkoutSets",
+                name: "IX_uf_WorkoutSets_MemberId",
+                table: "uf_WorkoutSets",
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutSets_WorkoutId_SortOrder",
-                table: "WorkoutSets",
+                name: "IX_uf_WorkoutSets_WorkoutId_SortOrder",
+                table: "uf_WorkoutSets",
                 columns: new[] { "WorkoutId", "SortOrder" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutTasks_DateCreatedUtc",
-                table: "WorkoutTasks",
+                name: "IX_uf_WorkoutTasks_DateCreatedUtc",
+                table: "uf_WorkoutTasks",
                 column: "DateCreatedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutTasks_DateLastModifiedUtc",
-                table: "WorkoutTasks",
+                name: "IX_uf_WorkoutTasks_DateLastModifiedUtc",
+                table: "uf_WorkoutTasks",
                 column: "DateLastModifiedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutTasks_MemberId",
-                table: "WorkoutTasks",
+                name: "IX_uf_WorkoutTasks_MemberId",
+                table: "uf_WorkoutTasks",
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutTasks_WorkoutId_Type_SortOrder",
-                table: "WorkoutTasks",
+                name: "IX_uf_WorkoutTasks_WorkoutId_Type_SortOrder",
+                table: "uf_WorkoutTasks",
                 columns: new[] { "WorkoutId", "Type", "SortOrder" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutTemplates_DateCreatedUtc",
-                table: "WorkoutTemplates",
+                name: "IX_uf_WorkoutTemplates_DateCreatedUtc",
+                table: "uf_WorkoutTemplates",
                 column: "DateCreatedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutTemplates_DateLastModifiedUtc",
-                table: "WorkoutTemplates",
+                name: "IX_uf_WorkoutTemplates_DateLastModifiedUtc",
+                table: "uf_WorkoutTemplates",
                 column: "DateLastModifiedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutTemplates_MemberId",
-                table: "WorkoutTemplates",
+                name: "IX_uf_WorkoutTemplates_MemberId",
+                table: "uf_WorkoutTemplates",
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutTemplates_MemberId_Title",
-                table: "WorkoutTemplates",
+                name: "IX_uf_WorkoutTemplates_MemberId_Title",
+                table: "uf_WorkoutTemplates",
                 columns: new[] { "MemberId", "Title" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutTemplateSetGroups_DateCreatedUtc",
-                table: "WorkoutTemplateSetGroups",
+                name: "IX_uf_WorkoutTemplateSetGroups_DateCreatedUtc",
+                table: "uf_WorkoutTemplateSetGroups",
                 column: "DateCreatedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutTemplateSetGroups_DateLastModifiedUtc",
-                table: "WorkoutTemplateSetGroups",
+                name: "IX_uf_WorkoutTemplateSetGroups_DateLastModifiedUtc",
+                table: "uf_WorkoutTemplateSetGroups",
                 column: "DateLastModifiedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutTemplateSetGroups_MemberId",
-                table: "WorkoutTemplateSetGroups",
+                name: "IX_uf_WorkoutTemplateSetGroups_MemberId",
+                table: "uf_WorkoutTemplateSetGroups",
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutTemplateSetGroups_WorkoutTemplateId_SortOrder",
-                table: "WorkoutTemplateSetGroups",
+                name: "IX_uf_WorkoutTemplateSetGroups_WorkoutTemplateId_SortOrder",
+                table: "uf_WorkoutTemplateSetGroups",
                 columns: new[] { "WorkoutTemplateId", "SortOrder" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutTemplateSets_DateCreatedUtc",
-                table: "WorkoutTemplateSets",
+                name: "IX_uf_WorkoutTemplateSets_DateCreatedUtc",
+                table: "uf_WorkoutTemplateSets",
                 column: "DateCreatedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutTemplateSets_DateLastModifiedUtc",
-                table: "WorkoutTemplateSets",
+                name: "IX_uf_WorkoutTemplateSets_DateLastModifiedUtc",
+                table: "uf_WorkoutTemplateSets",
                 column: "DateLastModifiedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutTemplateSets_ExerciseId",
-                table: "WorkoutTemplateSets",
+                name: "IX_uf_WorkoutTemplateSets_ExerciseId",
+                table: "uf_WorkoutTemplateSets",
                 column: "ExerciseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutTemplateSets_ListGroupId",
-                table: "WorkoutTemplateSets",
+                name: "IX_uf_WorkoutTemplateSets_ListGroupId",
+                table: "uf_WorkoutTemplateSets",
                 column: "ListGroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutTemplateSets_MemberId",
-                table: "WorkoutTemplateSets",
+                name: "IX_uf_WorkoutTemplateSets_MemberId",
+                table: "uf_WorkoutTemplateSets",
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutTemplateSets_WorkoutTemplateId_SortOrder",
-                table: "WorkoutTemplateSets",
+                name: "IX_uf_WorkoutTemplateSets_WorkoutTemplateId_SortOrder",
+                table: "uf_WorkoutTemplateSets",
                 columns: new[] { "WorkoutTemplateId", "SortOrder" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutTemplateTasks_DateCreatedUtc",
-                table: "WorkoutTemplateTasks",
+                name: "IX_uf_WorkoutTemplateTasks_DateCreatedUtc",
+                table: "uf_WorkoutTemplateTasks",
                 column: "DateCreatedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutTemplateTasks_DateLastModifiedUtc",
-                table: "WorkoutTemplateTasks",
+                name: "IX_uf_WorkoutTemplateTasks_DateLastModifiedUtc",
+                table: "uf_WorkoutTemplateTasks",
                 column: "DateLastModifiedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutTemplateTasks_MemberId",
-                table: "WorkoutTemplateTasks",
+                name: "IX_uf_WorkoutTemplateTasks_MemberId",
+                table: "uf_WorkoutTemplateTasks",
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkoutTemplateTasks_WorkoutTemplateId_Type_SortOrder",
-                table: "WorkoutTemplateTasks",
+                name: "IX_uf_WorkoutTemplateTasks_WorkoutTemplateId_Type_SortOrder",
+                table: "uf_WorkoutTemplateTasks",
                 columns: new[] { "WorkoutTemplateId", "Type", "SortOrder" });
         }
 
@@ -1411,91 +1411,91 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Activities");
+                name: "uf_Activities");
 
             migrationBuilder.DropTable(
-                name: "MemberMeta");
+                name: "uf_MemberMeta");
 
             migrationBuilder.DropTable(
-                name: "MetricPresets");
+                name: "uf_MetricPresets");
 
             migrationBuilder.DropTable(
-                name: "Metrics");
+                name: "uf_Metrics");
 
             migrationBuilder.DropTable(
-                name: "ProgramTemplates");
+                name: "uf_ProgramTemplates");
 
             migrationBuilder.DropTable(
-                name: "RoleClaims");
+                name: "uf_RoleClaims");
 
             migrationBuilder.DropTable(
-                name: "TrainingPlanSessions");
+                name: "uf_TrainingPlanSessions");
 
             migrationBuilder.DropTable(
-                name: "UserClaims");
+                name: "uf_UserClaims");
 
             migrationBuilder.DropTable(
-                name: "UserLogins");
+                name: "uf_UserLogins");
 
             migrationBuilder.DropTable(
-                name: "UserRoles");
+                name: "uf_UserRoles");
 
             migrationBuilder.DropTable(
-                name: "UserTokens");
+                name: "uf_UserTokens");
 
             migrationBuilder.DropTable(
-                name: "WorkoutSets");
+                name: "uf_WorkoutSets");
 
             migrationBuilder.DropTable(
-                name: "WorkoutTasks");
+                name: "uf_WorkoutTasks");
 
             migrationBuilder.DropTable(
-                name: "WorkoutTemplateSets");
+                name: "uf_WorkoutTemplateSets");
 
             migrationBuilder.DropTable(
-                name: "WorkoutTemplateTasks");
+                name: "uf_WorkoutTemplateTasks");
 
             migrationBuilder.DropTable(
-                name: "MetricDefinitions");
+                name: "uf_MetricDefinitions");
 
             migrationBuilder.DropTable(
-                name: "Programs");
+                name: "uf_Programs");
 
             migrationBuilder.DropTable(
-                name: "TrainingPlans");
+                name: "uf_TrainingPlans");
 
             migrationBuilder.DropTable(
-                name: "TrainingSessions");
+                name: "uf_TrainingSessions");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "uf_Roles");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "uf_Users");
 
             migrationBuilder.DropTable(
-                name: "WorkoutSetGroups");
+                name: "uf_WorkoutSetGroups");
 
             migrationBuilder.DropTable(
-                name: "Exercises");
+                name: "uf_Exercises");
 
             migrationBuilder.DropTable(
-                name: "WorkoutTemplateSetGroups");
+                name: "uf_WorkoutTemplateSetGroups");
 
             migrationBuilder.DropTable(
-                name: "MetricDefinitionGroups");
+                name: "uf_MetricDefinitionGroups");
 
             migrationBuilder.DropTable(
-                name: "ActivityTypes");
+                name: "uf_ActivityTypes");
 
             migrationBuilder.DropTable(
-                name: "Workouts");
+                name: "uf_Workouts");
 
             migrationBuilder.DropTable(
-                name: "WorkoutTemplates");
+                name: "uf_WorkoutTemplates");
 
             migrationBuilder.DropTable(
-                name: "Members");
+                name: "uf_Members");
         }
     }
 }

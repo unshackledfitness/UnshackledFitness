@@ -5,11 +5,11 @@
 		"MicrosoftClientSecret": ""
 	},
 	"ConnectionStrings": {
-		"DefaultDatabase": "Data Source=Data/unshackled-fitness.sqlite"
+		"DefaultDatabase": "Data Source=Data/unshackled-kitchen.sqlite"
 	},
 	"DbConfiguration": {
 		"DatabaseType": "sqlite",
-		"TablePrefix": "uf_"
+		"TablePrefix": "uk_"
 	},
 	"HashIdConfiguration": {
 		"Alphabet": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
@@ -23,8 +23,8 @@
 		}
 	},
 	"SiteConfiguration": {
-		"SiteName": "Unshackled Fitness",
-		"AppThemeColor": "#194480",
+		"SiteName": "Unshackled Kitchen",
+		"AppThemeColor": "#236441",
 		"AllowRegistration": true,
 		"RequireConfirmedAccount": true,
 		"ApplyMigrationsOnStartup": true,

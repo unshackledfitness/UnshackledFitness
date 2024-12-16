@@ -40,7 +40,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("uf_Roles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -63,7 +63,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RoleClaims", (string)null);
+                    b.ToTable("uf_RoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -86,7 +86,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserClaims", (string)null);
+                    b.ToTable("uf_UserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -108,7 +108,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserLogins", (string)null);
+                    b.ToTable("uf_UserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -123,7 +123,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles", (string)null);
+                    b.ToTable("uf_UserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -142,7 +142,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("UserTokens", (string)null);
+                    b.ToTable("uf_UserTokens", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.ActivityEntity", b =>
@@ -327,7 +327,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("MemberId", "DateEventUtc");
 
-                    b.ToTable("Activities", (string)null);
+                    b.ToTable("uf_Activities", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.ActivityTypeEntity", b =>
@@ -379,7 +379,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("MemberId", "Title");
 
-                    b.ToTable("ActivityTypes", (string)null);
+                    b.ToTable("uf_ActivityTypes", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.ExerciseEntity", b =>
@@ -438,7 +438,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("MemberId", "Title", "IsArchived");
 
-                    b.ToTable("Exercises", (string)null);
+                    b.ToTable("uf_Exercises", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.MetricDefinitionEntity", b =>
@@ -503,7 +503,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("MemberId", "ListGroupId", "SortOrder");
 
-                    b.ToTable("MetricDefinitions", (string)null);
+                    b.ToTable("uf_MetricDefinitions", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.MetricDefinitionGroupEntity", b =>
@@ -539,7 +539,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("MemberId", "SortOrder");
 
-                    b.ToTable("MetricDefinitionGroups", (string)null);
+                    b.ToTable("uf_MetricDefinitionGroups", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.MetricEntity", b =>
@@ -579,7 +579,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("MemberId", "MetricDefinitionId", "DateRecorded");
 
-                    b.ToTable("Metrics", (string)null);
+                    b.ToTable("uf_Metrics", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.MetricPresetEntity", b =>
@@ -617,7 +617,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.HasIndex("MemberId", "Title")
                         .IsUnique();
 
-                    b.ToTable("MetricPresets", (string)null);
+                    b.ToTable("uf_MetricPresets", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.ProgramEntity", b =>
@@ -668,7 +668,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("MemberId", "Title");
 
-                    b.ToTable("Programs", (string)null);
+                    b.ToTable("uf_Programs", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.ProgramTemplateEntity", b =>
@@ -713,7 +713,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("ProgramId", "WeekNumber", "DayNumber");
 
-                    b.ToTable("ProgramTemplates", (string)null);
+                    b.ToTable("uf_ProgramTemplates", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.TrainingPlanEntity", b =>
@@ -766,7 +766,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("MemberId", "Title");
 
-                    b.ToTable("TrainingPlans", (string)null);
+                    b.ToTable("uf_TrainingPlans", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.TrainingPlanSessionEntity", b =>
@@ -813,7 +813,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("MemberId", "TrainingPlanId", "WeekNumber", "DayNumber", "SortOrder");
 
-                    b.ToTable("TrainingPlanSessions", (string)null);
+                    b.ToTable("uf_TrainingPlanSessions", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.TrainingSessionEntity", b =>
@@ -889,7 +889,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("MemberId", "ActivityTypeId", "Title");
 
-                    b.ToTable("TrainingSessions", (string)null);
+                    b.ToTable("uf_TrainingSessions", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.WorkoutEntity", b =>
@@ -981,7 +981,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("MemberId", "DateStartedUtc");
 
-                    b.ToTable("Workouts", (string)null);
+                    b.ToTable("uf_Workouts", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.WorkoutSetEntity", b =>
@@ -1116,7 +1116,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("WorkoutId", "SortOrder");
 
-                    b.ToTable("WorkoutSets", (string)null);
+                    b.ToTable("uf_WorkoutSets", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.WorkoutSetGroupEntity", b =>
@@ -1154,7 +1154,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("WorkoutId", "SortOrder");
 
-                    b.ToTable("WorkoutSetGroups", (string)null);
+                    b.ToTable("uf_WorkoutSetGroups", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.WorkoutTaskEntity", b =>
@@ -1198,7 +1198,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("WorkoutId", "Type", "SortOrder");
 
-                    b.ToTable("WorkoutTasks", (string)null);
+                    b.ToTable("uf_WorkoutTasks", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.WorkoutTemplateEntity", b =>
@@ -1243,7 +1243,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("MemberId", "Title");
 
-                    b.ToTable("WorkoutTemplates", (string)null);
+                    b.ToTable("uf_WorkoutTemplates", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.WorkoutTemplateSetEntity", b =>
@@ -1305,7 +1305,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("WorkoutTemplateId", "SortOrder");
 
-                    b.ToTable("WorkoutTemplateSets", (string)null);
+                    b.ToTable("uf_WorkoutTemplateSets", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.WorkoutTemplateSetGroupEntity", b =>
@@ -1343,7 +1343,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("WorkoutTemplateId", "SortOrder");
 
-                    b.ToTable("WorkoutTemplateSetGroups", (string)null);
+                    b.ToTable("uf_WorkoutTemplateSetGroups", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.WorkoutTemplateTaskEntity", b =>
@@ -1384,7 +1384,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("WorkoutTemplateId", "Type", "SortOrder");
 
-                    b.ToTable("WorkoutTemplateTasks", (string)null);
+                    b.ToTable("uf_WorkoutTemplateTasks", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Studio.Core.Data.Entities.MemberEntity", b =>
@@ -1419,7 +1419,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Members", (string)null);
+                    b.ToTable("uf_Members", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Studio.Core.Data.Entities.MemberMetaEntity", b =>
@@ -1446,7 +1446,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.HasIndex("MemberId", "MetaKey")
                         .IsUnique();
 
-                    b.ToTable("MemberMeta", (string)null);
+                    b.ToTable("uf_MemberMeta", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Studio.Core.Data.Entities.UserEntity", b =>
@@ -1510,7 +1510,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("uf_Users", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

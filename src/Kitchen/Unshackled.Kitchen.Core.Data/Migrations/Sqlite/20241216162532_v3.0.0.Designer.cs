@@ -11,7 +11,7 @@ using Unshackled.Kitchen.Core.Data;
 namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 {
     [DbContext(typeof(SqliteDbContext))]
-    [Migration("20241215154001_v3.0.0")]
+    [Migration("20241216162532_v3.0.0")]
     partial class v300
     {
         /// <inheritdoc />
@@ -43,7 +43,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("uk_Roles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -66,7 +66,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RoleClaims", (string)null);
+                    b.ToTable("uk_RoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -89,7 +89,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserClaims", (string)null);
+                    b.ToTable("uk_UserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -111,7 +111,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserLogins", (string)null);
+                    b.ToTable("uk_UserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -126,7 +126,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles", (string)null);
+                    b.ToTable("uk_UserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -145,7 +145,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("UserTokens", (string)null);
+                    b.ToTable("uk_UserTokens", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.CookbookEntity", b =>
@@ -180,7 +180,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("MemberId");
 
-                    b.ToTable("Cookbooks", (string)null);
+                    b.ToTable("uk_Cookbooks", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.CookbookInviteEntity", b =>
@@ -214,7 +214,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("DateLastModifiedUtc");
 
-                    b.ToTable("CookbookInvites", (string)null);
+                    b.ToTable("uk_CookbookInvites", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.CookbookMemberEntity", b =>
@@ -232,7 +232,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("MemberId");
 
-                    b.ToTable("CookbookMembers", (string)null);
+                    b.ToTable("uk_CookbookMembers", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.CookbookRecipeEntity", b =>
@@ -257,7 +257,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("CookbookRecipes", (string)null);
+                    b.ToTable("uk_CookbookRecipes", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.HouseholdEntity", b =>
@@ -288,7 +288,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("MemberId");
 
-                    b.ToTable("Households", (string)null);
+                    b.ToTable("uk_Households", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.HouseholdInviteEntity", b =>
@@ -322,7 +322,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("HouseholdId");
 
-                    b.ToTable("HouseholdInvites", (string)null);
+                    b.ToTable("uk_HouseholdInvites", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.HouseholdMemberEntity", b =>
@@ -340,7 +340,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("MemberId");
 
-                    b.ToTable("HouseholdMembers", (string)null);
+                    b.ToTable("uk_HouseholdMembers", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.ProductBundleEntity", b =>
@@ -373,7 +373,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("HouseholdId", "Title");
 
-                    b.ToTable("ProductBundles", (string)null);
+                    b.ToTable("uk_ProductBundles", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.ProductBundleItemEntity", b =>
@@ -391,7 +391,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductBundleItems", (string)null);
+                    b.ToTable("uk_ProductBundleItems", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.ProductCategoryEntity", b =>
@@ -424,7 +424,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("Title");
 
-                    b.ToTable("ProductCategories", (string)null);
+                    b.ToTable("uk_ProductCategories", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.ProductEntity", b =>
@@ -978,7 +978,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("HouseholdId", "Title");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("uk_Products", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.ProductSubstitutionEntity", b =>
@@ -1002,7 +1002,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("HouseholdId", "IngredientKey");
 
-                    b.ToTable("ProductSubstitutions", (string)null);
+                    b.ToTable("uk_ProductSubstitutions", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.RecipeEntity", b =>
@@ -1047,7 +1047,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("HouseholdId", "Title");
 
-                    b.ToTable("Recipes", (string)null);
+                    b.ToTable("uk_Recipes", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.RecipeIngredientEntity", b =>
@@ -1123,7 +1123,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("RecipeId", "SortOrder");
 
-                    b.ToTable("RecipeIngredients", (string)null);
+                    b.ToTable("uk_RecipeIngredients", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.RecipeIngredientGroupEntity", b =>
@@ -1161,7 +1161,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("RecipeId", "SortOrder");
 
-                    b.ToTable("RecipeIngredientGroups", (string)null);
+                    b.ToTable("uk_RecipeIngredientGroups", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.RecipeNoteEntity", b =>
@@ -1199,7 +1199,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("RecipeId", "SortOrder");
 
-                    b.ToTable("RecipeNotes", (string)null);
+                    b.ToTable("uk_RecipeNotes", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.RecipeStepEntity", b =>
@@ -1237,7 +1237,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("RecipeId", "SortOrder");
 
-                    b.ToTable("RecipeSteps", (string)null);
+                    b.ToTable("uk_RecipeSteps", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.RecipeStepIngredientEntity", b =>
@@ -1259,7 +1259,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("RecipeStepId");
 
-                    b.ToTable("RecipeStepIngredients", (string)null);
+                    b.ToTable("uk_RecipeStepIngredients", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.RecipeTagEntity", b =>
@@ -1274,7 +1274,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("RecipeTags", (string)null);
+                    b.ToTable("uk_RecipeTags", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.ShoppingListEntity", b =>
@@ -1312,7 +1312,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("HouseholdId", "Title");
 
-                    b.ToTable("ShoppingLists", (string)null);
+                    b.ToTable("uk_ShoppingLists", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.ShoppingListItemEntity", b =>
@@ -1333,7 +1333,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ShoppingListItems", (string)null);
+                    b.ToTable("uk_ShoppingListItems", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.ShoppingListRecipeItemEntity", b =>
@@ -1369,7 +1369,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("ShoppingListRecipeItems", (string)null);
+                    b.ToTable("uk_ShoppingListRecipeItems", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.StoreEntity", b =>
@@ -1406,7 +1406,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("HouseholdId", "Title");
 
-                    b.ToTable("Stores", (string)null);
+                    b.ToTable("uk_Stores", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.StoreLocationEntity", b =>
@@ -1451,7 +1451,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("HouseholdId", "StoreId", "SortOrder");
 
-                    b.ToTable("StoreLocations", (string)null);
+                    b.ToTable("uk_StoreLocations", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.StoreProductLocationEntity", b =>
@@ -1476,7 +1476,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("StoreId", "StoreLocationId", "SortOrder");
 
-                    b.ToTable("StoreProductLocations", (string)null);
+                    b.ToTable("uk_StoreProductLocations", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.TagEntity", b =>
@@ -1517,7 +1517,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.HasIndex("HouseholdId", "Key")
                         .IsUnique();
 
-                    b.ToTable("Tags", (string)null);
+                    b.ToTable("uk_Tags", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Studio.Core.Data.Entities.MemberEntity", b =>
@@ -1552,7 +1552,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Members", (string)null);
+                    b.ToTable("uk_Members", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Studio.Core.Data.Entities.MemberMetaEntity", b =>
@@ -1579,7 +1579,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.HasIndex("MemberId", "MetaKey")
                         .IsUnique();
 
-                    b.ToTable("MemberMeta", (string)null);
+                    b.ToTable("uk_MemberMeta", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Studio.Core.Data.Entities.UserEntity", b =>
@@ -1643,7 +1643,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("uk_Users", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
