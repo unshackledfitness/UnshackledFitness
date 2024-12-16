@@ -8,7 +8,8 @@
 
 @if (externalLogins.Length > 0)
 {
-	<div class="d-flex justify-content-center mt-6 flex-row flex-wrap gap-2">
+	<MudText Typo="Typo.h6" Class="mt-6 mb-3" Align="Align.Center">@Title</MudText>
+	<div class="d-flex justify-content-center flex-row flex-wrap gap-2">
 		@foreach (var provider in externalLogins)
 		{
 			<form action="account/perform-external-login" method="post">
@@ -16,7 +17,7 @@
 				<input type="hidden" name="Provider" value="@provider.Name">
 				<input type="hidden" name="ReturnUrl" value="@ReturnUrl" />
 				<MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Default" StartIcon="@provider.Name.GetBrandIcon()">
-					Continue with @provider.DisplayName
+					@provider.DisplayName
 				</MudButton>
 			</form>
 		}
@@ -28,11 +29,14 @@
 @code {
 	private AuthenticationScheme[] externalLogins = [];
 
-    [SupplyParameterFromQuery]
-    private string? ReturnUrl { get; set; }
+	[Parameter]
+	public string Title { get; set; } = "Log in with";
 
-    protected override async Task OnInitializedAsync()
-    {
-        externalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToArray();
-    }
+	[SupplyParameterFromQuery]
+	private string? ReturnUrl { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		externalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToArray();
+	}
 }
