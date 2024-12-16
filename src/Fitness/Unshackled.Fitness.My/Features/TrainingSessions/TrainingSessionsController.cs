@@ -16,20 +16,20 @@ public class TrainingSessionsController : BaseController
 		return Ok(await Mediator.Send(new AddSession.Command(Member.Id, model)));
 	}
 
-	//[HttpPost("delete")]
-	//[ActiveMemberRequired]
-	//public async Task<IActionResult> Delete([FromBody] string targetSid)
-	//{
-	//	return Ok(await Mediator.Send(new DeleteSession.Command(Member.Id, targetSid)));
-	//}
+	[HttpPost("delete")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> Delete([FromBody] string targetSid)
+	{
+		return Ok(await Mediator.Send(new DeleteSession.Command(Member.Id, targetSid)));
+	}
 
-	//[HttpPost("duplicate/{sid}")]
-	//[ActiveMemberRequired]
-	//[DecodeId]
-	//public async Task<IActionResult> Duplicate(long id, [FromBody] FormSessionModel model)
-	//{
-	//	return Ok(await Mediator.Send(new DuplicateSession.Command(Member.Id, id, model)));
-	//}
+	[HttpPost("duplicate/{sid}")]
+	[ActiveMemberRequired]
+	[DecodeId]
+	public async Task<IActionResult> Duplicate(long id, [FromBody] FormSessionModel model)
+	{
+		return Ok(await Mediator.Send(new DuplicateSession.Command(Member.Id, id, model)));
+	}
 
 	[HttpGet("get/{sid}")]
 	[DecodeId]

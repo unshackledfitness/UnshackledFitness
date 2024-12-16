@@ -2,30 +2,43 @@
 
 <SectionContainer IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-12">
 
-	<SectionHeader Title="@Session.Title" IsEditMode="@IsEditMode" IsEditing="@IsEditing" EditingClass="mb-4" FormId="@FormId" Breakpoint="Breakpoint.Sm" 
-				   OnCancelClicked="@HandleEditCancelClicked">
+	<SectionHeader Title="@Session.Title" IsEditMode="@IsEditMode" IsEditing="@(IsEditing || IsDuplicating)" EditingClass="mb-4" FormId="@FormId" Breakpoint="Breakpoint.Sm" 
+	OnCancelClicked="@HandleCancelClicked">
 		<TitleContent>
-			<div class="mb-6">
-				<div class="d-flex flex-row gap-2 align-center">
-					<div><MudElement HtmlTag="div" Style="@Session.ActivityTypeColor.SwatchStyle(".75em")" /></div>
-					<div class="pt-1 flex-grow-1 d-flex flex-row gap-2">
-						<MudText Typo="Typo.body2" Color="Color.Tertiary">@Session.EventType.Title():</MudText>
-						<MudText Typo="Typo.body2" Color="Color.Tertiary">@Session.ActivityTypeTitle</MudText>
+			@if (!IsEditing && !IsDuplicating)
+			{
+				<div class="mb-6">
+					<div class="d-flex flex-row gap-2 align-center">
+						<div><MudElement HtmlTag="div" Style="@Session.ActivityTypeColor.SwatchStyle(".75em")" /></div>
+						<div class="pt-1 flex-grow-1 d-flex flex-row gap-2">
+							<MudText Typo="Typo.body2" Color="Color.Tertiary">@Session.EventType.Title():</MudText>
+							<MudText Typo="Typo.body2" Color="Color.Tertiary">@Session.ActivityTypeTitle</MudText>
+						</div>
 					</div>
+					<MudText Typo="Typo.h4">@Session.Title</MudText>
 				</div>
-				<MudText Typo="Typo.h4">@Session.Title</MudText>
-			</div>
+			}
+			else if (IsEditing)
+			{
+				<MudText Typo="Typo.h4" class="mb-6">Editing Training Session</MudText>
+			}
+			else if (IsDuplicating)
+			{
+				<MudText Typo="Typo.h4" class="mb-6">Duplicating Training Session</MudText>
+			}
 		</TitleContent>
 
 		<EditModeToolbar>
 			<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@(DisableSectionControls || IsUpdating)"
-						   OnClick="@(() => HandleEditClicked())" />
+						   title="Edit" OnClick="@(() => HandleEditClicked())" />
+			<MudIconButton Icon="@Icons.Material.Filled.ContentCopy" Disabled="@DisableSectionControls"
+						   title="Duplicate" OnClick="@(() => HandleDuplicateClicked())" />
 			<MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@(DisableSectionControls || IsUpdating)"
-						   OnClick="@(() => HandleDeleteClicked())" />
+						   title="Delete" OnClick="@(() => HandleDeleteClicked())" />
 		</EditModeToolbar>
 	</SectionHeader>
 
-	@if (!IsEditing)
+	@if (!IsEditing && !IsDuplicating)
 	{
 		<MudGrid Spacing="2">
 			@if (Session.TargetDistance > 0)
@@ -114,8 +127,12 @@
 			}
 		</MudGrid>
 	}
-	else
+	else if (IsEditing)
 	{
-		<FormProperties ActivityTypes="@ActivityTypes" FormId="@FormId" Model="@Model" OnCanceled="@HandleEditCancelClicked" OnFormSubmitted="@HandleFormSubmitted" />
+		<FormProperties ActivityTypes="@ActivityTypes" FormId="@FormId" Model="@Model" OnCanceled="@HandleCancelClicked" OnFormSubmitted="@HandleEditFormSubmitted" />
+	}
+	else if (IsDuplicating)
+	{
+		<FormProperties ActivityTypes="@ActivityTypes" FormId="@FormId" Model="@Model" OnCanceled="@HandleCancelClicked" OnFormSubmitted="@HandleDuplicateFormSubmitted" />
 	}
 </SectionContainer>

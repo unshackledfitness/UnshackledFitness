@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.Metrics;
-
-namespace Unshackled.Fitness.Core.Enums;
+﻿namespace Unshackled.Fitness.Core.Enums;
 
 public enum DistanceUnits
 {
