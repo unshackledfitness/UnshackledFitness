@@ -14,6 +14,15 @@
 			letter-spacing: var(--mud-typography-button-letterspacing) !important;
 			text-transform: var(--mud-typography-button-text-transform) !important;
 		}
+
+		.mud-checkbox .mud-typography-body1 {
+			font-family: var(--mud-typography-button-family);
+			font-size: var(--mud-typography-button-size);
+			font-weight: var(--mud-typography-button-weight);
+			line-height: var(--mud-typography-button-lineheight);
+			letter-spacing: var(--mud-typography-button-letterspacing);
+			text-transform: var(--mud-typography-button-text-transform);
+		}
 	}
 
 	@media (max-width: $breakpoint-xs-max) {

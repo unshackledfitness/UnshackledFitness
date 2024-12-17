@@ -1,0 +1,40 @@
+﻿@typeparam TItem
+
+<div class="@GridClass">
+	@if (!IsLoading && Items.Any())
+	{
+		@if (PagingPosition == PagingPositions.Top || PagingPosition == PagingPositions.Both)
+		{
+			<PagingComponent Page="@Page" PageSize="@PageSize" Total="@TotalItems" PageSelected="@HandlePageSelected" />
+		}
+
+		<MudGrid Spacing="@GridSpacing" Justify="@GridJustify">
+		@for (int i = 0; i < Items.Count; i++)
+		{
+			var item = Items[i];
+			@if(ItemRenderer != null)
+			{
+				<MudItem xs="@xs" sm="@sm" md="@md" lg="@lg" xl="@xl" xxl="@xxl" Class="@ItemClass">
+					@ItemRenderer(new RowContext<TItem> { Item = item, RowIndex = i })
+				</MudItem>
+			}
+		}
+		</MudGrid>
+
+		@if (PagingPosition == PagingPositions.Bottom || PagingPosition == PagingPositions.Both)
+		{
+			<PagingComponent Page="@Page" PageSize="@PageSize" Total="@TotalItems" PageSelected="@HandlePageSelected" />
+		}
+	}
+	else if(IsLoading)
+	{
+		<DefaultProgress />
+	}
+	else
+	{
+		@if(EmptyListRenderer != null)
+		{
+			@EmptyListRenderer
+		}
+	}
+</div>

@@ -21,6 +21,10 @@
 	text-decoration: line-through !important;
 }
 
+.dimmed {
+	color: var(--mud-palette-text-disabled) !important;
+}
+
 p {
 	ol, ul {
 		padding-left: 2rem;

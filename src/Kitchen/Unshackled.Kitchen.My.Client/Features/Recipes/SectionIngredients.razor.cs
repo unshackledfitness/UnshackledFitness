@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.AspNetCore.Components;
 using Unshackled.Kitchen.Core.Enums;
 using Unshackled.Kitchen.Core.Models;
@@ -28,6 +29,7 @@ public class SectionIngredientsBase : BaseSectionComponent<Member>
 	[Parameter] public EventCallback<decimal> ScaleChanged { get; set; }
 	[Parameter] public EventCallback UpdateComplete { get; set; }
 	[Parameter] public EventCallback OnNutritionClicked { get; set; }
+	[Parameter] public EventCallback<List<string>> OnSelectionChange { get; set; }
 
 	protected List<FormIngredientGroupModel> FormGroups { get; set; } = new();
 	protected List<FormIngredientModel> FormIngredients { get; set; } = new(); 
@@ -41,6 +43,7 @@ public class SectionIngredientsBase : BaseSectionComponent<Member>
 	protected bool DisableControls => IsWorking || IsSorting;
 	protected NutritionLabelModel LabelModel { get; set; } = new();
 	protected bool ShowProducts { get; set; } = false;
+	protected bool? IsSelectAll { get; set; } = false;
 	protected bool DrawerOpen => DrawerView != Views.None;
 	protected Views DrawerView { get; set; } = Views.None;
 	protected string DrawerTitle => DrawerView switch
@@ -56,6 +59,21 @@ public class SectionIngredientsBase : BaseSectionComponent<Member>
 		base.OnParametersSet();
 		LabelModel = new();
 		LabelModel.LoadNutritionLabel(Recipe.TotalServings, Scale, Ingredients.ToList<ILabelIngredient>());
+	}
+
+	protected string GetScaleFraction()
+	{
+		return Scale switch
+		{
+			0.25M => "1/4x",
+			0.5M => "1/2x",
+			0.75M => "3/4x",
+			1M => "1x",
+			2M => "2x",
+			3M => "3x",
+			4M => "4x",
+			_ => Scale.ToString("0.##")
+		};
 	}
 
 	protected void HandleAddClicked()
@@ -154,6 +172,36 @@ public class SectionIngredientsBase : BaseSectionComponent<Member>
 		FormModel = (FormIngredientModel)item.Clone();
 	}
 
+	protected async Task HandleGroupItemChecked(RecipeIngredientGroupModel model, bool? isChecked)
+	{
+		model.IsSelectAll = isChecked;
+		if (isChecked.HasValue)
+		{
+			Ingredients.Where(x => x.ListGroupSid == model.Sid)
+				.ToList()
+				.ForEach(x => x.IsSelected = isChecked.Value);
+
+			if (isChecked.Value)
+			{
+				bool allSelected = !Ingredients.Where(x => x.IsSelected == false).Any();
+				if (allSelected)
+					IsSelectAll = true;
+				else
+					IsSelectAll = null;
+			}
+			else
+			{
+				bool allUnselected = !Ingredients.Where(x => x.IsSelected == true).Any();
+				if (allUnselected)
+					IsSelectAll = false;
+				else
+					IsSelectAll = null;
+			}
+
+			await NotifySelectedChanged();
+		}
+	}
+
 	protected void HandleIngredientAddFormSubmitted(FormIngredientModel model)
 	{
 		IsWorking = true;
@@ -193,6 +241,50 @@ public class SectionIngredientsBase : BaseSectionComponent<Member>
 		StateHasChanged();
 	}
 
+	protected async Task HandleItemChecked(RecipeIngredientModel model, bool isChecked)
+	{
+		model.IsSelected = isChecked;
+		if (!string.IsNullOrEmpty(model.ListGroupSid))
+		{
+			var group = Groups.Where(x => x.Sid == model.ListGroupSid).FirstOrDefault();
+			if (group != null && model.IsSelected)
+			{
+				bool groupSelected = !Ingredients.Where(x => x.ListGroupSid == model.ListGroupSid && x.IsSelected == false).Any();
+				if (groupSelected)
+					group.IsSelectAll = true;
+				else
+					group.IsSelectAll = null;
+			}
+			else if (group != null && !model.IsSelected)
+			{
+				bool groupUnselected = !Ingredients.Where(x => x.ListGroupSid == model.ListGroupSid && x.IsSelected == true).Any();
+				if (groupUnselected)
+					group.IsSelectAll = false;
+				else
+					group.IsSelectAll = null;
+			}
+		}
+
+		if (model.IsSelected)
+		{
+			bool allSelected = !Ingredients.Where(x => x.IsSelected == false).Any();
+			if (allSelected)
+				IsSelectAll = true;
+			else
+				IsSelectAll = null;
+		}
+		else
+		{
+			bool allUnselected = !Ingredients.Where(x => x.IsSelected == true).Any();
+			if (allUnselected)
+				IsSelectAll = false;
+			else
+				IsSelectAll = null;
+		}
+
+		await NotifySelectedChanged();
+	} 
+
 	protected async Task HandleOpenNutritionClicked()
 	{
 		await OnNutritionClicked.InvokeAsync();
@@ -204,6 +296,17 @@ public class SectionIngredientsBase : BaseSectionComponent<Member>
 		{
 			Scale = value;
 			await ScaleChanged.InvokeAsync(value);
+		}
+	}
+
+	protected async Task HandleSelectAllChange(bool? isChecked)
+	{
+		IsSelectAll = isChecked;
+		if (isChecked.HasValue)
+		{
+			Groups.ForEach(x => x.IsSelectAll = isChecked.Value);
+			Ingredients.ForEach(x => x.IsSelected = isChecked.Value);
+			await NotifySelectedChanged();
 		}
 	}
 
@@ -270,18 +373,8 @@ public class SectionIngredientsBase : BaseSectionComponent<Member>
 		await Mediator.Send(new UpdateIngredientTitles.Command(new()));
 	}
 
-	protected string GetScaleFraction()
+	protected async Task NotifySelectedChanged()
 	{
-		return Scale switch
-		{
-			0.25M => "1/4x",
-			0.5M => "1/2x",
-			0.75M => "3/4x",
-			1M => "1x",
-			2M => "2x",
-			3M => "3x",
-			4M => "4x",
-			_ => Scale.ToString("0.##")
-		};
+		await OnSelectionChange.InvokeAsync(Ingredients.Where(x => x.IsSelected).Select(x => x.Sid).ToList());
 	}
 }

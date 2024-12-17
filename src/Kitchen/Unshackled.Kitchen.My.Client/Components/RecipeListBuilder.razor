@@ -5,25 +5,12 @@
 <MudText Typo="Typo.h6">Set Ingredient Quantities</MudText>
 <ListView TItem="AddToShoppingListModel" Items="@Items" IsLoading="@IsLoading">
 	<ItemRenderer>
-		<MudGrid Spacing="2">
+		<MudGrid Spacing="2" Class="@GetClass(context.Item)">
 			<MudItem xs="12">
-				<MudText Typo="Typo.body2" Color="Color.Tertiary">Replacing:</MudText>
-				<MudText>
-					<IngredientText Amount="@context.Item.IngredientAmount" AmountLabel="@context.Item.IngredientAmountUnitLabel" /> @context.Item.IngredientTitle
-				</MudText>
-			</MudItem>
-			<MudItem xs="12">
-				<MudText Typo="Typo.body2" Color="Color.Tertiary">With Product:</MudText>
-				<MudText>
-					@if (context.Item.ContainerSizeAmount > 0)
-					{
-						<IngredientText Amount="@context.Item.ContainerSizeAmount" AmountLabel="@context.Item.ContainerSizeUnitLabel" /> @context.Item.ProductTitle
-					}
-					else
-					{
-						<text>@context.Item.ProductTitle</text>
-					}
-				</MudText>
+				<div class="d-flex flex-row gap-x-2 align-end flex-wrap">
+					<MudText Typo="Typo.subtitle1">@context.Item.ProductTitle.ToUpper()</MudText>
+					<MudText>for @context.Item.IngredientTitle</MudText>
+				</div>
 			</MudItem>
 			@if (context.Item.IsUnitMismatch) 
 			{
@@ -35,12 +22,12 @@
 			}
 			<MudItem xs="12">
 				<MudGrid Spacing="1">
-					<MudItem xs="6" md="3">
+					<MudItem xs="6" sm="3">
 						<CaptionedProperty Title="Amount Required">
 							<IngredientText Amount="@context.Item.RequiredAmount" AmountLabel="@context.Item.RequiredAmountLabel" />
 						</CaptionedProperty>
 					</MudItem>
-					<MudItem xs="6" md="3">
+					<MudItem xs="6" sm="3">
 						<CaptionedProperty Title="Quantity To Add">
 							<div class="d-flex gap-4 align-center flex-row">
 								<MudIconButton Icon="@Icons.Material.Filled.RemoveCircleOutline" Color="Color.Secondary" Size="Size.Small" OnClick="@(() => HandleCounterSubtractClicked(context.Item))" />
@@ -49,12 +36,12 @@
 							</div>
 						</CaptionedProperty>
 					</MudItem>
-					<MudItem xs="6" md="3">
+					<MudItem xs="6" sm="3">
 						<CaptionedProperty Title="Quantity In List">
 							<MudText>@context.Item.QuantityInList</MudText>
 						</CaptionedProperty>
 					</MudItem>
-					<MudItem xs="6" md="3">
+					<MudItem xs="6" sm="3">
 						<CaptionedProperty Title="Total After Add">
 							<MudText>@context.Item.TotalQuantity</MudText>
 						</CaptionedProperty>

@@ -25,10 +25,11 @@ public class SingleBase : BaseComponent<Member>, IAsyncDisposable
 	[Parameter] public string RecipeSid { get; set; } = string.Empty; 
 	protected bool IsLoading { get; set; } = true;
 	protected RecipeModel Recipe { get; set; } = new();
-	protected List<RecipeIngredientGroupModel> Groups { get; set; } = new();
-	protected List<RecipeIngredientModel> Ingredients { get; set; } = new();
-	protected List<RecipeStepModel> Steps { get; set; } = new();
-	protected List<RecipeNoteModel> Notes { get; set; } = new();
+	protected List<RecipeIngredientGroupModel> Groups { get; set; } = [];
+	protected List<RecipeIngredientModel> Ingredients { get; set; } = [];
+	protected List<RecipeStepModel> Steps { get; set; } = [];
+	protected List<RecipeNoteModel> Notes { get; set; } = [];
+	protected List<string> SelectedIngredientSids { get; set; } = [];
 	protected bool IsAddingToList { get; set; } = false;
 	protected bool IsEditMode { get; set; } = false;
 	protected bool IsEditing { get; set; } = false;

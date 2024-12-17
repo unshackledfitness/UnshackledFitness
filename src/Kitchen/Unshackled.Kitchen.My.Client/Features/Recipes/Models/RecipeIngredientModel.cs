@@ -73,4 +73,7 @@ public class RecipeIngredientModel : BaseHouseholdObject, IGroupedSortable, ILab
 
 	[JsonIgnore]
 	public bool HasSubstitution => !string.IsNullOrEmpty(ProductSid);
+
+	[JsonIgnore]
+	public bool IsSelected { get; set; } = false;
 }

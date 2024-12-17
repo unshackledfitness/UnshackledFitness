@@ -7,6 +7,7 @@ namespace Unshackled.Kitchen.Core.Models;
 public class AddToShoppingListModel
 {
 	public string ListSid { get; set; } = string.Empty;
+	public string RecipeIngredientSid { get; set; } = string.Empty;
 	public string IngredientKey { get; set; } = string.Empty;
 	public string IngredientTitle { get; set; } = string.Empty;
 	public decimal IngredientAmount { get; set; }

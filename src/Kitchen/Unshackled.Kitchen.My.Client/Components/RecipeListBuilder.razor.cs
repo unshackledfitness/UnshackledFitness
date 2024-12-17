@@ -20,4 +20,9 @@ public class RecipeListBuilderBase : ComponentBase
 	{
 		model.Quantity++;
 	}
+
+	protected string GetClass(AddToShoppingListModel model)
+	{
+		return model.Quantity == 0 ? "dimmed" : string.Empty;
+	}
 }

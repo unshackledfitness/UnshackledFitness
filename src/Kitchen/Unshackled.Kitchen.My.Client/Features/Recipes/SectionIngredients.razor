@@ -4,10 +4,10 @@
 {
 	<SectionContainer IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
 		<SectionHeader Title="Ingredients" Typo="Typo.h5" IsEditMode="@IsEditMode" IsEditing="@IsEditing" DisableControls="@DisableControls" Class="mb-4" EditingClass="mb-4"
-						OnCancelClicked="@(() => HandleCancelEditClicked())" OnSaveClicked="@HandleUpdateClicked">
+		OnCancelClicked="@(() => HandleCancelEditClicked())" OnSaveClicked="@HandleUpdateClicked">
 			<DefaultToolbar>
 				<MudToggleIconButton Disabled="@DisableSectionControls" Icon="@Icons.Material.Filled.ShoppingBag" ToggledIcon="@Icons.Material.Filled.ShoppingBag"
-									 Color="Color.Default" ToggledColor="Color.Secondary" @bind-Toggled="@ShowProducts" />
+				Color="Color.Default" ToggledColor="Color.Secondary" @bind-Toggled="@ShowProducts" />
 				<MudIconButton Icon="@Icons.Material.Filled.Analytics" Disabled="@DisableSectionControls" OnClick="@(() => HandleOpenNutritionClicked())" />
 				<MudMenu Label="@($"Scale: {GetScaleFraction()}")" AnchorOrigin="Origin.TopRight" TransformOrigin="Origin.TopRight">
 					<MudMenuItem OnClick="@(() => HandleScaleChanged(0.25M))">1/4x</MudMenuItem>
@@ -26,32 +26,28 @@
 
 		@if (!IsEditing)
 		{
+			<MudToolBar Gutters="false">
+				<div>
+					<MudCheckBox T="bool?" Dense="true" Color="Color.Secondary" UncheckedColor="Color.Default" Label="All/None" Class="me-4"
+									Value="IsSelectAll" ValueChanged="@((bool? value) => HandleSelectAllChange(value))"></MudCheckBox>
+				</div>
+			</MudToolBar>
 			<GroupedList Groups="@Groups" Items="@Ingredients">
 				<GroupRenderer>
-					<MudText Typo="Typo.body1" Class="mt-4 mb-2">@context.Title</MudText>
+					<div class="d-flex flex-row gap-2 align-center mt-4 mb-2">
+						<div>
+							<MudCheckBox T="bool?" Dense="true" Color="Color.Secondary" UncheckedColor="Color.Default"
+											Value="context.IsSelectAll" ValueChanged="@((bool? value) => HandleGroupItemChecked(context, value))"></MudCheckBox>
+						</div>
+						<MudText Typo="Typo.subtitle1" Class="flex-grow-1">@context.Title</MudText>
+					</div>
 				</GroupRenderer>
 				<ItemRenderer>
 					<div class="d-flex flex-row gap-2 align-center justify-space-between">
-						@if (ShowProducts)
-						{
-							<div>
-								<MudLink Href="@($"/ingredients/{context.Item.Key}")">
-									@if (context.Item.IsUnitMismatch)
-									{
-										<MudIcon Title="Unit Mismatch" Icon="@Icons.Material.Filled.Error" Color="@Color.Error" />
-									}
-									else if (context.Item.HasSubstitution && !context.Item.HasNutritionInfo)
-									{
-										<YesNo Value="false" Align="Align.Center" ColorYes="Color.Primary" ShowLabel="false" ToolTipNo="No Nutrition Info available" />
-									}
-									else
-									{
-										<YesNo Value="@context.Item.HasSubstitution" Align="Align.Center" ColorYes="Color.Primary"
-												ShowLabel="false" ToolTipYes="Has Product Substituion" ToolTipNo="No Product Substitution" />
-									}
-								</MudLink>
-							</div>
-						}
+						<div>
+							<MudCheckBox T="bool" Dense="true" Color="Color.Secondary" UncheckedColor="Color.Default" 
+											Value="context.Item.IsSelected" ValueChanged="@((bool value) => HandleItemChecked(context.Item, value))"></MudCheckBox>
+						</div>
 						<div class="flex-grow-1">
 							<MudText>
 								@if (ShowProducts && context.Item.HasSubstitution)

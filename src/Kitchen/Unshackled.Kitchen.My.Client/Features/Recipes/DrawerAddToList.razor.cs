@@ -10,6 +10,7 @@ namespace Unshackled.Kitchen.My.Client.Features.Recipes;
 public class DrawerAddToListBase : BaseComponent<Member>
 {
 	[Parameter] public RecipeModel Recipe { get; set; } = new();
+	[Parameter] public List<string> SelectedItemSids { get; set; } = new();
 	[Parameter] public decimal Scale { get; set; } = 1M;
 	[Parameter] public EventCallback OnAddedComplete { get; set; }
 	[Parameter] public EventCallback OnCancelClicked { get; set; }
@@ -41,6 +42,17 @@ public class DrawerAddToListBase : BaseComponent<Member>
 		};
 
 		Items = await Mediator.Send(new GetAddToListItems.Query(model));
+
+		if (SelectedItemSids.Any()) {
+			foreach (var item in Items)
+			{
+				if (!SelectedItemSids.Contains(item.RecipeIngredientSid))
+				{
+					item.Quantity = 0;
+				}
+			}
+		}
+
 		IsSelecting = false;
 		IsWorking = false;
 		StateHasChanged();

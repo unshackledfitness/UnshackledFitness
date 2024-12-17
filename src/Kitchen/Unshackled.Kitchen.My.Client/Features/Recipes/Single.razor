@@ -45,8 +45,9 @@ else
 		<SectionProperties @bind-Recipe="@Recipe" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
 						   Scale="@Scale"  OnIsEditingSectionChange="@HandleSectionEditing" />
 
-		<SectionIngredients RecipeSid="@RecipeSid" Recipe="@Recipe" Groups="@Groups" Ingredients="@Ingredients" IsEditMode="@IsEditMode" 
-							@bind-Scale="Scale" DisableSectionControls="@DisableControls" OnNutritionClicked="@HandleOpenNutritionClicked"
+		<SectionIngredients RecipeSid="@RecipeSid" Recipe="@Recipe" Groups="@Groups" Ingredients="@Ingredients" IsEditMode="@IsEditMode"
+							@bind-Scale="Scale" DisableSectionControls="@DisableControls" OnNutritionClicked="@HandleOpenNutritionClicked" 
+							OnSelectionChange="@((selected) => SelectedIngredientSids = selected)"
 							OnIsEditingSectionChange="@HandleSectionEditing" UpdateComplete="@HandleUpdateIngredientsComplete" />
 
 		<SectionSteps RecipeSid="@RecipeSid" Ingredients="@Ingredients" Steps="@Steps" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
@@ -62,7 +63,7 @@ else
 			}
 			else if (DrawerView == Views.AddToList)
 			{
-				<DrawerAddToList Recipe="@Recipe" Scale="@Scale" OnAddedComplete="@HandleAddToListComplete" OnCancelClicked="@HandleCancelClicked" />
+				<DrawerAddToList Recipe="@Recipe" SelectedItemSids="@SelectedIngredientSids" Scale="@Scale" OnAddedComplete="@HandleAddToListComplete" OnCancelClicked="@HandleCancelClicked" />
 			}
 			else if (DrawerView == Views.AddToCookbook)
 			{

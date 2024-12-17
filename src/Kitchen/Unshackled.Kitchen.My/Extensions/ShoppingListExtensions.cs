@@ -185,6 +185,7 @@ public static class ShoppingListExtensions
 				orderby i.SortOrder
 				select new
 				{
+					i.Id,
 					i.Amount,
 					i.AmountN,
 					i.AmountUnit,
@@ -263,6 +264,7 @@ public static class ShoppingListExtensions
 					ProductTitle = $"{ingredient.ProductBrand} {ingredient.ProductTitle}".Trim(),
 					Quantity = result.QuantityToAdd,
 					QuantityInList = quantityInList,
+					RecipeIngredientSid = ingredient.Id.Encode(),
 					RequiredAmount = ingredient.Amount,
 					RequiredAmountLabel = ingredient.AmountLabel,
 					RecipeAmounts = currentRecipeItems.Where(x => x.ProductSid == ingredient.ProductId.Encode()).ToList(),
@@ -287,6 +289,7 @@ public static class ShoppingListExtensions
 					ProductTitle = ingredient.Title,
 					Quantity = quantity,
 					QuantityInList = 0,
+					RecipeIngredientSid = ingredient.Id.Encode(),
 					RequiredAmount = scaledAmount,
 					RequiredAmountLabel = ingredient.AmountLabel
 				};

@@ -2,8 +2,34 @@
 
 <SectionContainer IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
 		
-	<SectionHeader Title="@Recipe.Title" IsEditMode="@IsEditMode" IsEditing="@IsEditing" FormId="@FormId" Breakpoint="Breakpoint.Sm" Class="mb-4" EditingClass="mb-4"
-				   OnCancelClicked="@(() => HandleEditCancelClicked())">
+	<SectionHeader Title="@Recipe.Title" IsEditMode="@IsEditMode" IsEditing="@IsEditing" FormId="@FormId" Breakpoint="Breakpoint.Md" Class="mb-4" EditingClass="mb-4"
+				   EditingTitle="Editing Recipe" OnCancelClicked="@(() => HandleEditCancelClicked())">
+		<TitleContent>
+			@if (!IsEditing)
+			{
+				<MudGrid Spacing="4">
+					<MudItem xs="12" sm="4" md="3" lg="2">
+						<MudImage Fluid="true" Src="/uk-placeholder.webp" />
+					</MudItem>
+					<MudItem xs="12" sm="8" md="9" lg="10">
+						<MudText Typo="Typo.h4">@Recipe.Title</MudText>
+						@if (!string.IsNullOrEmpty(Recipe.Description))
+						{
+							<MudText Typo="Typo.body1">@Recipe.Description</MudText>
+						}
+						@if (Recipe.Tags.Any())
+						{
+							<div Class="d-flex flex-row flex-wrap my-4">
+								@foreach (var tag in Recipe.Tags)
+								{
+									<MudChip T="string" Variant="Variant.Outlined">@tag.Title</MudChip>
+								}
+							</div>
+						}
+					</MudItem>
+				</MudGrid>
+			}
+		</TitleContent>
 		<EditModeToolbar>
 			<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@DisableSectionControls" OnClick="@(() => HandleEditClicked())" />
 			<MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@DisableSectionControls" OnClick="@(() => HandleDeleteClicked())" />
@@ -12,21 +38,6 @@
 	
 	@if (!IsEditing)
 	{
-		@if (!string.IsNullOrEmpty(Recipe.Description))
-		{
-			<MudText Typo="Typo.body1">@Recipe.Description</MudText>
-		}
-
-		@if (Recipe.Tags.Any())
-		{
-			<div Class="d-flex flex-row flex-wrap my-4">
-				@foreach (var tag in Recipe.Tags)
-				{
-					<MudChip T="string" Variant="Variant.Outlined">@tag.Title</MudChip>
-				}
-			</div>
-		}
-
 		<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
 		<div class="flex-summary">
 			<div class="summary-item">
