@@ -4,6 +4,7 @@ namespace Unshackled.Kitchen.Core.Models;
 
 public interface ILabelIngredient
 {
+	string Sid { get; set; }
 	decimal Amount { get; set; }
 	decimal AmountN { get; set; }
 	MeasurementUnits AmountUnit { get; set; }

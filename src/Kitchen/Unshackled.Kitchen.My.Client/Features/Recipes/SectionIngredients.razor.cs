@@ -1,4 +1,3 @@
-using System.Reflection;
 using Microsoft.AspNetCore.Components;
 using Unshackled.Kitchen.Core.Enums;
 using Unshackled.Kitchen.Core.Models;
@@ -53,13 +52,6 @@ public class SectionIngredientsBase : BaseSectionComponent<Member>
 		Views.EditIngredient => "Edit Ingredient",
 		_ => string.Empty
 	};
-
-	protected override void OnParametersSet()
-	{
-		base.OnParametersSet();
-		LabelModel = new();
-		LabelModel.LoadNutritionLabel(Recipe.TotalServings, Scale, Ingredients.ToList<ILabelIngredient>());
-	}
 
 	protected string GetScaleFraction()
 	{

@@ -1,6 +1,6 @@
 ﻿@inherits DrawerNutritionBase
 
-@if (LabelModel.HasItemMismatch)
+@if (HasMismatches)
 {
 	<MudAlert Severity="Severity.Error" Class="mb-4">There is a unit mismatch between one or more ingredients and their product substitutions. The nutrition summary for this recipe may not be accurate.</MudAlert>
 }
@@ -13,3 +13,76 @@ else if (HasMissingNutritionInfo)
 	<MudAlert Severity="Severity.Warning" Class="mb-4">One or more ingredients does not have any nutrition information. The nutrition summary for this recipe may not be accurate.</MudAlert>
 }
 <NutritionLabel Item="@LabelModel" xs="12" />
+
+@if (HasMissingNutritionInfo || HasMissingProductSubstitutions || HasMismatches)
+{
+	<div class="my-6">
+		<MudDivider DividerType="DividerType.FullWidth" Class="mb-2" />
+		@if (HasMismatches)
+		{
+			<div class="d-flex flex-row gap-4 align-center">
+				<MudText Typo="Typo.body1" Class="flex-grow-1">@Mismatches.Count.CountLabel("UNIT MISMATCH", "UNIT MISMATCHES")</MudText>
+				<div>
+					<MudIconButton Icon="@(IsMmCollapsed ? Icons.Material.Filled.ArrowDropDown : Icons.Material.Filled.ArrowDropUp)" Size="Size.Small"
+								   title="@(IsMmCollapsed ? "Expand" : "Collapse")" OnClick="@(() => IsMmCollapsed = !IsMmCollapsed)" />
+				</div>
+			</div>
+			<MudDivider DividerType="DividerType.FullWidth" Class="@(IsMmCollapsed ? "d-block my-2" : "d-none" )" />
+			<div class="@(IsMmCollapsed ? "d-none" : "d-block my-2")">
+				<ListView TItem="RecipeIngredientModel" Items="@Mismatches">
+					<ItemRenderer>
+						<div class="d-flex flex-row gap-x-2 align-end flex-wrap flex-grow-1">
+							<MudText Typo="Typo.body2">@context.Item.Title</MudText>
+							<MudText Typo="Typo.caption">&rarr;</MudText>
+							<MudLink Typo="Typo.body2" Href="@($"/products/{context.Item.ProductSid}")">@context.Item.ProductTitle.ToUpper()</MudLink>
+						</div>
+						<MudText Typo="Typo.caption">@context.Item.AmountLabel &rarr; @context.Item.ServingSizeUnitLabel</MudText>
+					</ItemRenderer>
+				</ListView>
+			</div>
+		}
+
+		@if (HasMissingNutritionInfo) 
+		{
+			<div class="d-flex flex-row gap-4 align-center">
+				<MudText Typo="Typo.body1" Class="flex-grow-1">@MissingNutritionInfo.Count MISSING NUTRITION INFO</MudText>
+				<div>
+					<MudIconButton Icon="@(IsNiCollapsed ? Icons.Material.Filled.ArrowDropDown : Icons.Material.Filled.ArrowDropUp)" Size="Size.Small"
+								   title="@(IsNiCollapsed ? "Expand" : "Collapse")" OnClick="@(() => IsNiCollapsed = !IsNiCollapsed)" />
+				</div>
+			</div>
+			<MudDivider DividerType="DividerType.FullWidth" Class="@(IsNiCollapsed ? "d-block my-2" : "d-none" )" />
+			<div class="@(IsNiCollapsed ? "d-none" : "d-block my-2")">
+				<ListView TItem="RecipeIngredientModel" Items="@MissingNutritionInfo">
+					<ItemRenderer>
+						<div class="d-flex flex-row gap-x-2 align-end flex-wrap flex-grow-1">
+							<MudLink Typo="Typo.body2" Href="@($"/products/{context.Item.ProductSid}")">@context.Item.ProductTitle.ToUpper()</MudLink>
+							<MudText Typo="Typo.body2">for @context.Item.Title</MudText>
+						</div>
+					</ItemRenderer>
+				</ListView>
+			</div>
+		}
+
+		@if (HasMissingProductSubstitutions)
+		{
+			<div class="d-flex flex-row gap-4 align-center">
+				<MudText Typo="Typo.body1" Class="flex-grow-1">@MissingProductSubstitutions.Count.CountLabel("MISSING PRODUCT", "MISSING PRODUCTS")</MudText>
+				<div>
+					<MudIconButton Icon="@(IsPsCollapsed ? Icons.Material.Filled.ArrowDropDown : Icons.Material.Filled.ArrowDropUp)" Size="Size.Small"
+								   title="@(IsPsCollapsed ? "Expand" : "Collapse")" OnClick="@(() => IsPsCollapsed = !IsPsCollapsed)" />
+				</div>
+			</div>
+			<MudDivider DividerType="DividerType.FullWidth" Class="@(IsPsCollapsed ? "d-block my-2" : "d-none" )" />
+			<div class="@(IsPsCollapsed ? "d-none" : "d-block my-2")">
+				<ListView TItem="RecipeIngredientModel" Items="@MissingProductSubstitutions">
+					<ItemRenderer>
+						<div class="d-flex flex-row gap-x-2 align-end flex-wrap flex-grow-1">
+							<MudLink Typo="Typo.body2" Href="@($"/ingredients/{context.Item.Key}")">@context.Item.Title</MudLink>
+						</div>
+					</ItemRenderer>
+				</ListView>
+			</div>
+		}
+	</div>
+}

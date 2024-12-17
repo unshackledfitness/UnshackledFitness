@@ -101,7 +101,10 @@ public class NutritionLabelModel : INutrition
 	public decimal Zinc { get; set; }
 	public NutritionUnits ZincUnit { get; set; } = NutritionUnits.mg;
 
-	public void LoadNutritionLabel(int totalServings, decimal scale, List<ILabelIngredient> Ingredients)
+	private List<string> mismatchSids = [];
+	public IEnumerable<string> MismatchSids => mismatchSids.AsEnumerable();
+
+	public void LoadNutritionLabel(int totalServings, decimal scale, List<ILabelIngredient> ingredients)
 	{
 		decimal totalScaledServings = totalServings * scale;
 		decimal scaledServingSize = totalScaledServings > 0 ? 1M / totalScaledServings : 1M;
@@ -111,7 +114,7 @@ public class NutritionLabelModel : INutrition
 		ServingSizeUnitLabel = "recipe";
 		ServingsPerContainer = totalScaledServings;
 
-		foreach (var item in Ingredients)
+		foreach (var item in ingredients)
 		{
 			if (item.HasNutritionInfo && item.HasSubstitution)
 			{
@@ -156,16 +159,27 @@ public class NutritionLabelModel : INutrition
 				Zinc = CalculateNutrition(item, servingSize, ZincUnit, Zinc, item.ZincN);
 			}
 		}
+
+		mismatchSids = ingredients
+			.Where(x => x.IsUnitMismatch)
+			.Select(x => x.Sid)
+			.ToList();
 	}
 
 	private decimal CalculateNutrition(ILabelIngredient item, decimal servingSize, NutritionUnits modelUnit, decimal modelNutrientValue, decimal? itemAmountN)
 	{
-		if (item.HasNutritionInfo)
+		if (item.HasNutritionInfo && !item.IsUnitMismatch)
 		{
-			NutritionCalcResult result = FoodCalculator.NutritionalContent(item.AmountUnit, item.AmountN, itemAmountN ?? 0,
-				item.ServingSizeUnit ?? ServingSizeUnits.mg, item.ServingSizeN ?? 0,
-				item.ServingSizeMetricUnit ?? ServingSizeMetricUnits.mg, item.ServingSizeMetricN ?? 1M,
-				item.ServingsPerContainer ?? 1M);
+			NutritionCalcResult result = FoodCalculator.NutritionalContent(
+				item.AmountUnit, 
+				item.AmountN, 
+				itemAmountN ?? 0,
+				item.ServingSizeUnit ?? ServingSizeUnits.mg, 
+				item.ServingSizeN ?? 0,
+				item.ServingSizeMetricUnit ?? ServingSizeMetricUnits.mg, 
+				item.ServingSizeMetricN ?? 1M,
+				item.ServingsPerContainer ?? 1M
+			);
 
 			if (!result.IsUnitMismatch)
 				modelNutrientValue += servingSize * modelUnit.DeNormalizeAmount(result.AmountN);

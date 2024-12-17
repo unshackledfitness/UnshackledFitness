@@ -35,13 +35,19 @@ public static class FoodCalculator
 	{
 		NutritionCalcResult result = new();
 
+
 		decimal servings = 0M;
 		// ingredient uses the generic item unit
 		if (ingredientUnit == MeasurementUnits.Item)
 		{
-			// Assume using full container replacement item:
-			//		ingredient amount (# of units) * # servings in container
-			servings = ingredientAmountN * servingsPerContainer;
+			if (servingSizeUnit == ServingSizeUnits.Item)
+			{
+				servings = ingredientAmountN;
+			}
+			else
+			{
+				result.IsUnitMismatch = true;
+			}
 		}
 		// ingredient uses a standard unit
 		else
