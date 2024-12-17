@@ -49,6 +49,7 @@ public class DrawerAddToListBase : BaseComponent<Member>
 				if (!SelectedItemSids.Contains(item.RecipeIngredientSid))
 				{
 					item.Quantity = 0;
+					item.IsSkipped = true;
 				}
 			}
 		}

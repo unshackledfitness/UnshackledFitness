@@ -53,7 +53,7 @@ public class UpdateSteps
 				.OrderBy(x => x.SortOrder)
 				.ToListAsync(cancellationToken);
 
-			using var transaction = await db.Database.BeginTransactionAsync();
+			using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
 
 			try
 			{
@@ -67,11 +67,6 @@ public class UpdateSteps
 
 					if (existing != null)
 					{
-						// Remove step ingredients
-						await db.RecipeStepIngredients
-							.Where(x => x.RecipeStepId == existing.Id)
-							.DeleteFromQueryAsync(cancellationToken);
-
 						db.RecipeSteps.Remove(existing);
 					}
 					await db.SaveChangesAsync(cancellationToken);
@@ -92,7 +87,7 @@ public class UpdateSteps
 							SortOrder = item.SortOrder
 						};
 						db.RecipeSteps.Add(step);
-						await db.SaveChangesAsync();
+						await db.SaveChangesAsync(cancellationToken);
 					}
 					else
 					{
@@ -104,27 +99,8 @@ public class UpdateSteps
 						{
 							step.Instructions = item.Instructions.Trim();
 							step.SortOrder = item.SortOrder;
-							await db.SaveChangesAsync();
-
-							// Remove existing step ingredients
-							await db.RecipeStepIngredients
-								.Where(x => x.RecipeStepId == step.Id)
-								.DeleteFromQueryAsync(cancellationToken);
+							await db.SaveChangesAsync(cancellationToken);
 						}
-					}
-
-					if (step != null)
-					{
-						foreach (var stepIng in item.Ingredients)
-						{
-							db.RecipeStepIngredients.Add(new RecipeStepIngredientEntity
-							{
-								RecipeIngredientId = stepIng.RecipeIngredientSid.DecodeLong(),
-								RecipeStepId = step.Id,
-								RecipeId = recipe.Id
-							});
-						}
-						await db.SaveChangesAsync();
 					}
 				}
 
@@ -134,6 +110,7 @@ public class UpdateSteps
 			}
 			catch
 			{
+				await transaction.RollbackAsync(cancellationToken);
 				return new CommandResult(false, Globals.UnexpectedError);
 			}
 		}

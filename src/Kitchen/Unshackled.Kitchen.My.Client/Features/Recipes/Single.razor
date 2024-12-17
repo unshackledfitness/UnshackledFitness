@@ -50,7 +50,7 @@ else
 							OnSelectionChange="@((selected) => SelectedIngredientSids = selected)"
 							OnIsEditingSectionChange="@HandleSectionEditing" UpdateComplete="@HandleUpdateIngredientsComplete" />
 
-		<SectionSteps RecipeSid="@RecipeSid" Ingredients="@Ingredients" Steps="@Steps" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
+		<SectionSteps RecipeSid="@RecipeSid" Steps="@Steps" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
 						OnIsEditingSectionChange="@HandleSectionEditing" UpdateComplete="@HandleUpdateStepsComplete" />
 
 		<SectionNotes RecipeSid="@RecipeSid" Notes="@Notes" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"

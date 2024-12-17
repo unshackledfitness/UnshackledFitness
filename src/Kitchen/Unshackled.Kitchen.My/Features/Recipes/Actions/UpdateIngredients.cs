@@ -43,7 +43,7 @@ public class UpdateIngredients
 
 			var recipe = await db.Recipes
 				.Where(x => x.Id == request.RecipeId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if(recipe == null)
 				return new CommandResult(false, "Invalid recipe.");
@@ -51,14 +51,14 @@ public class UpdateIngredients
 			var currentListGroups = await db.RecipeIngredientGroups
 				.Where(x => x.RecipeId == request.RecipeId)
 				.OrderBy(x => x.SortOrder)
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
 			var currentIngredients = await db.RecipeIngredients
 				.Where(x => x.RecipeId == request.RecipeId)
 				.OrderBy(x => x.SortOrder)
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
-			using var transaction = await db.Database.BeginTransactionAsync();
+			using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
 
 			try
 			{
@@ -80,7 +80,7 @@ public class UpdateIngredients
 						Title = lg.Title.Trim()
 					};
 					db.RecipeIngredientGroups.Add(gEntity);
-					await db.SaveChangesAsync();
+					await db.SaveChangesAsync(cancellationToken);
 
 					listGroupIdMap.Add(lg.Sid, gEntity.Id);
 				}
@@ -143,11 +143,6 @@ public class UpdateIngredients
 
 					if (existing != null)
 					{
-						//Remove from recipe steps
-						await db.RecipeStepIngredients
-							.Where(x => x.RecipeIngredientId == existing.Id)
-							.DeleteFromQueryAsync(cancellationToken);
-
 						db.RecipeIngredients.Remove(existing);
 						await db.SaveChangesAsync(cancellationToken);
 					}
@@ -182,12 +177,12 @@ public class UpdateIngredients
 					// Check any sets that might still be in group (should be 0 at this point)
 					bool stopDelete = await db.RecipeIngredients
 						.Where(x => x.ListGroupId == g.Id)
-						.AnyAsync();
+						.AnyAsync(cancellationToken);
 
 					if (!stopDelete)
 					{
 						db.RecipeIngredientGroups.Remove(g);
-						await db.SaveChangesAsync();
+						await db.SaveChangesAsync(cancellationToken);
 					}
 				}
 
@@ -197,6 +192,7 @@ public class UpdateIngredients
 			}
 			catch
 			{
+				await transaction.RollbackAsync(cancellationToken);
 				return new CommandResult(false, Globals.UnexpectedError);
 			}
 		}

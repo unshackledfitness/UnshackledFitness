@@ -46,10 +46,6 @@ public class DeleteRecipe
 					.Where(x => x.RecipeId == deleteId)
 					.DeleteFromQueryAsync(cancellationToken);
 
-				await db.RecipeStepIngredients
-					.Where(x => x.RecipeId == deleteId)
-					.DeleteFromQueryAsync(cancellationToken);
-
 				await db.RecipeSteps
 					.Where(x => x.RecipeId == deleteId)
 					.DeleteFromQueryAsync(cancellationToken);

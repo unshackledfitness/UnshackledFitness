@@ -38,7 +38,8 @@ public class AppTheme : MudTheme
 			TableStriped = "#fafafa",
 			LinesDefault = "#dfdfdf",
 			LinesInputs = "#cccccc",
-			HoverOpacity = 0.1
+			HoverOpacity = 0.1,
+			OverlayDark = "#f3f3ffcc"
 		};
 
 		PaletteDark = new PaletteDark()
@@ -77,6 +78,7 @@ public class AppTheme : MudTheme
 			LinesDefault = "#353535",
 			LinesInputs = "#505050",
 			HoverOpacity = 0.2,
+			OverlayDark = "#181818cc"
 		};
 
 		Typography = new Typography

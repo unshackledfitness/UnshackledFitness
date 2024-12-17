@@ -34,7 +34,7 @@ public class ListRecipeSteps
 					.AsNoTracking()
 					.Where(x => x.RecipeId == request.RecipeId)
 					.OrderBy(x => x.SortOrder))
-					.ToListAsync() ?? new();
+					.ToListAsync(cancellationToken) ?? [];
 			}
 			return new();
 		}

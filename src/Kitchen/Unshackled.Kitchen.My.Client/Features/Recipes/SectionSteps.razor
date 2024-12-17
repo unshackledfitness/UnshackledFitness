@@ -21,13 +21,6 @@
 						</div>
 						<div class="flex-grow-1">
 							<MudText>@context.Item.Instructions</MudText>
-							@if (context.Item.Ingredients.Any())
-							{
-								<div class="flex-grow-1 mt-2">
-									<MudText Typo="Typo.caption" Class="d-block" Color="Color.Tertiary">Ingredients Used</MudText>
-									<MudText Typo="Typo.body2">@context.Item.IngredientList</MudText>
-								</div>
-							}
 						</div>
 					</div>
 				</ItemRenderer>
@@ -51,13 +44,6 @@
 							</div>
 							<div class="flex-grow-1">
 								<MudText>@context.Item.Instructions</MudText>
-								@if (context.Item.Ingredients.Any())
-								{
-									<div class="flex-grow-1 mt-2">
-										<MudText Typo="Typo.caption" Class="d-block" Color="Color.Tertiary">Ingredients Used</MudText>
-										<MudText Typo="Typo.body2">@context.Item.IngredientList</MudText>
-									</div>
-								}
 							</div>
 						</div>
 						<div>
@@ -95,11 +81,11 @@
 	<SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
 		@if (DrawerView == Views.AddStep)
 		{
-			<DrawerStep Model="@FormModel" Ingredients="@Ingredients" IsAdding="true" OnFormSubmitted="@HandleAddFormSubmitted" OnCanceled="@HandleCancelClicked" />
+			<DrawerStep Model="@FormModel" IsAdding="true" OnFormSubmitted="@HandleAddFormSubmitted" OnCanceled="@HandleCancelClicked" />
 		}
 		else if (DrawerView == Views.EditStep)
 		{
-			<DrawerStep Model="@FormModel" Ingredients="@Ingredients" IsAdding="false" OnFormSubmitted="@HandleEditFormSubmitted" OnDeleted="@HandleDeleteClicked" OnCanceled="@HandleCancelClicked" />
+			<DrawerStep Model="@FormModel" IsAdding="false" OnFormSubmitted="@HandleEditFormSubmitted" OnDeleted="@HandleDeleteClicked" OnCanceled="@HandleCancelClicked" />
 		}
 		else if (DrawerView == Views.BulkAdd)
 		{

@@ -32,7 +32,6 @@ public class KitchenDbContext : BaseDbContext
 	public DbSet<RecipeIngredientEntity> RecipeIngredients => Set<RecipeIngredientEntity>();
 	public DbSet<RecipeNoteEntity> RecipeNotes => Set<RecipeNoteEntity>();
 	public DbSet<RecipeStepEntity> RecipeSteps => Set<RecipeStepEntity>();
-	public DbSet<RecipeStepIngredientEntity> RecipeStepIngredients => Set<RecipeStepIngredientEntity>();
 	public DbSet<RecipeTagEntity> RecipeTags => Set<RecipeTagEntity>();
 	public DbSet<ShoppingListEntity> ShoppingLists => Set<ShoppingListEntity>();
 	public DbSet<ShoppingListItemEntity> ShoppingListItems => Set<ShoppingListItemEntity>();
@@ -61,7 +60,6 @@ public class KitchenDbContext : BaseDbContext
 		builder.ApplyConfiguration(new RecipeIngredientEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new RecipeNoteEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new RecipeStepEntity.TypeConfiguration());
-		builder.ApplyConfiguration(new RecipeStepIngredientEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new RecipeTagEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ShoppingListEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ShoppingListItemEntity.TypeConfiguration());

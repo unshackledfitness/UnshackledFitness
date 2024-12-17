@@ -7,19 +7,6 @@
 			<MudTextField Label="Instructions" Variant="Variant.Outlined" FullWidth="true" Disabled="@DisableControls" Lines="5"
 					@bind-Value="@Model.Instructions" For="@(() => Model.Instructions)" />
 		</MudItem>
-		@if (Ingredients.Any())
-		{
-			<MudItem xs="12">
-				<MudText Typo="Typo.subtitle2">Ingredients used in this step</MudText>
-				<div class="d-flex flex-row gap-2 flex-wrap">
-					@foreach (var item in Ingredients)
-					{
-						<MudCheckBox Label="@item.Title" Value="@IsChecked(item)" Disabled="@DisableControls" Color="Color.Secondary" UncheckedColor="Color.Default"
-									 ValueChanged="@((bool value) => HandleIngredientCheckChange(value, item))" />
-					}
-				</div>
-			</MudItem>
-		}
 	</MudGrid>
 	<MudToolBar Gutters="false">
 		<MudSpacer />

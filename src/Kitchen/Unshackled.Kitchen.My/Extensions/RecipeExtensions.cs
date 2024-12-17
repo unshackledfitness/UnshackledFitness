@@ -26,7 +26,7 @@ public static class RecipeExtensions
 			.Include(x => x.Tags)
 			.AsNoTracking()
 			.Where(x => x.Id == recipeId)
-		.SingleOrDefaultAsync(cancellationToken);
+			.SingleOrDefaultAsync(cancellationToken);
 
 		if (recipe == null)
 			return new CommandResult<string>(false, "Invalid recipe.");
@@ -48,7 +48,7 @@ public static class RecipeExtensions
 			await db.SaveChangesAsync(cancellationToken);
 
 			// Add tags
-			foreach (var tagKey in tags)
+			foreach (string tagKey in tags)
 			{
 				// Get tag from source recipe
 				var tag = recipe.Tags.Where(x => x.Key == tagKey).SingleOrDefault();
@@ -84,7 +84,7 @@ public static class RecipeExtensions
 			}
 
 			// Create map of old ingredient group ids to new group ids
-			Dictionary<long, long> householdIdMap = new();
+			Dictionary<long, long> householdIdMap = [];
 
 			var copyGroups = await db.RecipeIngredientGroups
 				.AsNoTracking()
@@ -106,9 +106,6 @@ public static class RecipeExtensions
 
 				householdIdMap.Add(group.Id, g.Id);
 			}
-
-			// Create map of old ingredient ids to new ids
-			Dictionary<long, long> ingredientIdMap = new();
 
 			var ingredients = await db.RecipeIngredients
 				.AsNoTracking()
@@ -136,14 +133,9 @@ public static class RecipeExtensions
 
 				db.RecipeIngredients.Add(i);
 				await db.SaveChangesAsync(cancellationToken);
-
-				ingredientIdMap.Add(ingredient.Id, i.Id);
 			}
 
 			await db.SaveChangesAsync(cancellationToken);
-
-			// Create map of old step ids to new step ids
-			Dictionary<long, long> stepIdMap = new();
 
 			var copySteps = await db.RecipeSteps
 				.AsNoTracking()
@@ -162,20 +154,7 @@ public static class RecipeExtensions
 				};
 				db.RecipeSteps.Add(s);
 				await db.SaveChangesAsync(cancellationToken);
-
-				stepIdMap.Add(step.Id, s.Id);
 			}
-
-			db.RecipeStepIngredients.AddRange(await db.RecipeStepIngredients
-				.Where(x => x.RecipeId == recipe.Id)
-				.Select(x => new RecipeStepIngredientEntity
-				{
-					RecipeId = copy.Id,
-					RecipeIngredientId = ingredientIdMap[x.RecipeIngredientId],
-					RecipeStepId = stepIdMap[x.RecipeStepId]
-				})
-				.ToListAsync(cancellationToken));
-			await db.SaveChangesAsync(cancellationToken);
 
 			await transaction.CommitAsync(cancellationToken);
 

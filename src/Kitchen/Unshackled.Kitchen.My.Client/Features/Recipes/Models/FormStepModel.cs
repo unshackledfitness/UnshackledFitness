@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using FluentValidation;
+﻿using FluentValidation;
 using Unshackled.Studio.Core.Client.Features;
 using Unshackled.Studio.Core.Client.Models;
 
@@ -13,16 +12,10 @@ public class FormStepModel : ISortable, ICloneable
 	public int SortOrder { get; set; }
 	public bool IsNew { get; set; }
 
-	public List<FormStepIngredientModel> Ingredients { get; set; } = new();
-
-	[JsonIgnore]
-	public string IngredientList => String.Join(", ", Ingredients.Select(x => x.Title).ToArray());
-
 	public object Clone()
 	{
 		return new FormStepModel
 		{
-			Ingredients = Ingredients,
 			Instructions = Instructions,
 			IsNew = IsNew,
 			RecipeSid = RecipeSid,

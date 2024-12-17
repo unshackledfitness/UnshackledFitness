@@ -38,22 +38,6 @@
 										<MudText Typo="Typo.h4" Align="Align.Center">Step @(step.SortOrder + 1)/@Steps.Count</MudText>
 
 										<MudText Class="recipe-dialog-instructions">@step.Instructions</MudText>
-
-										@if (step.Ingredients.Any())
-										{
-											<div class="mt-6">
-												<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block">Ingredients Used</MudText>
-												<div class="d-flex gap-2 mt-4 flex-row flex-wrap">
-													@foreach (var ing in step.Ingredients)
-													{
-														<MudCheckBox T="bool" Color="Color.Primary">
-															<IngredientText Amount="@(ing.Amount * Scale)" AmountLabel="@ing.AmountLabel"
-															Title="@ing.Title" PrepNote="@ing.PrepNote" />
-														</MudCheckBox>
-													}
-												</div>
-											</div>
-										}
 									</div>
 								}
 

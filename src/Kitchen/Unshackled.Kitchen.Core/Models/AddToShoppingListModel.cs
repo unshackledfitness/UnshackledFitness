@@ -27,4 +27,7 @@ public class AddToShoppingListModel
 
 	[JsonIgnore]
 	public int TotalQuantity => Quantity + QuantityInList;
+
+	[JsonIgnore]
+	public bool IsSkipped { get; set; }
 }

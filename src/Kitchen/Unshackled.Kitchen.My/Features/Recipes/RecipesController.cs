@@ -81,13 +81,6 @@ public class RecipesController : BaseController
 		return Ok(await Mediator.Send(new ListRecipeNotes.Query(Member.Id, id)));
 	}
 
-	[HttpGet("get/{sid}/step-ingredients")]
-	[DecodeId]
-	public async Task<IActionResult> GetRecipeStepIngredients(long id)
-	{
-		return Ok(await Mediator.Send(new ListStepIngredientsForRecipe.Query(Member.Id, id)));
-	}
-
 	[HttpGet("get/{sid}/steps")]
 	[DecodeId]
 	public async Task<IActionResult> GetRecipeSteps(long id)

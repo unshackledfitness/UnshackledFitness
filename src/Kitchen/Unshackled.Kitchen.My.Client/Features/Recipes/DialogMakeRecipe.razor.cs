@@ -28,13 +28,6 @@ public partial class DialogMakeRecipe
 		CanScreenLock = await ScreenLockService.IsWakeLockSupported();
 	}
 
-	protected MarkupString GetIngredientListTitle(RecipeStepIngredientModel model)
-	{
-		var scaledValue = (model.Amount * Scale).ToHtmlFraction();
-		var titleAndPrep = string.IsNullOrEmpty(model.PrepNote) ? model.Title : $"{model.Title}, {model.PrepNote}";
-		return (MarkupString)$"{scaledValue} {model.AmountLabel} {titleAndPrep}";
-	}
-
 	public async Task HandleScreenLocked(bool value)
 	{
 		if (!CanScreenLock)

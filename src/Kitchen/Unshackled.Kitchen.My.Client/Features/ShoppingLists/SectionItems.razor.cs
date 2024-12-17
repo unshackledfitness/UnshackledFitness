@@ -95,6 +95,7 @@ public class SectionItemsBase : BaseSectionComponent<Member>
 		{
 			Views.AddBundle => "Add Product Bundle",
 			Views.AddProducts => "Add Products",
+			Views.AddRecipe => "Add Recipe",
 			Views.ManageItem => "Change Quantity",
 			Views.ChangeLocation => "Change Location",
 			_ => string.Empty

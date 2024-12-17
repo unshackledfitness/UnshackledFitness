@@ -20,7 +20,6 @@ public class SectionStepsBase : BaseSectionComponent<Member>
 	}
 
 	[Parameter] public string RecipeSid { get; set; } = string.Empty;
-	[Parameter] public List<RecipeIngredientModel> Ingredients { get; set; } = new();
 	[Parameter] public List<RecipeStepModel> Steps { get; set; } = new();
 	[Parameter] public EventCallback UpdateComplete { get; set; }
 
@@ -58,7 +57,6 @@ public class SectionStepsBase : BaseSectionComponent<Member>
 		FormSteps.Add(new()
 		{
 			Sid = model.Sid,
-			Ingredients = model.Ingredients,
 			Instructions = model.Instructions,
 			IsNew = true,
 			RecipeSid = RecipeSid,
@@ -149,15 +147,7 @@ public class SectionStepsBase : BaseSectionComponent<Member>
 				Instructions = x.Instructions,
 				IsNew = false,
 				RecipeSid = x.RecipeSid,
-				SortOrder = x.SortOrder,
-				Ingredients = x.Ingredients
-					.Select(y => new FormStepIngredientModel
-					{
-						RecipeIngredientSid = y.RecipeIngredientSid,
-						RecipeStepSid = y.RecipeStepSid,
-						Title = y.Title
-					})
-					.ToList()
+				SortOrder = x.SortOrder
 			})
 			.ToList();
 		IsEditing = await UpdateIsEditingSection(true);
@@ -167,7 +157,6 @@ public class SectionStepsBase : BaseSectionComponent<Member>
 	{
 		IsWorking = true;
 		CurrentStepModel.Instructions = model.Instructions;
-		CurrentStepModel.Ingredients = model.Ingredients;
 		IsWorking = false;
 		DrawerView = Views.None;
 	}

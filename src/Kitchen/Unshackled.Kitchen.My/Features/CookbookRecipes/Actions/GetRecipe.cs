@@ -58,7 +58,6 @@ public class GetRecipe
 
 					recipe.Steps = await mapper.ProjectTo<RecipeStepModel>(db.RecipeSteps
 						.AsNoTracking()
-						.Include(x => x.Ingredients)
 						.Where(x => x.RecipeId == request.RecipeId)
 						.OrderBy(x => x.SortOrder))
 						.ToListAsync(cancellationToken);

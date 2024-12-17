@@ -968,34 +968,6 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                         principalColumn: "Id");
                 });
 
-            migrationBuilder.CreateTable(
-                name: "uk_RecipeStepIngredients",
-                columns: table => new
-                {
-                    RecipeStepId = table.Column<long>(type: "INTEGER", nullable: false),
-                    RecipeIngredientId = table.Column<long>(type: "INTEGER", nullable: false),
-                    RecipeId = table.Column<long>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_uk_RecipeStepIngredients", x => new { x.RecipeStepId, x.RecipeIngredientId });
-                    table.ForeignKey(
-                        name: "FK_uk_RecipeStepIngredients_uk_RecipeIngredients_RecipeIngredientId",
-                        column: x => x.RecipeIngredientId,
-                        principalTable: "uk_RecipeIngredients",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_uk_RecipeStepIngredients_uk_RecipeSteps_RecipeStepId",
-                        column: x => x.RecipeStepId,
-                        principalTable: "uk_RecipeSteps",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_uk_RecipeStepIngredients_uk_Recipes_RecipeId",
-                        column: x => x.RecipeId,
-                        principalTable: "uk_Recipes",
-                        principalColumn: "Id");
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_uk_CookbookInvites_CookbookId",
                 table: "uk_CookbookInvites",
@@ -1274,21 +1246,6 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                 columns: new[] { "HouseholdId", "Title" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_uk_RecipeStepIngredients_RecipeId",
-                table: "uk_RecipeStepIngredients",
-                column: "RecipeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_uk_RecipeStepIngredients_RecipeIngredientId",
-                table: "uk_RecipeStepIngredients",
-                column: "RecipeIngredientId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_uk_RecipeStepIngredients_RecipeStepId",
-                table: "uk_RecipeStepIngredients",
-                column: "RecipeStepId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_uk_RecipeSteps_DateCreatedUtc",
                 table: "uk_RecipeSteps",
                 column: "DateCreatedUtc");
@@ -1505,10 +1462,13 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                 name: "uk_ProductSubstitutions");
 
             migrationBuilder.DropTable(
+                name: "uk_RecipeIngredients");
+
+            migrationBuilder.DropTable(
                 name: "uk_RecipeNotes");
 
             migrationBuilder.DropTable(
-                name: "uk_RecipeStepIngredients");
+                name: "uk_RecipeSteps");
 
             migrationBuilder.DropTable(
                 name: "uk_RecipeTags");
@@ -1544,10 +1504,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                 name: "uk_ProductBundles");
 
             migrationBuilder.DropTable(
-                name: "uk_RecipeIngredients");
-
-            migrationBuilder.DropTable(
-                name: "uk_RecipeSteps");
+                name: "uk_RecipeIngredientGroups");
 
             migrationBuilder.DropTable(
                 name: "uk_Tags");
@@ -1568,16 +1525,13 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                 name: "uk_Users");
 
             migrationBuilder.DropTable(
-                name: "uk_RecipeIngredientGroups");
+                name: "uk_Recipes");
 
             migrationBuilder.DropTable(
                 name: "uk_ProductCategories");
 
             migrationBuilder.DropTable(
                 name: "uk_Stores");
-
-            migrationBuilder.DropTable(
-                name: "uk_Recipes");
 
             migrationBuilder.DropTable(
                 name: "uk_Households");

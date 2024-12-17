@@ -110,6 +110,7 @@ public class UpdateNotes
 			}
 			catch
 			{
+				await transaction.RollbackAsync(cancellationToken);
 				return new CommandResult(false, Globals.UnexpectedError);
 			}
 		}

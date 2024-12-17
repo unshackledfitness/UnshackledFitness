@@ -102,7 +102,6 @@ internal class KitchenMigrator : BaseMigrator<KitchenDbContext>
 		await MigrateDbSet(dbLegacy.RecipeIngredientGroups, dbNew.RecipeIngredientGroups, "Recipe Ingredient Groups");
 		await MigrateDbSet(dbLegacy.RecipeIngredients, dbNew.RecipeIngredients, "Recipe Ingredients");
 		await MigrateDbSet(dbLegacy.RecipeSteps, dbNew.RecipeSteps, "Recipe Steps");
-		await MigrateRecipeStepIngredients("Recipe Step Ingredients");
 		await MigrateDbSet(dbLegacy.RecipeNotes, dbNew.RecipeNotes, "Recipe Notes");
 		await MigrateRecipeTags("Recipe Tags");
 		await MigrateProductSubstitutions("Product Substitutions");
@@ -278,41 +277,6 @@ internal class KitchenMigrator : BaseMigrator<KitchenDbContext>
 				if (list.Count > 0)
 				{
 					dbNew.ProductSubstitutions.AddRange(list);
-					await dbNew.SaveChangesAsync();
-					Msg.WriteDot();
-				}
-			}
-			Msg.WriteComplete();
-		}
-		else
-		{
-			Msg.WriteComplete($"found {count}");
-		}
-	}
-
-	protected async Task MigrateRecipeStepIngredients(string title)
-	{
-		Msg.WriteHeader(title);
-		Msg.WriteOngoing($"Migrating {title}");
-		int count = await dbLegacy.RecipeStepIngredients.CountAsync();
-		if (count > 0)
-		{
-			Msg.WriteOngoing($"found {count}");
-
-			int pages = (int)Math.Ceiling((decimal)count / pageSize);
-			for (int i = 0; i < pages; i++)
-			{
-				var list = await dbLegacy.RecipeStepIngredients
-					.AsNoTracking()
-					.OrderBy(x => x.RecipeStepId)
-						.ThenBy(x => x.RecipeIngredientId)
-					.Skip(i * pageSize)
-					.Take(pageSize)
-					.ToListAsync();
-
-				if (list.Count > 0)
-				{
-					dbNew.RecipeStepIngredients.AddRange(list);
 					await dbNew.SaveChangesAsync();
 					Msg.WriteDot();
 				}

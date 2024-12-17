@@ -1237,28 +1237,6 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.ToTable("uk_RecipeSteps", (string)null);
                 });
 
-            modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.RecipeStepIngredientEntity", b =>
-                {
-                    b.Property<long>("RecipeStepId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("RecipeIngredientId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("RecipeId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("RecipeStepId", "RecipeIngredientId");
-
-                    b.HasIndex("RecipeId");
-
-                    b.HasIndex("RecipeIngredientId");
-
-                    b.HasIndex("RecipeStepId");
-
-                    b.ToTable("uk_RecipeStepIngredients", (string)null);
-                });
-
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.RecipeTagEntity", b =>
                 {
                     b.Property<long>("RecipeId")
@@ -1984,33 +1962,6 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Navigation("Recipe");
                 });
 
-            modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.RecipeStepIngredientEntity", b =>
-                {
-                    b.HasOne("Unshackled.Kitchen.Core.Data.Entities.RecipeEntity", "Recipe")
-                        .WithMany()
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Unshackled.Kitchen.Core.Data.Entities.RecipeIngredientEntity", "RecipeIngredient")
-                        .WithMany()
-                        .HasForeignKey("RecipeIngredientId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Unshackled.Kitchen.Core.Data.Entities.RecipeStepEntity", "RecipeStep")
-                        .WithMany("Ingredients")
-                        .HasForeignKey("RecipeStepId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Recipe");
-
-                    b.Navigation("RecipeIngredient");
-
-                    b.Navigation("RecipeStep");
-                });
-
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.RecipeTagEntity", b =>
                 {
                     b.HasOne("Unshackled.Kitchen.Core.Data.Entities.RecipeEntity", "Recipe")
@@ -2209,11 +2160,6 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.RecipeIngredientGroupEntity", b =>
-                {
-                    b.Navigation("Ingredients");
-                });
-
-            modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.RecipeStepEntity", b =>
                 {
                     b.Navigation("Ingredients");
                 });

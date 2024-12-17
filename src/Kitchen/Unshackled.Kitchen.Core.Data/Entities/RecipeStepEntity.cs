@@ -10,8 +10,6 @@ public class RecipeStepEntity : BaseHouseholdEntity
 	public int SortOrder { get; set; }
 	public string Instructions { get; set; } = string.Empty;
 
-	public virtual List<RecipeStepIngredientEntity> Ingredients { get; set; } = new();
-
 	public class TypeConfiguration : BaseHouseholdEntityTypeConfiguration<RecipeStepEntity>, IEntityTypeConfiguration<RecipeStepEntity>
 	{
 		public override void Configure(EntityTypeBuilder<RecipeStepEntity> config)

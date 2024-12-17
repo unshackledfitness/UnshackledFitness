@@ -28,7 +28,7 @@
 		{
 			<MudToolBar Gutters="false">
 				<div>
-					<MudCheckBox T="bool?" Dense="true" Color="Color.Secondary" UncheckedColor="Color.Default" Label="All/None" Class="me-4"
+					<MudCheckBox T="bool?" Dense="true" Color="Color.Secondary" UncheckedColor="Color.Default" Label="All/None" Class="me-4" Size="Size.Small"
 									Value="IsSelectAll" ValueChanged="@((bool? value) => HandleSelectAllChange(value))"></MudCheckBox>
 				</div>
 			</MudToolBar>
@@ -36,16 +36,16 @@
 				<GroupRenderer>
 					<div class="d-flex flex-row gap-2 align-center mt-4 mb-2">
 						<div>
-							<MudCheckBox T="bool?" Dense="true" Color="Color.Secondary" UncheckedColor="Color.Default"
+							<MudCheckBox T="bool?" Dense="true" Color="Color.Secondary" UncheckedColor="Color.Default" Size="Size.Small"
 											Value="context.IsSelectAll" ValueChanged="@((bool? value) => HandleGroupItemChecked(context, value))"></MudCheckBox>
 						</div>
 						<MudText Typo="Typo.subtitle1" Class="flex-grow-1">@context.Title</MudText>
 					</div>
 				</GroupRenderer>
 				<ItemRenderer>
-					<div class="d-flex flex-row gap-2 align-center justify-space-between">
+					<div class="d-flex flex-row gap-2 align-center">
 						<div>
-							<MudCheckBox T="bool" Dense="true" Color="Color.Secondary" UncheckedColor="Color.Default" 
+							<MudCheckBox T="bool" Dense="true" Color="Color.Secondary" UncheckedColor="Color.Default" Size="Size.Small"
 											Value="context.Item.IsSelected" ValueChanged="@((bool value) => HandleItemChecked(context.Item, value))"></MudCheckBox>
 						</div>
 						<div class="flex-grow-1">

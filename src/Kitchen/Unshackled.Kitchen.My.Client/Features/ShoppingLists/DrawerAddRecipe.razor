@@ -18,10 +18,10 @@
 		<ItemRenderer>
 			<div class="d-flex flex-row gap-2 align-center">
 				<div>
-					<MudIconButton Icon="@Icons.Material.Filled.AddCircle" Color="Color.Secondary" Disabled="@IsWorking" OnClick="@(() => HandleAddClicked(context.Item))" />
+					<MudIconButton Icon="@Icons.Material.Filled.AddCircle" Color="Color.Secondary" Size="Size.Small" Disabled="@IsWorking" OnClick="@(() => HandleAddClicked(context.Item))" />
 				</div>
 				<div class="flex-grow-1 align-self-center">
-					<MudText Typo="Typo.subtitle1" Class="d-block">@context.Item.Title</MudText>
+					<MudText Typo="Typo.body1" Class="d-block">@context.Item.Title</MudText>
 				</div>
 			</div>
 		</ItemRenderer>
@@ -32,11 +32,11 @@
 }
 else
 {
-	<RecipeListBuilder IsLoading="@IsWorking" Items="@Items" />
-
-	<MudToolBar Gutters="false" Class="mt-4">
-		<MudSpacer />
-		<MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@HandleAddToListClicked">Finish</MudButton>
-		<MudSpacer />
-	</MudToolBar>
+	<RecipeListBuilder IsLoading="@IsWorking" Items="@Items">
+		<ActionToolbar>
+			<MudSpacer />
+			<MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@HandleAddToListClicked">Finish</MudButton>
+			<MudSpacer />
+		</ActionToolbar>
+	</RecipeListBuilder>
 }

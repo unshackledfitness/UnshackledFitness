@@ -2,21 +2,28 @@
 
 @inherits RecipeListBuilderBase
 
-<MudText Typo="Typo.h6">Set Ingredient Quantities</MudText>
-<ListView TItem="AddToShoppingListModel" Items="@Items" IsLoading="@IsLoading">
+<MudText Typo="Typo.body1" Class="my-3">Review product quantities for each ingredient</MudText>
+<ListView TItem="AddToShoppingListModel" Items="@ActiveItems" IsLoading="@IsLoading">
 	<ItemRenderer>
 		<MudGrid Spacing="2" Class="@GetClass(context.Item)">
 			<MudItem xs="12">
-				<div class="d-flex flex-row gap-x-2 align-end flex-wrap">
-					<MudText Typo="Typo.subtitle1">@context.Item.ProductTitle.ToUpper()</MudText>
-					<MudText>for @context.Item.IngredientTitle</MudText>
+				<div class="d-flex flex-row gap-4">
+					<div class="d-flex flex-row gap-x-2 align-end flex-wrap flex-grow-1">
+						<MudText Typo="Typo.body1">@context.Item.ProductTitle.ToUpper()</MudText>
+						<MudText Typo="Typo.body2">for @context.Item.IngredientTitle</MudText>
+					</div>
+					<div>
+						<MudIconButton Icon="@Icons.Material.Filled.Close" Size="Size.Small" OnClick="@(() => HandleToggleSkipped(context.Item))" />
+					</div>
 				</div>
 			</MudItem>
 			@if (context.Item.IsUnitMismatch) 
 			{
 				<MudItem xs="12">
-					<MudAlert Severity="Severity.Error" NoIcon="true" Elevation="0">
-						Recipe ingredient unit and product serving size unit are incompatible. The required quantity could not be calculated.
+					<MudAlert Severity="Severity.Error" NoIcon="true" Elevation="0" Dense="true">
+						<MudText Typo="Typo.caption">
+							Recipe ingredient unit and product serving size unit are incompatible. The required quantity could not be calculated.
+						</MudText>
 					</MudAlert>
 				</MudItem>
 			}
@@ -68,3 +75,37 @@
 		<MudText Align="Align.Center" Class="mt-4">Nothing to add.</MudText>
 	</EmptyListRenderer>
 </ListView>
+
+@if (SkippedItems.Count > 0)
+{
+	<div class="d-flex flex-row gap-4 align-center mt-2">
+		<MudText Typo="Typo.body1" Class="flex-grow-1">@SkippedItems.Count.CountLabel("SKIPPED PRODUCT", "SKIPPED PRODUCTS")</MudText>
+		<div>
+			<MudIconButton Icon="@(IsCollapsed ? Icons.Material.Filled.ArrowDropDown : Icons.Material.Filled.ArrowDropUp)" Size="Size.Small"
+						   title="@(IsCollapsed ? "Collapse" : "Expand")" OnClick="@(() => IsCollapsed = !IsCollapsed)" />
+		</div>
+	</div>
+	<MudDivider DividerType="DividerType.FullWidth" Class="@(IsCollapsed ? "d-block my-2" : "d-none" )" />
+	<div class="@(IsCollapsed ? "d-none" : "d-block mb-6")">
+		<ListView TItem="AddToShoppingListModel" Items="@SkippedItems" IsLoading="@IsLoading">
+			<ItemRenderer>
+				<div class="d-flex flex-row gap-4">
+					<div>
+						<MudIconButton Icon="@Icons.Material.Filled.AddCircle" Size="Size.Small" OnClick="@(() => HandleToggleSkipped(context.Item))" />
+					</div>
+					<div class="d-flex flex-row gap-x-2 align-end flex-wrap flex-grow-1">
+						<MudText Typo="Typo.body1">@context.Item.ProductTitle.ToUpper()</MudText>
+						<MudText Typo="Typo.body2">for @context.Item.IngredientTitle</MudText>
+					</div>
+				</div>
+			</ItemRenderer>
+		</ListView>
+	</div>
+}
+
+@if (ActionToolbar != null)
+{
+	<MudToolBar Gutters="false" Class="my-6">
+		@ActionToolbar
+	</MudToolBar>
+}
