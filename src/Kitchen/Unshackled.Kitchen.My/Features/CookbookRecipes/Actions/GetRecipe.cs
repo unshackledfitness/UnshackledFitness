@@ -5,6 +5,7 @@ using Unshackled.Kitchen.Core.Data;
 using Unshackled.Kitchen.Core.Enums;
 using Unshackled.Kitchen.My.Client.Features.CookbookRecipes.Models;
 using Unshackled.Kitchen.My.Extensions;
+using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Kitchen.My.Features.CookbookRecipes.Actions;
 
@@ -48,6 +49,11 @@ public class GetRecipe
 						.AsNoTracking()
 						.Where(x => x.RecipeId == request.RecipeId)
 						.OrderBy(x => x.SortOrder))
+						.ToListAsync(cancellationToken);
+
+					recipe.Images = await mapper.ProjectTo<ImageModel>(db.RecipeImages
+						.AsNoTracking()
+						.Where(x => x.RecipeId == request.RecipeId))
 						.ToListAsync(cancellationToken);
 
 					recipe.Ingredients = await mapper.ProjectTo<RecipeIngredientModel>(db.RecipeIngredients

@@ -5,6 +5,7 @@ using Unshackled.Kitchen.My.Client.Extensions;
 using Unshackled.Kitchen.My.Client.Features.Recipes.Actions;
 using Unshackled.Kitchen.My.Client.Features.Recipes.Models;
 using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Client.Services;
 
 namespace Unshackled.Kitchen.My.Client.Features.Recipes;
@@ -26,6 +27,7 @@ public class SingleBase : BaseComponent<Member>, IAsyncDisposable
 	protected bool IsLoading { get; set; } = true;
 	protected RecipeModel Recipe { get; set; } = new();
 	protected List<RecipeIngredientGroupModel> Groups { get; set; } = [];
+	protected List<ImageModel> Images { get; set; } = [];
 	protected List<RecipeIngredientModel> Ingredients { get; set; } = [];
 	protected List<RecipeStepModel> Steps { get; set; } = [];
 	protected List<RecipeNoteModel> Notes { get; set; } = [];
@@ -55,6 +57,7 @@ public class SingleBase : BaseComponent<Member>, IAsyncDisposable
 		IsLoading = true;
 		Recipe = await Mediator.Send(new GetRecipe.Query(RecipeSid));
 		Groups = await Mediator.Send(new ListRecipeIngredientGroups.Query(RecipeSid));
+		Images = await Mediator.Send(new ListRecipeImages.Query(RecipeSid));
 		Ingredients = await Mediator.Send(new ListRecipeIngredients.Query(RecipeSid));
 		Steps = await Mediator.Send(new ListRecipeSteps.Query(RecipeSid));
 		Notes = await Mediator.Send(new ListRecipeNotes.Query(RecipeSid));

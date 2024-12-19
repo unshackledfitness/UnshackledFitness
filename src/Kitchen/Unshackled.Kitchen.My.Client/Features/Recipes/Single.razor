@@ -42,7 +42,7 @@ else
 			</MudToolBar>
 		}
 
-		<SectionProperties @bind-Recipe="@Recipe" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
+		<SectionProperties @bind-Recipe="@Recipe" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" Images="@Images"
 						   Scale="@Scale"  OnIsEditingSectionChange="@HandleSectionEditing" />
 
 		<SectionIngredients RecipeSid="@RecipeSid" Recipe="@Recipe" Groups="@Groups" Ingredients="@Ingredients" IsEditMode="@IsEditMode"
@@ -51,10 +51,13 @@ else
 							OnIsEditingSectionChange="@HandleSectionEditing" UpdateComplete="@HandleUpdateIngredientsComplete" />
 
 		<SectionSteps RecipeSid="@RecipeSid" Steps="@Steps" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
-						OnIsEditingSectionChange="@HandleSectionEditing" UpdateComplete="@HandleUpdateStepsComplete" />
+					  OnIsEditingSectionChange="@HandleSectionEditing" UpdateComplete="@HandleUpdateStepsComplete" />
 
 		<SectionNotes RecipeSid="@RecipeSid" Notes="@Notes" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
-						OnIsEditingSectionChange="@HandleSectionEditing" UpdateComplete="@HandleUpdateNotesComplete" />
+					  OnIsEditingSectionChange="@HandleSectionEditing" UpdateComplete="@HandleUpdateNotesComplete" />
+
+		<SectionImages RecipeSid="@RecipeSid" @bind-Images="Images" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
+					   OnIsEditingSectionChange="@HandleSectionEditing" />
 
 		<SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
 			@if (DrawerView == Views.Copy)

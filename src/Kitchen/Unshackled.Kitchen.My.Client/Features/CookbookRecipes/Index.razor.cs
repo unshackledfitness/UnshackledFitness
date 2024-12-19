@@ -1,13 +1,17 @@
-﻿using MudBlazor;
+﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Unshackled.Kitchen.Core.Models;
 using Unshackled.Kitchen.My.Client.Features.CookbookRecipes.Actions;
 using Unshackled.Kitchen.My.Client.Features.CookbookRecipes.Models;
 using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Studio.Core.Client.Configuration;
 
 namespace Unshackled.Kitchen.My.Client.Features.CookbookRecipes;
 
 public partial class IndexBase : BaseSearchComponent<SearchRecipeModel, RecipeListModel, Member>
 {
+	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
+
 	protected List<RecipeTagSelectItem> RecipeTags { get; set; } = [];
 
 	protected override async Task OnInitializedAsync()

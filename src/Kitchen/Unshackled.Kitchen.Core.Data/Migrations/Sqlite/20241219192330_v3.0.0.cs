@@ -634,6 +634,38 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                 });
 
             migrationBuilder.CreateTable(
+                name: "uk_RecipeImages",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    RecipeId = table.Column<long>(type: "INTEGER", nullable: false),
+                    Container = table.Column<string>(type: "TEXT", nullable: false),
+                    RelativePath = table.Column<string>(type: "TEXT", nullable: false),
+                    MimeType = table.Column<string>(type: "TEXT", nullable: false),
+                    FileSize = table.Column<long>(type: "INTEGER", nullable: false),
+                    IsFeatured = table.Column<bool>(type: "INTEGER", nullable: false),
+                    SortOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateCreatedUtc = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    DateLastModifiedUtc = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    HouseholdId = table.Column<long>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_uk_RecipeImages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_uk_RecipeImages_uk_Households_HouseholdId",
+                        column: x => x.HouseholdId,
+                        principalTable: "uk_Households",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_uk_RecipeImages_uk_Recipes_RecipeId",
+                        column: x => x.RecipeId,
+                        principalTable: "uk_Recipes",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "uk_RecipeIngredientGroups",
                 columns: table => new
                 {
@@ -1156,6 +1188,16 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_uk_RecipeImages_HouseholdId",
+                table: "uk_RecipeImages",
+                column: "HouseholdId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_uk_RecipeImages_RecipeId",
+                table: "uk_RecipeImages",
+                column: "RecipeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_uk_RecipeIngredientGroups_DateCreatedUtc",
                 table: "uk_RecipeIngredientGroups",
                 column: "DateCreatedUtc");
@@ -1460,6 +1502,9 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
             migrationBuilder.DropTable(
                 name: "uk_ProductSubstitutions");
+
+            migrationBuilder.DropTable(
+                name: "uk_RecipeImages");
 
             migrationBuilder.DropTable(
                 name: "uk_RecipeIngredients");

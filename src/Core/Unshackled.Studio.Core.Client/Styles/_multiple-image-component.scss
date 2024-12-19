@@ -1,0 +1,12 @@
+﻿/// <reference path="./core-styles.scss" />
+
+.multiple-image-component {
+	position: relative;
+
+	.mud-icon-button {
+		position: absolute;
+		bottom: 2px;
+		right: 2px;
+		z-index: 1;
+	}
+}

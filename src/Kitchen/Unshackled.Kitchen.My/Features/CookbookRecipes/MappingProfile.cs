@@ -2,6 +2,7 @@
 using Unshackled.Kitchen.Core.Data.Entities;
 using Unshackled.Kitchen.Core.Models;
 using Unshackled.Kitchen.My.Client.Features.CookbookRecipes.Models;
+using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Kitchen.My.Features.CookbookRecipes;
@@ -16,6 +17,8 @@ public class MappingProfile : Profile
 		CreateMap<RecipeEntity, RecipeListModel>()
 			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()));
 		CreateMap<RecipeEntity, RecipeModel>()
+			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()));
+		CreateMap<RecipeImageEntity, ImageModel>()
 			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()));
 		CreateMap<RecipeIngredientEntity, RecipeIngredientModel>()
 			.ForMember(d => d.ListGroupSid, m => m.MapFrom(s => s.ListGroupId.Encode()))

@@ -367,3 +367,6 @@ appsettings*.json
 
 # Sqlite
 *.sqlite*
+
+# uploaded files
+wwwroot/content/

@@ -6,12 +6,20 @@ using Unshackled.Kitchen.Core.Enums;
 using Unshackled.Studio.Core.Client;
 using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Studio.Core.Server.Services;
 
 namespace Unshackled.Kitchen.My.Extensions;
 
 public static class RecipeExtensions
 {
-	public static async Task<CommandResult<string>> CopyRecipe(this KitchenDbContext db, long householdId, long recipeId, long memberId, string newTitle, List<string> tags, CancellationToken cancellationToken)
+	public static async Task<CommandResult<string>> CopyRecipe(this KitchenDbContext db, 
+		IFileStorageService fileService,
+		long householdId, 
+		long recipeId, 
+		long memberId, 
+		string newTitle, 
+		List<string> tags, 
+		CancellationToken cancellationToken)
 	{
 		if (householdId == 0)
 			return new CommandResult<string>(false, "Invalid household.");
@@ -113,25 +121,28 @@ public static class RecipeExtensions
 				.OrderBy(x => x.SortOrder)
 				.ToListAsync(cancellationToken);
 
-			foreach (var ingredient in ingredients)
+			if (ingredients.Count > 0)
 			{
-				var i = new RecipeIngredientEntity
+				foreach (var ingredient in ingredients)
 				{
-					Amount = ingredient.Amount,
-					AmountLabel = ingredient.AmountLabel,
-					AmountN = ingredient.AmountN,
-					AmountText = ingredient.AmountText,
-					AmountUnit = ingredient.AmountUnit,
-					HouseholdId = copy.HouseholdId,
-					Key = ingredient.Key,
-					ListGroupId = householdIdMap[ingredient.ListGroupId],
-					PrepNote = ingredient.PrepNote,
-					RecipeId = copy.Id,
-					SortOrder = ingredient.SortOrder,
-					Title = ingredient.Title
-				};
+					var i = new RecipeIngredientEntity
+					{
+						Amount = ingredient.Amount,
+						AmountLabel = ingredient.AmountLabel,
+						AmountN = ingredient.AmountN,
+						AmountText = ingredient.AmountText,
+						AmountUnit = ingredient.AmountUnit,
+						HouseholdId = copy.HouseholdId,
+						Key = ingredient.Key,
+						ListGroupId = householdIdMap[ingredient.ListGroupId],
+						PrepNote = ingredient.PrepNote,
+						RecipeId = copy.Id,
+						SortOrder = ingredient.SortOrder,
+						Title = ingredient.Title
+					};
 
-				db.RecipeIngredients.Add(i);
+					db.RecipeIngredients.Add(i);
+				}
 				await db.SaveChangesAsync(cancellationToken);
 			}
 
@@ -143,16 +154,49 @@ public static class RecipeExtensions
 				.OrderBy(x => x.SortOrder)
 				.ToListAsync(cancellationToken);
 
-			foreach (var step in copySteps)
+			if (copySteps.Count > 0)
 			{
-				var s = new RecipeStepEntity
+				foreach (var step in copySteps)
 				{
-					HouseholdId = copy.HouseholdId,
-					Instructions = step.Instructions,
-					RecipeId = copy.Id,
-					SortOrder = step.SortOrder
-				};
-				db.RecipeSteps.Add(s);
+					var s = new RecipeStepEntity
+					{
+						HouseholdId = copy.HouseholdId,
+						Instructions = step.Instructions,
+						RecipeId = copy.Id,
+						SortOrder = step.SortOrder
+					};
+					db.RecipeSteps.Add(s);
+				}
+				await db.SaveChangesAsync(cancellationToken);
+			}
+
+			var copyImages = await db.RecipeImages
+				.AsNoTracking()
+				.Where(x => x.RecipeId == recipe.Id)
+				.ToListAsync (cancellationToken);
+
+			if (copyImages.Count > 0)
+			{
+				foreach (var image in copyImages)
+				{
+					string newPath = image.RelativePath
+						.Replace($"households/{recipe.HouseholdId.Encode()}", $"households/{copy.HouseholdId.Encode()}")
+						.Replace($"recipes/{recipe.Id.Encode()}", $"recipes/{copy.Id.Encode()}");
+
+					await fileService.CopyFile(image.Container, image.RelativePath, image.Container, newPath, cancellationToken);
+
+					var i = new RecipeImageEntity
+					{
+						Container = image.Container,
+						HouseholdId = copy.HouseholdId,
+						FileSize = image.FileSize,
+						IsFeatured = image.IsFeatured,
+						MimeType = image.MimeType,
+						RecipeId = copy.Id,
+						RelativePath = newPath
+					};
+					db.RecipeImages.Add(i);
+				}
 				await db.SaveChangesAsync(cancellationToken);
 			}
 

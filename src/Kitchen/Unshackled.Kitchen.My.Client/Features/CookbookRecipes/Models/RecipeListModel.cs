@@ -10,6 +10,7 @@ public class RecipeListModel : BaseObject
 	public int PrepTimeMinutes { get; set; }
 	public int TotalServings { get; set; }
 	public List<TagModel> Tags { get; set; } = [];
+	public List<ImageModel> Images { get; set; } = [];
 
 	[JsonIgnore]
 	public TimeSpan PrepTime => new TimeSpan(0, PrepTimeMinutes, 0);
@@ -22,4 +23,7 @@ public class RecipeListModel : BaseObject
 
 	[JsonIgnore]
 	public string TagTitles => string.Join(", ", Tags.Select(x => x.Title).ToArray());
+
+	[JsonIgnore]
+	public ImageModel FeaturedImage => Images.Where(x => x.IsFeatured == true).FirstOrDefault() ?? ImageModel.Default();
 }

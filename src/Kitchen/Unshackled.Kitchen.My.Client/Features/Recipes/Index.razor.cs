@@ -1,13 +1,17 @@
-﻿using MudBlazor;
+﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Unshackled.Kitchen.Core.Models;
 using Unshackled.Kitchen.My.Client.Features.Recipes.Actions;
 using Unshackled.Kitchen.My.Client.Features.Recipes.Models;
 using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Studio.Core.Client.Configuration;
 
 namespace Unshackled.Kitchen.My.Client.Features.Recipes;
 
 public partial class IndexBase : BaseSearchComponent<SearchRecipeModel, RecipeListModel, Member>
 {
+	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
+
 	protected enum Views
 	{
 		None,

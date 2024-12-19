@@ -15,6 +15,10 @@ ClientConfiguration clientConfig = new();
 builder.Configuration.GetSection("ClientConfiguration").Bind(clientConfig);
 builder.Services.AddSingleton(clientConfig);
 
+StorageSettings storageSettings = new();
+builder.Configuration.GetSection("StorageSettings").Bind(storageSettings);
+builder.Services.AddSingleton(storageSettings);
+
 builder.Services.AddAuthorizationCore();
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddAuthenticationStateDeserialization();

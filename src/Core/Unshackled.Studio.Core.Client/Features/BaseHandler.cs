@@ -31,6 +31,7 @@ public abstract class BaseHandler
 			return default;
 		}
 	}
+
 	protected async Task<CommandResult> PostMultipartFormDataToCommandResultAsync(string url, MultipartFormDataContent data)
 	{
 		try
@@ -41,6 +42,19 @@ public abstract class BaseHandler
 		catch
 		{
 			return new CommandResult(false, "Server Connection Error");
+		}
+	}
+
+	protected async Task<CommandResult<TOut>> PostMultipartFormDataToCommandResultAsync<TOut>(string url, MultipartFormDataContent data)
+	{
+		try
+		{
+			var response = await httpClient.PostAsync(url, data);
+			return await ReadContent<CommandResult<TOut>>(response) ?? new CommandResult<TOut>(false, response.ReasonPhrase);
+		}
+		catch
+		{
+			return new CommandResult<TOut>(false, "Server Connection Error");
 		}
 	}
 

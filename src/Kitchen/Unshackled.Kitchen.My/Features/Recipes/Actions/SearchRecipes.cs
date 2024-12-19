@@ -41,7 +41,6 @@ public class SearchRecipes
 				IQueryable<RecipeEntity> query;
 				if (request.Model.TagSids.Count > 0)
 				{
-
 					var tagIds = request.Model.TagSids.DecodeLong();
 
 					var queryTags = db.RecipeTags
@@ -77,7 +76,8 @@ public class SearchRecipes
 				query = query.Skip(request.Model.Skip).Take(request.Model.PageSize);
 
 				result.Data = await mapper.ProjectTo<RecipeListModel>(query
-					.Include(x => x.Tags))
+					.Include(x => x.Tags)
+					.Include(x => x.Images.Where(y => y.RecipeId == x.Id && y.IsFeatured == true)))
 					.ToListAsync(cancellationToken);
 
 				return result;

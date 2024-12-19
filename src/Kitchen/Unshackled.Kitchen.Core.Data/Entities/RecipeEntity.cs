@@ -12,6 +12,7 @@ public class RecipeEntity : BaseHouseholdEntity
 	public int TotalServings { get; set; }
 
 	public virtual List<RecipeIngredientGroupEntity> Groups { get; set; } = [];
+	public virtual List<RecipeImageEntity> Images { get; set; } = [];
 	public virtual List<RecipeIngredientEntity> Ingredients { get; set; } = [];
 	public virtual List<RecipeStepEntity> Steps { get; set; } = [];
 	public virtual List<RecipeNoteEntity> Notes { get; set; } = [];

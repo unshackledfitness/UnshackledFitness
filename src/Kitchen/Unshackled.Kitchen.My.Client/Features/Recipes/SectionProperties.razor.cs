@@ -5,21 +5,24 @@ using Unshackled.Kitchen.Core.Models;
 using Unshackled.Kitchen.My.Client.Features.Recipes.Actions;
 using Unshackled.Kitchen.My.Client.Features.Recipes.Models;
 using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Studio.Core.Client.Configuration;
+using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Kitchen.My.Client.Features.Recipes;
 
 public class SectionPropertiesBase : BaseSectionComponent<Member>
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
+	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
 	[Parameter] public RecipeModel Recipe { get; set; } = new();
 	[Parameter] public EventCallback<RecipeModel> RecipeChanged { get; set; }
+	[Parameter] public List<ImageModel> Images { get; set; } = [];
 	[Parameter] public decimal Scale { get; set; }
 
 	protected const string FormId = "formRecipeProperties";
 	protected bool IsSaving { get; set; }
 	protected FormRecipeModel Model { get; set; } = new();
 	protected List<RecipeTagSelectItem> RecipeTags { get; set; } = [];
-
 	protected bool DisableControls => IsSaving;
 
 	protected override async Task OnInitializedAsync()

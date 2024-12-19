@@ -28,6 +28,7 @@ public class KitchenDbContext : BaseDbContext
 	public DbSet<ProductEntity> Products => Set<ProductEntity>();
 	public DbSet<ProductSubstitutionEntity> ProductSubstitutions => Set<ProductSubstitutionEntity>();
 	public DbSet<RecipeEntity> Recipes => Set<RecipeEntity>();
+	public DbSet<RecipeImageEntity> RecipeImages => Set<RecipeImageEntity>();
 	public DbSet<RecipeIngredientGroupEntity> RecipeIngredientGroups => Set<RecipeIngredientGroupEntity>();
 	public DbSet<RecipeIngredientEntity> RecipeIngredients => Set<RecipeIngredientEntity>();
 	public DbSet<RecipeNoteEntity> RecipeNotes => Set<RecipeNoteEntity>();

@@ -11,7 +11,7 @@ using Unshackled.Kitchen.Core.Data;
 namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 {
     [DbContext(typeof(SqliteDbContext))]
-    [Migration("20241217163745_v3.0.0")]
+    [Migration("20241219192330_v3.0.0")]
     partial class v300
     {
         /// <inheritdoc />
@@ -1050,6 +1050,54 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.ToTable("uk_Recipes", (string)null);
                 });
 
+            modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.RecipeImageEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Container")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateCreatedUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DateLastModifiedUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("HouseholdId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsFeatured")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("MimeType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("RecipeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("RelativePath")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HouseholdId");
+
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("uk_RecipeImages");
+                });
+
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.RecipeIngredientEntity", b =>
                 {
                     b.Property<long>("Id")
@@ -1881,6 +1929,25 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Navigation("Household");
                 });
 
+            modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.RecipeImageEntity", b =>
+                {
+                    b.HasOne("Unshackled.Kitchen.Core.Data.Entities.HouseholdEntity", "Household")
+                        .WithMany()
+                        .HasForeignKey("HouseholdId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Unshackled.Kitchen.Core.Data.Entities.RecipeEntity", "Recipe")
+                        .WithMany("Images")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Household");
+
+                    b.Navigation("Recipe");
+                });
+
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.RecipeIngredientEntity", b =>
                 {
                     b.HasOne("Unshackled.Kitchen.Core.Data.Entities.HouseholdEntity", "Household")
@@ -2154,6 +2221,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.RecipeEntity", b =>
                 {
                     b.Navigation("Groups");
+
+                    b.Navigation("Images");
 
                     b.Navigation("Ingredients");
 

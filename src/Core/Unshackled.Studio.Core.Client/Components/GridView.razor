@@ -5,7 +5,7 @@
 	{
 		@if (PagingPosition == PagingPositions.Top || PagingPosition == PagingPositions.Both)
 		{
-			<PagingComponent Page="@Page" PageSize="@PageSize" Total="@TotalItems" PageSelected="@HandlePageSelected" />
+			<PagingComponent Class="mb-2" Page="@Page" PageSize="@PageSize" Total="@TotalItems" PageSelected="@HandlePageSelected" />
 		}
 
 		<MudGrid Spacing="@GridSpacing" Justify="@GridJustify">
@@ -23,7 +23,7 @@
 
 		@if (PagingPosition == PagingPositions.Bottom || PagingPosition == PagingPositions.Both)
 		{
-			<PagingComponent Page="@Page" PageSize="@PageSize" Total="@TotalItems" PageSelected="@HandlePageSelected" />
+			<PagingComponent Class="mt-2" Page="@Page" PageSize="@PageSize" Total="@TotalItems" PageSelected="@HandlePageSelected" />
 		}
 	}
 	else if(IsLoading)

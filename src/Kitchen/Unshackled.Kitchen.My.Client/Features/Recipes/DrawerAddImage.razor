@@ -1,0 +1,20 @@
+﻿@inherits DrawerAddImageBase
+
+<MudText Class="mb-4">
+	Upload an image file from your device. The image should be at least @(KitchenGlobals.MaxImageWidth)px wide. On upload, the image will be 
+	horizontally cropped to 16:9 aspect ratio from the center.
+</MudText>
+<div class="d-flex flex-column align-center">
+	<label class="mud-button-root mud-button mud-button-filled mud-button-filled-secondary my-4 mx-auto">
+		Upload an Image
+		<InputFile hidden OnChange="@HandleInputFileChange" accept=".jpg,.jpeg" disabled="@IsUploading" />
+	</label>
+</div>
+@if (IsUploading)
+{
+	<MudProgressLinear Indeterminate="true" Color="Color.Primary" Striped="true" Size="Size.Medium" Class="mt-2" />
+}
+else if (!string.IsNullOrEmpty(UploadError))
+{
+	<MudText Typo="Typo.body2" Color="Color.Error">@UploadError</MudText>
+}

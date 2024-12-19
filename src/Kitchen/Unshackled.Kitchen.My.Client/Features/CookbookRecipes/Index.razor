@@ -22,26 +22,35 @@
 	</SearchForm>
 </div>
 
-<ListView Class="mb-6" Items="@SearchResults.Data" PageSize="@SearchResults.PageSize" Page="@SearchModel.Page" TotalItems="@SearchResults.Total" IsLoading="@IsLoading"
-		  PageSelected="@HandlePageSelected">
+<GridView Class="mb-6" Items="@SearchResults.Data" PageSize="@SearchResults.PageSize" Page="@SearchModel.Page" TotalItems="@SearchResults.Total" IsLoading="@IsLoading"
+		  PageSelected="@HandlePageSelected" GridSpacing="2" xs="12" sm="6" md="4" lg="3">
 	<ItemRenderer>
-		<MudGrid Spacing="2">
-			<MudItem xs="12" sm="8" md="10">
-				<MudLink Typo="Typo.subtitle1" Href="@($"/cookbook-recipes/{context.Item.Sid}")" Class="d-block">@context.Item.Title</MudLink>
+		<MudCard Class="h-100">
+			<MudCardMedia Image="@context.Item.FeaturedImage.ImageUrl(StorageSettings.BaseUrl)" Height="150" />
+			<MudCardContent>
+				<MudLink Typo="Typo.subtitle1" Href="@($"/cookbook-recipes/{context.Item.Sid}")" Class="d-block mb-4">@context.Item.Title</MudLink>
 				@if (context.Item.Tags.Count > 0)
 				{
 					<MudText Typo="Typo.body2" Color="Color.Tertiary">@context.Item.TagTitles</MudText>
 				}
-			</MudItem>
-			<MudItem xs="6" sm="2" md="1">
-				<CaptionedProperty Align="Align.Center" Title="Prep Time" Value="@context.Item.PrepTime.ToString(@"hh\:mm")" />
-			</MudItem>
-			<MudItem xs="6" sm="2" md="1">
-				<CaptionedProperty Align="Align.Center" Title="Cook Time" Value="@context.Item.CookTime.ToString(@"hh\:mm")" />
-			</MudItem>
-		</MudGrid>
+			</MudCardContent>
+			<MudCardActions>
+				<div class="w-100">
+					<MudDivider DividerType="DividerType.FullWidth" />
+					<div class="flex-summary">
+						<div class="summary-item">
+							<CaptionedProperty Align="Align.Center" Title="Prep Time" Value="@context.Item.PrepTime.ToString(@"hh\:mm")" />
+						</div>
+						<MudDivider FlexItem="true" Vertical="true" />
+						<div class="summary-item">
+							<CaptionedProperty Align="Align.Center" Title="Cook Time" Value="@context.Item.CookTime.ToString(@"hh\:mm")" />
+						</div>
+					</div>
+				</div>
+			</MudCardActions>
+		</MudCard>
 	</ItemRenderer>
 	<EmptyListRenderer>
-		<MudAlert Elevation="0" ContentAlignment="HorizontalAlignment.Center" NoIcon="true" Class="mt-4">No recipes matched your search.</MudAlert>
+		<MudText Align="Align.Center" Class="mt-4">No recipes matched your search.</MudText>
 	</EmptyListRenderer>
-</ListView>
+</GridView>

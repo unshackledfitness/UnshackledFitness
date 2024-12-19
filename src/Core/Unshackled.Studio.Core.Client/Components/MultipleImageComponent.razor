@@ -1,0 +1,45 @@
+﻿<div class="multiple-image-component">
+	<MudImage Fluid="true" Class="rounded-lg" Src="@FeaturedImage.ImageUrl(BaseUrl)" />
+	@if (Images.Count > 0)
+	{
+		<MudIconButton Icon="@Icons.Material.Filled.PhotoLibrary" OnClick="@(() => HandleViewAllClicked())" />
+	}
+</div>
+
+@code {
+	[Inject] protected IDialogService DialogService { get; set; } = default!;
+
+	[Parameter]
+	public string BaseUrl { get; set; } = string.Empty;
+
+	[Parameter]
+	public string GalleryTitle { get; set; } = "Image Gallery";
+
+	[Parameter] 
+	public List<ImageModel> Images { get; set; } = [];
+
+	protected ImageModel FeaturedImage => Images.Where(x => x.IsFeatured == true).FirstOrDefault() ?? ImageModel.Default();
+
+
+	protected async Task HandleViewAllClicked()
+	{
+		var options = new DialogOptions
+		{
+			BackgroundClass = "bg-blur",
+			FullScreen = false,
+			FullWidth = false,
+			CloseButton = true,
+			CloseOnEscapeKey = true,
+			MaxWidth = MaxWidth.ExtraLarge
+		};
+
+		var parameters = new DialogParameters
+		{
+			{ nameof(DialogPhotoViewer.Images), Images },
+			{ nameof(DialogPhotoViewer.BaseUrl), BaseUrl }
+		};
+
+		var dialog = await DialogService.ShowAsync<DialogPhotoViewer>(GalleryTitle, parameters, options);
+		var result = await dialog.Result;
+	}
+}

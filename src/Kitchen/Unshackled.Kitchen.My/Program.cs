@@ -18,6 +18,7 @@ using Unshackled.Studio.Core.Client.Services;
 using Unshackled.Studio.Core.Data;
 using Unshackled.Studio.Core.Data.Entities;
 using Unshackled.Studio.Core.Server.Middleware;
+using Unshackled.Studio.Core.Server.Services;
 using Unshackled.Studio.Core.Server.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,6 +44,10 @@ builder.Services.AddSingleton(smtpSettings);
 DbConfiguration dbConfig = new DbConfiguration();
 builder.Configuration.GetSection("DbConfiguration").Bind(dbConfig);
 builder.Services.AddSingleton(dbConfig);
+
+StorageSettings storageSettings = new();
+builder.Configuration.GetSection("StorageSettings").Bind(storageSettings);
+builder.Services.AddSingleton(storageSettings);
 
 AuthenticationProviderConfiguration authProviderConfig = new();
 builder.Configuration.GetSection("AuthenticationProviders").Bind(authProviderConfig);
@@ -140,6 +145,7 @@ builder.Services.TryAddScoped<IWebAssemblyHostEnvironment, ServerHostEnvironment
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IRenderStateService, Unshackled.Studio.Core.Server.Services.RenderStateService>();
 builder.Services.AddSingleton<IEmailSender<UserEntity>, SmtpService>();
+builder.Services.AddScoped<IFileStorageService, LocalFileStorageService>();
 
 var app = builder.Build();
 

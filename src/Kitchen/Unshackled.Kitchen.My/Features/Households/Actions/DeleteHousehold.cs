@@ -3,8 +3,10 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Kitchen.Core;
 using Unshackled.Kitchen.Core.Data;
+using Unshackled.Studio.Core.Client.Configuration;
 using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Studio.Core.Server.Services;
 
 namespace Unshackled.Kitchen.My.Features.Households.Actions;
 
@@ -24,7 +26,14 @@ public class DeleteHousehold
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(KitchenDbContext db, IMapper mapper) : base(db, mapper) { }
+		private readonly StorageSettings storageSettings;
+		private readonly IFileStorageService fileService;
+
+		public Handler(KitchenDbContext db, IMapper mapper, StorageSettings storageSettings, IFileStorageService fileService) : base(db, mapper)
+		{
+			this.storageSettings = storageSettings;
+			this.fileService = fileService;
+		}
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -38,6 +47,19 @@ public class DeleteHousehold
 
 			if (await db.HouseholdMembers.Where(x => x.HouseholdId == householdId && x.MemberId != request.MemberId).AnyAsync(cancellationToken))
 				return new CommandResult(false, "A household with members cannot be deleted.");
+
+			var household = await db.Households
+				.Where(x => x.Id == householdId)
+				.SingleOrDefaultAsync(cancellationToken);
+
+			if (household == null)
+				return new CommandResult(false, "Invalid household.");
+
+			string imageDir = string.Format(KitchenGlobals.Paths.HouseholdImageDir, household.Id.Encode());
+			bool deleted = await fileService.DeleteDirectory(storageSettings.Container, imageDir, cancellationToken);
+
+			if (!deleted)
+				return new CommandResult(false, "Unable to delete recipe images. Household cannot be deleted.");
 
 			var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
 
@@ -117,6 +139,10 @@ public class DeleteHousehold
 					.Where(x => x.HouseholdId == householdId)
 					.DeleteFromQueryAsync(cancellationToken);
 
+				await db.RecipeImages
+					.Where(x => x.HouseholdId == householdId)
+					.DeleteFromQueryAsync(cancellationToken);
+
 				await db.RecipeNotes
 					.Where(x => x.HouseholdId == householdId)
 					.DeleteFromQueryAsync(cancellationToken);
@@ -137,9 +163,8 @@ public class DeleteHousehold
 					.Where(x => x.HouseholdId == householdId)
 					.DeleteFromQueryAsync(cancellationToken);
 
-				await db.Households
-					.Where(x => x.Id == householdId)
-					.DeleteFromQueryAsync(cancellationToken);
+				db.Households.Remove(household);
+				await db.SaveChangesAsync(cancellationToken);
 
 				await transaction.CommitAsync(cancellationToken);
 

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Components;
 
@@ -6,6 +7,8 @@ namespace Unshackled.Studio.Core.Client.Extensions;
 
 public static class StringExtensions
 {
+	public static string CleanFileName(this string fileName) => WebUtility.HtmlEncode(fileName);
+
 	public static string? FormatUrl(this string? url)
 	{
 		string? newUrl = url?.Trim();

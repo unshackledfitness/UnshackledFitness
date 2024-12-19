@@ -14,6 +14,7 @@ public class RecipeModel : BaseObject
 
 	public List<RecipeIngredientGroupModel> Groups { get; set; } = [];
 	public List<RecipeIngredientModel> Ingredients { get; set; } = [];
+	public List<ImageModel> Images { get; set; } = [];
 	public List<RecipeStepModel> Steps { get; set; } = [];
 	public List<RecipeNoteModel> Notes { get; set; } = [];
 	public List<TagModel> Tags { get; set; } = [];
@@ -23,4 +24,7 @@ public class RecipeModel : BaseObject
 
 	[JsonIgnore]
 	public TimeSpan CookTime => new(0, CookTimeMinutes, 0);
+
+	[JsonIgnore]
+	public ImageModel FeaturedImage => Images.Where(x => x.IsFeatured == true).FirstOrDefault() ?? ImageModel.Default();
 }

@@ -6,6 +6,7 @@ using Unshackled.Kitchen.My.Client.Extensions;
 using Unshackled.Kitchen.My.Client.Features.CookbookRecipes.Actions;
 using Unshackled.Kitchen.My.Client.Features.CookbookRecipes.Models;
 using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Kitchen.My.Client.Features.CookbookRecipes;
 
@@ -21,6 +22,7 @@ public class SingleBase : BaseComponent<Member>, IAsyncDisposable
 	[Parameter] public string RecipeSid { get; set; } = string.Empty;
 	protected bool IsLoading { get; set; } = true;
 	protected RecipeModel Recipe { get; set; } = new();
+	protected ImageModel FeaturedImage { get; set; } = ImageModel.Default();
 	protected bool IsWorking { get; set; } = false;
 	protected bool DisableControls => IsWorking;
 	protected decimal Scale { get; set; } = 1M;
@@ -40,6 +42,12 @@ public class SingleBase : BaseComponent<Member>, IAsyncDisposable
 		IsLoading = true;
 		Recipe = await Mediator.Send(new GetRecipe.Query(RecipeSid));
 		DrawerView = Views.None;
+
+		if (Recipe.Images.Count > 0)
+		{
+			FeaturedImage = Recipe.Images.Where(x => x.IsFeatured == true).SingleOrDefault() ?? ImageModel.Default();
+		}
+
 		IsLoading = false;
 	}
 

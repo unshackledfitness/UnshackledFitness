@@ -9,7 +9,7 @@
 			{
 				<MudGrid Spacing="4">
 					<MudItem xs="12" sm="4" md="3" lg="2">
-						<MudImage Fluid="true" Src="/uk-placeholder.webp" />
+						<MultipleImageComponent BaseUrl="@StorageSettings.BaseUrl" Images="@Images" GalleryTitle="Recipe Images" />
 					</MudItem>
 					<MudItem xs="12" sm="8" md="9" lg="10">
 						<MudText Typo="Typo.h4">@Recipe.Title</MudText>

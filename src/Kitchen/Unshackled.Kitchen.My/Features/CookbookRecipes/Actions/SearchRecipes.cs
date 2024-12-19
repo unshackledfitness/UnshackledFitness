@@ -78,7 +78,8 @@ public class SearchRecipes
 				query = query.Skip(request.Model.Skip).Take(request.Model.PageSize);
 
 				result.Data = await mapper.ProjectTo<RecipeListModel>(query
-					.Include(x => x.Tags))
+					.Include(x => x.Tags)
+					.Include(x => x.Images.Where(y => y.RecipeId == x.Id && y.IsFeatured == true)))
 					.ToListAsync(cancellationToken);
 
 				return result;

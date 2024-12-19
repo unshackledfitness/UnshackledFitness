@@ -46,6 +46,13 @@ public class RecipesController : BaseController
 		return Ok(await Mediator.Send(new DeleteRecipe.Command(Member.Id, sid)));
 	}
 
+	[HttpPost("delete-image")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> DeleteImage([FromBody] string sid)
+	{
+		return Ok(await Mediator.Send(new DeleteImage.Command(Member.Id, sid)));
+	}
+
 	[HttpPost("get-add-to-list-items")]
 	[ActiveMemberRequired]
 	public async Task<IActionResult> GetAddToListItems([FromBody] SelectListModel model)
@@ -65,6 +72,13 @@ public class RecipesController : BaseController
 	public async Task<IActionResult> GetRecipeIngredientGroups(long id)
 	{
 		return Ok(await Mediator.Send(new ListRecipeIngredientGroups.Query(Member.Id, id)));
+	}
+
+	[HttpGet("get/{sid}/images")]
+	[DecodeId]
+	public async Task<IActionResult> GetRecipeImages(long id)
+	{
+		return Ok(await Mediator.Send(new ListRecipeImages.Query(Member.Id, id)));
 	}
 
 	[HttpGet("get/{sid}/ingredients")]
@@ -124,6 +138,13 @@ public class RecipesController : BaseController
 		return Ok(await Mediator.Send(new SearchRecipes.Query(Member.ActiveHouseholdId, Member.Id, model)));
 	}
 
+	[HttpPost("set-featured-image")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> SetFeaturedImage([FromBody] string sid)
+	{
+		return Ok(await Mediator.Send(new SetFeaturedImage.Command(Member.Id, sid)));
+	}
+
 	[HttpPost("update")]
 	[ActiveMemberRequired]
 	public async Task<IActionResult> Update([FromBody] FormRecipeModel model)
@@ -153,5 +174,13 @@ public class RecipesController : BaseController
 	public async Task<IActionResult> UpdateSteps(long id, [FromBody] UpdateStepsModel model)
 	{
 		return Ok(await Mediator.Send(new UpdateSteps.Command(Member.Id, id, model)));
+	}
+
+	[HttpPost("upload-image/{sid}")]
+	[ActiveMemberRequired]
+	[DecodeId]
+	public async Task<IActionResult> UploadImage(long id, [FromForm] IFormFile file)
+	{
+		return Ok(await Mediator.Send(new UploadImage.Command(Member.Id, id, file)));
 	}
 }
