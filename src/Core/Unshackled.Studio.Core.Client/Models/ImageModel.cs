@@ -20,7 +20,7 @@ public class ImageModel
 	{
 		return new ImageModel
 		{
-			Container = "images",
+			Container = "content",
 			RelativePath = "uk-placeholder.webp",
 			IsFeatured = true
 		};

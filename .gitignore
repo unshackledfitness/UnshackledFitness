@@ -369,4 +369,4 @@ appsettings*.json
 *.sqlite*
 
 # uploaded files
-wwwroot/content/
+**/wwwroot/content/households/**/*
