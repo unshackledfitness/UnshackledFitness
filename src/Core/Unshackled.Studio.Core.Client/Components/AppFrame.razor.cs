@@ -17,6 +17,7 @@ public partial class AppFrameBase<TMember> : BaseComponent<TMember>, IAsyncDispo
 	[Parameter] public RenderFragment LogoContent { get; set; } = default!;
 	[Parameter] public RenderFragment NavTopContent { get; set; } = default!;
 	[Parameter] public RenderFragment NavBottomContent { get; set; } = default!;
+	[Parameter] public RenderFragment NotificationBarContent { get; set; } = default!;
 	[Parameter] public EventCallback IntializationCompleted { get; set; }
 	[Parameter] public EventCallback<Themes> ThemeSwitched { get; set; }
 	[Parameter] public RenderFragment MembershipContent { get; set; } = default!;

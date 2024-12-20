@@ -1,0 +1,38 @@
+﻿<MudMenu Label="@($"Scale: {GetScaleFraction()}")" AnchorOrigin="Origin.TopRight" TransformOrigin="Origin.TopRight">
+	<MudMenuItem OnClick="@(() => HandleScaleChanged(0.25M))">1/4x</MudMenuItem>
+	<MudMenuItem OnClick="@(() => HandleScaleChanged(0.5M))">1/2x</MudMenuItem>
+	<MudMenuItem OnClick="@(() => HandleScaleChanged(0.75M))">3/4x</MudMenuItem>
+	<MudMenuItem OnClick="@(() => HandleScaleChanged(1M))">1x</MudMenuItem>
+	<MudMenuItem OnClick="@(() => HandleScaleChanged(2M))">2x</MudMenuItem>
+	<MudMenuItem OnClick="@(() => HandleScaleChanged(3M))">3x</MudMenuItem>
+	<MudMenuItem OnClick="@(() => HandleScaleChanged(4M))">4x</MudMenuItem>
+</MudMenu>
+
+@code {
+	[Parameter] public decimal Scale { get; set; } = 1M;
+	[Parameter] public EventCallback<decimal> ScaleChanged { get; set; }
+
+	protected string GetScaleFraction()
+	{
+		return Scale switch
+		{
+			0.25M => "1/4x",
+			0.5M => "1/2x",
+			0.75M => "3/4x",
+			1M => "1x",
+			2M => "2x",
+			3M => "3x",
+			4M => "4x",
+			_ => Scale.ToString("0.##")
+		};
+	}
+
+	protected async Task HandleScaleChanged(decimal value)
+	{
+		if (value != Scale)
+		{
+			Scale = value;
+			await ScaleChanged.InvokeAsync(value);
+		}
+	}
+}

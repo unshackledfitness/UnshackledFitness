@@ -1,6 +1,7 @@
 ﻿/// <reference path="./core-styles.scss" />
 
-.mud-main-content {
+.mud-main-content,
+.mud-dialog-container {
 	.mud-toolbar {
 		flex-wrap: wrap;
 		height: auto;

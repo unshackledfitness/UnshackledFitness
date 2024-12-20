@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Kitchen.Core.Data;
 using Unshackled.Kitchen.Core.Enums;
+using Unshackled.Kitchen.Core.Models;
 using Unshackled.Kitchen.My.Client.Features.Recipes.Models;
 using Unshackled.Kitchen.My.Extensions;
 

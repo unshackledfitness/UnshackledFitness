@@ -53,21 +53,6 @@ public class SectionIngredientsBase : BaseSectionComponent<Member>
 		_ => string.Empty
 	};
 
-	protected string GetScaleFraction()
-	{
-		return Scale switch
-		{
-			0.25M => "1/4x",
-			0.5M => "1/2x",
-			0.75M => "3/4x",
-			1M => "1x",
-			2M => "2x",
-			3M => "3x",
-			4M => "4x",
-			_ => Scale.ToString("0.##")
-		};
-	}
-
 	protected void HandleAddClicked()
 	{
 		FormModel = new()

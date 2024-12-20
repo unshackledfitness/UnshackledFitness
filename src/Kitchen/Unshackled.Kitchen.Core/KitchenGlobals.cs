@@ -11,6 +11,8 @@ public class KitchenGlobals
 	public class LocalStorageKeys
 	{
 		public const string IngredientTitles = "IngredientTitles";
+		public const string MakeItIndex = "MakeItIndex";
+		public const string MakeItRecipes = "MakeItRecipes";
 	}
 
 	public static class MetaKeys

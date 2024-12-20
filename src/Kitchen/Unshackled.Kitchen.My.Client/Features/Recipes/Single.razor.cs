@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Kitchen.Core.Models;
+using Unshackled.Kitchen.My.Client.Components;
 using Unshackled.Kitchen.My.Client.Extensions;
 using Unshackled.Kitchen.My.Client.Features.Recipes.Actions;
 using Unshackled.Kitchen.My.Client.Features.Recipes.Models;
@@ -121,29 +122,47 @@ public class SingleBase : BaseComponent<Member>, IAsyncDisposable
 
 	protected async Task HandleMakeRecipeClicked()
 	{
-		var options = new DialogOptions 
-		{ 
-			BackgroundClass = "bg-blur",
-			FullScreen = true,
-			FullWidth = true,
-			CloseButton = true 
+		MakeItRecipeModel model = new()
+		{
+			Description = Recipe.Description,
+			Groups = Groups.Select(x => new MakeItRecipeIngredientGroupModel
+			{
+				Sid = x.Sid,
+				SortOrder = x.SortOrder,
+				Title = x.Title
+			})
+			.ToList(),
+			Ingredients = Ingredients.Select(x => new MakeItRecipeIngredientModel
+			{
+				Amount = x.Amount,
+				AmountLabel = x.AmountLabel,
+				AmountN = x.AmountN,
+				AmountText = x.AmountText,
+				AmountUnit = x.AmountUnit,
+				Key = x.Key,
+				ListGroupSid = x.ListGroupSid,
+				PrepNote = x.PrepNote,
+				Sid = x.Sid,
+				SortOrder = x.SortOrder,
+				Title = x.Title
+			})
+			.ToList(),
+			Scale = Scale,
+			Sid = Recipe.Sid,
+			Steps = Steps.Select(x => new MakeItRecipeStepModel
+			{
+				Instructions = x.Instructions,
+				Sid = x.Sid,
+				SortOrder = x.SortOrder
+			})
+			.ToList(),
+			Title = Recipe.Title
 		};
 
-		var parameters = new DialogParameters
-		{
-			{ nameof(DialogMakeRecipe.Ingredients), Ingredients },
-			{ nameof(DialogMakeRecipe.Steps), Steps },
-			{ nameof(DialogMakeRecipe.Scale), Scale },
-		};
+		var state = (AppState)State;
+		state.AddMakeItRecipe(model);
 
-		var dialog = await DialogService.ShowAsync<DialogMakeRecipe>(Recipe.Title, parameters, options);
-		var result = await dialog.Result;
-
-		// Make sure screen lock is released when dialog is closed.
-		if (result != null && ScreenLockService.HasWakeLock())
-		{
-			await ScreenLockService.ReleaseWakeLock();
-		}
+		await DialogService.OpenMakeItClicked(ScreenLockService);
 	}
 
 	protected void HandleOpenNutritionClicked()

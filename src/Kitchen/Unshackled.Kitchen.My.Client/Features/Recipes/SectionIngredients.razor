@@ -9,15 +9,7 @@
 				<MudToggleIconButton Disabled="@DisableSectionControls" Icon="@Icons.Material.Filled.ShoppingBag" ToggledIcon="@Icons.Material.Filled.ShoppingBag"
 				Color="Color.Default" ToggledColor="Color.Secondary" @bind-Toggled="@ShowProducts" />
 				<MudIconButton Icon="@Icons.Material.Filled.Analytics" Disabled="@DisableSectionControls" OnClick="@(() => HandleOpenNutritionClicked())" />
-				<MudMenu Label="@($"Scale: {GetScaleFraction()}")" AnchorOrigin="Origin.TopRight" TransformOrigin="Origin.TopRight">
-					<MudMenuItem OnClick="@(() => HandleScaleChanged(0.25M))">1/4x</MudMenuItem>
-					<MudMenuItem OnClick="@(() => HandleScaleChanged(0.5M))">1/2x</MudMenuItem>
-					<MudMenuItem OnClick="@(() => HandleScaleChanged(0.75M))">3/4x</MudMenuItem>
-					<MudMenuItem OnClick="@(() => HandleScaleChanged(1M))">1x</MudMenuItem>
-					<MudMenuItem OnClick="@(() => HandleScaleChanged(2M))">2x</MudMenuItem>
-					<MudMenuItem OnClick="@(() => HandleScaleChanged(3M))">3x</MudMenuItem>
-					<MudMenuItem OnClick="@(() => HandleScaleChanged(4M))">4x</MudMenuItem>
-				</MudMenu>
+				<ScaleMenuComponent Scale="@Scale" ScaleChanged="@HandleScaleChanged" />
 			</DefaultToolbar>
 			<EditModeToolbar>
 				<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@DisableSectionControls" OnClick="@(() => HandleEditClicked())" />

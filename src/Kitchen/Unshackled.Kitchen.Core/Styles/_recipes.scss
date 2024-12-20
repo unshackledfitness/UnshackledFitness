@@ -1,6 +1,13 @@
 ﻿/// <reference path="./styles.scss" />
 
-.recipe-step {
+.make-it-notification
+{
+	.mud-badge.mud-badge-top.right.mud-badge-overlap {
+		inset: auto auto calc(100% - 25px) calc(100% - 25px);
+	}
+}
+
+.recipe-dialog {
 	display: flex;
 	flex-direction: column;
 	height: 100%;

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Unshackled.Kitchen.Core.Data.Entities;
+using Unshackled.Kitchen.Core.Models;
 using Unshackled.Kitchen.My.Client.Features.Recipes.Models;
 using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Server.Extensions;

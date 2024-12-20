@@ -25,7 +25,11 @@ else if (!IsLoading)
 					<MudText Typo="Typo.h5" Class="app-title">@Title</MudText>
 				}
 				<MudSpacer />
-				<MudMenu StartIcon="@GetThemeIcon()" EndIcon="@Icons.Material.Filled.KeyboardArrowDown" Variant="Variant.Filled" title="Theme Selector"
+				@if (NotificationBarContent != null)
+				{
+					@NotificationBarContent
+				}
+				<MudMenu StartIcon="@GetThemeIcon()" EndIcon="@Icons.Material.Filled.KeyboardArrowDown" title="Theme Selector"
 						 AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight">
 					<MudMenuItem OnClick="@(() => HandleThemeSwitch(Themes.System))">
 						<div class="d-flex flex-row align-center">
@@ -46,12 +50,8 @@ else if (!IsLoading)
 						</div>
 					</MudMenuItem>
 				</MudMenu>
-				<MudMenu title="My Account" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" Class="ms-2">
-					<ActivatorContent>
-						<MudAvatar Size="Size.Small">
-								<MudImage Src="@($"/icon_x72.png")" />
-						</MudAvatar>
-					</ActivatorContent>
+				<MudMenu title="Tools" StartIcon="@Icons.Material.Filled.BuildCircle" EndIcon="@Icons.Material.Filled.KeyboardArrowDown" 
+						 AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight">
 					<ChildContent>
 						<MudMenuItem OnClick="@(() => HandleReloadAppClicked())">
 							<div class="d-flex flex-row align-center">
