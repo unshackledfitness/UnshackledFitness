@@ -12,7 +12,11 @@
 	}
 
 	.pos-relative {
-		margin: -1.5rem -1.5rem 0 0;
+		margin: -1rem -1rem 0 0;
+		
+		@media (min-width: $breakpoint-sm-min) {
+			margin: -1.5rem -1.5rem 0 0;
+		}
 	}
 
 	.pos-absolute {
