@@ -217,6 +217,17 @@ html, body, #app {
 	}
 }
 
+.image-16x9 {
+	position: relative;
+    width: 100%;
+
+	&::before {
+		display: block;
+		padding-top: calc(9 / 16 * 100%);
+		content: "";
+	}
+}
+
 .dashboard-tile {
 	height: 120px;
 	width: 120px;

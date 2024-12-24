@@ -12,7 +12,7 @@
 		<GridView TItem="ImageModel" Items="@Images" GridSpacing="2" xs="12" sm="6" md="4" lg="3">
 			<ItemRenderer>
 				<MudCard Class="h-100">
-					<MudCardMedia Image="@context.Item.ImageUrl(StorageSettings.BaseUrl)" Height="150" />
+					<MudImage Src="@context.Item.ImageUrl(StorageSettings.BaseUrl)" Fluid="true" Class="image-16x9" />
 					<MudCardActions>
 						<MudToggleIconButton Icon="@Icons.Material.Outlined.Star" ToggledIcon="@Icons.Material.Filled.Star" Color="Color.Default" ToggledColor="Color.Warning"
 											 Toggled="context.Item.IsFeatured" title="Featured" ToggledChanged="@(() => HandleSetFeaturedClick(context.Item))" />
