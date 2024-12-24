@@ -14,6 +14,8 @@ public class PostgreSqlServerDbContext : FitnessDbContext
 	{
 		base.ConfigureConventions(configurationBuilder);
 		configurationBuilder.Properties<string>().UseCollation("case_insensitive_collation");
+		configurationBuilder.Properties<DateTime>().HaveColumnType("timestamp without time zone");
+		configurationBuilder.Properties<DateTime?>().HaveColumnType("timestamp without time zone");
 	}
 
 	protected override void OnConfiguring(DbContextOptionsBuilder options)
