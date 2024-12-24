@@ -15,17 +15,17 @@ Both are cross-platform, hosted WebAssembly Blazor PWAs with a vertical slice ar
 
 ## Demos
 
-A hosted version of Unshackled Fitness is available at https://unshackled.fitness.
+A hosted version of Unshackled Fitness is available at https://my.unshackled.fitness.
 
-A hosted version of Unshackled Kitchen is available at https://unshackled.kitchen.
+A hosted version of Unshackled Kitchen is available at https://my.unshackled.kitchen.
 
 A 30-day, no credit card required, free trial is available for both apps.
 
 ## Installation
 
-Instructions for Unshackled Fitness can be found at https://unshackled.fitness/docs/guides/self-hosting.
+Instructions for Unshackled Fitness can be found at https://unshackled.studio/docs/fitness/guides/self-hosting.
 
-Instructions for Unshackled Kitchen can be found at https://unshackled.kitchen/docs/guides/self-hosting.
+Instructions for Unshackled Kitchen can be found at https://unshackled.studio/docs/kitchen/guides/self-hosting.
 
 ## Acknowledgements
 
