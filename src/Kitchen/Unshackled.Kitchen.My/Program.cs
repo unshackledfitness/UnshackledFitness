@@ -17,6 +17,7 @@ using Unshackled.Studio.Core.Client.Extensions;
 using Unshackled.Studio.Core.Client.Services;
 using Unshackled.Studio.Core.Data;
 using Unshackled.Studio.Core.Data.Entities;
+using Unshackled.Studio.Core.Server.Extensions;
 using Unshackled.Studio.Core.Server.Middleware;
 using Unshackled.Studio.Core.Server.Services;
 using Unshackled.Studio.Core.Server.Utils;
