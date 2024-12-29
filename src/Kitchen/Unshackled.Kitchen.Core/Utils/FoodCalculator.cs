@@ -132,7 +132,7 @@ public static class FoodCalculator
 		// ingredient uses a standard unit
 		else
 		{
-			decimal containerSize = servingSizeMetricAmountN * servingsPerContainer;
+			decimal containerSize = servingSizeAmountN * servingsPerContainer;
 
 			// No serving size info
 			if (containerSize <= 0)
