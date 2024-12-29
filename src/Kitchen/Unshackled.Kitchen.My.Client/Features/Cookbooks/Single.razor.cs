@@ -23,16 +23,16 @@ public class SingleBase : BaseComponent<Member>
 	protected override async Task OnParametersSetAsync()
 	{
 		await base.OnParametersSetAsync();
-		Breadcrumbs.Add(new BreadcrumbItem("Cookbooks", "/cookbooks", false));
-		Breadcrumbs.Add(new BreadcrumbItem("Cookbook", null, true));
+
+		Cookbook = await Mediator.Send(new GetCookbook.Query(CookbookSid));
+		IsLoading = false;
 	}
 
 	protected override async Task OnInitializedAsync()
 	{
 		await base.OnInitializedAsync();
-
-		Cookbook = await Mediator.Send(new GetCookbook.Query(CookbookSid));
-		IsLoading = false;
+		Breadcrumbs.Add(new BreadcrumbItem("Cookbooks", "/cookbooks", false));
+		Breadcrumbs.Add(new BreadcrumbItem("Cookbook", null, true));
 	}
 
 	protected void HandleSectionEditing(bool editing)
