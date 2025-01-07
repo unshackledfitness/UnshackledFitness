@@ -23,11 +23,25 @@ public class ProductsController : BaseController
 		return Ok(await Mediator.Send(new AddToList.Command(Member.Id, model)));
 	}
 
+	[HttpPost("delete-image")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> DeleteImage([FromBody] string sid)
+	{
+		return Ok(await Mediator.Send(new DeleteImage.Command(Member.Id, sid)));
+	}
+
 	[HttpGet("get/{sid}")]
 	[DecodeId]
 	public async Task<IActionResult> Get(long id)
 	{
 		return Ok(await Mediator.Send(new GetProduct.Query(Member.Id, id)));
+	}
+
+	[HttpGet("get/{sid}/images")]
+	[DecodeId]
+	public async Task<IActionResult> GetProductImages(long id)
+	{
+		return Ok(await Mediator.Send(new ListProductImages.Query(Member.Id, id)));
 	}
 
 	[HttpPost("bulk-archive-restore")]
@@ -76,6 +90,13 @@ public class ProductsController : BaseController
 		return Ok(await Mediator.Send(new SearchProducts.Query(Member.Id, Member.ActiveHouseholdId, model)));
 	}
 
+	[HttpPost("set-featured-image")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> SetFeaturedImage([FromBody] string sid)
+	{
+		return Ok(await Mediator.Send(new SetFeaturedImage.Command(Member.Id, sid)));
+	}
+
 	[HttpPost("toggle/archived")]
 	[ActiveMemberRequired]
 	public async Task<IActionResult> ToggleArchived([FromBody] string sid)
@@ -95,5 +116,13 @@ public class ProductsController : BaseController
 	public async Task<IActionResult> Update([FromBody] FormProductModel model)
 	{
 		return Ok(await Mediator.Send(new UpdateProduct.Command(Member.Id, Member.ActiveHouseholdId, model)));
+	}
+
+	[HttpPost("upload-image/{sid}")]
+	[ActiveMemberRequired]
+	[DecodeId]
+	public async Task<IActionResult> UploadImage(long id, [FromForm] IFormFile file)
+	{
+		return Ok(await Mediator.Send(new UploadImage.Command(Member.Id, id, file)));
 	}
 }

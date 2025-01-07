@@ -11,7 +11,7 @@ using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Server.Extensions;
 using Unshackled.Studio.Core.Server.Services;
 
-namespace Unshackled.Kitchen.My.Features.Recipes.Actions;
+namespace Unshackled.Kitchen.My.Features.Products.Actions;
 
 public class DeleteImage
 {
@@ -43,38 +43,38 @@ public class DeleteImage
 			if (deleteId == 0)
 				return new CommandResult<string>(false, "Invalid Image ID.");
 
-			var recipeImage = await db.RecipeImages
+			var productImage = await db.ProductImages
 				.Where(x => x.Id == deleteId)
 				.SingleOrDefaultAsync(cancellationToken);
 
-			if (recipeImage == null)
+			if (productImage == null)
 				return new CommandResult<string>(false, "Invalid Image.");
 
-			if (!await db.HasRecipePermission(recipeImage.RecipeId, request.MemberId, PermissionLevels.Write))
+			if (!await db.HasProductPermission(productImage.ProductId, request.MemberId, PermissionLevels.Write))
 				return new CommandResult<string>(false, KitchenGlobals.PermissionError);
 
 			using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
 
 			try
 			{
-				bool isDeleted = await fileService.DeleteFile(recipeImage.Container, recipeImage.RelativePath, cancellationToken);
+				bool isDeleted = await fileService.DeleteFile(productImage.Container, productImage.RelativePath, cancellationToken);
 
 				if (!isDeleted)
 					return new CommandResult<string>(false, "Could not delete the image.");
 
-				db.RecipeImages.Remove(recipeImage);
+				db.ProductImages.Remove(productImage);
 				await db.SaveChangesAsync(cancellationToken);
 
 				// Adjust sort order for images after current
-				await db.RecipeImages
-					.Where(x => x.SortOrder > recipeImage.SortOrder)
-					.UpdateFromQueryAsync(x => new RecipeImageEntity { SortOrder = x.SortOrder - 1 }, cancellationToken);
+				await db.ProductImages
+					.Where(x => x.SortOrder > productImage.SortOrder)
+					.UpdateFromQueryAsync(x => new ProductImageEntity { SortOrder = x.SortOrder - 1 }, cancellationToken);
 
 				string nfSid = string.Empty;
-				if (recipeImage.IsFeatured)
+				if (productImage.IsFeatured)
 				{
-					var newFeatured = await db.RecipeImages
-						.Where(x => x.RecipeId == recipeImage.RecipeId)
+					var newFeatured = await db.ProductImages
+						.Where(x => x.ProductId == productImage.ProductId)
 						.OrderBy(x => x.SortOrder)
 						.FirstOrDefaultAsync(cancellationToken);
 

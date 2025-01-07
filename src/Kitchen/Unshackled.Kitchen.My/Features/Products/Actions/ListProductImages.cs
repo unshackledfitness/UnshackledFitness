@@ -6,19 +6,19 @@ using Unshackled.Kitchen.Core.Enums;
 using Unshackled.Kitchen.My.Extensions;
 using Unshackled.Studio.Core.Client.Models;
 
-namespace Unshackled.Kitchen.My.Features.Recipes.Actions;
+namespace Unshackled.Kitchen.My.Features.Products.Actions;
 
-public class ListRecipeImages
+public class ListProductImages
 {
 	public class Query : IRequest<List<ImageModel>>
 	{
 		public long MemberId { get; private set; }
-		public long RecipeId { get; private set; }
+		public long ProductId { get; private set; }
 
-		public Query(long memberId, long recipeId)
+		public Query(long memberId, long productId)
 		{
 			MemberId = memberId;
-			RecipeId = recipeId;
+			ProductId = productId;
 		}
 	}
 
@@ -28,11 +28,11 @@ public class ListRecipeImages
 
 		public async Task<List<ImageModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
-			if (await db.HasRecipePermission(request.RecipeId, request.MemberId, PermissionLevels.Read))
+			if (await db.HasProductPermission(request.ProductId, request.MemberId, PermissionLevels.Read))
 			{
-				return await mapper.ProjectTo<ImageModel>(db.RecipeImages
+				return await mapper.ProjectTo<ImageModel>(db.ProductImages
 					.AsNoTracking()
-					.Where(x => x.RecipeId == request.RecipeId)
+					.Where(x => x.ProductId == request.ProductId)
 					.OrderBy(x => x.SortOrder))
 					.ToListAsync(cancellationToken) ?? [];
 			}

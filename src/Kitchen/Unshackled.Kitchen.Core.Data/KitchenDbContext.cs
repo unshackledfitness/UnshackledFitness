@@ -25,6 +25,7 @@ public class KitchenDbContext : BaseDbContext
 	public DbSet<ProductBundleItemEntity> ProductBundleItems => Set<ProductBundleItemEntity>();
 	public DbSet<ProductBundleEntity> ProductBundles => Set<ProductBundleEntity>();
 	public DbSet<ProductCategoryEntity> ProductCategories => Set<ProductCategoryEntity>();
+	public DbSet<ProductImageEntity> ProductImages => Set<ProductImageEntity>();
 	public DbSet<ProductEntity> Products => Set<ProductEntity>();
 	public DbSet<ProductSubstitutionEntity> ProductSubstitutions => Set<ProductSubstitutionEntity>();
 	public DbSet<RecipeEntity> Recipes => Set<RecipeEntity>();
@@ -54,9 +55,11 @@ public class KitchenDbContext : BaseDbContext
 		builder.ApplyConfiguration(new ProductBundleEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ProductBundleItemEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ProductCategoryEntity.TypeConfiguration());
+		builder.ApplyConfiguration(new ProductImageEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ProductEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ProductSubstitutionEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new RecipeEntity.TypeConfiguration());
+		builder.ApplyConfiguration(new RecipeImageEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new RecipeIngredientGroupEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new RecipeIngredientEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new RecipeNoteEntity.TypeConfiguration());

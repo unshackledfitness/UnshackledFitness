@@ -56,15 +56,16 @@
 	<ListView TItem="ProductListModel" Items="@SearchResults.Data" IsLoading="@IsLoading" TotalItems="@SearchResults.Total" Page="@SearchModel.Page"
 	PageSize="SearchModel.PageSize" PageSelected="@HandlePageSelected">
 		<ItemRenderer>
-			<div class="d-flex gap-2 align-start flex-row">
+			<div class="d-flex gap-2 align-center flex-row">
 				@if (CanEdit)
 				{
-					<div>
+					<div class="align-self-start">
 						<MudCheckBox T="bool" Disabled="@DisableCheckbox(context.Item.Sid)" Value="@SelectedSids.Contains(context.Item.Sid)"
 						ValueChanged="@((bool value) => HandleCheckboxChanged(value, context.Item.Sid))" />
 					</div>
 				}
-				<div class="flex-grow-1 align-self-center">
+				<MultipleImageComponent BaseUrl="@StorageSettings.BaseUrl" Images="@context.Item.Images" GalleryTitle="Product Images" Width="50" AspectRatio="AspectRatios.R1x1" />
+				<div class="flex-grow-1">
 					@if (!string.IsNullOrEmpty(context.Item.Category))
 					{
 						<MudText Typo="Typo.caption" Class="d-block" Color="Color.Tertiary">@context.Item.Category</MudText>

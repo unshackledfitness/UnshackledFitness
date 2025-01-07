@@ -13,20 +13,20 @@ using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Server.Extensions;
 using Unshackled.Studio.Core.Server.Services;
 
-namespace Unshackled.Kitchen.My.Features.Recipes.Actions;
+namespace Unshackled.Kitchen.My.Features.Products.Actions;
 
 public class UploadImage
 {
 	public class Command : IRequest<CommandResult<ImageModel>>
 	{
 		public long MemberId { get; private set; }
-		public long RecipeId { get; private set; }
+		public long ProductId { get; private set; }
 		public IFormFile File { get; private set; }
 
-		public Command(long memberId, long recipeId, IFormFile file)
+		public Command(long memberId, long productId, IFormFile file)
 		{
 			MemberId = memberId;
-			RecipeId = recipeId;
+			ProductId = productId;
 			File = file;
 		}
 	}
@@ -44,10 +44,10 @@ public class UploadImage
 
 		public async Task<CommandResult<ImageModel>> Handle(Command request, CancellationToken cancellationToken)
 		{			
-			if (request.RecipeId == 0)
-				return new CommandResult<ImageModel>(false, "Invalid recipe ID.");
+			if (request.ProductId == 0)
+				return new CommandResult<ImageModel>(false, "Invalid product ID.");
 
-			if (!await db.HasRecipePermission(request.RecipeId, request.MemberId, PermissionLevels.Write))
+			if (!await db.HasProductPermission(request.ProductId, request.MemberId, PermissionLevels.Write))
 				return new CommandResult<ImageModel>(false, KitchenGlobals.PermissionError);
 
 			long maxFileSize = storageSettings.MaxUploadInMb * 1024 * 1024;
@@ -63,18 +63,18 @@ public class UploadImage
 					return new CommandResult<ImageModel>(false, isVerified.Message);
 			}
 
-			var recipe = await db.Recipes
-				.Where(x => x.Id == request.RecipeId)
+			var product = await db.Products
+				.Where(x => x.Id == request.ProductId)
 				.SingleOrDefaultAsync(cancellationToken);
 
-			if (recipe == null)
-				return new CommandResult<ImageModel>(false, "Invalid recipe.");
+			if (product == null)
+				return new CommandResult<ImageModel>(false, "Invalid product.");
 
 			long fileSize = request.File.Length;
 			string mimeType = request.File.ContentType;
 			string imageUid = Guid.NewGuid().ToString();
 			string fileName = $"{imageUid}.jpg";
-			string relativePath = string.Format(KitchenGlobals.Paths.RecipeImageFile, recipe.HouseholdId.Encode(), recipe.Id.Encode(), fileName);
+			string relativePath = string.Format(KitchenGlobals.Paths.ProductImageFile, product.HouseholdId.Encode(), product.Id.Encode(), fileName);
 
 			byte[] imageBytes;
 			using (var stream = new MemoryStream())
@@ -84,33 +84,33 @@ public class UploadImage
 			}
 
 			// Resize image if necessary
-			imageBytes = imageBytes.ResizeJpegTo(KitchenGlobals.MaxImageWidth, AspectRatios.R16x9.Ratio());
+			imageBytes = imageBytes.ResizeJpegTo(KitchenGlobals.MaxImageWidth, AspectRatios.R1x1.Ratio());
 
 			var result = await fileService.SaveFile(storageSettings.Container, relativePath, mimeType, imageBytes, CancellationToken.None);
 			if (result.Success)
 			{
-				bool hasFeatured = await db.RecipeImages
-					.Where(x => x.RecipeId == recipe.Id && x.IsFeatured == true)
+				bool hasFeatured = await db.ProductImages
+					.Where(x => x.ProductId == product.Id && x.IsFeatured == true)
 					.AnyAsync(cancellationToken);
 
-				int sortOrder = await db.RecipeImages
-					.Where(x => x.RecipeId == recipe.Id)
+				int sortOrder = await db.ProductImages
+					.Where(x => x.ProductId == product.Id)
 					.OrderByDescending(x => x.SortOrder)
 					.Select(x => x.SortOrder)
 					.FirstOrDefaultAsync(cancellationToken) + 1;
 
-				RecipeImageEntity image = new()
+				ProductImageEntity image = new()
 				{
 					Container = storageSettings.Container,
 					FileSize = fileSize,
-					HouseholdId = recipe.HouseholdId,
+					HouseholdId = product.HouseholdId,
 					IsFeatured = !hasFeatured,
 					MimeType = mimeType,
-					RecipeId = recipe.Id,
+					ProductId = product.Id,
 					RelativePath = relativePath,
 					SortOrder = sortOrder,
 				};
-				db.RecipeImages.Add(image);
+				db.ProductImages.Add(image);
 				await db.SaveChangesAsync(cancellationToken);
 
 				return new CommandResult<ImageModel>(true, "Image added.", mapper.Map<ImageModel>(image));

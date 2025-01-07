@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Unshackled.Kitchen.Core.Data.Entities;
 using Unshackled.Kitchen.My.Client.Features.ProductBundles.Models;
+using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Kitchen.My.Features.ProductBundles;
@@ -23,6 +24,8 @@ public class MappingProfile : Profile
 			.ForMember(d => d.Title, m => m.MapFrom(s => s.Product != null ? s.Product.Title : null));
 		CreateMap<ProductEntity, ProductListModel>()
 			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()))
-			.ForMember(d => d.Category, m => m.MapFrom(s => s.Category != null ? s.Category.Title : null)); ;
+			.ForMember(d => d.Category, m => m.MapFrom(s => s.Category != null ? s.Category.Title : null));
+		CreateMap<ProductImageEntity, ImageModel>()
+			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()));
 	}
 }

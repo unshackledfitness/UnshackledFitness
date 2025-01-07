@@ -1,9 +1,11 @@
-﻿<div class="multiple-image-component">
-	<MudImage Fluid="true" Class="rounded-lg" Src="@FeaturedImage.ImageUrl(BaseUrl)" />
-	@if (Images.Count > 0)
-	{
-		<MudIconButton Icon="@Icons.Material.Filled.PhotoLibrary" OnClick="@(() => HandleViewAllClicked())" />
-	}
+﻿<div class="multiple-image-component" style="@GetStyle()">
+	<MudLink OnClick="@(() => HandleViewAllClicked())">
+		<MudImage Fluid="true" Class="rounded-lg" Src="@FeaturedImage.ImageUrl(BaseUrl)" />
+		@if (Images.Count > 1)
+		{
+			<MudIconButton Icon="@Icons.Material.Filled.PhotoLibrary" />
+		}
+	</MudLink>
 </div>
 
 @code {
@@ -11,35 +13,52 @@
 
 	[Parameter]
 	public string BaseUrl { get; set; } = string.Empty;
-
 	[Parameter]
 	public string GalleryTitle { get; set; } = "Image Gallery";
-
-	[Parameter] 
+	[Parameter]
 	public List<ImageModel> Images { get; set; } = [];
+	[Parameter]
+	public int Width { get; set; }
+	[Parameter]
+	public AspectRatios AspectRatio { get; set; } = AspectRatios.R16x9;
 
-	protected ImageModel FeaturedImage => Images.Where(x => x.IsFeatured == true).FirstOrDefault() ?? ImageModel.Default();
+	protected ImageModel FeaturedImage => Images.Where(x => x.IsFeatured == true).FirstOrDefault() ?? ImageModel.Default(AspectRatio);
 
+	protected string GetStyle()
+	{
+		if (Width > 0)
+		{
+			int height = (int)Math.Floor((double)Width / AspectRatio.Ratio());
+			return $"width:{Width}px;height:{height}px;";
+		}
+		else 
+		{
+			return $"width:auto;height:auto;";
+		}
+	}
 
 	protected async Task HandleViewAllClicked()
 	{
-		var options = new DialogOptions
+		if (Images.Count > 0)
 		{
-			BackgroundClass = "bg-blur",
-			FullScreen = false,
-			FullWidth = false,
-			CloseButton = true,
-			CloseOnEscapeKey = true,
-			MaxWidth = MaxWidth.ExtraLarge
-		};
+			var options = new DialogOptions
+				{
+					BackgroundClass = "bg-blur",
+					FullScreen = false,
+					FullWidth = false,
+					CloseButton = true,
+					CloseOnEscapeKey = true,
+					MaxWidth = MaxWidth.ExtraLarge
+				};
 
-		var parameters = new DialogParameters
-		{
-			{ nameof(DialogPhotoViewer.Images), Images },
-			{ nameof(DialogPhotoViewer.BaseUrl), BaseUrl }
-		};
+			var parameters = new DialogParameters
+			{
+				{ nameof(DialogPhotoViewer.Images), Images },
+				{ nameof(DialogPhotoViewer.BaseUrl), BaseUrl }
+			};
 
-		var dialog = await DialogService.ShowAsync<DialogPhotoViewer>(GalleryTitle, parameters, options);
-		var result = await dialog.Result;
+			var dialog = await DialogService.ShowAsync<DialogPhotoViewer>(GalleryTitle, parameters, options);
+			var result = await dialog.Result;
+		}
 	}
 }

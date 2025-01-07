@@ -152,6 +152,8 @@ public class ProductEntity : BaseHouseholdEntity, INutrition
 	public NutritionUnits ZincUnit { get; set; } = NutritionUnits.mg;
 	public decimal ZincN { get; set; }
 
+	public virtual List<ProductImageEntity> Images { get; set; } = [];
+
 	public class TypeConfiguration : BaseHouseholdEntityTypeConfiguration<ProductEntity>, IEntityTypeConfiguration<ProductEntity>
 	{
 		public override void Configure(EntityTypeBuilder<ProductEntity> config)

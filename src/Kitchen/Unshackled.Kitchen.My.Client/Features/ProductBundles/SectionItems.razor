@@ -18,7 +18,7 @@
 						<MudText Typo="Typo.h5">@context.Item.Quantity.ToString()</MudText>
 					</CaptionedProperty>
 				</div>
-				<MudDivider FlexItem="true" Vertical="true" />				
+				<MultipleImageComponent BaseUrl="@StorageSettings.BaseUrl" Images="@context.Item.Images" GalleryTitle="Product Images" Width="50" AspectRatio="AspectRatios.R1x1" />
 				<div class="flex-grow-1 align-self-center">
 					@if (!string.IsNullOrEmpty(context.Item.Brand))
 					{

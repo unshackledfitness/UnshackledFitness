@@ -5,11 +5,13 @@ using Unshackled.Kitchen.Core.Models;
 using Unshackled.Kitchen.My.Client.Features.ProductBundles.Actions;
 using Unshackled.Kitchen.My.Client.Features.ProductBundles.Models;
 using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Studio.Core.Client.Configuration;
 
 namespace Unshackled.Kitchen.My.Client.Features.ProductBundles;
 
 public class SectionItemsBase : BaseSectionComponent<Member>
 {
+	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
 	protected enum Views
 	{
 		None,

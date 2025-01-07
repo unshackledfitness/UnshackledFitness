@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using Unshackled.Kitchen.Core.Models;
 using Unshackled.Studio.Core.Client.Models;
 
@@ -22,9 +21,13 @@ public class FormListItemModel : IGroupedSortable, ICloneable
 	public bool IsInCart { get; set; }
 
 	public List<RecipeAmountListModel> RecipeAmounts { get; set; } = [];
+	public List<ImageModel> Images { get; set; } = [];
 
 	[JsonIgnore]
 	public bool IsSaving { get; set; } = false;
+
+	[JsonIgnore]
+	public ImageModel FeaturedImage => Images.Where(x => x.IsFeatured == true).FirstOrDefault() ?? ImageModel.Default();
 
 	public object Clone()
 	{
@@ -45,6 +48,7 @@ public class FormListItemModel : IGroupedSortable, ICloneable
 			IsInCart = IsInCart,
 			IsSaving = IsSaving,
 			RecipeAmounts = RecipeAmounts,
+			Images = Images
 		};
 	}
 }
