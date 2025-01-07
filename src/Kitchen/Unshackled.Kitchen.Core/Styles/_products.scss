@@ -1,0 +1,16 @@
+﻿/// <reference path="./styles.scss" />
+
+.product-thumbnail {
+	width: 50px;
+	min-width: 50px;
+
+	@media (min-width: $breakpoint-sm-min) {
+		width: 70px;
+		min-width: 70px;
+	}
+
+	@media (min-width: $breakpoint-md-min) {
+		width: 90px;
+		min-width: 90px;
+	}
+}
