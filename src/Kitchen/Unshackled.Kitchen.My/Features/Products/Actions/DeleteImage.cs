@@ -65,25 +65,38 @@ public class DeleteImage
 				db.ProductImages.Remove(productImage);
 				await db.SaveChangesAsync(cancellationToken);
 
-				// Adjust sort order for images after current
-				await db.ProductImages
-					.Where(x => x.SortOrder > productImage.SortOrder)
-					.UpdateFromQueryAsync(x => new ProductImageEntity { SortOrder = x.SortOrder - 1 }, cancellationToken);
+				int imgCount = await db.ProductImages
+					.Where(x => x.ProductId == productImage.ProductId)
+					.CountAsync(cancellationToken);
 
 				string nfSid = string.Empty;
-				if (productImage.IsFeatured)
+				
+				if (imgCount > 0)
 				{
-					var newFeatured = await db.ProductImages
-						.Where(x => x.ProductId == productImage.ProductId)
-						.OrderBy(x => x.SortOrder)
-						.FirstOrDefaultAsync(cancellationToken);
+					// Adjust sort order for images after current
+					await db.ProductImages
+						.Where(x => x.ProductId == productImage.ProductId && x.SortOrder > productImage.SortOrder)
+						.UpdateFromQueryAsync(x => new ProductImageEntity { SortOrder = x.SortOrder - 1 }, cancellationToken);
 
-					if (newFeatured != null)
+					if (productImage.IsFeatured)
 					{
-						newFeatured.IsFeatured = true;
-						await db.SaveChangesAsync(cancellationToken);
-						nfSid = newFeatured.Id.Encode();
+						var newFeatured = await db.ProductImages
+							.Where(x => x.ProductId == productImage.ProductId)
+							.OrderBy(x => x.SortOrder)
+							.FirstOrDefaultAsync(cancellationToken);
+
+						if (newFeatured != null)
+						{
+							newFeatured.IsFeatured = true;
+							await db.SaveChangesAsync(cancellationToken);
+							nfSid = newFeatured.Id.Encode();
+						}
 					}
+				}
+				else
+				{
+					string productImageDir = string.Format(KitchenGlobals.Paths.ProductImageDir, productImage.HouseholdId.Encode(), productImage.ProductId.Encode());
+					await fileService.DeleteDirectory(productImage.Container, productImageDir, cancellationToken);
 				}
 
 				await transaction.CommitAsync(cancellationToken);

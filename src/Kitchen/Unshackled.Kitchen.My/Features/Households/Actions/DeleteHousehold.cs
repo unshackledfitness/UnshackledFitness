@@ -118,6 +118,10 @@ public class DeleteHousehold
 					.Where(x => x.HouseholdId == householdId)
 					.DeleteFromQueryAsync(cancellationToken);
 
+				await db.ProductImages
+					.Where(x => x.HouseholdId == householdId)
+					.DeleteFromQueryAsync(cancellationToken);
+
 				await db.Products
 					.Where(x => x.HouseholdId == householdId)
 					.DeleteFromQueryAsync(cancellationToken);

@@ -6,8 +6,10 @@ using Unshackled.Kitchen.Core.Data;
 using Unshackled.Kitchen.Core.Data.Entities;
 using Unshackled.Kitchen.Core.Enums;
 using Unshackled.Kitchen.My.Extensions;
+using Unshackled.Studio.Core.Client.Configuration;
 using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Studio.Core.Server.Services;
 
 namespace Unshackled.Kitchen.My.Features.Products.Actions;
 
@@ -31,7 +33,14 @@ public class MergeProducts
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(KitchenDbContext db, IMapper mapper) : base(db, mapper) { }
+		private readonly StorageSettings storageSettings;
+		private readonly IFileStorageService fileService;
+
+		public Handler(KitchenDbContext db, IMapper mapper, StorageSettings storageSettings, IFileStorageService fileService) : base(db, mapper)
+		{
+			this.storageSettings = storageSettings;
+			this.fileService = fileService;
+		}
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -60,6 +69,13 @@ public class MergeProducts
 				{
 					try
 					{
+						/********************************************
+						 * Product Bundle Items
+						 * *****************************************/
+						await db.ProductBundleItems
+							.Where(x => x.ProductId == deletedProduct.Id)
+							.UpdateFromQueryAsync(x => new ProductBundleItemEntity { ProductId = keptId }, cancellationToken);
+
 						/********************************************
 						 * Product Substitutions
 						 * *****************************************/
@@ -229,9 +245,50 @@ public class MergeProducts
 						}
 
 						/********************************************
+						 * Product Images
+						 * *****************************************/
+						int keptCount = await db.ProductImages
+							.Where(x => x.ProductId == keptProduct.Id)
+							.CountAsync(cancellationToken);
+
+						var images = await db.ProductImages
+							.Where(x => x.ProductId == deletedProduct.Id)
+							.ToListAsync(cancellationToken);
+
+						bool shouldDeleteDir = true;
+						foreach (var image in images)
+						{
+							keptCount++;
+							image.ProductId = keptProduct.Id;
+							image.IsFeatured = keptCount == 1;
+							image.SortOrder = keptCount;
+
+							string newPath = image.RelativePath.Replace($"products/{deletedProduct.Id.Encode()}", $"products/{keptProduct.Id.Encode()}");
+							bool success = await fileService.CopyFile(image.Container, image.RelativePath, image.Container, newPath, cancellationToken);
+							if (success)
+							{
+								await fileService.DeleteFile(image.Container, image.RelativePath, cancellationToken);
+								image.RelativePath = newPath;
+							}
+							else
+							{
+								shouldDeleteDir = false;
+							}
+
+							await db.SaveChangesAsync(cancellationToken);
+						}
+
+						if (shouldDeleteDir)
+						{
+							string productImageDir = string.Format(KitchenGlobals.Paths.ProductImageDir, deletedProduct.HouseholdId.Encode(), deletedProduct.Id.Encode());
+							await fileService.DeleteDirectory(storageSettings.Container, productImageDir, cancellationToken);
+						}
+
+						/********************************************
 						 * FINAL Remove Product
 						 * *****************************************/
-						await db.Products.Where(x => x.Id == deletedId)
+						await db.Products
+							.Where(x => x.Id == deletedId)
 							.DeleteFromQueryAsync(cancellationToken);
 
 						// Commit transaction if all commands succeed, transaction will auto-rollback
@@ -240,10 +297,10 @@ public class MergeProducts
 
 						return new CommandResult(true, "Products successfully merged.");
 					}
-					catch
+					catch (Exception ex)
 					{
 						await transaction.RollbackAsync(cancellationToken);
-						return new CommandResult(false, "An error occurred while processing the merge.");
+						return new CommandResult(false, ex.Message);
 					}
 				}
 			}
