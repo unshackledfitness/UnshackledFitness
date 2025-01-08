@@ -23,4 +23,16 @@ public class MySqlServerDbContext : KitchenDbContext
 			});
 		}
 	}
+
+	public static MySqlServerDbContext Create(string connString, string tablePrefix)
+	{
+		var ob = new DbContextOptionsBuilder<MySqlServerDbContext>();
+		ConnectionStrings connStrings = new() { DefaultDatabase = connString };
+		DbConfiguration dbConfig = new()
+		{
+			DatabaseType = DbConfiguration.MYSQL,
+			TablePrefix = tablePrefix
+		};
+		return new MySqlServerDbContext(ob.Options, connStrings, dbConfig);
+	}
 }

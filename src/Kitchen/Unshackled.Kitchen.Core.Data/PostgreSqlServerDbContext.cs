@@ -31,4 +31,16 @@ public class PostgreSqlServerDbContext : KitchenDbContext
 			});
 		}
 	}
+
+	public static PostgreSqlServerDbContext Create(string connString, string tablePrefix)
+	{
+		var ob = new DbContextOptionsBuilder<PostgreSqlServerDbContext>();
+		ConnectionStrings connStrings = new() { DefaultDatabase = connString };
+		DbConfiguration dbConfig = new()
+		{
+			DatabaseType = DbConfiguration.POSTGRESQL,
+			TablePrefix = tablePrefix
+		};
+		return new PostgreSqlServerDbContext(ob.Options, connStrings, dbConfig);
+	}
 }

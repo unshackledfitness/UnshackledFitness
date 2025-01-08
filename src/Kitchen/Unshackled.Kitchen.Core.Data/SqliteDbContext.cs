@@ -23,4 +23,16 @@ public class SqliteDbContext : KitchenDbContext
 			});
 		}
 	}
+
+	public static SqliteDbContext Create(string connString, string tablePrefix)
+	{
+		var ob = new DbContextOptionsBuilder<SqliteDbContext>();
+		ConnectionStrings connStrings = new() { DefaultDatabase = connString };
+		DbConfiguration dbConfig = new()
+		{
+			DatabaseType = DbConfiguration.SQLITE,
+			TablePrefix = tablePrefix
+		};
+		return new SqliteDbContext(ob.Options, connStrings, dbConfig);
+	}
 }

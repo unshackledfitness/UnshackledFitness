@@ -23,4 +23,16 @@ public class MsSqlServerDbContext : KitchenDbContext
 			});
 		}
 	}
+
+	public static MsSqlServerDbContext Create(string connString, string tablePrefix)
+	{
+		var ob = new DbContextOptionsBuilder<MsSqlServerDbContext>();
+		ConnectionStrings connStrings = new() { DefaultDatabase = connString };
+		DbConfiguration dbConfig = new()
+		{
+			DatabaseType = DbConfiguration.MSSQL,
+			TablePrefix = tablePrefix
+		};
+		return new MsSqlServerDbContext(ob.Options, connStrings, dbConfig);
+	}
 }
