@@ -3,11 +3,32 @@
 <EditForm Model="@Model" OnValidSubmit="HandleFormSubmitted">
 	<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
 	<MudTextField Label="Ingredients (One per line)" Variant="Variant.Outlined" FullWidth="true" AutoFocus="true" Disabled="@DisableControls" Margin="Margin.Dense" Lines="15"
-					@bind-Value="@Model.BulkText" For="@(() => Model.BulkText)" />
+					@bind-Value="@Model.BulkText" For="@(() => Model.BulkText)" DebounceInterval="300" OnDebounceIntervalElapsed="@HandlePreview" />
 	<MudToolBar Gutters="false" Class="mt-3">
 		<MudSpacer />
 		<MudButton Variant="Variant.Filled" Color="Color.Secondary" ButtonType="ButtonType.Submit" Disabled="@DisableControls">Add</MudButton>
 		<MudButton Variant="Variant.Outlined" Color="Color.Secondary" Disabled="@DisableControls" OnClick="@(() => HandleCancelClicked())">Cancel</MudButton>
 		<MudSpacer />
 	</MudToolBar>
+
+	@if (PreviewIngredients.Count > 0) 
+	{
+		<MudText Typo="Typo.subtitle1" Class="mt-6">Ingredient Parsing Preview</MudText>
+		<ListView Items="@PreviewIngredients" Class="mt-4">
+			<ItemRenderer Context="ctx">
+				<MudText>
+					<IngredientText Amount="@(ctx.Item.Amount)" AmountLabel="@ctx.Item.AmountLabel" Title="@ctx.Item.Title" PrepNote="@ctx.Item.PrepNote" />
+				</MudText>					
+			</ItemRenderer>
+		</ListView>
+	}
+
+	<MudText Typo="Typo.subtitle1" Class="mt-6 mb-2">Format Help</MudText>
+	<MudText Typo="Typo.body1" Class="mb-2">
+		<span style="color: var(--mud-palette-success);">{amount}</span> <span style="color: var(--mud-palette-warning);">{unit}</span> {ingredient name}<span style="color: var(--mud-palette-info);">, {prep notes}</span>
+	</MudText>
+	<MudText Typo="Typo.body2" Class="d-block">
+		Example: <span style="color: var(--mud-palette-success);">1</span> <span style="color: var(--mud-palette-warning);">cup</span> bread flour<span style="color: var(--mud-palette-info);">, sifted</span></MudText>
+	<MudText Typo="Typo.body2" Class="d-block" Color="Color.Tertiary">Use an underscore (_) to skip the unit.</MudText>
+	<MudText Typo="Typo.body2" Class="d-block" Color="Color.Tertiary">Prep notes are optional.</MudText>
 </EditForm>

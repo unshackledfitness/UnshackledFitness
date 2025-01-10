@@ -100,6 +100,9 @@ public static class MeasurementUnitsExtensions
 			{ "nip", MeasurementUnits.nip }
 		};
 
+		if (value == "T")
+			return MeasurementUnits.Tbsp;
+
 		foreach (var key in unitList.Keys)
 		{
 			if (key.ToLower() == value.ToLower())
