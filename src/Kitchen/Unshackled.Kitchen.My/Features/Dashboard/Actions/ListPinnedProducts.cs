@@ -34,6 +34,7 @@ public class ListPinnedProducts
 			return await mapper.ProjectTo<PinnedProductModel>(db.Products
 				.AsNoTracking()
 				.Include(x => x.Category)
+				.Include(x => x.Images.Where(y => y.ProductId == x.Id && y.IsFeatured == true))
 				.Where(x => x.HouseholdId == request.HouseholdId && x.IsPinned == true && x.IsArchived == false)
 				.OrderBy(x => x.Title))
 				.ToListAsync(cancellationToken);

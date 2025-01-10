@@ -34,15 +34,20 @@
 				<ListView Items="@FilteredProducts">
 					<ItemRenderer>
 						<MudLink Typo="Typo.subtitle1" OnClick="@(() => HandleAddToListClicked(context.Item.Sid))" Underline="Underline.None">
-							@if (!string.IsNullOrEmpty(context.Item.Brand))
-							{
-								<MudText Typo="Typo.body2" Color="Color.Tertiary">@context.Item.Brand</MudText>
-							}
-							<MudText Typo="Typo.body1" Color="Color.Primary">@context.Item.Title</MudText>
-							@if (!string.IsNullOrEmpty(context.Item.Description))
-							{
-								<MudText Typo="Typo.caption" Color="Color.Tertiary">@context.Item.Description</MudText>
-							}
+							<div class="d-flex flex-row gap-2 align-center">
+								<MultipleImageComponent BaseUrl="@StorageSettings.BaseUrl" Class="product-thumbnail-50" Images="@context.Item.Images" GalleryTitle="Product Image" AspectRatio="AspectRatios.R1x1" />
+								<div>
+									@if (!string.IsNullOrEmpty(context.Item.Brand))
+									{
+										<MudText Typo="Typo.body2" Color="Color.Tertiary">@context.Item.Brand</MudText>
+									}
+									<MudText Typo="Typo.body1" Color="Color.Primary">@context.Item.Title</MudText>
+									@if (!string.IsNullOrEmpty(context.Item.Description))
+									{
+										<MudText Typo="Typo.caption" Color="Color.Tertiary">@context.Item.Description</MudText>
+									}
+								</div>
+							</div>
 						</MudLink>
 					</ItemRenderer>
 				</ListView>
