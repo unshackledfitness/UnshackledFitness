@@ -101,6 +101,7 @@ internal class KitchenMigrator : BaseMigrator<KitchenDbContext>
 		await MigrateDbSet(dbLegacy.RecipeIngredients, dbNew.RecipeIngredients, "Recipe Ingredients");
 		await MigrateDbSet(dbLegacy.RecipeSteps, dbNew.RecipeSteps, "Recipe Steps");
 		await MigrateDbSet(dbLegacy.RecipeNotes, dbNew.RecipeNotes, "Recipe Notes");
+		await MigrateDbSet(dbLegacy.RecipeImages, dbNew.RecipeImages, "Recipe Images");
 		await MigrateRecipeTags("Recipe Tags");
 		await MigrateProductSubstitutions("Product Substitutions");
 		await MigrateDbSet(dbLegacy.Stores, dbNew.Stores, "Stores");
