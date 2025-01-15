@@ -3,17 +3,20 @@
 
 <DynamicPageTitle Title="Dashboard" />
 
-<div class="d-flex align-center mb-6 gap-3 flex-row flex-wrap justify-center">
-	<DashboardTile Href="/cookbooks" Icon="@Icons.Material.Filled.CollectionsBookmark" Title="Cookbooks" />
-	<DashboardTile Href="/households" Icon="@Icons.Material.Filled.Groups" Title="Households" />
-	<DashboardTile Href="/recipes" Icon="@Icons.Material.Filled.Dining" Title="Recipes" />
-	<DashboardTile Href="/shopping-lists" Icon="@Icons.Material.Filled.ShoppingBag" Title="Shopping Lists" />
-</div>
-
-<MudGrid Spacing="4" Justify="Justify.SpaceAround">
+<MudGrid Spacing="6" Justify="Justify.SpaceAround">
+	<MudItem xs="12" sm="8" md="12">
+		<div class="d-flex align-center gap-2 flex-row flex-wrap justify-center">
+			<DashboardTile Typo="Typo.body2" Href="/cookbooks" Icon="@Icons.Material.Filled.CollectionsBookmark" Title="Cookbooks" />
+			<DashboardTile Typo="Typo.body2" Href="/households" Icon="@Icons.Material.Filled.Groups" Title="Households" />
+			<DashboardTile Typo="Typo.body2" Href="/recipes" Icon="@Icons.Material.Filled.Dining" Title="Recipes" />
+			<DashboardTile Typo="Typo.body2" Href="/shopping-lists" Icon="@Icons.Material.Filled.ShoppingBag" Title="Shopping Lists" />
+			<DashboardTile Typo="Typo.body2" Href="/products" Icon="@Icons.Material.Filled.ShoppingBasket" Title="Products" />
+			<DashboardTile Typo="Typo.body2" Href="/stores" Icon="@Icons.Material.Filled.Store" Title="Stores" />
+		</div>
+	</MudItem>
 	@if (PinnedCategories.Count > 0)
 	{
-		<MudItem xs="12" md="6">
+		<MudItem xs="12" sm="8" md="8">
 			<MudText Typo="Typo.body2" Color="Color.Tertiary">Pinned Products</MudText>
 			@if (string.IsNullOrEmpty(SelectedCategorySid))
 			{

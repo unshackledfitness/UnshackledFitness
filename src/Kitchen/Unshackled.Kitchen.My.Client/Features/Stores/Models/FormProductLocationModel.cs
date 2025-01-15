@@ -11,6 +11,7 @@ public class FormProductLocationModel : ISortable, ICloneable
 	public string Title { get; set; } = string.Empty;
 	public string? Description { get; set; }
 	public int SortOrder { get; set; }
+	public List<ImageModel> Images { get; set; } = [];
 
 	public object Clone()
 	{
@@ -22,7 +23,8 @@ public class FormProductLocationModel : ISortable, ICloneable
 			Brand = Brand,
 			Title = Title,
 			Description = Description,
-			SortOrder = SortOrder
+			SortOrder = SortOrder,
+			Images = Images
 		};
 	}
 }

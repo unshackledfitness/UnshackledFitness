@@ -6,11 +6,14 @@ using Unshackled.Kitchen.My.Client.Extensions;
 using Unshackled.Kitchen.My.Client.Features.Stores.Actions;
 using Unshackled.Kitchen.My.Client.Features.Stores.Models;
 using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Studio.Core.Client.Configuration;
 
 namespace Unshackled.Kitchen.My.Client.Features.Stores;
 
 public class SingleLocationBase : BaseComponent<Member>, IAsyncDisposable
 {
+	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
+
 	protected enum Views
 	{
 		None,
