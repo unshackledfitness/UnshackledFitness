@@ -1,0 +1,35 @@
+﻿@inherits DrawerAddToListBase
+
+@if (IsSelecting)
+{
+	<MudText Typo="Typo.h6">Choose A Shopping List</MudText>
+	<ListView TItem="ShoppingListModel" Items="@ShoppingLists" IsLoading="@IsLoading">
+		<ItemRenderer>
+			<div class="d-flex flex-row gap-2 align-center">
+				<div>
+					<MudIconButton Icon="@Icons.Material.Filled.AddCircle" Color="Color.Secondary" Size="Size.Small" Disabled="@IsWorking" OnClick="@(() => HandleAddClicked(context.Item.Sid))" />
+				</div>
+				<div class="flex-grow-1 align-self-center">
+					<MudText Typo="Typo.body1" Class="d-block">@context.Item.Title</MudText>
+					@if (!string.IsNullOrEmpty(context.Item.Description))
+					{
+						<MudText Typo="Typo.body2" Color="Color.Tertiary">@context.Item.Description</MudText>
+					}
+				</div>
+			</div>
+		</ItemRenderer>
+		<EmptyListRenderer>
+			<MudText Align="Align.Center" Class="mt-4">No shopping lists were found.</MudText>
+		</EmptyListRenderer>
+	</ListView>
+}
+else
+{
+	<RecipeListBuilder IsLoading="@IsWorking" Items="@Items">
+		<ActionToolbar>
+			<MudSpacer />
+			<MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@HandleAddToListClicked">Finish</MudButton>
+			<MudSpacer />
+		</ActionToolbar>
+	</RecipeListBuilder>
+}

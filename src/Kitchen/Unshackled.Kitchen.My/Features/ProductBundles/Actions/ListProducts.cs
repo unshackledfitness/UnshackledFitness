@@ -15,10 +15,10 @@ public class ListProducts
 		public long MemberId { get; private set; }
 		public long ProductBundleId { get; private set; }
 
-		public Query(long memberId, long shoppingListId)
+		public Query(long memberId, long productBundleId)
 		{
 			MemberId = memberId;
-			ProductBundleId = shoppingListId;
+			ProductBundleId = productBundleId;
 		}
 	}
 
@@ -35,7 +35,7 @@ public class ListProducts
 					.Include(x => x.Product)
 					.Where(x => x.ProductBundleId == request.ProductBundleId)
 					.OrderBy(x => x.Product.Title))
-					.ToListAsync();
+					.ToListAsync(cancellationToken);
 			}
 			return new();
 		}

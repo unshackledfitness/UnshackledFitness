@@ -15,7 +15,7 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -338,6 +338,89 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.HasIndex("MemberId");
 
                     b.ToTable("uk_HouseholdMembers", (string)null);
+                });
+
+            modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.MealDefinitionEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DateCreatedUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DateLastModifiedUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("HouseholdId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DateCreatedUtc");
+
+                    b.HasIndex("DateLastModifiedUtc");
+
+                    b.HasIndex("HouseholdId");
+
+                    b.HasIndex("SortOrder");
+
+                    b.HasIndex("Title");
+
+                    b.ToTable("uk_MealDefinitions", (string)null);
+                });
+
+            modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.MealPlanRecipeEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DateCreatedUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DateLastModifiedUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateOnly>("DatePlanned")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("HouseholdId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long?>("MealDefinitionId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("RecipeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Scale")
+                        .HasPrecision(4, 2)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DateCreatedUtc");
+
+                    b.HasIndex("DateLastModifiedUtc");
+
+                    b.HasIndex("HouseholdId");
+
+                    b.HasIndex("MealDefinitionId");
+
+                    b.HasIndex("RecipeId");
+
+                    b.HasIndex("DatePlanned", "MealDefinitionId");
+
+                    b.ToTable("uk_MealPlanRecipes", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.ProductBundleEntity", b =>
@@ -1897,6 +1980,43 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Navigation("Household");
 
                     b.Navigation("Member");
+                });
+
+            modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.MealDefinitionEntity", b =>
+                {
+                    b.HasOne("Unshackled.Kitchen.Core.Data.Entities.HouseholdEntity", "Household")
+                        .WithMany()
+                        .HasForeignKey("HouseholdId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Household");
+                });
+
+            modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.MealPlanRecipeEntity", b =>
+                {
+                    b.HasOne("Unshackled.Kitchen.Core.Data.Entities.HouseholdEntity", "Household")
+                        .WithMany()
+                        .HasForeignKey("HouseholdId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Unshackled.Kitchen.Core.Data.Entities.MealDefinitionEntity", "MealDefinition")
+                        .WithMany()
+                        .HasForeignKey("MealDefinitionId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Unshackled.Kitchen.Core.Data.Entities.RecipeEntity", "Recipe")
+                        .WithMany()
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Household");
+
+                    b.Navigation("MealDefinition");
+
+                    b.Navigation("Recipe");
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.ProductBundleEntity", b =>

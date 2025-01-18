@@ -5,7 +5,6 @@ using Unshackled.Kitchen.Core;
 using Unshackled.Kitchen.Core.Data;
 using Unshackled.Kitchen.Core.Data.Entities;
 using Unshackled.Kitchen.Core.Enums;
-using Unshackled.Kitchen.Core.Models;
 using Unshackled.Kitchen.My.Client.Features.Recipes.Models;
 using Unshackled.Kitchen.My.Extensions;
 using Unshackled.Studio.Core.Client;
@@ -59,6 +58,10 @@ public class UpdateRecipeProperties
 				recipe.PrepTimeMinutes = request.Model.PrepTimeMinutes;
 				recipe.Title = request.Model.Title.Trim();
 				recipe.TotalServings = request.Model.TotalServings;
+
+				// Mark modified to avoid missing string case changes.
+				db.Entry(recipe).Property(x => x.Title).IsModified = true;
+
 				await db.SaveChangesAsync(cancellationToken);
 
 				// Delete previous tags

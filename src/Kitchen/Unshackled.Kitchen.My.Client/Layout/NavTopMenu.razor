@@ -21,6 +21,7 @@
 
 		<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block ml-4">@ActiveMember.ActiveHousehold.Title Menu</MudText>
 		<MudNavGroup Title="Meal Prep" Icon="@Icons.Material.Filled.Dining" Expanded="@isExpanded[menuMealPrep]" ExpandedChanged="@((bool val) => HandleExpandedChanged(menuMealPrep, val))">
+			<MudNavLink Href="/meal-plan" Match="NavLinkMatch.Prefix">Meal Plan</MudNavLink>
 			<MudNavLink Href="/recipes" Match="NavLinkMatch.Prefix">Recipes</MudNavLink>
 			<MudNavLink Href="/ingredients" Match="NavLinkMatch.Prefix">Ingredients</MudNavLink>
 			<MudNavLink Href="/recipe-tags" Match="NavLinkMatch.Prefix">Recipe Tags</MudNavLink>

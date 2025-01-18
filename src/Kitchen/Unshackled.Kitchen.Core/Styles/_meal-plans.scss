@@ -1,0 +1,14 @@
+﻿/// <reference path="./styles.scss" />
+
+.meal-plan
+{
+	flex-grow: 1;
+
+	.meal-definition {
+		margin-bottom: 1rem;
+	}
+
+	.meal-definition:last-of-type {
+		margin-bottom: 0;
+	}
+}

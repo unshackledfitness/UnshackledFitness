@@ -1,6 +1,6 @@
 ﻿/// <reference path="./styles.scss" />
 
-.product-thumbnail {
+.image-thumbnail {
 	width: 50px;
 	min-width: 50px;
 
@@ -15,7 +15,17 @@
 	}
 }
 
-.product-thumbnail-50 {
+.image-thumbnail-50 {
 	width: 50px;
 	min-width: 50px;
+}
+
+.image-thumbnail-80 {
+	width: 80px;
+	min-width: 80px;
+}
+
+.image-thumbnail-100 {
+	width: 100px;
+	min-width: 100px;
 }

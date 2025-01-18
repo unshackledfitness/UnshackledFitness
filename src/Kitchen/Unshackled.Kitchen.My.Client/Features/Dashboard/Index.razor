@@ -8,10 +8,10 @@
 		<div class="d-flex align-center gap-2 flex-row flex-wrap justify-center">
 			<DashboardTile Typo="Typo.body2" Href="/cookbooks" Icon="@Icons.Material.Filled.CollectionsBookmark" Title="Cookbooks" />
 			<DashboardTile Typo="Typo.body2" Href="/households" Icon="@Icons.Material.Filled.Groups" Title="Households" />
+			<DashboardTile Typo="Typo.body2" Href="/meal-plan" Icon="@Icons.Material.Filled.CalendarMonth" Title="Meal Plan" />
 			<DashboardTile Typo="Typo.body2" Href="/recipes" Icon="@Icons.Material.Filled.Dining" Title="Recipes" />
 			<DashboardTile Typo="Typo.body2" Href="/shopping-lists" Icon="@Icons.Material.Filled.ShoppingBag" Title="Shopping Lists" />
 			<DashboardTile Typo="Typo.body2" Href="/products" Icon="@Icons.Material.Filled.ShoppingBasket" Title="Products" />
-			<DashboardTile Typo="Typo.body2" Href="/stores" Icon="@Icons.Material.Filled.Store" Title="Stores" />
 		</div>
 	</MudItem>
 	@if (PinnedCategories.Count > 0)
@@ -38,7 +38,7 @@
 					<ItemRenderer>
 						<MudLink Typo="Typo.subtitle1" OnClick="@(() => HandleAddToListClicked(context.Item.Sid))" Underline="Underline.None">
 							<div class="d-flex flex-row gap-2 align-center">
-								<MultipleImageComponent BaseUrl="@StorageSettings.BaseUrl" Class="product-thumbnail-50" Images="@context.Item.Images" GalleryTitle="Product Image" AspectRatio="AspectRatios.R1x1" />
+								<MultipleImageComponent BaseUrl="@StorageSettings.BaseUrl" Class="image-thumbnail-50" Images="@context.Item.Images" GalleryTitle="Product Image" AspectRatio="AspectRatios.R1x1" />
 								<div>
 									@if (!string.IsNullOrEmpty(context.Item.Brand))
 									{

@@ -22,6 +22,8 @@ public class KitchenDbContext : BaseDbContext
 	public DbSet<HouseholdEntity> Households => Set<HouseholdEntity>();
 	public DbSet<HouseholdInviteEntity> HouseholdInvites => Set<HouseholdInviteEntity>();
 	public DbSet<HouseholdMemberEntity> HouseholdMembers => Set<HouseholdMemberEntity>();
+	public DbSet<MealDefinitionEntity> MealDefinitions => Set<MealDefinitionEntity>();
+	public DbSet<MealPlanRecipeEntity> MealPlanRecipes => Set<MealPlanRecipeEntity>();
 	public DbSet<ProductBundleItemEntity> ProductBundleItems => Set<ProductBundleItemEntity>();
 	public DbSet<ProductBundleEntity> ProductBundles => Set<ProductBundleEntity>();
 	public DbSet<ProductCategoryEntity> ProductCategories => Set<ProductCategoryEntity>();
@@ -52,6 +54,8 @@ public class KitchenDbContext : BaseDbContext
 		builder.ApplyConfiguration(new HouseholdEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new HouseholdInviteEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new HouseholdMemberEntity.TypeConfiguration());
+		builder.ApplyConfiguration(new MealDefinitionEntity.TypeConfiguration());
+		builder.ApplyConfiguration(new MealPlanRecipeEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ProductBundleEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ProductBundleItemEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new ProductCategoryEntity.TypeConfiguration());

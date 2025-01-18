@@ -36,15 +36,15 @@ public class AddProductBundle
 			if(!await db.HasHouseholdPermission(request.HouseholdId, request.MemberId, PermissionLevels.Write))
 				return new CommandResult<string>(false, KitchenGlobals.PermissionError);
 
-			ProductBundleEntity recipe = new()
+			ProductBundleEntity bundle = new()
 			{
 				HouseholdId = request.HouseholdId,
 				Title = request.Model.Title.Trim()
 			};
-			db.ProductBundles.Add(recipe);
+			db.ProductBundles.Add(bundle);
 			await db.SaveChangesAsync(cancellationToken);
 
-			return new CommandResult<string>(true, "Product bundle created.", recipe.Id.Encode());
+			return new CommandResult<string>(true, "Product bundle created.", bundle.Id.Encode());
 		}
 	}
 }
