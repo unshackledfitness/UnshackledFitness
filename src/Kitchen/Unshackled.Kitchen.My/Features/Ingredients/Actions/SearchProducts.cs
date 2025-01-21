@@ -46,7 +46,7 @@ public class SearchProducts
 				if (keywords.Length > 1)
 					query = query.TitleContains(keywords);
 				else
-					query = query.Where(x => x.Title.Contains(request.Model.Title));
+					query = query.Where(x => EF.Functions.Like(x.Title, $"%{request.Model.Title}%"));
 			}
 
 			result.Total = await query.CountAsync(cancellationToken);

@@ -22,12 +22,13 @@ public static class ProductExtensions
 			.Where(x => x.HouseholdId == householdId && x.MemberId == memberId && x.PermissionLevel >= permission)
 			.AnyAsync();
 	}
+
 	public static IQueryable<ProductEntity> TitleContains(this IQueryable<ProductEntity> query, string[] keywords)
 	{
 		var predicate = PredicateBuilder.New<ProductEntity>();
 
 		foreach (string keyword in keywords)
-			predicate = predicate.Or(x => x.Title.Contains(keyword));
+			predicate = predicate.Or(x => EF.Functions.Like(x.Title, $"%{keyword}%"));
 
 		return query.Where(predicate);
 	}

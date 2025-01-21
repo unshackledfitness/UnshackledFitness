@@ -44,8 +44,11 @@ public class SearchProducts
 				.Include(x => x.Category)
 				.Where(x => x.HouseholdId == request.HouseholdId && x.IsArchived == request.Model.IsArchived);
 
+			if (!string.IsNullOrEmpty(request.Model.Brand))
+				query = query.Where(x => x.Brand != null && EF.Functions.Like(x.Brand, $"%{request.Model.Brand}%"));
+
 			if (!string.IsNullOrEmpty(request.Model.Title))
-				query = query.Where(x => x.Title != null && x.Title.Contains(request.Model.Title));
+				query = query.Where(x => x.Title != null && EF.Functions.Like(x.Title, $"%{request.Model.Title}%"));
 
 			if (!string.IsNullOrEmpty(request.Model.CategorySid))
 			{
