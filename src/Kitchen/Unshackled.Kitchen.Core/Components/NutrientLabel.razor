@@ -8,7 +8,7 @@
 
 	protected MarkupString GetAmountLabel()
 	{
-		var amount = $"<span class=\"amt\">{Amount.ToHtmlFraction()}</span>";
+		var amount = $"<span class=\"amt\">{Amount.ToString("0.##")}</span>";
 		string amountLabel = AmountUnit.HasValue ? $"<span class=\"amt-label\">{AmountUnit.Value.Label()}</span>" : string.Empty;
 
 		return (MarkupString)$"{amount}{amountLabel}";

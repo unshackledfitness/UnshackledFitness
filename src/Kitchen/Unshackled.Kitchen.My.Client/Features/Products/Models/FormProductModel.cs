@@ -158,6 +158,62 @@ public class FormProductModel : INutritionForm
 		return false;
 	}
 
+	public void ConvertToSingleServing(string servingSizeLabel)
+	{
+		decimal scale = ServingsPerContainer;
+
+		AddedSugars = AddedSugars * scale;
+		Biotin = Biotin * scale;
+		Calcium = Calcium * scale;
+		Calories = (int)Math.Ceiling(Calories * scale);
+		CaloriesFromFat = (int)Math.Ceiling(CaloriesFromFat * scale);
+		Chloride = Chloride * scale;
+		Cholesterol = Cholesterol * scale;
+		Choline = Choline * scale;
+		Chromium = Chromium * scale;
+		Copper = Copper * scale;
+		DietaryFiber = DietaryFiber * scale;
+		Folate = Folate * scale;
+		InsolubleFiber = InsolubleFiber * scale;
+		Iodine = Iodine * scale;
+		Iron = Iron * scale;
+		Magnesium = Magnesium * scale;
+		Manganese = Manganese * scale;
+		Molybdenum = Molybdenum * scale;
+		MonounsaturatedFat = MonounsaturatedFat * scale;
+		Niacin = Niacin * scale;
+		PantothenicAcid = PantothenicAcid * scale;
+		Phosphorus = Phosphorus * scale;
+		PolyunsaturatedFat = PolyunsaturatedFat * scale;
+		Potassium = Potassium * scale;
+		Protein = Protein * scale;
+		Riboflavin = Riboflavin * scale;
+		SaturatedFat = SaturatedFat * scale;
+		Selenium = Selenium * scale;
+		ServingSizeText = "1";
+		ServingSize = 1;
+		ServingSizeMetric = ServingSizeMetric * scale;
+		ServingSizeUnit = ServingSizeUnits.Item;
+		ServingSizeUnitLabel = servingSizeLabel;
+		ServingsPerContainer = 1;
+		Sodium = Sodium * scale;
+		SolubleFiber = SolubleFiber * scale;
+		SugarAlcohols = SugarAlcohols * scale;
+		TotalSugars = TotalSugars * scale;
+		Thiamin = Thiamin * scale;
+		TotalCarbohydrates = TotalCarbohydrates * scale;
+		TotalFat = TotalFat * scale;
+		TransFat = TransFat * scale;
+		VitaminA = VitaminA * scale;
+		VitaminB12 = VitaminB12 * scale;
+		VitaminB6 = VitaminB6 * scale;
+		VitaminC = VitaminC * scale;
+		VitaminD = VitaminD * scale;
+		VitaminE = VitaminE * scale;
+		VitaminK = VitaminK * scale;
+		Zinc = Zinc * scale;
+	}
+
 	public void Fill(ProductModel product)
 	{
 		AddedSugars = product.AddedSugars;
@@ -261,6 +317,7 @@ public class FormProductModel : INutritionForm
 		Zinc = product.Zinc;
 		ZincUnit = product.ZincUnit;
 	}
+
 
 	public class Validator : BaseValidator<FormProductModel>
 	{
