@@ -9,9 +9,9 @@ public class AddToList
 {
 	public class Command : IRequest<CommandResult>
 	{
-		public AddRecipeToListModel Model { get; private set; }
+		public AddRecipesToListModel Model { get; private set; }
 
-		public Command(AddRecipeToListModel model)
+		public Command(AddRecipesToListModel model)
 		{
 			Model = model;
 		}

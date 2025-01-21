@@ -559,43 +559,43 @@ public static class MemberExtensions
 		db.ShoppingListRecipeItems.AddRange(
 			new ShoppingListRecipeItemEntity
 			{
-				Amount = 2,
+				IngredientAmount = 2,
 				IngredientKey = "bananas",
 				PortionUsed = 1,
 				ProductId = pBananas.Id,
 				RecipeId = recipe.Id,
 				ShoppingListId = shoppingList.Id,
-				UnitLabel = "large"
+				IngredientAmountUnitLabel = "large"
 			},
 			new ShoppingListRecipeItemEntity
 			{
-				Amount = 1,
+				IngredientAmount = 1,
 				IngredientKey = "old-fashioned-rolled-oats",
 				PortionUsed = ServingSizeUnits.cup.NormalizeAmount(1M) / (ServingSizeUnits.cup.NormalizeAmount(0.5M) * 30),
 				ProductId = pOats.Id,
 				RecipeId = recipe.Id,
 				ShoppingListId = shoppingList.Id,
-				UnitLabel = "cup"
+				IngredientAmountUnitLabel = "cup"
 			},
 			new ShoppingListRecipeItemEntity
 			{
-				Amount = 1,
+				IngredientAmount = 1,
 				IngredientKey = "cinnamon",
 				PortionUsed = ServingSizeUnits.tsp.NormalizeAmount(1M) / (ServingSizeUnits.tsp.NormalizeAmount(1) * 67),
 				ProductId = pCinnamon.Id,
 				RecipeId = recipe.Id,
 				ShoppingListId = shoppingList.Id,
-				UnitLabel = "tsp"
+				IngredientAmountUnitLabel = "tsp"
 			},
 			new ShoppingListRecipeItemEntity
 			{
-				Amount = 0.25M,
+				IngredientAmount = 0.25M,
 				IngredientKey = "walnuts",
 				PortionUsed = 1,
 				ProductId = pWalnuts.Id,
 				RecipeId = recipe.Id,
 				ShoppingListId = shoppingList.Id,
-				UnitLabel = "cup"
+				IngredientAmountUnitLabel = "cup"
 			}
 		);
 		await db.SaveChangesAsync();

@@ -41,4 +41,8 @@
 	{
 		<DrawerAddRecipe Meals="@Meals" OnAdded="@HandleMealAdded" OnCancelClicked="@(() => HandleCancelClicked())" />
 	}
+	else if (DrawerView == Views.AddToList) 
+	{
+		<DrawerAddToList Recipes="@SelectedRecipes" OnAddedComplete="@HandleAddToListComplete" OnCancelClicked="@(() => HandleCancelClicked())" />
+	}
 </SideDrawer>

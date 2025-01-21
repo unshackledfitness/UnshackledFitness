@@ -226,19 +226,19 @@ public class MergeProducts
 							{
 								kItem = new()
 								{
-									Amount = dItem.Amount,
+									IngredientAmount = dItem.IngredientAmount,
 									IngredientKey = dItem.IngredientKey,
 									PortionUsed = dItem.PortionUsed,
 									ProductId = keptProduct.Id,
 									RecipeId = dItem.RecipeId,
 									ShoppingListId = dItem.ShoppingListId,
-									UnitLabel = dItem.UnitLabel
+									IngredientAmountUnitLabel = dItem.IngredientAmountUnitLabel
 								};
 								db.ShoppingListRecipeItems.Add(kItem);
 							}
 							else // In list
 							{
-								kItem.Amount += dItem.Amount;
+								kItem.IngredientAmount += dItem.IngredientAmount;
 								kItem.PortionUsed += dItem.PortionUsed;
 							}
 							await db.SaveChangesAsync(cancellationToken);

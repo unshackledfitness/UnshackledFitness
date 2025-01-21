@@ -52,29 +52,21 @@ public static class FoodCalculator
 		// ingredient uses a standard unit
 		else
 		{
-			// ingredient measurement is a volume and metric serving size unit is a volume measurement, we can calculate
-			// OR
-			// ingredient measurement is a weight and metric serving size unit is a weight measurement, we can calculate
-			if (servingSizeMetricAmountN > 0 && 
-				((ingredientUnit.IsVolume() && servingSizeMetricUnit.IsVolume()) ||
-				(!ingredientUnit.IsVolume() && !servingSizeMetricUnit.IsVolume())))
+			// ingredient measurement unit type matches metric serving size unit type, we can calculate
+			if (servingSizeMetricAmountN > 0 && ingredientUnit.UnitType() == servingSizeMetricUnit.UnitType())
 			{
 				// Calculate number of product servings required to cover ingredient volume
 				servings = ingredientAmountN / servingSizeMetricAmountN;
 			}
 
-			// if ingredient measurement is a volume and primary serving size unit is a volume measurement, we can calculate
-			// OR
-			// if ingredient measurement is a weight and primary serving size unit is a weight measurement, we can calculate
-			else if (servingSizeAmountN > 0 && 
-				((ingredientUnit.IsVolume() && servingSizeUnit.IsVolume()) ||
-				(!ingredientUnit.IsVolume() && !servingSizeUnit.IsVolume())))
+			// if ingredient measurement unit type matches primary serving size unit type, we can calculate
+			else if (servingSizeAmountN > 0 && ingredientUnit.UnitType() == servingSizeUnit.UnitType())
 			{
 				// Calculate number of product servings required to cover ingredient volume
 				servings = ingredientAmountN / servingSizeAmountN;
 			}
 
-			// comparing an ingredient volume to a product weight OR an ingredient weight to a product volume, we can't calculate
+			// units types don't match, we can't calculate
 			else
 			{
 				result.IsUnitMismatch = true;
@@ -88,81 +80,8 @@ public static class FoodCalculator
 		}
 
 		return result;
-	}
+	} 
 
-	public static ProductQuantityResult ProductQuantityRequired(
-		MeasurementUnits ingredientUnit, decimal ingredientAmountN,
-		ServingSizeUnits servingSizeUnit, decimal servingSizeAmountN,
-		ServingSizeMetricUnits servingSizeMetricUnit, decimal servingSizeMetricAmountN,
-		decimal servingsPerContainer, decimal portionsInList, int quantityInList)
-	{
-		ProductQuantityResult result = new();
-		
-		// ingredient uses the generic item unit
-		if (ingredientUnit == MeasurementUnits.Item)
-		{
-			decimal containerSize = servingSizeAmountN * servingsPerContainer;
-
-			if (containerSize <= 0)
-			{
-				// Assume using full container replacement item:
-				result.QuantityRequired = (int)Math.Ceiling(ingredientAmountN);
-				result.PortionUsed = result.QuantityRequired;
-				result.QuantityToAdd = result.QuantityRequired;
-			}
-
-			else if (UnitsMatch(ingredientUnit, servingSizeUnit, servingSizeMetricUnit))
-			{
-				result.PortionUsed = ingredientAmountN / containerSize;
-				decimal totalServingsNeeded = result.PortionUsed + portionsInList;
-				result.QuantityRequired = (int)Math.Ceiling(totalServingsNeeded);
-				result.QuantityToAdd = GetQuantityToAdd(result.QuantityRequired, quantityInList);
-			}
-
-			// Comparing item to weight or volume, we can't calculate
-			else
-			{
-				result.QuantityRequired = (int)Math.Ceiling(ingredientAmountN);
-				result.PortionUsed = result.QuantityRequired;
-				result.QuantityToAdd = result.QuantityRequired;
-				result.IsUnitMismatch = true;
-			}
-		}
-
-		// ingredient uses a standard unit
-		else
-		{
-			decimal containerSize = servingSizeAmountN * servingsPerContainer;
-
-			// No serving size info
-			if (containerSize <= 0)
-			{
-				result.PortionUsed = 1;
-				result.QuantityRequired = 1;
-				result.QuantityToAdd = 1;
-			}
-			
-			else if (UnitsMatch(ingredientUnit, servingSizeUnit, servingSizeMetricUnit))
-			{
-				// Calculate number of products required to cover ingredient volume
-				result.PortionUsed = ingredientAmountN / containerSize;
-				decimal totalServingsNeeded = result.PortionUsed + portionsInList;
-				result.QuantityRequired = (int)Math.Ceiling(totalServingsNeeded);
-				result.QuantityToAdd = GetQuantityToAdd(result.QuantityRequired, quantityInList);
-			}
-
-			// comparing an ingredient volume to a product weight OR an ingredient weight to a product volume, we can't calculate
-			else
-			{
-				result.PortionUsed = 1;
-				result.QuantityRequired = 1;
-				result.QuantityToAdd = 1;
-				result.IsUnitMismatch = true;
-			}
-		}
-
-		return result;
-	}
 
 	private static int GetQuantityToAdd(int quantityReq, int quantityInList)
 	{
@@ -170,24 +89,5 @@ public static class FoodCalculator
 		if (quantityToAdd < 0)
 			quantityToAdd = 0;
 		return quantityToAdd;
-	}
-
-	private static bool UnitsMatch(MeasurementUnits ingredientUnit, ServingSizeUnits servingSizeUnit, ServingSizeMetricUnits servingSizeMetricUnit)
-	{
-		// ingredient measurement is "item" and primary serving size unit is not
-		if (ingredientUnit == MeasurementUnits.Item && servingSizeUnit != ServingSizeUnits.Item)
-			return false;
-
-		// ingredient measurement is a volume and metric serving size unit is a volume
-		// OR
-		// ingredient measurement is a weight and metric serving size unit is a weight
-		// OR
-		// if ingredient measurement is a volume and primary serving size unit is a volume
-		// OR
-		// if ingredient measurement is a weight and primary serving size unit is a weight
-		return (ingredientUnit.IsVolume() && servingSizeMetricUnit.IsVolume()) ||
-				(!ingredientUnit.IsVolume() && !servingSizeMetricUnit.IsVolume()) ||
-				(ingredientUnit.IsVolume() && servingSizeUnit.IsVolume()) ||
-				(!ingredientUnit.IsVolume() && !servingSizeUnit.IsVolume());
 	}
 }

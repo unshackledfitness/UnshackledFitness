@@ -29,7 +29,14 @@
 	{
 		@if (!string.IsNullOrEmpty(Product.Description))
 		{
-			<MudText Typo="Typo.body1" Color="Color.Tertiary">@Product.Description</MudText>
+			<MudText Typo="Typo.body1" Color="Color.Tertiary" Class="mb-4">@Product.Description</MudText>
+		}
+		@if (Product.IsAutoSkipped)
+		{
+			<div class="d-flex flex-row gap-1 align-center mt-4">
+				<MudIcon Icon="@Icons.Material.Filled.CheckCircleOutline" Size="Size.Small" />
+				<MudText Typo="Typo.body2">Auto-skipped on shopping lists</MudText>
+			</div>
 		}
 	}
 	else

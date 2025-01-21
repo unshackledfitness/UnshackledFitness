@@ -36,7 +36,7 @@ public class DrawerAddToListBase : BaseComponent<Member>
 			.Select(x => new SelectListModel()
 			{
 				ListSid = sid,
-				RecipeSid = x.Sid,
+				RecipeSid = x.RecipeSid,
 				Scale = x.Scale
 			})
 			.ToList();
@@ -54,7 +54,6 @@ public class DrawerAddToListBase : BaseComponent<Member>
 		AddRecipesToListModel model = new()
 		{
 			List = Items,
-			Recipes = Recipes.Select(x => new KeyValuePair<string, string>(x.RecipeSid, x.RecipeTitle)).ToDictionary(),
 			ShoppingListSid = SelectedShoppingListSid
 		};
 		var result = await Mediator.Send(new AddToList.Command(model));

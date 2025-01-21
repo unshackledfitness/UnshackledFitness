@@ -114,36 +114,6 @@ public static class MeasurementUnitsExtensions
 		return null;
 	}
 
-	public static bool IsVolume(this MeasurementUnits unit)
-	{
-		return unit switch
-		{
-			MeasurementUnits.Item => false,
-			MeasurementUnits.mg => false,
-			MeasurementUnits.g => false,
-			MeasurementUnits.kg => false,
-			MeasurementUnits.oz => false,
-			MeasurementUnits.lb => false,
-			MeasurementUnits.ml => true,
-			MeasurementUnits.L => true,
-			MeasurementUnits.floz => true,
-			MeasurementUnits.cup => true,
-			MeasurementUnits.pint => true,
-			MeasurementUnits.quart => true,
-			MeasurementUnits.gallon => true,
-			MeasurementUnits.tsp => true,
-			MeasurementUnits.Tbsp => true,
-			MeasurementUnits.tad =>  true,
-			MeasurementUnits.dash =>  true,
-			MeasurementUnits.pinch =>  true,
-			MeasurementUnits.smidgen =>  true,
-			MeasurementUnits.drop =>  true,
-			MeasurementUnits.shake =>  true,
-			MeasurementUnits.nip =>  true,
-			_ => false,
-		};
-	}
-
 	public static string Label(this MeasurementUnits unit)
 	{
 		return unit switch
@@ -233,6 +203,36 @@ public static class MeasurementUnitsExtensions
 			MeasurementUnits.shake => "Shakes",
 			MeasurementUnits.nip => "Nips",
 			_ => string.Empty,
+		};
+	}
+
+	public static UnitTypes UnitType(this MeasurementUnits unit)
+	{
+		return unit switch
+		{
+			MeasurementUnits.Item => UnitTypes.Item,
+			MeasurementUnits.mg => UnitTypes.Weight,
+			MeasurementUnits.g => UnitTypes.Weight,
+			MeasurementUnits.kg => UnitTypes.Weight,
+			MeasurementUnits.oz => UnitTypes.Weight,
+			MeasurementUnits.lb => UnitTypes.Weight,
+			MeasurementUnits.ml => UnitTypes.Volume,
+			MeasurementUnits.L => UnitTypes.Volume,
+			MeasurementUnits.floz => UnitTypes.Volume,
+			MeasurementUnits.cup => UnitTypes.Volume,
+			MeasurementUnits.pint => UnitTypes.Volume,
+			MeasurementUnits.quart => UnitTypes.Volume,
+			MeasurementUnits.gallon => UnitTypes.Volume,
+			MeasurementUnits.tsp => UnitTypes.Volume,
+			MeasurementUnits.Tbsp => UnitTypes.Volume,
+			MeasurementUnits.tad => UnitTypes.Volume,
+			MeasurementUnits.dash => UnitTypes.Volume,
+			MeasurementUnits.pinch => UnitTypes.Volume,
+			MeasurementUnits.smidgen => UnitTypes.Volume,
+			MeasurementUnits.drop => UnitTypes.Volume,
+			MeasurementUnits.shake => UnitTypes.Volume,
+			MeasurementUnits.nip => UnitTypes.Volume,
+			_ => UnitTypes.Item,
 		};
 	}
 }

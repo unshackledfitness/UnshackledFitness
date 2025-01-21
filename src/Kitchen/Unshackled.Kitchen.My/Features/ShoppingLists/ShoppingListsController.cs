@@ -41,7 +41,7 @@ public class ShoppingListsController : BaseController
 
 	[HttpPost("add-recipe-to-list")]
 	[ActiveMemberRequired]
-	public async Task<IActionResult> AddRecipeToList([FromBody] AddRecipeToListModel model)
+	public async Task<IActionResult> AddRecipeToList([FromBody] AddRecipesToListModel model)
 	{
 		return Ok(await Mediator.Send(new AddRecipeToList.Command(Member.Id, Member.ActiveHouseholdId, model)));
 	}

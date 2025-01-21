@@ -25,7 +25,7 @@
 			{
 				@if (IsEditMode)
 				{
-					<MudToolBar Dense="true" Gutters="false" Class="mt-n2 mb-2">
+					<MudToolBar Dense="true" Gutters="false" Class="mb-2">
 						@if (!IsSorting)
 						{
 							<MudButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableComponentControls" OnClick="@(() => HandleAddRecipeClicked())">Add</MudButton>

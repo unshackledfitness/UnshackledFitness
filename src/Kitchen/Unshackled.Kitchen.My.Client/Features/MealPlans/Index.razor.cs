@@ -45,6 +45,7 @@ public class IndexBase : BaseComponent<Member>
 	protected List<MealDefinitionModel> Meals { get; set; } = [];
 	protected List<DayModel> Days { get; set; } = [];
 	protected List<MealPlanRecipeModel> PlanRecipes { get; set; } = [];
+	protected List<MealPlanRecipeModel> SelectedRecipes { get; set; } = [];
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -75,7 +76,16 @@ public class IndexBase : BaseComponent<Member>
 
 	protected void HandleAddToListClicked()
 	{
-		DrawerView = Views.AddToList;
+		var selectedDays = Days.Where(x => x.IsChecked == true && x.Recipes.Count > 0).ToList();
+		if (selectedDays.Count > 0)
+		{
+			SelectedRecipes.Clear();
+			foreach (var day in selectedDays)
+			{
+				SelectedRecipes.AddRange(day.Recipes);
+			}
+			DrawerView = Views.AddToList;
+		}
 	}
 
 	protected void HandleAddToListComplete()

@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Unshackled.Kitchen.Core.Models;
+using Unshackled.Kitchen.Core.Models.ShoppingLists;
 using Unshackled.Kitchen.My.Client.Features.MealPlans.Models;
 using Unshackled.Kitchen.My.Features.MealPlans.Actions;
 using Unshackled.Studio.Core.Server.Features;
@@ -22,6 +24,13 @@ public class MealPlansController : BaseController
 		return Ok(await Mediator.Send(new AddMealRecipe.Command(Member.Id, Member.ActiveHouseholdId, model)));
 	}
 
+	[HttpPost("add-to-shopping-list")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> AddToShoppingList([FromBody] AddRecipesToListModel model)
+	{
+		return Ok(await Mediator.Send(new AddToList.Command(Member.Id, Member.ActiveHouseholdId, model)));
+	}
+
 	[HttpPost("delete-definition")]
 	[ActiveMemberRequired]
 	public async Task<IActionResult> Delete([FromBody] string sid)
@@ -33,6 +42,13 @@ public class MealPlansController : BaseController
 	public async Task<IActionResult> DeleteRecipe([FromBody] string sid)
 	{
 		return Ok(await Mediator.Send(new DeleteMealRecipe.Command(Member.Id, Member.ActiveHouseholdId, sid)));
+	}
+
+	[HttpPost("get-add-to-list-items")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> GetAddToListItems([FromBody] List<SelectListModel> selects)
+	{
+		return Ok(await Mediator.Send(new GetAddToListItems.Query(Member.Id, selects)));
 	}
 
 	[HttpPost("list")]

@@ -54,6 +54,7 @@ public class AddProduct
 					Description = request.Model.Description?.Trim(),
 					HasNutritionInfo = request.Model.HasNutritionInfo,
 					HouseholdId = request.HouseholdId,
+					IsAutoSkipped = request.Model.IsAutoSkipped,
 					MonounsaturatedFat = request.Model.MonounsaturatedFat,
 					MonounsaturatedFatN = request.Model.MonounsaturatedFatUnit.NormalizeAmount(request.Model.MonounsaturatedFat),
 					MonounsaturatedFatUnit = request.Model.MonounsaturatedFatUnit,
@@ -269,6 +270,7 @@ public class AddProduct
 					Description = request.Model.Description?.Trim(),
 					HasNutritionInfo = request.Model.HasNutritionInfo,
 					HouseholdId = request.HouseholdId,
+					IsAutoSkipped = request.Model.IsAutoSkipped,
 					ProductCategoryId = categoryId > 0 ? categoryId : null,
 					Title = request.Model.Title.Trim()
 				};

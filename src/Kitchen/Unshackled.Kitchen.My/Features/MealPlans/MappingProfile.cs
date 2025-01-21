@@ -21,5 +21,7 @@ public class MappingProfile : Profile
 		CreateMap<RecipeEntity, RecipeListModel>()
 			.ForMember(d => d.HouseholdSid, m => m.MapFrom(s => s.HouseholdId.Encode()))
 			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()));
+		CreateMap<ShoppingListEntity, ShoppingListModel>()
+			.ForMember(d => d.Sid, m => m.MapFrom(s => s.Id.Encode()));
 	}
 }

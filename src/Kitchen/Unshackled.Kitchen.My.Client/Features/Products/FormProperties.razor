@@ -26,6 +26,9 @@
 				}
 			</MudSelect>
 		</MudItem>
+		<MudItem xs="12">
+			<MudCheckBox Label="Auto-skip for shopping lists" Disabled="@IsSaving" For="@(() => Model.IsAutoSkipped)" @bind-Value="@Model.IsAutoSkipped" />
+		</MudItem>
 	</MudGrid>
 
 	@if (FormToolbar != null)

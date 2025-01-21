@@ -5,7 +5,7 @@ using Unshackled.Kitchen.Core.Models;
 using Unshackled.Kitchen.My.Extensions;
 using Unshackled.Studio.Core.Client.Models;
 
-namespace Unshackled.Kitchen.My.Features.Recipes.Actions;
+namespace Unshackled.Kitchen.My.Features.MealPlans.Actions;
 
 public class AddToList
 {

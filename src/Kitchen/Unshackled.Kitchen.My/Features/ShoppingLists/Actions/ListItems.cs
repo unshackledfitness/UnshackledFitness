@@ -63,12 +63,12 @@ public class ListItems
 					.Where(x => x.ShoppingListId == request.ShoppingListId)
 					.Select(x => new RecipeAmountListModel
 					{
-						Amount = x.Amount,
+						IngredientAmount = x.IngredientAmount,
 						PortionUsed = x.PortionUsed,
 						ProductSid = x.ProductId.Encode(),
 						RecipeSid = x.RecipeId.Encode(),
 						RecipeTitle = x.Recipe != null ? x.Recipe.Title : string.Empty,
-						UnitLabel = x.UnitLabel
+						IngredientAmountUnitLabel = x.IngredientAmountUnitLabel
 					})
 					.ToListAsync(cancellationToken);
 

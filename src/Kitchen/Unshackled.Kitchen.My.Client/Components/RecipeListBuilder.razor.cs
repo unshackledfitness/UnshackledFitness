@@ -15,15 +15,15 @@ public class RecipeListBuilderBase : ComponentBase
 
 	protected void HandleCounterSubtractClicked(AddToShoppingListModel model)
 	{
-		if (model.Quantity > 0)
+		if (model.QuantityToAdd > 0)
 		{
-			model.Quantity--;
+			model.QuantityToAdd--;
 		}
 	}
 
 	protected void HandleCounterAddClicked(AddToShoppingListModel model)
 	{
-		model.Quantity++;
+		model.QuantityToAdd++;
 	}
 
 	protected void HandleToggleSkipped(AddToShoppingListModel model)
@@ -31,13 +31,13 @@ public class RecipeListBuilderBase : ComponentBase
 		model.IsSkipped = !model.IsSkipped;
 		if (model.IsSkipped)
 		{
-			model.Quantity = 0;
+			model.QuantityToAdd = 0;
 		}
 		StateHasChanged();
 	}
 
 	protected string GetClass(AddToShoppingListModel model)
 	{
-		return model.Quantity == 0 ? "dimmed" : string.Empty;
+		return model.QuantityToAdd == 0 ? "dimmed" : string.Empty;
 	}
 }

@@ -14,6 +14,7 @@ public class FormProductModel : INutritionForm
 	public string? Description { get; set; }
 	public string CategorySid { get; set; } = string.Empty;
 	public bool HasNutritionInfo { get; set; }
+	public bool IsAutoSkipped { get; set; }
 	public string ServingSizeText { get; set; } = string.Empty;
 	public decimal ServingSize { get; set; }
 	public ServingSizeUnits ServingSizeUnit { get; set; } = ServingSizeUnits.Item;
@@ -190,6 +191,7 @@ public class FormProductModel : INutritionForm
 		IodineUnit = product.IodineUnit;
 		Iron = product.Iron;
 		IronUnit = product.IronUnit;
+		IsAutoSkipped = product.IsAutoSkipped;
 		HasNutritionInfo = product.HasNutritionInfo;
 		Magnesium = product.Magnesium;
 		MagnesiumUnit = product.MagnesiumUnit;
