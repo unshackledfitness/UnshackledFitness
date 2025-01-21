@@ -171,7 +171,7 @@ public static class ShoppingListExtensions
 
 			return new CommandResult(true, "Items added to the shopping list.");
 		}
-		catch (Exception ex)
+		catch
 		{
 			await transaction.RollbackAsync();
 			return new CommandResult(false, Globals.UnexpectedError);
