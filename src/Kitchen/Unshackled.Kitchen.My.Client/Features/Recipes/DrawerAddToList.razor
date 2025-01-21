@@ -23,14 +23,21 @@
 			<MudText Align="Align.Center" Class="mt-4">No shopping lists were found.</MudText>
 		</EmptyListRenderer>
 	</ListView>
+
+	<MudToolBar Gutters="false" Class="mt-4">
+		<MudSpacer />
+		<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@HandleCancelClicked">Cancel</MudButton>
+		<MudSpacer />
+	</MudToolBar>
 }
 else
 {
-	<RecipeListBuilder IsLoading="@IsWorking" Items="@Items">
+	<ShoppingListBuilder IsLoading="@IsWorking" Items="@Items">
 		<ActionToolbar>
 			<MudSpacer />
 			<MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@HandleAddToListClicked">Finish</MudButton>
+			<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@HandleCancelClicked">Cancel</MudButton>
 			<MudSpacer />
 		</ActionToolbar>
-	</RecipeListBuilder>
+	</ShoppingListBuilder>
 }

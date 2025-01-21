@@ -3,7 +3,7 @@ using Unshackled.Kitchen.Core.Models;
 
 namespace Unshackled.Kitchen.My.Client.Components;
 
-public class RecipeListBuilderBase : ComponentBase
+public class ShoppingListBuilderBase : ComponentBase
 {
 	[Parameter] public bool IsLoading { get; set; }
 	[Parameter] public List<AddToShoppingListModel> Items { get; set; } = [];

@@ -12,6 +12,7 @@ public class AddToShoppingListModel
 	public int QuantityToAdd { get; set; } = 1;
 	public int QuantityInList { get; set; }
 	public decimal TotalPortionUsed { get; set; }
+	public bool HasServingSizeInfo { get; set; } = false;
 	public bool IsUnitMismatch { get; set; } = false;
 	public bool IsSkipped { get; set; }
 

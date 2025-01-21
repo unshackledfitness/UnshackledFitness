@@ -6,8 +6,8 @@
 		<SectionHeader Title="Ingredients" Typo="Typo.h5" IsEditMode="@IsEditMode" IsEditing="@IsEditing" DisableControls="@DisableControls" Class="mb-4" EditingClass="mb-4"
 		OnCancelClicked="@(() => HandleCancelEditClicked())" OnSaveClicked="@HandleUpdateClicked">
 			<DefaultToolbar>
-				<MudToggleIconButton Disabled="@DisableSectionControls" Icon="@Icons.Material.Filled.ShoppingBag" ToggledIcon="@Icons.Material.Filled.ShoppingBag"
-				Color="Color.Default" ToggledColor="Color.Secondary" @bind-Toggled="@ShowProducts" />
+				<MudToggleIconButton Disabled="@DisableSectionControls" Icon="@Icons.Material.Filled.ShoppingBasket" ToggledIcon="@Icons.Material.Filled.ShoppingBasket"
+									 Color="Color.Default" ToggledColor="Color.Secondary" @bind-Toggled="@ShowProducts" />
 				<MudIconButton Icon="@Icons.Material.Filled.Analytics" Disabled="@DisableSectionControls" OnClick="@(() => HandleOpenNutritionClicked())" />
 				<ScaleMenuComponent Scale="@Scale" ScaleChanged="@HandleScaleChanged" />
 			</DefaultToolbar>

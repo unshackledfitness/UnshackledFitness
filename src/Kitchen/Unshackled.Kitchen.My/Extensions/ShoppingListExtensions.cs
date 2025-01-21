@@ -238,6 +238,7 @@ public static class ShoppingListExtensions
 						IngredientAmountLabel = i.AmountLabel,
 						IngredientKey = i.Key,
 						IngredientTitle = i.Title,
+						HasServingSizeInfo = p != null && p.HasNutritionInfo,
 						IsAutoSkipped = p != null && p.IsAutoSkipped,
 						ProductId = p != null ? p.Id : 0,
 						ProductBrand = p != null && !string.IsNullOrEmpty(p.Brand) ? p.Brand : string.Empty,
@@ -337,6 +338,7 @@ public static class ShoppingListExtensions
 					{
 						IngredientKey = ingredient.IngredientKey,
 						IngredientTitle = ingredient.IngredientTitle,
+						HasServingSizeInfo = ingredient.HasServingSizeInfo,
 						IsSkipped = ingredient.IsAutoSkipped,
 						IsUnitMismatch = hasUnitMismatch,
 						TotalPortionUsed = totalPortionUsed,
