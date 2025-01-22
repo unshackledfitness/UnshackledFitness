@@ -10,6 +10,11 @@ public class SqliteDbContext : FitnessDbContext
 		ConnectionStrings connectionStrings,
 		DbConfiguration dbConfig) : base(options, connectionStrings, dbConfig) { }
 
+	protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+	{
+		configurationBuilder.Properties<string>().UseCollation("NOCASE");
+	}
+
 	protected override void OnConfiguring(DbContextOptionsBuilder options)
 	{
 		if (!string.IsNullOrEmpty(ConnectionStrings.DefaultDatabase))
