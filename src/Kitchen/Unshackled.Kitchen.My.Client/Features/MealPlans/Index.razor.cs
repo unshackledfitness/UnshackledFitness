@@ -21,7 +21,8 @@ public class IndexBase : BaseComponent<Member>
 	{
 		None,
 		Add,
-		AddToList
+		AddToList,
+		Copy
 	}
 
 	protected bool IsDrawerOpen { get; set; }
@@ -38,6 +39,7 @@ public class IndexBase : BaseComponent<Member>
 	{
 		Views.Add => "Add Meal",
 		Views.AddToList => "Add To List",
+		Views.Copy => "Copy To...",
 		_ => string.Empty
 	};
 	protected bool HasSelected => Days.Where(x => x.IsChecked == true && x.Recipes.Count > 0).Any();
@@ -124,6 +126,42 @@ public class IndexBase : BaseComponent<Member>
 	protected void HandleCancelClicked()
 	{
 		DrawerView = Views.None;
+	}
+
+	protected void HandleCopyClicked()
+	{
+		var selectedDays = Days.Where(x => x.IsChecked == true && x.Recipes.Count > 0).ToList();
+		if (selectedDays.Count > 0)
+		{
+			SelectedRecipes.Clear();
+			foreach (var day in selectedDays)
+			{
+				SelectedRecipes.AddRange(day.Recipes);
+			}
+			DrawerView = Views.Copy;
+		}
+	}
+
+	protected async Task HandleCopySubmitClicked(DateOnly dateSelected)
+	{
+		IsWorking = true;
+		CopyRecipesModel model = new()
+		{
+			DateSelected = dateSelected,
+			Recipes = SelectedRecipes
+		};
+		var result = await Mediator.Send(new CopyMealRecipes.Command(model));
+		ShowNotification(result);
+		if (result.Success)
+		{
+			DateOnly dateEnd = DateOnly.FromDateTime(DateStart!.Value.AddDays(7));
+			if (dateSelected < dateEnd)
+			{
+				await LoadMealPlan();
+			}
+		}
+		DrawerView = Views.None;
+		IsWorking = false;
 	}
 
 	protected void HandleDayCheckChanged()

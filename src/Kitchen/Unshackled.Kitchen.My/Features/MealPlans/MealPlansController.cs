@@ -31,6 +31,12 @@ public class MealPlansController : BaseController
 		return Ok(await Mediator.Send(new AddToList.Command(Member.Id, Member.ActiveHouseholdId, model)));
 	}
 
+	[HttpPost("copy-recipes")]
+	public async Task<IActionResult> CopyRecipes([FromBody] CopyRecipesModel model)
+	{
+		return Ok(await Mediator.Send(new CopyMealRecipes.Command(Member.Id, Member.ActiveHouseholdId, model)));
+	}
+
 	[HttpPost("delete-definition")]
 	[ActiveMemberRequired]
 	public async Task<IActionResult> Delete([FromBody] string sid)

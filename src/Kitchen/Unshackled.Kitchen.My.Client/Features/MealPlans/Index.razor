@@ -14,6 +14,7 @@
 			<MudCheckBox T="bool?" Dense="true" Color="Color.Secondary" UncheckedColor="Color.Default" Label="All/None" Class="me-2" Size="Size.Small"
 						 Value="IsSelectAll" ValueChanged="@((bool? value) => HandleSelectAllChange(value))" Disabled="@IsEditMode"></MudCheckBox>
 		</div>
+		<MudButton StartIcon="@Icons.Material.Filled.CopyAll" Disabled="@(IsEditMode || !HasSelected)" OnClick="@(() => HandleCopyClicked())">Copy To...</MudButton>
 		<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@(IsEditMode || !HasSelected)" OnClick="@(() => HandleAddToListClicked())">Shopping List</MudButton>
 		<MudButton StartIcon="@Icons.Material.Filled.List" Disabled="@IsEditMode" Href="/meal-plan/definitions">Meals</MudButton>
 		<MudSpacer />
@@ -45,5 +46,9 @@
 	else if (DrawerView == Views.AddToList) 
 	{
 		<DrawerAddToList Recipes="@SelectedRecipes" OnAddedComplete="@HandleAddToListComplete" OnCancelClicked="@(() => HandleCancelClicked())" />
+	}
+	else if (DrawerView == Views.Copy)
+	{
+		<DrawerCopy Recipes="@SelectedRecipes" OnCancelClicked="@(() => HandleCancelClicked())" OnSubmitClicked="@HandleCopySubmitClicked" />
 	}
 </SideDrawer>
