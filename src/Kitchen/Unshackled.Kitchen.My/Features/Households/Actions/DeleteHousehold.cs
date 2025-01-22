@@ -78,6 +78,14 @@ public class DeleteHousehold
 					.Where(x => x.HouseholdId == householdId)
 					.DeleteFromQueryAsync(cancellationToken);
 
+				await db.MealPlanRecipes
+					.Where(x => x.HouseholdId == householdId)
+					.DeleteFromQueryAsync(cancellationToken);
+
+				await db.MealDefinitions
+					.Where(x => x.HouseholdId == householdId)
+					.DeleteFromQueryAsync(cancellationToken);
+
 				await db.ShoppingListRecipeItems
 					.Include(x => x.ShoppingList)
 					.Where(x => x.ShoppingList.HouseholdId == householdId)
