@@ -3,6 +3,12 @@
 .multiple-image-component {
 	position: relative;
 
+	a.mud-link {
+		display: flex;
+		flex-direction: column;
+		justify-items: center;
+	}
+
 	.mud-icon-button {
 		position: absolute;
 		bottom: 2px;

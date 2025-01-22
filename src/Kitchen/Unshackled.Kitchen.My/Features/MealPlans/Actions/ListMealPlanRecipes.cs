@@ -45,14 +45,15 @@ public class ListMealPlanRecipes
 
 				if (list.Count > 0)
 				{
-					var images = await (from r in db.MealPlanRecipes
-										join i in db.RecipeImages on r.RecipeId equals i.RecipeId
-										where r.HouseholdId == request.HouseholdId
-											&& r.DatePlanned >= request.DateStart
-											&& r.DatePlanned < dateEnd
-											&& i.IsFeatured == true
-										select i)
-										.ToListAsync(cancellationToken);
+					long[] recipeIds = list
+						.Select(x => x.RecipeSid.DecodeLong())
+						.Distinct()
+						.ToArray();
+
+					var images = await db.RecipeImages
+						.AsNoTracking()
+						.Where(x => recipeIds.Contains(x.RecipeId) && x.IsFeatured == true)
+						.ToListAsync(cancellationToken);
 
 					foreach (var item in list)
 					{

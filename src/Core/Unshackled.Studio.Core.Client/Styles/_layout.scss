@@ -258,3 +258,11 @@ html, body, #app {
 	}
 }
 
+.no-background {
+	background: none !important;
+	background-color: transparent !important;
+}
+
+.soft-background {
+	background-color: rgba(128, 128, 128, 0.02);
+}
