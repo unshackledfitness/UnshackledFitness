@@ -100,4 +100,10 @@ public class MealPlansController : BaseController
 	{
 		return Ok(await Mediator.Send(new UpdateSort.Command(Member.Id, Member.ActiveHouseholdId, updates)));
 	}
+
+	[HttpPost("update-recipe")]
+	public async Task<IActionResult> UpdateRecipe([FromBody] MealPlanRecipeModel model)
+	{
+		return Ok(await Mediator.Send(new UpdateMealRecipe.Command(Member.Id, Member.ActiveHouseholdId, model)));
+	}
 }

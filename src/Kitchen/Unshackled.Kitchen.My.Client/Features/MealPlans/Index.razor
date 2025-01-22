@@ -32,6 +32,7 @@
 		<DayComponent 
 			Meals="@Meals" IsLoading="@IsLoading" IsEditMode="@IsEditMode" @bind-Model="@context.Item" OnAddRecipeClicked="@HandleAddRecipeClicked"
 			OnApplySortClicked="@HandleApplySortClicked" OnCheckedChanged="HandleDayCheckChanged" OnDeleteClicked="@HandleDeleteClicked" OnMakeItClicked="@HandleMakeItClicked"
+			OnDaySwitchClicked="@HandleSwitchDayClicked"
 		/>
 	</ItemRenderer>
 </GridView>

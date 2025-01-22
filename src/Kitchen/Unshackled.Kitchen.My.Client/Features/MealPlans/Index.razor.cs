@@ -235,6 +235,28 @@ public class IndexBase : BaseComponent<Member>
 		await LoadMealPlan();
 	}
 
+	protected async Task HandleSwitchDayClicked(KeyValuePair<string, int> switchDay)
+	{
+		var recipe = PlanRecipes
+			.Where(x => x.Sid == switchDay.Key)
+			.SingleOrDefault();
+
+		if (recipe != null)
+		{
+			IsWorking = true;
+			var model = (MealPlanRecipeModel)recipe.Clone();
+			model.DatePlanned = model.DatePlanned.AddDays(switchDay.Value);
+			var result = await Mediator.Send(new UpdateMealRecipe.Command(model));
+			ShowNotification(result);
+			if (result.Success)
+			{
+				recipe.DatePlanned = model.DatePlanned;
+				FillDays();
+			}
+			IsWorking = false;
+		}
+	}
+
 	protected bool IsDateDisabled(DateTime date)
 	{
 		return (int)date.DayOfWeek > 0;

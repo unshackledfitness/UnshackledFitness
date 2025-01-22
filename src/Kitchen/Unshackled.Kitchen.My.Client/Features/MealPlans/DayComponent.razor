@@ -7,11 +7,11 @@
 			@if (!IsEditMode && Meals.Count == 1 && Model.Recipes.Count > 0)
 			{
 				<MudButton StartIcon="@Icons.Material.Filled.LocalDining" Size="Size.Small" IconSize="Size.Small" Color="Color.Secondary"
-							OnClick="@(() => HandleMakeItClicked(Model.Recipes))">Make It</MudButton>
+				OnClick="@(() => HandleMakeItClicked(Model.Recipes))">Make It</MudButton>
 			}
 			<div>
 				<MudCheckBox T="bool" Dense="true" Color="Color.Secondary" UncheckedColor="Color.Default" Size="Size.Small" Disabled="@IsEditMode"
-							 Value="Model.IsChecked" ValueChanged="@HandleItemChecked"></MudCheckBox>
+				Value="Model.IsChecked" ValueChanged="@HandleItemChecked"></MudCheckBox>
 			</div>
 		</div>
 		<div class="meal-plan">
@@ -26,18 +26,25 @@
 				@if (IsEditMode)
 				{
 					<MudToolBar Dense="true" Gutters="false" Class="mb-2">
-						@if (!IsSorting)
+						@if (!IsMoving && !IsSwitching)
 						{
 							<MudButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableComponentControls" OnClick="@(() => HandleAddRecipeClicked())">Add</MudButton>
 							@if (Meals.Count > 1)
 							{
-								<MudButton StartIcon="@Icons.Material.Outlined.SwapVerticalCircle" Disabled="@DisableComponentControls" OnClick="@(() => HandleSortClicked())">Move</MudButton>
+								<MudButton StartIcon="@Icons.Material.Outlined.SwapVerticalCircle" Disabled="@DisableComponentControls" OnClick="@(() => HandleMoveClicked())">Move</MudButton>
+							}
+							@if (Model.Recipes.Count > 0)
+							{
+								<MudButton StartIcon="@Icons.Material.Outlined.SwapHorizontalCircle" Disabled="@DisableComponentControls" OnClick="@(() => HandleSwitchClicked())">Switch</MudButton>
 							}
 						}
 						else
 						{
-							<MudButton StartIcon="@Icons.Material.Filled.Check" OnClick="@(() => HandleApplySortClicked())">Apply</MudButton>
-							<MudButton StartIcon="@Icons.Material.Filled.Cancel" OnClick="@(() => IsSorting = false)">Cancel</MudButton>
+							@if (IsMoving)
+							{
+								<MudButton StartIcon="@Icons.Material.Filled.Check" OnClick="@(() => HandleApplySortClicked())">Apply</MudButton>
+							}
+							<MudButton StartIcon="@Icons.Material.Filled.Cancel" OnClick="@(() => HandleCancelMoveOrSwitchClicked())">Cancel</MudButton>
 						}
 						<MudSpacer />
 					</MudToolBar>
@@ -45,7 +52,7 @@
 				foreach (var mealDef in Meals)
 				{
 					<div class="meal-definition">
-						@if (!IsSorting)
+						@if (!IsMoving)
 						{
 							var recipes = ListRecipes(mealDef);
 							@if (!string.IsNullOrEmpty(mealDef.Sid) || recipes.Count > 0)
@@ -57,7 +64,7 @@
 										@if (!IsEditMode && recipes.Count > 0)
 										{
 											<MudButton StartIcon="@Icons.Material.Filled.LocalDining" Size="Size.Small" IconSize="Size.Small"
-														Color="Color.Secondary" OnClick="@(() => HandleMakeItClicked(recipes))">Make It</MudButton>
+													   Color="Color.Secondary" OnClick="@(() => HandleMakeItClicked(recipes))">Make It</MudButton>
 										}
 									</div>
 								}
@@ -66,17 +73,25 @@
 									@foreach (var recipe in recipes)
 									{
 										<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
-										<div class="d-flex flex-row gap-3 align-center">
+										<div class="d-flex flex-row align-center">
 											@if (IsEditMode)
 											{
-												<MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@DisableComponentControls" OnClick="@(() => HandleDeleteClicked(recipe))" />
+												if (IsSwitching)
+												{
+													<MudIconButton Icon="@Icons.Material.Filled.ArrowCircleLeft" Disabled="@(Model.DayOfWeek == 0)" OnClick="@(() => HandleSwitchPrev(recipe))" />
+													<MudIconButton Icon="@Icons.Material.Filled.ArrowCircleRight" Disabled="@(Model.DayOfWeek == (int)DayOfWeek.Saturday)" OnClick="@(() => HandleSwitchNext(recipe))" />
+												}
+												else
+												{
+													<MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@DisableComponentControls" OnClick="@(() => HandleDeleteClicked(recipe))" />
+												}
 											}
 											else
 											{
 												<MultipleImageComponent BaseUrl="@StorageSettings.BaseUrl" Class="image-thumbnail-80" Images="@recipe.Images" 
 																		GalleryTitle="Featured Image" AspectRatio="AspectRatios.R16x9" />
 											}
-											<div class="flex-grow-1">
+											<div class="flex-grow-1 ps-3">
 												<MudLink Typo="Typo.body2" Class="d-block" Href="@($"/recipes/{recipe.RecipeSid}")">@recipe.RecipeTitle</MudLink>
 												<MudText Typo="Typo.body2" Color="Color.Tertiary">Scale: @recipe.Scale.ToFractionString()x</MudText>
 											</div>

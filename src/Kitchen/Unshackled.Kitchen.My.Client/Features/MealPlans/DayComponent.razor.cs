@@ -21,9 +21,11 @@ public class DayComponentBase : BaseComponent<Member>
 	[Parameter] public EventCallback<MealPlanRecipeModel> OnDeleteClicked { get; set; }
 	[Parameter] public EventCallback OnCheckedChanged { get; set; }
 	[Parameter] public EventCallback<List<MealPlanRecipeModel>> OnMakeItClicked { get; set; }
+	[Parameter] public EventCallback<KeyValuePair<string, int>> OnDaySwitchClicked { get; set; }
 
-	protected bool IsSorting { get; set; }
-	protected bool DisableComponentControls => DisableControls || IsSorting;
+	protected bool IsMoving { get; set; }
+	protected bool IsSwitching { get; set; }
+	protected bool DisableComponentControls => DisableControls || IsMoving || IsSwitching;
 	protected List<MealPlanRecipeModel> SortRecipes { get; set; } = [];
 
 	protected override async Task OnInitializedAsync()
@@ -39,7 +41,13 @@ public class DayComponentBase : BaseComponent<Member>
 	protected async Task HandleApplySortClicked()
 	{
 		await OnApplySortClicked.InvokeAsync(SortRecipes);
-		IsSorting = false;
+		IsMoving = false;
+	}
+
+	protected void HandleCancelMoveOrSwitchClicked()
+	{
+		IsMoving = false;
+		IsSwitching = false;
 	}
 
 	protected async Task HandleDeleteClicked(MealPlanRecipeModel model)
@@ -81,13 +89,39 @@ public class DayComponentBase : BaseComponent<Member>
 		StateHasChanged();
 	}
 
-	protected void HandleSortClicked()
+	protected void HandleMoveClicked()
 	{
 		SortRecipes = Model.Recipes
 			.Select(x => (MealPlanRecipeModel)x.Clone())
 			.ToList();
-		IsSorting = true;
+		IsMoving = true;
 		StateHasChanged();
+	}
+
+	protected void HandleSwitchClicked()
+	{
+		IsSwitching = true;
+		StateHasChanged();
+	}
+
+	protected async Task HandleSwitchNext(MealPlanRecipeModel model)
+	{
+		if (Model.DayOfWeek < (int)DayOfWeek.Saturday)
+		{
+			KeyValuePair<string, int> switchDay = new(model.Sid, 1);
+			await OnDaySwitchClicked.InvokeAsync(switchDay);
+			IsSwitching = false;
+		}
+	}
+
+	protected async Task HandleSwitchPrev(MealPlanRecipeModel model)
+	{
+		if (Model.DayOfWeek > (int)DayOfWeek.Sunday)
+		{
+			KeyValuePair<string, int> switchDay = new(model.Sid, -1);
+			await OnDaySwitchClicked.InvokeAsync(switchDay);
+			IsSwitching = false;
+		}
 	}
 
 	protected bool IsDownDisabled(MealDefinitionModel model)
