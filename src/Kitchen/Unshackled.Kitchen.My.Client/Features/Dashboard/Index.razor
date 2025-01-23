@@ -16,18 +16,22 @@
 	</MudItem>
 	@if (PinnedCategories.Count > 0)
 	{
-		<MudItem xs="12" sm="8" md="8">
-			<MudText Typo="Typo.body2" Color="Color.Tertiary">Pinned Products</MudText>
-			@if (string.IsNullOrEmpty(SelectedCategorySid))
-			{
-				<ListView Items="@PinnedCategories">
-					<ItemRenderer>
-						<MudLink Typo="Typo.subtitle1" Underline="Underline.None" OnClick="@(() => HandleCategoryClicked(context.Item.Sid))">@context.Item.Title</MudLink>
-					</ItemRenderer>
-				</ListView>
-			}
-			else 
-			{
+		@if (string.IsNullOrEmpty(SelectedCategorySid))
+		{
+			<MudItem xs="12" sm="8" md="12">
+				<MudText Typo="Typo.body2" Color="Color.Tertiary" Align="Align.Center" Class="mb-3">Pinned Categories</MudText>
+				<div class="d-flex align-center gap-2 flex-row flex-wrap justify-center">
+					@foreach (var item in PinnedCategories)
+					{
+						<DashboardTile Typo="Typo.body1" OnClick="@(() => HandleCategoryClicked(item.Sid))" Title="@item.Title" />
+					}
+				</div>
+			</MudItem>
+		}
+		else 
+		{
+			<MudItem xs="12" sm="8" md="6">
+				<MudText Typo="Typo.body2" Color="Color.Tertiary">Pinned Products</MudText>
 				@if (PinnedCategories.Count > 1)
 				{
 					<MudToolBar Gutters="false" Class="mt-2">
@@ -54,8 +58,8 @@
 						</MudLink>
 					</ItemRenderer>
 				</ListView>
-			}
-		</MudItem>
+			</MudItem>
+		}
 	}
 </MudGrid>
 
