@@ -73,7 +73,7 @@ public class SearchProducts
 			query = query.Skip(request.Model.Skip).Take(request.Model.PageSize);
 
 			result.Data = await mapper.ProjectTo<ProductListModel>(query
-					.Include(x => x.Images.Where(y => y.ProductId == x.Id && y.IsFeatured == true)))
+				.Include(x => x.Images.Where(y => y.ProductId == x.Id && y.IsFeatured == true)))
 				.ToListAsync(cancellationToken);
 
 			return result;

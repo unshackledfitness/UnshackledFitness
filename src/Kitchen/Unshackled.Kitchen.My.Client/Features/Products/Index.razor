@@ -9,7 +9,7 @@
 
 <div class="mb-4">
 	<SearchForm T="SearchProductModel" @bind-Model="@SearchModel" Class="mb-6" SearchClicked="@(() => DoSearch(1))"
-	ResetClicked="@HandleResetClicked" Disable="@IsLoading" VerticalButtons="Breakpoint.Sm">
+				ResetClicked="@HandleResetClicked" Disable="@IsLoading" VerticalButtons="Breakpoint.Sm">
 		<SearchFields>
 			<MudGrid Spacing="2">
 				<MudItem xs="12" sm="6" md="3">
@@ -55,7 +55,7 @@
 	}
 
 	<ListView TItem="ProductListModel" Items="@SearchResults.Data" IsLoading="@IsLoading" TotalItems="@SearchResults.Total" Page="@SearchModel.Page"
-	PageSize="SearchModel.PageSize" PageSelected="@HandlePageSelected">
+			  PageSize="SearchModel.PageSize" PageSelected="@HandlePageSelected">
 		<ItemRenderer>
 			<div class="d-flex gap-2 align-start flex-row">
 				@if (CanEdit)
@@ -65,7 +65,7 @@
 									 ValueChanged="@((bool value) => HandleCheckboxChanged(value, context.Item.Sid))" />
 					</div>
 				}
-				<MultipleImageComponent BaseUrl="@StorageSettings.BaseUrl" Class="image-thumbnail" Images="@context.Item.Images" GalleryTitle="Product Images" AspectRatio="AspectRatios.R1x1" />
+				<MultipleImageComponent BaseUrl="@StorageSettings.BaseUrl" Class="image-thumbnail-50" Images="@context.Item.Images" GalleryTitle="Product Images" AspectRatio="AspectRatios.R1x1" />
 				<div class="flex-grow-1">
 					@if (!string.IsNullOrEmpty(context.Item.Category))
 					{

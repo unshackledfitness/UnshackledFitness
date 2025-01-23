@@ -1,4 +1,6 @@
-﻿namespace Unshackled.Kitchen.My.Client.Features.Ingredients.Models;
+﻿using Unshackled.Studio.Core.Client.Models;
+
+namespace Unshackled.Kitchen.My.Client.Features.Ingredients.Models;
 
 public class ProductSubstitutionModel
 {
@@ -7,4 +9,5 @@ public class ProductSubstitutionModel
 	public string Title { get; set; } = string.Empty;
 	public string? Description { get; set; }
 	public bool IsPrimary { get; set; }
+	public List<ImageModel> Images { get; set; } = [];
 }
