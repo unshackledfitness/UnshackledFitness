@@ -16,7 +16,7 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	protected const string FormId = "formProductProperties";
 	protected bool IsWorking { get; set; }
 	protected FormProductModel Model { get; set; } = new();
-	protected List<ProductCategoryModel> Categories { get; set; } = [];
+	protected List<CategoryModel> Categories { get; set; } = [];
 
 	protected bool DisableControls => IsWorking;
 	public int StatElevation => IsEditMode ? 0 : 1;
@@ -25,7 +25,7 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	{
 		await base.OnInitializedAsync();
 
-		Categories = await Mediator.Send(new ListProductCategories.Query());
+		Categories = await Mediator.Send(new ListCategories.Query());
 	}
 
 	protected async Task HandleEditClicked()

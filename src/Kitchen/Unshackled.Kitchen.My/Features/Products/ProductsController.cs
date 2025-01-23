@@ -16,11 +16,25 @@ public class ProductsController : BaseController
 		return Ok(await Mediator.Send(new AddProduct.Command(Member.Id, Member.ActiveHouseholdId, model)));
 	}
 
+	[HttpPost("add-category")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> AddCategory([FromBody] FormCategoryModel model)
+	{
+		return Ok(await Mediator.Send(new AddCategory.Command(Member.Id, Member.ActiveHouseholdId, model)));
+	}
+
 	[HttpPost("add-to-list")]
 	[ActiveMemberRequired]
 	public async Task<IActionResult> AddToList([FromBody] AddToListModel model)
 	{
 		return Ok(await Mediator.Send(new AddToList.Command(Member.Id, model)));
+	}
+
+	[HttpPost("delete-category")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> DeleteCategory([FromBody] string sid)
+	{
+		return Ok(await Mediator.Send(new DeleteCategory.Command(Member.Id, Member.ActiveHouseholdId, sid)));
 	}
 
 	[HttpPost("delete-image")]
@@ -58,10 +72,10 @@ public class ProductsController : BaseController
 		return Ok(await Mediator.Send(new BulkSetCategory.Command(Member.Id, Member.ActiveHouseholdId, model)));
 	}
 
-	[HttpGet("list-product-categories")]
-	public async Task<IActionResult> ListProductCategories()
+	[HttpGet("list-categories")]
+	public async Task<IActionResult> ListCategories() 
 	{
-		return Ok(await Mediator.Send(new ListProductCategories.Query(Member.Id, Member.ActiveHouseholdId)));
+		return Ok(await Mediator.Send(new ListCategories.Query(Member.Id, Member.ActiveHouseholdId)));
 	}
 
 	[HttpGet("list-shopping-lists")]
@@ -116,6 +130,13 @@ public class ProductsController : BaseController
 	public async Task<IActionResult> Update([FromBody] FormProductModel model)
 	{
 		return Ok(await Mediator.Send(new UpdateProduct.Command(Member.Id, Member.ActiveHouseholdId, model)));
+	}
+
+	[HttpPost("update-category")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> UpdateCategory([FromBody] FormCategoryModel model)
+	{
+		return Ok(await Mediator.Send(new UpdateCategory.Command(Member.Id, Member.ActiveHouseholdId, model)));
 	}
 
 	[HttpPost("upload-image/{sid}")]

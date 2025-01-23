@@ -1,0 +1,47 @@
+﻿@page "/recipes/tags"
+@inherits TagsBase
+
+<DynamicPageTitle Title="Recipe Tags" />
+
+<MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
+
+<MudText Typo="Typo.h4" Class="mb-6">Recipe Tags</MudText>
+
+@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+{
+	<MudToolBar Gutters="false" Dense="true">
+		<MudButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@IsLoading" OnClick="@HandleAddClicked">Add</MudButton>
+	</MudToolBar>
+}
+
+<ListView TItem="TagModel" Items="@Tags" IsLoading="@IsLoading">
+	<ItemRenderer>
+		<div class="d-flex flex-row gap-4 align-center">
+			<div class="flex-grow-1">
+				<MudText Typo="Typo.subtitle1">@context.Item.Title</MudText>
+				<MudText Typo="Typo.body2">Recipes: @context.Item.ItemCount</MudText>
+			</div>
+			@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+			{
+				<div>
+					<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" OnClick="@(() => HandleEditClicked(context.Item))" />
+				</div>
+			}
+		</div>
+	</ItemRenderer>
+	<EmptyListRenderer>
+		<MudAlert Elevation="0" ContentAlignment="HorizontalAlignment.Center" NoIcon="true" Class="mt-4">No tags have been created.</MudAlert>
+	</EmptyListRenderer>
+</ListView>
+
+<SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
+	@if (DrawerView == Views.Add)
+	{
+		<DrawerTag Model="@FormModel" FormId="@FormId" DisableFormControls="@IsWorking" IsAdding="true" OnFormSubmitted="@HandleFormAddSubmit" OnCanceled="HandleCancelClicked" />
+	}
+	else if (DrawerView == Views.Edit)
+	{
+		<DrawerTag Model="@FormModel" FormId="@FormId" DisableFormControls="@IsWorking" IsAdding="false" OnFormSubmitted="@HandleFormUpdateSubmit" OnDeleted="HandleDeleteClicked" OnCanceled="HandleCancelClicked" />
+	}
+</SideDrawer>
+

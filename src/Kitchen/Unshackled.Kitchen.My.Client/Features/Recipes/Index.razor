@@ -26,6 +26,7 @@
 {
 	<MudToolBar Class="mt-6 mb-2" Gutters="false" Dense="true">
 		<MudButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@IsLoading" OnClick="@(() => HandleAddClicked())">New</MudButton>
+		<MudButton StartIcon="@Icons.Material.Filled.Tag" Disabled="@IsLoading" Href="/recipes/tags">Tags</MudButton>
 	</MudToolBar>
 }
 

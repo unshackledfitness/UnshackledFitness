@@ -7,7 +7,7 @@ namespace Unshackled.Kitchen.My.Client.Features.Products;
 
 public class DrawerBulkCategoryBase : BaseComponent<Member>
 {
-	[Parameter] public List<ProductCategoryModel> Categories { get; set; } = [];
+	[Parameter] public List<CategoryModel> Categories { get; set; } = [];
 	[Parameter] public EventCallback<string> OnSetCategory { get; set; }
 	[Parameter] public EventCallback OnCanceled { get; set; }
 

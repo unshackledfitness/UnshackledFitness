@@ -45,11 +45,12 @@
 			<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@IsLoading" OnClick="@HandleAddClicked">Add</MudButton>
 			<MudButton StartIcon="@Icons.Material.Filled.MergeType" Disabled="@(DisableControls || !MergeAvailable)" OnClick="@HandleMergeClicked">Merge</MudButton>
 			<MudMenu Label="@(SelectedSids.Any() ? $"Bulk ({SelectedSids.Count} selected)" : "Bulk")" StartIcon="@Icons.Material.Filled.Checklist" 
-			Class="ms-2" Disabled="@(DisableControls || !SelectedSids.Any())" AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopLeft">
+					 Class="ms-2" Disabled="@(DisableControls || !SelectedSids.Any())" AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopLeft">
 				<MudMenuItem Icon="@Icons.Material.Filled.AddCircle" OnClick="@(() => HandleAddToListClicked())">Add To Shopping List</MudMenuItem>
 				<MudMenuItem Icon="@Icons.Material.Filled.Category" OnClick="@(() => HandleBulkSetCategoryClicked())">Set Category</MudMenuItem>
 				<MudMenuItem Icon="@Icons.Material.Filled.Archive" OnClick="@(() => HandleBulkSetArchivedClicked())">@(IsBulkArchive ? "Archive" : "Restore")</MudMenuItem>
 			</MudMenu>
+			<MudButton StartIcon="@Icons.Material.Filled.Category" Disabled="@IsLoading" Href="/products/categories">Categories</MudButton>
 		</MudToolBar>
 	}
 
