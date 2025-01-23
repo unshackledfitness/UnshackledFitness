@@ -82,12 +82,4 @@ public static class FoodCalculator
 		return result;
 	} 
 
-
-	private static int GetQuantityToAdd(int quantityReq, int quantityInList)
-	{
-		int quantityToAdd = quantityReq - quantityInList;
-		if (quantityToAdd < 0)
-			quantityToAdd = 0;
-		return quantityToAdd;
-	}
 }
