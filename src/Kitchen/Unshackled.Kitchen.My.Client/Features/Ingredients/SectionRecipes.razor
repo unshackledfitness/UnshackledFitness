@@ -1,0 +1,24 @@
+﻿@inherits SectionRecipesBase
+
+<SectionContainer IsEditMode="false" Class="mb-6">
+	<SectionHeader Title="Recipes" Typo="Typo.h5" IsEditMode="false" />
+	<ListView Class="mb-6" Items="@SearchResults.Data" PageSize="@SearchResults.PageSize" Page="@SearchModel.Page" TotalItems="@SearchResults.Total" IsLoading="@IsLoading"
+			  PageSelected="@HandlePageSelected">
+		<ItemRenderer>
+			<div class="recipe d-flex flex-row align-center">
+				<MultipleImageComponent BaseUrl="@StorageSettings.BaseUrl" Class="image-thumbnail-80" Images="@context.Item.Images"
+										GalleryTitle="Featured Image" AspectRatio="AspectRatios.R16x9" />
+				<div class="flex-grow-1 ps-3">
+					<MudLink Typo="Typo.body2" Class="d-block" Href="@($"/recipes/{context.Item.Sid}")">@context.Item.Title</MudLink>
+					@if (!string.IsNullOrEmpty(context.Item.Tags))
+					{
+						<MudText Typo="Typo.body2" Color="Color.Tertiary">@context.Item.Tags</MudText>
+					}
+				</div>
+			</div>
+		</ItemRenderer>
+		<EmptyListRenderer>
+			<MudText Align="Align.Center" Class="mt-4">No recipes contain the ingredient.</MudText>
+		</EmptyListRenderer>
+	</ListView>
+</SectionContainer>

@@ -48,6 +48,12 @@ public class IngredientsController : BaseController
 		return Ok(await Mediator.Send(new SearchProducts.Query(Member.Id, Member.ActiveHouseholdId, model)));
 	}
 
+	[HttpPost("search-recipes")]
+	public async Task<IActionResult> SearchRecipes([FromBody] SearchRecipeModel model)
+	{
+		return Ok(await Mediator.Send(new SearchRecipes.Query(Member.ActiveHouseholdId, Member.Id, model)));
+	}
+
 	[HttpPost("update")]
 	[ActiveMemberRequired]
 	public async Task<IActionResult> Update([FromBody] FormIngredientModel model)

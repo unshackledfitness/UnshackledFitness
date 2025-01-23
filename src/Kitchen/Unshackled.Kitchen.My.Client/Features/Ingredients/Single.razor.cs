@@ -22,9 +22,12 @@ public class SingleBase : BaseComponent<Member>, IAsyncDisposable
 	{
 		await base.OnParametersSetAsync();
 
-		IsLoading = true;
-		Ingredient = await Mediator.Send(new GetIngredient.Query(IngredientKey));
-		IsLoading = false;
+		if (Ingredient.Key != IngredientKey)
+		{
+			IsLoading = true;
+			Ingredient = await Mediator.Send(new GetIngredient.Query(IngredientKey));
+			IsLoading = false;
+		}
 	}
 
 	protected override async Task OnInitializedAsync()
