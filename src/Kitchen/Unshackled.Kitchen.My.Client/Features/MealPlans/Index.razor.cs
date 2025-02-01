@@ -1,5 +1,3 @@
-using System.Reflection;
-using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Kitchen.Core.Models;
@@ -7,7 +5,6 @@ using Unshackled.Kitchen.My.Client.Extensions;
 using Unshackled.Kitchen.My.Client.Features.MealPlans.Actions;
 using Unshackled.Kitchen.My.Client.Features.MealPlans.Models;
 using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Configuration;
 using Unshackled.Studio.Core.Client.Services;
 
 namespace Unshackled.Kitchen.My.Client.Features.MealPlans;
@@ -56,8 +53,7 @@ public class IndexBase : BaseComponent<Member>
 
 		DateTime today = DateTime.Now;
 		int currentDayOfWeek = (int)today.DayOfWeek;
-		int dayStartOfWeek = today.AddDays(-currentDayOfWeek).Day;
-		DateStart = new DateTime(today.Year, today.Month, dayStartOfWeek);
+		DateStart = today.AddDays(-currentDayOfWeek);
 
 		FillDays();
 
