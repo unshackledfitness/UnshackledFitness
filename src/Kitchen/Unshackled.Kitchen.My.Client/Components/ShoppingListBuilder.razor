@@ -57,13 +57,13 @@
 								<MudText Typo="Typo.body2" Color="Color.Tertiary">Recipe Requirements: </MudText>
 								@foreach (var amt in context.Item.RecipeAmounts)
 								{
-									<div class="d-flex flex-row gap-2 align-center">
+									<div class="d-flex flex-column gap-1">
 										<MudText Typo="Typo.body2">
-											<IngredientText Amount="@amt.IngredientAmount" AmountLabel="@amt.IngredientAmountUnitLabel" Title="@amt.RecipeTitle" />
+											<IngredientText Amount="@amt.IngredientAmount" AmountLabel="@amt.IngredientAmountUnitLabel" Title="@($"for {amt.RecipeTitle}")" />
 										</MudText>
 										@if (amt.IsUnitMismatch)
 										{
-											<MudText Typo="Typo.caption" Color="Color.Error">
+											<MudText Typo="Typo.caption" Color="Color.Error" Class="d-block mb-2">
 												@amt.IngredientAmountUnitLabel &rarr; @amt.ServingSizeUnitLabel (@amt.IngredientAmountUnitType.Label() &rarr; @amt.ServingSizeUnitType.Label())
 											</MudText>
 										}
@@ -72,7 +72,7 @@
 							</div>
 						</MudItem>
 					}
-					<MudItem xs="6" sm="4">
+					<MudItem xs="4">
 						<CaptionedProperty Title="Quantity To Add">
 							<div class="d-flex gap-4 align-center flex-row">
 								<MudIconButton Icon="@Icons.Material.Filled.RemoveCircleOutline" Color="Color.Secondary" Size="Size.Small" OnClick="@(() => HandleCounterSubtractClicked(context.Item))" />
@@ -81,12 +81,12 @@
 							</div>
 						</CaptionedProperty>
 					</MudItem>
-					<MudItem xs="6" sm="4">
+					<MudItem xs="4">
 						<CaptionedProperty Title="Quantity In List">
 							<MudText>@context.Item.QuantityInList</MudText>
 						</CaptionedProperty>
 					</MudItem>
-					<MudItem xs="6" sm="4">
+					<MudItem xs="4">
 						<CaptionedProperty Title="Total After Add">
 							<MudText>@context.Item.TotalQuantity</MudText>
 						</CaptionedProperty>
