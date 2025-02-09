@@ -48,7 +48,7 @@ public class GetProductBundle
 
 					var images = await (from bi in db.ProductBundleItems
 										join pi in db.ProductImages on bi.ProductId equals pi.ProductId
-										where bi.ProductBundleId == request.ProductBundleId
+										where bi.ProductBundleId == request.ProductBundleId && pi.IsFeatured == true
 										select pi)
 										.ToListAsync(cancellationToken);
 
