@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Studio.Core.Client;
 using Unshackled.Studio.Core.Server.Extensions;
@@ -46,8 +47,24 @@ public class AuthorizedMemberMiddleware
 			return;
 		}
 
+		string? cookbookIdSetting = await db.MemberMeta
+			.Where(x => x.MemberId == member.Id && x.MetaKey == FitnessGlobals.MetaKeys.ActiveCookbookId)
+			.Select(x => x.MetaValue)
+			.SingleOrDefaultAsync();
+
+		long.TryParse(cookbookIdSetting, out var cookbookId);
+
+		string? householdIdSetting = await db.MemberMeta
+			.Where(x => x.MemberId == member.Id && x.MetaKey == FitnessGlobals.MetaKeys.ActiveHouseholdId)
+			.Select(x => x.MetaValue)
+			.SingleOrDefaultAsync();
+
+		long.TryParse(householdIdSetting, out var householdId);
+
 		context.Items[Globals.MiddlewareItemKeys.Member] = new ServerMember
 		{
+			ActiveCookbookId = cookbookId,
+			ActiveHouseholdId = householdId,
 			DateCreatedUtc = member.DateCreatedUtc,
 			DateLastModifiedUtc = member.DateLastModifiedUtc,
 			Email = member.Email,

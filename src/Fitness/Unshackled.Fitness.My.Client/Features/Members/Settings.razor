@@ -56,6 +56,18 @@
 	</SettingContent>
 </SettingItem>
 
+<MudText Typo="Typo.body2" Color="Color.Tertiary" Class="mt-12">Shopping Lists</MudText>
+<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+<SettingItem>
+	<LabelContent>Default Item In Cart Visibility</LabelContent>
+	<SettingContent>
+		<MudSelect T="bool" Variant="Variant.Outlined" FullWidth="true" @bind-Value="@Settings.HideIsInCart">
+			<MudSelectItem T="bool" Value="@false">Show</MudSelectItem>
+			<MudSelectItem T="bool" Value="@true">Hide</MudSelectItem>
+		</MudSelect>
+	</SettingContent>
+</SettingItem>
+
 <MudText Typo="Typo.body2" Color="Color.Tertiary" Class="mt-12">Strength Training</MudText>
 <MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
 <SettingItem>

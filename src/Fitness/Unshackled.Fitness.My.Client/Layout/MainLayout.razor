@@ -1,9 +1,15 @@
 ﻿@using MediatR
+@using Unshackled.Studio.Core.Client.Configuration
+@using Unshackled.Fitness.My.Client.Extensions
 @inherits LayoutComponentBase
 
-@inject Unshackled.Studio.Core.Client.Configuration.ClientConfiguration config;
-@inject ISnackbar Snackbar;
-@inject IMediator Mediator;
+@inject ClientConfiguration config
+@inject ISnackbar Snackbar
+@inject IMediator Mediator
+@inject IDialogService DialogService
+@inject IScreenWakeLockService ScreenLockService
+@inject IAppState State
+@inject ILocalStorage LocalStorage
 
 <AuthorizeView>
 	<Authorized>
@@ -21,6 +27,13 @@
 			<NavBottomContent>
 				<NavBottomMenu />
 			</NavBottomContent>
+			<NotificationBarContent>
+				<div class="mx-2">
+					<MudBadge Class="make-it-notification" Content="@(state.MakeItRecipes.Count)" Color="Color.Secondary" Overlap="true" Visible="@(state.MakeItRecipes.Count > 0)">
+						<MudIconButton Icon="@Icons.Material.Filled.LocalDining" Color="Color.Primary" OnClick="@(() => HandleMakeItClicked())" />
+					</MudBadge>
+				</div>
+			</NotificationBarContent>
 			<LogoContent>
 				<LogoLayout Width="150px" Layout="LogoLayouts.NoText" />
 			</LogoContent>
@@ -43,10 +56,36 @@
 	AppTheme CustomTheme = new();
 	bool IsLoading = true;
 
+	AppState state => (AppState)State;
+
 	protected async Task HandleInitializationCompleted()
 	{
 		await Mediator.GetActiveMember();
+
+		var miRecipes = await LocalStorage.GetItemAsync<List<MakeItRecipeModel>>(FitnessGlobals.LocalStorageKeys.MakeItRecipes);
+		if (miRecipes != null)
+			state.SetMakeItRecipes(miRecipes);
+
+		state.OnMakeItRecipesChanged += HandleMakeItRecipesChanged;
+		state.OnSaveMakeItRecipeChanges += HandleSaveMakeItRecipeChanges;
+
 		IsLoading = false;
+	}
+
+	protected async Task HandleMakeItClicked()
+	{
+		await DialogService.OpenMakeItClicked(ScreenLockService);
+	}
+
+	protected async void HandleMakeItRecipesChanged()
+	{
+		await LocalStorage.SetItemAsync(FitnessGlobals.LocalStorageKeys.MakeItRecipes, state.MakeItRecipes);
+		StateHasChanged();
+	}
+
+	protected async void HandleSaveMakeItRecipeChanges()
+	{
+		await LocalStorage.SetItemAsync(FitnessGlobals.LocalStorageKeys.MakeItRecipes, state.MakeItRecipes);
 	}
 
 	protected async Task HandleThemeSwitched(Themes theme)

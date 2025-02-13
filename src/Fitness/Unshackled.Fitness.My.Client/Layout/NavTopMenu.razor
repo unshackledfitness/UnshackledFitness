@@ -3,8 +3,39 @@
 <MudNavMenu>
 	<MudNavLink Icon="@Icons.Material.Filled.Dashboard" Href="/" Match="NavLinkMatch.All">Dashboard</MudNavLink>
 	<MudNavLink Icon="@Icons.Material.Filled.CalendarMonth" Href="/calendar" Match="NavLinkMatch.Prefix">Calendar</MudNavLink>
+	<MudNavLink Icon="@Icons.Material.Filled.CollectionsBookmark" Href="/cookbooks" Match="NavLinkMatch.Prefix">Cookbooks</MudNavLink>
+	<MudNavLink Icon="@Icons.Material.Filled.Groups" Href="/households" Match="NavLinkMatch.Prefix">Households</MudNavLink>
+
+	@if (ActiveMember.ActiveCookbook != null)
+	{
+		<MudDivider Class="my-2" />
+
+		<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block ml-4">@ActiveMember.ActiveCookbook.Title Menu</MudText>
+		<MudNavGroup Title="Cookbook" Icon="@Icons.Material.Filled.MenuBook" Expanded="@isExpanded[menuCookbook]" ExpandedChanged="@((bool val) => HandleExpandedChanged(menuCookbook, val))">
+			<MudNavLink Href="/cookbook-recipes" Match="NavLinkMatch.Prefix">Recipes</MudNavLink>
+		</MudNavGroup>
+	}
+
+	@if (ActiveMember.ActiveHousehold != null)
+	{
+		<MudDivider Class="my-2" />
+
+		<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block ml-4">@ActiveMember.ActiveHousehold.Title Menu</MudText>
+		<MudNavGroup Title="Meal Prep" Icon="@Icons.Material.Filled.Dining" Expanded="@isExpanded[menuMealPrep]" ExpandedChanged="@((bool val) => HandleExpandedChanged(menuMealPrep, val))">
+			<MudNavLink Href="/meal-plan" Match="NavLinkMatch.Prefix">Meal Plan</MudNavLink>
+			<MudNavLink Href="/recipes" Match="NavLinkMatch.Prefix">Recipes</MudNavLink>
+			<MudNavLink Href="/ingredients" Match="NavLinkMatch.Prefix">Ingredients</MudNavLink>
+		</MudNavGroup>
+		<MudNavGroup Title="Shopping" Icon="@Icons.Material.Filled.ShoppingBag" Expanded="@isExpanded[menuShopping]" ExpandedChanged="@((bool val) => HandleExpandedChanged(menuShopping, val))">
+			<MudNavLink Href="/shopping-lists" Match="NavLinkMatch.Prefix">Shopping Lists</MudNavLink>
+			<MudNavLink Href="/products" Match="NavLinkMatch.Prefix">Products</MudNavLink>
+			<MudNavLink Href="/product-bundles" Match="NavLinkMatch.Prefix">Product Bundles</MudNavLink>
+			<MudNavLink Href="/stores" Match="NavLinkMatch.Prefix">Stores</MudNavLink>
+		</MudNavGroup>
+	}
 
 	<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+	<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block ml-4">Member Menu</MudText>
 
 	<MudNavGroup Title="Activities" Icon="@Icons.Material.Filled.DirectionsRun" Expanded="@isExpanded[menuActivities]" ExpandedChanged="@((bool val) => HandleExpandedChanged(menuActivities, val))">
 		<MudNavLink Href="/activities" Match="NavLinkMatch.Prefix">Activities</MudNavLink>
@@ -13,7 +44,7 @@
 		<MudNavLink Href="/training-plans" Match="NavLinkMatch.Prefix">Training Plans</MudNavLink>
 	</MudNavGroup>
 
-	<MudNavGroup Title="Strength Training" Icon="@Icons.Material.Filled.FitnessCenter" Expanded="@isExpanded[menuStrenth]" ExpandedChanged="@((bool val) => HandleExpandedChanged(menuStrenth, val))">
+	<MudNavGroup Title="Strength Training" Icon="@Icons.Material.Filled.FitnessCenter" Expanded="@isExpanded[menuStrength]" ExpandedChanged="@((bool val) => HandleExpandedChanged(menuStrength, val))">
 		<MudNavLink Href="/workouts" Match="NavLinkMatch.Prefix">Workouts</MudNavLink>
 		<MudNavLink Href="/exercises" Match="NavLinkMatch.Prefix">Exercises</MudNavLink>
 		<MudNavLink Href="/templates" Match="NavLinkMatch.Prefix">Templates</MudNavLink>
@@ -28,14 +59,20 @@
 
 @code {
 	private const string menuActivities = "MenuActivitesExpanded";
-	private const string menuStrenth = "MenuStrengthExpanded";
+	private const string menuCookbook = "MenuCookbookExpanded";
+	private const string menuMealPrep = "MenuMealPrepExpanded";
 	private const string menuMetrics = "MenuMetricsExpanded";
+	private const string menuShopping = "MenuShoppingExpanded";
+	private const string menuStrength = "MenuStrengthExpanded";
 
 	private Dictionary<string, bool> isExpanded = new()
 	{
 		{menuActivities, true},
-		{menuStrenth, true},
-		{menuMetrics, true}
+		{menuCookbook, true},
+		{menuMealPrep, true},
+		{menuMetrics, true},
+		{menuShopping, true},
+		{menuStrength, true}
 	};
 
 	protected override async Task OnInitializedAsync()

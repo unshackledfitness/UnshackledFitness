@@ -1,4 +1,5 @@
-﻿using Unshackled.Studio.Core.Client.Enums;
+﻿using Unshackled.Fitness.Core.Models;
+using Unshackled.Studio.Core.Client.Enums;
 using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Fitness.Core.Models;
@@ -11,5 +12,7 @@ public class Member : IMember
 	public DateTime? DateLastModifiedUtc { get; set; }
 	public bool IsActive { get; set; }
 	public Themes AppTheme { get; set; } = Themes.System;
+	public MemberCookbook? ActiveCookbook { get; set; }
+	public MemberHousehold? ActiveHousehold { get; set; }
 	public AppSettings Settings { get; set; } = new();
 }

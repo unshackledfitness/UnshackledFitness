@@ -25,4 +25,13 @@
 		<ProjectReference Include="..\Unshackled.Fitness.Core\Unshackled.Fitness.Core.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Update="Components\DialogMakeRecipe.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
+	  <Content Update="Components\ShoppingListBuilder.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
+	</ItemGroup>
+
 </Project>

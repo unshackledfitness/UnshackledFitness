@@ -7,7 +7,7 @@ public enum WeightUnits
 	lb = 2
 }
 
-public static class MeasurementUnitsExtensions
+public static class WeightUnitsExtensions
 {
 	public static decimal ConversionFactor(this WeightUnits unit)
 	{

@@ -32,6 +32,18 @@ public class MembersController : BaseController
 		return Ok(await Mediator.Send(new AddPassword.Command(Request.HttpContext.User, model)));
 	}
 
+	[HttpPost("close-cookbook")]
+	public async Task<IActionResult> CloseCookbook([FromBody] string cookbookSid)
+	{
+		return Ok(await Mediator.Send(new CloseMemberCookbook.Command(Member.Id, cookbookSid)));
+	}
+
+	[HttpPost("close-household")]
+	public async Task<IActionResult> CloseHousehold([FromBody] string householdSid)
+	{
+		return Ok(await Mediator.Send(new CloseMemberHousehold.Command(Member.Id, householdSid)));
+	}
+
 	[HttpPost("delete-password")]
 	public async Task<IActionResult> DeletePassword([FromBody] FormRemovePasswordModel model)
 	{
@@ -79,6 +91,18 @@ public class MembersController : BaseController
 	public async Task<IActionResult> GetExternalLogins()
 	{
 		return Ok(await Mediator.Send(new GetExternalLoginsModel.Query(Request.HttpContext.User)));
+	}
+
+	[HttpPost("open-cookbook")]
+	public async Task<IActionResult> OpenCookbook([FromBody] string cookbookSid)
+	{
+		return Ok(await Mediator.Send(new OpenMemberCookbook.Command(Member.Id, cookbookSid)));
+	}
+
+	[HttpPost("open-household")]
+	public async Task<IActionResult> OpenHousehold([FromBody] string householdSid)
+	{
+		return Ok(await Mediator.Send(new OpenMemberHousehold.Command(Member.Id, householdSid)));
 	}
 
 	[HttpPost("remove-login-provider")]

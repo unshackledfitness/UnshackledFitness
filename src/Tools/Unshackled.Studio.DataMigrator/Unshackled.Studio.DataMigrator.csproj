@@ -24,8 +24,6 @@
 	  <ProjectReference Include="..\..\Core\Unshackled.Studio.Core.Data\Unshackled.Studio.Core.Data.csproj" />
 	  <ProjectReference Include="..\..\Fitness\Unshackled.Fitness.Core\Unshackled.Fitness.Core.csproj" />
 	  <ProjectReference Include="..\..\Fitness\Unshackled.Fitness.My\Unshackled.Fitness.My.csproj" />
-	  <ProjectReference Include="..\..\Kitchen\Unshackled.Kitchen.Core\Unshackled.Kitchen.Core.csproj" />
-	  <ProjectReference Include="..\..\Kitchen\Unshackled.Kitchen.My\Unshackled.Kitchen.My.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

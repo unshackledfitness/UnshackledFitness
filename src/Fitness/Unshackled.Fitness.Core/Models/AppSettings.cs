@@ -19,6 +19,9 @@ public class AppSettings : ICloneable
 	// Metrics
 	public MetricDisplayOptions MetricsDashboardDisplay { get; set; } = MetricDisplayOptions.Grouped;
 
+	// Shopping Lists
+	public bool HideIsInCart { get; set; } = false;
+
 	public object Clone()
 	{
 		return new AppSettings
@@ -27,6 +30,7 @@ public class AppSettings : ICloneable
 			DefaultUnits = DefaultUnits,
 			DisplaySplitTracking = DisplaySplitTracking,
 			HideCompleteSets = HideCompleteSets,
+			HideIsInCart = HideIsInCart,
 			MetricsDashboardDisplay = MetricsDashboardDisplay,
 			MixedDisplayColor = MixedDisplayColor,
 			WorkoutDisplayColor = WorkoutDisplayColor
