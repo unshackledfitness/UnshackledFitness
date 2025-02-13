@@ -13,9 +13,9 @@ public class AddToList
 	{
 		public long MemberId { get; private set; }
 		public long HouseholdId { get; private set; }
-		public AddRecipeToListModel Model { get; private set; }
+		public AddRecipesToListModel Model { get; private set; }
 
-		public Command(long memberId, long householdId, AddRecipeToListModel model)
+		public Command(long memberId, long householdId, AddRecipesToListModel model)
 		{
 			MemberId = memberId;
 			HouseholdId = householdId;

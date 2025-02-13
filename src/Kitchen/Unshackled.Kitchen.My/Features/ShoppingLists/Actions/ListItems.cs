@@ -7,6 +7,7 @@ using Unshackled.Kitchen.Core.Enums;
 using Unshackled.Kitchen.Core.Models;
 using Unshackled.Kitchen.My.Client.Features.ShoppingLists.Models;
 using Unshackled.Kitchen.My.Extensions;
+using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Kitchen.My.Features.ShoppingLists.Actions;
@@ -62,18 +63,27 @@ public class ListItems
 					.Where(x => x.ShoppingListId == request.ShoppingListId)
 					.Select(x => new RecipeAmountListModel
 					{
-						Amount = x.Amount,
+						IngredientAmount = x.IngredientAmount,
 						PortionUsed = x.PortionUsed,
 						ProductSid = x.ProductId.Encode(),
 						RecipeSid = x.RecipeId.Encode(),
 						RecipeTitle = x.Recipe != null ? x.Recipe.Title : string.Empty,
-						UnitLabel = x.UnitLabel
+						IngredientAmountUnitLabel = x.IngredientAmountUnitLabel
 					})
 					.ToListAsync(cancellationToken);
+
+				var images = await (from pi in db.ProductImages
+									join sli in db.ShoppingListItems on pi.ProductId equals sli.ProductId
+									where sli.ShoppingListId == request.ShoppingListId
+									select pi)
+									.ToListAsync(cancellationToken);
 
 				foreach (var item in list)
 				{
 					item.RecipeAmounts = recipeItems.Where(x => x.ProductSid == item.ProductSid).ToList();
+					item.Images = mapper.Map<List<ImageModel>>(images
+						.Where(x => x.ProductId == item.ProductSid.DecodeLong())
+						.ToList());
 				}
 
 				return list;

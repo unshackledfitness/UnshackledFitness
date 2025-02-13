@@ -20,7 +20,7 @@
 		@foreach (var amt in Item.RecipeAmounts)
 		{
 			<MudText Typo="Typo.body2">
-				<IngredientText Amount="@amt.Amount" AmountLabel="@amt.UnitLabel" Title="@amt.RecipeTitle" Href="@($"/recipes/{amt.RecipeSid}")" />
+				<IngredientText Amount="@amt.IngredientAmount" AmountLabel="@amt.IngredientAmountUnitLabel" Title="@amt.RecipeTitle" Href="@($"/recipes/{amt.RecipeSid}")" />
 			</MudText>
 		}
 	</div>

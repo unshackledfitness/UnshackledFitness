@@ -5,6 +5,8 @@ using Unshackled.Kitchen.Core.Data;
 using Unshackled.Kitchen.Core.Enums;
 using Unshackled.Kitchen.My.Client.Features.ProductBundles.Models;
 using Unshackled.Kitchen.My.Extensions;
+using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Kitchen.My.Features.ProductBundles.Actions;
 
@@ -33,7 +35,7 @@ public class GetProductBundle
 				var pb = await mapper.ProjectTo<ProductBundleModel>(db.ProductBundles
 					.AsNoTracking()
 					.Where(x => x.Id == request.ProductBundleId))
-					.SingleOrDefaultAsync();
+					.SingleOrDefaultAsync(cancellationToken);
 
 				if (pb != null)
 				{
@@ -42,8 +44,20 @@ public class GetProductBundle
 						.Include(x => x.Product)
 						.Where(x => x.ProductBundleId == request.ProductBundleId)
 						.OrderBy(x => x.Product.Title))
-						.ToListAsync();
+						.ToListAsync(cancellationToken);
 
+					var images = await (from bi in db.ProductBundleItems
+										join pi in db.ProductImages on bi.ProductId equals pi.ProductId
+										where bi.ProductBundleId == request.ProductBundleId && pi.IsFeatured == true
+										select pi)
+										.ToListAsync(cancellationToken);
+
+					foreach (var product in pb.Products) 
+					{
+						product.Images = mapper.Map<List<ImageModel>>(images
+							.Where(x => x.ProductId == product.ProductSid.DecodeLong())
+							.ToList());
+					}
 					return pb;
 				}
 			}

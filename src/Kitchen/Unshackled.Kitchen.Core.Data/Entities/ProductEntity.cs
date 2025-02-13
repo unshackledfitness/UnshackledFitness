@@ -12,6 +12,7 @@ public class ProductEntity : BaseHouseholdEntity, INutrition
 	public string? Description { get; set; }
 	public long? ProductCategoryId { get; set; }
 	public virtual ProductCategoryEntity? Category { get; set; }
+	public bool IsAutoSkipped { get; set; }
 	public bool IsArchived { get; set; }
 	public bool IsPinned { get; set; }
 	public bool HasNutritionInfo { get; set; }
@@ -151,6 +152,8 @@ public class ProductEntity : BaseHouseholdEntity, INutrition
 	public decimal Zinc { get; set; }
 	public NutritionUnits ZincUnit { get; set; } = NutritionUnits.mg;
 	public decimal ZincN { get; set; }
+
+	public virtual List<ProductImageEntity> Images { get; set; } = [];
 
 	public class TypeConfiguration : BaseHouseholdEntityTypeConfiguration<ProductEntity>, IEntityTypeConfiguration<ProductEntity>
 	{

@@ -16,13 +16,13 @@
 	min-width: 45px;
 }
 
-.mud-shrink~label.mud-input-label.mud-input-label-inputcontrol {
-    color: var(--mud-palette-text-secondary);
+.mud-shrink ~ label.mud-input-label.mud-input-label-inputcontrol {
+	color: var(--mud-palette-text-secondary);
 	white-space: nowrap;
 }
 
 .mud-simple-table.mud-table-striped .mud-table-container table tbody tr:nth-of-type(odd) {
-	.mud-shrink~label.mud-input-label.mud-input-label-inputcontrol {
+	.mud-shrink ~ label.mud-input-label.mud-input-label-inputcontrol {
 		background-color: var(--mud-palette-table-striped);
 	}
 }
@@ -39,9 +39,19 @@
 }
 
 .mud-input-control.mud-input-control-margin-dense {
-    margin: 0;
+	margin: 0;
 }
 
 .mud-input-control.mud-input-control-margin-dense.mud-input-outlined-with-label {
 	margin: 0;
+}
+
+.mud-input-label {
+	background-color: var(--mud-palette-background);
+}
+
+.mud-paper, .mud-card {
+	.mud-input-label {
+		background-color: var(--mud-palette-surface);
+	}
 }

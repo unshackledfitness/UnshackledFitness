@@ -90,7 +90,7 @@
 									</div>
 								}
 
-								<div class="recipe-dialog @(state.MakeItIndex > Recipes.Count ? "d-flex" : "d-none")">
+								<div class="recipe-dialog @(state.MakeItIndex >= Recipes.Count ? "d-flex" : "d-none")">
 									<div class="recipe-dialog">
 										@if (Recipes.Count > 0)
 										{

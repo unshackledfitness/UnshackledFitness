@@ -15,7 +15,7 @@ public partial class DialogMakeRecipe : IAsyncDisposable
 
 	public List<MakeItRecipeModel> Recipes { get; set; } = [];
 
-	protected bool DisableBack => state.MakeItIndex <= 1 || Recipes.Count == 0;
+	protected bool DisableBack => state.MakeItIndex <= 0 || Recipes.Count == 0;
 	protected bool DisableForward => state.MakeItIndex > Recipes.Count;
 	protected bool CanScreenLock { get; set; }
 	protected bool IsScreenLocked { get; set; }

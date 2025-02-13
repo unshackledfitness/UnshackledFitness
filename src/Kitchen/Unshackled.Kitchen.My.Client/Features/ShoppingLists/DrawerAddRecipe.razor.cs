@@ -58,11 +58,9 @@ public class DrawerAddRecipeBase : BaseSearchComponent<SearchRecipeModel, Recipe
 			return;
 
 		IsWorking = true;
-		AddRecipeToListModel model = new()
+		AddRecipesToListModel model = new()
 		{
 			List = Items,
-			RecipeSid = SelectedRecipe.Sid,
-			RecipeTitle = SelectedRecipe.Title,
 			ShoppingListSid = ShoppingList.Sid
 		};
 		var result = await Mediator.Send(new AddRecipeToList.Command(model));

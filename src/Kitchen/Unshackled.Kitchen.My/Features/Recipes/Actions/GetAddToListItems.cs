@@ -27,7 +27,7 @@ public class GetAddToListItems
 
 		public async Task<List<AddToShoppingListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
-			return await db.GetRecipeItemsToAddToList(request.MemberId, request.Model);
+			return await db.GetRecipeItemsToAddToList(request.MemberId, [request.Model]);
 		}
 	}
 }

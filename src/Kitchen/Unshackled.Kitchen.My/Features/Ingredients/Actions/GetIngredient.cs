@@ -5,6 +5,7 @@ using Unshackled.Kitchen.Core.Data;
 using Unshackled.Kitchen.Core.Enums;
 using Unshackled.Kitchen.My.Client.Features.Ingredients.Models;
 using Unshackled.Kitchen.My.Extensions;
+using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Kitchen.My.Features.Ingredients.Actions;
@@ -53,6 +54,18 @@ public class GetIngredient
 						.OrderBy(x => x.Product.Brand)
 							.ThenBy(x => x.Product.Title))
 						.ToListAsync(cancellationToken);
+
+					long[] ids = ing.Substitutions.Select(x => x.ProductSid.DecodeLong()).ToArray();
+					var images = await db.ProductImages
+						.Where(x => ids.Contains(x.ProductId) && x.IsFeatured == true)
+						.ToListAsync(cancellationToken);
+
+					foreach (var sub in ing.Substitutions)
+					{
+						sub.Images = mapper.Map<List<ImageModel>>(images
+							.Where(x => x.ProductId == sub.ProductSid.DecodeLong())
+							.ToList());
+					}
 				}
 
 				return ing;

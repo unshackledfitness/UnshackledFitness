@@ -1,0 +1,23 @@
+﻿/// <reference path="./styles.scss" />
+
+.meal-plan
+{
+	flex-grow: 1;
+
+	.meal-definition {
+		margin-bottom: 1rem;
+
+		.recipe {
+			padding: .5rem 0;
+			border-bottom: solid 1px var(--mud-palette-divider);
+		}
+
+		.recipe:last-of-type {
+			border-bottom: none;
+		}
+	}
+
+	.meal-definition:last-of-type {
+		margin-bottom: 0;
+	}
+}

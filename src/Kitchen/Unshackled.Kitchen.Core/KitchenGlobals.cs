@@ -4,7 +4,6 @@ public class KitchenGlobals
 {
 	public const int MaxSelectionLimit = 25;
 	public const int MaxImageWidth = 800;
-	public const double ImageAspectRatio = 1.778;
 	public const string PermissionError = "You don't have permission to perform that action.";
 	public const string UncategorizedKey = "_uncategorized";
 
@@ -25,6 +24,8 @@ public class KitchenGlobals
 	public static class Paths
 	{
 		public static string HouseholdImageDir = "households/{0}";
+		public static string ProductImageDir = "households/{0}/products/{1}";
+		public static string ProductImageFile = "households/{0}/products/{1}/{2}";
 		public static string RecipeImageDir = "households/{0}/recipes/{1}";
 		public static string RecipeImageFile = "households/{0}/recipes/{1}/{2}";
 	}

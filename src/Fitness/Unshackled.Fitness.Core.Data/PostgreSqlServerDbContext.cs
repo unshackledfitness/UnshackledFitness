@@ -38,4 +38,16 @@ public class PostgreSqlServerDbContext : FitnessDbContext
 
 		builder.HasCollation("case_insensitive_collation", locale: "en-u-ks-primary", provider: "icu", deterministic: false);
 	}
+
+	public static PostgreSqlServerDbContext Create(string connString, string tablePrefix)
+	{
+		var ob = new DbContextOptionsBuilder<PostgreSqlServerDbContext>();
+		ConnectionStrings connStrings = new() { DefaultDatabase = connString };
+		DbConfiguration dbConfig = new()
+		{
+			DatabaseType = DbConfiguration.POSTGRESQL,
+			TablePrefix = tablePrefix
+		};
+		return new PostgreSqlServerDbContext(ob.Options, connStrings, dbConfig);
+	}
 }

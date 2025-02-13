@@ -48,7 +48,7 @@ public class DrawerAddToListBase : BaseComponent<Member>
 			{
 				if (!SelectedItemSids.Contains(item.RecipeIngredientSid))
 				{
-					item.Quantity = 0;
+					item.QuantityToAdd = 0;
 					item.IsSkipped = true;
 				}
 			}
@@ -62,11 +62,9 @@ public class DrawerAddToListBase : BaseComponent<Member>
 	protected async Task HandleAddToListClicked()
 	{
 		IsWorking = true;
-		AddRecipeToListModel model = new()
+		AddRecipesToListModel model = new()
 		{
 			List = Items,
-			RecipeSid = Recipe.Sid,
-			RecipeTitle = Recipe.Title,
 			ShoppingListSid = SelectedShoppingListSid
 		};
 		var result = await Mediator.Send(new AddToList.Command(model));

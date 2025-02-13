@@ -1,0 +1,39 @@
+﻿@inherits SectionImagesBase
+
+@if(IsEditMode || Images.Count > 0)
+{
+	<SectionContainer IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
+		<SectionHeader Title="Images" Typo="Typo.h5" IsEditMode="@IsEditMode" IsEditing="false" DisableControls="@DisableControls" Class="mb-4">
+			<EditModeToolbar>
+				<MudIconButton Icon="@Icons.Material.Filled.AddPhotoAlternate" Disabled="@DisableSectionControls" OnClick="@(() => HandleAddClicked())" />
+			</EditModeToolbar>
+		</SectionHeader>
+
+		<GridView TItem="ImageModel" Items="@Images" GridSpacing="2" xs="6" sm="4" md="3" lg="2">
+			<ItemRenderer>
+				<MudCard Class="h-100">
+					<MudImage Src="@context.Item.ImageUrl(StorageSettings.BaseUrl)" Fluid="true" Class="image-16x9" />
+					@if (IsEditMode)
+					{
+						<MudCardActions>
+							<MudToggleIconButton Icon="@Icons.Material.Outlined.Star" ToggledIcon="@Icons.Material.Filled.Star" Color="Color.Default" ToggledColor="Color.Warning"
+												 Toggled="context.Item.IsFeatured" title="Featured" ToggledChanged="@(() => HandleSetFeaturedClick(context.Item))" />
+							<MudSpacer />
+							<MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@DisableSectionControls" OnClick="@(() => HandleDeleteClicked(context.Item))" />
+						</MudCardActions>
+					}
+				</MudCard>
+			</ItemRenderer>
+			<EmptyListRenderer>
+				<MudAlert Severity="Severity.Normal" Elevation="0" NoIcon="true" ContentAlignment="HorizontalAlignment.Center">You have not added any images.</MudAlert>
+			</EmptyListRenderer>
+		</GridView>
+
+		<SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
+			@if (DrawerView == Views.AddImage)
+			{
+				<DrawerAddImage ProductSid="@ProductSid" OnUploadCompleted="HandleImageAdded" />
+			}
+		</SideDrawer>
+	</SectionContainer>
+}

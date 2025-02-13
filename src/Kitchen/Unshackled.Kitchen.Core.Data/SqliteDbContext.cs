@@ -10,6 +10,11 @@ public class SqliteDbContext : KitchenDbContext
 		ConnectionStrings connectionStrings,
 		DbConfiguration dbConfig) : base(options, connectionStrings, dbConfig) { }
 
+	protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+	{
+		configurationBuilder.Properties<string>().UseCollation("NOCASE");
+	}
+
 	protected override void OnConfiguring(DbContextOptionsBuilder options)
 	{
 		if (!string.IsNullOrEmpty(ConnectionStrings.DefaultDatabase))
@@ -22,5 +27,17 @@ public class SqliteDbContext : KitchenDbContext
 				o.MigrationsHistoryTable($"{prefix}_EFMigrationsHistory");
 			});
 		}
+	}
+
+	public static SqliteDbContext Create(string connString, string tablePrefix)
+	{
+		var ob = new DbContextOptionsBuilder<SqliteDbContext>();
+		ConnectionStrings connStrings = new() { DefaultDatabase = connString };
+		DbConfiguration dbConfig = new()
+		{
+			DatabaseType = DbConfiguration.SQLITE,
+			TablePrefix = tablePrefix
+		};
+		return new SqliteDbContext(ob.Options, connStrings, dbConfig);
 	}
 }

@@ -15,24 +15,28 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -50,14 +54,17 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -73,14 +80,17 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -92,17 +102,21 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -114,10 +128,12 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -129,16 +145,20 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("Value")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -159,7 +179,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("MemberId")
                         .HasColumnType("INTEGER");
@@ -167,7 +188,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -198,7 +220,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<int>("Permissions")
                         .HasColumnType("INTEGER");
@@ -275,7 +298,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -303,7 +327,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("INTEGER");
@@ -340,6 +365,90 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.ToTable("uk_HouseholdMembers", (string)null);
                 });
 
+            modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.MealDefinitionEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DateCreatedUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DateLastModifiedUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("HouseholdId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DateCreatedUtc");
+
+                    b.HasIndex("DateLastModifiedUtc");
+
+                    b.HasIndex("HouseholdId");
+
+                    b.HasIndex("SortOrder");
+
+                    b.HasIndex("Title");
+
+                    b.ToTable("uk_MealDefinitions", (string)null);
+                });
+
+            modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.MealPlanRecipeEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DateCreatedUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DateLastModifiedUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateOnly>("DatePlanned")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("HouseholdId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long?>("MealDefinitionId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("RecipeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Scale")
+                        .HasPrecision(4, 2)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DateCreatedUtc");
+
+                    b.HasIndex("DateLastModifiedUtc");
+
+                    b.HasIndex("HouseholdId");
+
+                    b.HasIndex("MealDefinitionId");
+
+                    b.HasIndex("RecipeId");
+
+                    b.HasIndex("DatePlanned", "MealDefinitionId");
+
+                    b.ToTable("uk_MealPlanRecipes", (string)null);
+                });
+
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.ProductBundleEntity", b =>
                 {
                     b.Property<long>("Id")
@@ -358,7 +467,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -409,7 +519,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -454,7 +565,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.Property<string>("Brand")
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<decimal>("Calcium")
                         .HasPrecision(7, 2)
@@ -536,7 +648,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<decimal>("DietaryFiber")
                         .HasPrecision(7, 2)
@@ -600,6 +713,9 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsArchived")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsAutoSkipped")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsPinned")
@@ -776,7 +892,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Property<string>("ServingSizeUnitLabel")
                         .IsRequired()
                         .HasMaxLength(25)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<decimal>("ServingsPerContainer")
                         .HasPrecision(8, 3)
@@ -829,7 +946,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<decimal>("TotalCarbohydrates")
                         .HasPrecision(7, 2)
@@ -978,11 +1096,70 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.ToTable("uk_Products", (string)null);
                 });
 
+            modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.ProductImageEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Container")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
+
+                    b.Property<DateTime>("DateCreatedUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DateLastModifiedUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("HouseholdId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsFeatured")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("MimeType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("RelativePath")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DateCreatedUtc");
+
+                    b.HasIndex("DateLastModifiedUtc");
+
+                    b.HasIndex("HouseholdId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("uk_ProductImages", (string)null);
+                });
+
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.ProductSubstitutionEntity", b =>
                 {
                     b.Property<string>("IngredientKey")
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("ProductId")
                         .HasColumnType("INTEGER");
@@ -1018,7 +1195,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("INTEGER");
@@ -1029,7 +1207,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<int>("TotalServings")
                         .HasColumnType("INTEGER");
@@ -1055,7 +1234,9 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.Property<string>("Container")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<DateTime>("DateCreatedUtc")
                         .HasColumnType("TEXT");
@@ -1074,25 +1255,33 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.Property<string>("MimeType")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("RecipeId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("RelativePath")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<int>("SortOrder")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DateCreatedUtc");
+
+                    b.HasIndex("DateLastModifiedUtc");
+
                     b.HasIndex("HouseholdId");
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("uk_RecipeImages");
+                    b.ToTable("uk_RecipeImages", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.RecipeIngredientEntity", b =>
@@ -1108,7 +1297,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Property<string>("AmountLabel")
                         .IsRequired()
                         .HasMaxLength(25)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<decimal>("AmountN")
                         .HasPrecision(15, 3)
@@ -1117,7 +1307,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Property<string>("AmountText")
                         .IsRequired()
                         .HasMaxLength(15)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<int>("AmountUnit")
                         .HasColumnType("INTEGER");
@@ -1134,14 +1325,16 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Property<string>("Key")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("ListGroupId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("PrepNote")
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("RecipeId")
                         .HasColumnType("INTEGER");
@@ -1152,7 +1345,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -1194,7 +1388,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -1226,7 +1421,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.Property<string>("Note")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("RecipeId")
                         .HasColumnType("INTEGER");
@@ -1264,7 +1460,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.Property<string>("Instructions")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("RecipeId")
                         .HasColumnType("INTEGER");
@@ -1321,7 +1518,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -1370,23 +1568,37 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Property<long>("RecipeId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("Amount")
+                    b.Property<int>("InstanceId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("IngredientAmount")
                         .HasPrecision(8, 3)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("IngredientAmountUnitLabel")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
+
+                    b.Property<int>("IngredientAmountUnitType")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("IngredientKey")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
+
+                    b.Property<bool>("IsUnitMismatch")
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("PortionUsed")
                         .HasPrecision(15, 10)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UnitLabel")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ServingSizeUnitType")
+                        .HasColumnType("INTEGER");
 
-                    b.HasKey("ShoppingListId", "ProductId", "RecipeId");
+                    b.HasKey("ShoppingListId", "ProductId", "RecipeId", "InstanceId");
 
                     b.HasIndex("ProductId");
 
@@ -1409,7 +1621,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("INTEGER");
@@ -1417,7 +1630,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -1446,7 +1660,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("INTEGER");
@@ -1460,7 +1675,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -1520,12 +1736,14 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Property<string>("Key")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -1561,7 +1779,8 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
@@ -1591,11 +1810,13 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Property<string>("MetaKey")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("MetaValue")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -1608,18 +1829,21 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
             modelBuilder.Entity("Unshackled.Studio.Core.Data.Entities.UserEntity", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("INTEGER");
@@ -1632,30 +1856,36 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -1837,6 +2067,43 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Navigation("Member");
                 });
 
+            modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.MealDefinitionEntity", b =>
+                {
+                    b.HasOne("Unshackled.Kitchen.Core.Data.Entities.HouseholdEntity", "Household")
+                        .WithMany()
+                        .HasForeignKey("HouseholdId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Household");
+                });
+
+            modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.MealPlanRecipeEntity", b =>
+                {
+                    b.HasOne("Unshackled.Kitchen.Core.Data.Entities.HouseholdEntity", "Household")
+                        .WithMany()
+                        .HasForeignKey("HouseholdId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Unshackled.Kitchen.Core.Data.Entities.MealDefinitionEntity", "MealDefinition")
+                        .WithMany()
+                        .HasForeignKey("MealDefinitionId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Unshackled.Kitchen.Core.Data.Entities.RecipeEntity", "Recipe")
+                        .WithMany()
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Household");
+
+                    b.Navigation("MealDefinition");
+
+                    b.Navigation("Recipe");
+                });
+
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.ProductBundleEntity", b =>
                 {
                     b.HasOne("Unshackled.Kitchen.Core.Data.Entities.HouseholdEntity", "Household")
@@ -1894,6 +2161,25 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
                     b.Navigation("Category");
 
                     b.Navigation("Household");
+                });
+
+            modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.ProductImageEntity", b =>
+                {
+                    b.HasOne("Unshackled.Kitchen.Core.Data.Entities.HouseholdEntity", "Household")
+                        .WithMany()
+                        .HasForeignKey("HouseholdId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Unshackled.Kitchen.Core.Data.Entities.ProductEntity", "Product")
+                        .WithMany("Images")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Household");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.ProductSubstitutionEntity", b =>
@@ -2213,6 +2499,11 @@ namespace Unshackled.Kitchen.Core.Data.Migrations.Sqlite
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.ProductCategoryEntity", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.ProductEntity", b =>
+                {
+                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("Unshackled.Kitchen.Core.Data.Entities.RecipeEntity", b =>

@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
-using Unshackled.Studio.Core.Client.Configuration;
-using Unshackled.Studio.Core.Data;
 using Unshackled.Studio.DataMigrator.Configuration;
 using Unshackled.Studio.DataMigrator.Enums;
 
@@ -14,58 +12,58 @@ internal class FitnessMigrator : BaseMigrator<FitnessDbContext>
 		switch (migrationType)
 		{
 			case MigrationTypes.MsSqlToMySql:
-				dbLegacy = SetupMsSQL(mConfig.MsSqlDatabase, mConfig.SourceTablePrefix);
-				dbNew = SetupMySQL(mConfig.MySqlDatabase, mConfig.DestinationTablePrefix);
+				dbLegacy = MsSqlServerDbContext.Create(mConfig.MsSqlDatabase, mConfig.SourceTablePrefix);
+				dbNew = MySqlServerDbContext.Create(mConfig.MySqlDatabase, mConfig.DestinationTablePrefix);
 				break;
 			case MigrationTypes.MsSqlToPostgreSql:
-				dbLegacy = SetupMsSQL(mConfig.MsSqlDatabase, mConfig.SourceTablePrefix);
-				dbNew = SetupPostgreSQL(mConfig.PostgreSqlDatabase, mConfig.DestinationTablePrefix);
+				dbLegacy = MsSqlServerDbContext.Create(mConfig.MsSqlDatabase, mConfig.SourceTablePrefix);
+				dbNew = PostgreSqlServerDbContext.Create(mConfig.PostgreSqlDatabase, mConfig.DestinationTablePrefix);
 				break;
 			case MigrationTypes.MsSqlToSqlite:
-				dbLegacy = SetupMsSQL(mConfig.MsSqlDatabase, mConfig.SourceTablePrefix);
-				dbNew = SetupSqlite(mConfig.SqliteDatabase, mConfig.DestinationTablePrefix);
+				dbLegacy = MsSqlServerDbContext.Create(mConfig.MsSqlDatabase, mConfig.SourceTablePrefix);
+				dbNew = SqliteDbContext.Create(mConfig.SqliteDatabase, mConfig.DestinationTablePrefix);
 				PrepareSqlitePath(mConfig.SqliteDatabase);
 				break;
 			case MigrationTypes.MySqlToMsSql:
-				dbLegacy = SetupMySQL(mConfig.MySqlDatabase, mConfig.SourceTablePrefix);
-				dbNew = SetupMsSQL(mConfig.MsSqlDatabase, mConfig.DestinationTablePrefix);
+				dbLegacy = MySqlServerDbContext.Create(mConfig.MySqlDatabase, mConfig.SourceTablePrefix);
+				dbNew = MsSqlServerDbContext.Create(mConfig.MsSqlDatabase, mConfig.DestinationTablePrefix);
 				isIdentityInsertRequired = true;
 				break;
 			case MigrationTypes.MySqlToPostgreSql:
-				dbLegacy = SetupMySQL(mConfig.MySqlDatabase, mConfig.SourceTablePrefix);
-				dbNew = SetupPostgreSQL(mConfig.PostgreSqlDatabase, mConfig.DestinationTablePrefix);
+				dbLegacy = MySqlServerDbContext.Create(mConfig.MySqlDatabase, mConfig.SourceTablePrefix);
+				dbNew = PostgreSqlServerDbContext.Create(mConfig.PostgreSqlDatabase, mConfig.DestinationTablePrefix);
 				break;
 			case MigrationTypes.MySqlToSqlite:
-				dbLegacy = SetupMySQL(mConfig.MySqlDatabase, mConfig.SourceTablePrefix);
-				dbNew = SetupSqlite(mConfig.SqliteDatabase, mConfig.DestinationTablePrefix);
+				dbLegacy = MySqlServerDbContext.Create(mConfig.MySqlDatabase, mConfig.SourceTablePrefix);
+				dbNew = SqliteDbContext.Create(mConfig.SqliteDatabase, mConfig.DestinationTablePrefix);
 				PrepareSqlitePath(mConfig.SqliteDatabase);
 				break;
 			case MigrationTypes.PostgreSqlToMsSql:
-				dbLegacy = SetupPostgreSQL(mConfig.PostgreSqlDatabase, mConfig.SourceTablePrefix);
-				dbNew = SetupMsSQL(mConfig.MsSqlDatabase, mConfig.DestinationTablePrefix);
+				dbLegacy = PostgreSqlServerDbContext.Create(mConfig.PostgreSqlDatabase, mConfig.SourceTablePrefix);
+				dbNew = MsSqlServerDbContext.Create(mConfig.MsSqlDatabase, mConfig.DestinationTablePrefix);
 				isIdentityInsertRequired = true;
 				break;
 			case MigrationTypes.PostgreSqlToMySql:
-				dbLegacy = SetupPostgreSQL(mConfig.PostgreSqlDatabase, mConfig.SourceTablePrefix);
-				dbNew = SetupMySQL(mConfig.MySqlDatabase, mConfig.DestinationTablePrefix);
+				dbLegacy = PostgreSqlServerDbContext.Create(mConfig.PostgreSqlDatabase, mConfig.SourceTablePrefix);
+				dbNew = MySqlServerDbContext.Create(mConfig.MySqlDatabase, mConfig.DestinationTablePrefix);
 				break;
 			case MigrationTypes.PostgreSqlToSqlite:
-				dbLegacy = SetupPostgreSQL(mConfig.PostgreSqlDatabase, mConfig.SourceTablePrefix);
-				dbNew = SetupSqlite(mConfig.SqliteDatabase, mConfig.DestinationTablePrefix);
+				dbLegacy = PostgreSqlServerDbContext.Create(mConfig.PostgreSqlDatabase, mConfig.SourceTablePrefix);
+				dbNew = SqliteDbContext.Create(mConfig.SqliteDatabase, mConfig.DestinationTablePrefix);
 				PrepareSqlitePath(mConfig.SqliteDatabase);
 				break;
 			case MigrationTypes.SqliteToMsSql:
-				dbLegacy = SetupSqlite(mConfig.SqliteDatabase, mConfig.SourceTablePrefix);
-				dbNew = SetupMsSQL(mConfig.MsSqlDatabase, mConfig.DestinationTablePrefix);
+				dbLegacy = SqliteDbContext.Create(mConfig.SqliteDatabase, mConfig.SourceTablePrefix);
+				dbNew = MsSqlServerDbContext.Create(mConfig.MsSqlDatabase, mConfig.DestinationTablePrefix);
 				isIdentityInsertRequired = true;
 				break;
 			case MigrationTypes.SqliteToMySql:
-				dbLegacy = SetupSqlite(mConfig.SqliteDatabase, mConfig.SourceTablePrefix);
-				dbNew = SetupMySQL(mConfig.MySqlDatabase, mConfig.DestinationTablePrefix);
+				dbLegacy = SqliteDbContext.Create(mConfig.SqliteDatabase, mConfig.SourceTablePrefix);
+				dbNew = MySqlServerDbContext.Create(mConfig.MySqlDatabase, mConfig.DestinationTablePrefix);
 				break;
 			case MigrationTypes.SqliteToPostgreSql:
-				dbLegacy = SetupSqlite(mConfig.SqliteDatabase, mConfig.SourceTablePrefix);
-				dbNew = SetupPostgreSQL(mConfig.PostgreSqlDatabase, mConfig.DestinationTablePrefix);
+				dbLegacy = SqliteDbContext.Create(mConfig.SqliteDatabase, mConfig.SourceTablePrefix);
+				dbNew = PostgreSqlServerDbContext.Create(mConfig.PostgreSqlDatabase, mConfig.DestinationTablePrefix);
 				break;
 			default:
 				dbLegacy = default!;
@@ -107,53 +105,5 @@ internal class FitnessMigrator : BaseMigrator<FitnessDbContext>
 		await MigrateDbSet(dbLegacy.MetricDefinitions, dbNew.MetricDefinitions, "Metric Definitions");
 		await MigrateDbSet(dbLegacy.Metrics, dbNew.Metrics, "Metrics");
 		await MigrateDbSet(dbLegacy.MetricPresets, dbNew.MetricPresets, "Metric Presets");
-	}
-
-	private MsSqlServerDbContext SetupMsSQL(string connString, string tablePrefix)
-	{
-		var ob = new DbContextOptionsBuilder<MsSqlServerDbContext>();
-		ConnectionStrings connStrings = new() { DefaultDatabase = connString };
-		DbConfiguration dbConfig = new()
-		{
-			DatabaseType = DbConfiguration.MSSQL,
-			TablePrefix = tablePrefix
-		};
-		return new MsSqlServerDbContext(ob.Options, connStrings, dbConfig);
-	}
-
-	private MySqlServerDbContext SetupMySQL(string connString, string tablePrefix)
-	{
-		var ob = new DbContextOptionsBuilder<MySqlServerDbContext>();
-		ConnectionStrings connStrings = new() { DefaultDatabase = connString };
-		DbConfiguration dbConfig = new()
-		{
-			DatabaseType = DbConfiguration.MYSQL,
-			TablePrefix = tablePrefix
-		};
-		return new MySqlServerDbContext(ob.Options, connStrings, dbConfig);
-	}
-
-	private PostgreSqlServerDbContext SetupPostgreSQL(string connString, string tablePrefix)
-	{
-		var ob = new DbContextOptionsBuilder<PostgreSqlServerDbContext>();
-		ConnectionStrings connStrings = new() { DefaultDatabase = connString };
-		DbConfiguration dbConfig = new()
-		{
-			DatabaseType = DbConfiguration.POSTGRESQL,
-			TablePrefix = tablePrefix
-		};
-		return new PostgreSqlServerDbContext(ob.Options, connStrings, dbConfig);
-	}
-
-	private SqliteDbContext SetupSqlite(string connString, string tablePrefix)
-	{
-		var ob = new DbContextOptionsBuilder<SqliteDbContext>();
-		ConnectionStrings connStrings = new() { DefaultDatabase = connString };
-		DbConfiguration dbConfig = new()
-		{
-			DatabaseType = DbConfiguration.SQLITE,
-			TablePrefix = tablePrefix
-		};
-		return new SqliteDbContext(ob.Options, connStrings, dbConfig);
 	}
 }

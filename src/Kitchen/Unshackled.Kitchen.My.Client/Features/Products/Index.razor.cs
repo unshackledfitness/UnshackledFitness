@@ -15,6 +15,7 @@ public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListMode
 {
 	[Inject] protected ClientConfiguration ClientConfig { get; set; } = default!;
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
+	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
 
 	protected enum Views
 	{
@@ -26,11 +27,11 @@ public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListMode
 
 	protected const string FormId = "formAddProduct";
 	public FormProductModel FormModel { get; set; } = new();
-	protected List<ProductCategoryModel> Categories { get; set; } = [];
+	protected List<CategoryModel> Categories { get; set; } = [];
 	protected List<ShoppingListModel> ShoppingLists { get; set; } = [];
 	protected bool MaxSelectionReached => SelectedSids.Count == KitchenGlobals.MaxSelectionLimit;
 	protected bool MergeAvailable => SelectedSids.Count == 2;
-	protected List<string> SelectedSids { get; set; } = new();
+	protected List<string> SelectedSids { get; set; } = [];
 	protected bool? SelectAll { get; set; } = false;
 	protected bool IsBulkArchive { get; set; } = true;
 	protected bool DrawerOpen => DrawerView != Views.None;
@@ -55,7 +56,7 @@ public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListMode
 
 		await DoSearch(SearchModel.Page);
 
-		Categories = await Mediator.Send(new ListProductCategories.Query());
+		Categories = await Mediator.Send(new ListCategories.Query());
 		ShoppingLists = await Mediator.Send(new ListShoppingLists.Query());
 	}
 
@@ -109,7 +110,7 @@ public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListMode
 	protected async Task HandleBulkCategorySubmitted(string categorySid)
 	{
 		DrawerView = Views.None;
-		if (!string.IsNullOrEmpty(categorySid) && SelectedSids.Any())
+		if (!string.IsNullOrEmpty(categorySid) && SelectedSids.Count != 0)
 		{
 			IsWorking = true;
 			BulkCategoryModel model = new()
@@ -131,7 +132,7 @@ public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListMode
 
 	protected void HandleBulkSetCategoryClicked()
 	{
-		if (SelectedSids.Any())
+		if (SelectedSids.Count != 0)
 		{
 			DrawerView = Views.BulkCategory;
 		}
@@ -139,7 +140,7 @@ public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListMode
 
 	protected async Task HandleBulkSetArchivedClicked()
 	{
-		if (SelectedSids.Any())
+		if (SelectedSids.Count != 0)
 		{
 			string action = IsBulkArchive ? "archive" : "restore";
 			bool? confirm = await DialogService.ShowMessageBox(
@@ -183,7 +184,7 @@ public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListMode
 		{
 			SelectAll = true;
 		}
-		else if (!SelectedSids.Any())
+		else if (SelectedSids.Count == 0)
 		{
 			SelectAll = false;
 		}
@@ -212,8 +213,10 @@ public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListMode
 		{
 			DialogOptions options = new DialogOptions() { MaxWidth = MaxWidth.Small, FullWidth = true };
 
-			var parameters = new DialogParameters();
-			parameters.Add(DialogMerge.ParameterSids, SelectedSids);
+			var parameters = new DialogParameters
+			{
+				{ DialogMerge.ParameterSids, SelectedSids }
+			};
 
 			var dialog = DialogService.Show<DialogMerge>("Merge Products", parameters, options);
 			DialogResult? confirm = await dialog.Result;

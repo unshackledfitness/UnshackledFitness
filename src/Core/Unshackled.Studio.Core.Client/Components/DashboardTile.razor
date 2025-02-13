@@ -8,7 +8,7 @@
 		}
 		@if (ChildContent == null)
 		{
-			<MudText Align="Align.Center">@Title</MudText>
+			<MudText Typo="@Typo" Align="Align.Center">@Title</MudText>
 		}
 		else
 		{
@@ -22,6 +22,7 @@
 	[Parameter] public string Icon { get; set; } = string.Empty;
 	[Parameter] public string Href { get; set; } = string.Empty;
 	[Parameter] public string Target { get; set; } = string.Empty;
+	[Parameter] public Typo Typo { get; set; } = Typo.body1;
 	[Parameter] public Size Size { get; set; } = Size.Medium;
 	[Parameter] public EventCallback OnClick { get; set; }
 	[Parameter] public RenderFragment? ChildContent { get; set; }

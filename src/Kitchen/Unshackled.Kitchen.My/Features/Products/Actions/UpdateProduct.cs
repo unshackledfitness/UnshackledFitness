@@ -55,6 +55,7 @@ public class UpdateProduct
 			product.Description = request.Model.Description?.Trim();
 			product.HasNutritionInfo = request.Model.CheckForNutritionInfo();
 			product.HouseholdId = request.HouseholdId;
+			product.IsAutoSkipped = request.Model.IsAutoSkipped;
 			product.ProductCategoryId = categoryId > 0 ? categoryId : null;
 			product.Title = request.Model.Title.Trim();
 

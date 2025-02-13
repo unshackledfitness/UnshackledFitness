@@ -12,13 +12,13 @@
 
 	<ListView TItem="FormProductModel" Items="@ProductBundle.Products">
 		<ItemRenderer>
-			<div class="d-flex flex-row gap-3">
+			<div class="d-flex flex-row gap-2 align-center">
 				<div class="px-3">
 					<CaptionedProperty Align="Align.Center" Title="Qty">
 						<MudText Typo="Typo.h5">@context.Item.Quantity.ToString()</MudText>
 					</CaptionedProperty>
 				</div>
-				<MudDivider FlexItem="true" Vertical="true" />				
+				<MultipleImageComponent BaseUrl="@StorageSettings.BaseUrl" Class="image-thumbnail-50" Images="@context.Item.Images" GalleryTitle="Product Images" AspectRatio="AspectRatios.R1x1" />
 				<div class="flex-grow-1 align-self-center">
 					@if (!string.IsNullOrEmpty(context.Item.Brand))
 					{

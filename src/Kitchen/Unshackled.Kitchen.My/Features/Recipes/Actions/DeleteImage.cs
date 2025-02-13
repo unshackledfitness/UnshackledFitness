@@ -75,6 +75,7 @@ public class DeleteImage
 				{
 					var newFeatured = await db.RecipeImages
 						.Where(x => x.RecipeId == recipeImage.RecipeId)
+						.OrderBy(x => x.SortOrder)
 						.FirstOrDefaultAsync(cancellationToken);
 
 					if (newFeatured != null)

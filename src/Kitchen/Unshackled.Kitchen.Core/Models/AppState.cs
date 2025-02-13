@@ -10,14 +10,14 @@ public class AppState : BaseAppState, IAppState
 	public override required IMember ActiveMember { get; set; } = new Member();	
 	public override string StoragePrefix => "uk_";	
 	public List<MakeItRecipeModel> MakeItRecipes { get; private set; } = [];
-	public int MakeItIndex { get; private set; } = 1;
+	public int MakeItIndex { get; private set; }
 
 	public virtual void AddMakeItRecipe(MakeItRecipeModel recipe)
 	{
 		var existing = MakeItRecipes.Where(x => x.Sid == recipe.Sid).FirstOrDefault();
 		if (existing == null)
 		{
-			recipe.SortOrder = MakeItRecipes.Count + 1;
+			recipe.SortOrder = MakeItRecipes.Count;
 			MakeItRecipes.Add(recipe);
 			MakeItIndex = recipe.SortOrder;
 			OnMakeItRecipesChanged?.Invoke();
@@ -32,12 +32,12 @@ public class AppState : BaseAppState, IAppState
 	{
 		MakeItRecipes.Remove(recipe);
 		
-		if (MakeItIndex > 1)
+		if (MakeItIndex > 0)
 			MakeItIndex--;
 
 		for (int i = 0; i < MakeItRecipes.Count; i++)
 		{
-			MakeItRecipes[i].SortOrder = i + 1;
+			MakeItRecipes[i].SortOrder = i;
 		}
 		OnMakeItRecipesChanged?.Invoke();
 	}

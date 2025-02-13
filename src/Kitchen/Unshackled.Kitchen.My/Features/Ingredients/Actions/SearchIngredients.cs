@@ -41,7 +41,7 @@ public class SearchIngredients
 				.Where(x => x.HouseholdId == request.HouseholdId);
 
 			if (!string.IsNullOrEmpty(request.Model.Title))
-				query = query.Where(x => x.Title != null && x.Title.Contains(request.Model.Title));
+				query = query.Where(x => x.Title != null && EF.Functions.Like(x.Title, $"%{request.Model.Title}%"));
 
 			var groupedQuery = query
 				.GroupBy(x => new { x.Key, x.Title })

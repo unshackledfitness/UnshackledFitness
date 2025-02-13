@@ -364,6 +364,7 @@ FodyWeavers.xsd
 
 # AppSettings
 appsettings*.json
+appsettings*.env
 
 # Sqlite
 *.sqlite*

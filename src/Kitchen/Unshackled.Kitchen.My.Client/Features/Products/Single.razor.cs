@@ -5,6 +5,7 @@ using Unshackled.Kitchen.My.Client.Extensions;
 using Unshackled.Kitchen.My.Client.Features.Products.Actions;
 using Unshackled.Kitchen.My.Client.Features.Products.Models;
 using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Kitchen.My.Client.Features.Products;
 
@@ -20,10 +21,12 @@ public class SingleBase : BaseComponent<Member>, IAsyncDisposable
 	[Parameter] public string ProductSid { get; set; } = string.Empty;
 	protected ProductModel Product { get; set; } = new();
 	protected List<ShoppingListModel> ShoppingLists { get; set; } = [];
+	protected List<ImageModel> Images { get; set; } = [];
 	protected bool IsLoading { get; set; } = true;
 	protected bool IsEditMode { get; set; } = false;
 	protected bool IsEditing { get; set; } = false;
-	protected bool DisableControls => !IsEditMode || IsEditing;
+	protected bool IsWorking { get; set; } = false;
+	protected bool DisableControls => !IsEditMode || IsEditing || IsWorking;
 	protected bool DrawerOpen => DrawerView != Views.None;
 	protected Views DrawerView { get; set; } = Views.None;
 
@@ -33,6 +36,7 @@ public class SingleBase : BaseComponent<Member>, IAsyncDisposable
 
 		IsLoading = true;
 		Product = await Mediator.Send(new GetProduct.Query(ProductSid));
+		Images = await Mediator.Send(new ListProductImages.Query(ProductSid));
 		IsLoading = false;
 	}
 
@@ -92,5 +96,17 @@ public class SingleBase : BaseComponent<Member>, IAsyncDisposable
 	protected async Task HandleSwitchHousehold()
 	{
 		await Mediator.OpenMemberHousehold(Product.HouseholdSid);
+	}
+
+	protected async Task HandleTogglePinnedClicked(ProductModel item)
+	{
+		IsWorking = true;
+		var result = await Mediator.Send(new ToggleIsPinned.Command(item.Sid));
+		if (result.Success)
+		{
+			item.IsPinned = result.Payload;
+		}
+		ShowNotification(result);
+		IsWorking = false;
 	}
 }

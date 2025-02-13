@@ -4,11 +4,13 @@ using Unshackled.Kitchen.Core.Models;
 using Unshackled.Kitchen.My.Client.Features.Ingredients.Actions;
 using Unshackled.Kitchen.My.Client.Features.Ingredients.Models;
 using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Studio.Core.Client.Configuration;
 
 namespace Unshackled.Kitchen.My.Client.Features.Ingredients;
 
 public class SectionSubstitutionsBase : BaseSectionComponent<Member>
 {
+	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public IngredientModel Ingredient { get; set; } = new();
 

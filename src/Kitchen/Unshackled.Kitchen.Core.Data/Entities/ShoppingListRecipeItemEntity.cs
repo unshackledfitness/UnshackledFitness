@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Unshackled.Kitchen.Core.Enums;
 
 namespace Unshackled.Kitchen.Core.Data.Entities;
 
@@ -11,19 +12,23 @@ public class ShoppingListRecipeItemEntity
 	public virtual ProductEntity Product { get; set; } = default!;
 	public long RecipeId { get; set; }
 	public RecipeEntity Recipe { get; set; } = default!;
+	public int InstanceId { get; set; }
 	public string IngredientKey { get; set; } = string.Empty;
-	public decimal Amount { get; set; }
-	public string UnitLabel { get; set; } = string.Empty;
+	public decimal IngredientAmount { get; set; }
+	public string IngredientAmountUnitLabel { get; set; } = string.Empty;
 	public decimal PortionUsed { get; set; }
+	public UnitTypes IngredientAmountUnitType { get; set; }
+	public UnitTypes ServingSizeUnitType { get; set; }
+	public bool IsUnitMismatch { get; set; }
 
 	public class TypeConfiguration : IEntityTypeConfiguration<ShoppingListRecipeItemEntity>
 	{
 		public void Configure(EntityTypeBuilder<ShoppingListRecipeItemEntity> config)
 		{
 			config.ToTable("ShoppingListRecipeItems")
-				.HasKey(x => new { x.ShoppingListId, x.ProductId, x.RecipeId });
+				.HasKey(x => new { x.ShoppingListId, x.ProductId, x.RecipeId, x.InstanceId });
 
-			config.Property(x => x.Amount)
+			config.Property(x => x.IngredientAmount)
 				.HasPrecision(8, 3);
 
 			config.Property(x => x.PortionUsed)

@@ -24,14 +24,16 @@ else
 			</MudAlert>
 		}
 
-		<MudToolBar Gutters="false" Dense="true" Class="mb-1">
-			@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
-			{
+		@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+		{
+			<MudToolBar Gutters="false" Dense="true" Class="mb-2">
 				<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@IsEditMode" OnClick="@(() => HandleAddToListClicked())">Add To List</MudButton>
+				<MudButton StartIcon="@(Product.IsPinned ? Icons.Material.Filled.PushPin : Icons.Material.Outlined.PushPin)" Disabled="@IsEditMode"
+						   OnClick="@(() => HandleTogglePinnedClicked(Product))">@(Product.IsPinned ? "Unpin Product" : "Pin Product" )</MudButton>
 				<MudSpacer />
 				<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@IsEditing" />
-			}
-		</MudToolBar>
+			</MudToolBar>
+		}
 
 		<SectionProperties @bind-Product="@Product" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleSectionEditing" />
 
@@ -55,6 +57,9 @@ else
 		{
 			<SectionMinerals @bind-Product="@Product" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleSectionEditing" />
 		}
+
+		<SectionImages ProductSid="@ProductSid" @bind-Images="Images" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
+					   OnIsEditingSectionChange="@HandleSectionEditing" />
 
 		<SideDrawer Title="@GetDrawerTitle()" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
 			@if (DrawerView == Views.AddToList)

@@ -11,20 +11,6 @@ public enum ServingSizeMetricUnits
 
 public static class ServingSizeMetricUnitsExtensions
 {
-
-	public static bool IsVolume(this ServingSizeMetricUnits unit)
-	{
-		return unit switch
-		{
-			ServingSizeMetricUnits.mg => false,
-			ServingSizeMetricUnits.g => false,
-			ServingSizeMetricUnits.kg => false,
-			ServingSizeMetricUnits.ml => true,
-			ServingSizeMetricUnits.L => true,
-			_ => false,
-		};
-	}
-
 	public static string Label(this ServingSizeMetricUnits unit)
 	{
 		return unit switch
@@ -63,6 +49,19 @@ public static class ServingSizeMetricUnitsExtensions
 			ServingSizeMetricUnits.ml => "Milliliters",
 			ServingSizeMetricUnits.L => "Liters",
 			_ => string.Empty,
+		};
+	}
+
+	public static UnitTypes UnitType(this ServingSizeMetricUnits unit)
+	{
+		return unit switch
+		{
+			ServingSizeMetricUnits.mg => UnitTypes.Weight,
+			ServingSizeMetricUnits.g => UnitTypes.Weight,
+			ServingSizeMetricUnits.kg => UnitTypes.Weight,
+			ServingSizeMetricUnits.ml => UnitTypes.Volume,
+			ServingSizeMetricUnits.L => UnitTypes.Volume,
+			_ => UnitTypes.Volume,
 		};
 	}
 }

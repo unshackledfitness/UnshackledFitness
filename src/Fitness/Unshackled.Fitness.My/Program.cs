@@ -9,7 +9,6 @@ using MudBlazor.Services;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.My.Components;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Fitness.My.Features;
 using Unshackled.Fitness.My.Middleware;
 using Unshackled.Fitness.My.Services;
 using Unshackled.Studio.Core.Client.Configuration;
@@ -17,6 +16,7 @@ using Unshackled.Studio.Core.Client.Extensions;
 using Unshackled.Studio.Core.Client.Services;
 using Unshackled.Studio.Core.Data;
 using Unshackled.Studio.Core.Data.Entities;
+using Unshackled.Studio.Core.Server.Extensions;
 using Unshackled.Studio.Core.Server.Middleware;
 using Unshackled.Studio.Core.Server.Utils;
 

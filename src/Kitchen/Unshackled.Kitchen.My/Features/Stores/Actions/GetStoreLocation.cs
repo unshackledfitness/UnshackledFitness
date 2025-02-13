@@ -5,6 +5,8 @@ using Unshackled.Kitchen.Core.Data;
 using Unshackled.Kitchen.Core.Enums;
 using Unshackled.Kitchen.My.Client.Features.Stores.Models;
 using Unshackled.Kitchen.My.Extensions;
+using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Kitchen.My.Features.Stores.Actions;
 
@@ -33,7 +35,7 @@ public class GetStoreLocation
 				var loc = await mapper.ProjectTo<StoreLocationModel>(db.StoreLocations
 				.AsNoTracking()
 				.Where(x => x.Id == request.StoreLocationId))
-				.SingleOrDefaultAsync() ?? new();
+				.SingleOrDefaultAsync(cancellationToken) ?? new();
 
 				if (!string.IsNullOrEmpty(loc.Sid))
 				{
@@ -42,7 +44,20 @@ public class GetStoreLocation
 						.Include(x => x.Product)
 						.Where(x => x.StoreLocationId == request.StoreLocationId)
 						.OrderBy(x => x.SortOrder))
-						.ToListAsync();
+						.ToListAsync(cancellationToken);
+				}
+
+				var images = await (from pi in db.ProductImages
+									join spl in db.StoreProductLocations on pi.ProductId equals spl.ProductId
+									where spl.StoreLocationId == request.StoreLocationId && pi.IsFeatured == true
+									select pi)
+									.ToListAsync(cancellationToken);
+
+				foreach (var item in loc.ProductLocations)
+				{
+					item.Images = mapper.Map<List<ImageModel>>(images
+						.Where(x => x.ProductId == item.ProductSid.DecodeLong())
+						.ToList());
 				}
 
 				return loc;

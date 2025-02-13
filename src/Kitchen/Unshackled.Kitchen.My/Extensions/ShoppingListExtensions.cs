@@ -5,16 +5,16 @@ using Unshackled.Kitchen.Core.Data.Entities;
 using Unshackled.Kitchen.Core.Enums;
 using Unshackled.Kitchen.Core.Models;
 using Unshackled.Kitchen.Core.Models.ShoppingLists;
-using Unshackled.Kitchen.Core.Utils;
 using Unshackled.Studio.Core.Client;
 using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Server.Extensions;
+using static MudBlazor.CategoryTypes;
 
 namespace Unshackled.Kitchen.My.Extensions;
 
 public static class ShoppingListExtensions
 {
-	public static async Task<CommandResult> AddRecipeItemsToList(this KitchenDbContext db, long memberId, long householdId, AddRecipeToListModel model)
+	public static async Task<CommandResult> AddRecipeItemsToList(this KitchenDbContext db, long memberId, long householdId, AddRecipesToListModel model)
 	{
 		if (model.List.Count == 0)
 			return new CommandResult(false, "There was nothing to add.");
@@ -22,11 +22,6 @@ public static class ShoppingListExtensions
 		long shoppingListId = model.ShoppingListSid.DecodeLong();
 
 		if (!await db.HasShoppingListPermission(shoppingListId, memberId, PermissionLevels.Write))
-			return new CommandResult(false, KitchenGlobals.PermissionError);
-
-		long recipeId = model.RecipeSid.DecodeLong();
-
-		if (!await db.HasRecipePermission(recipeId, memberId, PermissionLevels.Read))
 			return new CommandResult(false, KitchenGlobals.PermissionError);
 
 		long[] productIds = model.List.Select(x => x.ProductSid.DecodeLong()).ToList()
@@ -49,7 +44,7 @@ public static class ShoppingListExtensions
 				long productId = item.ProductSid.DecodeLong();
 				if (productId > 0) // Product already exists
 				{
-					if (item.Quantity > 0)
+					if (item.QuantityToAdd > 0)
 					{
 						var itemEntity = existingListItems
 							.Where(x => x.ProductId == productId)
@@ -57,14 +52,14 @@ public static class ShoppingListExtensions
 
 						if (itemEntity != null) // Already in list
 						{
-							itemEntity.Quantity += item.Quantity;
+							itemEntity.Quantity += item.QuantityToAdd;
 						}
 						else // Not in list
 						{
 							itemEntity = new()
 							{
 								ProductId = productId,
-								Quantity = item.Quantity,
+								Quantity = item.QuantityToAdd,
 								ShoppingListId = shoppingListId
 							};
 
@@ -72,26 +67,34 @@ public static class ShoppingListExtensions
 						}
 					}
 
-					// Add or update item in recipe items list
-					var recipeItemEntity = existingRecipeItems.Where(x => x.ProductId == productId && x.RecipeId == recipeId).SingleOrDefault();
-					if (recipeItemEntity != null)
+					foreach (var recipeItem in item.RecipeAmounts)
 					{
-						recipeItemEntity.Amount += item.RequiredAmount;
-						recipeItemEntity.PortionUsed += item.PortionUsed;
-					}
-					else
-					{
-						recipeItemEntity = new ShoppingListRecipeItemEntity
+						long recipeId = recipeItem.RecipeSid.DecodeLong();
+
+						if (recipeId == 0)
+							return new CommandResult(false, "Invalid recipe ID");
+
+						// Get number of instances of product in recipe list
+						int instanceId = existingRecipeItems.Where(x => x.ProductId == productId && x.RecipeId == recipeId).Count();
+
+						ShoppingListRecipeItemEntity recipeItemEntity = new()
 						{
 							ProductId = productId,
-							Amount = item.RequiredAmount,
+							IngredientAmount = recipeItem.IngredientAmount,
 							IngredientKey = item.IngredientKey,
-							PortionUsed = item.PortionUsed,
+							InstanceId = instanceId,
+							PortionUsed = recipeItem.PortionUsed,
 							RecipeId = recipeId,
 							ShoppingListId = shoppingListId,
-							UnitLabel = item.RequiredAmountLabel
+							IngredientAmountUnitLabel = recipeItem.IngredientAmountUnitLabel,
+							IngredientAmountUnitType = recipeItem.IngredientAmountUnitType,
+							IsUnitMismatch = recipeItem.IsUnitMismatch,
+							ServingSizeUnitType = recipeItem.ServingSizeUnitType
 						};
 						db.ShoppingListRecipeItems.Add(recipeItemEntity);
+
+						// Add to in-memory list so instance ID can be recalculated if product listed more than once in recipe.
+						existingRecipeItems.Add(recipeItemEntity);
 					}
 
 					await db.SaveChangesAsync();
@@ -118,29 +121,47 @@ public static class ShoppingListExtensions
 					db.ProductSubstitutions.Add(sub);
 					await db.SaveChangesAsync();
 
-					if (item.Quantity > 0)
+					if (item.QuantityToAdd > 0)
 					{
 						// Add to list
 						ShoppingListItemEntity itemEntity = new()
 						{
 							ProductId = qp.Id,
-							Quantity = item.Quantity,
+							Quantity = item.QuantityToAdd,
 							ShoppingListId = shoppingListId
 						};
 						db.ShoppingListItems.Add(itemEntity);
 					}
 
-					ShoppingListRecipeItemEntity recipeItemEntity = new()
+					foreach (var recipeItem in item.RecipeAmounts)
 					{
-						ProductId = qp.Id,
-						Amount = item.RequiredAmount,
-						IngredientKey = item.IngredientKey,
-						PortionUsed = item.PortionUsed,
-						RecipeId = recipeId,
-						ShoppingListId = shoppingListId,
-						UnitLabel = item.RequiredAmountLabel
-					};
-					db.ShoppingListRecipeItems.Add(recipeItemEntity);
+						long recipeId = recipeItem.RecipeSid.DecodeLong();
+
+						if (recipeId == 0)
+							return new CommandResult(false, "Invalid recipe ID");
+
+						// Get number of instances of product in recipe list
+						int instanceId = existingRecipeItems.Where(x => x.ProductId == productId && x.RecipeId == recipeId).Count();
+
+						ShoppingListRecipeItemEntity recipeItemEntity = new()
+						{
+							ProductId = qp.Id,
+							IngredientAmount = recipeItem.IngredientAmount,
+							IngredientKey = item.IngredientKey,
+							InstanceId = instanceId,
+							PortionUsed = recipeItem.PortionUsed,
+							RecipeId = recipeId,
+							ShoppingListId = shoppingListId,
+							IngredientAmountUnitLabel = recipeItem.IngredientAmountUnitLabel,
+							IngredientAmountUnitType = recipeItem.IngredientAmountUnitType,
+							IsUnitMismatch = recipeItem.IsUnitMismatch,
+							ServingSizeUnitType = recipeItem.ServingSizeUnitType
+						};
+						db.ShoppingListRecipeItems.Add(recipeItemEntity);
+
+						// Add to in-memory list so instance ID can be recalculated if product listed more than once in recipe.
+						existingRecipeItems.Add(recipeItemEntity);
+					}
 
 					await db.SaveChangesAsync();
 				}
@@ -157,9 +178,12 @@ public static class ShoppingListExtensions
 		}
 	}
 
-	public static async Task<List<AddToShoppingListModel>> GetRecipeItemsToAddToList(this KitchenDbContext db, long memberId, SelectListModel selectModel)
+	public static async Task<List<AddToShoppingListModel>> GetRecipeItemsToAddToList(this KitchenDbContext db, long memberId, List<SelectListModel> selectModels)
 	{
-		long shoppingListId = selectModel.ListSid.DecodeLong();
+		if (selectModels.Count == 0)
+			return [];
+
+		long shoppingListId = selectModels.First().ListSid.DecodeLong();
 
 		if (shoppingListId == 0)
 			return [];
@@ -167,136 +191,184 @@ public static class ShoppingListExtensions
 		if (!await db.HasShoppingListPermission(shoppingListId, memberId, PermissionLevels.Write))
 			return [];
 
-		long recipeId = selectModel.RecipeSid.DecodeLong();
-
-		if (recipeId == 0)
-			return [];
-
-		var ingredients = await (
-				from i in db.RecipeIngredients
-				join s in db.ProductSubstitutions on new { i.Key, i.HouseholdId, IsPrimary = true }
-					equals new { Key = s.IngredientKey, s.HouseholdId, s.IsPrimary } into subs
-				from s in subs.DefaultIfEmpty()
-				join p in db.Products on s.ProductId equals p.Id into products
-				from p in products.DefaultIfEmpty()
-				join si in db.ShoppingListItems on p.Id equals si.ProductId into slist
-				from si in slist.DefaultIfEmpty()
-				where i.RecipeId == recipeId && (si == null || si.ShoppingListId == shoppingListId)
-				orderby i.SortOrder
-				select new
-				{
-					i.Id,
-					i.Amount,
-					i.AmountN,
-					i.AmountUnit,
-					i.AmountLabel,
-					i.Key,
-					i.Title,
-					ProductId = p != null ? p.Id : 0,
-					ProductBrand = p != null ? p.Brand : string.Empty,
-					ProductTitle = p != null ? p.Title : string.Empty,
-					ServingSize = p != null ? p.ServingSize : 0,
-					ServingSizeUnitLabel = p != null ? p.ServingSizeUnitLabel : string.Empty,
-					ServingSizeN = p != null ? p.ServingSizeN : 0,
-					ServingSizeMetricN = p != null ? p.ServingSizeMetricN : 0,
-					ServingSizeMetricUnit = p != null ? p.ServingSizeMetricUnit : ServingSizeMetricUnits.mg,
-					ServingSizeUnit = p != null ? p.ServingSizeUnit : ServingSizeUnits.Item,
-					ServingsPerContainer = p != null ? p.ServingsPerContainer : 0,
-					Quantity = si != null ? si.Quantity : 0
-				}).ToListAsync();
-
-		if (!ingredients.Any())
-			return [];
-
+		// Items already in the shopping list
 		var currentListItems = await db.ShoppingListItems
 			.Where(x => x.ShoppingListId == shoppingListId)
 			.ToListAsync();
 
+		// Recipe items already in the shopping list
 		var currentRecipeItems = await db.ShoppingListRecipeItems
 			.Include(x => x.Recipe)
 			.Where(x => x.ShoppingListId == shoppingListId)
-			.Select(x => new RecipeAmountListModel
-			{
-				Amount = x.Amount,
-				PortionUsed = x.PortionUsed,
-				ProductSid = x.ProductId.Encode(),
-				RecipeSid = x.RecipeId.Encode(),
-				RecipeTitle = x.Recipe != null ? x.Recipe.Title : string.Empty,
-				UnitLabel = x.UnitLabel
-			})
 			.ToListAsync();
 
 		List<AddToShoppingListModel> list = [];
-		foreach (var ingredient in ingredients)
+
+		foreach (var selectModel in selectModels)
 		{
-			if (ingredient.ProductId > 0) // Has substitution
+			long recipeId = selectModel.RecipeSid.DecodeLong();
+
+			if (recipeId == 0)
+				continue;
+
+			if (!await db.HasRecipePermission(recipeId, memberId, PermissionLevels.Read))
+				continue;
+
+			string? recipeTitle = await db.Recipes
+				.Where(x => x.Id == recipeId)
+				.Select(x => x.Title)
+				.SingleOrDefaultAsync();
+
+			// Get recipe ingredients with replacement product properties
+			var ingredients = await (
+					from i in db.RecipeIngredients
+					join s in db.ProductSubstitutions on new { i.Key, i.HouseholdId, IsPrimary = true }
+						equals new { Key = s.IngredientKey, s.HouseholdId, s.IsPrimary } into subs
+					from s in subs.DefaultIfEmpty()
+					join p in db.Products on s.ProductId equals p.Id into products
+					from p in products.DefaultIfEmpty()
+					where i.RecipeId == recipeId
+					orderby i.SortOrder
+					select new AddRecipeIngredientModel
+					{
+						Id = i.Id,
+						IngredientAmount = i.Amount,
+						IngredientAmountN = i.AmountN,
+						IngredientAmountUnit = i.AmountUnit,
+						IngredientAmountLabel = i.AmountLabel,
+						IngredientKey = i.Key,
+						IngredientTitle = i.Title,
+						HasServingSizeInfo = p != null && p.HasNutritionInfo,
+						IsAutoSkipped = p != null && p.IsAutoSkipped,
+						ProductId = p != null ? p.Id : 0,
+						ProductBrand = p != null && !string.IsNullOrEmpty(p.Brand) ? p.Brand : string.Empty,
+						ProductTitle = p != null ? p.Title : string.Empty,
+						ServingSizeN = p != null ? p.ServingSizeN : 0,
+						ServingSizeMetricN = p != null ? p.ServingSizeMetricN : 0,
+						ServingSizeMetricUnit = p != null ? p.ServingSizeMetricUnit : ServingSizeMetricUnits.mg,
+						ServingSizeUnit = p != null ? p.ServingSizeUnit : ServingSizeUnits.Item,
+						ServingSizeUnitLabel = p != null ? p.ServingSizeUnitLabel : ServingSizeUnits.Item.Label(),
+						ServingsPerContainer = p != null ? p.ServingsPerContainer : 0
+					}).ToListAsync();
+
+			if (ingredients.Count == 0)
+				continue;
+
+			// Calculate the needs of each ingredient
+			foreach (var ingredient in ingredients)
 			{
-				var currentProductInList = currentListItems
+				ingredient.Calculate(selectModel.Scale);
+
+				// Get existing item in shopping list
+				var existingListItem = currentListItems
 					.Where(x => x.ProductId == ingredient.ProductId)
 					.SingleOrDefault();
 
+				// Get existing recipe items in shopping list
+				var existingRecipeAmounts = currentRecipeItems
+					.Where(x => x.ProductId == ingredient.ProductId)
+					.ToList();
+
+				// Get existing adding item in current list
+				var existingItem = list
+					.Where(x => x.IngredientKey == ingredient.IngredientKey)
+					.SingleOrDefault();
+				
 				int quantityInList = 0;
-				decimal portionsInList = 0M;
-				if (currentProductInList != null)
+				decimal totalPortionUsed = 0M;
+				bool hasUnitMismatch = false;
+
+				// Add existing quantity in shopping list
+				if (existingListItem != null)
 				{
-					quantityInList = currentProductInList.Quantity;
-					portionsInList = currentRecipeItems
-						.Where(x => x.ProductSid == ingredient.ProductId.Encode())
-						.Sum(x => x.PortionUsed);
+					quantityInList = existingListItem.Quantity;
 				}
 
-				decimal scaledAmountN = ingredient.AmountN * selectModel.Scale;
-
-				var result = FoodCalculator.ProductQuantityRequired(ingredient.AmountUnit, scaledAmountN,
-					ingredient.ServingSizeUnit, ingredient.ServingSizeN, ingredient.ServingSizeMetricUnit,
-					ingredient.ServingSizeMetricN, ingredient.ServingsPerContainer, portionsInList, quantityInList);
-
-				AddToShoppingListModel model = new()
+				// Add total portion used of existing in shopping list
+				if (existingRecipeAmounts.Count > 0)
 				{
-					IngredientAmount = ingredient.Amount,
-					IngredientAmountUnitLabel = ingredient.AmountLabel,
-					IngredientKey = ingredient.Key,
-					IngredientTitle = ingredient.Title,
-					IsUnitMismatch = result.IsUnitMismatch,
-					ListSid = selectModel.ListSid,
-					PortionUsed = result.PortionUsed,
-					ProductSid = ingredient.ProductId.Encode(),
-					ProductTitle = $"{ingredient.ProductBrand} {ingredient.ProductTitle}".Trim(),
-					Quantity = result.QuantityToAdd,
-					QuantityInList = quantityInList,
-					RecipeIngredientSid = ingredient.Id.Encode(),
-					RequiredAmount = ingredient.Amount,
-					RequiredAmountLabel = ingredient.AmountLabel,
-					RecipeAmounts = currentRecipeItems.Where(x => x.ProductSid == ingredient.ProductId.Encode()).ToList(),
-					ContainerSizeAmount = ingredient.ServingSize * ingredient.ServingsPerContainer,
-					ContainerSizeUnitLabel = ingredient.ServingSizeUnitLabel
-				};
-				list.Add(model);
-			}
-			else // No product substitution
-			{
-				decimal scaledAmount = ingredient.Amount * selectModel.Scale;
-				int quantity = ingredient.AmountUnit == MeasurementUnits.Item ? (int)Math.Ceiling(scaledAmount) : 1;
-				AddToShoppingListModel model = new()
+					totalPortionUsed = existingRecipeAmounts.Sum(x => x.PortionUsed);
+					if (existingRecipeAmounts.Where(x => x.IsUnitMismatch == true).Any())
+						hasUnitMismatch = true;
+				}
+
+				// Add total portion used from existing item in current list
+				if (existingItem != null)
 				{
-					IngredientAmount = ingredient.Amount,
-					IngredientAmountUnitLabel = ingredient.AmountLabel,
-					IngredientKey = ingredient.Key,
-					IngredientTitle = ingredient.Title,
-					ListSid = selectModel.ListSid,
-					PortionUsed = quantity,
-					ProductSid = string.Empty,
-					ProductTitle = ingredient.Title,
-					Quantity = quantity,
-					QuantityInList = 0,
-					RecipeIngredientSid = ingredient.Id.Encode(),
-					RequiredAmount = scaledAmount,
-					RequiredAmountLabel = ingredient.AmountLabel
-				};
-				list.Add(model);
+					totalPortionUsed += existingItem.RecipeAmounts.Sum(x => x.PortionUsed);
+					if (existingItem.RecipeAmounts.Where(x => x.IsUnitMismatch == true).Any())
+						hasUnitMismatch = true;
+				}
+
+				if (!hasUnitMismatch && ingredient.IsUnitMismatch)
+					hasUnitMismatch = true;
+
+				totalPortionUsed += ingredient.ContainerPortionUsed;
+				int quantityRequired = (int)Math.Ceiling(totalPortionUsed);
+				int quantityToAdd = quantityRequired - quantityInList;
+				if (quantityToAdd < 0 || ingredient.IsAutoSkipped)
+					quantityToAdd = 0;
+
+				if (existingItem != null)
+				{
+					if (!existingItem.IsUnitMismatch && hasUnitMismatch)
+						existingItem.IsUnitMismatch = true;
+
+					existingItem.QuantityToAdd = quantityToAdd;
+					existingItem.TotalPortionUsed = totalPortionUsed;
+					existingItem.RecipeAmounts.Add(new RecipeAmountListModel
+					{
+						IngredientAmount = ingredient.IngredientAmount * selectModel.Scale,
+						IngredientAmountUnitLabel = ingredient.IngredientAmountLabel,
+						IngredientAmountUnitType = ingredient.IngredientUnitType,
+						IngredientKey = ingredient.IngredientKey,
+						IsUnitMismatch = ingredient.IsUnitMismatch,
+						PortionUsed = ingredient.ContainerPortionUsed,
+						ProductSid = ingredient.ProductId > 0 ? ingredient.ProductId.Encode() : string.Empty,
+						RecipeSid = selectModel.RecipeSid,
+						RecipeTitle = recipeTitle ?? string.Empty,
+						ServingSizeUnitLabel = ingredient.ServingSizeUnitLabel,
+						ServingSizeUnitType = ingredient.ServingSizeUnitType
+					});
+				}
+				else
+				{
+					string productSid = ingredient.ProductId > 0 ? ingredient.ProductId.Encode() : string.Empty;
+					AddToShoppingListModel newItem = new()
+					{
+						IngredientKey = ingredient.IngredientKey,
+						IngredientTitle = ingredient.IngredientTitle,
+						HasServingSizeInfo = ingredient.HasServingSizeInfo,
+						IsSkipped = ingredient.IsAutoSkipped,
+						IsUnitMismatch = hasUnitMismatch,
+						TotalPortionUsed = totalPortionUsed,
+						ProductSid = productSid,
+						ProductTitle = ingredient.ProductId > 0 ? $"{ingredient.ProductBrand} {ingredient.ProductTitle}".Trim() : ingredient.IngredientTitle,
+						QuantityToAdd = quantityToAdd,
+						QuantityInList = quantityInList,
+						RecipeIngredientSid = ingredient.Id.Encode(),
+						RecipeAmounts = [new RecipeAmountListModel {
+							IngredientAmount = ingredient.IngredientAmount * selectModel.Scale,
+							IngredientAmountUnitLabel = ingredient.IngredientAmountLabel,
+							IngredientAmountUnitType = ingredient.IngredientUnitType,
+							IngredientKey = ingredient.IngredientKey,
+							IsUnitMismatch = ingredient.IsUnitMismatch,
+							PortionUsed = ingredient.ContainerPortionUsed,
+							ProductSid = productSid,
+							RecipeSid = selectModel.RecipeSid,
+							RecipeTitle = recipeTitle ?? string.Empty,
+							ServingSizeUnitLabel = ingredient.ServingSizeUnitLabel,
+							ServingSizeUnitType = ingredient.ServingSizeUnitType
+						}]
+					};
+					list.Add(newItem);
+				}
 			}
 		}
-		return list;
+
+		return list
+			.OrderBy(x => x.ProductTitle)
+			.ToList();
 	}
 
 	public static async Task<bool> HasShoppingListPermission(this KitchenDbContext db, long shoppingListId, long memberId, PermissionLevels permission)

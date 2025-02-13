@@ -21,29 +21,6 @@ public enum ServingSizeUnits
 
 public static class ServingSizeUnitsExtensions
 {
-	public static bool IsVolume(this ServingSizeUnits unit)
-	{
-		return unit switch
-		{
-			ServingSizeUnits.Item => false,
-			ServingSizeUnits.mg => false,
-			ServingSizeUnits.g => false,
-			ServingSizeUnits.kg => false,
-			ServingSizeUnits.oz => false,
-			ServingSizeUnits.lb => false,
-			ServingSizeUnits.ml => true,
-			ServingSizeUnits.L => true,
-			ServingSizeUnits.floz => true,
-			ServingSizeUnits.cup => true,
-			ServingSizeUnits.pint => true,
-			ServingSizeUnits.quart => true,
-			ServingSizeUnits.gallon => true,
-			ServingSizeUnits.tsp => true,
-			ServingSizeUnits.Tbsp => true,
-			_ => false,
-		};
-	}
-
 	public static string Label(this ServingSizeUnits unit)
 	{
 		return unit switch
@@ -112,6 +89,29 @@ public static class ServingSizeUnitsExtensions
 			ServingSizeUnits.tsp => "Teaspoons",
 			ServingSizeUnits.Tbsp => "Tablespoons",
 			_ => string.Empty,
+		};
+	}
+
+	public static UnitTypes UnitType(this ServingSizeUnits unit)
+	{
+		return unit switch
+		{
+			ServingSizeUnits.Item => UnitTypes.Item,
+			ServingSizeUnits.mg => UnitTypes.Weight,
+			ServingSizeUnits.g => UnitTypes.Weight,
+			ServingSizeUnits.kg => UnitTypes.Weight,
+			ServingSizeUnits.oz => UnitTypes.Weight,
+			ServingSizeUnits.lb => UnitTypes.Weight,
+			ServingSizeUnits.ml => UnitTypes.Volume,
+			ServingSizeUnits.L => UnitTypes.Volume,
+			ServingSizeUnits.floz => UnitTypes.Volume,
+			ServingSizeUnits.cup => UnitTypes.Volume,
+			ServingSizeUnits.pint => UnitTypes.Volume,
+			ServingSizeUnits.quart => UnitTypes.Volume,
+			ServingSizeUnits.gallon => UnitTypes.Volume,
+			ServingSizeUnits.tsp => UnitTypes.Volume,
+			ServingSizeUnits.Tbsp => UnitTypes.Volume,
+			_ => UnitTypes.Item,
 		};
 	}
 }

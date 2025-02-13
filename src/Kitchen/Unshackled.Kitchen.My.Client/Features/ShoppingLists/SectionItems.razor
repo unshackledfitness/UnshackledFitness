@@ -46,13 +46,14 @@
 			@if(!HideInCart || !context.Item.IsInCart)
 			{
 				<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
-				<div class="d-flex gap-3 flex-row">
+				<div class="d-flex gap-2 flex-row align-center">
 					<div class="px-3">
 						<CaptionedProperty Align="Align.Center" Title="Qty">
 							<MudText Typo="Typo.h5">@context.Item.Quantity.ToString()</MudText>
 						</CaptionedProperty>
 					</div>
-					<div class="flex-grow-1 align-self-center">
+					<MultipleImageComponent BaseUrl="@StorageSettings.BaseUrl" Class="image-thumbnail" Images="@context.Item.Images" GalleryTitle="Product Images" AspectRatio="AspectRatios.R1x1" />
+					<div class="flex-grow-1">
 						@if (!string.IsNullOrEmpty(context.Item.Brand))
 						{
 							<MudText Typo="Typo.body2" Class="@IsInCartCss(context.Item)">@context.Item.Brand</MudText>

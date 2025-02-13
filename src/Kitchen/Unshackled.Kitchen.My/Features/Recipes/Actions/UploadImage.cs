@@ -5,9 +5,9 @@ using Unshackled.Kitchen.Core;
 using Unshackled.Kitchen.Core.Data;
 using Unshackled.Kitchen.Core.Data.Entities;
 using Unshackled.Kitchen.Core.Enums;
-using Unshackled.Kitchen.My.Client.Features.Recipes.Models;
 using Unshackled.Kitchen.My.Extensions;
 using Unshackled.Studio.Core.Client.Configuration;
+using Unshackled.Studio.Core.Client.Enums;
 using Unshackled.Studio.Core.Client.Extensions;
 using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Server.Extensions;
@@ -84,7 +84,7 @@ public class UploadImage
 			}
 
 			// Resize image if necessary
-			imageBytes = imageBytes.ResizeJpegTo(KitchenGlobals.MaxImageWidth, KitchenGlobals.ImageAspectRatio);
+			imageBytes = imageBytes.ResizeJpegTo(KitchenGlobals.MaxImageWidth, AspectRatios.R16x9.Ratio());
 
 			var result = await fileService.SaveFile(storageSettings.Container, relativePath, mimeType, imageBytes, CancellationToken.None);
 			if (result.Success)

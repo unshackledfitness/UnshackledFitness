@@ -39,9 +39,10 @@ public class ListStoreLocations
 					{
 						Sid = x.Id.Encode(),
 						Title = x.Title,
+						Description = x.Description,
 						SortOrder = x.SortOrder
 					})
-					.ToListAsync();
+					.ToListAsync(cancellationToken);
 			}
 			return new();
 		}

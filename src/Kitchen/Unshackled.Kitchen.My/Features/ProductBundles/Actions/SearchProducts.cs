@@ -50,7 +50,7 @@ public class SearchProducts
 						 select p).AsQueryable();
 
 			if (!string.IsNullOrEmpty(request.Model.Title))
-				query = query.Where(x => x.Title != null && x.Title.Contains(request.Model.Title));
+				query = query.Where(x => x.Title != null && EF.Functions.Like(x.Title, $"%{request.Model.Title}%"));
 
 			result.Total = await query.CountAsync(cancellationToken);
 

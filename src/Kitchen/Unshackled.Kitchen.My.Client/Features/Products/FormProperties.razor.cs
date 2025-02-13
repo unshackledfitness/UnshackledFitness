@@ -6,5 +6,5 @@ namespace Unshackled.Kitchen.My.Client.Features.Products;
 
 public class FormPropertiesBase : BaseFormComponent<FormProductModel, FormProductModel.Validator>
 {
-	[Parameter] public List<ProductCategoryModel> Categories { get; set; } = [];
+	[Parameter] public List<CategoryModel> Categories { get; set; } = [];
 }

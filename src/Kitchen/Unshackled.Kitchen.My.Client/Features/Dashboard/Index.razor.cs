@@ -1,16 +1,20 @@
-﻿using Unshackled.Kitchen.Core;
+﻿using Microsoft.AspNetCore.Components;
+using Unshackled.Kitchen.Core;
 using Unshackled.Kitchen.Core.Enums;
 using Unshackled.Kitchen.Core.Models;
 using Unshackled.Kitchen.My.Client.Extensions;
 using Unshackled.Kitchen.My.Client.Features.Dashboard.Actions;
 using Unshackled.Kitchen.My.Client.Features.Dashboard.Models;
 using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Studio.Core.Client.Configuration;
 using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Kitchen.My.Client.Features.Dashboard;
 
 public class IndexBase : BaseComponent<Member>
 {
+	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
+
 	protected enum Views
 	{
 		None,

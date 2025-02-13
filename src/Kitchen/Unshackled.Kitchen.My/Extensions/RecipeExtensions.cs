@@ -3,6 +3,7 @@ using Unshackled.Kitchen.Core;
 using Unshackled.Kitchen.Core.Data;
 using Unshackled.Kitchen.Core.Data.Entities;
 using Unshackled.Kitchen.Core.Enums;
+using Unshackled.Kitchen.Core.Models;
 using Unshackled.Studio.Core.Client;
 using Unshackled.Studio.Core.Client.Models;
 using Unshackled.Studio.Core.Server.Extensions;
@@ -224,5 +225,92 @@ public static class RecipeExtensions
 		return await db.HouseholdMembers
 			.Where(x => x.HouseholdId == householdId && x.MemberId == memberId && x.PermissionLevel >= permission)
 			.AnyAsync();
+	}
+
+	public static async Task<List<MakeItRecipeModel>> ListMakeItRecipes(this KitchenDbContext db, Dictionary<string, decimal> recipesAndScales, long householdId)
+	{
+		List<MakeItRecipeModel> output = [];
+
+		// Ids of recipes requested
+		long[] recipeIds = recipesAndScales.Keys.Select(x => x.DecodeLong()).ToArray();
+
+		var recipes = await db.Recipes
+			.Where(x => recipeIds.Contains(x.Id) && x.HouseholdId == householdId)
+			.OrderBy(x => x.Title)
+			.ToListAsync();
+
+		// Reset to ids of recipes found
+		recipeIds = recipes.Select(x => x.Id).ToArray();
+
+		if (recipeIds.Length > 0)
+		{
+			var ingGroups = await db.RecipeIngredientGroups
+				.Where(x => recipeIds.Contains(x.RecipeId))
+				.OrderBy(x => x.RecipeId)
+					.ThenBy(x => x.SortOrder)
+				.ToListAsync();
+
+			var ingredients = await db.RecipeIngredients
+				.Where(x => recipeIds.Contains(x.RecipeId))
+				.OrderBy(x => x.RecipeId)
+					.ThenBy(x => x.SortOrder)
+				.ToListAsync();
+
+			var steps = await db.RecipeSteps
+				.Where(x => recipeIds.Contains(x.RecipeId))
+				.OrderBy(x => x.RecipeId)
+					.ThenBy(x => x.SortOrder)
+				.ToListAsync();
+
+			foreach (var recipe in recipes)
+			{
+				MakeItRecipeModel model = new()
+				{
+					Description = recipe.Description,
+					Groups = ingGroups
+						.Where(x => x.RecipeId == recipe.Id)
+						.Select(x => new MakeItRecipeIngredientGroupModel
+						{
+							Sid = x.Id.Encode(),
+							SortOrder = x.SortOrder,
+							Title = x.Title
+						})
+						.ToList(),
+					Ingredients = ingredients
+						.Where(x => x.RecipeId == recipe.Id)
+						.Select(x => new MakeItRecipeIngredientModel
+						{
+							Amount = x.Amount,
+							AmountLabel = x.AmountLabel,
+							AmountN = x.AmountN,
+							AmountText = x.AmountText,
+							AmountUnit = x.AmountUnit,
+							Key = x.Key,
+							ListGroupSid = x.ListGroupId.Encode(),
+							PrepNote = x.PrepNote,
+							Sid = x.Id.Encode(),
+							SortOrder = x.SortOrder,
+							Title = x.Title
+						})
+						.ToList(),
+					Scale = recipesAndScales[recipe.Id.Encode()],
+					Sid = recipe.Id.Encode(),
+					Steps = steps
+						.Where(x => x.RecipeId == recipe.Id)
+						.Select(x => new MakeItRecipeStepModel
+						{
+							Instructions = x.Instructions,
+							Sid = x.Id.Encode(),
+							SortOrder = x.SortOrder
+						})
+						.ToList(),
+					Title = recipe.Title,
+					SortOrder = output.Count
+				};
+				output.Add(model);
+			}
+		}
+
+		return output;
 	}
 }

@@ -1,4 +1,6 @@
-﻿namespace Unshackled.Studio.Core.Client.Models;
+﻿using Unshackled.Studio.Core.Client.Enums;
+
+namespace Unshackled.Studio.Core.Client.Models;
 
 public class ImageModel
 {
@@ -18,10 +20,15 @@ public class ImageModel
 
 	public static ImageModel Default()
 	{
+		return Default(AspectRatios.R16x9);
+	}
+
+	public static ImageModel Default(AspectRatios ratio)
+	{
 		return new ImageModel
 		{
 			Container = "content",
-			RelativePath = "uk-placeholder.webp",
+			RelativePath = $"placeholder-{ratio.Title()}.webp",
 			IsFeatured = true
 		};
 	}

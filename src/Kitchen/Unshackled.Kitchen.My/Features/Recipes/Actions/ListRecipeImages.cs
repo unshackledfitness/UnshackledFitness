@@ -32,7 +32,8 @@ public class ListRecipeImages
 			{
 				return await mapper.ProjectTo<ImageModel>(db.RecipeImages
 					.AsNoTracking()
-					.Where(x => x.RecipeId == request.RecipeId))
+					.Where(x => x.RecipeId == request.RecipeId)
+					.OrderBy(x => x.SortOrder))
 					.ToListAsync(cancellationToken) ?? [];
 			}
 			return [];

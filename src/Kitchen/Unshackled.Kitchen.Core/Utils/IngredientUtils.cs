@@ -42,19 +42,27 @@ public static class IngredientUtils
 		else 
 		{
 			string firstWord = words[0];
-			
-			// look for measurement unit (ex. g, cup, tsp, fl. oz., L)
-			// match with known values
-			var unit = firstWord.FindMeasurementUnit();
-			if (unit != null)
+
+			if (firstWord == "_")
 			{
-				result.AmountUnit = unit.Value;
-				result.AmountLabel = unit.Value.Label();
+				result.AmountUnit = MeasurementUnits.Item;
+				result.AmountLabel = string.Empty;
 			}
 			else
 			{
-				result.AmountUnit = MeasurementUnits.Item;
-				result.AmountLabel = firstWord;
+				// look for measurement unit (ex. g, cup, tsp, fl. oz., L)
+				// match with known values
+				var unit = firstWord.FindMeasurementUnit();
+				if (unit != null)
+				{
+					result.AmountUnit = unit.Value;
+					result.AmountLabel = unit.Value.Label();
+				}
+				else
+				{
+					result.AmountUnit = MeasurementUnits.Item;
+					result.AmountLabel = firstWord;
+				}
 			}
 
 			// Remove from value and update current word
@@ -178,24 +186,24 @@ public static class IngredientUtils
 	{
 		Dictionary<string, string[]> fractions = new()
 		{
-			{ "1/4", new string[] { "&#188;", "&#xBC;", "&frac14;", "\u00BC" } },
-			{ "1/2", new string[] { "&#189;", "&#xBD;", "&frac12;", "\u00BD" } },
-			{ "1/3", new string[] { "&#8531;", "&#2153;", "&frac13;", "\u2153" } },
-			{ "2/3", new string[] { "&#8532;", "&#2154;", "&frac23;", "\u2154" } },
-			{ "3/4", new string[] { "&#190;", "&#xBE;", "	&frac34;", "\u00BE" } },
-			{ "1/5", new string[] { "&#8533;", "&#2155;", "	&frac15;", "\u2155" } },
-			{ "2/5", new string[] { "&#8534;", "&#2156;", "	&frac25;", "\u2156" } },
-			{ "3/5", new string[] { "&#8535;", "&#2157;", "	&frac35", "\u2157" } },
-			{ "4/5", new string[] { "&#8536;", "&#2158;", "	&frac45", "\u2158" } },
-			{ "1/6", new string[] { "&#8537;", "&#2159;", "	&frac16", "\u2159" } },
-			{ "5/6", new string[] { "&#8538;", "&#215A;", "	&frac56", "\u215A" } },
-			{ "1/7", new string[] { "&#8528;", "&#2150;", "	&frac17", "\u2150" } },
-			{ "1/8", new string[] { "&#8539;", "&#215B;", "	&frac18", "\u215B" } },
-			{ "3/8", new string[] { "&#8540;", "&#215C;", "	&frac38", "\u215C" } },
-			{ "5/8", new string[] { "&#8541;", "&#215D;", "	&frac58", "\u215D" } },
-			{ "7/8", new string[] { "&#8542", "	&#215E;", "	&frac78", "\u215E" } },
-			{ "1/9", new string[] { "&#8529;", "&#2151;", "\u2151" } },
-			{ "1/10", new string[] { "&#8530;", "&#2152;", "\u2152" } },
+			{ "1/4", new string[] { "1⁄4", "&#188;", "&#xBC;", "&frac14;", "\u00BC" } },
+			{ "1/2", new string[] { "1⁄2", "&#189;", "&#xbd;", "&frac12;", "\u00BD" } },
+			{ "1/3", new string[] { "1⁄3", "&#8531;", "&#2153;", "&frac13;", "\u2153" } },
+			{ "2/3", new string[] { "2⁄3", "&#8532;", "&#2154;", "&frac23;", "\u2154" } },
+			{ "3/4", new string[] { "3⁄4", "&#190;", "&#xBE;", "&frac34;", "\u00BE" } },
+			{ "1/5", new string[] { "1⁄5", "&#8533;", "&#2155;", "&frac15;", "\u2155" } },
+			{ "2/5", new string[] { "2⁄5", "&#8534;", "&#2156;", "&frac25;", "\u2156" } },
+			{ "3/5", new string[] { "3⁄5", "&#8535;", "&#2157;", "&frac35", "\u2157" } },
+			{ "4/5", new string[] { "4⁄5", "&#8536;", "&#2158;", "&frac45", "\u2158" } },
+			{ "1/6", new string[] { "1⁄6", "&#8537;", "&#2159;", "&frac16", "\u2159" } },
+			{ "5/6", new string[] { "5⁄6", "&#8538;", "&#215A;", "&frac56", "\u215A" } },
+			{ "1/7", new string[] { "1⁄7", "&#8528;", "&#2150;", "&frac17", "\u2150" } },
+			{ "1/8", new string[] { "1⁄8", "&#8539;", "&#215B;", "&frac18", "\u215B" } },
+			{ "3/8", new string[] { "3⁄8", "&#8540;", "&#215C;", "&frac38", "\u215C" } },
+			{ "5/8", new string[] { "5⁄8", "&#8541;", "&#215D;", "&frac58", "\u215D" } },
+			{ "7/8", new string[] { "7⁄8", "&#8542", "&#215E;", "&frac78", "\u215E" } },
+			{ "1/9", new string[] { "1⁄9", "&#8529;", "&#2151;", "\u2151" } },
+			{ "1/10", new string[] { "1⁄10", "&#8530;", "&#2152;", "\u2152" } },
 		};
 
 		foreach (string frac in fractions.Keys)

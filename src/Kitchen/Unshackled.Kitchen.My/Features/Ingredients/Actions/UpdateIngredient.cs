@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using Unshackled.Kitchen.Core;
 using Unshackled.Kitchen.Core.Data;
 using Unshackled.Kitchen.Core.Data.Entities;
 using Unshackled.Kitchen.Core.Enums;
 using Unshackled.Kitchen.My.Client.Features.Ingredients.Models;
 using Unshackled.Kitchen.My.Extensions;
+using Unshackled.Studio.Core.Client;
 using Unshackled.Studio.Core.Client.Extensions;
 using Unshackled.Studio.Core.Client.Models;
 
@@ -39,25 +42,74 @@ public class UpdateIngredient
 			if (string.IsNullOrEmpty(request.Model.Key))
 				return new CommandResult(false, "Invalid ingredient.");
 
-			var newKey = request.Model.Title.NormalizeKey();
+			string newKey = request.Model.Title.NormalizeKey();
 
-			await db.RecipeIngredients
-				.Where(x => x.HouseholdId == request.HouseholdId && x.Key == request.Model.Key)
-				.UpdateFromQueryAsync(x => new RecipeIngredientEntity
+			var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
+
+			try
+			{
+				await db.RecipeIngredients
+					.Where(x => x.HouseholdId == request.HouseholdId && x.Key == request.Model.Key)
+					.UpdateFromQueryAsync(x => new RecipeIngredientEntity
+					{
+						Key = newKey,
+						Title = request.Model.Title.Trim()
+					}, cancellationToken);
+
+				// Get old key product substitutions
+				var subs = await db.ProductSubstitutions
+					.AsNoTracking()
+					.Where(x => x.HouseholdId == request.HouseholdId && x.IngredientKey == request.Model.Key)
+					.OrderByDescending(x => x.IsPrimary)
+					.ToListAsync(cancellationToken);
+
+				if (subs.Count > 0)
 				{
-					Key = newKey,
-					Title = request.Model.Title.Trim()
-				}, cancellationToken);
+					// Check if new key has primary sub
+					bool hasPrimary = await db.ProductSubstitutions
+						.Where(x => x.HouseholdId == request.HouseholdId && x.IngredientKey == newKey && x.IsPrimary == true)
+						.AnyAsync(cancellationToken);
 
-			await db.ProductSubstitutions
-				.Where(x => x.HouseholdId == request.HouseholdId && x.IngredientKey == request.Model.Key)
-				.UpdateFromQueryAsync(x => new ProductSubstitutionEntity
-				{
-					IngredientKey = newKey
-				}, cancellationToken);
+					foreach (var sub in subs)
+					{
+						// Check if exists in new key
+						bool exists = await db.ProductSubstitutions
+							.Where(x => x.HouseholdId == request.HouseholdId && x.IngredientKey == newKey && x.ProductId == sub.ProductId)
+							.AnyAsync(cancellationToken);
 
+						if (exists)
+						{
+							// Delete
+							await db.ProductSubstitutions
+								.Where(x => x.HouseholdId == request.HouseholdId && x.IngredientKey == request.Model.Key && x.ProductId == sub.ProductId)
+								.DeleteFromQueryAsync(cancellationToken);
+						}
+						else
+						{
+							// Move to new key
+							await db.ProductSubstitutions
+								.Where(x => x.HouseholdId == request.HouseholdId && x.IngredientKey == request.Model.Key && x.ProductId == sub.ProductId)
+								.UpdateFromQueryAsync(x => new ProductSubstitutionEntity 
+								{ 
+									IngredientKey = newKey,
+									IsPrimary = !hasPrimary
+								},cancellationToken);
 
-			return new CommandResult(true, "Ingredient updated.");
+							hasPrimary = true;
+						}
+					}
+					await db.SaveChangesAsync(cancellationToken);
+				}
+
+				await transaction.CommitAsync(cancellationToken);
+
+				return new CommandResult(true, "Ingredient updated.");
+			}
+			catch
+			{
+				await transaction.RollbackAsync(cancellationToken);
+				return new CommandResult(false, Globals.UnexpectedError);
+			}
 		}
 	}
 }

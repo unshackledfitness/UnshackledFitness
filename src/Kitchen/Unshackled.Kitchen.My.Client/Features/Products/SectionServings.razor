@@ -2,15 +2,19 @@
 
 <SectionContainer IsEditMode="@IsEditMode" IsEditing="@IsEditing" Class="mb-6">
 	<SectionHeader IsEditMode="@IsEditMode" IsEditing="@IsEditing" EditingClass="mb-4" FormId="@FormId" Breakpoint="Breakpoint.Sm" 
-				   OnCancelClicked="@(() => HandleEditCancelClicked())">
+	OnCancelClicked="@(() => HandleEditCancelClicked())">
 		<TitleContent>
 			@if (Product.HasServings || IsEditMode)
 			{
-				<MudText Typo="Typo.subtitle1" Class="mb-3">Serving Information</MudText>
+				<MudText Typo="Typo.h5" Class="mb-3">Serving Information</MudText>
 			}
 		</TitleContent>
 		<EditModeToolbar>
 			<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@DisableSectionControls" OnClick="@(() => HandleEditClicked())" />
+			@if (Product.HasServings && Product.ServingSizeUnit != ServingSizeUnits.Item)
+			{
+				<MudIconButton Icon="@Icons.Material.Filled.AutoFixHigh" Disabled="@DisableSectionControls" OnClick="@(() => HandleConvertToItemClicked())" />
+			}
 		</EditModeToolbar>
 	</SectionHeader>
 	
@@ -65,3 +69,51 @@
 		<FormServings Model="@Model" FormId="@FormId" DisableFormControls="@DisableControls" OnFormSubmitted="@HandleFormSubmitted" />
 	}
 </SectionContainer>
+
+<SideDrawer Title="Convert To Item" @bind-Open="@DrawerOpen">
+	<EditForm Model="@Model" OnValidSubmit="HandleFormConvertSubmitted">
+		<FluentValidationValidator Validator="ModelValidator"></FluentValidationValidator>
+		<MudTextField Label="Displayed As" Variant="Variant.Outlined" Immediate="true" FullWidth="true" Margin="Margin.Dense" Class="mt-2" Disabled="@IsSaving"
+					  MaxLength="25" @bind-Value="@Model.ServingSizeUnitLabel" For="@(() => Model.ServingSizeUnitLabel)" />
+
+		<MudGrid Spacing="2" Class="mt-4">
+			<MudItem xs="4">
+				<MudPaper Class="h-100" Elevation="@StatElevation">
+					<CaptionedProperty Align="Align.Center" Title="Serving Size">
+						<MudText Typo="Typo.h6">
+							<ServingSizeLabel ServingSize="@Model.ServingSize" ServingSizeUnit="@Model.ServingSizeUnit" ServingSizeUnitLabel="@Model.ServingSizeUnitLabel"
+											  ServingSizeMetric="@Model.ServingSizeMetric" ServingSizeMetricUnit="@Model.ServingSizeMetricUnit" IsStacked="true" Align="Align.Center" />
+						</MudText>
+					</CaptionedProperty>
+				</MudPaper>
+			</MudItem>
+			<MudItem xs="4">
+				<MudPaper Class="h-100" Elevation="@StatElevation">
+					<CaptionedProperty Align="Align.Center" Title="Servings Per Container">
+						<MudText Typo="Typo.h6">
+							@Model.ServingsPerContainer.ToString("0.##")
+						</MudText>
+					</CaptionedProperty>
+				</MudPaper>
+			</MudItem>
+			<MudItem xs="4">
+				<MudPaper Class="h-100" Elevation="@StatElevation">
+					<CaptionedProperty Align="Align.Center" Title="Total Servings">
+						<MudText Typo="Typo.h6">
+							<ServingSizeLabel ServingSize="@TotalServings" ServingSizeUnit="@Model.ServingSizeUnit" ServingSizeUnitLabel="@Model.ServingSizeUnitLabel"
+											  ServingSizeMetric="@TotalServingsMetric" ServingSizeMetricUnit="@Model.ServingSizeMetricUnit" IsStacked="true" Align="Align.Center" />
+						</MudText>
+					</CaptionedProperty>
+				</MudPaper>
+			</MudItem>
+		</MudGrid>
+		<MudAlert Severity="Severity.Info" Class="mt-4">All existing Macros, Dietary, Vitamins, and Minerals will also be scaled to match the new serving size.</MudAlert>
+
+		<MudToolBar Gutters="false" Class="mt-4">
+			<MudSpacer />
+			<MudButton Variant="Variant.Filled" Color="Color.Secondary" ButtonType="ButtonType.Submit" Disabled="@(IsSaving || string.IsNullOrEmpty(Model.ServingSizeUnitLabel))">Convert</MudButton>
+			<MudButton Variant="Variant.Outlined" Color="Color.Secondary" Disabled="@IsSaving" OnClick="@(() => DrawerOpen = false)">Cancel</MudButton>
+			<MudSpacer />
+		</MudToolBar>
+	</EditForm>
+</SideDrawer>

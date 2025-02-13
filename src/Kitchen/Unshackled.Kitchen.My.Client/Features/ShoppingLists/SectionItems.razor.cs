@@ -7,12 +7,15 @@ using Unshackled.Kitchen.My.Client.Extensions;
 using Unshackled.Kitchen.My.Client.Features.ShoppingLists.Actions;
 using Unshackled.Kitchen.My.Client.Features.ShoppingLists.Models;
 using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Studio.Core.Client.Configuration;
 using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Kitchen.My.Client.Features.ShoppingLists;
 
 public class SectionItemsBase : BaseSectionComponent<Member>
 {
+	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
+
 	protected enum Views
 	{
 		None,

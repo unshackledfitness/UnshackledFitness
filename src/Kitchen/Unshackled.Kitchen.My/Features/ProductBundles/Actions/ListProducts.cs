@@ -5,6 +5,8 @@ using Unshackled.Kitchen.Core.Data;
 using Unshackled.Kitchen.Core.Enums;
 using Unshackled.Kitchen.My.Client.Features.ProductBundles.Models;
 using Unshackled.Kitchen.My.Extensions;
+using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Kitchen.My.Features.ProductBundles.Actions;
 
@@ -15,10 +17,10 @@ public class ListProducts
 		public long MemberId { get; private set; }
 		public long ProductBundleId { get; private set; }
 
-		public Query(long memberId, long shoppingListId)
+		public Query(long memberId, long productBundleId)
 		{
 			MemberId = memberId;
-			ProductBundleId = shoppingListId;
+			ProductBundleId = productBundleId;
 		}
 	}
 
@@ -30,14 +32,29 @@ public class ListProducts
 		{
 			if (await db.HasProductBundlePermission(request.ProductBundleId, request.MemberId, PermissionLevels.Read))
 			{
-				return await mapper.ProjectTo<FormProductModel>(db.ProductBundleItems
+				var list = await mapper.ProjectTo<FormProductModel>(db.ProductBundleItems
 					.AsNoTracking()
 					.Include(x => x.Product)
 					.Where(x => x.ProductBundleId == request.ProductBundleId)
 					.OrderBy(x => x.Product.Title))
-					.ToListAsync();
+					.ToListAsync(cancellationToken);
+
+				var images = await (from bi in db.ProductBundleItems
+									join pi in db.ProductImages on bi.ProductId equals pi.ProductId
+									where bi.ProductBundleId == request.ProductBundleId && pi.IsFeatured == true
+									select pi)
+									.ToListAsync(cancellationToken);
+
+				foreach (var product in list)
+				{
+					product.Images = mapper.Map<List<ImageModel>>(images
+						.Where(x => x.ProductId == product.ProductSid.DecodeLong())
+						.ToList());
+				}
+				return list;
 			}
-			return new();
+
+			return [];
 		}
 	}
 }

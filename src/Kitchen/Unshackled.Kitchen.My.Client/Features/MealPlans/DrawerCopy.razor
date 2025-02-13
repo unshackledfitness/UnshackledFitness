@@ -1,0 +1,13 @@
+﻿@inherits DrawerCopyBase
+
+<MudText Typo="Typo.h6" Class="mb-4">@Title</MudText>
+	
+<MudDatePicker PickerVariant="PickerVariant.Static" Orientation="Orientation.Landscape" Color="Color.Secondary" Disabled="@IsWorking"
+	@bind-Date="@SelectedDate" IsDateDisabledFunc="@IsDateDisabled" />
+
+<MudToolBar Gutters="false" Class="mt-4">
+	<MudSpacer />
+	<MudButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@DisableControls" OnClick="@HandleSubmitClicked">Copy</MudButton>
+	<MudButton Variant="Variant.Outlined" Color="Color.Secondary" Disabled="@IsWorking" OnClick="@HandleCancelClicked">Cancel</MudButton>
+	<MudSpacer />
+</MudToolBar>

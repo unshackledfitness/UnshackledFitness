@@ -18,6 +18,13 @@ public class RecipesController : BaseController
 		return Ok(await Mediator.Send(new AddRecipe.Command(Member.Id, Member.ActiveHouseholdId, model)));
 	}
 
+	[HttpPost("add-tag")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> AddTag([FromBody] FormTagModel model)
+	{
+		return Ok(await Mediator.Send(new AddTag.Command(Member.Id, Member.ActiveHouseholdId, model)));
+	}
+
 	[HttpPost("add-to-cookbook")]
 	[ActiveMemberRequired]
 	public async Task<IActionResult> AddToCookbook([FromBody] AddToCookbookModel model)
@@ -27,7 +34,7 @@ public class RecipesController : BaseController
 
 	[HttpPost("add-to-shopping-list")]
 	[ActiveMemberRequired]
-	public async Task<IActionResult> AddToShoppingList([FromBody] AddRecipeToListModel model)
+	public async Task<IActionResult> AddToShoppingList([FromBody] AddRecipesToListModel model)
 	{
 		return Ok(await Mediator.Send(new AddToList.Command(Member.Id, Member.ActiveHouseholdId, model)));
 	}
@@ -51,6 +58,13 @@ public class RecipesController : BaseController
 	public async Task<IActionResult> DeleteImage([FromBody] string sid)
 	{
 		return Ok(await Mediator.Send(new DeleteImage.Command(Member.Id, sid)));
+	}
+
+	[HttpPost("delete-tag")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> DeleteTag([FromBody] string sid)
+	{
+		return Ok(await Mediator.Send(new DeleteTag.Command(Member.Id, Member.ActiveHouseholdId, sid)));
 	}
 
 	[HttpPost("get-add-to-list-items")]
@@ -132,6 +146,12 @@ public class RecipesController : BaseController
 		return Ok(await Mediator.Send(new ListShoppingLists.Query(Member.Id, Member.ActiveHouseholdId)));
 	}
 
+	[HttpGet("list-tags")]
+	public async Task<IActionResult> ListTags()
+	{
+		return Ok(await Mediator.Send(new ListTags.Query(Member.Id, Member.ActiveHouseholdId)));
+	}
+
 	[HttpPost("search")]
 	public async Task<IActionResult> Search([FromBody] SearchRecipeModel model)
 	{
@@ -174,6 +194,13 @@ public class RecipesController : BaseController
 	public async Task<IActionResult> UpdateSteps(long id, [FromBody] UpdateStepsModel model)
 	{
 		return Ok(await Mediator.Send(new UpdateSteps.Command(Member.Id, id, model)));
+	}
+
+	[HttpPost("update-tag")]
+	[ActiveMemberRequired]
+	public async Task<IActionResult> UpdateTag([FromBody] FormTagModel model)
+	{
+		return Ok(await Mediator.Send(new UpdateTag.Command(Member.Id, Member.ActiveHouseholdId, model)));
 	}
 
 	[HttpPost("upload-image/{sid}")]

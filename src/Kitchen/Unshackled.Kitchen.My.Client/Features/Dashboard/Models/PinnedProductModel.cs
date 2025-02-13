@@ -1,4 +1,6 @@
-﻿namespace Unshackled.Kitchen.My.Client.Features.Dashboard.Models;
+﻿using Unshackled.Studio.Core.Client.Models;
+
+namespace Unshackled.Kitchen.My.Client.Features.Dashboard.Models;
 
 public class PinnedProductModel
 {
@@ -8,5 +10,6 @@ public class PinnedProductModel
 	public string? Brand { get; set; }
 	public string Title { get; set; } = string.Empty;
 	public string? Description { get; set; }
+	public List<ImageModel> Images { get; set; } = [];
 }
 
