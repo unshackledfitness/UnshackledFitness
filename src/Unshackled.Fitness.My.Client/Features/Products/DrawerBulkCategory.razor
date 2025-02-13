@@ -1,0 +1,22 @@
+﻿@inherits DrawerBulkCategoryBase
+
+@if (Categories.Any())
+{
+	<MudRadioGroup @bind-Value="@SelectedCategorySid">
+		@foreach (var item in Categories)
+		{
+			<MudRadio Value="@item.Sid" Class="d-block" Color="Color.Secondary" UnCheckedColor="Color.Default">@item.Title</MudRadio>
+		}
+		<MudRadio Value="@Globals.UncategorizedKey" Class="d-block" Color="Color.Secondary" UnCheckedColor="Color.Default">Uncategorized</MudRadio>
+	</MudRadioGroup>
+	<MudToolBar Class="mt-4">
+		<MudSpacer />
+		<MudButton Variant="Variant.Filled" Disabled="@string.IsNullOrEmpty(SelectedCategorySid)" Color="Color.Secondary" OnClick="@(() => HandleSetCategoryClicked())">Apply</MudButton>
+		<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@(() => HandleCancelClicked())">Cancel</MudButton>
+		<MudSpacer />
+	</MudToolBar>
+}
+else
+{
+	<MudText Align="Align.Center" Class="mt-4">You have not added any categories.</MudText>
+}
