@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.TrainingPlans.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.TrainingPlans;
 
-public class ViewFixedRepeatingBase : BaseSectionComponent<Member>
+public class ViewFixedRepeatingBase : BaseSectionComponent
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public FormUpdateSessionsModel FormModel { get; set; } = new();

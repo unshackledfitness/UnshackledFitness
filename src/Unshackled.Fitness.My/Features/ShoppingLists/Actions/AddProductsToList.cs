@@ -5,10 +5,8 @@ using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.ShoppingLists.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.ShoppingLists.Actions;
 
@@ -28,7 +26,7 @@ public class AddProductsToList
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -44,8 +42,8 @@ public class AddProductsToList
 
 			try
 			{
-				List<ShoppingListItemEntity> newItems = new();
-				foreach (var productSid in request.Model.Products.Keys)
+				List<ShoppingListItemEntity> newItems = [];
+				foreach (string productSid in request.Model.Products.Keys)
 				{
 					long productId = productSid.DecodeLong();
 

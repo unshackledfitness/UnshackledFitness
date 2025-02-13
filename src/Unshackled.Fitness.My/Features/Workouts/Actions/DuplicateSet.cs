@@ -1,16 +1,13 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Workouts.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Data.Extensions;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Workouts.Actions;
 
@@ -30,14 +27,14 @@ public class DuplicateSet
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult<FormWorkoutSetModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult<FormWorkoutSetModel>> Handle(Command request, CancellationToken cancellationToken)
 		{
 			var member = await db.Members
 				.AsNoTracking()
 				.Where(s => s.Id == request.MemberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (member == null)
 				return new CommandResult<FormWorkoutSetModel>(false, "Invalid member.");
@@ -49,7 +46,7 @@ public class DuplicateSet
 				.Include(x => x.Workout)
 				.Include(x => x.Exercise)
 				.Where(x => x.Id == setId && x.Workout.MemberId == request.MemberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (set == null)
 				return new CommandResult<FormWorkoutSetModel>(false, "Invalid workout set.");
@@ -61,7 +58,7 @@ public class DuplicateSet
 				// Adjust sort order for other sets in the workout with higher sort orders
 				await db.WorkoutSets
 					.Where(x => x.WorkoutId == set.WorkoutId && x.SortOrder > set.SortOrder)
-					.UpdateFromQueryAsync(x => new WorkoutSetEntity { SortOrder = x.SortOrder + 1 });
+					.UpdateFromQueryAsync(x => new WorkoutSetEntity { SortOrder = x.SortOrder + 1 }, cancellationToken);
 
 				WorkoutSetEntity newSet = new()
 				{
@@ -79,15 +76,15 @@ public class DuplicateSet
 					WorkoutId = set.WorkoutId
 				};
 				db.WorkoutSets.Add(newSet);
-				await db.SaveChangesAsync();
+				await db.SaveChangesAsync(cancellationToken);
 
 				await db.UpdateWorkoutStats(set.WorkoutId, request.MemberId);
 
-				await transaction.CommitAsync();
+				await transaction.CommitAsync(cancellationToken);
 
 				newSet.Exercise = await db.Exercises
 					.Where(x => x.Id == newSet.ExerciseId)
-					.SingleOrDefaultAsync() ?? new();
+					.SingleOrDefaultAsync(cancellationToken) ?? new();
 
 				UnitSystems defaultUnits = (await db.GetMemberSettings(member.Id)).DefaultUnits;
 
@@ -95,7 +92,7 @@ public class DuplicateSet
 			}
 			catch
 			{
-				await transaction.RollbackAsync();
+				await transaction.RollbackAsync(cancellationToken);
 				return new CommandResult<FormWorkoutSetModel>(false, Globals.UnexpectedError);
 			}
 		}

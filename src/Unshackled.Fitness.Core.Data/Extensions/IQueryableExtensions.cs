@@ -1,11 +1,11 @@
 ﻿using System.Linq.Expressions;
-using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Fitness.Core.Interfaces;
 
-namespace Unshackled.Studio.Core.Data.Extensions;
+namespace Unshackled.Fitness.Core.Data.Extensions;
 
 public static class IQueryableExtensions
 {
-	public static IQueryable<T> AddSorts<T>(this IQueryable<T> query, List<SearchSortModel> sorts)
+	public static IQueryable<T> AddSorts<T>(this IQueryable<T> query, List<ISearchSortModel> sorts)
 	{
 		if (sorts != null && sorts.Count > 0)
 		{

@@ -1,16 +1,15 @@
 using Microsoft.AspNetCore.Components;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
-using Unshackled.Fitness.Core.Utils;
+using Unshackled.Fitness.My.Client.Components;
+using Unshackled.Fitness.My.Client.Extensions;
 using Unshackled.Fitness.My.Client.Features.Recipes.Actions;
 using Unshackled.Fitness.My.Client.Features.Recipes.Models;
-using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Extensions;
-using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Client.Utils;
 
 namespace Unshackled.Fitness.My.Client.Features.Recipes;
 
-public class SectionIngredientsBase : BaseSectionComponent<Member>
+public class SectionIngredientsBase : BaseSectionComponent
 {
 	protected enum Views
 	{

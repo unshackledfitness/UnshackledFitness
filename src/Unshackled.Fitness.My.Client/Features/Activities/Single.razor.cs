@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Activities.Actions;
 using Unshackled.Fitness.My.Client.Features.Activities.Models;
-using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Activities;
 
-public class SingleBase : BaseComponent<Member>
+public class SingleBase : BaseComponent
 {
 	[Parameter] public string ActivitySid { get; set; } = string.Empty;
 	protected ActivityModel ActivityModel { get; set; } = new();

@@ -1,4 +1,4 @@
-﻿@inherits Unshackled.Studio.Core.Client.Components.BaseComponent<Member>
+﻿@inherits Unshackled.Fitness.My.Client.Components.BaseComponent
 
 <MudNavMenu>
 	<MudNavLink Icon="@Icons.Material.Filled.Dashboard" Href="/" Match="NavLinkMatch.All">Dashboard</MudNavLink>
@@ -6,21 +6,21 @@
 	<MudNavLink Icon="@Icons.Material.Filled.CollectionsBookmark" Href="/cookbooks" Match="NavLinkMatch.Prefix">Cookbooks</MudNavLink>
 	<MudNavLink Icon="@Icons.Material.Filled.Groups" Href="/households" Match="NavLinkMatch.Prefix">Households</MudNavLink>
 
-	@if (ActiveMember.ActiveCookbook != null)
+	@if (State.ActiveMember.ActiveCookbook != null)
 	{
 		<MudDivider Class="my-2" />
 
-		<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block ml-4">@ActiveMember.ActiveCookbook.Title Menu</MudText>
+		<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block ml-4">@State.ActiveMember.ActiveCookbook.Title Menu</MudText>
 		<MudNavGroup Title="Cookbook" Icon="@Icons.Material.Filled.MenuBook" Expanded="@isExpanded[menuCookbook]" ExpandedChanged="@((bool val) => HandleExpandedChanged(menuCookbook, val))">
 			<MudNavLink Href="/cookbook-recipes" Match="NavLinkMatch.Prefix">Recipes</MudNavLink>
 		</MudNavGroup>
 	}
 
-	@if (ActiveMember.ActiveHousehold != null)
+	@if (State.ActiveMember.ActiveHousehold != null)
 	{
 		<MudDivider Class="my-2" />
 
-		<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block ml-4">@ActiveMember.ActiveHousehold.Title Menu</MudText>
+		<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block ml-4">@State.ActiveMember.ActiveHousehold.Title Menu</MudText>
 		<MudNavGroup Title="Meal Prep" Icon="@Icons.Material.Filled.Dining" Expanded="@isExpanded[menuMealPrep]" ExpandedChanged="@((bool val) => HandleExpandedChanged(menuMealPrep, val))">
 			<MudNavLink Href="/meal-plan" Match="NavLinkMatch.Prefix">Meal Plan</MudNavLink>
 			<MudNavLink Href="/recipes" Match="NavLinkMatch.Prefix">Recipes</MudNavLink>

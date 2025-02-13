@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Extensions;
 
-namespace Unshackled.Studio.Core.Server.Features;
+namespace Unshackled.Fitness.My.Features;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class DecodeIdAttribute : TypeFilterAttribute

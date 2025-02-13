@@ -1,16 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Extensions;
 
 public static class WorkoutTemplateExtensions
 {
-	public static async Task<CommandResult<string>> AddWorkoutFromTemplate(this FitnessDbContext db,
+	public static async Task<CommandResult<string>> AddWorkoutFromTemplate(this BaseDbContext db,
 		long memberId, long templateId, CancellationToken cancellationToken)
 	{
 		var template = await db.WorkoutTemplates
@@ -19,7 +17,7 @@ public static class WorkoutTemplateExtensions
 					.ThenInclude(x => x.Exercise)
 				.Include(x => x.Tasks)
 				.Where(x => x.Id == templateId && x.MemberId == memberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 		if (template == null)
 			return new CommandResult<string>(false, "Template not found.");
@@ -42,7 +40,7 @@ public static class WorkoutTemplateExtensions
 			await db.SaveChangesAsync(cancellationToken);
 
 			// Create map of template group ids to workout group ids
-			Dictionary<long, long> groupIdMap = new();
+			Dictionary<long, long> groupIdMap = [];
 
 			// Create new groups
 			foreach (var group in template.Groups)
@@ -83,11 +81,11 @@ public static class WorkoutTemplateExtensions
 
 				// Save so we get new set ID
 				db.WorkoutSets.Add(s);
-				await db.SaveChangesAsync();
+				await db.SaveChangesAsync(cancellationToken);
 			}
 
 			// Add tasks
-			if (template.Tasks.Any())
+			if (template.Tasks.Count != 0)
 			{
 				db.WorkoutTasks.AddRange(template.Tasks
 					.Select(x => new WorkoutTaskEntity
@@ -100,10 +98,10 @@ public static class WorkoutTemplateExtensions
 					})
 					.ToList());
 
-				await db.SaveChangesAsync();
+				await db.SaveChangesAsync(cancellationToken);
 			}
 
-			await transaction.CommitAsync();
+			await transaction.CommitAsync(cancellationToken);
 			return new CommandResult<string>(true, "Workout created.", workout.Id.Encode());
 		}
 		catch

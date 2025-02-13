@@ -2,9 +2,9 @@
 using FluentValidation;
 using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Studio.Core.Client.Features;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Client.Utils;
+using Unshackled.Fitness.Core.Interfaces;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Client.Utils;
 
 namespace Unshackled.Fitness.My.Client.Features.Workouts.Models;
 

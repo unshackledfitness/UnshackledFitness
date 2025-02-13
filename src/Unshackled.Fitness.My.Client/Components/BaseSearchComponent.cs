@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Components;
-using Unshackled.Fitness.Core.Models;
+﻿using Unshackled.Fitness.Core.Interfaces;
+using Unshackled.Fitness.My.Client.Models;
 
-namespace Unshackled.Fitness.Core.Components;
+namespace Unshackled.Fitness.My.Client.Components;
 
-public abstract class BaseSearchComponent<TModel, TResults, TMember> : BaseComponent<TMember>
+public abstract class BaseSearchComponent<TModel, TResults> : BaseComponent
 	where TModel : ISearchModel, new() 
 	where TResults : class, new()
-	where TMember: IMember
 {
 	protected SearchResult<TResults> SearchResults { get; set; }
 	protected TModel SearchModel { get; set; }
@@ -48,7 +47,7 @@ public abstract class BaseSearchComponent<TModel, TResults, TMember> : BaseCompo
 		SearchModel.Sorts.Clear();
 		foreach (var member in members)
 		{
-			SearchModel.Sorts.Add(new() { Member = member, SortDirection = dir });
+			SearchModel.Sorts.Add(new SearchSortModel { Member = member, SortDirection = dir });
 		}
 		await DoSearch(SearchModel.Page);
 	}

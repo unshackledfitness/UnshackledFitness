@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Recipes.Models;
-using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Recipes;
 

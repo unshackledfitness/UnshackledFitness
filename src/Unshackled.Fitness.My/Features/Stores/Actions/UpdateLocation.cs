@@ -6,9 +6,8 @@ using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Stores.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Stores.Actions;
 
@@ -28,7 +27,7 @@ public class UpdateLocation
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -44,7 +43,7 @@ public class UpdateLocation
 
 			StoreLocationEntity? storeLoc = await db.StoreLocations
 				.Where(x => x.Id == storeLocationId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (storeLoc == null)
 				return new CommandResult(false, "Invalid aisle/department.");

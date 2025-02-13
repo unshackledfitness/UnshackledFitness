@@ -2,14 +2,13 @@
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Studio.Core.Client.Utils;
-using Unshackled.Studio.Core.Data;
+using Unshackled.Fitness.Core.Utils;
 
 namespace Unshackled.Fitness.My.Extensions;
 
 public static class WorkoutExtensions
 {
-	public static async Task UpdateWorkoutRecords(this FitnessDbContext db, WorkoutEntity workout)
+	public static async Task UpdateWorkoutRecords(this BaseDbContext db, WorkoutEntity workout)
 	{
 		// Get sets
 		var sets = await db.WorkoutSets
@@ -30,7 +29,7 @@ public static class WorkoutExtensions
 		await db.SaveChangesAsync();
 	}
 
-	public static async Task UpdateWorkoutRecords(this FitnessDbContext db, long workoutId)
+	public static async Task UpdateWorkoutRecords(this BaseDbContext db, long workoutId)
 	{
 		var workout = await db.Workouts
 			.Where(x => x.Id == workoutId)
@@ -41,7 +40,7 @@ public static class WorkoutExtensions
 		await db.UpdateWorkoutRecords(workout);
 	}
 
-	public static async Task UpdateWorkoutStats(this FitnessDbContext db, WorkoutEntity entity)
+	public static async Task UpdateWorkoutStats(this BaseDbContext db, WorkoutEntity entity)
 	{
 		// Get set exercise data
 		var sets = await db.WorkoutSets
@@ -68,7 +67,7 @@ public static class WorkoutExtensions
 		// Rep Count
 		entity.RepCount = sets.Select(x => x.Reps + x.RepsLeft + x.RepsRight).Sum();
 
-		List<MuscleTypes> muscles = new();
+		List<MuscleTypes> muscles = [];
 		foreach (var set in sets)
 		{
 			muscles.AddRange(EnumUtils.FromJoinedIntString<MuscleTypes>(set.Muscles));
@@ -96,7 +95,7 @@ public static class WorkoutExtensions
 		await db.SaveChangesAsync();
 	}
 
-	public static async Task UpdateWorkoutStats(this FitnessDbContext db, long workoutId, long memberId)
+	public static async Task UpdateWorkoutStats(this BaseDbContext db, long workoutId, long memberId)
 	{
 		var workout = await db.Workouts
 			.Where(x => x.Id == workoutId && x.MemberId == memberId)
@@ -107,7 +106,7 @@ public static class WorkoutExtensions
 		await db.UpdateWorkoutStats(workout);
 	}
 
-	private static async Task GetBestSetsBySeconds(this FitnessDbContext db, WorkoutEntity workout, List<WorkoutSetEntity> sets)
+	private static async Task GetBestSetsBySeconds(this BaseDbContext db, WorkoutEntity workout, List<WorkoutSetEntity> sets)
 	{
 		var listBest = sets
 			.OrderBy(x => x.ExerciseId)
@@ -180,7 +179,7 @@ public static class WorkoutExtensions
 		}
 	}
 
-	private static async Task GetBestSetsByWeight(this FitnessDbContext db, WorkoutEntity workout, List<WorkoutSetEntity> sets)
+	private static async Task GetBestSetsByWeight(this BaseDbContext db, WorkoutEntity workout, List<WorkoutSetEntity> sets)
 	{
 		long currentExerciseId = 0;
 		var listBest = sets
@@ -247,7 +246,7 @@ public static class WorkoutExtensions
 		}
 	}
 
-	private static async Task GetBestSetsByVolume(this FitnessDbContext db, WorkoutEntity workout, List<WorkoutSetEntity> sets)
+	private static async Task GetBestSetsByVolume(this BaseDbContext db, WorkoutEntity workout, List<WorkoutSetEntity> sets)
 	{
 		long currentExerciseId = 0;
 		var listBest = sets

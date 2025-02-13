@@ -2,12 +2,9 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
-using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.Dashboard.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Dashboard.Actions;
 
@@ -27,7 +24,7 @@ public class SaveMetric
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -38,7 +35,7 @@ public class SaveMetric
 
 			var definition = await db.MetricDefinitions
 				.Where(x => x.MemberId == request.MemberId && x.Id == defId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (definition == null) 
 				return new CommandResult(false, "Invalid metric.");
@@ -49,7 +46,7 @@ public class SaveMetric
 				.Where(x => x.MemberId == request.MemberId 
 					&& x.MetricDefinitionId == defId
 					&& x.DateRecorded == dateRecorded)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			// Doesn't exist and has value, so add new
 			if(metric == null && request.Model.RecordedValue > 0)
@@ -62,7 +59,7 @@ public class SaveMetric
 					RecordedValue = request.Model.RecordedValue
 				};
 				db.Metrics.Add(metric);
-				await db.SaveChangesAsync();
+				await db.SaveChangesAsync(cancellationToken);
 
 				return new CommandResult(true, "Metric recorded.");
 			}
@@ -70,7 +67,7 @@ public class SaveMetric
 			else if (metric != null && request.Model.RecordedValue > 0)
 			{
 				metric.RecordedValue = request.Model.RecordedValue;
-				await db.SaveChangesAsync();
+				await db.SaveChangesAsync(cancellationToken);
 
 				return new CommandResult(true, "Metric updated.");
 			}
@@ -78,7 +75,7 @@ public class SaveMetric
 			else if (metric != null && request.Model.RecordedValue == 0)
 			{
 				db.Metrics.Remove(metric);
-				await db.SaveChangesAsync();
+				await db.SaveChangesAsync(cancellationToken);
 
 				return new CommandResult(true, "Metric cleared.");
 			}

@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.My.Client.Features.Metrics.Models;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Metrics.Actions;
 
@@ -27,7 +26,7 @@ public class SaveDefinition
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -62,7 +61,7 @@ public class SaveDefinition
 							Title = "Metrics"
 						};
 						db.MetricDefinitionGroups.Add(group);
-						await db.SaveChangesAsync();
+						await db.SaveChangesAsync(cancellationToken);
 					}
 					groupId = group.Id;
 					groupExists = true;

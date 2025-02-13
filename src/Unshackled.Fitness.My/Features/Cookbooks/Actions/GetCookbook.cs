@@ -24,7 +24,7 @@ public class GetCookbook
 
 	public class Handler : BaseHandler, IRequestHandler<Query, CookbookModel>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CookbookModel> Handle(Query request, CancellationToken cancellationToken)
 		{

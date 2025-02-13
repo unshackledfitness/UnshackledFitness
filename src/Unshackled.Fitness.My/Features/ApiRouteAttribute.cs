@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Routing;
 
-namespace Unshackled.Studio.Core.Server.Features;
+namespace Unshackled.Fitness.My.Features;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class ApiRouteAttribute : Attribute, IRouteTemplateProvider

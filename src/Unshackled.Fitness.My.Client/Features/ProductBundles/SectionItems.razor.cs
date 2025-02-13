@@ -1,15 +1,14 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Fitness.Core;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.Core.Configuration;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.ProductBundles.Actions;
 using Unshackled.Fitness.My.Client.Features.ProductBundles.Models;
-using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Configuration;
 
 namespace Unshackled.Fitness.My.Client.Features.ProductBundles;
 
-public class SectionItemsBase : BaseSectionComponent<Member>
+public class SectionItemsBase : BaseSectionComponent
 {
 	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
 	protected enum Views

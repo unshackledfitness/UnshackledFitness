@@ -24,7 +24,7 @@ public class ListMemberInvites
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<InviteListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<InviteListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{

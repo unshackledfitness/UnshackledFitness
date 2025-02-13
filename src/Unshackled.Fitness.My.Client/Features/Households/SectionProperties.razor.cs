@@ -1,14 +1,13 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Extensions;
 using Unshackled.Fitness.My.Client.Features.Households.Actions;
 using Unshackled.Fitness.My.Client.Features.Households.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Households;
 
-public class SectionPropertiesBase : BaseSectionComponent<Member>
+public class SectionPropertiesBase : BaseSectionComponent
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public HouseholdModel Household { get; set; } = new();
@@ -85,7 +84,7 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 			if (result.Success)
 			{
 				// Refresh the member if we just left the active household
-				if (ActiveMember.ActiveHousehold != null && ActiveMember.ActiveHousehold.HouseholdSid == Household.Sid)
+				if (State.ActiveMember.ActiveHousehold != null && State.ActiveMember.ActiveHousehold.HouseholdSid == Household.Sid)
 					await Mediator.GetActiveMember();
 
 				NavManager.NavigateTo("/households");
@@ -105,8 +104,8 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 			await HouseholdChanged.InvokeAsync(result.Payload);
 
 			// If active household updated
-			if (ActiveMember.ActiveHousehold != null 
-				&& Household.Sid == ActiveMember.ActiveHousehold.HouseholdSid)
+			if (State.ActiveMember.ActiveHousehold != null 
+				&& Household.Sid == State.ActiveMember.ActiveHousehold.HouseholdSid)
 			{
 				await Mediator.GetActiveMember();
 			}

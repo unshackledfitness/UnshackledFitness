@@ -24,7 +24,7 @@ public class ListRecipeNotes
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<RecipeNoteModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<RecipeNoteModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
@@ -34,9 +34,9 @@ public class ListRecipeNotes
 					.AsNoTracking()
 					.Where(x => x.RecipeId == request.RecipeId)
 					.OrderBy(x => x.SortOrder))
-					.ToListAsync() ?? new();
+					.ToListAsync(cancellationToken) ?? [];
 			}
-			return new();
+			return [];
 		}
 	}
 }

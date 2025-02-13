@@ -4,9 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.MealPlans.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.MealPlans.Actions;
 
@@ -28,7 +27,7 @@ public class ListMealPlanRecipes
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<MealPlanRecipeModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<MealPlanRecipeModel>> Handle(Query request, CancellationToken cancellationToken)
 		{

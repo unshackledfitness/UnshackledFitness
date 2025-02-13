@@ -1,6 +1,4 @@
-﻿using Unshackled.Studio.Core.Client.Features;
-
-namespace Unshackled.Fitness.My.Client.Features.Recipes.Models;
+﻿namespace Unshackled.Fitness.My.Client.Features.Recipes.Models;
 
 public class FormBulkAddStepModel
 {

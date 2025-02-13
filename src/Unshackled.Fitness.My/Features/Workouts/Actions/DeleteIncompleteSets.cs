@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Workouts.Actions;
 
@@ -26,7 +24,7 @@ public class DeleteIncompleteSets
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -37,37 +35,37 @@ public class DeleteIncompleteSets
 				.Where(x => x.WorkoutId == workoutId && x.MemberId == request.MemberId && x.DateRecordedUtc == null)
 				.Select(x => x.ListGroupId)
 				.Distinct()
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
 			try
 			{
 				await db.WorkoutSets
 					.Where(x => x.WorkoutId == workoutId && x.MemberId == request.MemberId && x.DateRecordedUtc == null)
-					.DeleteFromQueryAsync();
+					.DeleteFromQueryAsync(cancellationToken);
 
-				foreach (var groupId in incompleteSetGroups)
+				foreach (long groupId in incompleteSetGroups)
 				{
 					int remainingSetsInGroup = await db.WorkoutSets
 						.Where(x => x.WorkoutId == workoutId && x.ListGroupId == groupId)
-					.CountAsync();
+					.CountAsync(cancellationToken);
 					
 					int totalGroups = await db.WorkoutSetGroups
 						.Where(x => x.WorkoutId == workoutId)
-						.CountAsync();
+						.CountAsync(cancellationToken);
 
 					// Delete if no sets left in group and it is not the last remaining group in the workout
 					if (remainingSetsInGroup == 0 && totalGroups > 1)
 					{
 						await db.WorkoutSetGroups
 							.Where(x => x.Id == groupId)
-							.DeleteFromQueryAsync();
+							.DeleteFromQueryAsync(cancellationToken);
 					}
 				}
 				
 				var recordedSets = await db.WorkoutSets
 					.Where(x => x.WorkoutId == workoutId && x.MemberId == request.MemberId)
 					.OrderBy(x => x.DateRecordedUtc)
-					.ToListAsync();
+					.ToListAsync(cancellationToken);
 
 				int sortOrder = 0;
 				foreach(var recordedSet in recordedSets)
@@ -75,7 +73,7 @@ public class DeleteIncompleteSets
 					recordedSet.SortOrder = sortOrder;
 					sortOrder++;
 				}
-				await db.SaveChangesAsync();
+				await db.SaveChangesAsync(cancellationToken);
 
 				await db.UpdateWorkoutStats(workoutId, request.MemberId);
 

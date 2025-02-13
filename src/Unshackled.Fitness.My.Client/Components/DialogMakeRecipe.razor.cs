@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Models;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Client.Services;
+using Unshackled.Fitness.My.Client.Services;
 
 namespace Unshackled.Fitness.My.Client.Components;
 
@@ -11,35 +9,34 @@ public partial class DialogMakeRecipe : IAsyncDisposable
 {
 	[CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
 	[Inject] IScreenWakeLockService ScreenLockService { get; set; } = null!;
-	[Inject] IAppState State { get; set; } = null!;
+	[Inject] AppState State { get; set; } = null!;
 	[Inject] NavigationManager NavigationManager { get; set; } = default!;
 
 	public List<MakeItRecipeModel> Recipes { get; set; } = [];
 
-	protected bool DisableBack => state.MakeItIndex <= 0 || Recipes.Count == 0;
-	protected bool DisableForward => state.MakeItIndex > Recipes.Count;
+	protected bool DisableBack => State.MakeItIndex <= 0 || Recipes.Count == 0;
+	protected bool DisableForward => State.MakeItIndex > Recipes.Count;
 	protected bool CanScreenLock { get; set; }
 	protected bool IsScreenLocked { get; set; }
-	private AppState state => (AppState)State;
 
 	protected override async Task OnParametersSetAsync()
 	{
 		await base.OnParametersSetAsync();
 		CanScreenLock = await ScreenLockService.IsWakeLockSupported();
 
-		Recipes = state.MakeItRecipes;
+		Recipes = State.MakeItRecipes;
 	}
 
 	protected override async Task OnInitializedAsync()
 	{
 		await base.OnInitializedAsync();
 
-		state.OnMakeItRecipesChanged += StateHasChanged;
+		State.OnMakeItRecipesChanged += StateHasChanged;
 	}
 
 	public async ValueTask DisposeAsync()
 	{
-		state.OnMakeItRecipesChanged -= StateHasChanged;
+		State.OnMakeItRecipesChanged -= StateHasChanged;
 		await ScreenLockService.ReleaseWakeLock();
 	}
 
@@ -51,7 +48,7 @@ public partial class DialogMakeRecipe : IAsyncDisposable
 
 	protected void HandleDeleteRecipeClicked(MakeItRecipeModel recipe)
 	{
-		state.RemoveMakeItRecipe(recipe);
+		State.RemoveMakeItRecipe(recipe);
 	}
 
 	protected void HandleGroupItemChecked(MakeItRecipeIngredientGroupModel model, MakeItRecipeModel recipe, bool? isChecked)
@@ -63,7 +60,7 @@ public partial class DialogMakeRecipe : IAsyncDisposable
 				.ToList()
 				.ForEach(x => x.IsSelected = isChecked.Value);
 		}
-		state.SaveMakeItRecipeChanges();
+		State.SaveMakeItRecipeChanges();
 	}
 
 	protected void HandleItemChecked(MakeItRecipeIngredientModel model, MakeItRecipeModel recipe, bool isChecked)
@@ -89,7 +86,7 @@ public partial class DialogMakeRecipe : IAsyncDisposable
 					group.IsSelectAll = null;
 			}
 		}
-		state.SaveMakeItRecipeChanges();
+		State.SaveMakeItRecipeChanges();
 	}
 
 	public void HandleScaleChanged(MakeItRecipeModel recipe, decimal scale)
@@ -97,21 +94,21 @@ public partial class DialogMakeRecipe : IAsyncDisposable
 		if (recipe.Scale != scale)
 		{
 			recipe.Scale = scale;
-			state.SaveMakeItRecipeChanges();
+			State.SaveMakeItRecipeChanges();
 		}
 	}
 
 	public void HandleStepChecked(MakeItRecipeStepModel model, bool isChecked)
 	{
 		model.IsSelected = isChecked;
-		state.SaveMakeItRecipeChanges();
+		State.SaveMakeItRecipeChanges();
 	}
 
 	protected void HandleMoveLeft()
 	{
 		if (!DisableBack)
 		{
-			state.UpdateIndex(state.MakeItIndex - 1);
+			State.UpdateIndex(State.MakeItIndex - 1);
 			StateHasChanged();
 		}
 	}
@@ -120,7 +117,7 @@ public partial class DialogMakeRecipe : IAsyncDisposable
 	{
 		if (!DisableForward)
 		{
-			state.UpdateIndex(state.MakeItIndex + 1);
+			State.UpdateIndex(State.MakeItIndex + 1);
 			StateHasChanged();
 		}
 	}

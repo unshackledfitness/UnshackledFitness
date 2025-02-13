@@ -22,7 +22,7 @@
 	</SearchForm>
 </div>
 
-@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+@if (State.ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
 {
 	<MudToolBar Class="mt-6 mb-2" Gutters="false" Dense="true">
 		<MudButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@IsLoading" OnClick="@(() => HandleAddClicked())">New</MudButton>

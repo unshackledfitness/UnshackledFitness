@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.Core.Configuration;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.CookbookRecipes.Actions;
 using Unshackled.Fitness.My.Client.Features.CookbookRecipes.Models;
-using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Configuration;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.CookbookRecipes;
 
-public partial class IndexBase : BaseSearchComponent<SearchRecipeModel, RecipeListModel, Member>
+public partial class IndexBase : BaseSearchComponent<SearchRecipeModel, RecipeListModel>
 {
 	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
 

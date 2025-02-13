@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Unshackled.Studio.Core.Client.Features;
 
 namespace Unshackled.Fitness.My.Client.Features.Recipes.Models;
+
 public class FormAddIngredientModel
 {
 	public string RecipeSid { get; set; } = string.Empty;

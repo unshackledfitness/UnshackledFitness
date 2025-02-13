@@ -13,14 +13,14 @@
 }
 else
 {
-	<SortableListView IsLoading="@IsLoading" TItem="MealDefinitionModel" AllowSort="@ActiveMember.IsActive" Items="@Meals" DisableSort="@DisableControls"
+	<SortableListView IsLoading="@IsLoading" TItem="MealDefinitionModel" AllowSort="@State.ActiveMember.IsActive" Items="@Meals" DisableSort="@DisableControls"
 					  ToolbarPosition="ToolbarPositions.Top" ToolbarAlignment="HorizontalAlignment.Left" SortOrderChanged="@HandleSortChanged">
 		<ItemRenderer>
 			<div class="d-flex flex-row gap-2 align-center">
 				<div class="flex-grow-1">
 					<MudText Typo="Typo.subtitle1">@context.Item.Title</MudText>
 				</div>
-				@if (ActiveMember.IsActive)
+				@if (State.ActiveMember.IsActive)
 				{
 					<div class="d-flex flex-row gap-2 justify-end">
 						<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@DisableControls" OnClick="@(() => HandleEditClicked(context.Item))" />
@@ -45,7 +45,7 @@ else
 			</MudPaper>
 		</DraggableItemRenderer>
 		<ListTools>
-			@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+			@if (State.ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
 			{
 				<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@DisableControls" OnClick="@(() => HandleAddMealClicked())">New</MudButton>
 			}

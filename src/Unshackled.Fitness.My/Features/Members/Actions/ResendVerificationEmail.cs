@@ -6,9 +6,8 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Unshackled.Fitness.Core.Data;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Data.Entities;
+using Unshackled.Fitness.Core.Data.Entities;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Features.Members.Actions;
 
@@ -32,7 +31,7 @@ public class ResendVerificationEmail
 		private readonly SignInManager<UserEntity> signInManager;
 		private readonly IEmailSender<UserEntity> emailSender;
 
-		public Handler(FitnessDbContext db, IMapper mapper, UserManager<UserEntity> userManager, 
+		public Handler(BaseDbContext db, IMapper mapper, UserManager<UserEntity> userManager, 
 			SignInManager<UserEntity> signInManager, IEmailSender<UserEntity> emailSender) : base(db, mapper)
 		{
 			this.userManager = userManager;

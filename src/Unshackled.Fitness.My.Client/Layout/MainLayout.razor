@@ -1,6 +1,7 @@
 ﻿@using MediatR
-@using Unshackled.Studio.Core.Client.Configuration
+@using Unshackled.Fitness.Core.Configuration
 @using Unshackled.Fitness.My.Client.Extensions
+@using Unshackled.Fitness.My.Client.Services
 @inherits LayoutComponentBase
 
 @inject ClientConfiguration config
@@ -8,12 +9,12 @@
 @inject IMediator Mediator
 @inject IDialogService DialogService
 @inject IScreenWakeLockService ScreenLockService
-@inject IAppState State
+@inject AppState State
 @inject ILocalStorage LocalStorage
 
 <AuthorizeView>
 	<Authorized>
-		<AppFrame TMember="Member" CustomTheme="@CustomTheme" IsLoading="@IsLoading" 
+		<AppFrame CustomTheme="@CustomTheme" IsLoading="@IsLoading" 
 				  IntializationCompleted="@HandleInitializationCompleted" ThemeSwitched="@HandleThemeSwitched">
 			<AppBarContent>
 				<LogoLayout Layout="LogoLayouts.NoIcon" Href="/" Height="32px" />
@@ -29,7 +30,7 @@
 			</NavBottomContent>
 			<NotificationBarContent>
 				<div class="mx-2">
-					<MudBadge Class="make-it-notification" Content="@(state.MakeItRecipes.Count)" Color="Color.Secondary" Overlap="true" Visible="@(state.MakeItRecipes.Count > 0)">
+					<MudBadge Class="make-it-notification" Content="@(State.MakeItRecipes.Count)" Color="Color.Secondary" Overlap="true" Visible="@(State.MakeItRecipes.Count > 0)">
 						<MudIconButton Icon="@Icons.Material.Filled.LocalDining" Color="Color.Primary" OnClick="@(() => HandleMakeItClicked())" />
 					</MudBadge>
 				</div>
@@ -54,9 +55,7 @@
 
 @code {
 	AppTheme CustomTheme = new();
-	bool IsLoading = true;
-
-	AppState state => (AppState)State;
+	bool IsLoading = true; 
 
 	protected async Task HandleInitializationCompleted()
 	{
@@ -64,10 +63,10 @@
 
 		var miRecipes = await LocalStorage.GetItemAsync<List<MakeItRecipeModel>>(Globals.LocalStorageKeys.MakeItRecipes);
 		if (miRecipes != null)
-			state.SetMakeItRecipes(miRecipes);
+			State.SetMakeItRecipes(miRecipes);
 
-		state.OnMakeItRecipesChanged += HandleMakeItRecipesChanged;
-		state.OnSaveMakeItRecipeChanges += HandleSaveMakeItRecipeChanges;
+		State.OnMakeItRecipesChanged += HandleMakeItRecipesChanged;
+		State.OnSaveMakeItRecipeChanges += HandleSaveMakeItRecipeChanges;
 
 		IsLoading = false;
 	}
@@ -79,13 +78,13 @@
 
 	protected async void HandleMakeItRecipesChanged()
 	{
-		await LocalStorage.SetItemAsync(Globals.LocalStorageKeys.MakeItRecipes, state.MakeItRecipes);
+		await LocalStorage.SetItemAsync(Globals.LocalStorageKeys.MakeItRecipes, State.MakeItRecipes);
 		StateHasChanged();
 	}
 
 	protected async void HandleSaveMakeItRecipeChanges()
 	{
-		await LocalStorage.SetItemAsync(Globals.LocalStorageKeys.MakeItRecipes, state.MakeItRecipes);
+		await LocalStorage.SetItemAsync(Globals.LocalStorageKeys.MakeItRecipes, State.MakeItRecipes);
 	}
 
 	protected async Task HandleThemeSwitched(Themes theme)

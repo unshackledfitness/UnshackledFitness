@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Unshackled.Studio.Core.Client.Configuration;
-using Unshackled.Studio.Core.Data;
+using Unshackled.Fitness.Core.Configuration;
 
 namespace Unshackled.Fitness.Core.Data;
 
-public class MySqlServerDbContext : FitnessDbContext
+public class MySqlServerDbContext : BaseDbContext
 {
 	public MySqlServerDbContext(DbContextOptions<MySqlServerDbContext> options,
 		ConnectionStrings connectionStrings,

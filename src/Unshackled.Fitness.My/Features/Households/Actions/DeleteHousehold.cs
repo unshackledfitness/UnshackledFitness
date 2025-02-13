@@ -2,11 +2,11 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core;
+using Unshackled.Fitness.Core.Configuration;
 using Unshackled.Fitness.Core.Data;
-using Unshackled.Studio.Core.Client.Configuration;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Server.Extensions;
-using Unshackled.Studio.Core.Server.Services;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Extensions;
+using Unshackled.Fitness.My.Services;
 
 namespace Unshackled.Fitness.My.Features.Households.Actions;
 
@@ -29,7 +29,7 @@ public class DeleteHousehold
 		private readonly StorageSettings storageSettings;
 		private readonly IFileStorageService fileService;
 
-		public Handler(FitnessDbContext db, IMapper mapper, StorageSettings storageSettings, IFileStorageService fileService) : base(db, mapper)
+		public Handler(BaseDbContext db, IMapper mapper, StorageSettings storageSettings, IFileStorageService fileService) : base(db, mapper)
 		{
 			this.storageSettings = storageSettings;
 			this.fileService = fileService;

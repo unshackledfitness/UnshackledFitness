@@ -5,7 +5,6 @@ using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Activities.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Activities.Actions;
 
@@ -25,7 +24,7 @@ public class GetSessionForm
 
 	public class Handler : BaseHandler, IRequestHandler<Query, FormActivityModel>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<FormActivityModel> Handle(Query request, CancellationToken cancellationToken)
 		{

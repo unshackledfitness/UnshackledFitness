@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Json;
-using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Fitness.My.Client.Models;
 
-namespace Unshackled.Studio.Core.Client.Features;
+namespace Unshackled.Fitness.My.Client.Features;
 
 public abstract class BaseHandler
 {

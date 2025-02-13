@@ -2,9 +2,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.ActivityTypes.Actions;
 
@@ -24,7 +23,7 @@ public class DeleteActivityType
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper map) : base(db, map) { }
+		public Handler(BaseDbContext db, IMapper map) : base(db, map) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -32,7 +31,7 @@ public class DeleteActivityType
 
 			bool hasActivities = await db.Activities
 				.Where(x => x.MemberId == request.MemberId && x.ActivityTypeId == activityTypeId)
-				.AnyAsync();
+				.AnyAsync(cancellationToken);
 
 			if (hasActivities)
 				return new CommandResult(false, "Cannot delete an activity type with activities.");

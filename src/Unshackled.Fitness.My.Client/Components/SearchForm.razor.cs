@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using MudBlazor.Utilities;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.Core.Interfaces;
 using Unshackled.Fitness.My.Client.Extensions;
 
-namespace Unshackled.Fitness.Core.Components;
+namespace Unshackled.Fitness.My.Client.Components;
 
 public partial class SearchForm<T> where T : ISearchModel, new()
 {

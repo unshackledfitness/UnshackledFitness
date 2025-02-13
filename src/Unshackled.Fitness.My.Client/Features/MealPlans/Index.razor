@@ -7,7 +7,7 @@
 
 <MudText Typo="Typo.h4" Class="mb-6">Meal Plan</MudText>
 
-@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+@if (State.ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
 {
 	<MudToolBar Gutters="false" Dense="true" Class="mb-2">
 		<div>

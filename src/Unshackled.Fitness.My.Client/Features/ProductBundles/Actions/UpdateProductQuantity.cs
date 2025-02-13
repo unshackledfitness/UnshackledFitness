@@ -1,7 +1,7 @@
 ﻿using MediatR;
+using Unshackled.Fitness.Core;
 using Unshackled.Fitness.My.Client.Features.ProductBundles.Models;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.ProductBundles.Actions;
 

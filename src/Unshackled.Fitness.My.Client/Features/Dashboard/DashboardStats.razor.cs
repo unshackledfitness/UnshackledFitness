@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Components;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Dashboard.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Dashboard;
 
-public class DashboardStatsBase : BaseComponent<Member>
+public class DashboardStatsBase : BaseComponent
 {
 	[Parameter] public DashboardStatsModel Model { get; set; } = default!;
 	protected string FirstYear { get; set; } = string.Empty;
@@ -16,7 +15,7 @@ public class DashboardStatsBase : BaseComponent<Member>
 	{
 		base.OnParametersSet();
 
-		DistanceUnit = ActiveMember.Settings.DefaultUnits == UnitSystems.Imperial ? DistanceUnits.Mile : DistanceUnits.Kilometer;
+		DistanceUnit = State.ActiveMember.Settings.DefaultUnits == UnitSystems.Imperial ? DistanceUnits.Mile : DistanceUnits.Kilometer;
 		FirstYear = Model.Years.FirstOrDefault().ToString();
 	}
 }

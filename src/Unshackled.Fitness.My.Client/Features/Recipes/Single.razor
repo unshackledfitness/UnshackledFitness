@@ -17,14 +17,14 @@ else
 	}
 	else
 	{
-		@if(Recipe.HouseholdSid != ActiveMember.ActiveHousehold?.HouseholdSid)
+		@if(Recipe.HouseholdSid != State.ActiveMember.ActiveHousehold?.HouseholdSid)
 		{
 			<MudAlert Severity="Severity.Warning" ContentAlignment="HorizontalAlignment.Center" Class="mb-4">
 				You are viewing a recipe that is not in your active household. <MudLink Class="d-inline-block ms-4" Color="Color.Warning" OnClick="@(() => HandleSwitchHousehold())">Switch Household</MudLink>
 			</MudAlert>
 		}
 
-		@if (ActiveMember.IsActive)
+		@if (State.ActiveMember.IsActive)
 		{
 			<MudToolBar Gutters="false" Dense="true" Class="mb-4">
 				@if (Steps.Count > 0)
@@ -32,7 +32,7 @@ else
 					<MudButton Color="Color.Secondary" StartIcon="@Icons.Material.Filled.LocalDining" Disabled="@IsEditMode" OnClick="@(() => HandleMakeRecipeClicked())">Make It</MudButton>
 				}
 				<MudButton StartIcon="@Icons.Material.Filled.FileCopy" Disabled="@IsEditMode" OnClick="@(() => HandleCopyToClicked())">Copy to...</MudButton>
-				@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+				@if (State.ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
 				{
 					<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@IsEditMode" OnClick="@(() => HandleAddToListClicked())">Shopping List</MudButton>
 					<MudButton StartIcon="@Icons.Material.Filled.Share" Disabled="@IsEditMode" OnClick="@(() => HandleAddToCookbookClicked())">Cookbook</MudButton>

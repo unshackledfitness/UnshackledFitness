@@ -23,7 +23,7 @@ public class ListIngredientTitles
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<string>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<string>> Handle(Query request, CancellationToken cancellationToken)
 		{
@@ -40,7 +40,7 @@ public class ListIngredientTitles
 					.OrderBy(x => x)
 					.ToListAsync(cancellationToken);
 			}
-			return new();
+			return [];
 		}
 	}
 }

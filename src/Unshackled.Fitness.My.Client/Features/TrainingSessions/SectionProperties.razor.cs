@@ -1,16 +1,15 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Unshackled.Fitness.Core.Configuration;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.TrainingSessions.Actions;
 using Unshackled.Fitness.My.Client.Features.TrainingSessions.Models;
 using Unshackled.Fitness.My.Client.Models;
-using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Configuration;
 
 namespace Unshackled.Fitness.My.Client.Features.TrainingSessions;
 
-public class SectionPropertiesBase : BaseSectionComponent<Member>
+public class SectionPropertiesBase : BaseSectionComponent
 {
 	[Inject] protected ClientConfiguration ClientConfig { get; set; } = default!;
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
@@ -22,7 +21,7 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 	protected bool IsUpdating { get; set; } = false;
 	protected bool IsDuplicating { get; set; } = false;
 	protected FormSessionModel Model { get; set; } = new();
-	protected AppSettings AppSettings => ActiveMember.Settings;
+	protected AppSettings AppSettings => State.ActiveMember.Settings;
 
 	public bool DisableControls => IsUpdating;
 	public int StatElevation => IsEditMode ? 0 : 1;

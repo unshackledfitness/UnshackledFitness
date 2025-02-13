@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.My.Client.Features.Households.Models;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Households.Actions;
 
@@ -23,11 +23,11 @@ public class ListHouseholds
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<HouseholdListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<HouseholdListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
-			List<HouseholdListModel> list = new();
+			List<HouseholdListModel> list = [];
 
 			list.AddRange(await mapper.ProjectTo<HouseholdListModel>(db.HouseholdMembers
 					.Include(x => x.Household)

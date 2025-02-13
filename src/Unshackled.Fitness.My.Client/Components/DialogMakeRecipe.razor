@@ -1,6 +1,4 @@
-﻿@using Unshackled.Fitness.My.Client.Features.Recipes.Models
-
-<MudDialog Gutters="false" Class="dialog-grow h-100">
+﻿<MudDialog Gutters="false" Class="dialog-grow h-100">
 	<DialogContent>
 		<MudSwipeArea OnSwipeEnd="@HandleSwipeEnd" Style="width: 100%; height:100%" Sensitivity="100">
 			<MudContainer>
@@ -33,7 +31,7 @@
 							<MudItem xs="12" md="10" Class="h-100">
 								@foreach (var recipe in Recipes)
 								{
-									<div class="recipe-dialog @(recipe.SortOrder == state.MakeItIndex ? "d-flex" : "d-none")">
+									<div class="recipe-dialog @(recipe.SortOrder == State.MakeItIndex ? "d-flex" : "d-none")">
 										<MudText Typo="Typo.h4" Align="Align.Center">@recipe.Title</MudText>
 										<MudToolBar Gutters="false" Dense="true">
 											<MudButton StartIcon="@Icons.Material.Filled.Delete" OnClick="@(() => HandleDeleteRecipeClicked(recipe))">Remove</MudButton>
@@ -90,7 +88,7 @@
 									</div>
 								}
 
-								<div class="recipe-dialog @(state.MakeItIndex >= Recipes.Count ? "d-flex" : "d-none")">
+								<div class="recipe-dialog @(State.MakeItIndex >= Recipes.Count ? "d-flex" : "d-none")">
 									<div class="recipe-dialog">
 										@if (Recipes.Count > 0)
 										{

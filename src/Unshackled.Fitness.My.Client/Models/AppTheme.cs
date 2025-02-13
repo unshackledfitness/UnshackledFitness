@@ -1,6 +1,6 @@
 ﻿using MudBlazor;
 
-namespace Unshackled.Fitness.Core.Models;
+namespace Unshackled.Fitness.My.Client.Models;
 
 public class AppTheme : MudTheme
 {

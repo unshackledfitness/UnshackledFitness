@@ -17,7 +17,7 @@ else
 	}
 	else
 	{
-		@if(ShoppingList.HouseholdSid != ActiveMember.ActiveHousehold?.HouseholdSid)
+		@if(ShoppingList.HouseholdSid != State.ActiveMember.ActiveHousehold?.HouseholdSid)
 		{
 			<MudAlert Severity="Severity.Warning" ContentAlignment="HorizontalAlignment.Center" Class="mb-4">
 				You are viewing a shopping list that is not in your active household. <MudLink Class="d-inline-block ms-4" Color="Color.Warning" OnClick="@(() => HandleSwitchHousehold())">Switch Household</MudLink>
@@ -25,7 +25,7 @@ else
 		}
 
 		<MudToolBar Gutters="false" Dense="true">
-			@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+			@if (State.ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
 			{
 				<MudSpacer />
 				<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@IsEditing" />

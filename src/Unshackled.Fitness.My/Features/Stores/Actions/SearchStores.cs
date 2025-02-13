@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Stores.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Fitness.My.Features.Stores.Actions;
 
@@ -27,7 +27,7 @@ public class SearchStores
 
 	public class Handler : BaseHandler, IRequestHandler<Query, SearchResult<StoreListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<SearchResult<StoreListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{

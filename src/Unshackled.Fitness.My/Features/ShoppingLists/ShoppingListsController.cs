@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Unshackled.Fitness.Core.Models;
-using Unshackled.Fitness.Core.Models.ShoppingLists;
 using Unshackled.Fitness.My.Client.Features.ShoppingLists.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Features.ShoppingLists.Actions;
-using Unshackled.Studio.Core.Server.Features;
 
 namespace Unshackled.Fitness.My.Features.ShoppingLists;
 

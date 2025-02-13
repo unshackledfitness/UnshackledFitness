@@ -5,10 +5,8 @@ using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Workouts.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Workouts.Actions;
 
@@ -28,7 +26,7 @@ public class CompleteWorkout
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -42,7 +40,7 @@ public class CompleteWorkout
 
 			var workout = await db.Workouts
 				.Where(x => x.Id == workoutId && x.MemberId == request.MemberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (workout == null)
 				return new CommandResult(false, "Workout not found.");
@@ -54,7 +52,7 @@ public class CompleteWorkout
 				// Mark post-workout tasks as complete
 				await db.WorkoutTasks
 					.Where(x => x.WorkoutId == workoutId && x.Type == WorkoutTaskTypes.PostWorkout)
-					.UpdateFromQueryAsync(x => new WorkoutTaskEntity { Completed = true });
+					.UpdateFromQueryAsync(x => new WorkoutTaskEntity { Completed = true }, cancellationToken);
 
 				workout.DateCompleted = request.Model.DateCompleted;
 				workout.DateCompletedUtc = request.Model.DateCompletedUtc;

@@ -1439,7 +1439,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.ToTable("uf_WorkoutTemplateTasks", (string)null);
                 });
 
-            modelBuilder.Entity("Unshackled.Studio.Core.Data.Entities.MemberEntity", b =>
+            modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.MemberEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1475,7 +1475,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.ToTable("uf_Members", (string)null);
                 });
 
-            modelBuilder.Entity("Unshackled.Studio.Core.Data.Entities.MemberMetaEntity", b =>
+            modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.MemberMetaEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1504,7 +1504,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.ToTable("uf_MemberMeta", (string)null);
                 });
 
-            modelBuilder.Entity("Unshackled.Studio.Core.Data.Entities.UserEntity", b =>
+            modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.UserEntity", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT")
@@ -1588,7 +1588,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.UserEntity", null)
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.UserEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1597,7 +1597,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.UserEntity", null)
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.UserEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1612,7 +1612,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.UserEntity", null)
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.UserEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1621,7 +1621,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.UserEntity", null)
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.UserEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1636,7 +1636,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MemberEntity", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1649,7 +1649,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.ActivityTypeEntity", b =>
                 {
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MemberEntity", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1660,7 +1660,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.ExerciseEntity", b =>
                 {
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MemberEntity", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1677,7 +1677,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MemberEntity", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1690,7 +1690,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.MetricDefinitionGroupEntity", b =>
                 {
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MemberEntity", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1701,7 +1701,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.MetricEntity", b =>
                 {
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MemberEntity", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1720,7 +1720,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.MetricPresetEntity", b =>
                 {
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MemberEntity", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1731,7 +1731,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.ProgramEntity", b =>
                 {
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MemberEntity", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1742,7 +1742,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.ProgramTemplateEntity", b =>
                 {
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MemberEntity", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1769,7 +1769,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.TrainingPlanEntity", b =>
                 {
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MemberEntity", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1780,7 +1780,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.TrainingPlanSessionEntity", b =>
                 {
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MemberEntity", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1813,7 +1813,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MemberEntity", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1826,7 +1826,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.WorkoutEntity", b =>
                 {
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MemberEntity", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1849,7 +1849,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MemberEntity", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1872,7 +1872,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.WorkoutSetGroupEntity", b =>
                 {
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MemberEntity", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1891,7 +1891,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.WorkoutTaskEntity", b =>
                 {
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MemberEntity", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1910,7 +1910,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.WorkoutTemplateEntity", b =>
                 {
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MemberEntity", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1933,7 +1933,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MemberEntity", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1956,7 +1956,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.WorkoutTemplateSetGroupEntity", b =>
                 {
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MemberEntity", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1975,7 +1975,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.WorkoutTemplateTaskEntity", b =>
                 {
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MemberEntity", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -1992,9 +1992,9 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.Navigation("WorkoutTemplate");
                 });
 
-            modelBuilder.Entity("Unshackled.Studio.Core.Data.Entities.MemberMetaEntity", b =>
+            modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.MemberMetaEntity", b =>
                 {
-                    b.HasOne("Unshackled.Studio.Core.Data.Entities.MemberEntity", "Member")
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MemberEntity", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.NoAction)

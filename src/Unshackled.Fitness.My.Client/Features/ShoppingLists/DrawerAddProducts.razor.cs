@@ -1,13 +1,12 @@
 using Microsoft.AspNetCore.Components;
 using Unshackled.Fitness.Core;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.ShoppingLists.Actions;
 using Unshackled.Fitness.My.Client.Features.ShoppingLists.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.ShoppingLists;
 
-public class DrawerAddProductsBase : BaseSearchComponent<SearchProductsModel, ProductListModel, Member>
+public class DrawerAddProductsBase : BaseSearchComponent<SearchProductsModel, ProductListModel>
 {
 	[Parameter] public string ShoppingListSid { get; set; } = string.Empty;
 	[Parameter] public EventCallback<Dictionary<string, int>> OnProductsAdded { get; set; }

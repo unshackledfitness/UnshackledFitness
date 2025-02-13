@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Client.Utils;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Client.Utils;
 
 namespace Unshackled.Fitness.My.Client.Features.Workouts.Models;
 

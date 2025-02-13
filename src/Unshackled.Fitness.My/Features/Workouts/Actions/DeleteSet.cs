@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Workouts.Actions;
 
@@ -27,7 +25,7 @@ public class DeleteSet
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -48,25 +46,25 @@ public class DeleteSet
 				// Adjust sort order for other sets in the workout with higher sort orders
 				await db.WorkoutSets
 					.Where(x => x.WorkoutId == set.WorkoutId && x.SortOrder > set.SortOrder)
-					.UpdateFromQueryAsync(x => new WorkoutSetEntity { SortOrder = x.SortOrder - 1 });
+					.UpdateFromQueryAsync(x => new WorkoutSetEntity { SortOrder = x.SortOrder - 1 }, cancellationToken);
 
 				db.WorkoutSets.Remove(set);
 				await db.SaveChangesAsync(cancellationToken);
 
 				int remainingSetsInGroup = await db.WorkoutSets
 					.Where(x => x.WorkoutId == set.WorkoutId && x.ListGroupId == set.ListGroupId)
-					.CountAsync();
+					.CountAsync(cancellationToken);
 
 				int totalGroups = await db.WorkoutSetGroups
 					.Where(x => x.WorkoutId == set.WorkoutId)
-					.CountAsync();
+					.CountAsync(cancellationToken);
 
 				// Delete if no sets left in group and it is not the last remaining group in the workout
 				if(remainingSetsInGroup == 0 && totalGroups > 1) 
 				{
 					await db.WorkoutSetGroups
 						.Where(x => x.Id == set.ListGroupId)
-						.DeleteFromQueryAsync();
+						.DeleteFromQueryAsync(cancellationToken);
 				}
 
 				await db.UpdateWorkoutStats(set.WorkoutId, request.MemberId);

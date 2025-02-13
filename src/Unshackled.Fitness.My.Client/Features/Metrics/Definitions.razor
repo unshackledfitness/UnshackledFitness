@@ -10,13 +10,13 @@
 @if (ShowView == Views.List)
 {
 	<div Class="mb-6">
-		<SortableGroupedList IsLoading="@IsLoading" TGroup="FormMetricDefinitionGroupModel" TItem="FormMetricDefinitionModel" AllowSort="@ActiveMember.IsActive"
+		<SortableGroupedList IsLoading="@IsLoading" TGroup="FormMetricDefinitionGroupModel" TItem="FormMetricDefinitionModel" AllowSort="@State.ActiveMember.IsActive"
 							 Groups="@ListModel.Groups" Items="@ListModel.Metrics" ShowSingleGroupTitle="true" DisableSort="@IsWorking"
 							 ToolbarPosition="ToolbarPositions.Top" ToolbarAlignment="HorizontalAlignment.Left" SortOrderChanged="@HandleSortChanged">
 			<GroupRenderer>
 				<div class="d-flex flex-row gap-2 align-center">
 					<MudText Typo="Typo.subtitle1" Class="flex-grow-1">@context.Title</MudText>
-					@if (ActiveMember.IsActive)
+					@if (State.ActiveMember.IsActive)
 					{
 						<div>
 							<MudIconButton Icon="@Icons.Material.Filled.AddCircle" Color="Color.Primary" Disabled="@IsWorking" OnClick="@(() => HandleAddToGroupClicked(context.Sid))" />
@@ -43,7 +43,7 @@
 							}
 						</div>
 					</MudItem>
-					@if (ActiveMember.IsActive)
+					@if (State.ActiveMember.IsActive)
 					{
 						<MudItem xs="12" md="3" Class="d-flex flex-row gap-2 justify-end">
 							<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@IsWorking" OnClick="@(() => HandleEditClicked(context.Item))" />
@@ -58,7 +58,7 @@
 			<EmptyListRenderer>
 				<div class="d-flex flex-column align-center gap-4">
 					<MudAlert Severity="Severity.Normal">You have not added any metrics.</MudAlert>
-					@if (ActiveMember.IsActive)
+					@if (State.ActiveMember.IsActive)
 					{
 						<MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.AddCircle"
 								   OnClick="@(() => HandleAddToGroupClicked(string.Empty))">Add Metric</MudButton>

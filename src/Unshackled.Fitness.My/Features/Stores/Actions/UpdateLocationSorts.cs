@@ -5,10 +5,8 @@ using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Stores.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Stores.Actions;
 
@@ -28,7 +26,7 @@ public class UpdateLocationSorts
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -42,7 +40,7 @@ public class UpdateLocationSorts
 
 			var locations = await db.StoreLocations
 				.Where(x => x.StoreId == storeId)
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
 			using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
 
@@ -56,7 +54,7 @@ public class UpdateLocationSorts
 					if (s == null) continue;
 
 					s.SortOrder = item.SortOrder;
-					await db.SaveChangesAsync();
+					await db.SaveChangesAsync(cancellationToken);
 				}
 
 				await transaction.CommitAsync(cancellationToken);

@@ -1,4 +1,4 @@
-﻿namespace Unshackled.Studio.DataMigrator.Enums;
+﻿namespace Unshackled.Fitness.DataMigrator.Enums;
 
 internal enum MigrationTypes
 {

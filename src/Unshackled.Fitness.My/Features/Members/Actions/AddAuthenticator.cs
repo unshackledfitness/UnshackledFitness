@@ -3,10 +3,9 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Unshackled.Fitness.Core.Data;
+using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.My.Client.Features.Members.Models;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Data.Entities;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Features.Members.Actions;
 
@@ -28,7 +27,7 @@ public class AddAuthenticator
 	{
 		private readonly UserManager<UserEntity> userManager;
 
-		public Handler(FitnessDbContext db, IMapper mapper, UserManager<UserEntity> userManager) : base(db, mapper)
+		public Handler(BaseDbContext db, IMapper mapper, UserManager<UserEntity> userManager) : base(db, mapper)
 		{
 			this.userManager = userManager;
 		}
@@ -41,9 +40,9 @@ public class AddAuthenticator
 				return new CommandResult<IEnumerable<string>?>(false, "Invalid user.");
 
 			// Strip spaces and hyphens
-			var verificationCode = request.Model.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
+			string verificationCode = request.Model.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
 
-			var is2faTokenValid = await userManager.VerifyTwoFactorTokenAsync(
+			bool is2faTokenValid = await userManager.VerifyTwoFactorTokenAsync(
 				user, userManager.Options.Tokens.AuthenticatorTokenProvider, verificationCode);
 
 			if (!is2faTokenValid)

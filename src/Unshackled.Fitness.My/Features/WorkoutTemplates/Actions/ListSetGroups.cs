@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Models;
-using Unshackled.Studio.Core.Data;
 
 namespace Unshackled.Fitness.My.Features.WorkoutTemplates.Actions;
 
@@ -23,7 +22,7 @@ public class ListSetGroups
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<TemplateSetGroupModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<TemplateSetGroupModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
@@ -32,7 +31,7 @@ public class ListSetGroups
 				.Include(x => x.WorkoutTemplate)
 				.Where(x => x.WorkoutTemplateId == request.TemplateId && x.WorkoutTemplate.MemberId == request.MemberId)
 				.OrderBy(x => x.SortOrder))
-				.ToListAsync() ?? new();
+				.ToListAsync(cancellationToken) ?? [];
 		}
 	}
 }

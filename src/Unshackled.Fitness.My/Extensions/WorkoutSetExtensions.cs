@@ -1,8 +1,7 @@
 ﻿using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
+using Unshackled.Fitness.Core.Utils;
 using Unshackled.Fitness.My.Client.Features.Workouts.Models;
-using Unshackled.Studio.Core.Client.Utils;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Extensions;
 
@@ -15,7 +14,7 @@ public static class WorkoutSetExtensions
 			DateCreatedUtc = set.DateCreatedUtc,
 			DateLastModifiedUtc = set.DateLastModifiedUtc,
 			DateRecordedUtc = set.DateRecordedUtc,
-			Equipment = set.Exercise != null ? EnumUtils.FromJoinedIntString<EquipmentTypes>(set.Exercise.Equipment) : new(),
+			Equipment = set.Exercise != null ? EnumUtils.FromJoinedIntString<EquipmentTypes>(set.Exercise.Equipment) : [],
 			ExerciseNotes = set.Exercise?.Notes,
 			SetMetricType = set.SetMetricType,
 			ExerciseSid = set.ExerciseId.Encode(),
@@ -32,7 +31,7 @@ public static class WorkoutSetExtensions
 			IsRecordTargetWeight = set.IsRecordTargetWeight,
 			IsRecordVolume = set.IsRecordVolume,
 			IsRecordWeight = set.IsRecordWeight,
-			Muscles = set.Exercise != null ? EnumUtils.FromJoinedIntString<MuscleTypes>(set.Exercise.Muscles) : new(),
+			Muscles = set.Exercise != null ? EnumUtils.FromJoinedIntString<MuscleTypes>(set.Exercise.Muscles) : [],
 			Notes = set.Notes,
 			RepMode = set.RepMode,
 			Reps = set.Reps != 0 ? set.Reps : null,

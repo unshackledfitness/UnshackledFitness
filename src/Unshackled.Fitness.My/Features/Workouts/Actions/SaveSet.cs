@@ -1,16 +1,13 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Workouts.Models;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Client.Utils;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Client.Utils;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Data.Extensions;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Workouts.Actions;
 
@@ -30,14 +27,14 @@ public class SaveSet
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult<FormWorkoutSetModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult<FormWorkoutSetModel>> Handle(Command request, CancellationToken cancellationToken)
 		{
 			var member = await db.Members
 				.AsNoTracking()
 				.Where(s => s.Id == request.MemberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (member == null)
 				return new CommandResult<FormWorkoutSetModel>(false, "Invalid member.");
@@ -48,7 +45,7 @@ public class SaveSet
 				.Include(x => x.Workout)
 				.Include(x => x.Exercise)
 				.Where(x => x.Id == setId && x.MemberId == request.MemberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (set == null)
 				return new CommandResult<FormWorkoutSetModel>(false, "Invalid workout set.");
@@ -111,7 +108,7 @@ public class SaveSet
 					? Calculator.Volume(set.WeightLb, set.RepsLeft, set.RepsRight)
 					: Calculator.Volume(set.WeightLb, set.Reps);
 
-				await db.SaveChangesAsync();
+				await db.SaveChangesAsync(cancellationToken);
 
 				// Recalculate best sets and PR's if workout is complete
 				if (set.Workout.DateCompletedUtc.HasValue)

@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.My.Client.Features.Metrics.Models;
-using Unshackled.Studio.Core.Data;
 
 namespace Unshackled.Fitness.My.Features.Metrics.Actions;
 
@@ -23,13 +22,13 @@ public class GetDefinition
 
 	public class Handler : BaseHandler, IRequestHandler<Query, FormMetricDefinitionModel>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<FormMetricDefinitionModel> Handle(Query request, CancellationToken cancellationToken)
 		{
 			return await mapper.ProjectTo<FormMetricDefinitionModel>(db.MetricDefinitions
 				.Where(x => x.MemberId == request.MemberId && x.Id == request.Id))
-				.SingleOrDefaultAsync() ?? new();
+				.SingleOrDefaultAsync(cancellationToken) ?? new();
 		}
 	}
 }

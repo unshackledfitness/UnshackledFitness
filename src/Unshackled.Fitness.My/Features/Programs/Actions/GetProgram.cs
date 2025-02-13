@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.My.Client.Features.Programs.Models;
-using Unshackled.Studio.Core.Data;
 
 namespace Unshackled.Fitness.My.Features.Programs.Actions;
 
@@ -23,14 +22,14 @@ public class GetProgram
 
 	public class Handler : BaseHandler, IRequestHandler<Query, ProgramModel>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<ProgramModel> Handle(Query request, CancellationToken cancellationToken)
 		{
 			var program = await mapper.ProjectTo<ProgramModel>(db.Programs
 				.AsNoTracking()
 				.Where(x => x.MemberId == request.MemberId && x.Id == request.Id))
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (program != null)
 			{
@@ -39,7 +38,7 @@ public class GetProgram
 					.Include(x => x.WorkoutTemplate)
 					.Where(x => x.ProgramId == request.Id)
 					.OrderBy(x => x.SortOrder))
-					.ToListAsync();
+					.ToListAsync(cancellationToken);
 			}
 			else
 			{

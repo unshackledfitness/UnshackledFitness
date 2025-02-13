@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.My.Client.Features.Cookbooks.Models;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Cookbooks.Actions;
 
@@ -23,7 +23,7 @@ public class ListCookbooks
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<CookbookListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<CookbookListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{

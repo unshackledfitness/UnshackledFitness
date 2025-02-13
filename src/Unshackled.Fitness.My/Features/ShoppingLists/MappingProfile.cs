@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.My.Client.Features.ShoppingLists.Models;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.ShoppingLists;
 

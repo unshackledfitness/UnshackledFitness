@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Unshackled.Studio.DataMigrator.Configuration;
-using Unshackled.Studio.DataMigrator.Enums;
-using Unshackled.Studio.DataMigrator.Migrators;
+using Unshackled.Fitness.DataMigrator.Configuration;
+using Unshackled.Fitness.DataMigrator.Enums;
+using Unshackled.Fitness.DataMigrator.Migrators;
 
 IConfigurationRoot config = new ConfigurationBuilder()
 	.AddJsonFile("appsettings.json")

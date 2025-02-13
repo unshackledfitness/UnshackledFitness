@@ -5,11 +5,10 @@ using System.Web;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Unshackled.Fitness.Core.Configuration;
 using Unshackled.Fitness.Core.Data;
+using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.My.Client.Features.Members.Models;
-using Unshackled.Studio.Core.Client.Configuration;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Data.Entities;
 
 namespace Unshackled.Fitness.My.Features.Members.Actions;
 
@@ -30,7 +29,7 @@ public class GetAuthenticatorModel
 		private readonly UserManager<UserEntity> userManager;
 		private readonly SiteConfiguration siteConfig;
 
-		public Handler(FitnessDbContext db, IMapper mapper, UserManager<UserEntity> userManager, SiteConfiguration siteConfig) : base(db, mapper) 
+		public Handler(BaseDbContext db, IMapper mapper, UserManager<UserEntity> userManager, SiteConfiguration siteConfig) : base(db, mapper) 
 		{
 			this.userManager = userManager;
 			this.siteConfig = siteConfig;
@@ -46,7 +45,7 @@ public class GetAuthenticatorModel
 			AuthenticatorModel model = new();
 
 			// Load the authenticator key & QR code URI to display on the form
-			var unformattedKey = await userManager.GetAuthenticatorKeyAsync(user);
+			string? unformattedKey = await userManager.GetAuthenticatorKeyAsync(user);
 			if (string.IsNullOrEmpty(unformattedKey))
 			{
 				await userManager.ResetAuthenticatorKeyAsync(user);
@@ -55,7 +54,7 @@ public class GetAuthenticatorModel
 
 			model.SharedKey = FormatKey(unformattedKey!);
 
-			var email = await userManager.GetEmailAsync(user);
+			string? email = await userManager.GetEmailAsync(user);
 			model.AuthenticatorUri = string.Format(
 				CultureInfo.InvariantCulture,
 				AuthenticatorModel.AuthenticatorUriFormat,

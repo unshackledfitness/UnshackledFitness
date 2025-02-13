@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Client.Features.Cookbooks.Actions;
 using Unshackled.Fitness.My.Client.Features.Cookbooks.Models;
-using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Fitness.My.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Cookbooks;
 
-public class SectionInvitesBase : BaseSectionComponent<Member>
+public class SectionInvitesBase : BaseSectionComponent
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public CookbookModel Cookbook { get; set; } = new();

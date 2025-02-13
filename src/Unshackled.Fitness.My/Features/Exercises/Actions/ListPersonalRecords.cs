@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.My.Client.Features.Exercises.Models;
-using Unshackled.Studio.Core.Data;
 
 namespace Unshackled.Fitness.My.Features.Exercises.Actions;
 
@@ -23,7 +22,7 @@ public class ListPersonalRecords
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<RecordListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<RecordListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
@@ -39,7 +38,7 @@ public class ListPersonalRecords
 					&& x.IsRecordWeight == true
 					&& x.WeightKg > 0)
 				.OrderByDescending(x => x.DateRecordedUtc))
-				.FirstOrDefaultAsync();
+				.FirstOrDefaultAsync(cancellationToken);
 
 			if (pr != null)
 			{
@@ -57,7 +56,7 @@ public class ListPersonalRecords
 					&& x.IsRecordVolume == true
 					&& x.VolumeKg > 0)
 				.OrderByDescending(x => x.DateRecordedUtc))
-				.FirstOrDefaultAsync();
+				.FirstOrDefaultAsync(cancellationToken);
 
 			if (pr != null)
 			{
@@ -77,7 +76,7 @@ public class ListPersonalRecords
 					&& x.WeightLb == 0
 					&& (x.Seconds > 0 || x.SecondsLeft > 0 || x.SecondsRight > 0))
 				.OrderByDescending(x => x.DateRecordedUtc))
-				.FirstOrDefaultAsync();
+				.FirstOrDefaultAsync(cancellationToken);
 
 			if (pr != null)
 			{
@@ -97,7 +96,7 @@ public class ListPersonalRecords
 					&& x.WeightLb > 0
 					&& (x.Seconds > 0 || x.SecondsLeft > 0 || x.SecondsRight > 0))
 				.OrderByDescending(x => x.DateRecordedUtc))
-				.FirstOrDefaultAsync();
+				.FirstOrDefaultAsync(cancellationToken);
 
 			if (pr != null)
 			{

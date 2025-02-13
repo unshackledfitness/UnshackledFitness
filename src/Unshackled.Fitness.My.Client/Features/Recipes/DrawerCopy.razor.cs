@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Recipes.Actions;
 using Unshackled.Fitness.My.Client.Features.Recipes.Models;
-using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Recipes;
 
-public class DrawerCopyBase : BaseComponent<Member>
+public class DrawerCopyBase : BaseComponent
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public RecipeModel Recipe { get; set; } = new();
@@ -29,8 +29,8 @@ public class DrawerCopyBase : BaseComponent<Member>
 
 		// Get current active household if it is in the list of writable households
 		string currentHouseholdSid = string.Empty;
-		if (ActiveMember.ActiveHousehold != null && MemberHouseholds.Where(x => x.Sid == ActiveMember.ActiveHousehold.HouseholdSid).Any())
-			currentHouseholdSid = ActiveMember.ActiveHousehold.HouseholdSid;
+		if (State.ActiveMember.ActiveHousehold != null && MemberHouseholds.Where(x => x.Sid == State.ActiveMember.ActiveHousehold.HouseholdSid).Any())
+			currentHouseholdSid = State.ActiveMember.ActiveHousehold.HouseholdSid;
 
 		CopyModel = new()
 		{

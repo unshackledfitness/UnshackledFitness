@@ -24,7 +24,7 @@ public class ListRecipeIngredientGroups
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<RecipeIngredientGroupModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<RecipeIngredientGroupModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
@@ -34,9 +34,9 @@ public class ListRecipeIngredientGroups
 				.AsNoTracking()
 				.Where(x => x.RecipeId == request.RecipeId)
 				.OrderBy(x => x.SortOrder))
-				.ToListAsync() ?? new();
+				.ToListAsync(cancellationToken) ?? [];
 			}
-			return new();
+			return [];
 		}
 	}
 }

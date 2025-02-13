@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Components;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.TrainingPlans.Actions;
 using Unshackled.Fitness.My.Client.Features.TrainingPlans.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.TrainingPlans;
 
-public class SectionSessionsBase : BaseSectionComponent<Member>
+public class SectionSessionsBase : BaseSectionComponent
 {
 	[Parameter] public PlanModel Plan { get; set; } = new();
 	[Parameter] public EventCallback PlanUpdated { get; set; }

@@ -24,7 +24,7 @@ public class GetProduct
 
 	public class Handler : BaseHandler, IRequestHandler<Query, ProductModel>
 	{
-		public Handler(FitnessDbContext db, IMapper map) : base(db, map) { }
+		public Handler(BaseDbContext db, IMapper map) : base(db, map) { }
 
 		public async Task<ProductModel> Handle(Query request, CancellationToken cancellationToken)
 		{

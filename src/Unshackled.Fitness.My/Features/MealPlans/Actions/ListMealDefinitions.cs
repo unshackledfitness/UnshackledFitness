@@ -24,7 +24,7 @@ public class ListMealDefinitions
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<MealDefinitionModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<MealDefinitionModel>> Handle(Query request, CancellationToken cancellationToken)
 		{

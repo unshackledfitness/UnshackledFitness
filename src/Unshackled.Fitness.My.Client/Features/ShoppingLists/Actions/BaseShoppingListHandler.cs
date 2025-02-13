@@ -1,6 +1,4 @@
-﻿using Unshackled.Studio.Core.Client.Features;
-
-namespace Unshackled.Fitness.My.Client.Features.ShoppingLists.Actions;
+﻿namespace Unshackled.Fitness.My.Client.Features.ShoppingLists.Actions;
 
 public abstract class BaseShoppingListHandler : BaseHandler
 {

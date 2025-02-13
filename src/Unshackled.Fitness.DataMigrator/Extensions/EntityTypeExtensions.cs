@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Unshackled.Studio.DataMigrator.Extensions;
+namespace Unshackled.Fitness.DataMigrator.Extensions;
 
 public static class EntityTypeExtensions
 {

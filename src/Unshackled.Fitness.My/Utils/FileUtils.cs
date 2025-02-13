@@ -1,4 +1,4 @@
-﻿namespace Unshackled.Studio.Core.Server.Utils;
+﻿namespace Unshackled.Fitness.My.Utils;
 
 public static class FileUtils
 {

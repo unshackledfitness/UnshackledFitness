@@ -1,9 +1,7 @@
-﻿using System.Text.Json.Serialization;
-using FluentValidation;
+﻿using FluentValidation;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Utils;
-using Unshackled.Studio.Core.Client.Features;
-using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Fitness.Core.Interfaces;
+using Unshackled.Fitness.My.Client.Utils;
 
 namespace Unshackled.Fitness.My.Client.Features.Recipes.Models;
 

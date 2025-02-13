@@ -7,7 +7,7 @@
 
 <MudText Typo="Typo.h4" Class="mb-6">Categories</MudText>
 
-@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+@if (State.ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
 {
 	<MudToolBar Gutters="false" Dense="true">
 		<MudButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@IsLoading" OnClick="@HandleAddClicked">Add</MudButton>
@@ -21,7 +21,7 @@
 				<MudText Typo="Typo.subtitle1">@context.Item.Title</MudText>
 				<MudText Typo="Typo.body2">Products: @context.Item.ItemCount</MudText>
 			</div>
-			@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+			@if (State.ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
 			{
 				<div>
 					<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" OnClick="@(() => HandleEditClicked(context.Item))" />

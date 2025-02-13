@@ -20,14 +20,14 @@ public class ListActivityTypes
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<ActivityTypeListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<ActivityTypeListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
 			return await mapper.ProjectTo<ActivityTypeListModel>(db.ActivityTypes
 				.Where(x => x.MemberId == request.MemberId)
 				.OrderBy(x => x.Title))
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 		}
 	}
 }

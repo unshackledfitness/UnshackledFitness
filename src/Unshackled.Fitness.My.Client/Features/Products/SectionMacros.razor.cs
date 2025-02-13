@@ -1,13 +1,12 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Products.Actions;
 using Unshackled.Fitness.My.Client.Features.Products.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Products;
 
-public class SectionMacrosBase : BaseSectionComponent<Member>
+public class SectionMacrosBase : BaseSectionComponent
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public ProductModel Product { get; set; } = new();

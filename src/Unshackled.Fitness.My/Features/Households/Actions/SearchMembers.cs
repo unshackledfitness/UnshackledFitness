@@ -2,11 +2,11 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
+using Unshackled.Fitness.Core.Data.Extensions;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Households.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Households.Actions;
 
@@ -28,7 +28,7 @@ public class SearchMembers
 
 	public class Handler : BaseHandler, IRequestHandler<Query, SearchResult<MemberListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<SearchResult<MemberListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
@@ -48,7 +48,7 @@ public class SearchMembers
 
 			result.Total = await query.CountAsync(cancellationToken);
 
-			if (request.Model.Sorts.Any())
+			if (request.Model.Sorts.Count != 0)
 			{
 				query = query.AddSorts(request.Model.Sorts);
 			}

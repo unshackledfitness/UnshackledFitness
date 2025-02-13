@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using Unshackled.Fitness.Core.Models.Charts;
+using Unshackled.Fitness.My.Client.Models;
 
-namespace Unshackled.Fitness.Core.Components;
+namespace Unshackled.Fitness.My.Client.Components;
 
 public partial class Chart<T> : IAsyncDisposable where T : struct
 {

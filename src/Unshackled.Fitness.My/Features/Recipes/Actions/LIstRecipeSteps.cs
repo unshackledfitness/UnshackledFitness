@@ -24,7 +24,7 @@ public class ListRecipeSteps
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<RecipeStepModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<RecipeStepModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
@@ -36,7 +36,7 @@ public class ListRecipeSteps
 					.OrderBy(x => x.SortOrder))
 					.ToListAsync(cancellationToken) ?? [];
 			}
-			return new();
+			return [];
 		}
 	}
 }

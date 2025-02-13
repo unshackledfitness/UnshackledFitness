@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.My.Client.Features.Workouts.Models;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Workouts.Actions;
 
@@ -27,7 +26,7 @@ public class UpdateSetSorts
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -35,18 +34,18 @@ public class UpdateSetSorts
 
 			var workout = await db.Workouts
 				.Where(x => x.Id == workoutId && x.MemberId == request.MemberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (workout == null)
 				return new CommandResult(false, "Invalid workout.");
 
 			var groups = await db.WorkoutSetGroups
 				.Where(x => x.WorkoutId == workoutId)
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
 			var sets = await db.WorkoutSets
 				.Where(x => x.WorkoutId == workoutId)
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
 			using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
 
@@ -72,13 +71,13 @@ public class UpdateSetSorts
 							WorkoutId = workoutId
 						};
 						db.WorkoutSetGroups.Add(gEntity);
-						await db.SaveChangesAsync();
+						await db.SaveChangesAsync(cancellationToken);
 						groupIdMap.Add(item.Sid, gEntity.Id);
 					}
 					else if (g != null)
 					{
 						g.SortOrder = item.SortOrder;
-						await db.SaveChangesAsync();
+						await db.SaveChangesAsync(cancellationToken);
 					}
 				}
 
@@ -91,7 +90,7 @@ public class UpdateSetSorts
 
 					s.ListGroupId = groupIdMap[item.ListGroupSid];
 					s.SortOrder = item.SortOrder;
-					await db.SaveChangesAsync();
+					await db.SaveChangesAsync(cancellationToken);
 				}
 
 				foreach (var item in request.Model.DeletedGroups)
@@ -104,12 +103,12 @@ public class UpdateSetSorts
 					// Check any sets that might still be in group (should be 0 at this point)
 					bool stopDelete = await db.WorkoutSets
 						.Where(x => x.ListGroupId == g.Id)
-						.AnyAsync();
+						.AnyAsync(cancellationToken);
 
 					if (!stopDelete)
 					{
 						db.WorkoutSetGroups.Remove(g);
-						await db.SaveChangesAsync();
+						await db.SaveChangesAsync(cancellationToken);
 					}
 				}
 

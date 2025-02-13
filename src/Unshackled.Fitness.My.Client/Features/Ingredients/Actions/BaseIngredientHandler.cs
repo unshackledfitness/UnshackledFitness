@@ -1,6 +1,4 @@
-﻿using Unshackled.Studio.Core.Client.Features;
-
-namespace Unshackled.Fitness.My.Client.Features.Ingredients.Actions;
+﻿namespace Unshackled.Fitness.My.Client.Features.Ingredients.Actions;
 
 public abstract class BaseIngredientHandler : BaseHandler
 {

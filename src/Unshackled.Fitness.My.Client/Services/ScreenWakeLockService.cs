@@ -1,6 +1,6 @@
 ﻿using Microsoft.JSInterop;
 
-namespace Unshackled.Studio.Core.Client.Services;
+namespace Unshackled.Fitness.My.Client.Services;
 
 public class ScreenWakeLockService : IScreenWakeLockService
 {

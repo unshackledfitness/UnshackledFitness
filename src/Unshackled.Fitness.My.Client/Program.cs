@@ -3,12 +3,10 @@ using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor;
 using MudBlazor.Services;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.Core;
+using Unshackled.Fitness.Core.Configuration;
 using Unshackled.Fitness.My.Client.Models;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Configuration;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Client.Services;
+using Unshackled.Fitness.My.Client.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
@@ -56,7 +54,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies([
 builder.Services.AddSingleton<IRenderStateService, RenderStateService>();
 builder.Services.AddSingleton<IScreenWakeLockService, ScreenWakeLockService>();
 builder.Services.AddBlazoredLocalStorage();
-builder.Services.AddScoped<IAppState, AppState>();
+builder.Services.AddScoped<AppState>();
 builder.Services.AddScoped<HttpStatusCodeHandler>();
 builder.Services.AddScoped<ILocalStorage, LocalStorage>();
 

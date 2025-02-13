@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Models;
-using Unshackled.Studio.Core.Data;
 
 namespace Unshackled.Fitness.My.Features.WorkoutTemplates.Actions;
 
@@ -26,7 +25,7 @@ public class ListTasks
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<TemplateTaskModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<TemplateTaskModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
@@ -34,7 +33,7 @@ public class ListTasks
 				.AsNoTracking()
 				.Where(x => x.WorkoutTemplateId == request.TemplateId && x.MemberId == request.MemberId && x.Type == request.TaskType)
 				.OrderBy(x => x.SortOrder))
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 		}
 	}
 }

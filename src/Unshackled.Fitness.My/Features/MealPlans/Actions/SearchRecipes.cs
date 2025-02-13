@@ -3,11 +3,11 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
+using Unshackled.Fitness.Core.Data.Extensions;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.MealPlans.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data.Extensions;
 
 namespace Unshackled.Fitness.My.Features.MealPlans.Actions;
 
@@ -29,7 +29,7 @@ public class SearchRecipes
 
 	public class Handler : BaseHandler, IRequestHandler<Query, SearchResult<RecipeListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<SearchResult<RecipeListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
@@ -49,7 +49,7 @@ public class SearchRecipes
 
 				if (request.Model.Sorts.Count == 0)
 				{
-					request.Model.Sorts.Add(new() { Member = nameof(RecipeEntity.Title), SortDirection = 0 });
+					request.Model.Sorts.Add(new SearchSortModel { Member = nameof(RecipeEntity.Title), SortDirection = 0 });
 				}
 
 				query = query.AddSorts(request.Model.Sorts);

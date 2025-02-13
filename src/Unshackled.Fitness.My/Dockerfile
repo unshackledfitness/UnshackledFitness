@@ -15,7 +15,7 @@ WORKDIR /
 COPY ["src/Fitness/Unshackled.Fitness.My/Unshackled.Fitness.My.csproj", "src/Fitness/Unshackled.Fitness.My/"]
 COPY ["src/Core/Unshackled.Studio.Core.Server/Unshackled.Studio.Core.Server.csproj", "src/Core/Unshackled.Studio.Core.Server/"]
 COPY ["src/Core/Unshackled.Studio.Core.Client/Unshackled.Studio.Core.Client.csproj", "src/Core/Unshackled.Studio.Core.Client/"]
-COPY ["src/Core/Unshackled.Studio.Core.Data/Unshackled.Studio.Core.Data.csproj", "src/Core/Unshackled.Studio.Core.Data/"]
+COPY ["src/Core/Unshackled.Fitness.Core.Data/Unshackled.Fitness.Core.Data.csproj", "src/Core/Unshackled.Fitness.Core.Data/"]
 COPY ["src/Fitness/Unshackled.Fitness.Core/Unshackled.Fitness.Core.csproj", "src/Fitness/Unshackled.Fitness.Core/"]
 COPY ["src/Fitness/Unshackled.Fitness.Core.Data/Unshackled.Fitness.Core.Data.csproj", "src/Fitness/Unshackled.Fitness.Core.Data/"]
 COPY ["src/Fitness/Unshackled.Fitness.My.Client/Unshackled.Fitness.My.Client.csproj", "src/Fitness/Unshackled.Fitness.My.Client/"]

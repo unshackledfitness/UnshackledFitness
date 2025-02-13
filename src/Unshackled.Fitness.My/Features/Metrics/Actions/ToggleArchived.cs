@@ -2,8 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Features.Metrics.Actions;
 
@@ -25,13 +24,13 @@ public class ToggleArchived
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
 			var definition = await db.MetricDefinitions
 				.Where(x => x.Id == request.DefinitionId && x.MemberId == request.MemberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (definition == null)
 				return new CommandResult(false, "Invalid metric.");

@@ -1,12 +1,11 @@
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Stores.Actions;
 using Unshackled.Fitness.My.Client.Features.Stores.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Stores;
 
-public class IndexBase : BaseSearchComponent<SearchStoreModel, StoreListModel, Member>
+public class IndexBase : BaseSearchComponent<SearchStoreModel, StoreListModel>
 {
 	protected enum Views
 	{

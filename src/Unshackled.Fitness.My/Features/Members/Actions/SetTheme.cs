@@ -2,10 +2,9 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.Core.Enums;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client.Enums;
-using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Fitness.My.Features.Members.Actions;
 
@@ -25,7 +24,7 @@ public class SetTheme
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult<Member>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult<Member>> Handle(Command request, CancellationToken cancellationToken)
 		{

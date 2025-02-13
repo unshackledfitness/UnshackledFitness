@@ -24,7 +24,7 @@ public class GetShoppingList
 
 	public class Handler : BaseHandler, IRequestHandler<Query, ShoppingListModel>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<ShoppingListModel> Handle(Query request, CancellationToken cancellationToken)
 		{
@@ -34,7 +34,7 @@ public class GetShoppingList
 				.AsNoTracking()
 				.Include(x => x.Store)
 				.Where(x => x.Id == request.ShoppingListId))
-				.SingleOrDefaultAsync() ?? new();
+				.SingleOrDefaultAsync(cancellationToken) ?? new();
 			}
 			return new();
 		}

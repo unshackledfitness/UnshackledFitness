@@ -2,34 +2,25 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.Core;
+using Unshackled.Fitness.My.Client.Models;
 
-namespace Unshackled.Fitness.Core.Components;
+namespace Unshackled.Fitness.My.Client.Components;
 
-public class BaseSectionComponent<TMember> : ComponentBase, IAsyncDisposable where TMember : IMember
+public class BaseSectionComponent : ComponentBase, IAsyncDisposable
 {
 	[Inject] protected IMediator Mediator { get; set; } = default!;
 	[Inject] protected ISnackbar Snackbar { get; set; } = default!;
 	[Inject] protected NavigationManager NavManager { get; set; } = default!;
-	[Inject] protected IAppState State { get; set; } = default!;
+	[Inject] protected AppState State { get; set; } = default!;
 	[Parameter] public bool IsEditMode { get; set; } = false;
 	[Parameter] public bool IsEditing { get; set; } = false;
 	[Parameter] public bool DisableSectionControls { get; set; } = false;
 	[Parameter] public EventCallback<bool> OnIsEditingSectionChange { get; set; }
 	[Parameter] public bool UseNavPrevention { get; set; } = true;
 
-	protected TMember ActiveMember { get; private set; } = default!;
-
 	private IDisposable? registration;
 	private MarkupString Unsaved = (MarkupString)"<strong>You may have unsaved changes</strong><br />Close the section you're editing to continue.";
-
-	protected override async Task OnInitializedAsync()
-	{
-		await base.OnInitializedAsync();
-		ActiveMember = (TMember)State.ActiveMember;
-
-		State.OnActiveMemberChange += HandleActiveMemberChange;
-	}
 
 	protected override void OnAfterRender(bool firstRender)
 	{
@@ -42,16 +33,8 @@ public class BaseSectionComponent<TMember> : ComponentBase, IAsyncDisposable whe
 
 	public virtual ValueTask DisposeAsync()
 	{
-		State.OnActiveMemberChange -= HandleActiveMemberChange;
 		registration?.Dispose();
-
 		return ValueTask.CompletedTask;
-	}
-
-	protected void HandleActiveMemberChange()
-	{
-		ActiveMember = (TMember)State.ActiveMember;
-		StateHasChanged();
 	}
 
 	public void NavigateOnSuccess(string url)

@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.My.Client.Features.Workouts.Models;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Workouts.Actions;
 
@@ -27,7 +26,7 @@ public class AddTemplate
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult<string>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult<string>> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -40,7 +39,7 @@ public class AddTemplate
 
 			var workout = await db.Workouts
 				.Where(x => x.Id == workoutId && x.MemberId == request.MemberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (workout == null)
 				return new CommandResult<string>(false, "Previous workout not found.");
@@ -65,10 +64,10 @@ public class AddTemplate
 					.AsNoTracking()
 					.Where(x => x.WorkoutId == workout.Id)
 					.OrderBy(x => x.SortOrder)
-					.ToListAsync();
+					.ToListAsync(cancellationToken);
 
 				// Create map of prev group ids to new group ids
-				Dictionary<long, long> groupIdMap = new();
+				Dictionary<long, long> groupIdMap = [];
 
 				// Create template groups
 				foreach (var group in workoutGroups)
@@ -95,7 +94,7 @@ public class AddTemplate
 					.AsNoTracking()
 					.Where(x => x.WorkoutId == workout.Id)
 					.OrderBy(x => x.SortOrder)
-					.ToListAsync();
+					.ToListAsync(cancellationToken);
 
 				// Create template sets
 				foreach (var set in workoutSets)
@@ -133,9 +132,9 @@ public class AddTemplate
 						Type = x.Type,
 						WorkoutTemplateId = template.Id
 					})
-					.ToListAsync();
+					.ToListAsync(cancellationToken);
 
-				if (tasks.Any())
+				if (tasks.Count != 0)
 				{
 					db.WorkoutTemplateTasks.AddRange(tasks);
 					await db.SaveChangesAsync(cancellationToken);

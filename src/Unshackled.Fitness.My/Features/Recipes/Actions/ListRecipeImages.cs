@@ -3,8 +3,8 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Fitness.My.Features.Recipes.Actions;
 
@@ -24,7 +24,7 @@ public class ListRecipeImages
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<ImageModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<ImageModel>> Handle(Query request, CancellationToken cancellationToken)
 		{

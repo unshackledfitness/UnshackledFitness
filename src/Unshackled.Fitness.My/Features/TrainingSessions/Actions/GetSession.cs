@@ -22,7 +22,7 @@ public class GetSession
 
 	public class Handler : BaseHandler, IRequestHandler<Query, TrainingSessionModel>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<TrainingSessionModel> Handle(Query request, CancellationToken cancellationToken)
 		{

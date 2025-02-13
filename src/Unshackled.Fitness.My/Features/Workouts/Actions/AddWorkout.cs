@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.My.Client.Features.Workouts.Models;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Workouts.Actions;
 
@@ -27,7 +26,7 @@ public class AddWorkout
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult<string>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult<string>> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -68,7 +67,7 @@ public class AddWorkout
 						.AsNoTracking()
 						.Where(x => x.WorkoutId == prevWorkout.Id)
 						.OrderBy(x => x.SortOrder)
-						.ToListAsync();
+						.ToListAsync(cancellationToken);
 
 					// Create map of prev group ids to new group ids
 					Dictionary<long, long> groupIdMap = new();
@@ -98,7 +97,7 @@ public class AddWorkout
 						.AsNoTracking()
 						.Where(x => x.WorkoutId == prevWorkout.Id)
 						.OrderBy(x => x.SortOrder)
-						.ToListAsync();
+						.ToListAsync(cancellationToken);
 
 					// Create new sets
 					foreach (var set in prevSets)
@@ -138,9 +137,9 @@ public class AddWorkout
 							Type = x.Type,
 							WorkoutId = workout.Id
 						})
-						.ToListAsync();
+						.ToListAsync(cancellationToken);
 
-					if (tasks.Any())
+					if (tasks.Count != 0)
 					{
 						db.WorkoutTasks.AddRange(tasks);
 						await db.SaveChangesAsync(cancellationToken);

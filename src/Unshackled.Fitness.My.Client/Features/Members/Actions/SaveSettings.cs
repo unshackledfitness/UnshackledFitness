@@ -1,7 +1,5 @@
 ﻿using MediatR;
-using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Models;
-using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Members.Actions;
 
@@ -21,7 +19,7 @@ public class SaveSettings
 	{
 		private readonly AppState state = default!;
 
-		public Handler(HttpClient httpClient, IAppState stateContainer) : base(httpClient)
+		public Handler(HttpClient httpClient, AppState stateContainer) : base(httpClient)
 		{
 			this.state = (AppState)stateContainer;
 		}

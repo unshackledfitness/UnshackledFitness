@@ -6,7 +6,7 @@ namespace Unshackled.Fitness.My.Extensions;
 
 public static class StoreExtensions
 {
-	public static async Task<bool> HasStorePermission(this FitnessDbContext db, long storeId, long memberId, PermissionLevels permission)
+	public static async Task<bool> HasStorePermission(this BaseDbContext db, long storeId, long memberId, PermissionLevels permission)
 	{
 		long householdId = await db.Stores
 			.Where(x => x.Id == storeId)
@@ -20,7 +20,7 @@ public static class StoreExtensions
 			.Where(x => x.HouseholdId == householdId && x.MemberId == memberId && x.PermissionLevel >= permission)
 			.AnyAsync();
 	}
-	public static async Task<bool> HasStoreLocationPermission(this FitnessDbContext db, long storeLocationId, long memberId, PermissionLevels permission)
+	public static async Task<bool> HasStoreLocationPermission(this BaseDbContext db, long storeLocationId, long memberId, PermissionLevels permission)
 	{
 		long householdId = await db.StoreLocations
 			.Where(x => x.Id == storeLocationId)

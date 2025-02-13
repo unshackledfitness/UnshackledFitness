@@ -1,13 +1,12 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.MealPlans.Actions;
 using Unshackled.Fitness.My.Client.Features.MealPlans.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.MealPlans;
 
-public class DefinitionsBase : BaseComponent<Member>
+public class DefinitionsBase : BaseComponent
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 

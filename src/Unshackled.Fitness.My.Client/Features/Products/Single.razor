@@ -17,14 +17,14 @@ else
 	}
 	else
 	{
-		@if (Product.HouseholdSid != ActiveMember.ActiveHousehold?.HouseholdSid)
+		@if (Product.HouseholdSid != State.ActiveMember.ActiveHousehold?.HouseholdSid)
 		{
 			<MudAlert Severity="Severity.Warning" ContentAlignment="HorizontalAlignment.Center" Class="mb-4">
 				You are viewing a product that is not in your active household. <MudLink Class="d-inline-block ms-4" Color="Color.Warning" OnClick="@(() => HandleSwitchHousehold())">Switch Household</MudLink>
 			</MudAlert>
 		}
 
-		@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+		@if (State.ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
 		{
 			<MudToolBar Gutters="false" Dense="true" Class="mb-2">
 				<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@IsEditMode" OnClick="@(() => HandleAddToListClicked())">Add To List</MudButton>

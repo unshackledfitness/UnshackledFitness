@@ -1,14 +1,13 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.Core.Configuration;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Ingredients.Actions;
 using Unshackled.Fitness.My.Client.Features.Ingredients.Models;
-using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Configuration;
 
 namespace Unshackled.Fitness.My.Client.Features.Ingredients;
 
-public class SectionSubstitutionsBase : BaseSectionComponent<Member>
+public class SectionSubstitutionsBase : BaseSectionComponent
 {
 	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
 	[Inject] protected IDialogService DialogService { get; set; } = default!;

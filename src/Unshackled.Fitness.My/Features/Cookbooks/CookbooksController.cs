@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Unshackled.Fitness.My.Client.Features.Cookbooks.Models;
 using Unshackled.Fitness.My.Features.Cookbooks.Actions;
-using Unshackled.Studio.Core.Server.Features;
 
 namespace Unshackled.Fitness.My.Features.Cookbooks;
 

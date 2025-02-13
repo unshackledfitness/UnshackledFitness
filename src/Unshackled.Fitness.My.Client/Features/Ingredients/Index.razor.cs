@@ -1,13 +1,12 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Ingredients.Actions;
 using Unshackled.Fitness.My.Client.Features.Ingredients.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Ingredients;
 
-public class IndexBase : BaseSearchComponent<SearchIngredientModel, IngredientListModel, Member>
+public class IndexBase : BaseSearchComponent<SearchIngredientModel, IngredientListModel>
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 

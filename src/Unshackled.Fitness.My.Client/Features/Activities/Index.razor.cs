@@ -1,22 +1,21 @@
 using MudBlazor;
 using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Activities.Actions;
 using Unshackled.Fitness.My.Client.Features.Activities.Models;
 using Unshackled.Fitness.My.Client.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Activities;
 
-public class IndexBase : BaseSearchComponent<SearchActivitiesModel, ActivityListModel, Member>
+public class IndexBase : BaseSearchComponent<SearchActivitiesModel, ActivityListModel>
 {
 	public const string FormId = "formAddActivity";
 	protected DateRange DateRangeSearch { get; set; } = new DateRange();
 	protected bool DrawerOpen { get; set; }
 	protected List<ActivityTypeListModel> ActivityTypes { get; set; } = [];
 	protected bool HasActivityTypes => ActivityTypes.Count > 0;
-	protected AppSettings AppSettings => ActiveMember.Settings;
+	protected AppSettings AppSettings => State.ActiveMember.Settings;
 	protected FormActivityModel FormModel { get; set; } = new();
 
 	protected override async Task OnInitializedAsync()

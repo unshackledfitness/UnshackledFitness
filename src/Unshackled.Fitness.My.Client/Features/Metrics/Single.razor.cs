@@ -1,16 +1,14 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Metrics.Actions;
 using Unshackled.Fitness.My.Client.Features.Metrics.Models;
-using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Models.Calendars;
-using Unshackled.Studio.Core.Client.Models.Charts;
-using Unshackled.Studio.Core.Client.Utils;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Client.Utils;
 
 namespace Unshackled.Fitness.My.Client.Features.Metrics;
 
-public class SingleBase : BaseComponent<Member>
+public class SingleBase : BaseComponent
 {
 	[Parameter] public string Sid { get; set; } = string.Empty;
 	protected bool IsLoading { get; set; } = true;

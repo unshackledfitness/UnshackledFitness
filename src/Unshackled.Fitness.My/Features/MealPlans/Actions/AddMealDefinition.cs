@@ -6,8 +6,8 @@ using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.MealPlans.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Fitness.My.Features.MealPlans.Actions;
 
@@ -29,7 +29,7 @@ public class AddMealDefinition
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult<List<MealDefinitionModel>>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult<List<MealDefinitionModel>>> Handle(Command request, CancellationToken cancellationToken)
 		{

@@ -7,14 +7,14 @@ namespace Unshackled.Fitness.My.Extensions;
 
 public static class CookbookExtensions
 {
-	public static async Task<bool> HasCookbookPermission(this FitnessDbContext db, long cookbookId, long memberId, PermissionLevels permission)
+	public static async Task<bool> HasCookbookPermission(this BaseDbContext db, long cookbookId, long memberId, PermissionLevels permission)
 	{
 		return await db.CookbookMembers
 			.Where(x => x.CookbookId == cookbookId && x.MemberId == memberId && x.PermissionLevel >= permission)
 			.AnyAsync();
 	}
 
-	public static async Task<bool> HasCookbookRecipePermission(this FitnessDbContext db, long recipeId, long memberId, PermissionLevels permission)
+	public static async Task<bool> HasCookbookRecipePermission(this BaseDbContext db, long recipeId, long memberId, PermissionLevels permission)
 	{
 		long cookbookId = await db.CookbookRecipes
 			.Where(x => x.RecipeId == recipeId)

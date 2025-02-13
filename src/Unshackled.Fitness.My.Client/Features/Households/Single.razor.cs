@@ -1,15 +1,14 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Extensions;
 using Unshackled.Fitness.My.Client.Features.Households.Actions;
 using Unshackled.Fitness.My.Client.Features.Households.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Households;
 
-public class SingleBase : BaseComponent<Member>
+public class SingleBase : BaseComponent
 {
 	[Parameter] public string HouseholdSid { get; set; } = string.Empty; 
 	protected bool IsLoading { get; set; } = true;
@@ -18,7 +17,7 @@ public class SingleBase : BaseComponent<Member>
 	protected bool IsEditing { get; set; } = false;
 	protected bool DisableControls => !IsEditMode || IsEditing;
 
-	protected bool CanEdit => ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Admin);
+	protected bool CanEdit => State.ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Admin);
 
 	protected override async Task OnParametersSetAsync()
 	{

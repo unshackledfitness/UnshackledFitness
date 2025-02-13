@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Unshackled.Studio.Core.Server.Extensions;
+﻿using Unshackled.Fitness.My.Extensions;
 
-namespace Unshackled.Studio.Core.Server.Middleware;
+namespace Unshackled.Fitness.My.Middleware;
 
 public class AuthorizedUserMiddleware
 {

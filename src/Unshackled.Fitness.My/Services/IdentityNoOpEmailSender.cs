@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Unshackled.Studio.Core.Data.Entities;
+using Unshackled.Fitness.Core.Data.Entities;
 
 namespace Unshackled.Fitness.My.Services;
 

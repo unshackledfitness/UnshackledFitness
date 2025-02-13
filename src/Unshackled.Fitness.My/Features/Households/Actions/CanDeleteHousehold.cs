@@ -21,7 +21,7 @@ public class CanDeleteHousehold
 
 	public class Handler : BaseHandler, IRequestHandler<Query, bool>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<bool> Handle(Query request, CancellationToken cancellationToken)
 		{

@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.DependencyInjection;
-using Unshackled.Studio.Core.Client.Configuration;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.Core.Configuration;
+using Unshackled.Fitness.My.Extensions;
 
-namespace Unshackled.Studio.Core.Server.Extensions;
+namespace Unshackled.Fitness.My.Extensions;
 
 public static class AuthenticationExtensions
 {

@@ -3,9 +3,8 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Metrics.Actions;
 
@@ -25,7 +24,7 @@ public class DeleteDefinition
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -33,7 +32,7 @@ public class DeleteDefinition
 
 			var definition = await db.MetricDefinitions
 				.Where(x => x.Id == defId && x.MemberId == request.MemberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (definition == null)
 				return new CommandResult(false, "Invalid metric.");
@@ -41,7 +40,7 @@ public class DeleteDefinition
 			// Delete all related records
 			await db.Metrics
 				.Where(x => x.MetricDefinitionId == definition.Id)
-				.DeleteFromQueryAsync();
+				.DeleteFromQueryAsync(cancellationToken);
 
 			db.MetricDefinitions.Remove(definition);			
 			await db.SaveChangesAsync(cancellationToken);
@@ -49,12 +48,12 @@ public class DeleteDefinition
 			// Update sort order of any definitions coming after deleted definition
 			await db.MetricDefinitions
 				.Where(x => x.MemberId == request.MemberId && x.SortOrder > definition.SortOrder)
-				.UpdateFromQueryAsync(x => new MetricDefinitionEntity { SortOrder = x.SortOrder - 1 });
+				.UpdateFromQueryAsync(x => new MetricDefinitionEntity { SortOrder = x.SortOrder - 1 }, cancellationToken);
 
 			// Check if group is empty
 			bool hasDefs = await db.MetricDefinitions
 				.Where(x => x.ListGroupId == definition.ListGroupId)
-				.AnyAsync();
+				.AnyAsync(cancellationToken);
 
 			if (!hasDefs)
 			{

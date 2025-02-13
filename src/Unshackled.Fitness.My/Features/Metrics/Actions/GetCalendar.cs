@@ -4,8 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Metrics.Models;
-using Unshackled.Studio.Core.Client.Models.Calendars;
-using Unshackled.Studio.Core.Data;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Features.Metrics.Actions;
 
@@ -27,7 +26,7 @@ public class GetCalendar
 
 	public class Handler : BaseHandler, IRequestHandler<Query, CalendarModel>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CalendarModel> Handle(Query request, CancellationToken cancellationToken)
 		{
@@ -46,7 +45,7 @@ public class GetCalendar
 				.OrderBy(x => x.DateRecorded)
 				.Select(x => x.DateRecorded.Year)
 				.Distinct()
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
 			var blocks = await db.Metrics
 				.AsNoTracking()
@@ -65,7 +64,7 @@ public class GetCalendar
 					x.RecordedValue,
 					Color = x.MetricDefinition.HighlightColor,
 				})
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
 			DateOnly currentDate = model.FromDate;
 			int blockIdx = 0;

@@ -3,8 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.My.Client.Features.ActivityTypes.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.ActivityTypes.Actions;
 
@@ -22,7 +21,7 @@ public class ListActivityTypes
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<ActivityTypeListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<ActivityTypeListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
@@ -57,7 +56,7 @@ public class ListActivityTypes
 						};
 
 			return await query
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 		}
 	}
 }

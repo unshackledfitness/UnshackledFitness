@@ -6,10 +6,9 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Unshackled.Fitness.Core.Data;
+using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.My.Client.Features.Members.Models;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Data.Entities;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Features.Members.Actions;
 
@@ -32,7 +31,7 @@ public class UpdateEmail
 		private readonly UserManager<UserEntity> userManager;
 		private readonly IEmailSender<UserEntity> emailSender;
 
-		public Handler(FitnessDbContext db, IMapper mapper, UserManager<UserEntity> userManager, 
+		public Handler(BaseDbContext db, IMapper mapper, UserManager<UserEntity> userManager, 
 			IEmailSender<UserEntity> emailSender) : base(db, mapper)
 		{
 			this.userManager = userManager;

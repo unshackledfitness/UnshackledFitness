@@ -1,7 +1,5 @@
 ﻿using MediatR;
-using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Models;
-using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Members.Actions;
 
@@ -19,11 +17,11 @@ public class CloseMemberHousehold
 
 	public class Handler : BaseMemberHandler, IRequestHandler<Command, CommandResult>
 	{
-		AppState state = default!;
+		private readonly AppState state = default!;
 
-		public Handler(HttpClient httpClient, IAppState stateContainer) : base(httpClient)
+		public Handler(HttpClient httpClient, AppState state) : base(httpClient)
 		{
-			this.state = (AppState)stateContainer;
+			this.state = state;
 		}
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Unshackled.Fitness.Core.Enums;
 
-namespace Unshackled.Fitness.Core.Components;
+namespace Unshackled.Fitness.My.Client.Components;
 
 public partial class NutritionFormItem
 {

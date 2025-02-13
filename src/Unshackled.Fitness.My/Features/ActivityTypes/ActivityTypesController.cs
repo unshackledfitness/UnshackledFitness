@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Unshackled.Fitness.My.Client.Features.ActivityTypes.Models;
 using Unshackled.Fitness.My.Features.ActivityTypes.Actions;
-using Unshackled.Studio.Core.Server.Features;
+using Unshackled.Fitness.My.Features;
 
 namespace Unshackled.Fitness.My.Features.ActivityTypes;
 

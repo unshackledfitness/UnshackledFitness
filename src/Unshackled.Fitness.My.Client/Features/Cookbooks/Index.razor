@@ -11,7 +11,7 @@
 	household to make changes. Recipes you have shared can be edited in the original household. 
 </MudText>
 
-@if (ActiveMember.IsActive)
+@if (State.ActiveMember.IsActive)
 {
 	<MudToolBar Gutters="false" Dense="true" Class="mb-2">
 		<MudButton StartIcon="@Icons.Material.Filled.AddCircle" OnClick="@(() => HandleAddClicked())">New</MudButton>
@@ -22,11 +22,11 @@
 	<ItemRenderer>
 		<MudGrid Spacing="2" Class="align-center justify-center">
 			<MudItem xs="3" sm="2" md="1">
-				@if (ActiveMember.ActiveCookbook != null && context.Item.Sid == ActiveMember.ActiveCookbook.CookbookSid)
+				@if (State.ActiveMember.ActiveCookbook != null && context.Item.Sid == State.ActiveMember.ActiveCookbook.CookbookSid)
 				{
 					<MudButton Variant="Variant.Filled" Color="Color.Error" FullWidth="true" Disabled="@DisableControls" OnClick="@(() => HandleCloseClicked(context.Item))">Close</MudButton>
 				}
-				else if (ActiveMember.IsActive && context.Item.IsInvite)
+				else if (State.ActiveMember.IsActive && context.Item.IsInvite)
 				{
 					<MudButton Variant="Variant.Filled" Color="Color.Secondary" FullWidth="true" Disabled="@DisableControls" OnClick="@(() => HandleJoinClicked(context.Item))">Join</MudButton>
 				}

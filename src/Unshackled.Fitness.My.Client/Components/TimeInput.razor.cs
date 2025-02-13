@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace Unshackled.Fitness.Core.Components;
+namespace Unshackled.Fitness.My.Client.Components;
 
 public class TimeInputBase : ComponentBase
 {
@@ -43,7 +43,7 @@ public class TimeInputBase : ComponentBase
 		int m = Minutes.HasValue ? Minutes.Value : 0;
 		int s = Seconds.HasValue ? Seconds.Value : 0;
 
-		TimeSpan totalTime = new TimeSpan(h, m, s);
+		var totalTime = new TimeSpan(h, m, s);
 		seconds = (int)totalTime.TotalSeconds;
 
 		if (ValueChanged.HasDelegate && initSecs != seconds)
@@ -54,7 +54,7 @@ public class TimeInputBase : ComponentBase
 
 	private void SplitTimes()
 	{
-		TimeSpan input = TimeSpan.FromSeconds(seconds);
+		var input = TimeSpan.FromSeconds(seconds);
 		Hours = input.Hours > 0 ? input.Hours : null;
 		Minutes = input.Minutes > 0 || input.Hours > 0 ? input.Minutes : null;
 		Seconds = input.Seconds > 0 || input.Hours > 0 || input.Minutes > 0 ? input.Seconds : null;

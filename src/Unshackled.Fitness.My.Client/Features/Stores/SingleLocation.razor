@@ -17,7 +17,7 @@ else
 	}
 	else
 	{
-		@if(StoreLocation.HouseholdSid != ActiveMember.ActiveHousehold?.HouseholdSid)
+		@if(StoreLocation.HouseholdSid != State.ActiveMember.ActiveHousehold?.HouseholdSid)
 		{
 			<MudAlert Severity="Severity.Warning" ContentAlignment="HorizontalAlignment.Center" Class="mb-4">
 				You are viewing a store aisle/department that is not in your active household. <MudLink Class="d-inline-block ms-4" Color="Color.Warning" OnClick="@(() => HandleSwitchHousehold())">Switch Household</MudLink>

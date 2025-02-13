@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.WebAssembly.Http;
 
-namespace Unshackled.Studio.Core.Client.Services;
+namespace Unshackled.Fitness.My.Client.Services;
 
 public class CookieHandler : DelegatingHandler
 {

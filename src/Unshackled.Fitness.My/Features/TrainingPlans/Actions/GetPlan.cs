@@ -22,7 +22,7 @@ public class GetPlan
 
 	public class Handler : BaseHandler, IRequestHandler<Query, PlanModel>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<PlanModel> Handle(Query request, CancellationToken cancellationToken)
 		{

@@ -1,13 +1,12 @@
 using Microsoft.AspNetCore.Components;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
+using Unshackled.Fitness.My.Client.Extensions;
 using Unshackled.Fitness.My.Client.Features.Ingredients.Actions;
 using Unshackled.Fitness.My.Client.Features.Ingredients.Models;
-using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Extensions;
 
 namespace Unshackled.Fitness.My.Client.Features.Ingredients;
 
-public class SectionPropertiesBase : BaseSectionComponent<Member>
+public class SectionPropertiesBase : BaseSectionComponent
 {
 	[Parameter] public IngredientModel Ingredient { get; set; } = new();
 	[Parameter] public EventCallback<IngredientModel> IngredientChanged { get; set; }

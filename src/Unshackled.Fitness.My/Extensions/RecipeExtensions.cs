@@ -3,17 +3,14 @@ using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Server.Extensions;
-using Unshackled.Studio.Core.Server.Services;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Services;
 
 namespace Unshackled.Fitness.My.Extensions;
 
 public static class RecipeExtensions
 {
-	public static async Task<CommandResult<string>> CopyRecipe(this FitnessDbContext db, 
+	public static async Task<CommandResult<string>> CopyRecipe(this BaseDbContext db, 
 		IFileStorageService fileService,
 		long householdId, 
 		long recipeId, 
@@ -212,7 +209,7 @@ public static class RecipeExtensions
 		}
 	}
 	
-	public static async Task<bool> HasRecipePermission(this FitnessDbContext db, long recipeId, long memberId, PermissionLevels permission)
+	public static async Task<bool> HasRecipePermission(this BaseDbContext db, long recipeId, long memberId, PermissionLevels permission)
 	{
 		long householdId = await db.Recipes
 			.Where(x => x.Id == recipeId)
@@ -227,7 +224,7 @@ public static class RecipeExtensions
 			.AnyAsync();
 	}
 
-	public static async Task<List<MakeItRecipeModel>> ListMakeItRecipes(this FitnessDbContext db, Dictionary<string, decimal> recipesAndScales, long householdId)
+	public static async Task<List<MakeItRecipeModel>> ListMakeItRecipes(this BaseDbContext db, Dictionary<string, decimal> recipesAndScales, long householdId)
 	{
 		List<MakeItRecipeModel> output = [];
 

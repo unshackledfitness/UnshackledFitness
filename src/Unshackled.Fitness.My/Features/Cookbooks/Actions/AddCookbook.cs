@@ -5,9 +5,7 @@ using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Cookbooks.Models;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data.Entities;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Features.Cookbooks.Actions;
 
@@ -29,7 +27,7 @@ public class AddCookbook
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult<CookbookListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult<CookbookListModel>> Handle(Command request, CancellationToken cancellationToken)
 		{

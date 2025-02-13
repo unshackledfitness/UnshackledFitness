@@ -1,14 +1,13 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
+using Unshackled.Fitness.My.Client.Extensions;
 using Unshackled.Fitness.My.Client.Features.Recipes.Actions;
 using Unshackled.Fitness.My.Client.Features.Recipes.Models;
-using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Extensions;
 
 namespace Unshackled.Fitness.My.Client.Features.Recipes;
 
-public class SectionNotesBase : BaseSectionComponent<Member>
+public class SectionNotesBase : BaseSectionComponent
 {
 	protected enum Views
 	{

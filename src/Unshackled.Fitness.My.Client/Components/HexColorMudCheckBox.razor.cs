@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace Unshackled.Fitness.Core.Components;
+namespace Unshackled.Fitness.My.Client.Components;
 
 public partial class HexColorMudCheckBox<T> : MudCheckBox<T>
 {

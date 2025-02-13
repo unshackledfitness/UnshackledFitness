@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
 
-namespace Unshackled.Fitness.Core.Components;
+namespace Unshackled.Fitness.My.Client.Components;
 
-public partial class AppFrameBase<TMember> : BaseComponent<TMember>, IAsyncDisposable where TMember : IMember
+public partial class AppFrameBase : BaseComponent, IAsyncDisposable
 {
 	public const string ParameterThemeProvider = "ThemeProvider";
 	

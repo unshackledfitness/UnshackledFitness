@@ -25,7 +25,7 @@
 			</MudGrid>
 		</SearchFields>
 	</SearchForm>
-	@if (ActiveMember.IsActive)
+	@if (State.ActiveMember.IsActive)
 	{
 		<MudToolBar Class="mb-2" Gutters="false" Dense="true">
 			<MudButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@(DisableControls || !HasActivityTypes)" OnClick="@(() => HandleAddClicked())">New</MudButton>
@@ -39,7 +39,7 @@
 			  PageSelected="@HandlePageSelected">
 		<ItemRenderer>
 			<div class="d-flex flex-row gap-4 align-center">
-				@if (ActiveMember.IsActive)
+				@if (State.ActiveMember.IsActive)
 				{
 					<div>
 						<ProgressButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@DisableControls"

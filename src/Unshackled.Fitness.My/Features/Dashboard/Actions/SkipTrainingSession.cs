@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Dashboard.Models;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Dashboard.Actions;
 
@@ -25,7 +25,7 @@ public class SkipTrainingSession
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult<ScheduledListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult<ScheduledListModel>> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -40,7 +40,7 @@ public class SkipTrainingSession
 			var plan = await db.TrainingPlans
 				.Include(x => x.PlanSessions.OrderBy(y => y.SortOrder))
 				.Where(x => x.Id == planId && x.MemberId == request.MemberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (plan == null)
 				return new CommandResult<ScheduledListModel>(false, "Invalid plan.");
@@ -56,7 +56,7 @@ public class SkipTrainingSession
 				.FirstOrDefault();
 
 			plan.NextSessionIndex = nextIndex;
-			await db.SaveChangesAsync();
+			await db.SaveChangesAsync(cancellationToken);
 
 			var model = plan.PlanSessions
 				.Where(x => x.SortOrder == nextIndex)

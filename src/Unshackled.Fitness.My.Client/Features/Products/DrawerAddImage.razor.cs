@@ -2,16 +2,15 @@ using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Unshackled.Fitness.Core;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.Core.Configuration;
+using Unshackled.Fitness.My.Client.Components;
+using Unshackled.Fitness.My.Client.Extensions;
 using Unshackled.Fitness.My.Client.Features.Products.Actions;
-using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Configuration;
-using Unshackled.Studio.Core.Client.Extensions;
-using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Products;
 
-public class DrawerAddImageBase : BaseComponent<Member>
+public class DrawerAddImageBase : BaseComponent
 {
 	[Inject] public StorageSettings StorageSettings { get; set; } = default!;
 	[Parameter] public string ProductSid { get; set; } = string.Empty;

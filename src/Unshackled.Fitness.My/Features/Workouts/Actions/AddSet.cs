@@ -1,16 +1,13 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Workouts.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Data.Extensions;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Workouts.Actions;
 
@@ -30,21 +27,21 @@ public class AddSet
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult<FormWorkoutSetModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult<FormWorkoutSetModel>> Handle(Command request, CancellationToken cancellationToken)
 		{
 			var member = await db.Members
 				.AsNoTracking()
 				.Where(s => s.Id == request.MemberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (member == null)
 				return new CommandResult<FormWorkoutSetModel>(false, "Invalid member.");
 
 			var workout = await db.Workouts
 				.Where(x => x.Id == request.Model.WorkoutSid.DecodeLong() && x.MemberId == request.MemberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (workout == null)
 				return new CommandResult<FormWorkoutSetModel>(false, "Invalid workout.");
@@ -79,15 +76,15 @@ public class AddSet
 					WorkoutId = workout.Id
 				};
 				db.WorkoutSets.Add(newSet);
-				await db.SaveChangesAsync();
+				await db.SaveChangesAsync(cancellationToken);
 
 				await db.UpdateWorkoutStats(workout.Id, request.MemberId);
 
-				await transaction.CommitAsync();
+				await transaction.CommitAsync(cancellationToken);
 
 				newSet.Exercise = await db.Exercises
 					.Where(x => x.Id == newSet.ExerciseId)
-					.SingleOrDefaultAsync() ?? new();
+					.SingleOrDefaultAsync(cancellationToken) ?? new();
 
 				UnitSystems defaultUnits = (await db.GetMemberSettings(member.Id)).DefaultUnits;
 
@@ -95,7 +92,7 @@ public class AddSet
 			}
 			catch
 			{
-				await transaction.RollbackAsync();
+				await transaction.RollbackAsync(cancellationToken);
 				return new CommandResult<FormWorkoutSetModel>(false, Globals.UnexpectedError);
 			}
 		}

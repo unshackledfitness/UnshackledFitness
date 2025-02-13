@@ -1,14 +1,13 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Extensions;
 using Unshackled.Fitness.My.Client.Features.Cookbooks.Actions;
 using Unshackled.Fitness.My.Client.Features.Cookbooks.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Cookbooks;
 
-public class SectionPropertiesBase : BaseSectionComponent<Member>
+public class SectionPropertiesBase : BaseSectionComponent
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public CookbookModel Cookbook { get; set; } = new();
@@ -83,7 +82,7 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 			if (result.Success)
 			{
 				// Refresh the member if we just left the active cookbook
-				if (ActiveMember.ActiveCookbook != null && ActiveMember.ActiveCookbook.CookbookSid == Cookbook.Sid)
+				if (State.ActiveMember.ActiveCookbook != null && State.ActiveMember.ActiveCookbook.CookbookSid == Cookbook.Sid)
 					await Mediator.GetActiveMember();
 
 				NavManager.NavigateTo("/cookbooks");
@@ -103,8 +102,8 @@ public class SectionPropertiesBase : BaseSectionComponent<Member>
 			await CookbookChanged.InvokeAsync(result.Payload);
 
 			// If active cookbook updated
-			if (ActiveMember.ActiveCookbook != null 
-				&& Cookbook.Sid == ActiveMember.ActiveCookbook.CookbookSid)
+			if (State.ActiveMember.ActiveCookbook != null 
+				&& Cookbook.Sid == State.ActiveMember.ActiveCookbook.CookbookSid)
 			{
 				await Mediator.GetActiveMember();
 			}

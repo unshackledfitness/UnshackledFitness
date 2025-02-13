@@ -1,6 +1,5 @@
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Stores.Models;
-using Unshackled.Studio.Core.Client.Components;
-using static MudBlazor.Colors;
 
 namespace Unshackled.Fitness.My.Client.Features.Stores;
 

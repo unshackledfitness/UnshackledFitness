@@ -1,16 +1,14 @@
-﻿using System.Reflection;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Unshackled.Fitness.Core.Configuration;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Exercises.Actions;
 using Unshackled.Fitness.My.Client.Features.Exercises.Models;
-using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Configuration;
 
 namespace Unshackled.Fitness.My.Client.Features.Exercises;
 
-public partial class IndexBase : BaseSearchComponent<SearchExerciseModel, ExerciseModel, Member>
+public partial class IndexBase : BaseSearchComponent<SearchExerciseModel, ExerciseModel>
 {
 	[Inject] protected ClientConfiguration ClientConfig { get; set; } = default!;
 	[Inject] protected IDialogService DialogService { get; set; } = default!;

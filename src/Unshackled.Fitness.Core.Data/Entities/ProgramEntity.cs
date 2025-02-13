@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Studio.Core.Data.Entities;
+using Unshackled.Fitness.Core.Data.Entities;
 
 namespace Unshackled.Fitness.Core.Data.Entities;
 

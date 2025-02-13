@@ -5,7 +5,6 @@ using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Products.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Products.Actions;
 
@@ -25,12 +24,12 @@ public class ListCategories
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<CategoryModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper map) : base(db, map) { }
+		public Handler(BaseDbContext db, IMapper map) : base(db, map) { }
 
 		public async Task<List<CategoryModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
 			if (!await db.HasHouseholdPermission(request.HouseholdId, request.MemberId, PermissionLevels.Read))
-				return new();
+				return [];
 
 			return await db.ProductCategories
 				.AsNoTracking()

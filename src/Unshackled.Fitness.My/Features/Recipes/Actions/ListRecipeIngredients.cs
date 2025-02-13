@@ -5,7 +5,6 @@ using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Recipes.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Recipes.Actions;
 
@@ -25,7 +24,7 @@ public class ListRecipeIngredients
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<RecipeIngredientModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<RecipeIngredientModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
@@ -62,7 +61,7 @@ public class ListRecipeIngredients
 						DateLastModifiedUtc = i.DateLastModifiedUtc,
 						DietaryFiberN = p.DietaryFiberN,
 						FolateN = p.FolateN,
-						HasNutritionInfo = p != null ? p.HasNutritionInfo : false,
+						HasNutritionInfo = p != null && p.HasNutritionInfo,
 						HouseholdSid = i.HouseholdId.Encode(),
 						IodineN = p.IodineN,
 						IronN = p.IronN,
@@ -108,9 +107,9 @@ public class ListRecipeIngredients
 						ZincN = p.ZincN
 					}
 				)
-				.ToListAsync(cancellationToken) ?? new();
+				.ToListAsync(cancellationToken) ?? [];
 			}
-			return new();
+			return [];
 		}
 	}
 }

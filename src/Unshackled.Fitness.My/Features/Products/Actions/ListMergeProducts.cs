@@ -5,7 +5,6 @@ using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Products.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Products.Actions;
 
@@ -27,16 +26,16 @@ public class ListMergeProducts
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<MergeProductModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<MergeProductModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
 			if (!await db.HasHouseholdPermission(request.HouseholdId, request.MemberId, PermissionLevels.Read))
 				return [];
 
-			List<MergeProductModel> models = new();
+			List<MergeProductModel> models = [];
 			var ids = request.Sids.DecodeLong();
-			if (ids.Any())
+			if (ids.Count != 0)
 			{
 				var products = await mapper.ProjectTo<MergeProductModel>(db.Products
 					.AsNoTracking()
@@ -44,7 +43,7 @@ public class ListMergeProducts
 					.Where(x => ids.Contains(x.Id)))
 					.ToListAsync(cancellationToken);
 
-				if (products.Any())
+				if (products.Count != 0)
 					models.AddRange(products);
 			}
 			return models;

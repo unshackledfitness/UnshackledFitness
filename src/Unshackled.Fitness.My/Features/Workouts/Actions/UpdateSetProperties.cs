@@ -3,9 +3,8 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.My.Client.Features.Workouts.Models;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Workouts.Actions;
 
@@ -25,14 +24,14 @@ public class UpdateSetProperties
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
 			var member = await db.Members
 				.AsNoTracking()
 				.Where(s => s.Id == request.MemberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (member == null)
 				return new CommandResult(false, "Invalid member.");
@@ -43,7 +42,7 @@ public class UpdateSetProperties
 				.Include(x => x.Workout)
 				.Include(x => x.Exercise)
 				.Where(x => x.Id == setId && x.MemberId == request.MemberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (set == null)
 				return new CommandResult(false, "Invalid workout set.");
@@ -54,7 +53,7 @@ public class UpdateSetProperties
 			set.SecondsTarget = request.Set.SecondsTarget ?? 0;
 			set.SetType = request.Set.SetType;
 			set.IntensityTarget = request.Set.IntensityTarget;
-			await db.SaveChangesAsync();
+			await db.SaveChangesAsync(cancellationToken);
 
 			return new CommandResult(true, "Set properties saved.");
 		}

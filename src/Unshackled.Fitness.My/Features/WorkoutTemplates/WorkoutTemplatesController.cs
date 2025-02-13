@@ -2,7 +2,6 @@
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Models;
 using Unshackled.Fitness.My.Features.WorkoutTemplates.Actions;
-using Unshackled.Studio.Core.Server.Features;
 
 namespace Unshackled.Fitness.My.Features.WorkoutTemplates;
 

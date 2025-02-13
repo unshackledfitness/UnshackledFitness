@@ -1,4 +1,4 @@
-﻿namespace Unshackled.Studio.Core.Data;
+﻿namespace Unshackled.Fitness.Core.Data;
 
 public class DbConfiguration
 {

@@ -1,8 +1,7 @@
 ﻿using MediatR;
 using Unshackled.Fitness.Core;
 using Unshackled.Fitness.My.Client.Features.Recipes.Models;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Services;
+using Unshackled.Fitness.My.Client.Services;
 
 namespace Unshackled.Fitness.My.Client.Features.Recipes.Actions;
 

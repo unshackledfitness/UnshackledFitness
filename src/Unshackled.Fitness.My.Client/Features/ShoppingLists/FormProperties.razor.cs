@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Components;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.ShoppingLists.Actions;
 using Unshackled.Fitness.My.Client.Features.ShoppingLists.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.ShoppingLists;
 

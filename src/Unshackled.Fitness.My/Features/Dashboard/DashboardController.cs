@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Unshackled.Fitness.My.Client.Features.Dashboard.Models;
 using Unshackled.Fitness.My.Features.Dashboard.Actions;
-using Unshackled.Studio.Core.Server.Features;
 
 namespace Unshackled.Fitness.My.Features.Dashboard;
 

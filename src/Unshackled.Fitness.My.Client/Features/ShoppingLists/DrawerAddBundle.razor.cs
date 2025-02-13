@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Components;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.ShoppingLists.Actions;
 using Unshackled.Fitness.My.Client.Features.ShoppingLists.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.ShoppingLists;
 
-public class DrawerAddBundleBase : BaseComponent<Member>
+public class DrawerAddBundleBase : BaseComponent
 {
 	[Parameter] public EventCallback<string> OnProductBundleAdded { get; set; }
 	protected List<ProductBundleListModel> Bundles { get; set; } = new();

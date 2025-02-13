@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Ingredients.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Fitness.My.Features.Ingredients.Actions;
 
@@ -27,7 +27,7 @@ public class SearchIngredients
 
 	public class Handler : BaseHandler, IRequestHandler<Query, SearchResult<IngredientListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper map) : base(db, map) { }
+		public Handler(BaseDbContext db, IMapper map) : base(db, map) { }
 
 		public async Task<SearchResult<IngredientListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
@@ -53,7 +53,7 @@ public class SearchIngredients
 					SubstitutionsCount = db.ProductSubstitutions.Where(y => y.HouseholdId == request.HouseholdId && y.IngredientKey == x.Key.Key).Count()
 				});
 
-			result.Total = await groupedQuery.CountAsync();
+			result.Total = await groupedQuery.CountAsync(cancellationToken);
 
 			result.Data = await groupedQuery
 				.OrderBy(x => x.Title)

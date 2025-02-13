@@ -4,9 +4,8 @@ using MediatR;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Unshackled.Fitness.Core.Data;
+using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.My.Client.Features.Members.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Data.Entities;
 
 namespace Unshackled.Fitness.My.Features.Members.Actions;
 
@@ -29,7 +28,7 @@ public class GetCurrent2faStatus
 		private readonly UserManager<UserEntity> userManager;
 		private readonly SignInManager<UserEntity> signInManager;
 
-		public Handler(FitnessDbContext db, IMapper mapper, UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager) : base(db, mapper) 
+		public Handler(BaseDbContext db, IMapper mapper, UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager) : base(db, mapper) 
 		{
 			this.userManager = userManager;
 			this.signInManager = signInManager;
@@ -42,13 +41,14 @@ public class GetCurrent2faStatus
 			if (user == null)
 				return new();
 
-			Current2faStatusModel status = new();
-
-			status.CanTrack = true; // request.TrackingConsent?.CanTrack ?? true;
-			status.HasAuthenticator = await userManager.GetAuthenticatorKeyAsync(user) is not null;
-			status.Is2faEnabled = await userManager.GetTwoFactorEnabledAsync(user);
-			status.IsMachineRemembered = await signInManager.IsTwoFactorClientRememberedAsync(user);
-			status.RecoveryCodesLeft = await userManager.CountRecoveryCodesAsync(user);
+			Current2faStatusModel status = new()
+			{
+				CanTrack = true, // request.TrackingConsent?.CanTrack ?? true;
+				HasAuthenticator = await userManager.GetAuthenticatorKeyAsync(user) is not null,
+				Is2faEnabled = await userManager.GetTwoFactorEnabledAsync(user),
+				IsMachineRemembered = await signInManager.IsTwoFactorClientRememberedAsync(user),
+				RecoveryCodesLeft = await userManager.CountRecoveryCodesAsync(user)
+			};
 
 			return status;
 		}

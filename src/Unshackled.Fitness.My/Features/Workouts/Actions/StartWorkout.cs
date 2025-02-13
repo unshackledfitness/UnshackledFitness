@@ -5,9 +5,8 @@ using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Workouts.Models;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Workouts.Actions;
 
@@ -27,7 +26,7 @@ public class StartWorkout
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult<DateTime>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult<DateTime>> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -41,7 +40,7 @@ public class StartWorkout
 
 			var workout = await db.Workouts
 				.Where(x => x.Id == workoutId && x.MemberId == request.MemberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (workout == null)
 				return new CommandResult<DateTime>(false, "Workout not found.");
@@ -53,7 +52,7 @@ public class StartWorkout
 				// Mark pre-workout tasks as complete
 				await db.WorkoutTasks
 					.Where(x => x.WorkoutId == workoutId && x.Type == WorkoutTaskTypes.PreWorkout)
-					.UpdateFromQueryAsync(x => new WorkoutTaskEntity { Completed = true });
+					.UpdateFromQueryAsync(x => new WorkoutTaskEntity { Completed = true }, cancellationToken);
 
 				workout.DateStarted = request.Model.DateStarted;
 				workout.DateStartedUtc = request.Model.DateStartedUtc;

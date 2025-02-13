@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Programs.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Programs;
 
-public class ViewSequentialBase : BaseSectionComponent<Member>
+public class ViewSequentialBase : BaseSectionComponent
 {
 	[Parameter] public FormUpdateTemplatesModel FormModel { get; set; } = new();
 	[Parameter] public EventCallback<FormUpdateTemplatesModel> FormModelChanged { get; set; }

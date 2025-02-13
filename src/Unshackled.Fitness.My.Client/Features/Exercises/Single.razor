@@ -11,7 +11,7 @@
 }
 else if (!string.IsNullOrEmpty(Exercise.Sid))
 {
-	@if (ActiveMember.IsActive)
+	@if (State.ActiveMember.IsActive)
 	{
 		<MudToolBar Gutters="false" Dense="true">
 			<MudSpacer />

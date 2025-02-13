@@ -5,12 +5,11 @@
 @using System.Text.Encodings.Web
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.WebUtilities
+@using Unshackled.Fitness.Core.Configuration
 @using Unshackled.Fitness.Core.Data
 @using Unshackled.Fitness.Core.Data.Entities
 @using Unshackled.Fitness.My.Extensions
 @using Unshackled.Fitness.My.Services
-@using Unshackled.Studio.Core.Client.Configuration
-@using Unshackled.Studio.Core.Data.Entities
 
 @inject UserManager<UserEntity> UserManager
 @inject IUserStore<UserEntity> UserStore
@@ -20,7 +19,7 @@
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
 @inject SiteConfiguration SiteConfig
-@inject FitnessDbContext db;
+@inject BaseDbContext db;
 
 <PageTitle>Create A New Account</PageTitle>
 

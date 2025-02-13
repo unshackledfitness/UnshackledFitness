@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Services;
+﻿using Unshackled.Fitness.Core;
+using Unshackled.Fitness.My.Client.Services;
 
-namespace Unshackled.Studio.Core.Server.Services;
+namespace Unshackled.Fitness.My.Services;
 
 public class RenderStateService : IRenderStateService
 {

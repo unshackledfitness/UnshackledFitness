@@ -1,18 +1,17 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Fitness.Core;
+using Unshackled.Fitness.Core.Configuration;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Extensions;
 using Unshackled.Fitness.My.Client.Features.ShoppingLists.Actions;
 using Unshackled.Fitness.My.Client.Features.ShoppingLists.Models;
-using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Configuration;
-using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.ShoppingLists;
 
-public class SectionItemsBase : BaseSectionComponent<Member>
+public class SectionItemsBase : BaseSectionComponent
 {
 	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
 
@@ -44,7 +43,7 @@ public class SectionItemsBase : BaseSectionComponent<Member>
 	protected Views DrawerView {  get; set; } = Views.None;
 	protected bool HideInCart { get; set; } = true;
 	protected FormListItemModel EditingModel { get; set; } = new();
-	protected bool CanEdit => ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write);
+	protected bool CanEdit => State.ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write);
 
 	private string currentStoreSid = string.Empty;
 
@@ -77,7 +76,7 @@ public class SectionItemsBase : BaseSectionComponent<Member>
 	{
 		await base.OnInitializedAsync();
 
-		HideInCart = ActiveMember.Settings.HideIsInCart;
+		HideInCart = State.ActiveMember.Settings.HideIsInCart;
 
 		Items = await Mediator.Send(new ListItems.Query(ShoppingList.Sid));
 

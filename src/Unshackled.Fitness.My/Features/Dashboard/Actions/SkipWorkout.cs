@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Dashboard.Models;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Dashboard.Actions;
 
@@ -25,7 +25,7 @@ public class SkipWorkout
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult<ScheduledListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult<ScheduledListModel>> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -56,7 +56,7 @@ public class SkipWorkout
 				.FirstOrDefault();
 
 			program.NextTemplateIndex = nextIndex;
-			await db.SaveChangesAsync();
+			await db.SaveChangesAsync(cancellationToken);
 
 			var model = program.Templates
 				.Where(x => x.SortOrder == nextIndex)

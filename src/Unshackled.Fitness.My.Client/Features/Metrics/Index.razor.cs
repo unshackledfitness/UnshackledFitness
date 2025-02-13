@@ -1,12 +1,11 @@
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Metrics.Actions;
 using Unshackled.Fitness.My.Client.Features.Metrics.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Metrics;
 
-public class IndexBase : BaseComponent<Member>
+public class IndexBase : BaseComponent
 {
 	protected DateTime? DisplayDate { get; set; } = DateTimeOffset.Now.Date;
 	protected bool IsLoading { get; set; } = true;

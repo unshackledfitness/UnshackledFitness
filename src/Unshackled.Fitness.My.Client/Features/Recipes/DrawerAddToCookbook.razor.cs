@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Components;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Recipes.Actions;
 using Unshackled.Fitness.My.Client.Features.Recipes.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Recipes;
 
-public class DrawerAddToCookbookBase : BaseComponent<Member>
+public class DrawerAddToCookbookBase : BaseComponent
 {
 	[Parameter] public RecipeModel Recipe { get; set; } = new();
 	[Parameter] public EventCallback<string> OnSubmitted { get; set; }

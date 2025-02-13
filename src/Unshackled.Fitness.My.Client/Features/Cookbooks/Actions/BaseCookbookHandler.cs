@@ -1,6 +1,4 @@
-﻿using Unshackled.Studio.Core.Client.Features;
-
-namespace Unshackled.Fitness.My.Client.Features.Cookbooks.Actions;
+﻿namespace Unshackled.Fitness.My.Client.Features.Cookbooks.Actions;
 
 public abstract class BaseCookbookHandler : BaseHandler
 {

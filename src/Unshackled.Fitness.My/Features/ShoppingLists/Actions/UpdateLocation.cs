@@ -6,10 +6,8 @@ using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.ShoppingLists.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.ShoppingLists.Actions;
 
@@ -29,7 +27,7 @@ public class UpdateLocation
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult<FormListItemModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult<FormListItemModel>> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -48,13 +46,13 @@ public class UpdateLocation
 
 			long storeLocationId = request.Model.StoreLocationSid.DecodeLong();
 
-			using var transaction = await db.Database.BeginTransactionAsync();
+			using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
 
 			try
 			{
 				var productLocation = await db.StoreProductLocations
 					.Where(x => x.StoreId == storeId && x.ProductId == productId)
-					.SingleOrDefaultAsync();
+					.SingleOrDefaultAsync(cancellationToken);
 
 				if (storeLocationId == 0) // Location not set, so remove
 				{
@@ -63,10 +61,10 @@ public class UpdateLocation
 						// Update sort order of any products after the current product
 						await db.StoreProductLocations
 							.Where(x => x.StoreLocationId == productLocation.StoreLocationId && x.SortOrder > productLocation.SortOrder)
-							.UpdateFromQueryAsync(x => new StoreProductLocationEntity { SortOrder = x.SortOrder - 1 });
+							.UpdateFromQueryAsync(x => new StoreProductLocationEntity { SortOrder = x.SortOrder - 1 }, cancellationToken);
 
 						db.StoreProductLocations.Remove(productLocation);
-						await db.SaveChangesAsync();
+						await db.SaveChangesAsync(cancellationToken);
 					}
 					else
 					{
@@ -77,7 +75,7 @@ public class UpdateLocation
 				{
 					bool exists = await db.StoreLocations
 					.Where(x => x.StoreId == storeId && x.Id == storeLocationId)
-					.AnyAsync();
+					.AnyAsync(cancellationToken);
 
 					if (!exists)
 						return new CommandResult<FormListItemModel>(false, "Location not found.");
@@ -89,7 +87,7 @@ public class UpdateLocation
 							StoreId = storeId,
 							ProductId = productId,
 							StoreLocationId = storeLocationId,
-							SortOrder = await db.StoreProductLocations.Where(x => x.StoreLocationId == storeLocationId).CountAsync(),
+							SortOrder = await db.StoreProductLocations.Where(x => x.StoreLocationId == storeLocationId).CountAsync(cancellationToken),
 						};
 						db.StoreProductLocations.Add(productLocation);
 					}
@@ -98,19 +96,19 @@ public class UpdateLocation
 						// Update sort order of any products after the current product
 						await db.StoreProductLocations
 							.Where(x => x.StoreLocationId == productLocation.StoreLocationId && x.SortOrder > productLocation.SortOrder)
-							.UpdateFromQueryAsync(x => new StoreProductLocationEntity { SortOrder = x.SortOrder - 1 });
+							.UpdateFromQueryAsync(x => new StoreProductLocationEntity { SortOrder = x.SortOrder - 1 }, cancellationToken);
 
 						productLocation.StoreLocationId = storeLocationId;
-						productLocation.SortOrder = await db.StoreProductLocations.Where(x => x.StoreLocationId == storeLocationId).CountAsync();
+						productLocation.SortOrder = await db.StoreProductLocations.Where(x => x.StoreLocationId == storeLocationId).CountAsync(cancellationToken);
 					}
-					await db.SaveChangesAsync();
+					await db.SaveChangesAsync(cancellationToken);
 				}
 
-				await transaction.CommitAsync();
+				await transaction.CommitAsync(cancellationToken);
 			}
 			catch
 			{
-				await transaction.RollbackAsync();
+				await transaction.RollbackAsync(cancellationToken);
 				return new CommandResult<FormListItemModel>(false, Globals.UnexpectedError);
 			}
 
@@ -135,7 +133,7 @@ public class UpdateLocation
 										SortOrder = pl != null ? pl.SortOrder : -1,
 										StoreLocationSid = pl != null ? pl.StoreLocationId.Encode() : string.Empty,
 										Title = p.Title
-									}).SingleOrDefaultAsync();
+									}).SingleOrDefaultAsync(cancellationToken);
 
 			return new CommandResult<FormListItemModel>(true, "Location updated.", product);
 		}

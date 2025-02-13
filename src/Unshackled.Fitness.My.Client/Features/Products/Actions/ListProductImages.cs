@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Products.Actions;
 

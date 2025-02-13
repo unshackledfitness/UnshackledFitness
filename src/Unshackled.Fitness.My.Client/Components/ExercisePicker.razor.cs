@@ -1,13 +1,11 @@
 using Microsoft.AspNetCore.Components;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.ExercisePicker.Actions;
 using Unshackled.Fitness.My.Client.Features.ExercisePicker.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Components;
 
-public class ExercisePickerBase : BaseSearchComponent<SearchExerciseModel, ExerciseModel, Member>
+public class ExercisePickerBase : BaseSearchComponent<SearchExerciseModel, ExerciseModel>
 {
 	[Parameter] public EventCallback<ExercisePickerResult> OnAdd { get; set; }
 

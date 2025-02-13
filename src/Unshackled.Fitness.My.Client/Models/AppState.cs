@@ -1,16 +1,20 @@
-﻿using Unshackled.Fitness.Core.Models;
+﻿namespace Unshackled.Fitness.My.Client.Models;
 
-namespace Unshackled.Fitness.My.Client.Models;
-
-public class AppState : BaseAppState, IAppState
+public class AppState
 {
-	public event Action? OnMakeItRecipesChanged;
-	public event Action? OnSaveMakeItRecipeChanges;
-
-	public override required IMember ActiveMember { get; set; } = new Member();
-	public override string StoragePrefix => "uf_";
+	public Member ActiveMember { get; set; } = new();
+	public bool IsMemberLoaded { get; set; } = false;
+	public bool IsServerError { get; set; } = false;
 	public List<MakeItRecipeModel> MakeItRecipes { get; private set; } = [];
 	public int MakeItIndex { get; private set; }
+	public virtual string StoragePrefix => "uf_";
+
+	public event Action? OnActiveMemberChange;
+	public event Action? OnMakeItRecipesChanged;
+	public event Action? OnMemberLoadedChange;
+	public event Action? OnSaveMakeItRecipeChanges;
+	public event Action? OnServerErrorChange;
+	public event Action? OnThemeChange;
 
 	public virtual void AddMakeItRecipe(MakeItRecipeModel recipe)
 	{
@@ -42,14 +46,44 @@ public class AppState : BaseAppState, IAppState
 		OnMakeItRecipesChanged?.Invoke();
 	}
 
+	public void SaveMakeItRecipeChanges()
+	{
+		OnSaveMakeItRecipeChanges?.Invoke();
+	}
+
+	public virtual void SetActiveMember(Member member)
+	{
+		bool themeChanged = false;
+		if (member.AppTheme != ActiveMember.AppTheme)
+		{
+			themeChanged = true;
+		}
+
+		ActiveMember = member;
+		SetMemberLoaded(true);
+		OnActiveMemberChange?.Invoke();
+		if (themeChanged)
+			OnThemeChange?.Invoke();
+	}
+
 	public virtual void SetMakeItRecipes(List<MakeItRecipeModel> recipes)
 	{
 		MakeItRecipes = recipes;
 	}
 
-	public void SaveMakeItRecipeChanges()
+	public virtual void SetMemberLoaded(bool loaded)
 	{
-		OnSaveMakeItRecipeChanges?.Invoke();
+		if (IsMemberLoaded != loaded)
+		{
+			IsMemberLoaded = loaded;
+			OnMemberLoadedChange?.Invoke();
+		}
+	}
+
+	public virtual void SetServerError()
+	{
+		IsServerError = true;
+		OnServerErrorChange?.Invoke();
 	}
 
 	public void UpdateIndex(int index)

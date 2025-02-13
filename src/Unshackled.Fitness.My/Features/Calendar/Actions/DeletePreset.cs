@@ -2,9 +2,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Calendar.Actions;
 
@@ -24,7 +23,7 @@ public class DeletePreset
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -32,13 +31,13 @@ public class DeletePreset
 
 			var preset = await db.MetricPresets
 				.Where(x => x.MemberId == request.MemberId && x.Id == id)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (preset == null) 
 				return new CommandResult(false, "Invalid preset.");
 
 			db.MetricPresets.Remove(preset);
-			await db.SaveChangesAsync();
+			await db.SaveChangesAsync(cancellationToken);
 
 			return new CommandResult(true, "Preset removed.");
 		}

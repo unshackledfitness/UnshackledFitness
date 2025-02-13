@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Dashboard.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Dashboard;
 
-public class DashboardStatGraphBase : BaseComponent<Member>
+public class DashboardStatGraphBase : BaseComponent
 {
 	[Parameter] public DashboardStatsModel Model { get; set; } = default!;
 	[Parameter] public EventCallback<DateTime> OnYearChanged { get; set; }
@@ -17,7 +16,7 @@ public class DashboardStatGraphBase : BaseComponent<Member>
 	{
 		await base.OnParametersSetAsync();
 
-		Model.Fill(ActiveMember.Settings);
+		Model.Fill(State.ActiveMember.Settings);
 	}
 
 	protected string GetMonthStyle(int start, int end)

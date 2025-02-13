@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Extensions;
 using Unshackled.Fitness.My.Client.Features.Cookbooks.Actions;
 using Unshackled.Fitness.My.Client.Features.Cookbooks.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Cookbooks;
 
-public class IndexBase : BaseComponent<Member>
+public class IndexBase : BaseComponent
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	protected const string FormId = "formAddCookbook";
@@ -51,7 +50,7 @@ public class IndexBase : BaseComponent<Member>
 				.ToList();
 
 			// Is the new active cookbook
-			if(ActiveMember.ActiveCookbook == null)
+			if(State.ActiveMember.ActiveCookbook == null)
 			{
 				await Mediator.GetActiveMember();
 			}
@@ -103,7 +102,7 @@ public class IndexBase : BaseComponent<Member>
 			cookbook.DateCreatedUtc = result.Payload.DateCreatedUtc;
 			cookbook.DateLastModifiedUtc = result.Payload.DateLastModifiedUtc;
 
-			if(ActiveMember.ActiveCookbook == null)
+			if(State.ActiveMember.ActiveCookbook == null)
 			{
 				await Mediator.OpenMemberCookbook(cookbook.Sid);
 			}

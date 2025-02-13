@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.My.Client.Features.Metrics.Models;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Metrics.Actions;
 
@@ -27,17 +26,17 @@ public class UpdateSort
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
 			var groups = await db.MetricDefinitionGroups
 				.Where(x => x.MemberId == request.MemberId)
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
 			var metrics = await db.MetricDefinitions
 				.Where(x => x.MemberId == request.MemberId)
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
 			using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
 
@@ -62,14 +61,14 @@ public class UpdateSort
 							MemberId = request.MemberId
 						};
 						db.MetricDefinitionGroups.Add(gEntity);
-						await db.SaveChangesAsync();
+						await db.SaveChangesAsync(cancellationToken);
 						groupIdMap.Add(group.Sid, gEntity.Id);
 					}
 					else if (g != null)
 					{
 						g.Title = group.Title;
 						g.SortOrder = group.SortOrder;
-						await db.SaveChangesAsync();
+						await db.SaveChangesAsync(cancellationToken);
 					}
 				}
 
@@ -82,7 +81,7 @@ public class UpdateSort
 
 					m.ListGroupId = groupIdMap[metric.ListGroupSid];
 					m.SortOrder = metric.SortOrder;
-					await db.SaveChangesAsync();
+					await db.SaveChangesAsync(cancellationToken);
 				}
 
 				foreach (var group in request.Model.DeletedGroups)
@@ -95,12 +94,12 @@ public class UpdateSort
 					// Check any metric definitions that might still be in group (should be 0 at this point)
 					bool stopDelete = await db.MetricDefinitions
 						.Where(x => x.ListGroupId == g.Id)
-						.AnyAsync();
+						.AnyAsync(cancellationToken);
 
 					if (!stopDelete)
 					{
 						db.MetricDefinitionGroups.Remove(g);
-						await db.SaveChangesAsync();
+						await db.SaveChangesAsync(cancellationToken);
 					}
 				}
 

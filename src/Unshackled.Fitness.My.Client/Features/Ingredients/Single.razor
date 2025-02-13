@@ -18,7 +18,7 @@ else
 	else
 	{
 		<MudToolBar Gutters="false" Dense="true">
-			@if (ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+			@if (State.ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
 			{
 				<MudSpacer />
 				<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@IsEditing" />

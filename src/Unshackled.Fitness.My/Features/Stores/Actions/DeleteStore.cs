@@ -6,9 +6,8 @@ using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Stores.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Stores.Actions;
 
@@ -28,7 +27,7 @@ public class DeleteStore
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -61,7 +60,7 @@ public class DeleteStore
 
 				await db.ShoppingLists
 					.Where(x => x.StoreId == store.Id)
-					.UpdateFromQueryAsync(x => new ShoppingListEntity { StoreId = null });
+					.UpdateFromQueryAsync(x => new ShoppingListEntity { StoreId = null }, cancellationToken);
 
 				db.Stores.Remove(store);
 				await db.SaveChangesAsync(cancellationToken);

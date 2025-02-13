@@ -24,18 +24,18 @@ public class ListProductBundles
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<ProductBundleListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper map) : base(db, map) { }
+		public Handler(BaseDbContext db, IMapper map) : base(db, map) { }
 
 		public async Task<List<ProductBundleListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
 			if (!await db.HasHouseholdPermission(request.HouseholdId, request.MemberId, PermissionLevels.Read))
-				return new();
+				return [];
 
 			return await mapper.ProjectTo<ProductBundleListModel>(db.ProductBundles
 				.AsNoTracking()
 				.Where(x => x.HouseholdId == request.HouseholdId)
 				.OrderBy(x => x.Title))
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 		}
 	}
 }

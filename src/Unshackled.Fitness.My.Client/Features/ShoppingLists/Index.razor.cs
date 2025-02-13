@@ -1,12 +1,11 @@
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.ShoppingLists.Actions;
 using Unshackled.Fitness.My.Client.Features.ShoppingLists.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.ShoppingLists;
 
-public class IndexBase : BaseSearchComponent<SearchShoppingListsModel, ShoppingListModel, Member>
+public class IndexBase : BaseSearchComponent<SearchShoppingListsModel, ShoppingListModel>
 {
 	protected const string FormId = "formAddShoppingList";
 	protected FormShoppingListModel FormModel { get; set; } = new();

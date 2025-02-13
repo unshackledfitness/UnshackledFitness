@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
 using Unshackled.Fitness.Core.Data;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Fitness.My.Features.ShoppingLists.Actions;
 
@@ -25,7 +24,7 @@ public class AddRecipeToList
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{

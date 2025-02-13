@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Middleware;
 
@@ -15,7 +14,7 @@ public class AuthorizedMemberMiddleware
 		this.next = next;
 	}
 
-	public async Task InvokeAsync(HttpContext context, FitnessDbContext db)
+	public async Task InvokeAsync(HttpContext context, BaseDbContext db)
 	{
 		var path = context.Request.Path;
 		string email = context.User.GetEmailClaim();

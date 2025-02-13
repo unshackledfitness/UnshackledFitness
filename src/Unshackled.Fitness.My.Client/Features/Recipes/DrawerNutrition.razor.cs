@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Components;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.Core.Interfaces;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Recipes.Models;
-using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Recipes;
 
-public class DrawerNutritionBase : BaseComponent<Member>
+public class DrawerNutritionBase : BaseComponent
 {
 	[Parameter] public RecipeModel Recipe { get; set; } = new();
 	[Parameter] public List<RecipeIngredientModel> Ingredients { get; set; } = new();

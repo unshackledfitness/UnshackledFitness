@@ -21,11 +21,11 @@ public class ListMemberHouseholds
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<HouseholdListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<HouseholdListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
-			List<HouseholdListModel> list = new();
+			List<HouseholdListModel> list = [];
 
 			return await mapper.ProjectTo<HouseholdListModel>(db.HouseholdMembers
 					.Include(x => x.Household)

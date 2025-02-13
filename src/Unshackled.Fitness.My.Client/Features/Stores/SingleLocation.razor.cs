@@ -1,16 +1,15 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Unshackled.Fitness.Core.Configuration;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Extensions;
 using Unshackled.Fitness.My.Client.Features.Stores.Actions;
 using Unshackled.Fitness.My.Client.Features.Stores.Models;
-using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Configuration;
 
 namespace Unshackled.Fitness.My.Client.Features.Stores;
 
-public class SingleLocationBase : BaseComponent<Member>, IAsyncDisposable
+public class SingleLocationBase : BaseComponent, IAsyncDisposable
 {
 	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
 
@@ -37,7 +36,7 @@ public class SingleLocationBase : BaseComponent<Member>, IAsyncDisposable
 	protected bool IsSorting { get; set; } = false;
 	protected bool IsWorking { get; set; } = false;
 	protected bool DisableControls => IsWorking || IsSorting;
-	protected bool CanEdit => ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write);
+	protected bool CanEdit => State.ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write);
 	protected FormProductLocationModel CurrentItem { get; set; } = new();
 	protected bool DrawerOpen => DrawerView != Views.None;
 	protected Views DrawerView { get; set; } = Views.None;

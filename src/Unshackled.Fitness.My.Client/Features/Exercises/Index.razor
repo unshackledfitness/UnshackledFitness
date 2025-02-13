@@ -28,7 +28,7 @@
 		</SearchFields>
 	</SearchForm>
 
-	@if (ActiveMember.IsActive)
+	@if (State.ActiveMember.IsActive)
 	{
 		<MudToolBar Class="mb-2" Gutters="false" Dense="true">
 			<MudButton StartIcon="@Icons.Material.Outlined.AddCircleOutline" Disabled="@DisableControls" OnClick="@(() => HandleAddClicked())">
@@ -48,7 +48,7 @@
 			  PageSelected="@HandlePageSelected">
 		<ItemRenderer>
 			<div class="d-flex flex-row gap-4 align-center">
-				@if (ActiveMember.IsActive)
+				@if (State.ActiveMember.IsActive)
 				{
 					<div>
 						<MudCheckBox T="bool" Disabled="@DisableCheckbox(context.Item.Sid)"

@@ -1,8 +1,6 @@
-﻿using System.Text.Json.Serialization;
-using FluentValidation;
-using Unshackled.Fitness.Core.Models;
-using Unshackled.Studio.Core.Client.Features;
-using Unshackled.Studio.Core.Client.Models;
+﻿using FluentValidation;
+using Unshackled.Fitness.Core.Interfaces;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.MealPlans.Models;
 

@@ -1,16 +1,16 @@
 ﻿using Blazored.LocalStorage;
-using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Fitness.My.Client.Models;
 
-namespace Unshackled.Studio.Core.Client.Services;
+namespace Unshackled.Fitness.My.Client.Services;
 
 public class LocalStorage : ILocalStorage
 {
 	public const int DefaultCacheDurationMinutes = 30;
 
 	protected readonly ILocalStorageService localStorage;
-	protected readonly IAppState appState;
+	protected readonly AppState appState;
 
-	public LocalStorage(ILocalStorageService localStorage, IAppState appState)
+	public LocalStorage(ILocalStorageService localStorage, AppState appState)
 	{
 		this.localStorage = localStorage;
 		this.appState = appState;

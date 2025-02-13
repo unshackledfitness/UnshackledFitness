@@ -1,15 +1,14 @@
 using System.Text.Json;
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Calendar.Actions;
 using Unshackled.Fitness.My.Client.Features.Calendar.Models;
-using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Models.Calendars;
-using Unshackled.Studio.Core.Client.Utils;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Client.Utils;
 
 namespace Unshackled.Fitness.My.Client.Features.Calendar;
 
-public class IndexBase : BaseComponent<Member>
+public class IndexBase : BaseComponent
 {
 	protected CalendarModel CalendarModel { get; set; } = new();
 	protected SearchCalendarModel SearchModel { get; set; } = new();
@@ -43,8 +42,8 @@ public class IndexBase : BaseComponent<Member>
 	{
 		SearchModel.FromDateUtc = SearchModel.FromDate.ToDateTime(new TimeOnly(0, 0, 0), DateTimeKind.Local).ToUniversalTime();
 		SearchModel.ToDateUtc = SearchModel.ToDate.ToDateTime(new TimeOnly(0, 0, 0), DateTimeKind.Local).ToUniversalTime();
-		SearchModel.ActivityColor = ActiveMember.Settings.ActivityDisplayColor;
-		SearchModel.WorkoutColor = ActiveMember.Settings.WorkoutDisplayColor;
+		SearchModel.ActivityColor = State.ActiveMember.Settings.ActivityDisplayColor;
+		SearchModel.WorkoutColor = State.ActiveMember.Settings.WorkoutDisplayColor;
 
 		CalendarModel = await Mediator.Send(new GetCalendar.Query(SearchModel));
 

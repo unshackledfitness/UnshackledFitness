@@ -6,9 +6,8 @@ using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Ingredients.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Ingredients.Actions;
 
@@ -30,7 +29,7 @@ public class AddSubstitution
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult<ProductSubstitutionModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper map) : base(db, map) { }
+		public Handler(BaseDbContext db, IMapper map) : base(db, map) { }
 
 		public async Task<CommandResult<ProductSubstitutionModel>> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -44,14 +43,14 @@ public class AddSubstitution
 
 			bool exists = await db.ProductSubstitutions
 				.Where(x => x.IngredientKey == request.Model.IngredientKey && x.ProductId == productId)
-				.AnyAsync();
+				.AnyAsync(cancellationToken);
 
 			if (exists)
 				return new CommandResult<ProductSubstitutionModel>(false, "Product has already been added.");
 
 			bool hasPrimary = await db.ProductSubstitutions
 				.Where(x => x.IngredientKey == request.Model.IngredientKey && x.IsPrimary == true)
-				.AnyAsync();
+				.AnyAsync(cancellationToken);
 
 			ProductSubstitutionEntity sub = new()
 			{
@@ -65,7 +64,7 @@ public class AddSubstitution
 
 			await db.Entry(sub)
 				.Reference(x => x.Product)
-				.LoadAsync();
+				.LoadAsync(cancellationToken);
 
 			return new CommandResult<ProductSubstitutionModel>(true, "Product substitution added.", mapper.Map<ProductSubstitutionModel>(sub));
 		}

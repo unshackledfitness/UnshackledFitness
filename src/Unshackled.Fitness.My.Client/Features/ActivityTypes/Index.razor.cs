@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.ActivityTypes.Actions;
 using Unshackled.Fitness.My.Client.Features.ActivityTypes.Models;
-using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.ActivityTypes;
 
-public class IndexBase : BaseComponent<Member>
+public class IndexBase : BaseComponent
 {
 	protected enum Views
 	{
@@ -20,7 +20,7 @@ public class IndexBase : BaseComponent<Member>
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	protected bool IsLoading { get; set; } = false;
 	protected bool IsWorking { get; set; } = false;
-	protected bool DisableControls => IsLoading || IsWorking || !ActiveMember.IsActive;
+	protected bool DisableControls => IsLoading || IsWorking || !State.ActiveMember.IsActive;
 	protected bool DrawerOpen => DrawerView != Views.None;
 
 	protected Views DrawerView { get; set; } = Views.None;

@@ -3,8 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.My.Client.Features.Calendar.Models;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Features.Calendar.Actions;
 
@@ -26,19 +25,19 @@ public class UpdatePreset
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult<PresetModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult<PresetModel>> Handle(Command request, CancellationToken cancellationToken)
 		{
 			var preset = await db.MetricPresets
 				.Where(x => x.MemberId == request.MemberId && x.Id == request.PresetId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (preset == null) 
 				return new CommandResult<PresetModel>(false, "Invalid preset.");
 
 			preset.Settings = request.Settings;
-			await db.SaveChangesAsync();
+			await db.SaveChangesAsync(cancellationToken);
 
 			return new CommandResult<PresetModel>(true, "Preset updated.", mapper.Map<PresetModel>(preset));
 		}

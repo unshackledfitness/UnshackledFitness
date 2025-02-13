@@ -24,7 +24,7 @@ public class ListShoppingLists
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<ShoppingListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<ShoppingListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
@@ -36,7 +36,7 @@ public class ListShoppingLists
 					.OrderBy(x => x.Title))
 					.ToListAsync(cancellationToken);
 			}
-			return new();
+			return [];
 		}
 	}
 }

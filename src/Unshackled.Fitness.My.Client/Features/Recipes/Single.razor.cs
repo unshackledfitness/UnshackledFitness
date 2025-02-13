@@ -1,18 +1,15 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Extensions;
 using Unshackled.Fitness.My.Client.Features.Recipes.Actions;
 using Unshackled.Fitness.My.Client.Features.Recipes.Models;
 using Unshackled.Fitness.My.Client.Models;
-using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Client.Services;
+using Unshackled.Fitness.My.Client.Services;
 
 namespace Unshackled.Fitness.My.Client.Features.Recipes;
 
-public class SingleBase : BaseComponent<Member>, IAsyncDisposable
+public class SingleBase : BaseComponent, IAsyncDisposable
 {
 	protected enum Views
 	{
@@ -160,8 +157,7 @@ public class SingleBase : BaseComponent<Member>, IAsyncDisposable
 			Title = Recipe.Title
 		};
 
-		var state = (AppState)State;
-		state.AddMakeItRecipe(model);
+		State.AddMakeItRecipe(model);
 
 		await DialogService.OpenMakeItClicked(ScreenLockService);
 	}

@@ -3,18 +3,13 @@ using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
-using Unshackled.Fitness.Core.Models.ShoppingLists;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Server.Extensions;
-using static MudBlazor.CategoryTypes;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Extensions;
 
 public static class ShoppingListExtensions
 {
-	public static async Task<CommandResult> AddRecipeItemsToList(this FitnessDbContext db, long memberId, long householdId, AddRecipesToListModel model)
+	public static async Task<CommandResult> AddRecipeItemsToList(this BaseDbContext db, long memberId, long householdId, AddRecipesToListModel model)
 	{
 		if (model.List.Count == 0)
 			return new CommandResult(false, "There was nothing to add.");
@@ -178,7 +173,7 @@ public static class ShoppingListExtensions
 		}
 	}
 
-	public static async Task<List<AddToShoppingListModel>> GetRecipeItemsToAddToList(this FitnessDbContext db, long memberId, List<SelectListModel> selectModels)
+	public static async Task<List<AddToShoppingListModel>> GetRecipeItemsToAddToList(this BaseDbContext db, long memberId, List<SelectListModel> selectModels)
 	{
 		if (selectModels.Count == 0)
 			return [];
@@ -371,7 +366,7 @@ public static class ShoppingListExtensions
 			.ToList();
 	}
 
-	public static async Task<bool> HasShoppingListPermission(this FitnessDbContext db, long shoppingListId, long memberId, PermissionLevels permission)
+	public static async Task<bool> HasShoppingListPermission(this BaseDbContext db, long shoppingListId, long memberId, PermissionLevels permission)
 	{
 		long householdId = await db.ShoppingLists
 			.Where(x => x.Id == shoppingListId)

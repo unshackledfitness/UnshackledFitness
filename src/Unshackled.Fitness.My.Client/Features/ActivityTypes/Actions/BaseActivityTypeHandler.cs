@@ -1,6 +1,4 @@
-﻿using Unshackled.Studio.Core.Client.Features;
-
-namespace Unshackled.Fitness.My.Client.Features.ActivityTypes.Actions;
+﻿namespace Unshackled.Fitness.My.Client.Features.ActivityTypes.Actions;
 
 public abstract class BaseActivityTypeHandler : BaseHandler
 {

@@ -1,25 +1,23 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Extensions;
 using Unshackled.Fitness.My.Client.Features.Exercises.Actions;
 using Unshackled.Fitness.My.Client.Features.Exercises.Models;
 using Unshackled.Fitness.My.Client.Models;
-using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Models.Charts;
 
 namespace Unshackled.Fitness.My.Client.Features.Exercises;
 
-public class SectionResultsBase : BaseSearchComponent<SearchResultsModel, ResultListModel, Member>
+public class SectionResultsBase : BaseSearchComponent<SearchResultsModel, ResultListModel>
 {
 	[Parameter] public ExerciseModel Exercise { get; set; } = new();
 
 	protected DateRange DateRangeSearch { get; set; } = new DateRange();
 	protected List<ResultListGroupModel> Groups { get; set; } = new();
 	protected Views CurrentView { get; set; } = Views.Data;
-	protected AppSettings AppSettings => ActiveMember.Settings;
-	protected bool AreDefaultUnits => ActiveMember.AreDefaultUnits(UnitSystems.Metric);
+	protected AppSettings AppSettings => State.ActiveMember.Settings;
+	protected bool AreDefaultUnits => State.ActiveMember.AreDefaultUnits(UnitSystems.Metric);
 
 	protected ChartState<decimal> ChartBestWeight { get; set; } = new();
 	protected ChartState<decimal> ChartHighestVolume { get; set; } = new();

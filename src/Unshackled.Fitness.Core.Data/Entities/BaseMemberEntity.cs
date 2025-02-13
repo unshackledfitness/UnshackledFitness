@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Unshackled.Studio.Core.Data.Entities;
+namespace Unshackled.Fitness.Core.Data.Entities;
 
 public abstract class BaseMemberEntity : BaseEntity
 {

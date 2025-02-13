@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Unshackled.Studio.Core.Client.Features;
+namespace Unshackled.Fitness.My.Client.Features;
 
 public abstract class BaseValidator<T> : AbstractValidator<T> where T : class
 {

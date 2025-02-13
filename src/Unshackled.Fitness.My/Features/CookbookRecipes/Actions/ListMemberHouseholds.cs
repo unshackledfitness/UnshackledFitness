@@ -21,7 +21,7 @@ public class ListMemberHouseholds
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<HouseholdListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<HouseholdListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{

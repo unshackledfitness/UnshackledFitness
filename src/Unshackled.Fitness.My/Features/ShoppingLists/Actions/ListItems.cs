@@ -4,11 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Features.ShoppingLists.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.ShoppingLists.Actions;
 
@@ -28,7 +26,7 @@ public class ListItems
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<FormListItemModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<FormListItemModel>> Handle(Query request, CancellationToken cancellationToken)
 		{

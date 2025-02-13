@@ -3,12 +3,11 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
+using Unshackled.Fitness.Core.Data.Extensions;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Products.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data.Extensions;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Products.Actions;
 
@@ -30,7 +29,7 @@ public class SearchProducts
 
 	public class Handler : BaseHandler, IRequestHandler<Query, SearchResult<ProductListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper map) : base(db, map) { }
+		public Handler(BaseDbContext db, IMapper map) : base(db, map) { }
 
 		public async Task<SearchResult<ProductListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
@@ -65,7 +64,7 @@ public class SearchProducts
 
 			result.Total = await query.CountAsync(cancellationToken);
 
-			if (request.Model.Sorts.Any())
+			if (request.Model.Sorts.Count != 0)
 				query = query.AddSorts(request.Model.Sorts);
 			else
 				query = query.OrderBy(x => x.Title);

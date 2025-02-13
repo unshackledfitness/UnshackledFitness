@@ -1,6 +1,4 @@
-﻿using Unshackled.Studio.Core.Client.Models;
-
-namespace Unshackled.Fitness.My.Client.Features.ProductBundles.Models;
+﻿namespace Unshackled.Fitness.My.Client.Features.ProductBundles.Models;
 
 public class ProductListModel
 {

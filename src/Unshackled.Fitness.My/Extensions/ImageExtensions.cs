@@ -2,7 +2,7 @@
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Processing;
 
-namespace Unshackled.Studio.Core.Server.Extensions;
+namespace Unshackled.Fitness.My.Extensions;
 public static class ImageExtensions
 {
 	public static byte[] ResizeJpegTo(this byte[] srcImage, int width, double aspectRatio)

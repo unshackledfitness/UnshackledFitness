@@ -3,9 +3,8 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.ShoppingLists.Actions;
 
@@ -25,7 +24,7 @@ public class ListStoreLocations
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<ListGroupModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<ListGroupModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
@@ -44,7 +43,7 @@ public class ListStoreLocations
 					})
 					.ToListAsync(cancellationToken);
 			}
-			return new();
+			return [];
 		}
 	}
 }

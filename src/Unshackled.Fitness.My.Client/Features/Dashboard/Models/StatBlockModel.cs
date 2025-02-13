@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using Unshackled.Fitness.Core.Enums;
+﻿using Unshackled.Fitness.Core.Enums;
 
 namespace Unshackled.Fitness.My.Client.Features.Dashboard.Models;
 

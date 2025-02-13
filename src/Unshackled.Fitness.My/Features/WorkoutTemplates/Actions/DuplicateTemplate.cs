@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Models;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.WorkoutTemplates.Actions;
 
@@ -29,14 +28,14 @@ public class DuplicateTemplate
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult<string>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult<string>> Handle(Command request, CancellationToken cancellationToken)
 		{
 			var template = await db.WorkoutTemplates
 				.AsNoTracking()
 				.Where(x => x.Id == request.TemplateId && x.MemberId == request.MemberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (template == null)
 				return new CommandResult<string>(false, "Invalid template.");
@@ -59,13 +58,13 @@ public class DuplicateTemplate
 				await db.SaveChangesAsync(cancellationToken);
 
 				// Create map of template group ids to workout group ids
-				Dictionary<long, long> groupIdMap = new();
+				Dictionary<long, long> groupIdMap = [];
 
 				// Copy groups
 				var groups = await db.WorkoutTemplateSetGroups
 					.AsNoTracking()
 					.Where(x => x.WorkoutTemplateId == request.TemplateId)
-					.ToListAsync();
+					.ToListAsync(cancellationToken);
 
 				foreach ( var group in groups)
 				{
@@ -97,7 +96,7 @@ public class DuplicateTemplate
 						SortOrder = x.SortOrder,
 						WorkoutTemplateId = duplicate.Id
 					})
-					.ToListAsync();
+					.ToListAsync(cancellationToken);
 
 				db.WorkoutTemplateSets.AddRange(sets);
 				await db.SaveChangesAsync(cancellationToken);
@@ -114,7 +113,7 @@ public class DuplicateTemplate
 						Type = x.Type,
 						WorkoutTemplateId = duplicate.Id
 					})
-					.ToListAsync();
+					.ToListAsync(cancellationToken);
 
 				db.WorkoutTemplateTasks.AddRange(tasks);
 				await db.SaveChangesAsync(cancellationToken);

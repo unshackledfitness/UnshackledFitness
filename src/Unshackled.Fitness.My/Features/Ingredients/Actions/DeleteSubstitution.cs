@@ -5,9 +5,8 @@ using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Ingredients.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Ingredients.Actions;
 
@@ -29,7 +28,7 @@ public class DeleteSubstitution
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult<string>>
 	{
-		public Handler(FitnessDbContext db, IMapper map) : base(db, map) { }
+		public Handler(BaseDbContext db, IMapper map) : base(db, map) { }
 
 		public async Task<CommandResult<string>> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -43,13 +42,13 @@ public class DeleteSubstitution
 
 			var sub = await db.ProductSubstitutions
 				.Where(x => x.IngredientKey == request.Model.IngredientKey && x.ProductId == productId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (sub == null)
 				return new CommandResult<string>(false, "Invalid product substitution.");
 
 			db.ProductSubstitutions.Remove(sub);
-			await db.SaveChangesAsync();
+			await db.SaveChangesAsync(cancellationToken);
 
 			string primaryId = string.Empty;
 			if (sub.IsPrimary)
@@ -59,13 +58,13 @@ public class DeleteSubstitution
 					.Where(x => x.IngredientKey == request.Model.IngredientKey && x.HouseholdId == request.HouseholdId)
 					.OrderBy(x => x.Product.Brand)
 						.ThenBy(x => x.Product.Title)
-					.FirstOrDefaultAsync();
+					.FirstOrDefaultAsync(cancellationToken);
 
 				if (newPrimary != null)
 				{
 					primaryId = newPrimary.ProductId.Encode();
 					newPrimary.IsPrimary = true;
-					await db.SaveChangesAsync();
+					await db.SaveChangesAsync(cancellationToken);
 				}
 			}
 

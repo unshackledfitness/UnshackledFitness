@@ -1,8 +1,7 @@
 ﻿using FluentValidation;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models.Recipes;
-using Unshackled.Fitness.Core.Utils;
-using Unshackled.Studio.Core.Client.Features;
+using Unshackled.Fitness.Core.Interfaces;
+using Unshackled.Fitness.My.Client.Utils;
 
 namespace Unshackled.Fitness.My.Client.Features.Products.Models;
 

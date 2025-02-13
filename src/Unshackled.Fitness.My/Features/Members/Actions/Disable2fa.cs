@@ -3,9 +3,8 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Unshackled.Fitness.Core.Data;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Data.Entities;
+using Unshackled.Fitness.Core.Data.Entities;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Features.Members.Actions;
 
@@ -25,7 +24,7 @@ public class Disable2fa
 	{
 		private readonly UserManager<UserEntity> userManager;
 
-		public Handler(FitnessDbContext db, IMapper mapper, UserManager<UserEntity> userManager) : base(db, mapper)
+		public Handler(BaseDbContext db, IMapper mapper, UserManager<UserEntity> userManager) : base(db, mapper)
 		{
 			this.userManager = userManager;
 		}

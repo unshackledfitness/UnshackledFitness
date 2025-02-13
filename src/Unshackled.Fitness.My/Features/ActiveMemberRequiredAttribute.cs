@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Fitness.Core;
+using Unshackled.Fitness.My.Client.Models;
 
-namespace Unshackled.Studio.Core.Server.Features;
+namespace Unshackled.Fitness.My.Features;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class ActiveMemberRequiredAttribute : TypeFilterAttribute
@@ -14,7 +14,7 @@ public class ActiveMemberRequiredAttribute : TypeFilterAttribute
 	{
 		public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
-			var member = context.HttpContext.Items[Globals.MiddlewareItemKeys.Member] as IMember;
+			var member = context.HttpContext.Items[Globals.MiddlewareItemKeys.Member] as Member;
 
 			if (member == null || !member.IsActive)
 			{

@@ -5,8 +5,8 @@ using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Dashboard.Models;
-using Unshackled.Studio.Core.Client.Utils;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Client.Utils;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Dashboard.Actions;
 
@@ -26,7 +26,7 @@ public class ListScheduledItems
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<ScheduledListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<ScheduledListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
@@ -170,7 +170,7 @@ public class ListScheduledItems
 				.ToListAsync(cancellationToken);
 
 			var list = new List<ScheduledListModel>();
-			List<long> matchingIds = new();
+			List<long> matchingIds = [];
 
 			foreach (var program in programs)
 			{

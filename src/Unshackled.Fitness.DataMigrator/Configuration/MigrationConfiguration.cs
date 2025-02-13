@@ -1,4 +1,4 @@
-﻿namespace Unshackled.Studio.DataMigrator.Configuration;
+﻿namespace Unshackled.Fitness.DataMigrator.Configuration;
 
 internal class MigrationConfiguration
 {

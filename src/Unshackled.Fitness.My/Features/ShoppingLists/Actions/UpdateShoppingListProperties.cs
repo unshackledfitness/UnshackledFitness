@@ -6,9 +6,8 @@ using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.ShoppingLists.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.ShoppingLists.Actions;
 
@@ -28,7 +27,7 @@ public class UpdateShoppingListProperties
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult<ShoppingListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult<ShoppingListModel>> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -42,7 +41,7 @@ public class UpdateShoppingListProperties
 
 			ShoppingListEntity? shoppingList = await db.ShoppingLists
 				.Where(x => x.Id == shoppingListId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (shoppingList == null)
 				return new CommandResult<ShoppingListModel>(false, "Invalid shopping list.");

@@ -1,12 +1,12 @@
 using Unshackled.Fitness.Core;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Client.Features.Dashboard.Actions;
 using Unshackled.Fitness.My.Client.Features.Dashboard.Models;
-using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Fitness.My.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Dashboard;
 
-public class DashboardProgramBase : BaseComponent<Member>
+public class DashboardProgramBase : BaseComponent
 {
 	protected List<ScheduledListModel> Items { get; set; } = [];
 

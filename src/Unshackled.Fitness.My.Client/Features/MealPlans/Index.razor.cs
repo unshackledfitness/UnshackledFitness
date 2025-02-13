@@ -1,16 +1,15 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Extensions;
 using Unshackled.Fitness.My.Client.Features.MealPlans.Actions;
 using Unshackled.Fitness.My.Client.Features.MealPlans.Models;
 using Unshackled.Fitness.My.Client.Models;
-using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Services;
+using Unshackled.Fitness.My.Client.Services;
 
 namespace Unshackled.Fitness.My.Client.Features.MealPlans;
 
-public class IndexBase : BaseComponent<Member>
+public class IndexBase : BaseComponent
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Inject] IScreenWakeLockService ScreenLockService { get; set; } = null!;

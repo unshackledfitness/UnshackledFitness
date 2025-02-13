@@ -24,7 +24,7 @@ public class ListStoreLocations
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<FormStoreLocationModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<FormStoreLocationModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
@@ -34,7 +34,7 @@ public class ListStoreLocations
 				.AsNoTracking()
 				.Where(x => x.StoreId == request.StoreId)
 				.OrderBy(x => x.SortOrder))
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 			}
 			return new();
 		}

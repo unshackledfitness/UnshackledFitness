@@ -3,8 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.My.Client.Features.Dashboard.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Dashboard.Actions;
 
@@ -24,47 +23,48 @@ public class ListMetrics
 
 	public class Handler : BaseHandler, IRequestHandler<Query, MetricGridModel>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<MetricGridModel> Handle(Query request, CancellationToken cancellationToken)
 		{
-			var model = new MetricGridModel();
+			var model = new MetricGridModel
+			{
+				Groups = await db.MetricDefinitionGroups
+					.Where(x => x.MemberId == request.MemberId)
+					.OrderBy(x => x.SortOrder)
+					.Select(x => new MetricDefinitionGroupModel
+					{
+						DateCreatedUtc = x.DateCreatedUtc,
+						DateLastModifiedUtc = x.DateLastModifiedUtc,
+						MemberSid = x.MemberId.Encode(),
+						Sid = x.Id.Encode(),
+						SortOrder = x.SortOrder,
+						Title = x.Title
+					})
+					.ToListAsync(cancellationToken),
 
-			model.Groups = await db.MetricDefinitionGroups
-				.Where(x => x.MemberId == request.MemberId)
-				.OrderBy(x => x.SortOrder)
-				.Select(x => new MetricDefinitionGroupModel
-				{
-					DateCreatedUtc = x.DateCreatedUtc,
-					DateLastModifiedUtc = x.DateLastModifiedUtc,
-					MemberSid = x.MemberId.Encode(),
-					Sid = x.Id.Encode(),
-					SortOrder = x.SortOrder,
-					Title = x.Title
-				})
-				.ToListAsync(cancellationToken);
-
-			model.Metrics = await db.MetricDefinitions
-				.AsNoTracking()
-				.Where(x => x.MemberId == request.MemberId && x.IsArchived == false && x.IsOnDashboard == true)
-				.OrderBy(x => x.SortOrder)
-				.Select(x => new MetricModel
-				{
-					DateCreatedUtc = x.DateCreatedUtc,
-					DateLastModifiedUtc = x.DateLastModifiedUtc,
-					ListGroupSid = x.ListGroupId.Encode(),
-					HighlightColor = x.HighlightColor,
-					IsArchived = x.IsArchived,
-					IsOnDashboard = x.IsOnDashboard,
-					MaxValue = x.MaxValue,
-					MemberSid = x.MemberId.Encode(),
-					MetricType = x.MetricType,
-					Sid = x.Id.Encode(),
-					SortOrder = x.SortOrder,
-					SubTitle = x.SubTitle,
-					Title = x.Title
-				})
-				.ToListAsync(cancellationToken);
+				Metrics = await db.MetricDefinitions
+					.AsNoTracking()
+					.Where(x => x.MemberId == request.MemberId && x.IsArchived == false && x.IsOnDashboard == true)
+					.OrderBy(x => x.SortOrder)
+					.Select(x => new MetricModel
+					{
+						DateCreatedUtc = x.DateCreatedUtc,
+						DateLastModifiedUtc = x.DateLastModifiedUtc,
+						ListGroupSid = x.ListGroupId.Encode(),
+						HighlightColor = x.HighlightColor,
+						IsArchived = x.IsArchived,
+						IsOnDashboard = x.IsOnDashboard,
+						MaxValue = x.MaxValue,
+						MemberSid = x.MemberId.Encode(),
+						MetricType = x.MetricType,
+						Sid = x.Id.Encode(),
+						SortOrder = x.SortOrder,
+						SubTitle = x.SubTitle,
+						Title = x.Title
+					})
+					.ToListAsync(cancellationToken)
+			};
 
 			var recordedMetrics = await db.Metrics
 				.AsNoTracking()

@@ -1,6 +1,4 @@
-﻿using Unshackled.Studio.Core.Client.Features;
-
-namespace Unshackled.Fitness.My.Client.Features.Dashboard.Actions;
+﻿namespace Unshackled.Fitness.My.Client.Features.Dashboard.Actions;
 
 public abstract class BaseDashboardHandler : BaseHandler
 {

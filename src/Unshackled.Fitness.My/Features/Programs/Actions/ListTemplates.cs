@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.My.Client.Features.Programs.Models;
-using Unshackled.Studio.Core.Data;
 
 namespace Unshackled.Fitness.My.Features.Programs.Actions;
 
@@ -21,7 +20,7 @@ public class ListTemplates
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<TemplateListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<TemplateListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
@@ -29,7 +28,7 @@ public class ListTemplates
 				.AsNoTracking()
 				.Where(x => x.MemberId == request.MemberId)
 				.OrderBy(x => x.Title))
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 		}
 	}
 }

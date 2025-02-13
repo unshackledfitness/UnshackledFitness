@@ -1,14 +1,13 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.TrainingSessions.Actions;
 using Unshackled.Fitness.My.Client.Features.TrainingSessions.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.TrainingSessions;
 
-public class SingleBase : BaseComponent<Member>
+public class SingleBase : BaseComponent
 {
 	[Parameter] public string TrainingSessionSid { get; set; } = string.Empty;
 	protected TrainingSessionModel SessionModel { get; set; } = new();
@@ -36,7 +35,7 @@ public class SingleBase : BaseComponent<Member>
 		Breadcrumbs.Add(new BreadcrumbItem("Training Sessions", "/training-sessions", false));
 		Breadcrumbs.Add(new BreadcrumbItem("Training Session", null, true));
 
-		DefaultUnits = ((Member)State.ActiveMember).Settings.DefaultUnits;
+		DefaultUnits = State.ActiveMember.Settings.DefaultUnits;
 	}
 
 	protected void HandleIsEditingSectionChange(bool editing)

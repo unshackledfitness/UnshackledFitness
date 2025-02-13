@@ -1,17 +1,17 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Fitness.My.Client.Models;
 
-namespace Unshackled.Studio.Core.Client.Services;
+namespace Unshackled.Fitness.My.Client.Services;
 
 public class HttpStatusCodeHandler : DelegatingHandler
 {
 	private readonly ISnackbar snackbar;
-	private readonly IAppState appState;
+	private readonly AppState appState;
 	private readonly NavigationManager navManager;
 
-	public HttpStatusCodeHandler(ISnackbar snackbar, IAppState state, NavigationManager nav)
+	public HttpStatusCodeHandler(ISnackbar snackbar, AppState state, NavigationManager nav)
 	{
 		this.snackbar = snackbar;
 		appState = state;

@@ -13,7 +13,7 @@ else
 {
 	@if (!string.IsNullOrEmpty(Template?.Sid))
 	{
-		@if (ActiveMember.IsActive)
+		@if (State.ActiveMember.IsActive)
 		{
 			<MudToolBar Gutters="false" Class="mb-4">
 				<ProgressButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@DisableTrack" IsWorking="@IsWorking" WorkingText="Opening"

@@ -1,9 +1,7 @@
 ﻿using MediatR;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Members.Actions;
 using Unshackled.Fitness.My.Client.Models;
-using Unshackled.Studio.Core.Client.Enums;
-using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Extensions;
 

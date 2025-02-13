@@ -1,14 +1,13 @@
 ﻿using MudBlazor;
 using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.TrainingSessions.Actions;
 using Unshackled.Fitness.My.Client.Features.TrainingSessions.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.TrainingSessions;
 
-public partial class IndexBase : BaseSearchComponent<SearchSessionsModel, SessionListItem, Member>
+public partial class IndexBase : BaseSearchComponent<SearchSessionsModel, SessionListItem>
 {
 	protected override bool DisableControls => IsLoading || IsWorking;
 	protected List<ActivityTypeListModel> ActivityTypes { get; set; } = [];
@@ -44,7 +43,7 @@ public partial class IndexBase : BaseSearchComponent<SearchSessionsModel, Sessio
 
 	protected void HandleAddClicked()
 	{
-		bool isMetric = ActiveMember.Settings.DefaultUnits == UnitSystems.Metric;
+		bool isMetric = State.ActiveMember.Settings.DefaultUnits == UnitSystems.Metric;
 		FormModel = new();
 		FormModel.SetUnits(isMetric);
 		DrawerOpen = true;

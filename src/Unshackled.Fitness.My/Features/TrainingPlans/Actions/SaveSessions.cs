@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.My.Client.Features.TrainingPlans.Models;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.TrainingPlans.Actions;
 
@@ -26,7 +26,7 @@ public class SaveSessions
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -44,7 +44,7 @@ public class SaveSessions
 				.OrderBy(x => x.SortOrder)
 				.ToListAsync(cancellationToken);
 
-			using var transaction = await db.Database.BeginTransactionAsync();
+			using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
 
 			try
 			{
@@ -52,7 +52,7 @@ public class SaveSessions
 				plan.LengthWeeks = request.Model.LengthWeeks;
 
 				// Remove from calendar if no sessions are present
-				if (!request.Model.Sessions.Any())
+				if (request.Model.Sessions.Count == 0)
 				{
 					plan.NextSessionIndex = 0;
 					plan.DateStarted = null;
@@ -116,6 +116,7 @@ public class SaveSessions
 			}
 			catch
 			{
+				await transaction.RollbackAsync(cancellationToken);
 				return new CommandResult(false, Globals.UnexpectedError);
 			}
 		}

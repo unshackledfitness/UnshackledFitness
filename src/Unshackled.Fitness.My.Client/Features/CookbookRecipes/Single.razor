@@ -17,7 +17,7 @@ else
 	}
 	else
 	{
-		@if (ActiveMember.IsActive)
+		@if (State.ActiveMember.IsActive)
 		{
 			<MudToolBar Gutters="false" Dense="true" Class="mb-4">
 				<MudButton StartIcon="@Icons.Material.Filled.FileCopy" OnClick="@(() => HandleCopyToClicked())">Copy to...</MudButton>

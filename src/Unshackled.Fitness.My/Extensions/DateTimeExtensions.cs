@@ -1,4 +1,4 @@
-﻿namespace Unshackled.Studio.Core.Server.Extensions;
+﻿namespace Unshackled.Fitness.My.Extensions;
 
 public static class DateTimeExtensions
 {

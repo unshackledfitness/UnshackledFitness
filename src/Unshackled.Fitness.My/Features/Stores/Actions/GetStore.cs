@@ -24,7 +24,7 @@ public class GetStore
 
 	public class Handler : BaseHandler, IRequestHandler<Query, StoreModel>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<StoreModel> Handle(Query request, CancellationToken cancellationToken)
 		{
@@ -33,7 +33,7 @@ public class GetStore
 				return await mapper.ProjectTo<StoreModel>(db.Stores
 				.AsNoTracking()
 				.Where(x => x.Id == request.StoreId))
-				.SingleOrDefaultAsync() ?? new();
+				.SingleOrDefaultAsync(cancellationToken) ?? new();
 			}
 			return new();
 		}

@@ -6,10 +6,8 @@ using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Recipes.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Recipes.Actions;
 
@@ -31,7 +29,7 @@ public class UpdateNotes
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{			
@@ -43,7 +41,7 @@ public class UpdateNotes
 
 			var recipe = await db.Recipes
 				.Where(x => x.Id == request.RecipeId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if(recipe == null)
 				return new CommandResult(false, "Invalid recipe.");
@@ -51,9 +49,9 @@ public class UpdateNotes
 			var currentNotes = await db.RecipeNotes
 				.Where(x => x.RecipeId == request.RecipeId)
 				.OrderBy(x => x.SortOrder)
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
-			using var transaction = await db.Database.BeginTransactionAsync();
+			using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
 
 			try
 			{
@@ -87,7 +85,7 @@ public class UpdateNotes
 							SortOrder = item.SortOrder
 						};
 						db.RecipeNotes.Add(note);
-						await db.SaveChangesAsync();
+						await db.SaveChangesAsync(cancellationToken);
 					}
 					else // Update
 					{
@@ -99,7 +97,7 @@ public class UpdateNotes
 						{
 							note.Note = item.Note.Trim();
 							note.SortOrder = item.SortOrder;
-							await db.SaveChangesAsync();
+							await db.SaveChangesAsync(cancellationToken);
 						}
 					}
 				}

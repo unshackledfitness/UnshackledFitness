@@ -7,7 +7,7 @@ namespace Unshackled.Fitness.My.Extensions;
 
 public static class HouseholdExtensions
 {
-	public static async Task<bool> HasHouseholdPermission(this FitnessDbContext db, long householdId, long memberId, PermissionLevels permission)
+	public static async Task<bool> HasHouseholdPermission(this BaseDbContext db, long householdId, long memberId, PermissionLevels permission)
 	{
 		return await db.HouseholdMembers
 			.Where(x => x.HouseholdId == householdId && x.MemberId == memberId && x.PermissionLevel >= permission)

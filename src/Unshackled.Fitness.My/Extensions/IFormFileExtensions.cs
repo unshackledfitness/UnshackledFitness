@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Unshackled.Studio.Core.Client.Extensions;
-using Unshackled.Studio.Core.Client.Models;
+﻿using Unshackled.Fitness.My.Client.Extensions;
+using Unshackled.Fitness.My.Client.Models;
 
-namespace Unshackled.Studio.Core.Server.Extensions;
+namespace Unshackled.Fitness.My.Extensions;
 
 public static class IFormFileExtensions
 {

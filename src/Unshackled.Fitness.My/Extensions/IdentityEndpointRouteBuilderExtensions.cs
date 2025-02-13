@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Data.Entities;
+using Unshackled.Fitness.Core;
+using Unshackled.Fitness.Core.Data.Entities;
 
 namespace Unshackled.Fitness.My.Extensions;
 

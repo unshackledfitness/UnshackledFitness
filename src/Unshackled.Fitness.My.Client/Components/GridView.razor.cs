@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using MudBlazor.Utilities;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Models;
 
-namespace Unshackled.Fitness.Core.Components;
+namespace Unshackled.Fitness.My.Client.Components;
 
 public partial class GridView<TItem> where TItem : new()
 {

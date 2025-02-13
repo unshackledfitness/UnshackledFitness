@@ -1,13 +1,12 @@
 using Microsoft.AspNetCore.Components;
-using Unshackled.Fitness.Core.Models;
-using Unshackled.Fitness.Core.Models.ShoppingLists;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.ShoppingLists.Actions;
 using Unshackled.Fitness.My.Client.Features.ShoppingLists.Models;
-using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.ShoppingLists;
 
-public class DrawerAddRecipeBase : BaseSearchComponent<SearchRecipeModel, RecipeListModel, Member>
+public class DrawerAddRecipeBase : BaseSearchComponent<SearchRecipeModel, RecipeListModel>
 {
 	[Parameter] public ShoppingListModel ShoppingList { get; set; } = new();
 	[Parameter] public EventCallback OnAddedComplete { get; set; }

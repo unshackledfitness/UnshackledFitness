@@ -3,8 +3,8 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Unshackled.Fitness.Core.Data;
+using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.My.Client.Features.Members.Models;
-using Unshackled.Studio.Core.Data.Entities;
 
 namespace Unshackled.Fitness.My.Features.Members.Actions;
 
@@ -25,7 +25,7 @@ public class GetCurrentAccountStatus
 		private readonly UserManager<UserEntity> userManager;
 		private readonly SignInManager<UserEntity> signInManager;
 
-		public Handler(FitnessDbContext db, IMapper mapper, UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager) : base(db, mapper) 
+		public Handler(BaseDbContext db, IMapper mapper, UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager) : base(db, mapper) 
 		{
 			this.userManager = userManager;
 			this.signInManager = signInManager;

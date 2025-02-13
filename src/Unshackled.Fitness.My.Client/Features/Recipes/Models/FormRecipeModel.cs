@@ -1,6 +1,5 @@
 ﻿using System.Text.Json.Serialization;
 using FluentValidation;
-using Unshackled.Studio.Core.Client.Features;
 
 namespace Unshackled.Fitness.My.Client.Features.Recipes.Models;
 

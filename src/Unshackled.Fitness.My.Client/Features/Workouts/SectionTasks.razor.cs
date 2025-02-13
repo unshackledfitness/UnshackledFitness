@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Components;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Workouts.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Workouts;
 
-public class SectionTasksBase : BaseSectionComponent<Member>
+public class SectionTasksBase : BaseSectionComponent
 {
 	[Parameter] public List<FormWorkoutTaskModel> Tasks { get; set; } = new();
 	[Parameter] public string Title { get; set; } = "Checklist";

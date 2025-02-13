@@ -3,17 +3,14 @@ using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
 using MudBlazor.Utilities;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
 using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Workouts.Actions;
 using Unshackled.Fitness.My.Client.Features.Workouts.Models;
 using Unshackled.Fitness.My.Client.Models;
-using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Workouts;
 
-public class SectionSetsBase : BaseSectionComponent<Member>
+public class SectionSetsBase : BaseSectionComponent
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public FormWorkoutModel Workout { get; set; } = new();
@@ -32,7 +29,7 @@ public class SectionSetsBase : BaseSectionComponent<Member>
 		: Icons.Material.Filled.Edit;
 
 	protected bool DrawerOpen => OpenStats || OpenNotes || OpenAddSet || OpenProperties;
-	protected AppSettings AppSettings => ActiveMember.Settings;
+	protected AppSettings AppSettings => State.ActiveMember.Settings;
 
 	protected string DrawerTitle => OpenStats
 		? "Previous Stats"
@@ -46,7 +43,7 @@ public class SectionSetsBase : BaseSectionComponent<Member>
 
 	protected bool HideCompleted { get; set; } = true;
 
-	protected bool IsEditingWorkout => ActiveMember.IsActive && IsWorkoutStarted && (!IsWorkoutComplete || IsEditMode);
+	protected bool IsEditingWorkout => State.ActiveMember.IsActive && IsWorkoutStarted && (!IsWorkoutComplete || IsEditMode);
 
 	protected bool IsWorking { get; set; }
 

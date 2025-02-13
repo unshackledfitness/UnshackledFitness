@@ -1,6 +1,6 @@
-﻿using Unshackled.Studio.Core.Client.Models;
+﻿using Unshackled.Fitness.My.Client.Models;
 
-namespace Unshackled.Studio.Core.Server.Services;
+namespace Unshackled.Fitness.My.Services;
 
 public interface IFileStorageService
 {

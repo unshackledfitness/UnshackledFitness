@@ -2,9 +2,9 @@
 using System.Text;
 using HashidsNet;
 using MudBlazor;
-using Unshackled.Studio.Core.Client.Configuration;
+using Unshackled.Fitness.Core.Configuration;
 
-namespace Unshackled.Studio.Core.Server.Extensions;
+namespace Unshackled.Fitness.My.Extensions;
 
 public static class StringExtensions
 {

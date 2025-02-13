@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Components;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Products.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Products;
 
-public class DrawerAddToListBase : BaseComponent<Member>
+public class DrawerAddToListBase : BaseComponent
 {
 	[Parameter] public List<ShoppingListModel> ShoppingLists { get; set; } = new();
 	[Parameter] public EventCallback<AddToListModel> OnAdded { get; set; }

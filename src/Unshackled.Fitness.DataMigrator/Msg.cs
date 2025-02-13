@@ -1,4 +1,4 @@
-﻿namespace Unshackled.Studio.DataMigrator;
+﻿namespace Unshackled.Fitness.DataMigrator;
 
 internal static class Msg
 {

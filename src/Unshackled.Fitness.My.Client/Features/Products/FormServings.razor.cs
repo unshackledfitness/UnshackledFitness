@@ -1,7 +1,7 @@
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Utils;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Products.Models;
-using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Fitness.My.Client.Utils;
 
 namespace Unshackled.Fitness.My.Client.Features.Products;
 

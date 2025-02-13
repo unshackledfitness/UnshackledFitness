@@ -5,9 +5,8 @@ using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Products.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Products.Actions;
 
@@ -29,7 +28,7 @@ public class BulkArchiveRestore
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -38,12 +37,12 @@ public class BulkArchiveRestore
 
 			List<long> productIds = request.Model.ProductSids.DecodeLong();
 
-			if (!productIds.Any())
+			if (productIds.Count == 0)
 				return new CommandResult(false, "Invalid product IDs");
 
 			await db.Products
 				.Where(x => productIds.Contains(x.Id))
-				.UpdateFromQueryAsync(x => new ProductEntity() { IsArchived = request.Model.IsArchiving });
+				.UpdateFromQueryAsync(x => new ProductEntity() { IsArchived = request.Model.IsArchiving }, cancellationToken);
 
 			string msg = "The selected products were restored.";
 			if (request.Model.IsArchiving)

@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Components;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.MealPlans.Actions;
 using Unshackled.Fitness.My.Client.Features.MealPlans.Models;
-using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.MealPlans;
 
-public class DrawerAddRecipeBase : BaseSearchComponent<SearchRecipeModel, RecipeListModel, Member>
+public class DrawerAddRecipeBase : BaseSearchComponent<SearchRecipeModel, RecipeListModel>
 {
 	[Parameter] public List<MealDefinitionModel> Meals { get; set; } = [];
 	[Parameter] public EventCallback<AddPlanRecipeModel> OnAdded { get; set; }

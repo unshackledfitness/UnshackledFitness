@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.My.Client.Features.Programs.Models;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Programs.Actions;
 
@@ -27,7 +26,7 @@ public class SaveTemplates
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -35,7 +34,7 @@ public class SaveTemplates
 
 			var program = await db.Programs
 				.Where(x => x.Id == programId && x.MemberId == request.MemberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (program == null)
 				return new CommandResult(false, "Invalid program.");
@@ -43,9 +42,9 @@ public class SaveTemplates
 			var currentTemplates = await db.ProgramTemplates
 				.Where(x => x.ProgramId == program.Id)
 				.OrderBy(x => x.SortOrder)
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
-			using var transaction = await db.Database.BeginTransactionAsync();
+			using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
 
 			try
 			{
@@ -53,7 +52,7 @@ public class SaveTemplates
 				program.LengthWeeks = request.Model.LengthWeeks;
 
 				// Remove from calendar if no templates are present
-				if (!request.Model.Templates.Any())
+				if (request.Model.Templates.Count == 0)
 				{
 					program.NextTemplateIndex = 0;
 					program.DateStarted = null;

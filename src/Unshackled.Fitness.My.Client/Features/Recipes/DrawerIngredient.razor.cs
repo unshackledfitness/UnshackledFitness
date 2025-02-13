@@ -1,9 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Components;
 using Unshackled.Fitness.Core.Enums;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Recipes.Actions;
 using Unshackled.Fitness.My.Client.Features.Recipes.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Recipes;
 

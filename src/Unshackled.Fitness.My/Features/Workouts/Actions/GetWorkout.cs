@@ -2,11 +2,10 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
+using Unshackled.Fitness.Core.Data.Extensions;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.Workouts.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Data.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Workouts.Actions;
 
@@ -26,14 +25,14 @@ public class GetWorkout
 
 	public class Handler : BaseHandler, IRequestHandler<Query, FormWorkoutModel>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<FormWorkoutModel> Handle(Query request, CancellationToken cancellationToken)
 		{
 			var member = await db.Members
 				.AsNoTracking()
 				.Where(s => s.Id == request.MemberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if(member == null)
 				return new FormWorkoutModel();
@@ -41,19 +40,19 @@ public class GetWorkout
 			var workout = await mapper.ProjectTo<FormWorkoutModel>(db.Workouts
 				.AsNoTracking()
 				.Where(x => x.Id == request.WorkoutId && x.MemberId == request.MemberId))
-				.SingleOrDefaultAsync() ?? new();
+				.SingleOrDefaultAsync(cancellationToken) ?? new();
 
 			workout.Tasks = await mapper.ProjectTo<FormWorkoutTaskModel>(db.WorkoutTasks
 				.AsNoTracking()
 				.Where(x => x.WorkoutId == request.WorkoutId)
 				.OrderBy(x => x.SortOrder))
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
 			workout.Groups = await mapper.ProjectTo<FormWorkoutSetGroupModel>(db.WorkoutSetGroups
 				.AsNoTracking()
 				.Where(x => x.WorkoutId == request.WorkoutId)
 				.OrderBy(x => x.SortOrder))
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
 			UnitSystems defaultUnits = (await db.GetMemberSettings(member.Id)).DefaultUnits;
 
@@ -62,7 +61,7 @@ public class GetWorkout
 				.AsNoTracking()
 				.Where(x => x.WorkoutId == request.WorkoutId)
 				.OrderBy(x => x.SortOrder)
-				.ToListAsync())
+				.ToListAsync(cancellationToken))
 				.Map(defaultUnits);
 
 			return workout;

@@ -1,15 +1,14 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Extensions;
 using Unshackled.Fitness.My.Client.Features.Products.Actions;
 using Unshackled.Fitness.My.Client.Features.Products.Models;
-using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Products;
 
-public class SingleBase : BaseComponent<Member>, IAsyncDisposable
+public class SingleBase : BaseComponent, IAsyncDisposable
 {
 	protected enum Views
 	{

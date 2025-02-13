@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Unshackled.Fitness.Core.Components;
+namespace Unshackled.Fitness.My.Client.Components;
 
 public class BaseFormComponent<T, TValidator> : ComponentBase where T : new() where TValidator : new()
 {

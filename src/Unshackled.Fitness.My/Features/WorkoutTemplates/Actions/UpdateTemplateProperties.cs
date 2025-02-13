@@ -3,9 +3,8 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Models;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.WorkoutTemplates.Actions;
 
@@ -25,7 +24,7 @@ public class UpdateTemplateProperties
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult<TemplateModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult<TemplateModel>> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -33,7 +32,7 @@ public class UpdateTemplateProperties
 
 			var template = await db.WorkoutTemplates
 				.Where(x => x.Id == templateId && x.MemberId == request.MemberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (template == null)
 				return new CommandResult<TemplateModel>(false, "Invalid template.");

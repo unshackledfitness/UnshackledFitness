@@ -1,5 +1,5 @@
 using Unshackled.Fitness.My.Client.Features.Cookbooks.Models;
-using Unshackled.Studio.Core.Client.Components;
+using Unshackled.Fitness.My.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Cookbooks;
 

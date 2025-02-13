@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
-using Unshackled.Studio.Core.Client.Features;
-using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Fitness.Core.Interfaces;
 
 namespace Unshackled.Fitness.My.Client.Features.Recipes.Models;
 

@@ -1,12 +1,11 @@
 ﻿using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Actions;
 using Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.WorkoutTemplates;
 
-public partial class IndexBase : BaseSearchComponent<SearchTemplateModel, TemplateListItem, Member>
+public partial class IndexBase : BaseSearchComponent<SearchTemplateModel, TemplateListItem>
 {
 	protected override bool DisableControls => IsLoading || IsWorking;
 	protected FormTemplateModel FormModel { get; set; } = new();

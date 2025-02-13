@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using MudBlazor.Utilities;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Extensions;
 using Unshackled.Fitness.My.Client.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Members;
 
-public partial class SettingsBase : BaseComponent<Member>
+public partial class SettingsBase : BaseComponent
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 

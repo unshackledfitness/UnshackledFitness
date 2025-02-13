@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor.Utilities;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.Core.Interfaces;
+using Unshackled.Fitness.My.Client.Models;
 
-namespace Unshackled.Fitness.Core.Components;
+namespace Unshackled.Fitness.My.Client.Components;
 
 public partial class GroupedExpansionList<TGroup, TItem>
 	where TGroup : ISortableGroup, new()

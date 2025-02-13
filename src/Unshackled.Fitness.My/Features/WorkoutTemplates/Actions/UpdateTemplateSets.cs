@@ -1,15 +1,14 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
+using Unshackled.Fitness.Core.Utils;
 using Unshackled.Fitness.My.Client.Features.WorkoutTemplates.Models;
-using Unshackled.Studio.Core.Client;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Client.Utils;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.WorkoutTemplates.Actions;
 
@@ -31,26 +30,26 @@ public class UpdateTemplateSets
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
 			var template = await db.WorkoutTemplates
 				.Where(x => x.Id == request.TemplateId && x.MemberId == request.MemberId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (template == null)
 				return new CommandResult(false, "Invalid template.");
 
 			var currentGroups = await db.WorkoutTemplateSetGroups
 				.Where(x => x.WorkoutTemplateId == request.TemplateId)
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
 			var currentSets = await db.WorkoutTemplateSets
 				.Where(x => x.WorkoutTemplateId == request.TemplateId)
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
-			using var transaction = await db.Database.BeginTransactionAsync();
+			using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
 
 			try
 			{
@@ -72,7 +71,7 @@ public class UpdateTemplateSets
 						Title = group.Title.Trim()
 					};
 					db.WorkoutTemplateSetGroups.Add(gEntity);
-					await db.SaveChangesAsync();
+					await db.SaveChangesAsync(cancellationToken);
 
 					groupIdMap.Add(group.Sid, gEntity.Id);
 				}
@@ -168,12 +167,12 @@ public class UpdateTemplateSets
 					// Check any sets that might still be in group (should be 0 at this point)
 					bool stopDelete = await db.WorkoutTemplateSets
 						.Where(x => x.ListGroupId == g.Id)
-						.AnyAsync();
+						.AnyAsync(cancellationToken);
 
 					if (!stopDelete)
 					{
 						db.WorkoutTemplateSetGroups.Remove(g);
-						await db.SaveChangesAsync();
+						await db.SaveChangesAsync(cancellationToken);
 					}
 				}
 
@@ -190,14 +189,14 @@ public class UpdateTemplateSets
 						x.ExerciseId,
 						x.Exercise.Muscles
 					})
-					.ToListAsync();
+					.ToListAsync(cancellationToken);
 
 				// Exercise count
 				template.ExerciseCount = model.Select(x => x.ExerciseId).Distinct().Count();
 				// Set count
 				template.SetCount = model.Count;
 
-				List<MuscleTypes> muscles = new();
+				List<MuscleTypes> muscles = [];
 				foreach (var exercise in model)
 				{
 					muscles.AddRange(EnumUtils.FromJoinedIntString<MuscleTypes>(exercise.Muscles));
@@ -207,7 +206,8 @@ public class UpdateTemplateSets
 				string[] musclesTargeted = muscles
 					.OrderBy(x => x)
 					.Select(x => x.Title())
-					.Distinct().ToArray();
+					.Distinct()
+					.ToArray();
 
 				if (musclesTargeted.Length > 0)
 				{
@@ -219,7 +219,7 @@ public class UpdateTemplateSets
 				}
 
 				// save template changes
-				await db.SaveChangesAsync();
+				await db.SaveChangesAsync(cancellationToken);
 
 				await transaction.CommitAsync(cancellationToken);
 
@@ -227,6 +227,8 @@ public class UpdateTemplateSets
 			}
 			catch
 			{
+
+				await transaction.RollbackAsync(cancellationToken);
 				return new CommandResult(false, Globals.UnexpectedError);
 			}
 		}

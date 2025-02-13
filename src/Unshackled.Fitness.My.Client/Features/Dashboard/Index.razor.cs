@@ -1,11 +1,10 @@
-﻿using Unshackled.Fitness.Core.Models;
+﻿using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Dashboard.Actions;
 using Unshackled.Fitness.My.Client.Features.Dashboard.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Dashboard;
 
-public class IndexBase : BaseComponent<Member>
+public class IndexBase : BaseComponent
 {
 	public DashboardStatsModel Model { get; set; } = new();
 

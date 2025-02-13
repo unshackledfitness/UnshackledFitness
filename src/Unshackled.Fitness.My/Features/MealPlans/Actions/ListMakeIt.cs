@@ -2,7 +2,7 @@
 using MediatR;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.MealPlans.Actions;
@@ -25,7 +25,7 @@ public class ListMakeIt
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<MakeItRecipeModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<MakeItRecipeModel>> Handle(Query request, CancellationToken cancellationToken)
 		{

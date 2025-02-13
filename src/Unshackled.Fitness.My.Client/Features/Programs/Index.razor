@@ -22,7 +22,7 @@
 			</MudGrid>
 		</SearchFields>
 	</SearchForm>
-	@if (ActiveMember.IsActive)
+	@if (State.ActiveMember.IsActive)
 	{
 		<MudToolBar Class="mb-2" Gutters="false" Dense="true">
 			<ProgressButton StartIcon="@Icons.Material.Filled.AddCircle" Disabled="@DisableControls" IsWorking="@IsWorking" WorkingText="Opening"

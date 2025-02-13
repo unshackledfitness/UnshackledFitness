@@ -4,9 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core;
 using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Enums;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.Households.Actions;
 
@@ -26,7 +25,7 @@ public class DeleteInvite
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -37,7 +36,7 @@ public class DeleteInvite
 
 			var invite = await db.HouseholdInvites
 				.Where(x => x.Id == inviteId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (invite == null)
 				return new CommandResult(false, "Invite not found.");
@@ -46,7 +45,7 @@ public class DeleteInvite
 				return new CommandResult(false, Globals.PermissionError);
 
 			db.HouseholdInvites.Remove(invite);
-			await db.SaveChangesAsync();
+			await db.SaveChangesAsync(cancellationToken);
 
 			return new CommandResult(true, "Invite removed.");
 		}

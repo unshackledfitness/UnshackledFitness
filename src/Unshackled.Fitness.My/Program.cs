@@ -6,20 +6,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using MudBlazor;
 using MudBlazor.Services;
+using Unshackled.Fitness.Core.Configuration;
 using Unshackled.Fitness.Core.Data;
+using Unshackled.Fitness.Core.Data.Entities;
+using Unshackled.Fitness.My.Client.Extensions;
+using Unshackled.Fitness.My.Client.Services;
 using Unshackled.Fitness.My.Components;
 using Unshackled.Fitness.My.Extensions;
 using Unshackled.Fitness.My.Middleware;
 using Unshackled.Fitness.My.Services;
-using Unshackled.Studio.Core.Client.Configuration;
-using Unshackled.Studio.Core.Client.Extensions;
-using Unshackled.Studio.Core.Client.Services;
-using Unshackled.Studio.Core.Data;
-using Unshackled.Studio.Core.Data.Entities;
-using Unshackled.Studio.Core.Server.Extensions;
-using Unshackled.Studio.Core.Server.Middleware;
-using Unshackled.Studio.Core.Server.Services;
-using Unshackled.Studio.Core.Server.Utils;
+using Unshackled.Fitness.My.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,16 +51,16 @@ builder.Configuration.GetSection("AuthenticationProviders").Bind(authProviderCon
 switch (dbConfig.DatabaseType?.ToLower())
 {
 	case DbConfiguration.MSSQL:
-		builder.Services.AddDbContext<FitnessDbContext, MsSqlServerDbContext>();
+		builder.Services.AddDbContext<BaseDbContext, MsSqlServerDbContext>();
 		break;
 	case DbConfiguration.MYSQL:
-		builder.Services.AddDbContext<FitnessDbContext, MySqlServerDbContext>();
+		builder.Services.AddDbContext<BaseDbContext, MySqlServerDbContext>();
 		break;
 	case DbConfiguration.POSTGRESQL:
-		builder.Services.AddDbContext<FitnessDbContext, PostgreSqlServerDbContext>();
+		builder.Services.AddDbContext<BaseDbContext, PostgreSqlServerDbContext>();
 		break;
 	case DbConfiguration.SQLITE:
-		builder.Services.AddDbContext<FitnessDbContext, SqliteDbContext>();
+		builder.Services.AddDbContext<BaseDbContext, SqliteDbContext>();
 		break;
 	default:
 		break;
@@ -104,7 +100,7 @@ builder.Services.AddIdentityCore<UserEntity>(options => {
 	options.Password.RequiredLength = siteConfig.PasswordStrength.RequiredLength;
 	options.Password.RequiredUniqueChars = siteConfig.PasswordStrength.RequiredUniqueChars;
 })
-	.AddEntityFrameworkStores<FitnessDbContext>()
+	.AddEntityFrameworkStores<BaseDbContext>()
 	.AddSignInManager()
 	.AddDefaultTokenProviders();
 
@@ -139,7 +135,7 @@ builder.Services.AddValidatorsFromAssemblies([
 
 builder.Services.TryAddScoped<IWebAssemblyHostEnvironment, ServerHostEnvironment>();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<IRenderStateService, Unshackled.Studio.Core.Server.Services.RenderStateService>();
+builder.Services.AddScoped<IRenderStateService, Unshackled.Fitness.My.Services.RenderStateService>();
 builder.Services.AddSingleton<IEmailSender<UserEntity>, SmtpService>();
 builder.Services.AddScoped<IFileStorageService, LocalFileStorageService>();
 
@@ -195,9 +191,7 @@ app.UseMiddleware<AuthorizedMemberMiddleware>();
 
 app.MapRazorComponents<App>()
 	.AddInteractiveWebAssemblyRenderMode()
-	.AddAdditionalAssemblies(
-		typeof(Unshackled.Studio.Core.Client._Imports).Assembly,
-		typeof(Unshackled.Fitness.My.Client._Imports).Assembly);
+	.AddAdditionalAssemblies(typeof(Unshackled.Fitness.My.Client._Imports).Assembly);
 
 // Add additional endpoints required by the Identity /account Razor components.
 app.MapAdditionalIdentityEndpoints();

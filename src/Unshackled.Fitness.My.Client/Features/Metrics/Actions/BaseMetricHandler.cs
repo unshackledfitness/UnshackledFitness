@@ -1,6 +1,4 @@
-﻿using Unshackled.Studio.Core.Client.Features;
-
-namespace Unshackled.Fitness.My.Client.Features.Metrics.Actions;
+﻿namespace Unshackled.Fitness.My.Client.Features.Metrics.Actions;
 
 public abstract class BaseMetricHandler : BaseHandler
 {

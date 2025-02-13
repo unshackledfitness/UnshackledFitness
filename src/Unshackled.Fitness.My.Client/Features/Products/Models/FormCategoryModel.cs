@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Unshackled.Studio.Core.Client.Features;
 
 namespace Unshackled.Fitness.My.Client.Features.Products.Models;
 

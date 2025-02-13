@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Components;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Programs.Actions;
 using Unshackled.Fitness.My.Client.Features.Programs.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Programs;
 
-public class SectionTemplatesBase : BaseSectionComponent<Member>
+public class SectionTemplatesBase : BaseSectionComponent
 {
 	[Parameter] public ProgramModel Program { get; set; } = new();
 	[Parameter] public EventCallback ProgramUpdated { get; set; }

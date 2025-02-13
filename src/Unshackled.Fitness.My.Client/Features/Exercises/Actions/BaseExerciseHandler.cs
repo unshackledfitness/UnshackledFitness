@@ -1,6 +1,4 @@
-﻿using Unshackled.Studio.Core.Client.Features;
-
-namespace Unshackled.Fitness.My.Client.Features.Exercises.Actions;
+﻿namespace Unshackled.Fitness.My.Client.Features.Exercises.Actions;
 
 public abstract class BaseExerciseHandler : BaseHandler
 {

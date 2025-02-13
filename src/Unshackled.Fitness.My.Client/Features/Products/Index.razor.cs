@@ -1,17 +1,16 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Fitness.Core;
+using Unshackled.Fitness.Core.Configuration;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Extensions;
 using Unshackled.Fitness.My.Client.Features.Products.Actions;
 using Unshackled.Fitness.My.Client.Features.Products.Models;
-using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Configuration;
 
 namespace Unshackled.Fitness.My.Client.Features.Products;
 
-public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListModel, Member>
+public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListModel>
 {
 	[Inject] protected ClientConfiguration ClientConfig { get; set; } = default!;
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
@@ -36,7 +35,7 @@ public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListMode
 	protected bool IsBulkArchive { get; set; } = true;
 	protected bool DrawerOpen => DrawerView != Views.None;
 	protected Views DrawerView { get; set; } = Views.None;
-	protected bool CanEdit => ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write);
+	protected bool CanEdit => State.ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write);
 
 	protected string DrawerTitle => DrawerView switch
 	{

@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
-using Unshackled.Studio.Core.Client.Models;
+using Unshackled.Fitness.Core.Interfaces;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.Recipes.Models;
 

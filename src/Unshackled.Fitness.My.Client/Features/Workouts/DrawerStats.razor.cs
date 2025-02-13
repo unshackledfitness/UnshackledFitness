@@ -1,14 +1,13 @@
 using Microsoft.AspNetCore.Components;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Workouts.Actions;
 using Unshackled.Fitness.My.Client.Features.Workouts.Models;
 using Unshackled.Fitness.My.Client.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Workouts;
 
-public class DrawerStatsBase : BaseSearchComponent<SearchSetModel, CompletedSetModel, Member>
+public class DrawerStatsBase : BaseSearchComponent<SearchSetModel, CompletedSetModel>
 {
 	[Parameter] public string ExcludeWorkoutSid { get; set; } = string.Empty;
 	[Parameter] public string ExerciseSid { get; set; } = string.Empty;
@@ -18,7 +17,7 @@ public class DrawerStatsBase : BaseSearchComponent<SearchSetModel, CompletedSetM
 	[Parameter] public int? SecondsTarget { get; set; }
 
 	protected List<CompletedSetGroupModel> Groups { get; set; } = new();
-	protected AppSettings AppSettings => ActiveMember.Settings;
+	protected AppSettings AppSettings => State.ActiveMember.Settings;
 
 	protected override async Task OnInitializedAsync()
 	{

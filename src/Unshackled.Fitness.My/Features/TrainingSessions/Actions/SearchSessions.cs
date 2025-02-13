@@ -2,10 +2,10 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Data;
+using Unshackled.Fitness.Core.Data.Extensions;
 using Unshackled.Fitness.My.Client.Features.TrainingSessions.Models;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Data.Extensions;
-using Unshackled.Studio.Core.Server.Extensions;
+using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Extensions;
 
 namespace Unshackled.Fitness.My.Features.TrainingSessions.Actions;
 
@@ -25,7 +25,7 @@ public class SearchSessions
 
 	public class Handler : BaseHandler, IRequestHandler<Query, SearchResult<SessionListItem>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<SearchResult<SessionListItem>> Handle(Query request, CancellationToken cancellationToken)
 		{
@@ -47,7 +47,7 @@ public class SearchSessions
 
 			result.Total = await query.CountAsync(cancellationToken);
 
-			if (request.Model.Sorts.Any())
+			if (request.Model.Sorts.Count != 0)
 			{
 				query = query.AddSorts(request.Model.Sorts);
 			}

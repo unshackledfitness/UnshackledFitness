@@ -6,7 +6,7 @@ namespace Unshackled.Fitness.My.Extensions;
 
 public static class ProductBundleExtensions
 {
-	public static async Task<bool> HasProductBundlePermission(this FitnessDbContext db, long productBundleId, long memberId, PermissionLevels permission)
+	public static async Task<bool> HasProductBundlePermission(this BaseDbContext db, long productBundleId, long memberId, PermissionLevels permission)
 	{
 		long householdId = await db.ProductBundles
 			.Where(x => x.Id == productBundleId)

@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Models;
 
 namespace Unshackled.Fitness.My.Client.Features.MealPlans.Models;
 

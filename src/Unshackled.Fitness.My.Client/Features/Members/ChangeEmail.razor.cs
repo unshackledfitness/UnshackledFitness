@@ -1,11 +1,10 @@
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Members.Actions;
 using Unshackled.Fitness.My.Client.Features.Members.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Members;
-public class ChangeEmailBase : BaseComponent<Member>
+public class ChangeEmailBase : BaseComponent
 {
 	protected FormChangeEmailModel Model { get; set; } = new();
 	protected FormChangeEmailModel.Validator ModelValidator { get; set; } = new();

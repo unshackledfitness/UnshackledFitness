@@ -1,6 +1,4 @@
-﻿using Unshackled.Studio.Core.Client.Features;
-
-namespace Unshackled.Fitness.My.Client.Features.MealPlans.Actions;
+﻿namespace Unshackled.Fitness.My.Client.Features.MealPlans.Actions;
 
 public abstract class BaseMealPlanHandler : BaseHandler
 {

@@ -1,14 +1,13 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.Core.Configuration;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.ProductBundles.Actions;
 using Unshackled.Fitness.My.Client.Features.ProductBundles.Models;
-using Unshackled.Studio.Core.Client.Components;
-using Unshackled.Studio.Core.Client.Configuration;
 
 namespace Unshackled.Fitness.My.Client.Features.ProductBundles;
 
-public class IndexBase : BaseSearchComponent<SearchProductBundlesModel, ProductBundleListModel, Member>
+public class IndexBase : BaseSearchComponent<SearchProductBundlesModel, ProductBundleListModel>
 {
 	[Inject] protected ClientConfiguration ClientConfig { get; set; } = default!;
 	[Inject] protected IDialogService DialogService { get; set; } = default!;

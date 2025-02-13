@@ -20,7 +20,7 @@ public class ListSessions
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<SessionListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<SessionListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{

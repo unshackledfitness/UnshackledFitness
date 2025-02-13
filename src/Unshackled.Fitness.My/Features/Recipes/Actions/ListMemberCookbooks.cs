@@ -21,11 +21,11 @@ public class ListMemberCookbooks
 
 	public class Handler : BaseHandler, IRequestHandler<Query, List<CookbookListModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<List<CookbookListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
-			List<CookbookListModel> list = new();
+			List<CookbookListModel> list = [];
 
 			return await mapper.ProjectTo<CookbookListModel>(db.CookbookMembers
 					.Include(x => x.Cookbook)

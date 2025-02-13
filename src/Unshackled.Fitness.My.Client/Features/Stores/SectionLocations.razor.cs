@@ -1,15 +1,14 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Extensions;
 using Unshackled.Fitness.My.Client.Features.Stores.Actions;
 using Unshackled.Fitness.My.Client.Features.Stores.Models;
-using Unshackled.Studio.Core.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Stores;
 
-public class SectionLocationsBase : BaseSectionComponent<Member>
+public class SectionLocationsBase : BaseSectionComponent
 {
 	protected enum Views
 	{
@@ -30,7 +29,7 @@ public class SectionLocationsBase : BaseSectionComponent<Member>
 	protected bool DisableControls => !CanEdit || IsWorking || IsSorting || DisableSectionControls;
 	protected bool DrawerOpen => DrawerView != Views.None;
 	protected Views DrawerView { get; set; } = Views.None;
-	protected bool CanEdit => ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write);
+	protected bool CanEdit => State.ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write);
 
 	protected string DrawerTitle => DrawerView switch
 	{

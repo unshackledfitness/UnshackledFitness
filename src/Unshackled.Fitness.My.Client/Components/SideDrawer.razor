@@ -21,7 +21,7 @@
 </MudDrawer>
 
 @code {
-	[Inject] public IAppState State { get; set; } = default!;
+	[Inject] public AppState State { get; set; } = default!;
 	[Parameter] public string? Icon { get; set; }
 	[Parameter] public string Title { get; set; } = string.Empty;
 	[Parameter] public RenderFragment? ChildContent { get; set; }

@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Components;
 using Unshackled.Fitness.Core.Enums;
-using Unshackled.Fitness.Core.Models;
-using Unshackled.Fitness.Core.Extensions;
+using Unshackled.Fitness.Core.Interfaces;
+using Unshackled.Fitness.My.Client.Extensions;
 
-namespace Unshackled.Fitness.Core.Components;
+namespace Unshackled.Fitness.My.Client.Components;
 
 public partial class NutritionLabel
 {

@@ -6,9 +6,8 @@ using Unshackled.Fitness.Core.Data;
 using Unshackled.Fitness.Core.Data.Entities;
 using Unshackled.Fitness.Core.Enums;
 using Unshackled.Fitness.My.Client.Features.ProductBundles.Models;
+using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Extensions;
-using Unshackled.Studio.Core.Client.Models;
-using Unshackled.Studio.Core.Server.Extensions;
 
 namespace Unshackled.Fitness.My.Features.ProductBundles.Actions;
 
@@ -28,7 +27,7 @@ public class UpdateProductBundleProperties
 
 	public class Handler : BaseHandler, IRequestHandler<Command, CommandResult<ProductBundleModel>>
 	{
-		public Handler(FitnessDbContext db, IMapper mapper) : base(db, mapper) { }
+		public Handler(BaseDbContext db, IMapper mapper) : base(db, mapper) { }
 
 		public async Task<CommandResult<ProductBundleModel>> Handle(Command request, CancellationToken cancellationToken)
 		{
@@ -42,7 +41,7 @@ public class UpdateProductBundleProperties
 
 			ProductBundleEntity? productBundle = await db.ProductBundles
 				.Where(x => x.Id == productBundleId)
-				.SingleOrDefaultAsync();
+				.SingleOrDefaultAsync(cancellationToken);
 
 			if (productBundle == null)
 				return new CommandResult<ProductBundleModel>(false, "Invalid product bundle.");
@@ -58,7 +57,7 @@ public class UpdateProductBundleProperties
 						.Include(x => x.Product)
 						.Where(x => x.ProductBundleId == productBundle.Id)
 						.OrderBy(x => x.Product.Title))
-						.ToListAsync();
+						.ToListAsync(cancellationToken);
 
 			return new CommandResult<ProductBundleModel>(true, "Product bundle updated.", pb);
 		}
