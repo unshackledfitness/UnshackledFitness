@@ -27,10 +27,13 @@ public class BaseComponent : ComponentBase
 		await base.OnInitializedAsync();
 
 		Breadcrumbs = DefaultBreadcrumbs;
+
+		State.OnActiveMemberChange += StateHasChanged;
 	}
 
 	public virtual ValueTask DisposeAsync()
 	{
+		State.OnActiveMemberChange -= StateHasChanged;
 		return ValueTask.CompletedTask;
 	}
 

@@ -2,23 +2,25 @@
 
 <MudGrid Spacing="4">
 	<MudItem xs="6" sm="4" md="2">
-		<MudPaper Class="h-100">
-			<MudText Typo="Typo.body2" Color="Color.Tertiary" Align="Align.Center">Quick Links</MudText>
-			<MudGrid Spacing="0" Justify="Justify.Center" Class="align-center mt-1">
-				<MudItem xs="6" Class="d-flex flex-column align-center">
-					<MudIconButton Href="/calendar" title="Calendar" Icon="@Icons.Material.Filled.CalendarMonth" />
-				</MudItem>
-				<MudItem xs="6" Class="d-flex flex-column align-center">
-					<MudIconButton Href="/training-sessions" title="Training Sessions" Icon="@Icons.Material.Filled.DirectionsRun" />
-				</MudItem>
-				<MudItem xs="6" Class="d-flex flex-column align-center">
-					<MudIconButton Href="/templates" title="Workout Templates" Icon="@Icons.Material.Filled.FitnessCenter" />
-				</MudItem>
-				<MudItem xs="6" Class="d-flex flex-column align-center">
-					<MudIconButton Href="/metrics" title="All Metrics" Icon="@Icons.Material.Filled.InsertChart" />
-				</MudItem>
-			</MudGrid>
-		</MudPaper>
+		<DashboardTile Typo="Typo.body2" Href="/cookbooks" Icon="@Icons.Material.Filled.CollectionsBookmark" Title="Cookbooks" Class="w-100" />
+	</MudItem>
+	<MudItem xs="6" sm="4" md="2">
+		<DashboardTile Typo="Typo.body2" Href="/households" Icon="@Icons.Material.Filled.Groups" Title="Households" Class="w-100" />
+	</MudItem>
+	<MudItem xs="6" sm="4" md="2">
+		<DashboardTile Typo="Typo.body2" Href="/meal-plan" Icon="@Icons.Material.Filled.CalendarMonth" Title="Meal Plan" Class="w-100" />
+	</MudItem>
+	<MudItem xs="6" sm="4" md="2">
+		<DashboardTile Typo="Typo.body2" Href="/recipes" Icon="@Icons.Material.Filled.Dining" Title="Recipes" Class="w-100" />
+	</MudItem>
+	<MudItem xs="6" sm="4" md="2">
+		<DashboardTile Typo="Typo.body2" Href="/shopping-lists" Icon="@Icons.Material.Filled.ShoppingBag" Title="Shopping Lists" Class="w-100" />
+	</MudItem>
+	<MudItem xs="6" sm="4" md="2">
+		<DashboardTile Typo="Typo.body2" Href="/products" Icon="@Icons.Material.Filled.ShoppingBasket" Title="Products" Class="w-100" />
+	</MudItem>
+	<MudItem xs="6" sm="4" md="2">
+		<DashboardTile Typo="Typo.body2" Href="/exercises" Icon="@Icons.Material.Filled.FitnessCenter" Title="Exercises" Class="w-100 h-100" />
 	</MudItem>
 	<MudItem xs="6" sm="4" md="2">
 		<MudPaper Class="h-100">

@@ -2,15 +2,15 @@
 
 <MudNavMenu>
 	<MudNavLink Icon="@Icons.Material.Filled.Dashboard" Href="/" Match="NavLinkMatch.All">Dashboard</MudNavLink>
-	<MudNavLink Icon="@Icons.Material.Filled.CalendarMonth" Href="/calendar" Match="NavLinkMatch.Prefix">Calendar</MudNavLink>
-	<MudNavLink Icon="@Icons.Material.Filled.CollectionsBookmark" Href="/cookbooks" Match="NavLinkMatch.Prefix">Cookbooks</MudNavLink>
 	<MudNavLink Icon="@Icons.Material.Filled.Groups" Href="/households" Match="NavLinkMatch.Prefix">Households</MudNavLink>
+	<MudNavLink Icon="@Icons.Material.Filled.CollectionsBookmark" Href="/cookbooks" Match="NavLinkMatch.Prefix">Cookbooks</MudNavLink>
+	<MudNavLink Icon="@Icons.Material.Filled.CalendarMonth" Href="/calendar" Match="NavLinkMatch.Prefix">Calendar</MudNavLink>
 
 	@if (State.ActiveMember.ActiveCookbook != null)
 	{
 		<MudDivider Class="my-2" />
 
-		<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block ml-4">@State.ActiveMember.ActiveCookbook.Title Menu</MudText>
+		<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block ml-4">Cookbook Menu: @State.ActiveMember.ActiveCookbook.Title</MudText>
 		<MudNavGroup Title="Cookbook" Icon="@Icons.Material.Filled.MenuBook" Expanded="@isExpanded[menuCookbook]" ExpandedChanged="@((bool val) => HandleExpandedChanged(menuCookbook, val))">
 			<MudNavLink Href="/cookbook-recipes" Match="NavLinkMatch.Prefix">Recipes</MudNavLink>
 		</MudNavGroup>
@@ -20,7 +20,7 @@
 	{
 		<MudDivider Class="my-2" />
 
-		<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block ml-4">@State.ActiveMember.ActiveHousehold.Title Menu</MudText>
+		<MudText Typo="Typo.caption" Color="Color.Tertiary" Class="d-block ml-4">Household Menu: @State.ActiveMember.ActiveHousehold.Title</MudText>
 		<MudNavGroup Title="Meal Prep" Icon="@Icons.Material.Filled.Dining" Expanded="@isExpanded[menuMealPrep]" ExpandedChanged="@((bool val) => HandleExpandedChanged(menuMealPrep, val))">
 			<MudNavLink Href="/meal-plan" Match="NavLinkMatch.Prefix">Meal Plan</MudNavLink>
 			<MudNavLink Href="/recipes" Match="NavLinkMatch.Prefix">Recipes</MudNavLink>

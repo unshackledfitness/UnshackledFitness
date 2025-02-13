@@ -30,7 +30,7 @@
 
 	private string CssClass => new CssBuilder("d-flex flex-column align-center justify-center dashboard-tile")
 		.AddClass(Size == Size.Large ? "dashboard-tile-lg" : string.Empty)
-		.AddClass(Size == Size.Small ? "dashboard-tile-lg" : string.Empty)
+		.AddClass(Size == Size.Small ? "dashboard-tile-sm" : string.Empty)
 		.AddClass(Class)
 		.Build();
 
