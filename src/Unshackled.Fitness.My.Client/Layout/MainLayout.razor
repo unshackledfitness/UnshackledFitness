@@ -15,7 +15,7 @@
 <AuthorizeView>
 	<Authorized>
 		<AppFrame CustomTheme="@CustomTheme" IsLoading="@IsLoading" 
-				  IntializationCompleted="@HandleInitializationCompleted" ThemeSwitched="@HandleThemeSwitched">
+		IntializationCompleted="@HandleInitializationCompleted" ThemeSwitched="@HandleThemeSwitched">
 			<AppBarContent>
 				<LogoLayout Layout="LogoLayouts.NoIcon" Href="/" Height="32px" />
 			</AppBarContent>
@@ -29,11 +29,14 @@
 				<NavBottomMenu />
 			</NavBottomContent>
 			<NotificationBarContent>
-				<div class="mx-2">
-					<MudBadge Class="make-it-notification" Content="@(State.MakeItRecipes.Count)" Color="Color.Secondary" Overlap="true" Visible="@(State.MakeItRecipes.Count > 0)">
-						<MudIconButton Icon="@Icons.Material.Filled.LocalDining" Color="Color.Primary" OnClick="@(() => HandleMakeItClicked())" />
-					</MudBadge>
-				</div>
+				@if (State.MakeItRecipes.Count > 0)
+				{
+					<div class="mx-2">
+						<MudBadge Class="make-it-notification" Content="@(State.MakeItRecipes.Count)" Color="Color.Secondary" Overlap="true">
+							<MudIconButton Icon="@Icons.Material.Filled.LocalDining" Color="Color.Primary" OnClick="@(() => HandleMakeItClicked())" />
+						</MudBadge>
+					</div>
+				}
 			</NotificationBarContent>
 			<LogoContent>
 				<LogoLayout Width="150px" Layout="LogoLayouts.NoText" />
