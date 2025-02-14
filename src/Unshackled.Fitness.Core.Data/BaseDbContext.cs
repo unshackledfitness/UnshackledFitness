@@ -38,8 +38,8 @@ public class BaseDbContext : IdentityDbContext<UserEntity>
 	public DbSet<HouseholdEntity> Households => Set<HouseholdEntity>();
 	public DbSet<HouseholdInviteEntity> HouseholdInvites => Set<HouseholdInviteEntity>();
 	public DbSet<HouseholdMemberEntity> HouseholdMembers => Set<HouseholdMemberEntity>();
-	public DbSet<MealDefinitionEntity> MealDefinitions => Set<MealDefinitionEntity>();
-	public DbSet<MealPlanRecipeEntity> MealPlanRecipes => Set<MealPlanRecipeEntity>();
+	public DbSet<MealPrepPlanSlotEntity> MealDefinitions => Set<MealPrepPlanSlotEntity>();
+	public DbSet<MealPrepPlanRecipeEntity> MealPlanRecipes => Set<MealPrepPlanRecipeEntity>();
 	public DbSet<MemberMetaEntity> MemberMeta => Set<MemberMetaEntity>();
 	public DbSet<MemberEntity> Members => Set<MemberEntity>();
 	public DbSet<MetricDefinitionGroupEntity> MetricDefinitionGroups => Set<MetricDefinitionGroupEntity>();
@@ -127,8 +127,8 @@ public class BaseDbContext : IdentityDbContext<UserEntity>
 		builder.ApplyConfiguration(new HouseholdEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new HouseholdInviteEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new HouseholdMemberEntity.TypeConfiguration());
-		builder.ApplyConfiguration(new MealDefinitionEntity.TypeConfiguration());
-		builder.ApplyConfiguration(new MealPlanRecipeEntity.TypeConfiguration());
+		builder.ApplyConfiguration(new MealPrepPlanSlotEntity.TypeConfiguration());
+		builder.ApplyConfiguration(new MealPrepPlanRecipeEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new MemberMetaEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new MemberEntity.TypeConfiguration());
 		builder.ApplyConfiguration(new MetricDefinitionEntity.TypeConfiguration());

@@ -1,0 +1,54 @@
+﻿@page "/meal-prep-plan"
+@inherits IndexBase
+
+<MudBreadcrumbs Items="@Breadcrumbs" />
+
+<DynamicPageTitle IsLoading="@IsLoading" LoadingTitle="@("Loading Meal Prep Plan...")" Title="Meal Prep Plan" />
+
+<MudText Typo="Typo.h4" Class="mb-6">Meal Prep Plan</MudText>
+
+@if (State.ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+{
+	<MudToolBar Gutters="false" Dense="true" Class="mb-2">
+		<div>
+			<MudCheckBox T="bool?" Dense="true" Color="Color.Secondary" UncheckedColor="Color.Default" Label="All/None" Class="me-2" Size="Size.Small"
+						 Value="IsSelectAll" ValueChanged="@((bool? value) => HandleSelectAllChange(value))" Disabled="@IsEditMode"></MudCheckBox>
+		</div>
+		<MudButton StartIcon="@Icons.Material.Filled.CopyAll" Disabled="@(IsEditMode || !HasSelected)" OnClick="@(() => HandleCopyClicked())">Copy To...</MudButton>
+		<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@(IsEditMode || !HasSelected)" OnClick="@(() => HandleAddToListClicked())">Shopping List</MudButton>
+		<MudButton StartIcon="@Icons.Material.Filled.List" Disabled="@IsEditMode" Href="/meal-prep-plan/slots">Slots</MudButton>
+		<MudSpacer />
+		<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@DisableControls" />
+	</MudToolBar>
+}
+
+<MudToolBar Gutters="false" Class="mb-3">
+	<MudIconButton Icon="@Icons.Material.Filled.ChevronLeft" Variant="Variant.Filled" Disabled="@(DisableControls || !DateStart.HasValue)" OnClick="@(() => HandlePrevWeekClicked())" />
+	<MudDatePicker Variant="Variant.Outlined" Color="Color.Secondary" Margin="Margin.Dense" Label="Week starting on" Disabled="@DisableControls" Date="@DateStart" DateChanged="HandleStartDateChanged" IsDateDisabledFunc="@IsDateDisabled" />
+	<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" Variant="Variant.Filled" Disabled="@(DisableControls || !DateStart.HasValue)" OnClick="@(() => HandleNextWeekClicked())" />
+</MudToolBar>
+
+<GridView Items="@Days" xs="12" sm="6" md="4">
+	<ItemRenderer>
+		<DayComponent 
+			Meals="@Meals" IsLoading="@IsLoading" IsEditMode="@IsEditMode" @bind-Model="@context.Item" OnAddRecipeClicked="@HandleAddRecipeClicked"
+			OnApplySortClicked="@HandleApplySortClicked" OnCheckedChanged="HandleDayCheckChanged" OnDeleteClicked="@HandleDeleteClicked" OnMakeItClicked="@HandleMakeItClicked"
+			OnDaySwitchClicked="@HandleSwitchDayClicked"
+		/>
+	</ItemRenderer>
+</GridView>
+
+<SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
+	@if (DrawerView == Views.Add)
+	{
+		<DrawerAddRecipe Meals="@Meals" OnAdded="@HandleMealAdded" OnCancelClicked="@(() => HandleCancelClicked())" />
+	}
+	else if (DrawerView == Views.AddToList) 
+	{
+		<DrawerAddToList Recipes="@SelectedRecipes" OnAddedComplete="@HandleAddToListComplete" OnCancelClicked="@(() => HandleCancelClicked())" />
+	}
+	else if (DrawerView == Views.Copy)
+	{
+		<DrawerCopy Recipes="@SelectedRecipes" OnCancelClicked="@(() => HandleCancelClicked())" OnSubmitClicked="@HandleCopySubmitClicked" />
+	}
+</SideDrawer>
