@@ -1,4 +1,4 @@
-﻿<MudDialog Gutters="false" Class="dialog-grow h-100">
+﻿<MudDialog Gutters="false" Class="dialog-grow dialog-bg-base h-100">
 	<DialogContent>
 		<MudSwipeArea OnSwipeEnd="@HandleSwipeEnd" Style="width: 100%; height:100%" Sensitivity="100">
 			<MudContainer>
@@ -34,8 +34,10 @@
 									<div class="recipe-dialog @(recipe.SortOrder == State.MakeItIndex ? "d-flex" : "d-none")">
 										<MudText Typo="Typo.h4" Align="Align.Center">@recipe.Title</MudText>
 										<MudToolBar Gutters="false" Dense="true">
+											<MudSpacer />
 											<MudButton StartIcon="@Icons.Material.Filled.Delete" OnClick="@(() => HandleDeleteRecipeClicked(recipe))">Remove</MudButton>
 											<ScaleMenuComponent Scale="@recipe.Scale" ScaleChanged="@((decimal value) => HandleScaleChanged(recipe, value))" />
+											<MudSpacer />
 										</MudToolBar>
 										<GroupedList Groups="@recipe.Groups" Items="@recipe.Ingredients">
 											<GroupRenderer>
@@ -87,28 +89,6 @@
 										}
 									</div>
 								}
-
-								<div class="recipe-dialog @(State.MakeItIndex >= Recipes.Count ? "d-flex" : "d-none")">
-									<div class="recipe-dialog">
-										@if (Recipes.Count > 0)
-										{
-											<MudText Typo="Typo.h4" Align="Align.Center" Class="mb-4">Current Recipes</MudText>
-											<ListView Items="@Recipes" Class="mb-6">
-												<ItemRenderer>
-													<div class="d-flex flex-row gap-4 align-center">
-														<MudText Class="flex-grow-1">@context.Item.Title</MudText>
-														<div>
-															<MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small" OnClick="@(() => HandleDeleteRecipeClicked(context.Item))" />
-														</div>
-													</div>
-												</ItemRenderer>
-											</ListView>
-										}
-										<div class="d-flex flex-column align-center w-100 mt-8">
-											<MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@(() => HandleAddRecipeClicked())">Add Recipe</MudButton>
-										</div>
-									</div>
-								</div>
 							</MudItem>
 							<MudItem md="1" Class="d-none d-md-block">
 								<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" Size="Size.Large" Disabled="@DisableForward" OnClick="@(() => HandleMoveRight())" />

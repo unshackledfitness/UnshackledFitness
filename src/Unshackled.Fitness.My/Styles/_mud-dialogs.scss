@@ -23,3 +23,7 @@
     width: calc(100%);
 	max-height: calc(100vh);
 }
+
+.dialog-bg-base {
+	background-color: var(--mud-palette-background);
+}

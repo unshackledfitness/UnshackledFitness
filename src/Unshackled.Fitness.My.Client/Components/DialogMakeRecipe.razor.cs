@@ -15,7 +15,7 @@ public partial class DialogMakeRecipe : IAsyncDisposable
 	public List<MakeItRecipeModel> Recipes { get; set; } = [];
 
 	protected bool DisableBack => State.MakeItIndex <= 0 || Recipes.Count == 0;
-	protected bool DisableForward => State.MakeItIndex > Recipes.Count;
+	protected bool DisableForward => State.MakeItIndex >= Recipes.Count - 1;
 	protected bool CanScreenLock { get; set; }
 	protected bool IsScreenLocked { get; set; }
 
@@ -30,7 +30,6 @@ public partial class DialogMakeRecipe : IAsyncDisposable
 	protected override async Task OnInitializedAsync()
 	{
 		await base.OnInitializedAsync();
-
 		State.OnMakeItRecipesChanged += StateHasChanged;
 	}
 
@@ -40,15 +39,15 @@ public partial class DialogMakeRecipe : IAsyncDisposable
 		await ScreenLockService.ReleaseWakeLock();
 	}
 
-	protected void HandleAddRecipeClicked()
-	{
-		NavigationManager.NavigateTo("/recipes");
-		MudDialog.Cancel();
-	}
-
-	protected void HandleDeleteRecipeClicked(MakeItRecipeModel recipe)
+	protected async Task HandleDeleteRecipeClicked(MakeItRecipeModel recipe)
 	{
 		State.RemoveMakeItRecipe(recipe);
+		if (State.MakeItRecipes.Count == 0)
+		{
+			await ScreenLockService.ReleaseWakeLock();
+			IsScreenLocked = false;
+			MudDialog.Cancel();
+		}
 	}
 
 	protected void HandleGroupItemChecked(MakeItRecipeIngredientGroupModel model, MakeItRecipeModel recipe, bool? isChecked)
