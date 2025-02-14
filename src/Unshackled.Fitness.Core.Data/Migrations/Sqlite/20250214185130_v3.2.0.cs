@@ -145,7 +145,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 });
 
             migrationBuilder.CreateTable(
-                name: "uf_MealDefinitions",
+                name: "uf_MealPrepPlanSlots",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -158,9 +158,9 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_uf_MealDefinitions", x => x.Id);
+                    table.PrimaryKey("PK_uf_MealPrepPlanSlots", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_uf_MealDefinitions_uf_Households_HouseholdId",
+                        name: "FK_uf_MealPrepPlanSlots_uf_Households_HouseholdId",
                         column: x => x.HouseholdId,
                         principalTable: "uf_Households",
                         principalColumn: "Id");
@@ -481,14 +481,14 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 });
 
             migrationBuilder.CreateTable(
-                name: "uf_MealPlanRecipes",
+                name: "uf_MealPrepPlanRecipes",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     DatePlanned = table.Column<DateOnly>(type: "TEXT", nullable: false),
                     RecipeId = table.Column<long>(type: "INTEGER", nullable: false),
-                    MealDefinitionId = table.Column<long>(type: "INTEGER", nullable: true),
+                    SlotId = table.Column<long>(type: "INTEGER", nullable: true),
                     Scale = table.Column<decimal>(type: "TEXT", precision: 4, scale: 2, nullable: false),
                     DateCreatedUtc = table.Column<DateTime>(type: "TEXT", nullable: false),
                     DateLastModifiedUtc = table.Column<DateTime>(type: "TEXT", nullable: true),
@@ -496,19 +496,19 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_uf_MealPlanRecipes", x => x.Id);
+                    table.PrimaryKey("PK_uf_MealPrepPlanRecipes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_uf_MealPlanRecipes_uf_Households_HouseholdId",
+                        name: "FK_uf_MealPrepPlanRecipes_uf_Households_HouseholdId",
                         column: x => x.HouseholdId,
                         principalTable: "uf_Households",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_uf_MealPlanRecipes_uf_MealDefinitions_MealDefinitionId",
-                        column: x => x.MealDefinitionId,
-                        principalTable: "uf_MealDefinitions",
+                        name: "FK_uf_MealPrepPlanRecipes_uf_MealPrepPlanSlots_SlotId",
+                        column: x => x.SlotId,
+                        principalTable: "uf_MealPrepPlanSlots",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_uf_MealPlanRecipes_uf_Recipes_RecipeId",
+                        name: "FK_uf_MealPrepPlanRecipes_uf_Recipes_RecipeId",
                         column: x => x.RecipeId,
                         principalTable: "uf_Recipes",
                         principalColumn: "Id");
@@ -1003,59 +1003,59 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_uf_MealDefinitions_DateCreatedUtc",
-                table: "uf_MealDefinitions",
+                name: "IX_uf_MealPrepPlanRecipes_DateCreatedUtc",
+                table: "uf_MealPrepPlanRecipes",
                 column: "DateCreatedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_uf_MealDefinitions_DateLastModifiedUtc",
-                table: "uf_MealDefinitions",
+                name: "IX_uf_MealPrepPlanRecipes_DateLastModifiedUtc",
+                table: "uf_MealPrepPlanRecipes",
                 column: "DateLastModifiedUtc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_uf_MealDefinitions_HouseholdId",
-                table: "uf_MealDefinitions",
+                name: "IX_uf_MealPrepPlanRecipes_DatePlanned_SlotId",
+                table: "uf_MealPrepPlanRecipes",
+                columns: new[] { "DatePlanned", "SlotId" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_uf_MealPrepPlanRecipes_HouseholdId",
+                table: "uf_MealPrepPlanRecipes",
                 column: "HouseholdId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_uf_MealDefinitions_SortOrder",
-                table: "uf_MealDefinitions",
+                name: "IX_uf_MealPrepPlanRecipes_RecipeId",
+                table: "uf_MealPrepPlanRecipes",
+                column: "RecipeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_uf_MealPrepPlanRecipes_SlotId",
+                table: "uf_MealPrepPlanRecipes",
+                column: "SlotId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_uf_MealPrepPlanSlots_DateCreatedUtc",
+                table: "uf_MealPrepPlanSlots",
+                column: "DateCreatedUtc");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_uf_MealPrepPlanSlots_DateLastModifiedUtc",
+                table: "uf_MealPrepPlanSlots",
+                column: "DateLastModifiedUtc");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_uf_MealPrepPlanSlots_HouseholdId",
+                table: "uf_MealPrepPlanSlots",
+                column: "HouseholdId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_uf_MealPrepPlanSlots_SortOrder",
+                table: "uf_MealPrepPlanSlots",
                 column: "SortOrder");
 
             migrationBuilder.CreateIndex(
-                name: "IX_uf_MealDefinitions_Title",
-                table: "uf_MealDefinitions",
+                name: "IX_uf_MealPrepPlanSlots_Title",
+                table: "uf_MealPrepPlanSlots",
                 column: "Title");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_uf_MealPlanRecipes_DateCreatedUtc",
-                table: "uf_MealPlanRecipes",
-                column: "DateCreatedUtc");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_uf_MealPlanRecipes_DateLastModifiedUtc",
-                table: "uf_MealPlanRecipes",
-                column: "DateLastModifiedUtc");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_uf_MealPlanRecipes_DatePlanned_MealDefinitionId",
-                table: "uf_MealPlanRecipes",
-                columns: new[] { "DatePlanned", "MealDefinitionId" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_uf_MealPlanRecipes_HouseholdId",
-                table: "uf_MealPlanRecipes",
-                column: "HouseholdId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_uf_MealPlanRecipes_MealDefinitionId",
-                table: "uf_MealPlanRecipes",
-                column: "MealDefinitionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_uf_MealPlanRecipes_RecipeId",
-                table: "uf_MealPlanRecipes",
-                column: "RecipeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_uf_ProductBundleItems_ProductId",
@@ -1438,7 +1438,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 name: "uf_HouseholdMembers");
 
             migrationBuilder.DropTable(
-                name: "uf_MealPlanRecipes");
+                name: "uf_MealPrepPlanRecipes");
 
             migrationBuilder.DropTable(
                 name: "uf_ProductBundleItems");
@@ -1477,7 +1477,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 name: "uf_Cookbooks");
 
             migrationBuilder.DropTable(
-                name: "uf_MealDefinitions");
+                name: "uf_MealPrepPlanSlots");
 
             migrationBuilder.DropTable(
                 name: "uf_ProductBundles");

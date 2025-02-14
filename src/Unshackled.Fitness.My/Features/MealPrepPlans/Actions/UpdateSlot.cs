@@ -40,7 +40,7 @@ public class UpdateSlot
 			if (defId == 0)
 				return new CommandResult(false, "Invalid meal definition ID.");
 
-			var def = await db.MealDefinitions
+			var def = await db.MealPrepPlanSlots
 				.Where(x => x.Id == defId)
 				.SingleOrDefaultAsync(cancellationToken);
 

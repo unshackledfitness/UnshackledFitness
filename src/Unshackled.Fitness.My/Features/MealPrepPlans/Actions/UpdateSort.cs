@@ -40,7 +40,7 @@ public class UpdateSort
 				long recipeId = update.Sid.DecodeLong();
 				long mealDefId = update.MealDefinitionSid.DecodeLong();
 
-				await db.MealPlanRecipes
+				await db.MealPrepPlanRecipes
 					.Where(x => x.Id == recipeId && x.HouseholdId == request.HouseholdId)
 					.UpdateFromQueryAsync(x => new MealPrepPlanRecipeEntity { SlotId = mealDefId }, cancellationToken);
 			}

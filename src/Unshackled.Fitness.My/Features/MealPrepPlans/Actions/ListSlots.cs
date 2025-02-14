@@ -30,7 +30,7 @@ public class ListSlots
 		{
 			if (await db.HasHouseholdPermission(request.HouseholdId, request.MemberId, PermissionLevels.Read))
 			{
-				return await mapper.ProjectTo<SlotModel>(db.MealDefinitions
+				return await mapper.ProjectTo<SlotModel>(db.MealPrepPlanSlots
 					.AsNoTracking()
 					.Where(x => x.HouseholdId == request.HouseholdId)
 					.OrderBy(x => x.SortOrder))

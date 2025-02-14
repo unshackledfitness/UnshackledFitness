@@ -39,14 +39,14 @@ public class DeleteMealRecipe
 			if (!await db.HasHouseholdPermission(request.HouseholdId, request.MemberId, PermissionLevels.Write))
 				return new CommandResult(false, Globals.PermissionError);
 
-			var recipe = await db.MealPlanRecipes
+			var recipe = await db.MealPrepPlanRecipes
 				.Where(x => x.Id == recipeId && x.HouseholdId == request.HouseholdId)
 				.SingleOrDefaultAsync(cancellationToken);
 
 			if (recipe == null)
 				return new CommandResult(false, "Invalid recipe.");
 
-			db.MealPlanRecipes.Remove(recipe);
+			db.MealPrepPlanRecipes.Remove(recipe);
 			await db.SaveChangesAsync(cancellationToken);
 
 			return new CommandResult(true, "Recipe deleted.");

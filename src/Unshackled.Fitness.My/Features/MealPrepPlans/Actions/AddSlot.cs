@@ -36,7 +36,7 @@ public class AddSlot
 			if (!await db.HasHouseholdPermission(request.HouseholdId, request.MemberId, PermissionLevels.Write))
 				return new CommandResult<List<SlotModel>>(false, Globals.PermissionError);
 
-			int sortOrder = await db.MealDefinitions
+			int sortOrder = await db.MealPrepPlanSlots
 				.Where(x => x.HouseholdId == request.HouseholdId)
 				.CountAsync(cancellationToken);
 
@@ -46,10 +46,10 @@ public class AddSlot
 				SortOrder = sortOrder,
 				Title = request.Model.Title.Trim()
 			};
-			db.MealDefinitions.Add(mealDef);
+			db.MealPrepPlanSlots.Add(mealDef);
 			await db.SaveChangesAsync(cancellationToken);
 
-			var defs = await mapper.ProjectTo<SlotModel>(db.MealDefinitions
+			var defs = await mapper.ProjectTo<SlotModel>(db.MealPrepPlanSlots
 				.Where(x => x.HouseholdId == request.HouseholdId)
 				.OrderBy(x => x.SortOrder))
 				.ToListAsync(cancellationToken);

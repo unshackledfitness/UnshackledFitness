@@ -40,7 +40,7 @@ public class DeleteSlot
 			if (!await db.HasHouseholdPermission(request.HouseholdId, request.MemberId, PermissionLevels.Write))
 				return new CommandResult(false, Globals.PermissionError);
 
-			var def = await db.MealDefinitions
+			var def = await db.MealPrepPlanSlots
 				.Where(x => x.Id == defId)
 				.SingleOrDefaultAsync(cancellationToken);
 
@@ -52,11 +52,11 @@ public class DeleteSlot
 			try
 			{
 				// Unset recipes with definition id
-				await db.MealPlanRecipes
+				await db.MealPrepPlanRecipes
 					.Where(x => x.SlotId == def.Id)
 					.UpdateFromQueryAsync(x => new MealPrepPlanRecipeEntity { SlotId = null }, cancellationToken);
 
-				db.MealDefinitions.Remove(def);
+				db.MealPrepPlanSlots.Remove(def);
 				await db.SaveChangesAsync(cancellationToken);
 
 				await transaction.CommitAsync(cancellationToken);

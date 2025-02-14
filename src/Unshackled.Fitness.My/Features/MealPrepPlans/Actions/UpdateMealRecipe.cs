@@ -37,7 +37,7 @@ public class UpdateMealRecipe
 
 			long planRecipeId = request.Model.Sid.DecodeLong();
 
-			var planRecipe = await db.MealPlanRecipes
+			var planRecipe = await db.MealPrepPlanRecipes
 				.Where(x => x.HouseholdId == request.HouseholdId && x.Id == planRecipeId)
 				.SingleOrDefaultAsync(cancellationToken);
 

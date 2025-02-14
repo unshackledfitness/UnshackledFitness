@@ -35,7 +35,7 @@ public class UpdateSlotSort
 			if (!await db.HasHouseholdPermission(request.HouseholdId, request.MemberId, PermissionLevels.Write))
 				return new CommandResult(false, Globals.PermissionError);
 
-			var mealDefs = await db.MealDefinitions
+			var mealDefs = await db.MealPrepPlanSlots
 				.Where(x => x.HouseholdId == request.HouseholdId)
 				.ToListAsync(cancellationToken);
 

@@ -39,7 +39,7 @@ public class AddMealRecipe
 			long mealDefId = request.Model.MealDefinitionSid.DecodeLong(); 
 			long recipeId = request.Model.RecipeSid.DecodeLong();
 
-			if (mealDefId > 0 && !await db.MealDefinitions.Where(x => x.HouseholdId == request.HouseholdId && x.Id == mealDefId).AnyAsync(cancellationToken))
+			if (mealDefId > 0 && !await db.MealPrepPlanSlots.Where(x => x.HouseholdId == request.HouseholdId && x.Id == mealDefId).AnyAsync(cancellationToken))
 				return new CommandResult<MealPrepPlanRecipeModel>(false, "Invalid meal definition ID.");
 
 			if (recipeId == 0 || !await db.Recipes.Where(x => x.HouseholdId == request.HouseholdId && x.Id == recipeId).AnyAsync(cancellationToken))
@@ -53,7 +53,7 @@ public class AddMealRecipe
 				RecipeId = recipeId,
 				Scale = request.Model.Scale
 			};
-			db.MealPlanRecipes.Add(planRecipe);
+			db.MealPrepPlanRecipes.Add(planRecipe);
 			await db.SaveChangesAsync(cancellationToken);
 
 			await db.Entry(planRecipe)

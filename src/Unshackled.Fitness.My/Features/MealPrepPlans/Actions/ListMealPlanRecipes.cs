@@ -34,7 +34,7 @@ public class ListMealPlanRecipes
 			if (await db.HasHouseholdPermission(request.HouseholdId, request.MemberId, PermissionLevels.Read))
 			{
 				DateOnly dateEnd = request.DateStart.AddDays(7);
-				var list = await mapper.ProjectTo<MealPrepPlanRecipeModel>(db.MealPlanRecipes
+				var list = await mapper.ProjectTo<MealPrepPlanRecipeModel>(db.MealPrepPlanRecipes
 					.AsNoTracking()
 					.Include(x => x.Recipe)
 					.Where(x => x.HouseholdId == request.HouseholdId && x.DatePlanned >= request.DateStart && x.DatePlanned < dateEnd)

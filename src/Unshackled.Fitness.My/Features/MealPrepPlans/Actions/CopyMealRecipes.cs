@@ -38,7 +38,7 @@ public class CopyMealRecipes
 
 			long[] ids = request.Model.Recipes.Select(x => x.Sid.DecodeLong()).ToArray();
 
-			var recipes = await db.MealPlanRecipes
+			var recipes = await db.MealPrepPlanRecipes
 				.Where(x => ids.Contains(x.Id))
 				.OrderBy(x => x.DatePlanned)
 				.ToListAsync(cancellationToken);
@@ -51,7 +51,7 @@ public class CopyMealRecipes
 
 			if (isSingleDate)
 			{
-				db.MealPlanRecipes.AddRange(recipes
+				db.MealPrepPlanRecipes.AddRange(recipes
 					.Select(x => new MealPrepPlanRecipeEntity
 					{
 						HouseholdId = x.HouseholdId,
@@ -69,7 +69,7 @@ public class CopyMealRecipes
 					int dayOfWeek = (int)recipe.DatePlanned.DayOfWeek;
 					DateOnly datePlanned = request.Model.DateSelected.AddDays(dayOfWeek);
 
-					db.MealPlanRecipes.Add(new MealPrepPlanRecipeEntity
+					db.MealPrepPlanRecipes.Add(new MealPrepPlanRecipeEntity
 					{
 						HouseholdId = recipe.HouseholdId,
 						DatePlanned = datePlanned,

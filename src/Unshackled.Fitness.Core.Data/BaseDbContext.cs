@@ -38,8 +38,8 @@ public class BaseDbContext : IdentityDbContext<UserEntity>
 	public DbSet<HouseholdEntity> Households => Set<HouseholdEntity>();
 	public DbSet<HouseholdInviteEntity> HouseholdInvites => Set<HouseholdInviteEntity>();
 	public DbSet<HouseholdMemberEntity> HouseholdMembers => Set<HouseholdMemberEntity>();
-	public DbSet<MealPrepPlanSlotEntity> MealDefinitions => Set<MealPrepPlanSlotEntity>();
-	public DbSet<MealPrepPlanRecipeEntity> MealPlanRecipes => Set<MealPrepPlanRecipeEntity>();
+	public DbSet<MealPrepPlanSlotEntity> MealPrepPlanSlots => Set<MealPrepPlanSlotEntity>();
+	public DbSet<MealPrepPlanRecipeEntity> MealPrepPlanRecipes => Set<MealPrepPlanRecipeEntity>();
 	public DbSet<MemberMetaEntity> MemberMeta => Set<MemberMetaEntity>();
 	public DbSet<MemberEntity> Members => Set<MemberEntity>();
 	public DbSet<MetricDefinitionGroupEntity> MetricDefinitionGroups => Set<MetricDefinitionGroupEntity>();

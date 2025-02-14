@@ -670,7 +670,52 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.ToTable("uf_HouseholdMembers", (string)null);
                 });
 
-            modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.MealDefinitionEntity", b =>
+            modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.MealPrepPlanRecipeEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DateCreatedUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DateLastModifiedUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateOnly>("DatePlanned")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("HouseholdId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("RecipeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Scale")
+                        .HasPrecision(4, 2)
+                        .HasColumnType("TEXT");
+
+                    b.Property<long?>("SlotId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DateCreatedUtc");
+
+                    b.HasIndex("DateLastModifiedUtc");
+
+                    b.HasIndex("HouseholdId");
+
+                    b.HasIndex("RecipeId");
+
+                    b.HasIndex("SlotId");
+
+                    b.HasIndex("DatePlanned", "SlotId");
+
+                    b.ToTable("uf_MealPrepPlanRecipes", (string)null);
+                });
+
+            modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.MealPrepPlanSlotEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -706,52 +751,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.HasIndex("Title");
 
-                    b.ToTable("uf_MealDefinitions", (string)null);
-                });
-
-            modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.MealPlanRecipeEntity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateOnly>("DatePlanned")
-                        .HasColumnType("TEXT");
-
-                    b.Property<long>("HouseholdId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long?>("MealDefinitionId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("RecipeId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<decimal>("Scale")
-                        .HasPrecision(4, 2)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DateCreatedUtc");
-
-                    b.HasIndex("DateLastModifiedUtc");
-
-                    b.HasIndex("HouseholdId");
-
-                    b.HasIndex("MealDefinitionId");
-
-                    b.HasIndex("RecipeId");
-
-                    b.HasIndex("DatePlanned", "MealDefinitionId");
-
-                    b.ToTable("uf_MealPlanRecipes", (string)null);
+                    b.ToTable("uf_MealPrepPlanSlots", (string)null);
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.MemberEntity", b =>
@@ -3382,29 +3382,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.Navigation("Member");
                 });
 
-            modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.MealDefinitionEntity", b =>
+            modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.MealPrepPlanRecipeEntity", b =>
                 {
                     b.HasOne("Unshackled.Fitness.Core.Data.Entities.HouseholdEntity", "Household")
                         .WithMany()
                         .HasForeignKey("HouseholdId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.Navigation("Household");
-                });
-
-            modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.MealPlanRecipeEntity", b =>
-                {
-                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.HouseholdEntity", "Household")
-                        .WithMany()
-                        .HasForeignKey("HouseholdId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MealDefinitionEntity", "MealDefinition")
-                        .WithMany()
-                        .HasForeignKey("MealDefinitionId")
-                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Unshackled.Fitness.Core.Data.Entities.RecipeEntity", "Recipe")
                         .WithMany()
@@ -3412,11 +3396,27 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.MealPrepPlanSlotEntity", "Slot")
+                        .WithMany()
+                        .HasForeignKey("SlotId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.Navigation("Household");
 
-                    b.Navigation("MealDefinition");
-
                     b.Navigation("Recipe");
+
+                    b.Navigation("Slot");
+                });
+
+            modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.MealPrepPlanSlotEntity", b =>
+                {
+                    b.HasOne("Unshackled.Fitness.Core.Data.Entities.HouseholdEntity", "Household")
+                        .WithMany()
+                        .HasForeignKey("HouseholdId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Household");
                 });
 
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.MemberMetaEntity", b =>
