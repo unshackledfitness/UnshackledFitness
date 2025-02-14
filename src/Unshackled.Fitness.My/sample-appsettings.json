@@ -1,6 +1,8 @@
 {
 	"AllowedHosts": "*",
 	"AuthenticationProviders": {
+		"GoogleClientId": "",
+		"GoogleClientSecret": "",
 		"MicrosoftClientId": "",
 		"MicrosoftClientSecret": ""
 	},
@@ -44,5 +46,10 @@
 		"DefaultReplyTo": "email@domain.com",
 		"Username": "",
 		"Password": ""
+	},
+	"StorageSettings": {
+		"BaseUrl": "https://localhost:5580/",
+		"Container": "content",
+		"MaxUploadInMb": 3
 	}
 }

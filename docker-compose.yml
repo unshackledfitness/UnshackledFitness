@@ -1,0 +1,18 @@
+services:
+  unshackledfitness:
+    container_name: unshackled-fitness
+    image: unshackled-fitness
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    env_file: 
+      - path: ./src/Unshackled.Fitness.My/appsettings.env
+        required: true
+    restart: unless-stopped
+    volumes:
+      - //r/Containers/UnshackledFitness/content/households:/app/wwwroot/content/households
+      - //r/Containers/UnshackledFitness/data:/app/Data
+      - ~/.aspnet/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
+    ports: 
+      - 5580:8081
+    
