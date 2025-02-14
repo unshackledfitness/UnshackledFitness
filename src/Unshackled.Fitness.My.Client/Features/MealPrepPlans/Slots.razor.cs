@@ -37,7 +37,7 @@ public class SlotsBase : BaseComponent
 	protected override async Task OnInitializedAsync()
 	{
 		await base.OnInitializedAsync();
-		Breadcrumbs.Add(new BreadcrumbItem("Meal Plan", "/meal-prep-plan"));
+		Breadcrumbs.Add(new BreadcrumbItem("Meal Prep Plan", "/meal-prep-plan"));
 		Breadcrumbs.Add(new BreadcrumbItem("Slots", null, true));
 
 		Meals = await Mediator.Send(new ListSlots.Query());
