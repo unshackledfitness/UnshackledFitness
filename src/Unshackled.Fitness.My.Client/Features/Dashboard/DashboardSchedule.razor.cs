@@ -1,20 +1,21 @@
 using Unshackled.Fitness.Core;
-using Unshackled.Fitness.My.Client.Models;
+using Unshackled.Fitness.My.Client.Components;
 using Unshackled.Fitness.My.Client.Features.Dashboard.Actions;
 using Unshackled.Fitness.My.Client.Features.Dashboard.Models;
-using Unshackled.Fitness.My.Client.Components;
 
 namespace Unshackled.Fitness.My.Client.Features.Dashboard;
 
-public class DashboardProgramBase : BaseComponent
+public class DashboardScheduleBase : BaseComponent
 {
+	protected bool IsLoading { get; set; } = true;
 	protected List<ScheduledListModel> Items { get; set; } = [];
 
 	protected override async Task OnInitializedAsync()
 	{
 		await base.OnInitializedAsync();
 
-		Items = await Mediator.Send(new ListScheduledItems.Query(DateTimeOffset.Now.Date));
+		Items = await Mediator.Send(new ListScheduledItems.Query(DateOnly.FromDateTime(DateTime.Now.Date)));
+		IsLoading = false;
 	}
 
 	protected async Task HandleSkipSessionClicked(ScheduledListModel model)

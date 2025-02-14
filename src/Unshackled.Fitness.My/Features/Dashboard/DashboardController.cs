@@ -15,6 +15,18 @@ public class DashboardController : BaseController
 		return Ok(await Mediator.Send(new AddWorkout.Command(Member.Id, templateSid)));
 	}
 
+	[HttpPost("get-scheduled-prep")]
+	public async Task<IActionResult> GetScheduledPrep([FromBody] DateOnly displayDate)
+	{
+		return Ok(await Mediator.Send(new GetScheduledPrep.Query(Member.Id, Member.ActiveHouseholdId, displayDate)));
+	}
+
+	[HttpPost("list-make-it")]
+	public async Task<IActionResult> ListMakeIt([FromBody] Dictionary<string, decimal> recipesAndScales)
+	{
+		return Ok(await Mediator.Send(new ListMakeIt.Query(Member.Id, Member.ActiveHouseholdId, recipesAndScales)));
+	}
+
 	[HttpPost("list-metrics")]
 	public async Task<IActionResult> ListMetrics([FromBody] DateTime displayDateUtc)
 	{
@@ -22,7 +34,7 @@ public class DashboardController : BaseController
 	}
 
 	[HttpPost("list-scheduled-items")]
-	public async Task<IActionResult> ListScheduledItems([FromBody] DateTime displayDateUtc)
+	public async Task<IActionResult> ListScheduledItems([FromBody] DateOnly displayDateUtc)
 	{
 		return Ok(await Mediator.Send(new ListScheduledItems.Query(Member.Id, displayDateUtc)));
 	}

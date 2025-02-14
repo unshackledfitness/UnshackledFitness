@@ -205,12 +205,11 @@ public class IndexBase : BaseComponent
 			var makeItRecipes = await Mediator.Send(new ListMakeIt.Query(recipesAndScales));
 			if (makeItRecipes.Count > 0)
 			{
-				var state = (AppState)State;
 				foreach (var model in makeItRecipes)
 				{
-					state.AddMakeItRecipe(model);
+					State.AddMakeItRecipe(model);
 				}
-				state.UpdateIndex(0);
+				State.UpdateIndex(State.MakeItRecipes.Count - 1);
 				await DialogService.OpenMakeItClicked(ScreenLockService);
 			}
 			IsWorking = false;

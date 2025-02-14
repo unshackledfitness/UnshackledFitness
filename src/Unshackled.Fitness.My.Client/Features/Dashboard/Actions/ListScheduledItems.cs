@@ -7,9 +7,9 @@ public class ListScheduledItems
 {
 	public class Query : IRequest<List<ScheduledListModel>>
 	{
-		public DateTime DisplayDate { get; private set; }
+		public DateOnly DisplayDate { get; private set; }
 
-		public Query(DateTime displayDate)
+		public Query(DateOnly displayDate)
 		{
 			DisplayDate = displayDate;
 		}
@@ -21,7 +21,7 @@ public class ListScheduledItems
 
 		public async Task<List<ScheduledListModel>> Handle(Query request, CancellationToken cancellationToken)
 		{
-			return await PostToResultAsync<DateTime, List<ScheduledListModel>>($"{baseUrl}list-scheduled-items", request.DisplayDate) ?? new();
+			return await PostToResultAsync<DateOnly, List<ScheduledListModel>>($"{baseUrl}list-scheduled-items", request.DisplayDate) ?? [];
 		}
 	}
 }

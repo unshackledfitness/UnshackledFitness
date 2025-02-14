@@ -85,7 +85,8 @@ public class BaseDbContext : IdentityDbContext<UserEntity>
 		switch (entry.State)
 		{
 			case EntityState.Added:
-				entry.Entity.DateCreatedUtc = DateTime.UtcNow;
+				if (entry.Entity.DateCreatedUtc == DateTime.MinValue)
+					entry.Entity.DateCreatedUtc = DateTime.UtcNow;
 				break;
 			case EntityState.Modified:
 				entry.Entity.DateLastModifiedUtc = DateTime.UtcNow;

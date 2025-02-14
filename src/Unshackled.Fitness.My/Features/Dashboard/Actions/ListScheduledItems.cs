@@ -15,9 +15,9 @@ public class ListScheduledItems
 	public class Query : IRequest<List<ScheduledListModel>>
 	{
 		public long MemberId { get; private set; }
-		public DateTime DisplayDate { get; private set; }
+		public DateOnly DisplayDate { get; private set; }
 
-		public Query(long memberId, DateTime displayDate)
+		public Query(long memberId, DateOnly displayDate)
 		{
 			MemberId = memberId;
 			DisplayDate = displayDate;
@@ -32,16 +32,19 @@ public class ListScheduledItems
 		{
 			var list = new List<ScheduledListModel>();
 
-			list.AddRange(await GetScheduledWorkouts(request, cancellationToken));
-			list.AddRange(await GetScheduledActivitySessions(request, cancellationToken));
+			DateTime displayDate = request.DisplayDate.ToDateTime(new TimeOnly());
+
+			list.AddRange(await GetScheduledWorkouts(request, displayDate, cancellationToken));
+			list.AddRange(await GetScheduledActivitySessions(request, displayDate, cancellationToken));
 
 			return list;
 		}
-		private async Task<List<ScheduledListModel>> GetScheduledActivitySessions(Query request, CancellationToken cancellationToken)
+
+		private async Task<List<ScheduledListModel>> GetScheduledActivitySessions(Query request, DateTime displayDate, CancellationToken cancellationToken)
 		{
 			var plans = await db.TrainingPlans
 				.AsNoTracking()
-				.Where(x => x.MemberId == request.MemberId && x.DateStarted != null && x.DateStarted <= request.DisplayDate.Date.SetKindUtc())
+				.Where(x => x.MemberId == request.MemberId && x.DateStarted != null && x.DateStarted <= displayDate)
 				.ToListAsync(cancellationToken);
 
 			var list = new List<ScheduledListModel>();
@@ -52,8 +55,8 @@ public class ListScheduledItems
 				if (plan.ProgramType == ProgramTypes.Sequential)
 				{
 					// Skip if we are on the same day as the last workout.
-					if (plan.DateLastActivityUtc >= request.DisplayDate.Date.ToUniversalTime()
-						&& plan.DateLastActivityUtc < request.DisplayDate.Date.AddDays(1).ToUniversalTime())
+					if (plan.DateLastActivityUtc >= displayDate.ToUniversalTime()
+						&& plan.DateLastActivityUtc < displayDate.AddDays(1).ToUniversalTime())
 						break;
 
 					TrainingPlanSessionEntity? planSession = null;
@@ -97,7 +100,7 @@ public class ListScheduledItems
 				}
 				else // Fixed Repeating
 				{
-					Calculator.WeekAndDayInCycle(plan.DateStarted!.Value, request.DisplayDate.Date, plan.LengthWeeks,
+					Calculator.WeekAndDayInCycle(plan.DateStarted!.Value, displayDate, plan.LengthWeeks,
 						out int week, out int day);
 
 					var planSessions = await db.TrainingPlanSessions
@@ -135,8 +138,8 @@ public class ListScheduledItems
 				// Get activities from DisplayDate with matching template IDs
 				var activities = await db.Activities
 					.AsNoTracking()
-					.Where(x => x.DateCreatedUtc >= request.DisplayDate.Date.ToUniversalTime()
-						&& x.DateCreatedUtc < request.DisplayDate.Date.AddDays(1).ToUniversalTime()
+					.Where(x => x.DateCreatedUtc >= displayDate.ToUniversalTime()
+						&& x.DateCreatedUtc < displayDate.AddDays(1).ToUniversalTime()
 						&& x.TrainingSessionId.HasValue
 						&& matchingIds.Contains(x.TrainingSessionId.Value))
 					.ToListAsync(cancellationToken);
@@ -162,11 +165,11 @@ public class ListScheduledItems
 			return list;
 		}
 
-		private async Task<List<ScheduledListModel>> GetScheduledWorkouts(Query request, CancellationToken cancellationToken)
+		private async Task<List<ScheduledListModel>> GetScheduledWorkouts(Query request, DateTime displayDate, CancellationToken cancellationToken)
 		{
 			var programs = await db.Programs
 				.AsNoTracking()
-				.Where(x => x.MemberId == request.MemberId && x.DateStarted != null && x.DateStarted <= request.DisplayDate.Date.SetKindUtc())
+				.Where(x => x.MemberId == request.MemberId && x.DateStarted != null && x.DateStarted <= displayDate)
 				.ToListAsync(cancellationToken);
 
 			var list = new List<ScheduledListModel>();
@@ -177,8 +180,8 @@ public class ListScheduledItems
 				if (program.ProgramType == ProgramTypes.Sequential)
 				{
 					// Skip if we are on the same day as the last workout.
-					if (program.DateLastWorkoutUtc >= request.DisplayDate.Date.ToUniversalTime()
-						&& program.DateLastWorkoutUtc < request.DisplayDate.Date.AddDays(1).ToUniversalTime())
+					if (program.DateLastWorkoutUtc >= displayDate.ToUniversalTime()
+						&& program.DateLastWorkoutUtc < displayDate.AddDays(1).ToUniversalTime())
 						break;
 
 					ProgramTemplateEntity? template = null;
@@ -223,7 +226,7 @@ public class ListScheduledItems
 				}
 				else // Fixed Repeating
 				{
-					Calculator.WeekAndDayInCycle(program.DateStarted!.Value, request.DisplayDate.Date, program.LengthWeeks,
+					Calculator.WeekAndDayInCycle(program.DateStarted!.Value, displayDate, program.LengthWeeks,
 						out int week, out int day);
 
 					var templates = await db.ProgramTemplates
@@ -261,8 +264,8 @@ public class ListScheduledItems
 				// Get workouts from DisplayDate with matching template IDs
 				var workouts = await db.Workouts
 					.AsNoTracking()
-					.Where(x => x.DateCreatedUtc >= request.DisplayDate.Date.ToUniversalTime()
-						&& x.DateCreatedUtc < request.DisplayDate.Date.AddDays(1).ToUniversalTime()
+					.Where(x => x.DateCreatedUtc >= displayDate.ToUniversalTime()
+						&& x.DateCreatedUtc < displayDate.AddDays(1).ToUniversalTime()
 						&& x.WorkoutTemplateId.HasValue
 						&& matchingIds.Contains(x.WorkoutTemplateId.Value))
 					.ToListAsync(cancellationToken);
