@@ -28,44 +28,27 @@ else if (!IsLoading)
 				{
 					@NotificationBarContent
 				}
-				<MudMenu StartIcon="@GetThemeIcon()" EndIcon="@Icons.Material.Filled.KeyboardArrowDown" title="Theme Selector"
-						 AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight">
-					<MudMenuItem OnClick="@(() => HandleThemeSwitch(Themes.System))">
-						<div class="d-flex flex-row align-center">
-							<MudIcon Size="Size.Small" Icon="@(SystemIsDark ? Icons.Material.Filled.DarkMode : Icons.Material.Filled.LightMode)" Class="me-2" />
-							<div>OS Detected</div>
-						</div>
-					</MudMenuItem>
-					<MudMenuItem Class="d-flex flex-row align-center" OnClick="@(() => HandleThemeSwitch(Themes.Dark))">
-						<div class="d-flex flex-row align-center">
-							<MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.DarkMode" Class="me-2" />
-							<div>Dark</div>
-						</div>
-					</MudMenuItem>
-					<MudMenuItem Class="d-flex flex-row align-center" OnClick="@(() => HandleThemeSwitch(Themes.Light))">
-						<div class="d-flex flex-row align-center">
-							<MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.LightMode" Class="me-2" />
-							<div>Light</div>
-						</div>
-					</MudMenuItem>
-				</MudMenu>
-				<MudMenu title="Tools" StartIcon="@Icons.Material.Filled.BuildCircle" EndIcon="@Icons.Material.Filled.KeyboardArrowDown" 
-						 AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight">
-					<ChildContent>
-						<MudMenuItem OnClick="@(() => HandleReloadAppClicked())">
-							<div class="d-flex flex-row align-center">
-								<MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.Refresh" Class="me-2" />
-								<div>Reload App</div>
-							</div>
-						</MudMenuItem>
-						<MudMenuItem Href="/account/logout" ForceLoad="true">
-							<div class="d-flex flex-row align-center">
-								<MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.Logout" Class="me-2" />
-								<div>Logout</div>
-							</div>
-						</MudMenuItem>
-					</ChildContent>
-				</MudMenu>
+				<MudTooltip Text="@GetTooltipText()">
+					<MudIconButton Icon="@GetThemeIcon()" OnClick="@(() => HandleThemeSwitch())" />
+				</MudTooltip>
+				<MudTooltip Text="Tools">
+					<MudMenu Icon="@Icons.Material.Filled.MoreVert" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight">
+						<ChildContent>
+							<MudMenuItem OnClick="@(() => HandleReloadAppClicked())">
+								<div class="d-flex flex-row align-center">
+									<MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.Refresh" Class="me-2" />
+									<div>Reload App</div>
+								</div>
+							</MudMenuItem>
+							<MudMenuItem Href="/account/logout" ForceLoad="true">
+								<div class="d-flex flex-row align-center">
+									<MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.Logout" Class="me-2" />
+									<div>Logout</div>
+								</div>
+							</MudMenuItem>
+						</ChildContent>
+					</MudMenu>
+				</MudTooltip>
 			</MudAppBar>
 			<MudDrawer @bind-Open="@Open" Elevation="1" ClipMode="DrawerClipMode.Docked" Width="300px" Breakpoint="Breakpoint.Lg">
 				<div class="d-flex flex-column flex-grow-1 pt-4">

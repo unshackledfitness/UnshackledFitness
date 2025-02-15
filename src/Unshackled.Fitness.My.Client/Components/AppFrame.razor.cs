@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Unshackled.Fitness.Core.Enums;
+using Unshackled.Fitness.My.Client.Features.Members.Actions;
 
 namespace Unshackled.Fitness.My.Client.Components;
 
@@ -56,9 +57,9 @@ public partial class AppFrameBase : BaseComponent, IAsyncDisposable
 	{
 		return UseTheme switch
 		{
-			Themes.Dark => Icons.Material.Filled.DarkMode,
-			Themes.Light => Icons.Material.Filled.LightMode,
-			Themes.System => SystemIsDark ? Icons.Material.Filled.DarkMode : Icons.Material.Filled.LightMode,
+			Themes.Dark => Icons.Material.Filled.LightMode,
+			Themes.Light => Icons.Material.Filled.AutoMode,
+			Themes.System => Icons.Material.Filled.DarkMode,
 			_ => Icons.Material.Filled.LightMode
 		};
 	}
@@ -71,6 +72,17 @@ public partial class AppFrameBase : BaseComponent, IAsyncDisposable
 			Themes.Light => false,
 			Themes.System => SystemIsDark,
 			_ => false
+		};
+	}
+
+	protected string GetTooltipText()
+	{
+		return UseTheme switch
+		{
+			Themes.Dark => "Light Mode",
+			Themes.Light => "System Mode",
+			Themes.System => "Dark Mode",
+			_ => string.Empty
 		};
 	}
 
@@ -88,11 +100,21 @@ public partial class AppFrameBase : BaseComponent, IAsyncDisposable
 		}
 	}
 
-	protected async Task HandleThemeSwitch(Themes setTheme)
+	protected async Task HandleThemeSwitch()
 	{
-		if (UseTheme != setTheme)
+		switch (UseTheme)
 		{
-			await ThemeSwitched.InvokeAsync(setTheme);
+			case Themes.System:
+				await ThemeSwitched.InvokeAsync(Themes.Dark);
+				break;
+			case Themes.Dark:
+				await ThemeSwitched.InvokeAsync(Themes.Light);
+				break;
+			case Themes.Light:
+				await ThemeSwitched.InvokeAsync(Themes.System);
+				break;
+			default:
+				break;
 		}
 	}
 

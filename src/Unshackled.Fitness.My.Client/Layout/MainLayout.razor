@@ -32,9 +32,11 @@
 				@if (State.MakeItRecipes.Count > 0)
 				{
 					<div class="mx-2">
-						<MudBadge Class="make-it-notification" Content="@(State.MakeItRecipes.Count)" Color="Color.Secondary" Overlap="true">
-							<MudIconButton Icon="@Icons.Material.Filled.LocalDining" Color="Color.Primary" OnClick="@(() => HandleMakeItClicked())" />
-						</MudBadge>
+						<MudTooltip Text="Make It">
+							<MudBadge Class="make-it-notification" Content="@(State.MakeItRecipes.Count)" Color="Color.Secondary" Overlap="true">
+								<MudIconButton Icon="@Icons.Material.Filled.LocalDining" Color="Color.Primary" OnClick="@(() => HandleMakeItClicked())" />
+							</MudBadge>
+						</MudTooltip>
 					</div>
 				}
 			</NotificationBarContent>
