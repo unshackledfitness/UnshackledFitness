@@ -28,8 +28,6 @@ else
 		{
 			<MudToolBar Gutters="false" Dense="true" Class="mb-2">
 				<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@IsEditMode" OnClick="@(() => HandleAddToListClicked())">Add To List</MudButton>
-				<MudButton StartIcon="@(Product.IsPinned ? Icons.Material.Filled.PushPin : Icons.Material.Outlined.PushPin)" Disabled="@IsEditMode"
-						   OnClick="@(() => HandleTogglePinnedClicked(Product))">@(Product.IsPinned ? "Unpin Product" : "Pin Product" )</MudButton>
 				<MudSpacer />
 				<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@IsEditing" />
 			</MudToolBar>

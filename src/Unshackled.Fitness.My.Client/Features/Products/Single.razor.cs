@@ -96,16 +96,4 @@ public class SingleBase : BaseComponent, IAsyncDisposable
 	{
 		await Mediator.OpenMemberHousehold(Product.HouseholdSid);
 	}
-
-	protected async Task HandleTogglePinnedClicked(ProductModel item)
-	{
-		IsWorking = true;
-		var result = await Mediator.Send(new ToggleIsPinned.Command(item.Sid));
-		if (result.Success)
-		{
-			item.IsPinned = result.Payload;
-		}
-		ShowNotification(result);
-		IsWorking = false;
-	}
 }

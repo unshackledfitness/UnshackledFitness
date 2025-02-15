@@ -14,7 +14,6 @@ public class ProductEntity : BaseHouseholdEntity, INutrition
 	public virtual ProductCategoryEntity? Category { get; set; }
 	public bool IsAutoSkipped { get; set; }
 	public bool IsArchived { get; set; }
-	public bool IsPinned { get; set; }
 	public bool HasNutritionInfo { get; set; }
 	public decimal ServingSize { get; set; }
 	public decimal ServingSizeN { get; set; }

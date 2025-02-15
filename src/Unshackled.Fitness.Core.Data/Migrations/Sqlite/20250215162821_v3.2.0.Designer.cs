@@ -11,7 +11,7 @@ using Unshackled.Fitness.Core.Data;
 namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 {
     [DbContext(typeof(SqliteDbContext))]
-    [Migration("20250214185130_v3.2.0")]
+    [Migration("20250215162821_v3.2.0")]
     partial class v320
     {
         /// <inheritdoc />
@@ -1274,9 +1274,6 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsAutoSkipped")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsPinned")
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Magnesium")

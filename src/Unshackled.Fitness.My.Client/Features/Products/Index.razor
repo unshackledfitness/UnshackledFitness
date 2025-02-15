@@ -83,10 +83,6 @@
 						<MudText Typo="Typo.body2" Color="Color.Tertiary" Class="mt-1">@context.Item.Description</MudText>
 					}
 				</div>
-				<div>
-					<MudIconButton Icon="@(context.Item.IsPinned ? Icons.Material.Filled.PushPin : Icons.Material.Outlined.PushPin)" Color="@(context.Item.IsPinned ? Color.Primary : Color.Tertiary)"
-								   OnClick="@(() => HandleTogglePinnedClicked(context.Item))" Disabled="@(!CanEdit)" />
-				</div>
 			</div>
 		</ItemRenderer>
 		<EmptyListRenderer>

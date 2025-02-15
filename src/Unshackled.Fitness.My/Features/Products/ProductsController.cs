@@ -117,13 +117,6 @@ public class ProductsController : BaseController
 		return Ok(await Mediator.Send(new ToggleIsArchived.Command(Member.Id, Member.ActiveHouseholdId, sid)));
 	}
 
-	[HttpPost("toggle/pinned")]
-	[ActiveMemberRequired]
-	public async Task<IActionResult> TogglePinned([FromBody] string sid)
-	{
-		return Ok(await Mediator.Send(new ToggleIsPinned.Command(Member.Id, Member.ActiveHouseholdId, sid)));
-	}
-
 	[HttpPost("update")]
 	[ActiveMemberRequired]
 	public async Task<IActionResult> Update([FromBody] FormProductModel model)

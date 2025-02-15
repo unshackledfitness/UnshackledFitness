@@ -1273,9 +1273,6 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.Property<bool>("IsAutoSkipped")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("IsPinned")
-                        .HasColumnType("INTEGER");
-
                     b.Property<decimal>("Magnesium")
                         .HasPrecision(7, 2)
                         .HasColumnType("TEXT");

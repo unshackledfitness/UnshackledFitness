@@ -262,16 +262,4 @@ public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListMode
 			SelectAll = true;
 		}
 	}
-
-	protected async Task HandleTogglePinnedClicked(ProductListModel item)
-	{
-		IsWorking = true;
-		var result = await Mediator.Send(new ToggleIsPinned.Command(item.Sid));
-		if (result.Success)
-		{
-			item.IsPinned = result.Payload;
-		}
-		ShowNotification(result);
-		IsWorking = false;
-	}
 }

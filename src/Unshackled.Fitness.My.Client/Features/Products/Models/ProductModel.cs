@@ -15,7 +15,6 @@ public class ProductModel : BaseHouseholdObject, INutrition
 	public string Category { get; set; } = string.Empty;
 	public bool IsAutoSkipped { get; set; }
 	public bool IsArchived { get; set; }
-	public bool IsPinned { get; set; }
 	public bool HasNutritionInfo { get; set; }
 	public decimal ServingSize { get; set; }
 	public ServingSizeUnits ServingSizeUnit { get; set; } = ServingSizeUnits.Item;

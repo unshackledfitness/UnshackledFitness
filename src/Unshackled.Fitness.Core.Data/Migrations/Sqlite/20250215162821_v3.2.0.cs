@@ -289,7 +289,6 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     ProductCategoryId = table.Column<long>(type: "INTEGER", nullable: true),
                     IsAutoSkipped = table.Column<bool>(type: "INTEGER", nullable: false),
                     IsArchived = table.Column<bool>(type: "INTEGER", nullable: false),
-                    IsPinned = table.Column<bool>(type: "INTEGER", nullable: false),
                     HasNutritionInfo = table.Column<bool>(type: "INTEGER", nullable: false),
                     ServingSize = table.Column<decimal>(type: "TEXT", precision: 8, scale: 3, nullable: false),
                     ServingSizeN = table.Column<decimal>(type: "TEXT", precision: 13, scale: 6, nullable: false),
