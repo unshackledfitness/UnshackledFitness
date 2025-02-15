@@ -15,7 +15,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.2");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -590,6 +590,9 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("ContentUid")
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DateCreatedUtc")
                         .HasColumnType("TEXT");
@@ -1183,6 +1186,9 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
                     b.Property<int>("ChromiumUnit")
                         .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("ContentUid")
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("Copper")
                         .HasPrecision(7, 2)
@@ -1834,6 +1840,9 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("ContentUid")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("CookTimeMinutes")
                         .HasColumnType("INTEGER");

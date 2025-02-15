@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Unshackled.Fitness.Core.Data.Entities;
 
 namespace Unshackled.Fitness.Core.Data.Entities;
 
 public class HouseholdEntity : BaseMemberEntity
 {
+	public Guid ContentUid { get; set; } = Guid.NewGuid();
 	public string Title { get; set; } = string.Empty;
 
 	public List<HouseholdMemberEntity> Memberships { get; set; } = new();

@@ -39,6 +39,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    ContentUid = table.Column<Guid>(type: "TEXT", nullable: false),
                     Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
                     DateCreatedUtc = table.Column<DateTime>(type: "TEXT", nullable: false),
                     DateLastModifiedUtc = table.Column<DateTime>(type: "TEXT", nullable: true),
@@ -214,6 +215,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    ContentUid = table.Column<Guid>(type: "TEXT", nullable: false),
                     Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
                     Description = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE"),
                     CookTimeMinutes = table.Column<int>(type: "INTEGER", nullable: false),
@@ -283,6 +285,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    ContentUid = table.Column<Guid>(type: "TEXT", nullable: false),
                     Brand = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true, collation: "NOCASE"),
                     Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
                     Description = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true, collation: "NOCASE"),

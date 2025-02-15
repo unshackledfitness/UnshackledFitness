@@ -7,6 +7,7 @@ namespace Unshackled.Fitness.Core.Data.Entities;
 
 public class ProductEntity : BaseHouseholdEntity, INutrition
 {
+	public Guid ContentUid { get; set; } = Guid.NewGuid();
 	public string? Brand { get; set; }
 	public string Title { get; set; } = string.Empty;
 	public string? Description { get; set; }

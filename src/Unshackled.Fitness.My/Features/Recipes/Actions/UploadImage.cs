@@ -61,6 +61,7 @@ public class UploadImage
 			}
 
 			var recipe = await db.Recipes
+				.Include(x => x.Household)
 				.Where(x => x.Id == request.RecipeId)
 				.SingleOrDefaultAsync(cancellationToken);
 
@@ -71,7 +72,7 @@ public class UploadImage
 			string mimeType = request.File.ContentType;
 			string imageUid = Guid.NewGuid().ToString();
 			string fileName = $"{imageUid}.jpg";
-			string relativePath = string.Format(Globals.Paths.RecipeImageFile, recipe.HouseholdId.Encode(), recipe.Id.Encode(), fileName);
+			string relativePath = string.Format(Globals.Paths.RecipeImageFile, recipe.Household.ContentUid, recipe.ContentUid, fileName);
 
 			byte[] imageBytes;
 			using (var stream = new MemoryStream())

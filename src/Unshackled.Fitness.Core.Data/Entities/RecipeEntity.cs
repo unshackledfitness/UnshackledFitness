@@ -5,6 +5,7 @@ namespace Unshackled.Fitness.Core.Data.Entities;
 
 public class RecipeEntity : BaseHouseholdEntity
 {
+	public Guid ContentUid { get; set; } = Guid.NewGuid();
 	public string Title { get; set; } = string.Empty;
 	public string? Description { get; set; }
 	public int CookTimeMinutes { get; set; }
