@@ -19,7 +19,7 @@
 						@if (PrepModel.Recipes.Where(x => x.ListGroupSid == context.Sid).Count() > 1)
 						{
 							<div>
-								<MudButton Color="Color.Secondary" StartIcon="@Icons.Material.Filled.LocalDining" OnClick="@(() => HandleGroupMakeItClicked(context))">Make All</MudButton>
+								<MudButton Color="Color.Secondary" StartIcon="@Icons.Material.Filled.LocalDining" Size="Size.Small" OnClick="@(() => HandleGroupMakeItClicked(context))">Make All</MudButton>
 							</div>
 						}
 					</div>
@@ -30,7 +30,7 @@
 							<MudLink Class="d-block" Href="@($"/recipes/{context.Item.RecipeSid}")">@context.Item.RecipeTitle</MudLink>
 						</div>
 						<div>
-							<MudButton Color="Color.Secondary" StartIcon="@Icons.Material.Filled.LocalDining" OnClick="@(() => HandleMakeItClicked([context.Item]))">Make It</MudButton>
+							<MudButton Variant="Variant.Filled" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.LocalDining" Size="Size.Small" OnClick="@(() => HandleMakeItClicked([context.Item]))">Make It</MudButton>
 						</div>
 					</div>
 				</ItemRenderer>
