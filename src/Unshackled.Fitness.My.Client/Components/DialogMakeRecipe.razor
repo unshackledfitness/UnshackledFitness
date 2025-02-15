@@ -10,7 +10,7 @@
 						@if (CanScreenLock)
 						{
 							<div class="d-flex gap-4 align-center flex-row justify-center">
-								<MudSwitch Color="Color.Secondary" Label="Keep Screen On" LabelPosition="LabelPosition.End" T="bool" Value="@IsScreenLocked" ValueChanged="@HandleScreenLocked" />
+								<MudSwitch Color="Color.Secondary" Label="Keep Screen On" LabelPlacement="Placement.End" T="bool" Value="@IsScreenLocked" ValueChanged="@HandleScreenLocked" />
 							</div>
 						}
 						<div>
@@ -20,7 +20,7 @@
 					@if (CanScreenLock)
 					{
 						<div class="d-none d-md-flex gap-4 mb-6 flex-row justify-center">
-							<MudSwitch Color="Color.Secondary" Label="Keep Screen On" LabelPosition="LabelPosition.End" T="bool" Value="@IsScreenLocked" ValueChanged="@HandleScreenLocked" />
+							<MudSwitch Color="Color.Secondary" Label="Keep Screen On" LabelPlacement="Placement.End" T="bool" Value="@IsScreenLocked" ValueChanged="@HandleScreenLocked" />
 						</div>
 					}
 					<div class="flex-grow-1">

@@ -217,7 +217,7 @@ public class IndexBase : BaseSearchComponent<SearchProductModel, ProductListMode
 				{ DialogMerge.ParameterSids, SelectedSids }
 			};
 
-			var dialog = DialogService.Show<DialogMerge>("Merge Products", parameters, options);
+			var dialog = await DialogService.ShowAsync<DialogMerge>("Merge Products", parameters, options);
 			DialogResult? confirm = await dialog.Result;
 
 			if (confirm != null && !confirm.Canceled && confirm.Data != null)

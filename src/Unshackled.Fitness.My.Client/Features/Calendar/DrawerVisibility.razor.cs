@@ -71,7 +71,7 @@ public class DrawerVisibilityBase : BaseComponent
 	{
 		var options = new DialogOptions { BackgroundClass = "bg-blur", MaxWidth = MaxWidth.Medium };
 
-		var dialog = DialogService.Show<DialogSavePreset>("Save As Preset", options);
+		var dialog = await DialogService.ShowAsync<DialogSavePreset>("Save As Preset", options);
 		var result = await dialog.Result;
 		if (result != null && !result.Canceled)
 		{

@@ -104,7 +104,7 @@ public partial class IndexBase : BaseSearchComponent<SearchExerciseModel, Exerci
 			var parameters = new DialogParameters();
 			parameters.Add(DialogMerge.ParameterSids, SelectedSids);
 
-			var dialog = DialogService.Show<DialogMerge>("Merge Exercises", parameters, options);
+			var dialog = await DialogService.ShowAsync<DialogMerge>("Merge Exercises", parameters, options);
 			var confirm = await dialog.Result;
 
 			if (confirm != null && !confirm.Canceled && confirm.Data != null)

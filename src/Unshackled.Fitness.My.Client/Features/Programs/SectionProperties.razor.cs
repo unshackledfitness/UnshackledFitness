@@ -119,7 +119,7 @@ public class SectionPropertiesBase : BaseSectionComponent
 			{ nameof(DialogAddToCalendar.ProgramType), Program.ProgramType }
 		};
 
-		var dialog = DialogService.Show<DialogAddToCalendar>("Add To Calendar", parameters, options);
+		var dialog = await DialogService.ShowAsync<DialogAddToCalendar>("Add To Calendar", parameters, options);
 		var adding = await dialog.Result;
 		if (adding != null && !adding.Canceled && adding.Data != null)
 		{

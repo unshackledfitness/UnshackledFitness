@@ -6,7 +6,7 @@ namespace Unshackled.Fitness.My.Client.Components;
 
 public partial class DialogPhotoViewer
 {
-	[CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
+	[CascadingParameter] IMudDialogInstance MudDialog { get; set; } = null!;
 
 	[Parameter] public string BaseUrl { get; set; } = string.Empty;
 	[Parameter] public List<ImageModel> Images { get; set; } = [];

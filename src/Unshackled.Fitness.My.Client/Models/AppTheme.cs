@@ -83,46 +83,46 @@ public class AppTheme : MudTheme
 
 		Typography = new Typography
 		{
-			Default = new Default
+			Default = new DefaultTypography
 			{
 				FontFamily = new string[] { "Roboto", "Helvetica", "San-Serif" },
 				FontSize = "1rem",
-				FontWeight = 400,
-				LineHeight = 1.1
+				FontWeight = "400",
+				LineHeight = "1.1"
 			},
-			H1 = new H1
+			H1 = new H1Typography
 			{
-				FontWeight = 300
+				FontWeight = "300"
 			},
-			H2 = new H2
+			H2 = new H2Typography
 			{
-				FontWeight = 300
+				FontWeight = "300"
 			},
-			H3 = new H3
+			H3 = new H3Typography
 			{
-				FontWeight = 300
+				FontWeight = "300"
 			},
-			H4 = new H4
+			H4 = new H4Typography
 			{
-				FontWeight = 300
+				FontWeight = "300"
 			},
-			H5 = new H5
+			H5 = new H5Typography
 			{
-				FontWeight = 300
+				FontWeight = "300"
 			},
-			H6 = new H6
+			H6 = new H6Typography
 			{
-				FontWeight = 400
+				FontWeight = "400"
 			},
-			Subtitle1 = new Subtitle1
+			Subtitle1 = new Subtitle1Typography
 			{
 				FontSize = "1.2rem",
-				LineHeight = 1.2
+				LineHeight = "1.2"
 			},
-			Subtitle2 = new Subtitle2
+			Subtitle2 = new Subtitle2Typography
 			{
 				FontSize = ".9rem",
-				LineHeight = 1
+				LineHeight = "1"
 			}
 		};
 	}

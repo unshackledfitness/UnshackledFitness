@@ -11,7 +11,7 @@ public partial class DialogMerge
 	public const string ParameterSids = "Sids";
 
 	[Inject] protected IMediator Mediator { get; set; } = default!;
-	[CascadingParameter] MudDialogInstance Dialog { get; set; } = default!;
+	[CascadingParameter] IMudDialogInstance Dialog { get; set; } = default!;
 	[Parameter] public List<string> Sids { get; set; } = new();
 
 	protected bool IsLoading { get; set; }

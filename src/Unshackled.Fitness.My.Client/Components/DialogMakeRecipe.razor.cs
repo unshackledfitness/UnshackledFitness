@@ -7,7 +7,7 @@ namespace Unshackled.Fitness.My.Client.Components;
 
 public partial class DialogMakeRecipe : IAsyncDisposable
 {
-	[CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
+	[CascadingParameter] IMudDialogInstance MudDialog { get; set; } = null!;
 	[Inject] IScreenWakeLockService ScreenLockService { get; set; } = null!;
 	[Inject] AppState State { get; set; } = null!;
 	[Inject] NavigationManager NavigationManager { get; set; } = default!;
