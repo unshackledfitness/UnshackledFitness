@@ -34,6 +34,20 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                 });
 
             migrationBuilder.CreateTable(
+                name: "uf_DataProtectionKeys",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    FriendlyName = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE"),
+                    Xml = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_uf_DataProtectionKeys", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "uf_Households",
                 columns: table => new
                 {
@@ -1432,6 +1446,9 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 
             migrationBuilder.DropTable(
                 name: "uf_CookbookRecipes");
+
+            migrationBuilder.DropTable(
+                name: "uf_DataProtectionKeys");
 
             migrationBuilder.DropTable(
                 name: "uf_HouseholdInvites");

@@ -1,6 +1,7 @@
 using System.Reflection;
 using FluentValidation;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -66,6 +67,13 @@ switch (dbConfig.DatabaseType?.ToLower())
 		break;
 }
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+if (!builder.Environment.IsDevelopment())
+{
+	builder.Services.AddDataProtection()
+			.SetApplicationName("UnshackledFitness")
+			.PersistKeysToDbContext<BaseDbContext>();
+}
 
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -7,7 +8,7 @@ using Unshackled.Fitness.Core.Data.Entities;
 
 namespace Unshackled.Fitness.Core.Data;
 
-public class BaseDbContext : IdentityDbContext<UserEntity>
+public class BaseDbContext : IdentityDbContext<UserEntity>, IDataProtectionKeyContext
 {
 	protected readonly ConnectionStrings ConnectionStrings;
 	protected readonly DbConfiguration DbConfig;
@@ -35,6 +36,7 @@ public class BaseDbContext : IdentityDbContext<UserEntity>
 	public DbSet<CookbookInviteEntity> CookbookInvites => Set<CookbookInviteEntity>();
 	public DbSet<CookbookMemberEntity> CookbookMembers => Set<CookbookMemberEntity>();
 	public DbSet<CookbookRecipeEntity> CookbookRecipes => Set<CookbookRecipeEntity>();
+	public DbSet<DataProtectionKey> DataProtectionKeys => Set<DataProtectionKey>();
 	public DbSet<HouseholdEntity> Households => Set<HouseholdEntity>();
 	public DbSet<HouseholdInviteEntity> HouseholdInvites => Set<HouseholdInviteEntity>();
 	public DbSet<HouseholdMemberEntity> HouseholdMembers => Set<HouseholdMemberEntity>();
