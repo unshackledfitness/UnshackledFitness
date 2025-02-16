@@ -1,35 +1,25 @@
 
 ![Logo](https://my.unshackled.fitness/icon_x128.png)
-![Logo](https://my.unshackled.kitchen/icon_x128.png)
-
 
 # Unshackled Fitness
 
-A workout planner and notebook. 
+Tools for living a healthy lifestyle. 
 
-# Unshackled Kitchen
-
-A recipe and shopping list manager.
-
-Both are cross-platform, hosted WebAssembly Blazor PWAs with a vertical slice architecture that support Sqlite, MS SQL Server, MySQL, and PostgreSql databases through Entity Framework.
+A cross-platform, hosted WebAssembly Blazor PWA with a vertical slice architecture that supports Sqlite, MS SQL Server, MySQL, and PostgreSql databases through Entity Framework.
 
 ## Demos
 
 A hosted version of Unshackled Fitness is available at https://unshackled.fitness.
 
-A hosted version of Unshackled Kitchen is available at https://unshackled.kitchen.
-
-A 30-day, no credit card required, free trial is available for both apps.
+A 30-day, no credit card required, free trial is available.
 
 ## Installation
 
-Instructions for Unshackled Fitness can be found at https://unshackled.fitness/docs/guides/self-hosting.
-
-Instructions for Unshackled Kitchen can be found at https://unshackled.kitchen/docs/guides/self-hosting.
+Instructions can be found at https://unshackled.fitness/docs/guides/self-hosting.
 
 ## Acknowledgements
 
-Unshackled Fitness and Unshackled Kitchen are built on top of these other great projects.
+Unshackled Fitness is built on top of these other great projects.
 
  - [AutoMapper](https://automapper.org/)
  - [Blazored.FluentValidation](https://github.com/Blazored/FluentValidation)
