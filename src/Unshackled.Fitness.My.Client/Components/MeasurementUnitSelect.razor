@@ -1,0 +1,19 @@
+﻿@using System.Linq.Expressions
+
+<MudSelect T="MeasurementUnits" Label="@Label" Variant="@Variant" FullWidth="@FullWidth" Immediate="@Immediate" Value="@Value" ValueChanged="@ValueChanged" For="@For" Disabled="@Disabled">
+	@foreach (var item in EnumUtils.GetSortedValues<MeasurementUnits>())
+	{
+		<MudSelectItem T="MeasurementUnits" Value="@item">@item.Label()</MudSelectItem>
+	}
+</MudSelect>
+
+@code {
+	[Parameter] public string? Label { get; set; }
+	[Parameter] public Variant Variant { get; set; } = Variant.Text;
+	[Parameter] public bool FullWidth { get; set; } = false;
+	[Parameter] public bool Immediate { get; set; } = false;
+	[Parameter] public MeasurementUnits Value { get; set; } = MeasurementUnits.Item;
+	[Parameter] public EventCallback<MeasurementUnits> ValueChanged { get; set; }
+	[Parameter] public Expression<Func<MeasurementUnits>> For { get; set; } = default!;
+	[Parameter] public bool Disabled { get; set; }
+}

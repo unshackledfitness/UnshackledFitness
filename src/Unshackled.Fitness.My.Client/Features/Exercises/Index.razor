@@ -1,0 +1,113 @@
+﻿@page "/exercises"
+@inherits IndexBase
+
+<DynamicPageTitle IsLoading="@IsLoading" LoadingTitle="Loading Exercises..." Title="Exercises" />
+
+<MudBreadcrumbs Items="@Breadcrumbs" />
+
+<MudText Typo="Typo.h4" Class="mb-6">Exercises</MudText>
+
+<div class="mb-6">
+	<SearchForm @bind-Model="@SearchModel" Class="mb-6" SearchClicked="@(() => DoSearch(1))" ResetClicked="@HandleResetClicked" Disable="@IsLoading">
+		<SearchFields>
+			<MudGrid Spacing="2">
+				<MudItem xs="12" sm="3">
+					<MuscleTypeSelect AllOption="true" Margin="Margin.Dense" @bind-Value="@SearchModel.MuscleType" Disabled="@DisableControls" />
+				</MudItem>
+				<MudItem xs="12" sm="3">
+					<EquipmentTypeSelect AllOption="true" Margin="Margin.Dense" @bind-Value="@SearchModel.EquipmentType" Disabled="@DisableControls" />
+				</MudItem>
+				<MudItem xs="12" sm="3">
+					<MudTextField Label="Title" Variant="Variant.Outlined" Margin="Margin.Dense" FullWidth="true"
+								  Disabled="@DisableControls" @bind-Value="@SearchModel.Title" />
+				</MudItem>
+				<MudItem xs="12" sm="3">
+					<ArchivedSelect @bind-Value="@SearchModel.IsArchived" Margin="Margin.Dense" Disabled="@DisableControls" />
+				</MudItem>
+			</MudGrid>
+		</SearchFields>
+	</SearchForm>
+
+	@if (State.ActiveMember.IsActive)
+	{
+		<MudToolBar Class="mb-2" Gutters="false" Dense="true">
+			<MudButton StartIcon="@Icons.Material.Outlined.AddCircleOutline" Disabled="@DisableControls" OnClick="@(() => HandleAddClicked())">
+				New
+			</MudButton>
+			<MudMenu Label="Sort" StartIcon="@Icons.Material.Filled.Sort">
+				<MudMenuItem OnClick="@(() => HandleSortByClicked(0, nameof(ExerciseModel.Title)))">Title (Asc)</MudMenuItem>
+				<MudMenuItem OnClick="@(() => HandleSortByClicked(1, nameof(ExerciseModel.Title)))">Title (Desc)</MudMenuItem>
+			</MudMenu>
+			<MudButton StartIcon="@Icons.Material.Filled.MergeType" Disabled="@(DisableControls || !MaxSelectionReached)" OnClick="@HandleMergeClicked">
+				@(SelectedSids.Any() ? $"Merge ({SelectedSids.Count} selected)" : "Merge")
+			</MudButton>
+		</MudToolBar>
+	}
+
+	<ListView Class="mb-6" Items="@SearchResults.Data" PageSize="@SearchResults.PageSize" Page="@SearchModel.Page" TotalItems="@SearchResults.Total" IsLoading="@IsLoading"
+			  PageSelected="@HandlePageSelected">
+		<ItemRenderer>
+			<div class="d-flex flex-row gap-4 align-center">
+				@if (State.ActiveMember.IsActive)
+				{
+					<div>
+						<MudCheckBox T="bool" Disabled="@DisableCheckbox(context.Item.Sid)"
+									 Value="@SelectedSids.Contains(context.Item.Sid)" ValueChanged="@((bool value) => HandleCheckboxChanged(value, context.Item.Sid))" />
+					</div>
+				}
+				<div class="flex-grow-1">
+					<MudText Typo="Typo.body2" Color="Color.Secondary">@context.Item.Muscles.Titles()</MudText>
+					<div class="d-flex flex-row gap-2 align-center">
+						<MudLink Typo="Typo.subtitle1" Class="d-block" Href="@($"/exercises/{context.Item.Sid}")">@context.Item.Title</MudLink>
+					</div>
+					<MudText Typo="Typo.body1" Color="Color.Tertiary">@context.Item.Equipment.Titles()</MudText>
+				</div>
+			</div>
+		</ItemRenderer>
+		<EmptyListRenderer>
+			<MudText Align="Align.Center" Class="mt-4">No exercises matched your search.</MudText>
+		</EmptyListRenderer>
+	</ListView>
+</div>
+
+<SideDrawer @bind-Open="DrawerOpen" Icon="@DrawerIcon" Title="@DrawerTitle">
+	@* This form requires special handling to fix validation on multi-select MudSelects
+		Everything below and the setup on MuscleTypeSelect and EquipmentTypeSelect is required for proper
+		validation of the Model. *@
+	<MudForm @ref="Form" Model="@AddModel" Validation="@(AddModelValidator.ValidateValue)" ValidationDelay="0">
+		<MudGrid Spacing="2">
+			<MudItem xs="12">
+				<MudTextField Label="Title" Variant="Variant.Outlined" Disabled="@DisableControls"
+							  FullWidth="true" @bind-Value="@AddModel.Title" For="@(() => AddModel.Title)" />
+			</MudItem>
+			<MudItem xs="12">
+				<MuscleTypeSelect AllOption="false" MultiSelection="true" SelectedValues="@AddModel.Muscles" SelectedValuesChanged="@HandleMusclesChanged" @bind-Value="@AddModel.FirstMuscleSelected"
+								  For="@(() => AddModel.FirstMuscleSelected)" Disabled="@DisableControls" />
+			</MudItem>
+			<MudItem xs="12">
+				<EquipmentTypeSelect AllOption="false" MultiSelection="true" SelectedValues="@AddModel.Equipment" SelectedValuesChanged="@HandleEquipmentChanged" @bind-Value="@AddModel.FirstEquipmentSelected"
+									 For="@(() => AddModel.FirstEquipmentSelected)" Disabled="@DisableControls" />
+			</MudItem>
+			<MudItem xs="12">
+				<WorkoutSetTypeSelect Label="Default Set Type" @bind-Value="@AddModel.DefaultSetType" Disabled="@DisableControls" />
+			</MudItem>
+			<MudItem xs="12">
+				<SetMetricTypeSelect Label="Default Set Metric Type" @bind-Value="@AddModel.DefaultSetMetricType" Disabled="@DisableControls" />
+			</MudItem>
+			<MudItem xs="12">
+				<MudSwitch @bind-Value="@AddModel.IsTrackingSplit" Label="Track Left/Right Independently" Color="Color.Success" />
+			</MudItem>
+			<MudItem xs="12">
+				<MudTextField Label="Description" Variant="Variant.Outlined" Disabled="@DisableControls"
+							  FullWidth="true" Lines="10" @bind-Value="@AddModel.Description" For="@(() => AddModel.Description)" />
+			</MudItem>
+		</MudGrid>
+
+		<MudToolBar Gutters="false" Class="mt-4">
+			<MudSpacer />
+			<ProgressButton Variant="Variant.Filled" Color="Color.Secondary" IsWorking="@IsWorking" WorkingText="Adding" OnClick="HandleAddFormSubmitted">Add</ProgressButton>
+			<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@HandleCancelAddClicked">Cancel</MudButton>
+			<MudSpacer />
+		</MudToolBar>
+	</MudForm>
+</SideDrawer>

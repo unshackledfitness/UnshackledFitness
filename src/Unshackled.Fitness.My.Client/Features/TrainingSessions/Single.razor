@@ -1,0 +1,31 @@
+﻿@page "/training-sessions/{TrainingSessionSid}"
+@inherits SingleBase
+
+<DynamicPageTitle IsLoading="@IsLoading" LoadingTitle="Loading Training Session" FallbackTitle="Training Session" Title="Training Session" />
+
+<MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
+
+@if (IsLoading)
+{
+	<DefaultProgress />
+}
+else
+{
+	@if (!string.IsNullOrEmpty(SessionModel.Sid))
+	{
+		@if (State.ActiveMember.IsActive)
+		{
+			<MudToolBar Gutters="false" Class="mb-4">
+				<MudSpacer />
+				<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@(IsEditing || IsWorking)" />
+			</MudToolBar>
+		}
+
+		<SectionProperties @bind-Session="@SessionModel" ActivityTypes="@ActivityTypes" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
+						   OnIsEditingSectionChange="@HandleIsEditingSectionChange" />
+	}
+	else
+	{
+		<MudAlert Severity="Severity.Error" Dense="true">The session was not found.</MudAlert>
+	}
+}

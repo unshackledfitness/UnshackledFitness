@@ -1,0 +1,104 @@
+﻿@page "/member/app-settings"
+@inherits SettingsBase
+
+<DynamicPageTitle Title="App Settings" />
+
+<MudBreadcrumbs Items="@Breadcrumbs" />
+
+<MudText Typo="Typo.h4" Class="mb-6">App Settings</MudText>
+
+<MudText Typo="Typo.body2" Color="Color.Tertiary">General</MudText>
+<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+<SettingItem>
+	<LabelContent>Default Units</LabelContent>
+	<SettingContent>
+		<MudSelect T="UnitSystems" Variant="Variant.Outlined" FullWidth="true" @bind-Value="@Settings.DefaultUnits">
+			<MudSelectItem Value="@UnitSystems.Metric">@UnitSystems.Metric.Title()</MudSelectItem>
+			<MudSelectItem Value="@UnitSystems.Imperial">@UnitSystems.Imperial.Title()</MudSelectItem>
+		</MudSelect>
+	</SettingContent>
+</SettingItem>
+<SettingItem>
+	<LabelContent>Activity Display Color</LabelContent>
+	<SettingContent>
+		<MudColorPicker Label="Display Color" ColorPickerMode="ColorPickerMode.HEX" Variant="Variant.Outlined" Clearable="true" ShowToolbar="true"
+						AnchorOrigin="Origin.CenterCenter" TransformOrigin="Origin.CenterCenter"
+						Value="@ActivityColor" ValueChanged="@HandleActivityColorChanged" @bind-Text="@Settings.ActivityDisplayColor" />
+	</SettingContent>
+</SettingItem>
+<SettingItem>
+	<LabelContent>Workout Display Color</LabelContent>
+	<SettingContent>
+		<MudColorPicker Label="Display Color" ColorPickerMode="ColorPickerMode.HEX" Variant="Variant.Outlined" Clearable="true" ShowToolbar="true"
+						AnchorOrigin="Origin.CenterCenter" TransformOrigin="Origin.CenterCenter"
+						Value="@WorkoutColor" ValueChanged="@HandleWorkoutColorChanged" @bind-Text="@Settings.WorkoutDisplayColor" />
+	</SettingContent>
+</SettingItem>
+<SettingItem>
+	<LabelContent>Mixed Activity/Workout Display Color</LabelContent>
+	<SettingContent>
+		<MudColorPicker Label="Display Color" ColorPickerMode="ColorPickerMode.HEX" Variant="Variant.Outlined" Clearable="true" ShowToolbar="true"
+						AnchorOrigin="Origin.CenterCenter" TransformOrigin="Origin.CenterCenter"
+						Value="@MixedColor" ValueChanged="@HandleMixedColorChanged" @bind-Text="@Settings.MixedDisplayColor" />
+	</SettingContent>
+</SettingItem>
+
+<MudText Typo="Typo.body2" Color="Color.Tertiary" Class="mt-12">Dashboard</MudText>
+<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+<SettingItem>
+	<LabelContent>Default Metric Display</LabelContent>
+	<SettingContent>
+		<MudSelect T="MetricDisplayOptions" Variant="Variant.Outlined" FullWidth="true" @bind-Value="@Settings.MetricsDashboardDisplay">
+			<MudSelectItem T="MetricDisplayOptions" Value="@MetricDisplayOptions.Grouped">@MetricDisplayOptions.Grouped.Title()</MudSelectItem>
+			<MudSelectItem T="MetricDisplayOptions" Value="@MetricDisplayOptions.Flat">@MetricDisplayOptions.Flat.Title()</MudSelectItem>
+			<MudSelectItem T="MetricDisplayOptions" Value="@MetricDisplayOptions.None">@MetricDisplayOptions.None.Title()</MudSelectItem>
+		</MudSelect>
+	</SettingContent>
+</SettingItem>
+
+<MudText Typo="Typo.body2" Color="Color.Tertiary" Class="mt-12">Shopping Lists</MudText>
+<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+<SettingItem>
+	<LabelContent>Default Item In Cart Visibility</LabelContent>
+	<SettingContent>
+		<MudSelect T="bool" Variant="Variant.Outlined" FullWidth="true" @bind-Value="@Settings.HideIsInCart">
+			<MudSelectItem T="bool" Value="@false">Show</MudSelectItem>
+			<MudSelectItem T="bool" Value="@true">Hide</MudSelectItem>
+		</MudSelect>
+	</SettingContent>
+</SettingItem>
+
+<MudText Typo="Typo.body2" Color="Color.Tertiary" Class="mt-12">Strength Training</MudText>
+<MudDivider DividerType="DividerType.FullWidth" Class="my-2" />
+<SettingItem>
+	<LabelContent>Display Split Tracking</LabelContent>
+	<SettingContent>
+		<MudSelect T="int" Variant="Variant.Outlined" FullWidth="true" @bind-Value="@Settings.DisplaySplitTracking">
+			<MudSelectItem Value="0">Left/Right</MudSelectItem>
+			<MudSelectItem Value="1">Right/Left</MudSelectItem>
+		</MudSelect>
+	</SettingContent>
+</SettingItem>
+<SettingItem>
+	<LabelContent>Default Completed Set Visibility</LabelContent>
+	<SettingContent>
+		<MudSelect T="bool" Variant="Variant.Outlined" FullWidth="true" @bind-Value="@Settings.HideCompleteSets">
+			<MudSelectItem T="bool" Value="@false">Show</MudSelectItem>
+			<MudSelectItem T="bool" Value="@true">Hide</MudSelectItem>
+		</MudSelect>
+	</SettingContent>
+</SettingItem>
+
+<div class="d-flex flex-row justify-end mt-9">
+	<MudButton Disabled="@Saving" Size="Size.Small" OnClick="@(() => HandleRestoreDefaultsClicked())">Restore Defaults</MudButton>
+</div>
+<MudDivider DividerType="DividerType.FullWidth" Class="mb-4" />
+<MudToolBar Gutters="false">
+	<MudSpacer />
+	<ProgressButton Color="Color.Secondary" Variant="Variant.Filled" Disabled="@Saving" IsWorking="@Saving" WorkingText="@("Saving...")"
+					OnClick="@(() => HandleApplySettingsClicked())">
+		Apply Settings
+	</ProgressButton>
+	<MudButton Color="Color.Secondary" Variant="Variant.Outlined" Disabled="@Saving" Href="/member">Cancel</MudButton>
+	<MudSpacer />
+</MudToolBar>

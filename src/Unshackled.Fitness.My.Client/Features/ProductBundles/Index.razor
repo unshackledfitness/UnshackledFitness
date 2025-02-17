@@ -1,0 +1,51 @@
+﻿@page "/product-bundles"
+@inherits IndexBase
+
+<DynamicPageTitle Title="Product Bundles" />
+
+<MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
+
+<MudText Typo="Typo.h4" Class="mb-6">Product Bundles</MudText>
+
+<SearchForm T="SearchProductBundlesModel" @bind-Model="@SearchModel" Class="mb-6" SearchClicked="@(() => DoSearch(1))"
+			ResetClicked="@HandleResetClicked" Disable="@IsLoading" VerticalButtons="Breakpoint.Sm">
+	<SearchFields>
+		<MudGrid Spacing="2">
+			<MudItem xs="12">
+				<MudTextField Label="Title" Variant="Variant.Outlined" FullWidth="true" Margin="Margin.Dense"
+				T="string" @bind-Value="@SearchModel.Title" Disabled="@IsLoading" />
+			</MudItem>
+		</MudGrid>
+	</SearchFields>
+</SearchForm>
+
+@if (State.ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+{
+	<MudToolBar Class="mt-6" Gutters="false" Dense="true">
+		<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@IsLoading" OnClick="@HandleAddClicked">Add</MudButton>
+	</MudToolBar>
+}
+
+<ListView TItem="ProductBundleListModel" Items="@SearchResults.Data" IsLoading="@IsLoading" TotalItems="@SearchResults.Total" Page="@SearchModel.Page"
+			PageSize="SearchModel.PageSize" PageSelected="@HandlePageSelected">
+	<ItemRenderer>
+		<MudLink Typo="Typo.subtitle1" Class="d-block" Color="Color.Primary" Href="@($"/product-bundles/{context.Item.Sid}")">@context.Item.Title</MudLink>
+	</ItemRenderer>
+	<EmptyListRenderer>
+		<MudAlert Elevation="0" ContentAlignment="HorizontalAlignment.Center" NoIcon="true" Class="mt-4">No product bundles matched your search.</MudAlert>
+	</EmptyListRenderer>
+</ListView>
+
+<SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
+	@if (DrawerView == Views.Add)
+	{
+		<FormProperties Model="@FormModel" FormId="@FormId" DisableFormControls="@IsSaving" OnFormSubmitted="@HandleFormAddSubmit">
+			<FormToolbar>
+				<MudSpacer />
+				<ProgressButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" IsWorking="@IsWorking" WorkingText="Adding">Create</ProgressButton>
+				<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@HandleCancelClicked">Cancel</MudButton>
+				<MudSpacer />
+			</FormToolbar>
+		</FormProperties>
+	}
+</SideDrawer>

@@ -1,0 +1,94 @@
+﻿@page "/workouts/{WorkoutSid}"
+@inherits SingleBase
+
+<DynamicPageTitle IsLoading="@IsLoading" LoadingTitle="Loading Workout" Title="Workout" />
+
+<MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
+
+@if (IsLoading)
+{
+	<DefaultProgress />
+}
+else if (IsAddingTemplate)
+{
+	<SectionHeader Title="Add as Template" SubTitle="Enter a title for your new template." IsEditing="true" EditingClass="mb-4"
+				   FormId="@FormId" OnCancelClicked="@HandleCancelAddClicked" />
+	<FormAddTemplate DisableFormControls="@IsWorking" Model="@AddTemplateModel" FormId="@FormId" OnFormSubmitted="@HandleAddTemplateSubmitted" />
+}
+else
+{
+	@if (!string.IsNullOrEmpty(Workout.Sid))
+	{
+		@if (State.ActiveMember.IsActive)
+		{
+			<div class="d-flex flex-column-reverse flex-sm-row">
+				@if (Workout.DateCompletedUtc.HasValue)
+				{
+					<MudToolBar Gutters="false" Dense="true">
+						<ProgressButton StartIcon="@Icons.Material.Filled.Repeat" Disabled="@IsEditMode" IsWorking="@IsRepeating" WorkingText="Creating" Title="Repeat Workout"
+										OnClick="@(() => HandleRepeatWorkoutClicked())">Repeat</ProgressButton>
+						<ProgressButton StartIcon="@Icons.Material.Filled.SaveAs" Disabled="@IsEditMode" IsWorking="@IsAddingTemplate" WorkingText="Saving" Title="Save As Template"
+										OnClick="@(() => HandleAddTemplateClicked())">Template</ProgressButton>
+					</MudToolBar>
+				}
+				<MudToolBar Gutters="false" Dense="true" Class="flex-grow-1">
+					<MudSpacer />
+					<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@IsEditing" />
+				</MudToolBar>
+			</div>
+		}
+
+		<SectionProperties @bind-Workout="@Workout" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
+						   OnIsEditingSectionChange="@HandleIsEditingSectionChange" />
+
+		@if (!Workout.DateStartedUtc.HasValue)
+		{
+			<SectionTasks Tasks="@PreWorkoutTasks" Title="Pre-Workout Checklist" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
+						  TaskChanged="@HandleTaskChanged" />
+
+			@if (State.ActiveMember.IsActive)
+			{
+				<div class="d-flex flex-row gap-2 justify-center mb-6">
+					<ProgressButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@DisableWorkoutStartButton" IsWorking="@IsWorking" WorkingText="Starting"
+									OnClick="@(() => HandleWorkoutStarted())">Start Workout</ProgressButton>
+				</div>
+			}
+		}
+
+		<SectionSets Workout="@Workout" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleIsEditingSectionChange"
+					 OnSetSaved="@HandleSetSaved" OnHasUnrecordedSetsChanged="@HandleUnrecordedSetsChanged" />
+
+		@if (ShowPostWorkoutTasks)
+		{
+			<SectionTasks Tasks="@PostWorkoutTasks" Title="Post-Workout Checklist" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" TaskChanged="@HandleTaskChanged" />
+
+			@if (State.ActiveMember.IsActive)
+			{
+				<div class="mb-4">
+					<MudText Typo="Typo.h5" Class="mb-2">How did it go?</MudText>
+					<div class="d-flex flex-row gap-2 align-center mb-4">
+						<MudText Typo="Typo.body2">Rating</MudText>
+						<div>
+							<MudRating @bind-SelectedValue="@WorkoutRating" />
+						</div>
+					</div>
+					<MudTextField Variant="Variant.Outlined" Label="Workout Notes (optional)" Lines="6" FullWidth="true" @bind-Value="WorkoutNotes" />
+				</div>
+
+				<div class="d-flex flex-row gap-2 justify-center">
+					<ProgressButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@DisableWorkoutFinishButton" IsWorking="@IsWorking" WorkingText="Finishing"
+									OnClick="@(() => HandleWorkoutCompleted())">Finish Workout</ProgressButton>
+				</div>
+			}
+		}
+
+		@if (Workout.DateCompleted.HasValue)
+		{
+			<SectionNotes @bind-Workout="@Workout" IsEditMode="IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleIsEditingSectionChange" />
+		}
+	}
+	else
+	{
+		<MudAlert Severity="Severity.Error" Dense="true">The workout was not found.</MudAlert>
+	}
+}

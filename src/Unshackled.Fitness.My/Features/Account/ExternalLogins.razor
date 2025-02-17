@@ -1,0 +1,127 @@
+﻿@page "/account/external-logins"
+
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+@using Unshackled.Fitness.Core.Data.Entities
+@using Unshackled.Fitness.My.Extensions
+
+@inject UserManager<UserEntity> UserManager
+@inject SignInManager<UserEntity> SignInManager
+@inject IdentityUserAccessor UserAccessor
+@inject IUserStore<UserEntity> UserStore
+@inject IdentityRedirectManager RedirectManager
+
+<PageTitle>Add an external login</PageTitle>
+
+<StatusMessage Message="@message" />
+
+@if (loginProviders?.Count > 0)
+{
+	<MudText Typo="Typo.subtitle1" Class="my-4" Align="Align.Center">Add a service to log in.</MudText>
+	<div class="d-flex flex-row gap-2 flex-wrap justify-content-center mb-6">
+		@foreach (var provider in loginProviders)
+		{
+			<form action="account/link-external-login" method="post">
+				<AntiforgeryToken />
+				<input type="hidden" name="Provider" value="@provider.Name">
+				<MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Default" StartIcon="@provider.Name.GetBrandIcon()">
+					@provider.DisplayName
+				</MudButton>
+			</form>
+		}
+	</div>
+}
+
+<div class="d-flex flex-column gap-2 align-center">
+	@if (ShowReturnButton)
+	{
+		<MudButton Href="/member" Variant="Variant.Outlined" Color="Color.Secondary">Return</MudButton>
+	}
+	else
+	{
+		<MudButton Href="/member" Variant="Variant.Outlined" Color="Color.Secondary">Cancel</MudButton>
+	}
+</div>
+
+@code {
+	private UserEntity user = default!;
+	private IList<UserLoginInfo>? currentLogins;
+	private IList<AuthenticationScheme>? loginProviders;
+	private string? message;
+	private bool ShowReturnButton = false;
+
+	[CascadingParameter]
+	private HttpContext HttpContext { get; set; } = default!;
+
+	[SupplyParameterFromForm]
+	private string? LoginProvider { get; set; }
+
+	[SupplyParameterFromForm]
+	private string? ProviderKey { get; set; }
+
+	[SupplyParameterFromQuery]
+	private string? Action { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		user = await UserAccessor.GetRequiredUserAsync(HttpContext);
+		currentLogins = await UserManager.GetLoginsAsync(user);
+		loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync())
+			.Where(auth => currentLogins.All(ul => auth.Name != ul.LoginProvider))
+			.ToList();
+
+		if (HttpMethods.IsGet(HttpContext.Request.Method) && Action == Globals.LinkLoginCallbackAction)
+		{
+			await OnGetLinkLoginCallbackAsync();
+		}
+	}
+
+	private async Task OnGetLinkLoginCallbackAsync()
+	{
+		var userId = await UserManager.GetUserIdAsync(user);
+		var info = await SignInManager.GetExternalLoginInfoAsync(userId);
+		if (info is null)
+		{
+			message = "Error: Could not load external login info.";
+			return;
+		}
+
+		if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+		{
+			string? email = info.Principal.FindFirstValue(ClaimTypes.Email) ?? "";
+			if (!string.IsNullOrEmpty(email))
+			{
+				if (!user.Email!.Equals(email, StringComparison.OrdinalIgnoreCase))
+				{
+					message = "Error: External login email does not match your current email address.";
+					return;
+				}
+			}
+			else
+			{
+				message = "Error: No email was provided with the external login.";
+				return;
+			}
+		}
+		else
+		{
+			message = "Error: No email was provided with the external login.";
+			return;
+		}
+
+		var result = await UserManager.AddLoginAsync(user, info);
+		if (!result.Succeeded)
+		{
+			message = "Error: The external login was not added. External logins can only be associated with one account.";
+			return;
+		}
+
+		// Clear the existing external cookie to ensure a clean login process
+		await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+
+		loginProviders = null;
+		message = "The external login was added.";
+		ShowReturnButton = true;
+	}
+}

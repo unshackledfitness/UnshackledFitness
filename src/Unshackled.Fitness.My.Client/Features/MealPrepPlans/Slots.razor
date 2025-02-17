@@ -1,0 +1,79 @@
+﻿@page "/meal-prep-plan/slots"
+@inherits SlotsBase
+
+<MudBreadcrumbs Items="@Breadcrumbs" />
+
+<DynamicPageTitle IsLoading="@IsLoading" LoadingTitle="@("Loading Slots...")" Title="Slots" />
+
+<MudText Typo="Typo.h4" Class="mb-6">Slots</MudText>
+
+@if (IsLoading)
+{
+	<DefaultProgress />
+}
+else
+{
+	<SortableListView IsLoading="@IsLoading" TItem="SlotModel" AllowSort="@State.ActiveMember.IsActive" Items="@Meals" DisableSort="@DisableControls"
+					  ToolbarPosition="ToolbarPositions.Top" ToolbarAlignment="HorizontalAlignment.Left" SortOrderChanged="@HandleSortChanged">
+		<ItemRenderer>
+			<div class="d-flex flex-row gap-2 align-center">
+				<div class="flex-grow-1">
+					<MudText Typo="Typo.subtitle1">@context.Item.Title</MudText>
+				</div>
+				@if (State.ActiveMember.IsActive)
+				{
+					<div class="d-flex flex-row gap-2 justify-end">
+						<MudIconButton Icon="@Icons.Material.Filled.Edit" Disabled="@DisableControls" OnClick="@(() => HandleEditClicked(context.Item))" />
+						<MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@DisableControls" OnClick="@(() => HandleDeleteClicked(context.Item))" />
+					</div>
+				}
+			</div>
+		</ItemRenderer>
+		<EmptyListRenderer>
+			<MudAlert Severity="Severity.Normal" ContentAlignment="HorizontalAlignment.Center" NoIcon="true">You have not added any meal definitions.</MudAlert>
+		</EmptyListRenderer>
+		<DraggableItemRenderer>
+			<MudPaper Elevation="2" Class="py-2 px-4 my-4">
+				<div class="d-flex flex-row gap-4 align-center">
+					<div>
+						<MudIcon Icon="@Icons.Material.Filled.DragHandle" />
+					</div>
+					<div>
+						<MudText Typo="Typo.subtitle1">@context.Title</MudText>
+					</div>
+				</div>
+			</MudPaper>
+		</DraggableItemRenderer>
+		<ListTools>
+			@if (State.ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+			{
+				<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@DisableControls" OnClick="@(() => HandleAddMealClicked())">New</MudButton>
+			}
+		</ListTools>
+	</SortableListView>
+}
+
+<SideDrawer Title="@DrawerTitle" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
+	@if (DrawerView == Views.Add)
+	{
+		<FormProperties Model="@FormModel" FormId="@FormId" DisableFormControls="@IsWorking" OnFormSubmitted="@HandleFormAddSubmit">
+			<FormToolbar>
+				<MudSpacer />
+				<ProgressButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" IsWorking="@IsWorking" WorkingText="Adding">Create</ProgressButton>
+				<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@HandleCancelClicked">Cancel</MudButton>
+				<MudSpacer />
+			</FormToolbar>
+		</FormProperties>
+	}
+	else if (DrawerView == Views.Edit) 
+	{
+		<FormProperties Model="@FormModel" FormId="@FormId" DisableFormControls="@IsWorking" OnFormSubmitted="@HandleFormEditSubmit">
+			<FormToolbar>
+				<MudSpacer />
+				<ProgressButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" IsWorking="@IsWorking" WorkingText="Updating">Update</ProgressButton>
+				<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@HandleCancelClicked">Cancel</MudButton>
+				<MudSpacer />
+			</FormToolbar>
+		</FormProperties>
+	}
+</SideDrawer>

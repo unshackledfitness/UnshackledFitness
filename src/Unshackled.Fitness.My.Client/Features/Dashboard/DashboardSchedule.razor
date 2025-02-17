@@ -1,0 +1,118 @@
+﻿@inherits DashboardScheduleBase
+
+<MudPaper Class="d-flex flex-column align-center h-100 gap-0">
+	<MudText Align="Align.Center" Color="Color.Tertiary" Class="mb-4">Today's Schedule</MudText>	
+	@if (IsLoading)
+	{
+		<DefaultProgress />	
+	}
+	else
+	{
+		@if (Items.Any())
+		{
+			<ListView TItem="ScheduledListModel" Items="@Items" Class="w-100">
+				<ItemRenderer>
+					@if (context.Item.ItemType == ScheduledListModel.ItemTypes.Workout)
+					{
+						@if (!context.Item.IsStarted)
+						{
+							<div class="d-flex align-center flex-row gap-2">
+								<div class="flex-grow-1">
+									<MudLink Class="d-block" Href="@($"/templates/{context.Item.Sid}")" Disabled="@(context.Item.IsTracking || context.Item.IsSkipping)">@context.Item.Title</MudLink>
+									<MudText Typo="Typo.caption" Color="Color.Tertiary">from <a href="@($"/programs/{context.Item.ParentSid}")">@context.Item.ParentTitle</a></MudText>
+								</div>
+								@if (State.ActiveMember.IsActive)
+								{
+									<div>
+										@if (context.Item.ProgramType == ProgramTypes.Sequential)
+										{
+											<MudIconButton Icon="@Icons.Material.Filled.NextPlan" Class="me-2" title="Skip to next workout" Disabled="@context.Item.IsSkipping"
+														   OnClick="@(() => HandleSkipWorkoutClicked(context.Item))" />
+										}
+										<ProgressButton Variant="Variant.Filled" Color="Color.Secondary" Size="Size.Small"
+														IsWorking="@context.Item.IsTracking" WorkingText="Opening" Disabled="@context.Item.IsSkipping"
+														OnClick="@(() => HandleTrackWorkoutClicked(context.Item))">Track</ProgressButton>
+									</div>
+								}
+							</div>
+						}
+						else
+						{
+							<div class="d-flex align-center flex-row gap-2">
+								<div class="flex-grow-1">
+									<MudLink Class="d-block" Href="@($"/workouts/{context.Item.Sid}")" Disabled="@(context.Item.IsTracking || context.Item.IsSkipping)">@context.Item.Title</MudLink>
+									<MudText Typo="Typo.caption" Color="Color.Tertiary">from <a href="@($"/programs/{context.Item.ParentSid}")">@context.Item.ParentTitle</a></MudText>
+								</div>
+								<div>
+									@if (!context.Item.IsCompleted)
+									{
+										<MudButton Variant="Variant.Filled" Color="Color.Secondary" Size="Size.Small" Disabled="@context.Item.IsSkipping"
+												   Href="@($"/workouts/{context.Item.Sid}")">Resume</MudButton>
+									}
+									else
+									{
+										<MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" />
+									}
+								</div>
+							</div>
+						}
+					}
+					else 
+					{
+						@if (!context.Item.IsStarted)
+						{
+							<div class="d-flex align-center flex-row gap-2">
+								<div class="flex-grow-1">
+									<MudLink Class="d-block" Href="@($"/training-sessions/{context.Item.Sid}")" Disabled="@(context.Item.IsTracking || context.Item.IsSkipping)">@context.Item.Title</MudLink>
+									<MudText Typo="Typo.caption" Color="Color.Tertiary">from <a href="@($"/training-programs/{context.Item.ParentSid}")">@context.Item.ParentTitle</a></MudText>
+								</div>
+								@if (State.ActiveMember.IsActive)
+								{
+									<div>
+										@if (context.Item.ProgramType == ProgramTypes.Sequential)
+										{
+											<MudIconButton Icon="@Icons.Material.Filled.NextPlan" Class="me-2" title="Skip to next training session" Disabled="@context.Item.IsSkipping"
+														   OnClick="@(() => HandleSkipSessionClicked(context.Item))" />
+										}
+										<ProgressButton Variant="Variant.Filled" Color="Color.Secondary" Size="Size.Small"
+														IsWorking="@context.Item.IsTracking" WorkingText="Opening" Disabled="@context.Item.IsSkipping"
+														OnClick="@(() => HandleTrackActivityClicked(context.Item))">Track</ProgressButton>
+									</div>
+								}
+							</div>
+						}
+						else
+						{
+							<div class="d-flex align-center flex-row gap-2">
+								<div class="flex-grow-1">
+									<MudLink Class="d-block" Href="@($"/training-sessions/{context.Item.Sid}")" Disabled="@(context.Item.IsTracking || context.Item.IsSkipping)">@context.Item.Title</MudLink>
+									<MudText Typo="Typo.caption" Color="Color.Tertiary">from <a href="@($"/training-programs/{context.Item.ParentSid}")">@context.Item.ParentTitle</a></MudText>
+								</div>
+								<div>
+									@if (!context.Item.IsCompleted)
+									{
+										<MudButton Variant="Variant.Filled" Color="Color.Secondary" Size="Size.Small" Disabled="@context.Item.IsSkipping"
+												   Href="@($"/activities/{context.Item.Sid}")">View</MudButton>
+									}
+									else
+									{
+										<MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" />
+									}
+								</div>
+							</div>
+						}
+					}
+				</ItemRenderer>
+			</ListView>
+		}
+		else
+		{
+			<div class="d-flex align-center mt-3 flex-row gap-2">
+				<MudIcon Icon="@Icons.Material.Filled.Hotel" Size="Size.Small" />
+				<MudText Class="mt-1">Rest Day</MudText>
+			</div>
+		}
+	}
+</MudPaper>
+
+

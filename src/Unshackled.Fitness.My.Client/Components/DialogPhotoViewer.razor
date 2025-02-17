@@ -1,0 +1,38 @@
+﻿<MudDialog Gutters="false">
+	<DialogContent>
+		<MudSwipeArea OnSwipeEnd="@HandleSwipeEnd" Sensitivity="100" Class="mud-swipearea-page">
+			<MudContainer>
+				<div class="d-flex flex-column h-100">
+					<div class="d-flex align-center justify-space-between d-md-none flex-row">
+						<div>
+							<MudIconButton Icon="@Icons.Material.Filled.ChevronLeft" Size="Size.Large" Disabled="@DisableBack" OnClick="@(() => currentImageIndex--)" />
+						</div>
+						<div class="d-flex gap-4 align-center flex-row justify-center">
+							<MudText>Image @(currentImageIndex + 1) of @Images.Count</MudText>
+						</div>
+						<div>
+							<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" Size="Size.Large" Disabled="@DisableForward" OnClick="@(() => currentImageIndex++)" />
+						</div>
+					</div>
+					<div class="d-none d-md-flex gap-4 mb-6 flex-row justify-center">
+						<MudText>Image @(currentImageIndex + 1) of @Images.Count</MudText>
+					</div>
+					<div class="flex-grow-1">
+						<MudGrid Justify="Justify.SpaceBetween" Class="align-center h-100">
+							<MudItem md="1" Class="d-none d-md-block">
+								<MudIconButton Icon="@Icons.Material.Filled.ChevronLeft" Size="Size.Large" Disabled="@DisableBack" OnClick="@(() => currentImageIndex--)" />
+							</MudItem>
+							<MudItem xs="12" md="10" Class="h-100">
+								<MudImage Fluid="true" Class="rounded-lg" Src="@Images[currentImageIndex].ImageUrl(BaseUrl)" />
+							</MudItem>
+							<MudItem md="1" Class="d-none d-md-block">
+								<MudIconButton Icon="@Icons.Material.Filled.ChevronRight" Size="Size.Large" Disabled="@DisableForward" OnClick="@(() => currentImageIndex++)" />
+							</MudItem>
+						</MudGrid>
+					</div>
+				</div>
+			</MudContainer>
+		</MudSwipeArea>
+	</DialogContent>
+</MudDialog>
+

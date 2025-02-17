@@ -1,0 +1,69 @@
+﻿@page "/products/{ProductSid}"
+@inherits SingleBase
+
+<DynamicPageTitle  IsLoading="@IsLoading" LoadingTitle="Loading Product" FallbackTitle="Product" Title="@Product.Title" />
+
+<MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
+
+@if (IsLoading)
+{
+	<DefaultProgress />
+}
+else
+{
+	@if (string.IsNullOrEmpty(Product.Sid))
+	{
+		<MudAlert Severity="Severity.Error" Dense="true">The product was not found.</MudAlert>
+	}
+	else
+	{
+		@if (Product.HouseholdSid != State.ActiveMember.ActiveHousehold?.HouseholdSid)
+		{
+			<MudAlert Severity="Severity.Warning" ContentAlignment="HorizontalAlignment.Center" Class="mb-4">
+				You are viewing a product that is not in your active household. <MudLink Class="d-inline-block ms-4" Color="Color.Warning" OnClick="@(() => HandleSwitchHousehold())">Switch Household</MudLink>
+			</MudAlert>
+		}
+
+		@if (State.ActiveMember.HasHouseholdPermissionLevel(PermissionLevels.Write))
+		{
+			<MudToolBar Gutters="false" Dense="true" Class="mb-2">
+				<MudButton StartIcon="@Icons.Material.Filled.AddCircleOutline" Disabled="@IsEditMode" OnClick="@(() => HandleAddToListClicked())">Add To List</MudButton>
+				<MudSpacer />
+				<EditModeSwitch @bind-IsEditMode="@IsEditMode" Disabled="@IsEditing" />
+			</MudToolBar>
+		}
+
+		<SectionProperties @bind-Product="@Product" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleSectionEditing" />
+
+		@if (Product.HasServings || IsEditMode)
+		{
+			<SectionServings @bind-Product="@Product" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleSectionEditing" />
+		}
+		@if (Product.HasMacros || IsEditMode)
+		{
+			<SectionMacros @bind-Product="@Product" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleSectionEditing" />
+		}
+		@if (Product.HasDietary || IsEditMode)
+		{
+			<SectionDietary @bind-Product="@Product" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleSectionEditing" />
+		}
+		@if (Product.HasVitamins || IsEditMode)
+		{
+			<SectionVitamins @bind-Product="@Product" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleSectionEditing" />
+		}
+		@if (Product.HasMinerals || IsEditMode)
+		{
+			<SectionMinerals @bind-Product="@Product" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls" OnIsEditingSectionChange="@HandleSectionEditing" />
+		}
+
+		<SectionImages ProductSid="@ProductSid" @bind-Images="Images" IsEditMode="@IsEditMode" DisableSectionControls="@DisableControls"
+					   OnIsEditingSectionChange="@HandleSectionEditing" />
+
+		<SideDrawer Title="@GetDrawerTitle()" Open="@DrawerOpen" OpenChanged="@(() => HandleCancelClicked())">
+			@if (DrawerView == Views.AddToList)
+			{
+				<DrawerAddToList ShoppingLists="@ShoppingLists" OnCanceled="@HandleCancelClicked" OnAdded="@HandleAddToListSubmitted" />
+			}
+		</SideDrawer>
+	}
+}

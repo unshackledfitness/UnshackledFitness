@@ -1,0 +1,78 @@
+﻿@page "/cookbooks"
+@inherits IndexBase
+
+<DynamicPageTitle IsLoading="@IsLoading" LoadingTitle="Loading Cookbooks..." Title="Cookbooks" />
+
+<MudBreadcrumbs Items="@Breadcrumbs" />
+
+<MudText Typo="Typo.h4" Class="mb-1">Cookbooks</MudText>
+<MudText Class="mb-6">
+	Cookbooks are for sharing recipes with other users. Recipes are read-only in a cookbook, but can be copied to your own 
+	household to make changes. Recipes you have shared can be edited in the original household. 
+</MudText>
+
+@if (State.ActiveMember.IsActive)
+{
+	<MudToolBar Gutters="false" Dense="true" Class="mb-2">
+		<MudButton StartIcon="@Icons.Material.Filled.AddCircle" OnClick="@(() => HandleAddClicked())">New</MudButton>
+	</MudToolBar>
+}
+
+<ListView Class="mb-4" Items="@Cookbooks" IsLoading="@IsLoading">
+	<ItemRenderer>
+		<MudGrid Spacing="2" Class="align-center justify-center">
+			<MudItem xs="3" sm="2" md="1">
+				@if (State.ActiveMember.ActiveCookbook != null && context.Item.Sid == State.ActiveMember.ActiveCookbook.CookbookSid)
+				{
+					<MudButton Variant="Variant.Filled" Color="Color.Error" FullWidth="true" Disabled="@DisableControls" OnClick="@(() => HandleCloseClicked(context.Item))">Close</MudButton>
+				}
+				else if (State.ActiveMember.IsActive && context.Item.IsInvite)
+				{
+					<MudButton Variant="Variant.Filled" Color="Color.Secondary" FullWidth="true" Disabled="@DisableControls" OnClick="@(() => HandleJoinClicked(context.Item))">Join</MudButton>
+				}
+				else
+				{
+					<MudButton Variant="Variant.Filled" Color="Color.Secondary" FullWidth="true" Disabled="@DisableControls" OnClick="@(() => HandleOpenClicked(context.Item))">Open</MudButton>
+				}
+			</MudItem>
+			<MudItem xs="7" sm="9" md="10">
+				@if(context.Item.IsInvite)
+				{
+					<MudText Typo="Typo.subtitle1">@context.Item.Title</MudText>
+					<MudText Typo="Typo.caption">Invited On: @context.Item.DateCreatedUtc.ToLocalTime().ToString("d")</MudText>
+				}
+				else
+				{
+					<MudLink Typo="Typo.subtitle1" Class="d-block" Href="@($"/cookbooks/{context.Item.Sid}")">@context.Item.Title</MudLink>
+					<MudText Typo="Typo.caption">Created On: @context.Item.DateCreatedUtc.ToLocalTime().ToString("d")</MudText>
+				}
+			</MudItem>
+			<MudItem xs="2" sm="1" Class="d-flex flex-row justify-end">
+				@if (context.Item.IsInvite)
+				{
+					<MudIconButton Icon="@Icons.Material.Filled.Delete" Disabled="@DisableControls" OnClick="@(() => HandleRejectInviteClicked(context.Item))" />
+				}
+				else
+				{
+					<CaptionedProperty Title="Owner" Align="Align.Center">
+						<YesNo Class="mr-2" Align="Align.Center" ShowLabel="false" Value="@(context.Item.MemberSid == State.ActiveMember.Sid)" />
+					</CaptionedProperty>
+				}
+			</MudItem>
+		</MudGrid>
+	</ItemRenderer>
+	<EmptyListRenderer>
+		<MudAlert Icon="@Icons.Material.Filled.Info" ContentAlignment="HorizontalAlignment.Center" Dense="true">You do not have any cookbooks.</MudAlert>
+	</EmptyListRenderer>
+</ListView>
+
+<SideDrawer @bind-Open="DrawerOpen" Icon="@DrawerIcon" Title="@DrawerTitle">
+	<FormProperties Model="@AddModel" OnFormSubmitted="@HandleAddFormSubmitted">
+		<FormToolbar>
+			<MudSpacer />
+			<ProgressButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" IsWorking="@IsWorking" WorkingText="Adding">Create</ProgressButton>
+			<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@HandleCancelAddClicked">Cancel</MudButton>
+			<MudSpacer />
+		</FormToolbar>
+	</FormProperties>
+</SideDrawer>

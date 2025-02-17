@@ -1,0 +1,49 @@
+﻿@inherits DashboardPrepScheduleBase
+
+<MudPaper Class="d-flex flex-column align-center h-100 gap-0">
+	<MudText Align="Align.Center" Color="Color.Tertiary">Today's Meal Prep</MudText>
+	@if (IsLoading)
+	{
+		<DefaultProgress />	
+	}
+	else
+	{
+		@if (PrepModel.Recipes.Count() > 0)
+		{
+			<GroupedList TGroup="SlotModel" TItem="MealPrepPlanRecipeModel" Groups="@PrepModel.Slots" Items="@PrepModel.Recipes" Class="w-100" ShowSingleGroupTitle="true">
+				<GroupRenderer>
+					<div class="d-flex align-center flex-row gap-2">
+						<div class="flex-grow-1">
+							<MudText Color="Color.Tertiary">@context.Title</MudText>
+						</div>
+						@if (PrepModel.Recipes.Where(x => x.ListGroupSid == context.Sid).Count() > 1)
+						{
+							<div>
+								<MudButton Color="Color.Secondary" StartIcon="@Icons.Material.Filled.LocalDining" Size="Size.Small" OnClick="@(() => HandleGroupMakeItClicked(context))">Make All</MudButton>
+							</div>
+						}
+					</div>
+				</GroupRenderer>
+				<ItemRenderer>
+					<div class="d-flex align-center flex-row gap-2">
+						<div class="flex-grow-1">
+							<MudLink Class="d-block" Href="@($"/recipes/{context.Item.RecipeSid}")">@context.Item.RecipeTitle</MudLink>
+						</div>
+						<div>
+							<MudButton Variant="Variant.Filled" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.LocalDining" Size="Size.Small" OnClick="@(() => HandleMakeItClicked([context.Item]))">Make It</MudButton>
+						</div>
+					</div>
+				</ItemRenderer>
+			</GroupedList>
+		}
+		else
+		{
+			<div class="d-flex align-center mt-3 flex-row gap-2">
+				<MudIcon Icon="@Icons.Material.Filled.LocalDining" Size="Size.Small" />
+				<MudText Class="mt-1">Nothing To Prep</MudText>
+			</div>
+		}
+	}
+</MudPaper>
+
+

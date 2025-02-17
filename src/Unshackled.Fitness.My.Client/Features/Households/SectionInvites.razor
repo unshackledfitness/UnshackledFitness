@@ -1,0 +1,65 @@
+﻿@inherits SectionInvitesBase
+
+
+@if(IsEditMode || Invites.Any())
+{
+	<MudText Typo="Typo.h5" Class="mt-6">Member Invites</MudText>
+	@if (IsEditMode && State.ActiveMember.IsActive)
+	{
+		<MudToolBar Gutters="false">
+			<MudButton StartIcon="@Icons.Material.Filled.AddCircle" Color="Color.Primary" Disabled="@DisableControls" Size="Size.Small"
+						OnClick="@(() => HandleAddClicked())">Invite Member</MudButton>
+		</MudToolBar>
+	}
+	<ListView TItem="InviteListModel" Items="@Invites" IsLoading="@IsLoading">
+		<ItemRenderer>
+			<MudGrid Spacing="2" Class="align-start">
+				<MudItem xs="2" md="1">
+					@if (!IsEditMode)
+					{
+						<CaptionedProperty Align="Align.Center" Title="Invite" Class="py-1">
+							<MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.Email" Title="Invite Sent" />
+						</CaptionedProperty>
+					}
+					else if (State.ActiveMember.IsActive)
+					{
+						<MudMenu Icon="@Icons.Material.Filled.MoreVert" Disabled="@DisableControls">
+							<MudMenuItem OnClick="@(() => HandleDeleteClicked(context.Item))">Delete</MudMenuItem>
+						</MudMenu>
+					}
+				</MudItem>
+				<MudItem xs="10" md="11">
+					<MudGrid Spacing="2" Class="align-center py-1">
+						<MudItem xs="12" sm="8" md="9">
+							<CaptionedProperty Align="Align.Start" Title="Email" Value="@context.Item.Email" />
+						</MudItem>
+						<MudItem xs="12" sm="4" md="3">
+							<CaptionedProperty Align="Align.Start" Title="Invite" Value="Pending" />
+						</MudItem>
+					</MudGrid>
+				</MudItem>
+			</MudGrid>
+		</ItemRenderer>
+	</ListView>
+}
+
+<SideDrawer @bind-Open="DrawerOpen" Icon="@DrawerIcon" Title="@DrawerTitle">
+	<EditForm Model="@AddModel" OnValidSubmit="@HandleFormSubmitted">
+		<FluentValidationValidator Validator="@AddModelValidator" />
+		<MudGrid Spacing="2" Class="mb-4">
+			<MudItem xs="12">
+				<MudTextField Variant="Variant.Outlined" FullWidth="true" Label="Email Address" Immediate="true" Margin="Margin.Dense"
+				@bind-Value="@AddModel.Email" For="@(() => AddModel.Email)" />
+			</MudItem>
+			<MudItem xs="12">
+				<PermissionLevelSelect @bind-Value="@AddModel.Permissions" Margin="Margin.Dense" />
+			</MudItem>
+		</MudGrid>
+		<MudToolBar Dense="true">
+			<MudSpacer />
+			<MudButton Variant="Variant.Filled" Color="Color.Secondary" ButtonType="ButtonType.Submit" Disabled="@string.IsNullOrEmpty(AddModel.Email)">Invite</MudButton>
+			<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@(() => HandleCancelClicked())">Cancel</MudButton>
+			<MudSpacer />
+		</MudToolBar>
+	</EditForm>
+</SideDrawer>
