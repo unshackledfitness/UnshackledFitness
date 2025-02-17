@@ -71,7 +71,7 @@ else if (!IsLoading)
 					<MudFab Color="Color.Tertiary" StartIcon="@Icons.Material.Filled.ArrowUpward" Size="Size.Small" />
 				</MudScrollToTop>
 				<MudContainer Class="pt-6" MaxWidth="MaxWidth.Large">
-					<MudSwipeArea OnSwipeEnd="HandleSwipeEnd" Style="width: 100%; height: 100%" Sensitivity="200">
+					<MudSwipeArea OnSwipeEnd="HandleSwipeEnd" Sensitivity="200" PreventDefault="false" Class="mud-swipearea-page">
 					@if (BodyContent != null)
 					{
 						@BodyContent
