@@ -34,7 +34,9 @@
 		  PageSelected="@HandlePageSelected" GridSpacing="2" xs="12" sm="6" md="4" lg="3">
 	<ItemRenderer>
 		<MudCard Class="h-100">
-			<MudImage Src="@context.Item.FeaturedImage.ImageUrl(StorageSettings.BaseUrl)" Class="image-16x9" Fluid="true" />
+			<a href="@($"/recipes/{context.Item.Sid}")">
+				<MudImage Src="@context.Item.FeaturedImage.ImageUrl(StorageSettings.BaseUrl)" Class="image-16x9" Fluid="true" />
+			</a>
 			<MudCardContent>
 				<MudLink Typo="Typo.subtitle1" Href="@($"/recipes/{context.Item.Sid}")" Class="d-block mb-4">@context.Item.Title</MudLink>
 				@if (context.Item.Tags.Count > 0)
