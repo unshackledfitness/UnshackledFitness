@@ -41,7 +41,7 @@ public class SearchTemplates
 
 			if (!string.IsNullOrEmpty(request.Model.Title))
 			{
-				query = query.Where(x => EF.Functions.Like(x.Title, $"%{request.Model.Title}"));
+				query = query.Where(x => EF.Functions.Like(x.Title, $"%{request.Model.Title}%"));
 			}
 
 			result.Total = await query.CountAsync(cancellationToken);
