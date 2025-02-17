@@ -1,7 +1,8 @@
+name: unshackled-fitness
 services:
   unshackledfitness:
     container_name: unshackled-fitness
-    image: unshackled-fitness
+    image: unshackledfitness/unshackled-fitness:3.2
     environment: 
       ASPNETCORE_URLS: https://+:8081;http://+:8080
       ASPNETCORE_Kestrel__Certificates__Default__Password: 
