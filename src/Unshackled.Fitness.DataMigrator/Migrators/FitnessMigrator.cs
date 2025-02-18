@@ -123,6 +123,7 @@ internal class FitnessMigrator
 		await MigrateDbSet(dbLegacy.HouseholdInvites, dbNew.HouseholdInvites, "Household Invites");
 		await MigrateDbSet(dbLegacy.ProductCategories, dbNew.ProductCategories, "Product Categories");
 		await MigrateDbSet(dbLegacy.Products, dbNew.Products, "Products");
+		await MigrateDbSet(dbLegacy.ProductImages, dbNew.ProductImages, "Product Images");
 		await MigrateDbSet(dbLegacy.ProductBundles, dbNew.ProductBundles, "Product Bundles");
 		await MigrateProductBundleItems("Product Bundle Items");
 		await MigrateDbSet(dbLegacy.Tags, dbNew.Tags, "Tags");
