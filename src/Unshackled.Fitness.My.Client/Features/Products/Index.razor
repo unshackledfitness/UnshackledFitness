@@ -65,7 +65,7 @@
 									 ValueChanged="@((bool value) => HandleCheckboxChanged(value, context.Item.Sid))" />
 					</div>
 				}
-				<MultipleImageComponent BaseUrl="@StorageSettings.BaseUrl" Class="image-thumbnail-50" Images="@context.Item.Images" GalleryTitle="Product Images" AspectRatio="AspectRatios.R1x1" />
+				<MultipleImageComponent BaseUrl="@State.Config.ContentBaseUrl" Class="image-thumbnail-50" Images="@context.Item.Images" GalleryTitle="Product Images" AspectRatio="AspectRatios.R1x1" />
 				<div class="flex-grow-1">
 					@if (!string.IsNullOrEmpty(context.Item.Category))
 					{

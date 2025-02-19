@@ -8,7 +8,6 @@ namespace Unshackled.Fitness.My.Client.Features.CookbookRecipes;
 
 public class SectionPropertiesBase : BaseSectionComponent
 {
-	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public RecipeModel Recipe { get; set; } = new();
 	[Parameter] public EventCallback<RecipeModel> RecipeChanged { get; set; }

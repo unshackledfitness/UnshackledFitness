@@ -73,6 +73,12 @@ public class MembersController : BaseController
 		return Ok(await Mediator.Send(new GetAuthenticatorModel.Query(Request.HttpContext.User)));
 	}
 
+	[HttpGet("get-client-configuration")]
+	public async Task<IActionResult> GetClientConfiguration()
+	{
+		return Ok(await Mediator.Send(new GetClientConfiguration.Query()));
+	}
+
 	[HttpGet("get-current-2fa-status")]
 	public async Task<IActionResult> GetCurrent2faStatus()
 	{

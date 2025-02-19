@@ -16,7 +16,6 @@ public class SectionImagesBase : BaseSectionComponent
 	}
 
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
-	[Inject] public StorageSettings StorageSettings { get; set; } = default!;
 	[Parameter] public string ProductSid { get; set; } = string.Empty;
 	[Parameter] public List<ImageModel> Images { get; set; } = [];
 	[Parameter] public EventCallback<List<ImageModel>> ImagesChanged { get; set; }

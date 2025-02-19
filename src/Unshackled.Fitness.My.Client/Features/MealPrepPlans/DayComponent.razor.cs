@@ -7,8 +7,6 @@ namespace Unshackled.Fitness.My.Client.Features.MealPrepPlans;
 
 public class DayComponentBase : BaseComponent
 {
-	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
-
 	[Parameter] public List<SlotModel> Meals { get; set; } = [];
 	[Parameter] public DayModel Model { get; set; } = new();
 	[Parameter] public EventCallback<DayModel> ModelChanged { get; set; }

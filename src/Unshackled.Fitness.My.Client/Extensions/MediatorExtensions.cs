@@ -22,6 +22,11 @@ public static class MediatorExtensions
 		await mediator.Send(new GetActiveMember.Query());
 	}
 
+	public static async Task GetClientConfiguration(this IMediator mediator)
+	{
+		await mediator.Send(new GetClientConfiguration.Query());
+	}
+
 	public static async Task OpenMemberCookbook(this IMediator mediator, string cookbookSid)
 	{
 		await mediator.Send(new OpenMemberCookbook.Command(cookbookSid));

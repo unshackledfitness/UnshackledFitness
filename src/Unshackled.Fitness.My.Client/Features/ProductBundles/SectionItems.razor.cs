@@ -10,7 +10,6 @@ namespace Unshackled.Fitness.My.Client.Features.ProductBundles;
 
 public class SectionItemsBase : BaseSectionComponent
 {
-	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
 	protected enum Views
 	{
 		None,

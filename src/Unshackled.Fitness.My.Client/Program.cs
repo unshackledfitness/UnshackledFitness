@@ -4,19 +4,10 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor;
 using MudBlazor.Services;
 using Unshackled.Fitness.Core;
-using Unshackled.Fitness.Core.Configuration;
 using Unshackled.Fitness.My.Client.Models;
 using Unshackled.Fitness.My.Client.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
-
-ClientConfiguration clientConfig = new();
-builder.Configuration.GetSection("ClientConfiguration").Bind(clientConfig);
-builder.Services.AddSingleton(clientConfig);
-
-StorageSettings storageSettings = new();
-builder.Configuration.GetSection("StorageSettings").Bind(storageSettings);
-builder.Services.AddSingleton(storageSettings);
 
 builder.Services.AddAuthorizationCore();
 builder.Services.AddCascadingAuthenticationState();

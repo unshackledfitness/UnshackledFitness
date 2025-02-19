@@ -19,7 +19,6 @@ COPY ["src/Unshackled.Fitness.My.Client/Unshackled.Fitness.My.Client.csproj", "s
 RUN dotnet restore "./src/Unshackled.Fitness.My/Unshackled.Fitness.My.csproj"
 COPY . .
 COPY ["src/Unshackled.Fitness.My/sample-appsettings.json", "src/Unshackled.Fitness.My/appsettings.json"]
-COPY ["src/Unshackled.Fitness.My.Client/wwwroot/sample-appsettings.json", "src/Unshackled.Fitness.My.Client/wwwroot/appsettings.json"]
 WORKDIR "/src/Unshackled.Fitness.My"
 RUN dotnet build "./Unshackled.Fitness.My.csproj" -c $BUILD_CONFIGURATION -o /app/build
 

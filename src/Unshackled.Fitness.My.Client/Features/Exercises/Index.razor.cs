@@ -10,7 +10,6 @@ namespace Unshackled.Fitness.My.Client.Features.Exercises;
 
 public partial class IndexBase : BaseSearchComponent<SearchExerciseModel, ExerciseModel>
 {
-	[Inject] protected ClientConfiguration ClientConfig { get; set; } = default!;
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 
 	protected bool MaxSelectionReached => SelectedSids.Count == 2;

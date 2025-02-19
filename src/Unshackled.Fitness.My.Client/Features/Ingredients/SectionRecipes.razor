@@ -6,7 +6,7 @@
 			  PageSelected="@HandlePageSelected">
 		<ItemRenderer>
 			<div class="recipe d-flex flex-row align-center">
-				<MultipleImageComponent BaseUrl="@StorageSettings.BaseUrl" Class="image-thumbnail-80" Images="@context.Item.Images"
+				<MultipleImageComponent BaseUrl="@State.Config.ContentBaseUrl" Class="image-thumbnail-80" Images="@context.Item.Images"
 										GalleryTitle="Featured Image" AspectRatio="AspectRatios.R16x9" />
 				<div class="flex-grow-1 ps-3">
 					<MudLink Typo="Typo.body2" Class="d-block" Href="@($"/recipes/{context.Item.Sid}")">@context.Item.Title</MudLink>

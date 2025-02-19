@@ -12,7 +12,6 @@ namespace Unshackled.Fitness.My.Client.Features.Recipes;
 
 public class DrawerAddImageBase : BaseComponent
 {
-	[Inject] public StorageSettings StorageSettings { get; set; } = default!;
 	[Parameter] public string RecipeSid { get; set; } = string.Empty;
 	[Parameter] public EventCallback<ImageModel> OnUploadCompleted { get; set; }
 
@@ -27,7 +26,7 @@ public class DrawerAddImageBase : BaseComponent
 
 			var file = e.File;
 
-			long maxFileSize = StorageSettings.MaxUploadInMb * 1024 * 1024;
+			long maxFileSize = State.Config.MaxUploadInMb * 1024 * 1024;
 
 			var result = await file.ProcessFormFile([".jpg", ".jpeg"], maxFileSize);
 			if (!result.Success)

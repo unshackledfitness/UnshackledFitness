@@ -4,7 +4,6 @@
 @using Unshackled.Fitness.My.Client.Services
 @inherits LayoutComponentBase
 
-@inject ClientConfiguration config
 @inject ISnackbar Snackbar
 @inject IMediator Mediator
 @inject IDialogService DialogService
@@ -53,9 +52,9 @@
 </AuthorizeView>
 
 <div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
+	An unhandled error has occurred.
+	<a href="" class="reload">Reload</a>
+	<a class="dismiss">🗙</a>
 </div>
 
 @code {
@@ -64,6 +63,7 @@
 
 	protected async Task HandleInitializationCompleted()
 	{
+		await Mediator.GetClientConfiguration();
 		await Mediator.GetActiveMember();
 
 		var miRecipes = await LocalStorage.GetItemAsync<List<MakeItRecipeModel>>(Globals.LocalStorageKeys.MakeItRecipes);

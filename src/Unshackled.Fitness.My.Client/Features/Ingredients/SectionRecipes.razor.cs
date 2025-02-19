@@ -9,7 +9,6 @@ namespace Unshackled.Fitness.My.Client.Features.Ingredients;
 
 public class SectionRecipesBase : BaseSearchComponent<SearchRecipeModel, RecipeListModel>
 {
-	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public IngredientModel Ingredient { get; set; } = new();
 
