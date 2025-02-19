@@ -13,8 +13,6 @@ namespace Unshackled.Fitness.My.Client.Features.ShoppingLists;
 
 public class SectionItemsBase : BaseSectionComponent
 {
-	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
-
 	protected enum Views
 	{
 		None,

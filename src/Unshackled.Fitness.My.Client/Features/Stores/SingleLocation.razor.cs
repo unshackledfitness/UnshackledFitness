@@ -11,8 +11,6 @@ namespace Unshackled.Fitness.My.Client.Features.Stores;
 
 public class SingleLocationBase : BaseComponent, IAsyncDisposable
 {
-	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
-
 	protected enum Views
 	{
 		None,

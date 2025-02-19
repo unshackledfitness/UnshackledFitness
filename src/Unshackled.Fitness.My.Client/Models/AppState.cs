@@ -2,14 +2,16 @@
 
 public class AppState
 {
-	public Member ActiveMember { get; set; } = new();
-	public bool IsMemberLoaded { get; set; } = false;
-	public bool IsServerError { get; set; } = false;
+	public Member ActiveMember { get; private set; } = new();
+	public AppStateConfig Config { get; private set; } = new();
+	public bool IsMemberLoaded { get; private set; } = false;
+	public bool IsServerError { get; private set; } = false;
 	public List<MakeItRecipeModel> MakeItRecipes { get; private set; } = [];
 	public int MakeItIndex { get; private set; }
 	public virtual string StoragePrefix => "uf_";
 
 	public event Action? OnActiveMemberChange;
+	public event Action? OnConfigurationChange;
 	public event Action? OnMakeItRecipesChanged;
 	public event Action? OnMemberLoadedChange;
 	public event Action? OnSaveMakeItRecipeChanges;
@@ -64,6 +66,12 @@ public class AppState
 		OnActiveMemberChange?.Invoke();
 		if (themeChanged)
 			OnThemeChange?.Invoke();
+	}
+
+	public virtual void SetConfiguration(AppStateConfig config)
+	{
+		Config = config;
+		OnConfigurationChange?.Invoke();
 	}
 
 	public virtual void SetMakeItRecipes(List<MakeItRecipeModel> recipes)

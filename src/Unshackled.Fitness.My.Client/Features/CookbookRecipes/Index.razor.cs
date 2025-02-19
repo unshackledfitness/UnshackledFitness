@@ -10,8 +10,6 @@ namespace Unshackled.Fitness.My.Client.Features.CookbookRecipes;
 
 public partial class IndexBase : BaseSearchComponent<SearchRecipeModel, RecipeListModel>
 {
-	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
-
 	protected List<RecipeTagSelectItem> RecipeTags { get; set; } = [];
 
 	protected override async Task OnInitializedAsync()

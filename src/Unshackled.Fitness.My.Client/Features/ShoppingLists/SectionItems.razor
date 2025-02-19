@@ -52,7 +52,7 @@
 							<MudText Typo="Typo.h5">@context.Item.Quantity.ToString()</MudText>
 						</CaptionedProperty>
 					</div>
-					<MultipleImageComponent BaseUrl="@StorageSettings.BaseUrl" Class="image-thumbnail" Images="@context.Item.Images" GalleryTitle="Product Images" AspectRatio="AspectRatios.R1x1" />
+					<MultipleImageComponent BaseUrl="@State.Config.ContentBaseUrl" Class="image-thumbnail" Images="@context.Item.Images" GalleryTitle="Product Images" AspectRatio="AspectRatios.R1x1" />
 					<div class="flex-grow-1">
 						@if (!string.IsNullOrEmpty(context.Item.Brand))
 						{

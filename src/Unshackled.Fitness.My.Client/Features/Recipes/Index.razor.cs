@@ -10,8 +10,6 @@ namespace Unshackled.Fitness.My.Client.Features.Recipes;
 
 public partial class IndexBase : BaseSearchComponent<SearchRecipeModel, RecipeListModel>
 {
-	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
-
 	protected enum Views
 	{
 		None,

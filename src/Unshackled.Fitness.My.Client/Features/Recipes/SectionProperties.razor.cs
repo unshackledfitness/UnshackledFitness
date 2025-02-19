@@ -11,7 +11,6 @@ namespace Unshackled.Fitness.My.Client.Features.Recipes;
 public class SectionPropertiesBase : BaseSectionComponent
 {
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
-	[Inject] protected StorageSettings StorageSettings { get; set; } = default!;
 	[Parameter] public RecipeModel Recipe { get; set; } = new();
 	[Parameter] public EventCallback<RecipeModel> RecipeChanged { get; set; }
 	[Parameter] public List<ImageModel> Images { get; set; } = [];

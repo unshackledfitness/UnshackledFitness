@@ -9,7 +9,6 @@ namespace Unshackled.Fitness.My.Client.Features.ProductBundles;
 
 public class IndexBase : BaseSearchComponent<SearchProductBundlesModel, ProductBundleListModel>
 {
-	[Inject] protected ClientConfiguration ClientConfig { get; set; } = default!;
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 
 	protected enum Views

@@ -1,6 +1,4 @@
-﻿@using Unshackled.Fitness.Core.Configuration
-
-@if (IsLoading)
+﻿@if (IsLoading)
 {
 	<PageTitle>@GetTitle(LoadingTitle)</PageTitle>
 }
@@ -19,7 +17,7 @@ else
 }
 
 @code {
-	[Inject] protected ClientConfiguration ClientConfiguration { get; set; } = new();
+	[Inject] protected AppState State { get; set; } = default!;
 	[Parameter] public bool IsLoading { get; set; } = false;
 	[Parameter] public string LoadingTitle { get; set; } = string.Empty;
 	[Parameter] public string Separator { get; set; } = " - ";
@@ -31,7 +29,7 @@ else
 	protected override void OnInitialized()
 	{
 		base.OnInitialized();
-		defaultTitle = ClientConfiguration.SiteName ?? string.Empty;
+		defaultTitle = State.Config.SiteName ?? string.Empty;
 	}
 
 	private string GetTitle(string? title)

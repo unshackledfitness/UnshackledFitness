@@ -6,7 +6,7 @@
 		<TitleContent>
 			<MudGrid Spacing="4">
 				<MudItem xs="12" sm="4" md="3" lg="2">
-					<MudImage Fluid="true" Class="rounded-lg" Src="@Recipe.FeaturedImage.ImageUrl(StorageSettings.BaseUrl)" />
+					<MudImage Fluid="true" Class="rounded-lg" Src="@Recipe.FeaturedImage.ImageUrl(State.Config.ContentBaseUrl)" />
 				</MudItem>
 				<MudItem xs="12" sm="8" md="9" lg="10">
 					<MudText Typo="Typo.h4">@Recipe.Title</MudText>

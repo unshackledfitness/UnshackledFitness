@@ -35,7 +35,7 @@
 	<ItemRenderer>
 		<MudCard Class="h-100">
 			<a href="@($"/recipes/{context.Item.Sid}")">
-				<MudImage Src="@context.Item.FeaturedImage.ImageUrl(StorageSettings.BaseUrl)" Class="image-16x9" Fluid="true" />
+				<MudImage Src="@context.Item.FeaturedImage.ImageUrl(State.Config.ContentBaseUrl)" Class="image-16x9" Fluid="true" />
 			</a>
 			<MudCardContent>
 				<MudLink Typo="Typo.subtitle1" Href="@($"/recipes/{context.Item.Sid}")" Class="d-block mb-4">@context.Item.Title</MudLink>

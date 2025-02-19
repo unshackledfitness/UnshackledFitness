@@ -12,7 +12,7 @@
 		<GridView TItem="ImageModel" Items="@Images" GridSpacing="2" xs="6" sm="4" md="3" lg="2">
 			<ItemRenderer>
 				<MudCard Class="h-100">
-					<MudImage Src="@context.Item.ImageUrl(StorageSettings.BaseUrl)" Fluid="true" Class="image-16x9" />
+					<MudImage Src="@context.Item.ImageUrl(State.Config.ContentBaseUrl)" Fluid="true" Class="image-16x9" />
 					@if (IsEditMode)
 					{
 						<MudCardActions>

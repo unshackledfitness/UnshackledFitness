@@ -11,7 +11,6 @@ namespace Unshackled.Fitness.My.Client.Features.TrainingSessions;
 
 public class SectionPropertiesBase : BaseSectionComponent
 {
-	[Inject] protected ClientConfiguration ClientConfig { get; set; } = default!;
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public TrainingSessionModel Session { get; set; } = new();
 	[Parameter] public EventCallback<TrainingSessionModel> SessionChanged { get; set; }

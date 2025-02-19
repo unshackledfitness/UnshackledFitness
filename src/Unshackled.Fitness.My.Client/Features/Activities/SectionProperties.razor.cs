@@ -11,7 +11,6 @@ namespace Unshackled.Fitness.My.Client.Features.Activities;
 
 public class SectionPropertiesBase : BaseSectionComponent
 {
-	[Inject] protected ClientConfiguration ClientConfig { get; set; } = default!;
 	[Inject] protected IDialogService DialogService { get; set; } = default!;
 	[Parameter] public ActivityModel Activity { get; set; } = new();
 	[Parameter] public EventCallback<ActivityModel> ActivityChanged { get; set; }
