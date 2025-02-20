@@ -9,8 +9,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Additional Files", "Additio
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		docker-compose-mysql.yml = docker-compose-mysql.yml
-		Dockerfile = Dockerfile
 		docker-compose-postgresql.yml = docker-compose-postgresql.yml
+		docker-compose-sqlite.yml = docker-compose-sqlite.yml
+		Dockerfile = Dockerfile
 		README.md = README.md
 	EndProjectSection
 EndProject

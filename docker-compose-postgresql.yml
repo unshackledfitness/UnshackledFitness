@@ -2,7 +2,7 @@ name: unshackled-fitness
 services:
   unshackledfitness:
     container_name: unshackled-fitness
-    image: unshackledfitness/unshackled-fitness:3.2.1
+    image: unshackledfitness/unshackled-fitness
     environment: 
       ASPNETCORE_URLS: https://+:8081;http://+:8080
       ASPNETCORE_Kestrel__Certificates__Default__Password: <password>
@@ -38,7 +38,7 @@ services:
       StorageSettings__Container: "content"
       StorageSettings__MaxUploadInMb: 3
     volumes:
-      - content:/app/wwwroot/content:rw
+      - /path/to/households:/app/wwwroot/content/households:rw
       - ~/.aspnet/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
     ports: 
       - 5580:8081
@@ -64,5 +64,4 @@ services:
       - postgres_db:/data/postgres
 
 volumes:
-  content:
   postgres_db:

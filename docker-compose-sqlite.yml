@@ -11,8 +11,8 @@ services:
       AuthenticationProviders__GoogleClientSecret: 
       AuthenticationProviders__MicrosoftClientId: 
       AuthenticationProviders__MicrosoftClientSecret: 
-      ConnectionStrings__DefaultDatabase: "Server=mysql;Port=3306;Database=unshackled-fitness;Uid=website;Pwd=<password>;"
-      DbConfiguration__DatabaseType: mysql
+      ConnectionStrings__DefaultDatabase: "Data Source=Data/unshackled-fitness.sqlite"
+      DbConfiguration__DatabaseType: sqlite
       DbConfiguration__TablePrefix: uf_
       HashIdConfiguration__Alphabet: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
       HashIdConfiguration__Salt: "<randomstringofcharacters>"
@@ -28,7 +28,7 @@ services:
       SiteConfiguration__PasswordStrength__RequireUppercase: true
       SiteConfiguration__PasswordStrength__RequiredLength: 10
       SiteConfiguration__PasswordStrength__RequiredUniqueChars: 7
-      SmtpSettings__Host: 
+      SmtpSettings__Host:
       SmtpSettings__Port: 587
       SmtpSettings__UseSSL: true
       SmtpSettings__Password:
@@ -38,28 +38,8 @@ services:
       StorageSettings__Container: "content"
       StorageSettings__MaxUploadInMb: 3
     volumes:
-      - /path/to/households:/app/wwwroot/content/households:rw
-      - ~/.aspnet/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
+      - /path/to/content/households:/app/wwwroot/content/households:rw
+      - /path/to/data:/app/Data:rw
+      - ~/.aspnet/https:/https:ro
     ports: 
       - 5580:8081
-    depends_on:
-      - mysql
-
-  mysql:
-    container_name: mysql-uf
-    image: mysql:latest
-    restart: always
-    environment:
-      MYSQL_DATABASE: 'unshackled-fitness'
-      MYSQL_USER: 'website'
-      MYSQL_PASSWORD: '<password>'
-      MYSQL_ROOT_PASSWORD: '<rootpassword>'
-    ports:
-      - 3306:3306
-    expose:
-      - 3306
-    volumes:
-      - mysql_db:/var/lib/mysql
-
-volumes:
-  mysql_db:
