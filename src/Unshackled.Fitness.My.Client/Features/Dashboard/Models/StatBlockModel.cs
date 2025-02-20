@@ -6,6 +6,6 @@ public class StatBlockModel
 {
 	public StatBlockTypes Type { get; set; } = StatBlockTypes.None;
 	public string Title { get; set; } = string.Empty;
-	public DateTime DateCompleted { get; set; }
-	public DateTime DateCompletedUtc { get; set; }
+	public DateTimeOffset DateCompleted { get; set; }
+	public DateTimeOffset DateCompletedUtc { get; set; }
 }

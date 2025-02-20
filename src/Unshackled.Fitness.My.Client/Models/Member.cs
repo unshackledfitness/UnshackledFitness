@@ -6,8 +6,8 @@ public class Member
 {
 	public string Sid { get; set; } = string.Empty;
 	public string Email { get; set; } = string.Empty;
-	public DateTime DateCreatedUtc { get; set; }
-	public DateTime? DateLastModifiedUtc { get; set; }
+	public DateTimeOffset DateCreatedUtc { get; set; }
+	public DateTimeOffset? DateLastModifiedUtc { get; set; }
 	public bool IsActive { get; set; }
 	public Themes AppTheme { get; set; } = Themes.System;
 	public MemberCookbook? ActiveCookbook { get; set; }

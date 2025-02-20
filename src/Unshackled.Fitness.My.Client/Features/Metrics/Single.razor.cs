@@ -21,7 +21,7 @@ public class SingleBase : BaseComponent
 	protected Views CurrentView { get; set; } = Views.Calendar;
 
 	private string searchKey = "SearchMetrics";
-	private DateTime defaultDate = new DateTime(DateTimeOffset.Now.Year, DateTimeOffset.Now.Month, 1);
+	private DateTime defaultDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
 	protected enum Views
 	{
 		Calendar,
@@ -149,7 +149,7 @@ public class SingleBase : BaseComponent
 	{
 		var defaultModel = new FormSearchModel
 		{
-			EndDate = new DateTime(DateTimeOffset.Now.Date.Year, DateTimeOffset.Now.Date.Month, 1),
+			EndDate = new DateTime(DateTime.Now.Date.Year, DateTime.Now.Date.Month, 1),
 			NumberOfMonths = 0
 		};
 

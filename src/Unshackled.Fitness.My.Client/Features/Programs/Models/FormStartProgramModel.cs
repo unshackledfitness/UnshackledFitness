@@ -3,6 +3,6 @@
 public class FormStartProgramModel
 {
 	public string Sid { get; set; } = string.Empty;
-	public DateTime DateStart { get; set; }
+	public DateTimeOffset DateStart { get; set; }
 	public int StartingTemplateIndex { get; set; }
 }

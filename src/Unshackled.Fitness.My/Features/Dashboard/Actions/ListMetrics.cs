@@ -12,9 +12,9 @@ public class ListMetrics
 	public class Query : IRequest<MetricGridModel>
 	{
 		public long MemberId { get; private set; }
-		public DateTime DisplayDate { get; private set; }
+		public DateTimeOffset DisplayDate { get; private set; }
 
-		public Query(long memberId, DateTime displayDate)
+		public Query(long memberId, DateTimeOffset displayDate)
 		{
 			MemberId = memberId;
 			DisplayDate = displayDate;
@@ -69,7 +69,7 @@ public class ListMetrics
 			var recordedMetrics = await db.Metrics
 				.AsNoTracking()
 				.Include(x => x.MetricDefinition)
-				.Where(x => x.MemberId == request.MemberId && x.MetricDefinition.IsOnDashboard == true && x.DateRecorded == request.DisplayDate.Date.SetKindUtc())
+				.Where(x => x.MemberId == request.MemberId && x.MetricDefinition.IsOnDashboard == true && x.DateRecorded == request.DisplayDate.Date)
 				.OrderBy(x => x.MetricDefinition.SortOrder)
 				.Select(x => new MetricModel
 				{

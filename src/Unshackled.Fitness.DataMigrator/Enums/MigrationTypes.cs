@@ -13,7 +13,7 @@ internal enum MigrationTypes
 	PostgreSqlToMySql = 8,
 	SqliteToMsSql = 9,
 	SqliteToMySql = 10,
-	SqliteToPostgreSql = 11
+	//SqliteToPostgreSql = 11
 }
 
 internal static class MigrationTypesExtensions
@@ -33,7 +33,7 @@ internal static class MigrationTypesExtensions
 			MigrationTypes.PostgreSqlToSqlite => "Sqlite database file",
 			MigrationTypes.SqliteToMsSql => "MS SQL Server",
 			MigrationTypes.SqliteToMySql => "MySQL Server",
-			MigrationTypes.SqliteToPostgreSql => "PostgreSQL Server",
+			//MigrationTypes.SqliteToPostgreSql => "PostgreSQL Server",
 			_ => string.Empty
 		};
 	}
@@ -53,7 +53,7 @@ internal static class MigrationTypesExtensions
 			MigrationTypes.PostgreSqlToSqlite => "PostgreSQL to Sqlite",
 			MigrationTypes.SqliteToMsSql => "Sqlite to MS SQL",
 			MigrationTypes.SqliteToMySql => "Sqlite to MySQL",
-			MigrationTypes.SqliteToPostgreSql => "Sqlite to PostgreSQL",
+			//MigrationTypes.SqliteToPostgreSql => "Sqlite to PostgreSQL",
 			_ => string.Empty
 		};
 	}

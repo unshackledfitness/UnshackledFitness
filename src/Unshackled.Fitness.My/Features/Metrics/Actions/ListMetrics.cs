@@ -12,9 +12,9 @@ public class ListMetrics
 	public class Query : IRequest<MetricGridModel>
 	{
 		public long MemberId { get; private set; }
-		public DateTime DisplayDate { get; private set; }
+		public DateTimeOffset DisplayDate { get; private set; }
 
-		public Query(long memberId, DateTime displayDate)
+		public Query(long memberId, DateTimeOffset displayDate)
 		{
 			MemberId = memberId;
 			DisplayDate = displayDate;

@@ -8,7 +8,7 @@ namespace Unshackled.Fitness.My.Client.Features.Dashboard;
 
 public class DashboardMetricsBase : BaseComponent
 {
-	protected DateTime? DisplayDate { get; set; } = DateTimeOffset.Now.Date;
+	protected DateTime? DisplayDate { get; set; } = DateTime.Now.Date;
 	protected bool IsLoading { get; set; } = true;
 	protected MetricGridModel GridModel { get; set; } = new();
 	protected AppSettings AppSettings => State.ActiveMember.Settings;
@@ -41,7 +41,7 @@ public class DashboardMetricsBase : BaseComponent
 	{
 		if (date.HasValue)
 		{
-			DisplayDate = new DateTimeOffset(date.Value).Date;
+			DisplayDate = date.Value.Date;
 			await GetMetrics();
 		}
 	}

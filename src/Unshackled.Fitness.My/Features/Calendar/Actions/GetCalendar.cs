@@ -32,8 +32,8 @@ public class GetCalendar
 			DateOnly fromDate = request.Model.FromDate;
 			DateOnly toDate = request.Model.ToDate;
 
-			DateTime fromDateTime = fromDate.ToDateTime(new TimeOnly(0, 0, 0), DateTimeKind.Unspecified);
-			DateTime toDateTime = toDate.ToDateTime(new TimeOnly(0, 0, 0), DateTimeKind.Unspecified);
+			DateTimeOffset fromDateTime = fromDate.ToDateTime(new TimeOnly(0, 0, 0), DateTimeKind.Unspecified);
+			DateTimeOffset toDateTime = toDate.ToDateTime(new TimeOnly(0, 0, 0), DateTimeKind.Unspecified);
 
 			CalendarModel model = new()
 			{
@@ -102,7 +102,7 @@ public class GetCalendar
 
 			// Fill Blocks
 			DateOnly currentDate = model.FromDate;
-			DateTime currentDateTime = fromDateTime;
+			DateTimeOffset currentDateTime = fromDateTime;
 			int activityIdx = 0;
 			int workoutIdx = 0;
 			int blockIdx = 0;

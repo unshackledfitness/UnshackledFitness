@@ -210,4 +210,11 @@ public static class Calculator
 			? new TimeSpan(end.Value.Ticks - start.Value.Ticks) 
 			: TimeSpan.Zero;
 	}
+
+	public static TimeSpan TotalTime(DateTimeOffset? start, DateTimeOffset? end)
+	{
+		return end.HasValue && start.HasValue
+			? new TimeSpan(end.Value.Ticks - start.Value.Ticks)
+			: TimeSpan.Zero;
+	}
 }

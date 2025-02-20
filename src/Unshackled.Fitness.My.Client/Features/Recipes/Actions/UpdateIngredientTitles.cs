@@ -30,9 +30,9 @@ public class UpdateIngredientTitles
 		{
 			var list = await localStorage.GetItemAsync<IngredientTitleList>(Globals.LocalStorageKeys.IngredientTitles);
 
-			if (list == null || list.DateRetrieved <= DateTime.UtcNow.AddMinutes(-LocalStorage.DefaultCacheDurationMinutes))
+			if (list == null || list.DateRetrieved <= DateTimeOffset.UtcNow.AddMinutes(-LocalStorage.DefaultCacheDurationMinutes))
 			{
-				list = new() { DateRetrieved = DateTime.UtcNow };
+				list = new() { DateRetrieved = DateTimeOffset.UtcNow };
 				list.Titles = await GetResultAsync<List<string>>($"{baseUrl}list-ingredient-titles") ?? new();
 
 				await localStorage.SetItemAsync(Globals.LocalStorageKeys.IngredientTitles, list, cancellationToken);
@@ -46,7 +46,7 @@ public class UpdateIngredientTitles
 					{
 						list.Titles.Add(title);
 						list.Titles = list.Titles.OrderBy(x => x).ToList();
-						list.DateRetrieved = DateTime.UtcNow;
+						list.DateRetrieved = DateTimeOffset.UtcNow;
 
 						updated = true;
 					}

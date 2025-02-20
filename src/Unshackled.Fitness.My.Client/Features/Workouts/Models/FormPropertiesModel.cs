@@ -11,9 +11,9 @@ public class FormPropertiesModel
 	public bool IsStarted { get; set; }
 	public bool IsComplete { get; set; }
 	public DateTime? DateStarted { get; set; }
-	public DateTime? DateStartedUtc { get; set; }
+	public DateTimeOffset? DateStartedUtc { get; set; }
 	public DateTime? DateCompleted { get; set; }
-	public DateTime? DateCompletedUtc { get; set; }
+	public DateTimeOffset? DateCompletedUtc { get; set; }
 	public int Rating { get; set; }
 
 	private DateTime? dateStarted;
@@ -100,7 +100,7 @@ public class FormPropertiesModel
 		}
 	}
 
-	public string DateFormat(DateTime? date)
+	public string DateFormat(DateTimeOffset? date)
 	{
 		if (date.HasValue)
 			return "MM/dd/yyyy";

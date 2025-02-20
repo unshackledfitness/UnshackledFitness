@@ -7,7 +7,7 @@ namespace Unshackled.Fitness.My.Client.Features.Metrics;
 
 public class IndexBase : BaseComponent
 {
-	protected DateTime? DisplayDate { get; set; } = DateTimeOffset.Now.Date;
+	protected DateTime? DisplayDate { get; set; } = DateTime.Now.Date;
 	protected bool IsLoading { get; set; } = true;
 	protected MetricGridModel GridModel { get; set; } = new();
 
@@ -32,7 +32,7 @@ public class IndexBase : BaseComponent
 	{
 		if (date.HasValue)
 		{
-			DisplayDate = new DateTimeOffset(date.Value).Date;
+			DisplayDate = date.Value.Date;
 			await GetMetrics();
 		}
 	}

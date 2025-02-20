@@ -18,7 +18,7 @@ public class IndexBase : BaseComponent
 		Model = await Mediator.Send(new GetWorkoutStats.Query(toDateUtc));
 	}
 
-	protected async Task HandleYearChanged(DateTime toDateUtc)
+	protected async Task HandleYearChanged(DateTimeOffset toDateUtc)
 	{
 		Model = await Mediator.Send(new GetWorkoutStats.Query(toDateUtc));
 	}

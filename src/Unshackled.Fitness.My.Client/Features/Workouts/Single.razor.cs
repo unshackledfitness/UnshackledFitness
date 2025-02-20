@@ -168,7 +168,7 @@ public class SingleBase : BaseComponent
 		var result = await Mediator.Send(new StartWorkout.Command(WorkoutSid));
 		if (result.Success)
 		{
-			Workout.DateStarted = result.Payload.ToLocalTime();
+			Workout.DateStarted = result.Payload.ToLocalTime().DateTime;
 			Workout.DateStartedUtc = result.Payload;
 		}
 		else

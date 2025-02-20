@@ -6,8 +6,8 @@ namespace Unshackled.Fitness.My.Client.Features.Activities.Models;
 public class ActivityListModel : BaseMemberObject
 {
 	public string Title { get; set; } = string.Empty;
-	public DateTime DateEvent { get; set; }
-	public DateTime DateEventUtc { get; set; }
+	public DateTimeOffset DateEvent { get; set; }
+	public DateTimeOffset DateEventUtc { get; set; }
 	public EventTypes EventType { get; set; }
 	public string ActivityTypeSid { get; set; } = string.Empty;
 	public string ActivityTypeTitle { get; set; } = string.Empty;

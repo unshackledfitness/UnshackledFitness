@@ -16,7 +16,7 @@ public class MetricModel : BaseMemberObject, IGroupedSortable
 	public decimal MaxValue { get; set; }
 	public bool IsArchived { get; set; }
 	public bool IsOnDashboard { get; set; }
-	public DateTime DateRecorded { get; set; }
+	public DateTimeOffset DateRecorded { get; set; }
 	public decimal RecordedValue { get; set; }
 
 	[JsonIgnore]

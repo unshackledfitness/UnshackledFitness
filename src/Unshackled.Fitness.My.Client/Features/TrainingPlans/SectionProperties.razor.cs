@@ -126,7 +126,7 @@ public class SectionPropertiesBase : BaseSectionComponent
 			IsSaving = true;
 			FormStartPlanModel model = new()
 			{
-				DateStart = (DateTime)adding.Data,
+				DateStart = (DateTimeOffset)adding.Data,
 				Sid = Plan.Sid,
 				StartingSessionIndex = Plan.StartingTemplate()?.SortOrder ?? 0
 			};

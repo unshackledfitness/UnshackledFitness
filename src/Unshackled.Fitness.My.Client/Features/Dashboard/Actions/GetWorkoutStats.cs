@@ -7,9 +7,9 @@ public class GetWorkoutStats
 {
 	public class Query : IRequest<DashboardStatsModel>
 	{
-		public DateTime FromDate { get; private set; }
+		public DateTimeOffset FromDate { get; private set; }
 
-		public Query(DateTime fromDate)
+		public Query(DateTimeOffset fromDate)
 		{
 			FromDate = fromDate;
 		}
@@ -21,7 +21,7 @@ public class GetWorkoutStats
 
 		public async Task<DashboardStatsModel> Handle(Query request, CancellationToken cancellationToken)
 		{
-			return await PostToResultAsync<DateTime, DashboardStatsModel>($"{baseUrl}workout-stats", request.FromDate) ??
+			return await PostToResultAsync<DateTimeOffset, DashboardStatsModel>($"{baseUrl}workout-stats", request.FromDate) ??
 				new DashboardStatsModel();
 		}
 	}

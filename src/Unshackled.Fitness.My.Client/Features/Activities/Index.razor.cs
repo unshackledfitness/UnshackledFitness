@@ -28,7 +28,7 @@ public class IndexBase : BaseSearchComponent<SearchActivitiesModel, ActivityList
 		SearchModel = await GetLocalSetting(SearchKey) ?? new();
 		if (SearchModel.DateStart.HasValue && SearchModel.DateEnd.HasValue)
 		{
-			DateRangeSearch = new DateRange(SearchModel.DateStart.Value, SearchModel.DateEnd.Value.AddDays(-1));
+			DateRangeSearch = new DateRange(SearchModel.DateStart.Value.DateTime, SearchModel.DateEnd.Value.DateTime.AddDays(-1));
 		}
 
 		ActivityTypes = await Mediator.Send(new ListActivityTypes.Query());

@@ -19,7 +19,7 @@ public class ActivityEntity : BaseMemberEntity
 	public double? AverageSpeedN { get; set; }
 	public SpeedUnits AverageSpeedUnit { get; set; }
 	public DateTime DateEvent { get; set; }
-	public DateTime DateEventUtc { get; set; }
+	public DateTimeOffset DateEventUtc { get; set; }
 	public EventTypes EventType {  get; set; }
 	public double? MaximumAltitude { get; set; }
 	public double? MaximumAltitudeN { get; set; }

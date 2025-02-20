@@ -7,9 +7,9 @@ public class ListMetrics
 {
 	public class Query : IRequest<MetricGridModel>
 	{
-		public DateTime DisplayDate { get; private set; }
+		public DateTimeOffset DisplayDate { get; private set; }
 
-		public Query(DateTime displayDate)
+		public Query(DateTimeOffset displayDate)
 		{
 			DisplayDate = displayDate;
 		}
@@ -21,7 +21,7 @@ public class ListMetrics
 
 		public async Task<MetricGridModel> Handle(Query request, CancellationToken cancellationToken)
 		{
-			return await PostToResultAsync<DateTime, MetricGridModel>($"{baseUrl}list-metrics", request.DisplayDate) ??
+			return await PostToResultAsync<DateTimeOffset, MetricGridModel>($"{baseUrl}list-metrics", request.DisplayDate) ??
 				new MetricGridModel();
 		}
 	}

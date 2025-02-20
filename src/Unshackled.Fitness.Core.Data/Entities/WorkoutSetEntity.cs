@@ -32,7 +32,7 @@ public class WorkoutSetEntity : BaseMemberEntity
 	public decimal VolumeLb { get; set; }
 	public decimal VolumeKg { get; set; }
 	public DateTime? DateRecorded { get; set; }
-	public DateTime? DateRecordedUtc { get; set; }
+	public DateTimeOffset? DateRecordedUtc { get; set; }
 	public bool IsBestSetBySeconds { get; set; }
 	public bool IsBestSetByWeight { get; set; }
 	public bool IsBestSetByVolume { get; set; }

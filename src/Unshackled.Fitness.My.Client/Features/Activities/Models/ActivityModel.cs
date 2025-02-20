@@ -16,7 +16,7 @@ public class ActivityModel : BaseMemberObject
 	public double? AverageSpeed { get; set; }
 	public SpeedUnits AverageSpeedUnit { get; set; }
 	public DateTime DateEvent { get; set; }
-	public DateTime DateEventUtc { get; set; }
+	public DateTimeOffset DateEventUtc { get; set; }
 	public EventTypes EventType { get; set; }
 	public double? MaximumAltitude { get; set; }
 	public DistanceUnits MaximumAltitudeUnit { get; set; }

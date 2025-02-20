@@ -30,7 +30,7 @@ public class MetricsController : BaseController
 	}
 
 	[HttpPost("list")]
-	public async Task<IActionResult> List([FromBody] DateTime displayDateUtc)
+	public async Task<IActionResult> List([FromBody] DateTimeOffset displayDateUtc)
 	{
 		return Ok(await Mediator.Send(new ListMetrics.Query(Member.Id, displayDateUtc)));
 	}

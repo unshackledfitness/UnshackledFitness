@@ -34,7 +34,7 @@ public class FormWorkoutSetModel : BaseObject, IGroupedSortable, ICloneable
 	public decimal? Weight { get; set; }
 	public WeightUnits WeightUnit { get; set; } = WeightUnits.lb;
 	public DateTime? DateRecorded { get; set; }
-	public DateTime? DateRecordedUtc { get; set; }
+	public DateTimeOffset? DateRecordedUtc { get; set; }
 	public bool IsBestSetBySeconds { get; set; }
 	public bool IsBestSetByVolume { get; set; }
 	public bool IsBestSetByWeight { get; set; }

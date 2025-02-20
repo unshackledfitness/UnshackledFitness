@@ -7,7 +7,7 @@ namespace Unshackled.Fitness.My.Client.Features.Workouts.Actions;
 
 public class StartWorkout
 {
-	public class Command : IRequest<CommandResult<DateTime>>
+	public class Command : IRequest<CommandResult<DateTimeOffset>>
 	{
 		public string WorkoutSid { get; private set; }
 
@@ -17,11 +17,11 @@ public class StartWorkout
 		}
 	}
 
-	public class Handler : BaseWorkoutHandler, IRequestHandler<Command, CommandResult<DateTime>>
+	public class Handler : BaseWorkoutHandler, IRequestHandler<Command, CommandResult<DateTimeOffset>>
 	{
 		public Handler(HttpClient httpClient) : base(httpClient) { }
 
-		public async Task<CommandResult<DateTime>> Handle(Command request, CancellationToken cancellationToken)
+		public async Task<CommandResult<DateTimeOffset>> Handle(Command request, CancellationToken cancellationToken)
 		{
 			var startTime = DateTime.Now;
 			StartWorkoutModel model = new()
@@ -31,8 +31,8 @@ public class StartWorkout
 				WorkoutSid = request.WorkoutSid
 			};
 
-			return await PostToCommandResultAsync<StartWorkoutModel, DateTime>($"{baseUrl}start", model)
-				?? new CommandResult<DateTime>(false, Globals.UnexpectedError);
+			return await PostToCommandResultAsync<StartWorkoutModel, DateTimeOffset>($"{baseUrl}start", model)
+				?? new CommandResult<DateTimeOffset>(false, Globals.UnexpectedError);
 		}
 	}
 }

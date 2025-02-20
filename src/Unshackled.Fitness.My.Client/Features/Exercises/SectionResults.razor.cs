@@ -208,7 +208,7 @@ public class SectionResultsBase : BaseSearchComponent<SearchResultsModel, Result
 				List<ChartDataSet<int>> rightDataSets = new();
 
 				int dsIndex = 0;
-				DateTime currentDate = DateTime.MinValue;
+				DateTimeOffset currentDate = DateTimeOffset.MinValue;
 				foreach (var item in data)
 				{
 					if (item.DateWorkoutUtc > currentDate)
@@ -276,7 +276,7 @@ public class SectionResultsBase : BaseSearchComponent<SearchResultsModel, Result
 				List<ChartDataSet<int>> dataSets = new();
 
 				int dsIndex = 0;
-				DateTime currentDate = DateTime.MinValue;
+				DateTimeOffset currentDate = DateTimeOffset.MinValue;
 				foreach (var item in data)
 				{
 					if (item.DateWorkoutUtc > currentDate)
@@ -338,7 +338,7 @@ public class SectionResultsBase : BaseSearchComponent<SearchResultsModel, Result
 				List<ChartDataSet<int>> rightDataSets = new();
 
 				int dsIndex = 0;
-				DateTime currentDate = DateTime.MinValue;
+				DateTimeOffset currentDate = DateTimeOffset.MinValue;
 				foreach (var item in data)
 				{
 					if (item.DateWorkoutUtc > currentDate)
@@ -400,7 +400,7 @@ public class SectionResultsBase : BaseSearchComponent<SearchResultsModel, Result
 				List<ChartDataSet<int>> dataSets = new();
 
 				int dsIndex = 0;
-				DateTime currentDate = DateTime.MinValue;
+				DateTimeOffset currentDate = DateTimeOffset.MinValue;
 				foreach (var item in data)
 				{
 					if (item.DateWorkoutUtc > currentDate)

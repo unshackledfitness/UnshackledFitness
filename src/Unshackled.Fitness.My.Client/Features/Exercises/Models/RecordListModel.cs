@@ -14,7 +14,7 @@ public class RecordListModel
 
 	public string WorkoutSid { get; set; } = string.Empty;
 	public string WorkoutSetSid { get; set; } = string.Empty;
-	public DateTime DateWorkoutUtc { get; set; }
+	public DateTimeOffset DateWorkoutUtc { get; set; }
 	public decimal WeightLb { get; set; }
 	public decimal WeightKg { get; set; }
 	public decimal VolumeLb { get; set; }

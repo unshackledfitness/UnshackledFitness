@@ -4,5 +4,5 @@ public class StartWorkoutModel
 {
 	public string WorkoutSid { get; set; } = string.Empty;
 	public DateTime DateStarted { get; set; }
-	public DateTime DateStartedUtc { get; set; }
+	public DateTimeOffset DateStartedUtc { get; set; }
 }
