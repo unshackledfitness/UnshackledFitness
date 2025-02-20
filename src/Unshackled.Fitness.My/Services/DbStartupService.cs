@@ -15,27 +15,34 @@ public static class DbStartupService
 		while (retries < 7)
 		{
 			Console.WriteLine("Connecting to db. Trial: {0}", retries);
-			switch (dbConfig.DatabaseType?.ToLower())
+			try
 			{
-				case DbConfiguration.MSSQL:
-					isReady = await services.GetRequiredService<MsSqlServerDbContext>()
-						.Database.CanConnectAsync();
-					break;
-				case DbConfiguration.MYSQL:
-					isReady = await services.GetRequiredService<MySqlServerDbContext>()
-						.Database.CanConnectAsync();
-					break;
-				case DbConfiguration.POSTGRESQL:
-					isReady = await services.GetRequiredService<PostgreSqlServerDbContext>()
-						.Database.CanConnectAsync();
-					break;
-				case DbConfiguration.SQLITE:
-					FileUtils.EnsureDataSourceDirectoryExists(connectionStrings.DefaultDatabase);
-					isReady = await services.GetRequiredService<SqliteDbContext>()
-						.Database.CanConnectAsync();
-					break;
-				default:
-					break;
+				switch (dbConfig.DatabaseType?.ToLower())
+				{
+					case DbConfiguration.MSSQL:
+						isReady = await services.GetRequiredService<MsSqlServerDbContext>()
+							.Database.CanConnectAsync();
+						break;
+					case DbConfiguration.MYSQL:
+						isReady = await services.GetRequiredService<MySqlServerDbContext>()
+							.Database.CanConnectAsync();
+						break;
+					case DbConfiguration.POSTGRESQL:
+						isReady = await services.GetRequiredService<PostgreSqlServerDbContext>()
+							.Database.CanConnectAsync();
+						break;
+					case DbConfiguration.SQLITE:
+						FileUtils.EnsureDataSourceDirectoryExists(connectionStrings.DefaultDatabase);
+						isReady = await services.GetRequiredService<SqliteDbContext>()
+							.Database.CanConnectAsync();
+						break;
+					default:
+						break;
+				}
+			}
+			catch
+			{
+				isReady = false;
 			}
 
 			if (!isReady)
