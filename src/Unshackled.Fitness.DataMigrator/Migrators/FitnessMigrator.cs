@@ -31,11 +31,6 @@ internal class FitnessMigrator
 				dbLegacy = MsSqlServerDbContext.Create(mConfig.MsSqlDatabase, mConfig.SourceTablePrefix);
 				dbNew = PostgreSqlServerDbContext.Create(mConfig.PostgreSqlDatabase, mConfig.DestinationTablePrefix);
 				break;
-			case MigrationTypes.MsSqlToSqlite:
-				dbLegacy = MsSqlServerDbContext.Create(mConfig.MsSqlDatabase, mConfig.SourceTablePrefix);
-				dbNew = SqliteDbContext.Create(mConfig.SqliteDatabase, mConfig.DestinationTablePrefix);
-				PrepareSqlitePath(mConfig.SqliteDatabase);
-				break;
 			case MigrationTypes.MySqlToMsSql:
 				dbLegacy = MySqlServerDbContext.Create(mConfig.MySqlDatabase, mConfig.SourceTablePrefix);
 				dbNew = MsSqlServerDbContext.Create(mConfig.MsSqlDatabase, mConfig.DestinationTablePrefix);
@@ -44,11 +39,6 @@ internal class FitnessMigrator
 			case MigrationTypes.MySqlToPostgreSql:
 				dbLegacy = MySqlServerDbContext.Create(mConfig.MySqlDatabase, mConfig.SourceTablePrefix);
 				dbNew = PostgreSqlServerDbContext.Create(mConfig.PostgreSqlDatabase, mConfig.DestinationTablePrefix);
-				break;
-			case MigrationTypes.MySqlToSqlite:
-				dbLegacy = MySqlServerDbContext.Create(mConfig.MySqlDatabase, mConfig.SourceTablePrefix);
-				dbNew = SqliteDbContext.Create(mConfig.SqliteDatabase, mConfig.DestinationTablePrefix);
-				PrepareSqlitePath(mConfig.SqliteDatabase);
 				break;
 			case MigrationTypes.PostgreSqlToMsSql:
 				dbLegacy = PostgreSqlServerDbContext.Create(mConfig.PostgreSqlDatabase, mConfig.SourceTablePrefix);
@@ -59,11 +49,6 @@ internal class FitnessMigrator
 				dbLegacy = PostgreSqlServerDbContext.Create(mConfig.PostgreSqlDatabase, mConfig.SourceTablePrefix);
 				dbNew = MySqlServerDbContext.Create(mConfig.MySqlDatabase, mConfig.DestinationTablePrefix);
 				break;
-			case MigrationTypes.PostgreSqlToSqlite:
-				dbLegacy = PostgreSqlServerDbContext.Create(mConfig.PostgreSqlDatabase, mConfig.SourceTablePrefix);
-				dbNew = SqliteDbContext.Create(mConfig.SqliteDatabase, mConfig.DestinationTablePrefix);
-				PrepareSqlitePath(mConfig.SqliteDatabase);
-				break;
 			case MigrationTypes.SqliteToMsSql:
 				dbLegacy = SqliteDbContext.Create(mConfig.SqliteDatabase, mConfig.SourceTablePrefix);
 				dbNew = MsSqlServerDbContext.Create(mConfig.MsSqlDatabase, mConfig.DestinationTablePrefix);
@@ -73,10 +58,10 @@ internal class FitnessMigrator
 				dbLegacy = SqliteDbContext.Create(mConfig.SqliteDatabase, mConfig.SourceTablePrefix);
 				dbNew = MySqlServerDbContext.Create(mConfig.MySqlDatabase, mConfig.DestinationTablePrefix);
 				break;
-			//case MigrationTypes.SqliteToPostgreSql:
-			//	dbLegacy = SqliteDbContext.Create(mConfig.SqliteDatabase, mConfig.SourceTablePrefix);
-			//	dbNew = PostgreSqlServerDbContext.Create(mConfig.PostgreSqlDatabase, mConfig.DestinationTablePrefix);
-			//	break;
+			case MigrationTypes.SqliteToPostgreSql:
+				dbLegacy = SqliteDbContext.Create(mConfig.SqliteDatabase, mConfig.SourceTablePrefix);
+				dbNew = PostgreSqlServerDbContext.Create(mConfig.PostgreSqlDatabase, mConfig.DestinationTablePrefix);
+				break;
 			default:
 				dbLegacy = default!;
 				dbNew = default!;

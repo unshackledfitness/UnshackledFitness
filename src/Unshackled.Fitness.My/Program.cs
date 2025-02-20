@@ -60,9 +60,6 @@ switch (dbConfig.DatabaseType?.ToLower())
 	case DbConfiguration.POSTGRESQL:
 		builder.Services.AddDbContext<BaseDbContext, PostgreSqlServerDbContext>();
 		break;
-	case DbConfiguration.SQLITE:
-		builder.Services.AddDbContext<BaseDbContext, SqliteDbContext>();
-		break;
 	default:
 		break;
 }

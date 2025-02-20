@@ -217,17 +217,17 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.Property<int>("AverageSpeedUnit")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("DateEvent")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("DateEventUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateEventUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("EventType")
                         .HasColumnType("INTEGER");
@@ -382,11 +382,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .HasColumnType("TEXT")
                         .UseCollation("NOCASE");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("DefaultCadenceUnits")
                         .HasColumnType("INTEGER");
@@ -431,11 +431,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
@@ -471,11 +471,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.Property<long>("CookbookId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -546,11 +546,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("DefaultSetMetricType")
                         .HasColumnType("INTEGER");
@@ -613,11 +613,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.Property<Guid>("ContentUid")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
                         .HasColumnType("INTEGER");
@@ -645,11 +645,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -698,11 +698,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateOnly>("DatePlanned")
                         .HasColumnType("TEXT");
@@ -743,11 +743,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("INTEGER");
@@ -785,11 +785,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.Property<int>("AppTheme")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -847,11 +847,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("HighlightColor")
                         .IsRequired()
@@ -915,11 +915,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
                         .HasColumnType("INTEGER");
@@ -952,11 +952,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("DateRecorded")
                         .HasColumnType("TEXT");
@@ -992,11 +992,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
                         .HasColumnType("INTEGER");
@@ -1032,11 +1032,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("INTEGER");
@@ -1084,11 +1084,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("INTEGER");
@@ -1220,11 +1220,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.Property<int>("CopperUnit")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
@@ -1685,11 +1685,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .HasColumnType("TEXT")
                         .UseCollation("NOCASE");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("FileSize")
                         .HasColumnType("INTEGER");
@@ -1762,14 +1762,14 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastWorkoutUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastWorkoutUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("DateStarted")
                         .HasColumnType("TEXT");
@@ -1815,11 +1815,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("DayNumber")
                         .HasColumnType("INTEGER");
@@ -1866,11 +1866,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.Property<int>("CookTimeMinutes")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
                         .HasColumnType("TEXT")
@@ -1916,11 +1916,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .HasColumnType("TEXT")
                         .UseCollation("NOCASE");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("FileSize")
                         .HasColumnType("INTEGER");
@@ -1991,11 +1991,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.Property<int>("AmountUnit")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("INTEGER");
@@ -2049,11 +2049,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("INTEGER");
@@ -2088,11 +2088,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("INTEGER");
@@ -2127,11 +2127,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("INTEGER");
@@ -2181,11 +2181,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("INTEGER");
@@ -2291,11 +2291,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
@@ -2330,11 +2330,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
@@ -2402,11 +2402,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("INTEGER");
@@ -2445,14 +2445,14 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastActivityUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastActivityUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("DateStarted")
                         .HasColumnType("TEXT");
@@ -2500,11 +2500,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("DayNumber")
                         .HasColumnType("INTEGER");
@@ -2550,11 +2550,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.Property<long>("ActivityTypeId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("EventType")
                         .HasColumnType("INTEGER");
@@ -2644,8 +2644,8 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("LockoutEnd")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -2701,20 +2701,20 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.Property<DateTime?>("DateCompleted")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset?>("DateCompletedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateCompletedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("DateStarted")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset?>("DateStartedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateStartedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ExerciseCount")
                         .HasColumnType("INTEGER");
@@ -2793,17 +2793,17 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("DateRecorded")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset?>("DateRecordedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateRecordedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("ExerciseId")
                         .HasColumnType("INTEGER");
@@ -2929,11 +2929,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
                         .HasColumnType("INTEGER");
@@ -2971,11 +2971,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.Property<bool>("Completed")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
                         .HasColumnType("INTEGER");
@@ -3013,11 +3013,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
                         .HasColumnType("TEXT")
@@ -3061,11 +3061,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("ExerciseId")
                         .HasColumnType("INTEGER");
@@ -3123,11 +3123,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
                         .HasColumnType("INTEGER");
@@ -3162,11 +3162,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
                         .HasColumnType("INTEGER");
