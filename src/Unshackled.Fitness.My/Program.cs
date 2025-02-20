@@ -162,31 +162,15 @@ else
 	app.UseHsts();
 }
 
+using var scope = app.Services.CreateScope();
+bool isReady = await DbStartupService.IsReady(dbConfig, connectionStrings, scope.ServiceProvider);
+
+if (!isReady)
+	throw new Exception("Unable to connect to the database.");
+
 if (siteConfig.ApplyMigrationsOnStartup)
 {
-	using var scope = app.Services.CreateScope();
-	switch (dbConfig.DatabaseType?.ToLower())
-	{
-		case DbConfiguration.MSSQL:
-			scope.ServiceProvider.GetRequiredService<MsSqlServerDbContext>()
-				.Database.Migrate();
-			break;
-		case DbConfiguration.MYSQL:
-			scope.ServiceProvider.GetRequiredService<MySqlServerDbContext>()
-				.Database.Migrate();
-			break;
-		case DbConfiguration.POSTGRESQL:
-			scope.ServiceProvider.GetRequiredService<PostgreSqlServerDbContext>()
-				.Database.Migrate();
-			break;
-		case DbConfiguration.SQLITE:
-			FileUtils.EnsureDataSourceDirectoryExists(connectionStrings.DefaultDatabase);
-			scope.ServiceProvider.GetRequiredService<SqliteDbContext>()
-				.Database.Migrate();
-			break;
-		default:
-			break;
-	}
+	await DbStartupService.ApplyMigrations(dbConfig, connectionStrings, scope.ServiceProvider);
 }
 
 app.UseHttpsRedirection();
