@@ -39,6 +39,23 @@
 					</div>
 				</MudPaper>
 			}
+			@if (Exercise.DefaultSetMetricType == SetMetricTypes.RepsOnly && MaxReps.MaxReps > 0)
+			{
+				<MudPaper Class="d-flex flex-column align-center gap-2">
+					<div class="d-flex flex-row align-center gap-2">
+						<MudIcon Icon="@Icons.Material.Filled.EmojiEvents" />
+						<MudText Class="me-2">Reps</MudText>
+					</div>
+					<div class="flex-grow-1 py-4">
+						<MudText Typo="Typo.h3">
+							<WeightRepsLabel IsRepsOnly="true" Reps="MaxReps.MaxReps"  UnitSystem="@AppSettings.DefaultUnits" />
+						</MudText>
+					</div>
+					<div>
+						<MudLink Href="@($"/workouts/{MaxReps.WorkoutSid}")" Color="Color.Secondary" Typo="Typo.body2">@MaxReps.DateWorkoutUtc.ToLocalTime().ToString("MMMM dd, yyyy")</MudLink>
+					</div>
+				</MudPaper>
+			}
 			@if (Exercise.DefaultSetMetricType == SetMetricTypes.TimeOnly && MaxSeconds.MaxSeconds > 0)
 			{
 				<MudPaper Class="d-flex flex-column align-center gap-2">

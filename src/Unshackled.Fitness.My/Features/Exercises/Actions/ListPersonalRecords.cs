@@ -64,6 +64,26 @@ public class ListPersonalRecords
 				list.Add(pr);
 			}
 
+			// Reps
+			pr = await mapper.ProjectTo<RecordListModel>(db.WorkoutSets
+				.AsNoTracking()
+				.Include(x => x.Workout)
+				.Where(x => x.MemberId == request.MemberId
+					&& x.ExerciseId == request.Id
+					&& x.Workout.DateCompletedUtc != null
+					&& x.IsRecordReps == true
+					&& x.WeightKg == 0
+					&& x.WeightLb == 0
+					&& (x.Reps > 0 || x.RepsLeft > 0 || x.RepsRight > 0))
+				.OrderByDescending(x => x.DateRecordedUtc))
+				.FirstOrDefaultAsync(cancellationToken);
+
+			if (pr != null)
+			{
+				pr.RecordType = RecordListModel.RecordTypes.Reps;
+				list.Add(pr);
+			}
+
 			// Time
 			pr = await mapper.ProjectTo<RecordListModel>(db.WorkoutSets
 				.AsNoTracking()
