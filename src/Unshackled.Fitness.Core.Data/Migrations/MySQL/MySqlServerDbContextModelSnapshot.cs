@@ -2719,6 +2719,9 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
+                    b.Property<int>("RecordRepsCount")
+                        .HasColumnType("int");
+
                     b.Property<int>("RecordSecondsAtWeightCount")
                         .HasColumnType("int");
 
@@ -2798,6 +2801,9 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<int>("IntensityTarget")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsBestSetByReps")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<bool>("IsBestSetBySeconds")
                         .HasColumnType("tinyint(1)");
 
@@ -2805,6 +2811,9 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsBestSetByWeight")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsRecordReps")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsRecordSeconds")

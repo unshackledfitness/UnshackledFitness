@@ -2,42 +2,37 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Unshackled.Fitness.Core.Data;
 
 #nullable disable
 
-namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
+namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 {
-    [DbContext(typeof(MsSqlServerDbContext))]
-    [Migration("20250220163450_v3.3.0")]
+    [DbContext(typeof(SqliteDbContext))]
+    [Migration("20250221155646_v3.3.0")]
     partial class v330
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.2")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
-
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.2");
 
             modelBuilder.Entity("Microsoft.AspNetCore.DataProtection.EntityFrameworkCore.DataProtectionKey", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("FriendlyName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("Xml")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -47,26 +42,29 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                        .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("uf_Roles", (string)null);
                 });
@@ -75,19 +73,20 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -100,19 +99,20 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -124,17 +124,21 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -146,10 +150,12 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -161,16 +167,20 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -181,173 +191,173 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("ActivityTypeId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<double?>("AverageCadence")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<int>("AverageCadenceUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("AverageHeartRateBpm")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("AveragePace")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<double?>("AveragePower")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<double?>("AverageSpeed")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<double?>("AverageSpeedN")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<int>("AverageSpeedUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("DateEvent")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("DateEventUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long>("DateEventUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("EventType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<double?>("MaximumAltitude")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<double?>("MaximumAltitudeN")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<int>("MaximumAltitudeUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<double?>("MaximumCadence")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<int>("MaximumCadenceUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("MaximumHeartRateBpm")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("MaximumPace")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<double?>("MaximumPower")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<double?>("MaximumSpeed")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<double?>("MaximumSpeedN")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<int>("MaximumSpeedUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<double?>("MinimumAltitude")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<double?>("MinimumAltitudeN")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<int>("MinimumAltitudeUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<int>("Rating")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<double?>("TargetCadence")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<int>("TargetCadenceUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("TargetCalories")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<double?>("TargetDistance")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<double?>("TargetDistanceN")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<int>("TargetDistanceUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("TargetHeartRateBpm")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("TargetPace")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<double?>("TargetPower")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<int?>("TargetTimeSeconds")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<double?>("TotalAscent")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<double?>("TotalAscentN")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<int>("TotalAscentUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("TotalCalories")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<double?>("TotalDescent")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<double?>("TotalDescentN")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<int>("TotalDescentUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<double?>("TotalDistance")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<double?>("TotalDistanceN")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<int>("TotalDistanceUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("TotalTimeSeconds")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long?>("TrainingSessionId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -368,42 +378,42 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Color")
                         .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("DefaultCadenceUnits")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("DefaultDistanceUnits")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("DefaultElevationUnits")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("DefaultEventType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("DefaultSpeedUnits")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -422,27 +432,27 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -459,26 +469,25 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("CookbookId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<int>("Permissions")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -494,13 +503,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.CookbookMemberEntity", b =>
                 {
                     b.Property<long>("CookbookId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("PermissionLevel")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("CookbookId", "MemberId");
 
@@ -512,16 +521,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.CookbookRecipeEntity", b =>
                 {
                     b.Property<long>("CookbookId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("RecipeId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("CookbookId", "RecipeId");
 
@@ -538,49 +547,52 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("DefaultSetMetricType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("DefaultSetType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("Equipment")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<bool>("IsArchived")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsTrackingSplit")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Muscles")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -599,26 +611,25 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<Guid>("ContentUid")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -635,26 +646,25 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("HouseholdId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Permissions")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -670,13 +680,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.HouseholdMemberEntity", b =>
                 {
                     b.Property<long>("HouseholdId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("PermissionLevel")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("HouseholdId", "MemberId");
 
@@ -689,31 +699,29 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateOnly>("DatePlanned")
-                        .HasColumnType("date");
+                        .HasColumnType("TEXT");
 
                     b.Property<long>("HouseholdId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("RecipeId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Scale")
                         .HasPrecision(4, 2)
-                        .HasColumnType("decimal(4,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<long?>("SlotId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -736,26 +744,25 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -776,26 +783,25 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("AppTheme")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -813,22 +819,22 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
                         .HasMaxLength(450)
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("MetaKey")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("MetaValue")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -842,53 +848,54 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("HighlightColor")
                         .IsRequired()
                         .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<bool>("IsArchived")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsOnDashboard")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("INTEGER")
                         .HasDefaultValue(true);
 
                     b.Property<long>("ListGroupId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("MaxValue")
                         .HasPrecision(2)
-                        .HasColumnType("decimal(2,0)");
+                        .HasColumnType("TEXT");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("MetricType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("SubTitle")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -909,26 +916,25 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -947,28 +953,26 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("DateRecorded")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MetricDefinitionId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("RecordedValue")
                         .HasPrecision(15, 3)
-                        .HasColumnType("decimal(15,3)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -989,27 +993,27 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Settings")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -1029,23 +1033,22 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -1063,13 +1066,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.ProductBundleItemEntity", b =>
                 {
                     b.Property<long>("ProductBundleId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("ProductId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("ProductBundleId", "ProductId");
 
@@ -1082,23 +1085,22 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -1117,545 +1119,547 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("AddedSugars")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("AddedSugarsN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("AddedSugarsUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Biotin")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("BiotinN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("BiotinUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Brand")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<decimal>("Calcium")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("CalciumN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("CalciumUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Calories")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CaloriesFromFat")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Chloride")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("ChlorideN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("ChlorideUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Cholesterol")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("CholesterolN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("CholesterolUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Choline")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("CholineN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("CholineUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Chromium")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("ChromiumN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("ChromiumUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<Guid>("ContentUid")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("Copper")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("CopperN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("CopperUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<decimal>("DietaryFiber")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("DietaryFiberN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("DietaryFiberUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Folate")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("FolateN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("FolateUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("HasNutritionInfo")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("InsolubleFiber")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("InsolubleFiberN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("InsolubleFiberUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Iodine")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("IodineN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("IodineUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Iron")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("IronN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("IronUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsArchived")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsAutoSkipped")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Magnesium")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("MagnesiumN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("MagnesiumUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Manganese")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("ManganeseN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("ManganeseUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Molybdenum")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("MolybdenumN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("MolybdenumUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("MonounsaturatedFat")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("MonounsaturatedFatN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("MonounsaturatedFatUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Niacin")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("NiacinN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("NiacinUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("PantothenicAcid")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("PantothenicAcidN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("PantothenicAcidUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Phosphorus")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("PhosphorusN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("PhosphorusUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("PolyunsaturatedFat")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("PolyunsaturatedFatN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("PolyunsaturatedFatUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Potassium")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("PotassiumN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("PotassiumUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long?>("ProductCategoryId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Protein")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("ProteinN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("ProteinUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Riboflavin")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("RiboflavinN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("RiboflavinUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("SaturatedFat")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("SaturatedFatN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("SaturatedFatUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Selenium")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("SeleniumN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("SeleniumUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("ServingSize")
                         .HasPrecision(8, 3)
-                        .HasColumnType("decimal(8,3)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("ServingSizeMetric")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("ServingSizeMetricN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("ServingSizeMetricUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("ServingSizeN")
                         .HasPrecision(13, 6)
-                        .HasColumnType("decimal(13,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("ServingSizeUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ServingSizeUnitLabel")
                         .IsRequired()
                         .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<decimal>("ServingsPerContainer")
                         .HasPrecision(8, 3)
-                        .HasColumnType("decimal(8,3)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("Sodium")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("SodiumN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("SodiumUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("SolubleFiber")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("SolubleFiberN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("SolubleFiberUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("SugarAlcohols")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("SugarAlcoholsN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("SugarAlcoholsUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Thiamin")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("ThiaminN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("ThiaminUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<decimal>("TotalCarbohydrates")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("TotalCarbohydratesN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("TotalCarbohydratesUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("TotalFat")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("TotalFatN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("TotalFatUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("TotalSugars")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("TotalSugarsN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("TotalSugarsUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("TransFat")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("TransFatN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("TransFatUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("VitaminA")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("VitaminAN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("VitaminAUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("VitaminB12")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("VitaminB12N")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("VitaminB12Unit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("VitaminB6")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("VitaminB6N")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("VitaminB6Unit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("VitaminC")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("VitaminCN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("VitaminCUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("VitaminD")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("VitaminDN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("VitaminDUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("VitaminE")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("VitaminEN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("VitaminEUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("VitaminK")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("VitaminKN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("VitaminKUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Zinc")
                         .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("ZincN")
                         .HasPrecision(12, 6)
-                        .HasColumnType("decimal(12,6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("ZincUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -1676,45 +1680,46 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Container")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("FileSize")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsFeatured")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("MimeType")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("ProductId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("RelativePath")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -1733,16 +1738,17 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<string>("IngredientKey")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("ProductId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsPrimary")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("IngredientKey", "ProductId");
 
@@ -1757,41 +1763,41 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastWorkoutUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastWorkoutUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("DateStarted")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<int>("LengthWeeks")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("NextTemplateIndex")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ProgramType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -1810,33 +1816,31 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("DayNumber")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("ProgramId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("WeekNumber")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("WorkoutTemplateId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -1857,38 +1861,38 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<Guid>("ContentUid")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("CookTimeMinutes")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("HouseholdId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("PrepTimeMinutes")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<int>("TotalServings")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -1907,45 +1911,46 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Container")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("FileSize")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsFeatured")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("MimeType")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("RecipeId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("RelativePath")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -1964,62 +1969,65 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Amount")
                         .HasPrecision(8, 3)
-                        .HasColumnType("decimal(8,3)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("AmountLabel")
                         .IsRequired()
                         .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<decimal>("AmountN")
                         .HasPrecision(15, 3)
-                        .HasColumnType("decimal(15,3)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("AmountText")
                         .IsRequired()
                         .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<int>("AmountUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Key")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("ListGroupId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("PrepNote")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("RecipeId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -2042,28 +2050,27 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("RecipeId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -2082,28 +2089,27 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Note")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("RecipeId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -2122,28 +2128,27 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Instructions")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("RecipeId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -2161,10 +2166,10 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.RecipeTagEntity", b =>
                 {
                     b.Property<long>("RecipeId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("TagId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("RecipeId", "TagId");
 
@@ -2177,26 +2182,25 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long?>("StoreId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -2216,16 +2220,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.ShoppingListItemEntity", b =>
                 {
                     b.Property<long>("ShoppingListId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("ProductId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsInCart")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("ShoppingListId", "ProductId");
 
@@ -2237,41 +2241,43 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.ShoppingListRecipeItemEntity", b =>
                 {
                     b.Property<long>("ShoppingListId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("ProductId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("RecipeId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("InstanceId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("IngredientAmount")
                         .HasPrecision(8, 3)
-                        .HasColumnType("decimal(8,3)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("IngredientAmountUnitLabel")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<int>("IngredientAmountUnitType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("IngredientKey")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<bool>("IsUnitMismatch")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("PortionUsed")
                         .HasPrecision(15, 10)
-                        .HasColumnType("decimal(15,10)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("ServingSizeUnitType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("ShoppingListId", "ProductId", "RecipeId", "InstanceId");
 
@@ -2286,27 +2292,27 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("HouseholdId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -2325,33 +2331,33 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("HouseholdId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("StoreId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -2371,16 +2377,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.StoreProductLocationEntity", b =>
                 {
                     b.Property<long>("StoreId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("ProductId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("StoreLocationId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("StoreId", "ProductId");
 
@@ -2397,28 +2403,28 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("HouseholdId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Key")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -2440,41 +2446,41 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastActivityUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastActivityUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("DateStarted")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<int>("LengthWeeks")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("NextSessionIndex")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ProgramType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -2495,33 +2501,31 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("DayNumber")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("TrainingPlanId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("TrainingSessionId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("WeekNumber")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -2544,62 +2548,62 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("ActivityTypeId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("EventType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<double?>("TargetCadence")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<int>("TargetCadenceUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("TargetCalories")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<double?>("TargetDistance")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<double?>("TargetDistanceN")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<int>("TargetDistanceUnit")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("TargetHeartRateBpm")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("TargetPace")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<double?>("TargetPower")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<int?>("TargetTimeSeconds")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -2621,54 +2625,63 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.UserEntity", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("LockoutEnd")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -2677,8 +2690,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                        .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("uf_Users", (string)null);
                 });
@@ -2687,82 +2699,86 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("DateCompleted")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset?>("DateCompletedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateCompletedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("DateStarted")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset?>("DateStartedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateStartedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ExerciseCount")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("MusclesTargeted")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<int>("Rating")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RecordRepsCount")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("RecordSecondsAtWeightCount")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("RecordSecondsCount")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("RecordTargetVolumeCount")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("RecordTargetWeightCount")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("RecordVolumeCount")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("RecordWeightCount")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("RepCount")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SetCount")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<decimal>("VolumeKg")
                         .HasPrecision(12, 3)
-                        .HasColumnType("decimal(12,3)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("VolumeLb")
                         .HasPrecision(12, 3)
-                        .HasColumnType("decimal(12,3)");
+                        .HasColumnType("TEXT");
 
                     b.Property<long?>("WorkoutTemplateId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -2781,121 +2797,126 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("DateRecorded")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset?>("DateRecordedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateRecordedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("ExerciseId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("IntensityTarget")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsBestSetByReps")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsBestSetBySeconds")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsBestSetByVolume")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsBestSetByWeight")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsRecordReps")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsRecordSeconds")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsRecordSecondsAtWeight")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsRecordTargetVolume")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsRecordTargetWeight")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsRecordVolume")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsRecordWeight")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsTrackingSplit")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("ListGroupId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<int>("RepMode")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Reps")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("RepsLeft")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("RepsRight")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("RepsTarget")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Seconds")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SecondsLeft")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SecondsRight")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SecondsTarget")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SetMetricType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SetType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("VolumeKg")
                         .HasPrecision(10, 3)
-                        .HasColumnType("decimal(10,3)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("VolumeLb")
                         .HasPrecision(10, 3)
-                        .HasColumnType("decimal(10,3)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("WeightKg")
                         .HasPrecision(7, 3)
-                        .HasColumnType("decimal(7,3)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("WeightLb")
                         .HasPrecision(7, 3)
-                        .HasColumnType("decimal(7,3)");
+                        .HasColumnType("TEXT");
 
                     b.Property<long>("WorkoutId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -2918,28 +2939,27 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("WorkoutId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -2958,34 +2978,33 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("Completed")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<int>("Type")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("WorkoutId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -3004,35 +3023,36 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<int>("ExerciseCount")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("MusclesTargeted")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<int>("SetCount")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.HasKey("Id");
 
@@ -3051,48 +3071,46 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("ExerciseId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("IntensityTarget")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("ListGroupId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("RepMode")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("RepsTarget")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SecondsTarget")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SetMetricType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SetType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("WorkoutTemplateId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -3115,28 +3133,27 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<long>("WorkoutTemplateId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -3155,31 +3172,30 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("DateCreatedUtc")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("DateLastModifiedUtc")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("MemberId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT")
+                        .UseCollation("NOCASE");
 
                     b.Property<int>("Type")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("WorkoutTemplateId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

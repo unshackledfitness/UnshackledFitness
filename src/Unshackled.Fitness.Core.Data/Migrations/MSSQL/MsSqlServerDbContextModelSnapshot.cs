@@ -2721,6 +2721,9 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
+                    b.Property<int>("RecordRepsCount")
+                        .HasColumnType("int");
+
                     b.Property<int>("RecordSecondsAtWeightCount")
                         .HasColumnType("int");
 
@@ -2800,6 +2803,9 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                     b.Property<int>("IntensityTarget")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsBestSetByReps")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsBestSetBySeconds")
                         .HasColumnType("bit");
 
@@ -2807,6 +2813,9 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsBestSetByWeight")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRecordReps")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsRecordSeconds")

@@ -19,7 +19,7 @@ if (migrateConfig == null)
 	return;
 }
 
-int optionsCount = 12;
+int optionsCount = (int)MigrationTypes.SqliteToPostgreSql + 1;
 int selected = 0;
 bool isDone = false;
 

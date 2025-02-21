@@ -18,6 +18,7 @@ public class WorkoutEntity : BaseMemberEntity
 	public decimal VolumeKg { get; set; }
 	public decimal VolumeLb { get; set; }
 	public long? WorkoutTemplateId { get; set; }
+	public int RecordRepsCount { get; set; }
 	public int RecordSecondsCount { get; set; }
 	public int RecordSecondsAtWeightCount { get; set; }
 	public int RecordTargetVolumeCount { get; set; }

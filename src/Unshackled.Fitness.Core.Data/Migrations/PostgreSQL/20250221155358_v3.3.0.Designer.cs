@@ -12,7 +12,7 @@ using Unshackled.Fitness.Core.Data;
 namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
 {
     [DbContext(typeof(PostgreSqlServerDbContext))]
-    [Migration("20250220163210_v3.3.0")]
+    [Migration("20250221155358_v3.3.0")]
     partial class v330
     {
         /// <inheritdoc />
@@ -2818,6 +2818,9 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                     b.Property<int>("Rating")
                         .HasColumnType("integer");
 
+                    b.Property<int>("RecordRepsCount")
+                        .HasColumnType("integer");
+
                     b.Property<int>("RecordSecondsAtWeightCount")
                         .HasColumnType("integer");
 
@@ -2898,6 +2901,9 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                     b.Property<int>("IntensityTarget")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("IsBestSetByReps")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsBestSetBySeconds")
                         .HasColumnType("boolean");
 
@@ -2905,6 +2911,9 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                         .HasColumnType("boolean");
 
                     b.Property<bool>("IsBestSetByWeight")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsRecordReps")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("IsRecordSeconds")

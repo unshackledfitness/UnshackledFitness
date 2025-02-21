@@ -9,10 +9,10 @@ using Unshackled.Fitness.Core.Data;
 
 #nullable disable
 
-namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
+namespace Unshackled.Fitness.Core.Data.Migrations.MSSQL
 {
-    [DbContext(typeof(MySqlServerDbContext))]
-    [Migration("20250220163009_v3.3.0")]
+    [DbContext(typeof(MsSqlServerDbContext))]
+    [Migration("20250221155608_v3.3.0")]
     partial class v330
     {
         /// <inheritdoc />
@@ -21,9 +21,9 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.2")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Microsoft.AspNetCore.DataProtection.EntityFrameworkCore.DataProtectionKey", b =>
                 {
@@ -31,13 +31,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("FriendlyName")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Xml")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -47,25 +47,26 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("uf_Roles", (string)null);
                 });
@@ -76,17 +77,17 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -101,17 +102,17 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -123,17 +124,17 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -145,10 +146,10 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -160,16 +161,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -182,13 +183,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<long>("ActivityTypeId")
                         .HasColumnType("bigint");
 
                     b.Property<double?>("AverageCadence")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<int>("AverageCadenceUnit")
                         .HasColumnType("int");
@@ -200,43 +201,43 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .HasColumnType("int");
 
                     b.Property<double?>("AveragePower")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<double?>("AverageSpeed")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<double?>("AverageSpeedN")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<int>("AverageSpeedUnit")
                         .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTime>("DateEvent")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTimeOffset>("DateEventUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<int>("EventType")
                         .HasColumnType("int");
 
                     b.Property<double?>("MaximumAltitude")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<double?>("MaximumAltitudeN")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<int>("MaximumAltitudeUnit")
                         .HasColumnType("int");
 
                     b.Property<double?>("MaximumCadence")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<int>("MaximumCadenceUnit")
                         .HasColumnType("int");
@@ -248,13 +249,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .HasColumnType("int");
 
                     b.Property<double?>("MaximumPower")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<double?>("MaximumSpeed")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<double?>("MaximumSpeedN")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<int>("MaximumSpeedUnit")
                         .HasColumnType("int");
@@ -263,22 +264,22 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .HasColumnType("bigint");
 
                     b.Property<double?>("MinimumAltitude")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<double?>("MinimumAltitudeN")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<int>("MinimumAltitudeUnit")
                         .HasColumnType("int");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
                     b.Property<double?>("TargetCadence")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<int>("TargetCadenceUnit")
                         .HasColumnType("int");
@@ -287,10 +288,10 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .HasColumnType("int");
 
                     b.Property<double?>("TargetDistance")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<double?>("TargetDistanceN")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<int>("TargetDistanceUnit")
                         .HasColumnType("int");
@@ -302,7 +303,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .HasColumnType("int");
 
                     b.Property<double?>("TargetPower")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<int?>("TargetTimeSeconds")
                         .HasColumnType("int");
@@ -310,13 +311,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<double?>("TotalAscent")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<double?>("TotalAscentN")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<int>("TotalAscentUnit")
                         .HasColumnType("int");
@@ -325,19 +326,19 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .HasColumnType("int");
 
                     b.Property<double?>("TotalDescent")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<double?>("TotalDescentN")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<int>("TotalDescentUnit")
                         .HasColumnType("int");
 
                     b.Property<double?>("TotalDistance")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<double?>("TotalDistanceN")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<int>("TotalDistanceUnit")
                         .HasColumnType("int");
@@ -369,17 +370,17 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Color")
                         .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<int>("DefaultCadenceUnits")
                         .HasColumnType("int");
@@ -402,7 +403,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -423,17 +424,17 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<long>("MemberId")
                         .HasColumnType("bigint");
@@ -441,7 +442,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -460,21 +461,21 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<long>("CookbookId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int>("Permissions")
                         .HasColumnType("int");
@@ -539,13 +540,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<int>("DefaultSetMetricType")
                         .HasColumnType("int");
@@ -554,32 +555,32 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Equipment")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsArchived")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsTrackingSplit")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<long>("MemberId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Muscles")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -600,16 +601,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<Guid>("ContentUid")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<long>("MemberId")
                         .HasColumnType("bigint");
@@ -617,7 +618,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -636,18 +637,18 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("bigint");
@@ -690,13 +691,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateOnly>("DatePlanned")
                         .HasColumnType("date");
@@ -737,13 +738,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("bigint");
@@ -754,7 +755,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -777,24 +778,24 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<int>("AppTheme")
                         .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -814,7 +815,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<long>("MemberId")
                         .HasMaxLength(450)
@@ -823,11 +824,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("MetaKey")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("MetaValue")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -843,25 +844,25 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("HighlightColor")
                         .IsRequired()
                         .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<bool>("IsArchived")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsOnDashboard")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("bit")
                         .HasDefaultValue(true);
 
                     b.Property<long>("ListGroupId")
@@ -882,12 +883,12 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
 
                     b.Property<string>("SubTitle")
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -910,13 +911,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<long>("MemberId")
                         .HasColumnType("bigint");
@@ -927,7 +928,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -948,16 +949,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTime>("DateRecorded")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<long>("MemberId")
                         .HasColumnType("bigint");
@@ -990,25 +991,25 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<long>("MemberId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Settings")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -1030,13 +1031,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("bigint");
@@ -1044,7 +1045,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -1083,13 +1084,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("bigint");
@@ -1097,7 +1098,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -1118,7 +1119,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<decimal>("AddedSugars")
                         .HasPrecision(7, 2)
@@ -1144,7 +1145,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
 
                     b.Property<string>("Brand")
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<decimal>("Calcium")
                         .HasPrecision(7, 2)
@@ -1208,7 +1209,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .HasColumnType("int");
 
                     b.Property<Guid>("ContentUid")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Copper")
                         .HasPrecision(7, 2)
@@ -1222,14 +1223,14 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<decimal>("DietaryFiber")
                         .HasPrecision(7, 2)
@@ -1254,7 +1255,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .HasColumnType("int");
 
                     b.Property<bool>("HasNutritionInfo")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("bigint");
@@ -1293,10 +1294,10 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .HasColumnType("int");
 
                     b.Property<bool>("IsArchived")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsAutoSkipped")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<decimal>("Magnesium")
                         .HasPrecision(7, 2)
@@ -1469,7 +1470,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("ServingSizeUnitLabel")
                         .IsRequired()
                         .HasMaxLength(25)
-                        .HasColumnType("varchar(25)");
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<decimal>("ServingsPerContainer")
                         .HasPrecision(8, 3)
@@ -1522,7 +1523,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<decimal>("TotalCarbohydrates")
                         .HasPrecision(7, 2)
@@ -1677,18 +1678,18 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Container")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<long>("FileSize")
                         .HasColumnType("bigint");
@@ -1697,12 +1698,12 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .HasColumnType("bigint");
 
                     b.Property<bool>("IsFeatured")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("MimeType")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
@@ -1710,7 +1711,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("RelativePath")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int>("SortOrder")
                         .HasColumnType("int");
@@ -1732,7 +1733,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                 {
                     b.Property<string>("IngredientKey")
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
@@ -1741,7 +1742,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .HasColumnType("bigint");
 
                     b.Property<bool>("IsPrimary")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.HasKey("IngredientKey", "ProductId");
 
@@ -1758,22 +1759,22 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastWorkoutUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTime?>("DateStarted")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("LengthWeeks")
                         .HasColumnType("int");
@@ -1790,7 +1791,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -1811,13 +1812,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<int>("DayNumber")
                         .HasColumnType("int");
@@ -1858,22 +1859,22 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<Guid>("ContentUid")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("CookTimeMinutes")
                         .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("bigint");
@@ -1884,7 +1885,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int>("TotalServings")
                         .HasColumnType("int");
@@ -1908,18 +1909,18 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Container")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<long>("FileSize")
                         .HasColumnType("bigint");
@@ -1928,12 +1929,12 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .HasColumnType("bigint");
 
                     b.Property<bool>("IsFeatured")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("MimeType")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<long>("RecipeId")
                         .HasColumnType("bigint");
@@ -1941,7 +1942,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("RelativePath")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int>("SortOrder")
                         .HasColumnType("int");
@@ -1965,7 +1966,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<decimal>("Amount")
                         .HasPrecision(8, 3)
@@ -1974,7 +1975,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("AmountLabel")
                         .IsRequired()
                         .HasMaxLength(25)
-                        .HasColumnType("varchar(25)");
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<decimal>("AmountN")
                         .HasPrecision(15, 3)
@@ -1983,16 +1984,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("AmountText")
                         .IsRequired()
                         .HasMaxLength(15)
-                        .HasColumnType("varchar(15)");
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<int>("AmountUnit")
                         .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("bigint");
@@ -2000,14 +2001,14 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("Key")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<long>("ListGroupId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("PrepNote")
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<long>("RecipeId")
                         .HasColumnType("bigint");
@@ -2018,7 +2019,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -2043,13 +2044,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("bigint");
@@ -2062,7 +2063,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -2083,20 +2084,20 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Note")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("RecipeId")
                         .HasColumnType("bigint");
@@ -2123,20 +2124,20 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Instructions")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("RecipeId")
                         .HasColumnType("bigint");
@@ -2178,13 +2179,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("bigint");
@@ -2195,7 +2196,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -2221,7 +2222,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .HasColumnType("bigint");
 
                     b.Property<bool>("IsInCart")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -2253,17 +2254,17 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
 
                     b.Property<string>("IngredientAmountUnitLabel")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("IngredientAmountUnitType")
                         .HasColumnType("int");
 
                     b.Property<string>("IngredientKey")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsUnitMismatch")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<decimal>("PortionUsed")
                         .HasPrecision(15, 10)
@@ -2287,17 +2288,17 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("bigint");
@@ -2305,7 +2306,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -2326,17 +2327,17 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("bigint");
@@ -2350,7 +2351,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -2398,13 +2399,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<long>("HouseholdId")
                         .HasColumnType("bigint");
@@ -2412,12 +2413,12 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("Key")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -2441,22 +2442,22 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastActivityUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTime?>("DateStarted")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("LengthWeeks")
                         .HasColumnType("int");
@@ -2473,7 +2474,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -2496,13 +2497,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<int>("DayNumber")
                         .HasColumnType("int");
@@ -2545,16 +2546,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<long>("ActivityTypeId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<int>("EventType")
                         .HasColumnType("int");
@@ -2563,10 +2564,10 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .HasColumnType("bigint");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double?>("TargetCadence")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<int>("TargetCadenceUnit")
                         .HasColumnType("int");
@@ -2575,10 +2576,10 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .HasColumnType("int");
 
                     b.Property<double?>("TargetDistance")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<double?>("TargetDistanceN")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<int>("TargetDistanceUnit")
                         .HasColumnType("int");
@@ -2590,7 +2591,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .HasColumnType("int");
 
                     b.Property<double?>("TargetPower")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<int?>("TargetTimeSeconds")
                         .HasColumnType("int");
@@ -2598,7 +2599,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -2620,54 +2621,54 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
             modelBuilder.Entity("Unshackled.Fitness.Core.Data.Entities.UserEntity", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -2676,7 +2677,8 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("uf_Users", (string)null);
                 });
@@ -2687,25 +2689,25 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime?>("DateCompleted")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTimeOffset?>("DateCompletedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTime?>("DateStarted")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTimeOffset?>("DateStartedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<int>("ExerciseCount")
                         .HasColumnType("int");
@@ -2714,12 +2716,15 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .HasColumnType("bigint");
 
                     b.Property<string>("MusclesTargeted")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecordRepsCount")
                         .HasColumnType("int");
 
                     b.Property<int>("RecordSecondsAtWeightCount")
@@ -2749,7 +2754,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<decimal>("VolumeKg")
                         .HasPrecision(12, 3)
@@ -2781,19 +2786,19 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTime?>("DateRecorded")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTimeOffset?>("DateRecordedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<long>("ExerciseId")
                         .HasColumnType("bigint");
@@ -2801,35 +2806,41 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<int>("IntensityTarget")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsBestSetByReps")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsBestSetBySeconds")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsBestSetByVolume")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsBestSetByWeight")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRecordReps")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsRecordSeconds")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsRecordSecondsAtWeight")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsRecordTargetVolume")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsRecordTargetWeight")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsRecordVolume")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsRecordWeight")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsTrackingSplit")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<long>("ListGroupId")
                         .HasColumnType("bigint");
@@ -2838,7 +2849,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .HasColumnType("bigint");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RepMode")
                         .HasColumnType("int");
@@ -2918,13 +2929,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<long>("MemberId")
                         .HasColumnType("bigint");
@@ -2934,7 +2945,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("WorkoutId")
                         .HasColumnType("bigint");
@@ -2958,16 +2969,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<bool>("Completed")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<long>("MemberId")
                         .HasColumnType("bigint");
@@ -2977,7 +2988,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
@@ -3004,16 +3015,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ExerciseCount")
                         .HasColumnType("int");
@@ -3022,7 +3033,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .HasColumnType("bigint");
 
                     b.Property<string>("MusclesTargeted")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SetCount")
                         .HasColumnType("int");
@@ -3030,7 +3041,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -3051,13 +3062,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<long>("ExerciseId")
                         .HasColumnType("bigint");
@@ -3115,13 +3126,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<long>("MemberId")
                         .HasColumnType("bigint");
@@ -3131,7 +3142,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("WorkoutTemplateId")
                         .HasColumnType("bigint");
@@ -3155,13 +3166,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DateLastModifiedUtc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<long>("MemberId")
                         .HasColumnType("bigint");
@@ -3171,7 +3182,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.MySQL
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");

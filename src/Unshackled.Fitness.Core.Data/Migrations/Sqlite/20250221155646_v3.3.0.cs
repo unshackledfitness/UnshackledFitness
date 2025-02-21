@@ -1,10 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
+namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
 {
     /// <inheritdoc />
     public partial class v330 : Migration
@@ -12,17 +11,14 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:CollationDefinition:case_insensitive_collation", "en-u-ks-primary,en-u-ks-primary,icu,False");
-
             migrationBuilder.CreateTable(
                 name: "uf_DataProtectionKeys",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FriendlyName = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation"),
-                    Xml = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation")
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    FriendlyName = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE"),
+                    Xml = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE")
                 },
                 constraints: table =>
                 {
@@ -33,13 +29,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_Members",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false, collation: "case_insensitive_collation"),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    AppTheme = table.Column<int>(type: "integer", nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: false, collation: "NOCASE"),
+                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false),
+                    AppTheme = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -50,10 +46,10 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_Roles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation"),
-                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true, collation: "case_insensitive_collation"),
-                    NormalizedName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true, collation: "case_insensitive_collation"),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation")
+                    Id = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true, collation: "NOCASE"),
+                    NormalizedName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true, collation: "NOCASE"),
+                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE")
                 },
                 constraints: table =>
                 {
@@ -64,21 +60,21 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_Users",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation"),
-                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true, collation: "case_insensitive_collation"),
-                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true, collation: "case_insensitive_collation"),
-                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true, collation: "case_insensitive_collation"),
-                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true, collation: "case_insensitive_collation"),
-                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    PasswordHash = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation"),
-                    SecurityStamp = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation"),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation"),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation"),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
+                    UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true, collation: "NOCASE"),
+                    NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true, collation: "NOCASE"),
+                    Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true, collation: "NOCASE"),
+                    NormalizedEmail = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true, collation: "NOCASE"),
+                    EmailConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    PasswordHash = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE"),
+                    SecurityStamp = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE"),
+                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE"),
+                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE"),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    LockoutEnd = table.Column<long>(type: "INTEGER", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -89,18 +85,18 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_ActivityTypes",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    Color = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: true, collation: "case_insensitive_collation"),
-                    DefaultEventType = table.Column<int>(type: "integer", nullable: false),
-                    DefaultDistanceUnits = table.Column<int>(type: "integer", nullable: false),
-                    DefaultElevationUnits = table.Column<int>(type: "integer", nullable: false),
-                    DefaultSpeedUnits = table.Column<int>(type: "integer", nullable: false),
-                    DefaultCadenceUnits = table.Column<int>(type: "integer", nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    Color = table.Column<string>(type: "TEXT", maxLength: 10, nullable: true, collation: "NOCASE"),
+                    DefaultEventType = table.Column<int>(type: "INTEGER", nullable: false),
+                    DefaultDistanceUnits = table.Column<int>(type: "INTEGER", nullable: false),
+                    DefaultElevationUnits = table.Column<int>(type: "INTEGER", nullable: false),
+                    DefaultSpeedUnits = table.Column<int>(type: "INTEGER", nullable: false),
+                    DefaultCadenceUnits = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -116,13 +112,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_Cookbooks",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true, collation: "case_insensitive_collation"),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    Description = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true, collation: "NOCASE"),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -138,20 +134,20 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_Exercises",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Muscles = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation"),
-                    Equipment = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation"),
-                    DefaultSetMetricType = table.Column<int>(type: "integer", nullable: false),
-                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    Description = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation"),
-                    Notes = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation"),
-                    DefaultSetType = table.Column<int>(type: "integer", nullable: false),
-                    IsTrackingSplit = table.Column<bool>(type: "boolean", nullable: false),
-                    IsArchived = table.Column<bool>(type: "boolean", nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Muscles = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
+                    Equipment = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
+                    DefaultSetMetricType = table.Column<int>(type: "INTEGER", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    Description = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE"),
+                    Notes = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE"),
+                    DefaultSetType = table.Column<int>(type: "INTEGER", nullable: false),
+                    IsTrackingSplit = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsArchived = table.Column<bool>(type: "INTEGER", nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -167,13 +163,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_Households",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ContentUid = table.Column<Guid>(type: "uuid", nullable: false),
-                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ContentUid = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -189,11 +185,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_MemberMeta",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    MemberId = table.Column<long>(type: "bigint", maxLength: 450, nullable: false),
-                    MetaKey = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    MetaValue = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation")
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    MemberId = table.Column<long>(type: "INTEGER", maxLength: 450, nullable: false),
+                    MetaKey = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    MetaValue = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE")
                 },
                 constraints: table =>
                 {
@@ -209,13 +205,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_MetricDefinitionGroups",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    SortOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -231,13 +227,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_MetricPresets",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    Settings = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation"),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    Settings = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -253,18 +249,18 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_Programs",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    ProgramType = table.Column<int>(type: "integer", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation"),
-                    LengthWeeks = table.Column<int>(type: "integer", nullable: false),
-                    DateStarted = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    DateLastWorkoutUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    NextTemplateIndex = table.Column<int>(type: "integer", nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    ProgramType = table.Column<int>(type: "INTEGER", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE"),
+                    LengthWeeks = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateStarted = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    DateLastWorkoutUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    NextTemplateIndex = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -280,18 +276,18 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_TrainingPlans",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    ProgramType = table.Column<int>(type: "integer", nullable: false),
-                    DateStarted = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    DateLastActivityUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation"),
-                    LengthWeeks = table.Column<int>(type: "integer", nullable: false),
-                    NextSessionIndex = table.Column<int>(type: "integer", nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    ProgramType = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateStarted = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    DateLastActivityUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    Description = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE"),
+                    LengthWeeks = table.Column<int>(type: "INTEGER", nullable: false),
+                    NextSessionIndex = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -307,31 +303,32 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_Workouts",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    DateStarted = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    DateStartedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    DateCompleted = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    DateCompletedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MusclesTargeted = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation"),
-                    ExerciseCount = table.Column<int>(type: "integer", nullable: false),
-                    SetCount = table.Column<int>(type: "integer", nullable: false),
-                    RepCount = table.Column<int>(type: "integer", nullable: false),
-                    VolumeKg = table.Column<decimal>(type: "numeric(12,3)", precision: 12, scale: 3, nullable: false),
-                    VolumeLb = table.Column<decimal>(type: "numeric(12,3)", precision: 12, scale: 3, nullable: false),
-                    WorkoutTemplateId = table.Column<long>(type: "bigint", nullable: true),
-                    RecordSecondsCount = table.Column<int>(type: "integer", nullable: false),
-                    RecordSecondsAtWeightCount = table.Column<int>(type: "integer", nullable: false),
-                    RecordTargetVolumeCount = table.Column<int>(type: "integer", nullable: false),
-                    RecordTargetWeightCount = table.Column<int>(type: "integer", nullable: false),
-                    RecordVolumeCount = table.Column<int>(type: "integer", nullable: false),
-                    RecordWeightCount = table.Column<int>(type: "integer", nullable: false),
-                    Rating = table.Column<int>(type: "integer", nullable: false),
-                    Notes = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation"),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    DateStarted = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    DateStartedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    DateCompleted = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    DateCompletedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MusclesTargeted = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE"),
+                    ExerciseCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    SetCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    RepCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    VolumeKg = table.Column<decimal>(type: "TEXT", precision: 12, scale: 3, nullable: false),
+                    VolumeLb = table.Column<decimal>(type: "TEXT", precision: 12, scale: 3, nullable: false),
+                    WorkoutTemplateId = table.Column<long>(type: "INTEGER", nullable: true),
+                    RecordRepsCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    RecordSecondsCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    RecordSecondsAtWeightCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    RecordTargetVolumeCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    RecordTargetWeightCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    RecordVolumeCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    RecordWeightCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    Rating = table.Column<int>(type: "INTEGER", nullable: false),
+                    Notes = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE"),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -347,16 +344,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_WorkoutTemplates",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    Description = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation"),
-                    ExerciseCount = table.Column<int>(type: "integer", nullable: false),
-                    MusclesTargeted = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation"),
-                    SetCount = table.Column<int>(type: "integer", nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    Description = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE"),
+                    ExerciseCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    MusclesTargeted = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE"),
+                    SetCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -372,11 +369,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_RoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    RoleId = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation"),
-                    ClaimType = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation"),
-                    ClaimValue = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation")
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    RoleId = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
+                    ClaimType = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE"),
+                    ClaimValue = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE")
                 },
                 constraints: table =>
                 {
@@ -392,11 +389,11 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_UserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation"),
-                    ClaimType = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation"),
-                    ClaimValue = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation")
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
+                    ClaimType = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE"),
+                    ClaimValue = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE")
                 },
                 constraints: table =>
                 {
@@ -412,10 +409,10 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_UserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation"),
-                    ProviderKey = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation"),
-                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation"),
-                    UserId = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation")
+                    LoginProvider = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
+                    ProviderKey = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
+                    ProviderDisplayName = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE"),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE")
                 },
                 constraints: table =>
                 {
@@ -431,8 +428,8 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_UserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation"),
-                    RoleId = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation")
+                    UserId = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
+                    RoleId = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE")
                 },
                 constraints: table =>
                 {
@@ -453,10 +450,10 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_UserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation"),
-                    LoginProvider = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation"),
-                    Name = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation"),
-                    Value = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation")
+                    UserId = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
+                    LoginProvider = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
+                    Name = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
+                    Value = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE")
                 },
                 constraints: table =>
                 {
@@ -472,62 +469,62 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_Activities",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ActivityTypeId = table.Column<long>(type: "bigint", nullable: false),
-                    TrainingSessionId = table.Column<long>(type: "bigint", nullable: true),
-                    AverageCadence = table.Column<double>(type: "double precision", nullable: true),
-                    AverageCadenceUnit = table.Column<int>(type: "integer", nullable: false),
-                    AverageHeartRateBpm = table.Column<int>(type: "integer", nullable: true),
-                    AveragePace = table.Column<int>(type: "integer", nullable: true),
-                    AveragePower = table.Column<double>(type: "double precision", nullable: true),
-                    AverageSpeed = table.Column<double>(type: "double precision", nullable: true),
-                    AverageSpeedN = table.Column<double>(type: "double precision", nullable: true),
-                    AverageSpeedUnit = table.Column<int>(type: "integer", nullable: false),
-                    DateEvent = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    DateEventUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    EventType = table.Column<int>(type: "integer", nullable: false),
-                    MaximumAltitude = table.Column<double>(type: "double precision", nullable: true),
-                    MaximumAltitudeN = table.Column<double>(type: "double precision", nullable: true),
-                    MaximumAltitudeUnit = table.Column<int>(type: "integer", nullable: false),
-                    MaximumCadence = table.Column<double>(type: "double precision", nullable: true),
-                    MaximumCadenceUnit = table.Column<int>(type: "integer", nullable: false),
-                    MaximumHeartRateBpm = table.Column<int>(type: "integer", nullable: true),
-                    MaximumPace = table.Column<int>(type: "integer", nullable: true),
-                    MaximumPower = table.Column<double>(type: "double precision", nullable: true),
-                    MaximumSpeed = table.Column<double>(type: "double precision", nullable: true),
-                    MaximumSpeedN = table.Column<double>(type: "double precision", nullable: true),
-                    MaximumSpeedUnit = table.Column<int>(type: "integer", nullable: false),
-                    MinimumAltitude = table.Column<double>(type: "double precision", nullable: true),
-                    MinimumAltitudeN = table.Column<double>(type: "double precision", nullable: true),
-                    MinimumAltitudeUnit = table.Column<int>(type: "integer", nullable: false),
-                    Notes = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation"),
-                    Rating = table.Column<int>(type: "integer", nullable: false),
-                    TargetCadence = table.Column<double>(type: "double precision", nullable: true),
-                    TargetCadenceUnit = table.Column<int>(type: "integer", nullable: false),
-                    TargetCalories = table.Column<int>(type: "integer", nullable: true),
-                    TargetDistance = table.Column<double>(type: "double precision", nullable: true),
-                    TargetDistanceN = table.Column<double>(type: "double precision", nullable: true),
-                    TargetDistanceUnit = table.Column<int>(type: "integer", nullable: false),
-                    TargetHeartRateBpm = table.Column<int>(type: "integer", nullable: true),
-                    TargetPace = table.Column<int>(type: "integer", nullable: true),
-                    TargetPower = table.Column<double>(type: "double precision", nullable: true),
-                    TargetTimeSeconds = table.Column<int>(type: "integer", nullable: true),
-                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    TotalAscent = table.Column<double>(type: "double precision", nullable: true),
-                    TotalAscentN = table.Column<double>(type: "double precision", nullable: true),
-                    TotalAscentUnit = table.Column<int>(type: "integer", nullable: false),
-                    TotalCalories = table.Column<int>(type: "integer", nullable: true),
-                    TotalDescent = table.Column<double>(type: "double precision", nullable: true),
-                    TotalDescentN = table.Column<double>(type: "double precision", nullable: true),
-                    TotalDescentUnit = table.Column<int>(type: "integer", nullable: false),
-                    TotalDistance = table.Column<double>(type: "double precision", nullable: true),
-                    TotalDistanceUnit = table.Column<int>(type: "integer", nullable: false),
-                    TotalDistanceN = table.Column<double>(type: "double precision", nullable: true),
-                    TotalTimeSeconds = table.Column<int>(type: "integer", nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ActivityTypeId = table.Column<long>(type: "INTEGER", nullable: false),
+                    TrainingSessionId = table.Column<long>(type: "INTEGER", nullable: true),
+                    AverageCadence = table.Column<double>(type: "REAL", nullable: true),
+                    AverageCadenceUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    AverageHeartRateBpm = table.Column<int>(type: "INTEGER", nullable: true),
+                    AveragePace = table.Column<int>(type: "INTEGER", nullable: true),
+                    AveragePower = table.Column<double>(type: "REAL", nullable: true),
+                    AverageSpeed = table.Column<double>(type: "REAL", nullable: true),
+                    AverageSpeedN = table.Column<double>(type: "REAL", nullable: true),
+                    AverageSpeedUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateEvent = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    DateEventUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    EventType = table.Column<int>(type: "INTEGER", nullable: false),
+                    MaximumAltitude = table.Column<double>(type: "REAL", nullable: true),
+                    MaximumAltitudeN = table.Column<double>(type: "REAL", nullable: true),
+                    MaximumAltitudeUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    MaximumCadence = table.Column<double>(type: "REAL", nullable: true),
+                    MaximumCadenceUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    MaximumHeartRateBpm = table.Column<int>(type: "INTEGER", nullable: true),
+                    MaximumPace = table.Column<int>(type: "INTEGER", nullable: true),
+                    MaximumPower = table.Column<double>(type: "REAL", nullable: true),
+                    MaximumSpeed = table.Column<double>(type: "REAL", nullable: true),
+                    MaximumSpeedN = table.Column<double>(type: "REAL", nullable: true),
+                    MaximumSpeedUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    MinimumAltitude = table.Column<double>(type: "REAL", nullable: true),
+                    MinimumAltitudeN = table.Column<double>(type: "REAL", nullable: true),
+                    MinimumAltitudeUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    Notes = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE"),
+                    Rating = table.Column<int>(type: "INTEGER", nullable: false),
+                    TargetCadence = table.Column<double>(type: "REAL", nullable: true),
+                    TargetCadenceUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    TargetCalories = table.Column<int>(type: "INTEGER", nullable: true),
+                    TargetDistance = table.Column<double>(type: "REAL", nullable: true),
+                    TargetDistanceN = table.Column<double>(type: "REAL", nullable: true),
+                    TargetDistanceUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    TargetHeartRateBpm = table.Column<int>(type: "INTEGER", nullable: true),
+                    TargetPace = table.Column<int>(type: "INTEGER", nullable: true),
+                    TargetPower = table.Column<double>(type: "REAL", nullable: true),
+                    TargetTimeSeconds = table.Column<int>(type: "INTEGER", nullable: true),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    TotalAscent = table.Column<double>(type: "REAL", nullable: true),
+                    TotalAscentN = table.Column<double>(type: "REAL", nullable: true),
+                    TotalAscentUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    TotalCalories = table.Column<int>(type: "INTEGER", nullable: true),
+                    TotalDescent = table.Column<double>(type: "REAL", nullable: true),
+                    TotalDescentN = table.Column<double>(type: "REAL", nullable: true),
+                    TotalDescentUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    TotalDistance = table.Column<double>(type: "REAL", nullable: true),
+                    TotalDistanceUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    TotalDistanceN = table.Column<double>(type: "REAL", nullable: true),
+                    TotalTimeSeconds = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -548,25 +545,25 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_TrainingSessions",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ActivityTypeId = table.Column<long>(type: "bigint", nullable: false),
-                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    EventType = table.Column<int>(type: "integer", nullable: false),
-                    TargetCadence = table.Column<double>(type: "double precision", nullable: true),
-                    TargetCadenceUnit = table.Column<int>(type: "integer", nullable: false),
-                    TargetCalories = table.Column<int>(type: "integer", nullable: true),
-                    TargetDistance = table.Column<double>(type: "double precision", nullable: true),
-                    TargetDistanceN = table.Column<double>(type: "double precision", nullable: true),
-                    TargetDistanceUnit = table.Column<int>(type: "integer", nullable: false),
-                    TargetHeartRateBpm = table.Column<int>(type: "integer", nullable: true),
-                    TargetPace = table.Column<int>(type: "integer", nullable: true),
-                    TargetPower = table.Column<double>(type: "double precision", nullable: true),
-                    TargetTimeSeconds = table.Column<int>(type: "integer", nullable: true),
-                    Notes = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation"),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ActivityTypeId = table.Column<long>(type: "INTEGER", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    EventType = table.Column<int>(type: "INTEGER", nullable: false),
+                    TargetCadence = table.Column<double>(type: "REAL", nullable: true),
+                    TargetCadenceUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    TargetCalories = table.Column<int>(type: "INTEGER", nullable: true),
+                    TargetDistance = table.Column<double>(type: "REAL", nullable: true),
+                    TargetDistanceN = table.Column<double>(type: "REAL", nullable: true),
+                    TargetDistanceUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    TargetHeartRateBpm = table.Column<int>(type: "INTEGER", nullable: true),
+                    TargetPace = table.Column<int>(type: "INTEGER", nullable: true),
+                    TargetPower = table.Column<double>(type: "REAL", nullable: true),
+                    TargetTimeSeconds = table.Column<int>(type: "INTEGER", nullable: true),
+                    Notes = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE"),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -587,13 +584,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_CookbookInvites",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CookbookId = table.Column<long>(type: "bigint", nullable: false),
-                    Email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    Permissions = table.Column<int>(type: "integer", nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CookbookId = table.Column<long>(type: "INTEGER", nullable: false),
+                    Email = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    Permissions = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -609,9 +606,9 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_CookbookMembers",
                 columns: table => new
                 {
-                    CookbookId = table.Column<long>(type: "bigint", nullable: false),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false),
-                    PermissionLevel = table.Column<int>(type: "integer", nullable: false)
+                    CookbookId = table.Column<long>(type: "INTEGER", nullable: false),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false),
+                    PermissionLevel = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -632,13 +629,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_HouseholdInvites",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    Permissions = table.Column<int>(type: "integer", nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    HouseholdId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Email = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    Permissions = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    HouseholdId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -654,9 +651,9 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_HouseholdMembers",
                 columns: table => new
                 {
-                    HouseholdId = table.Column<long>(type: "bigint", nullable: false),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false),
-                    PermissionLevel = table.Column<int>(type: "integer", nullable: false)
+                    HouseholdId = table.Column<long>(type: "INTEGER", nullable: false),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false),
+                    PermissionLevel = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -677,13 +674,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_MealPrepPlanSlots",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false, collation: "case_insensitive_collation"),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    HouseholdId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false, collation: "NOCASE"),
+                    SortOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    HouseholdId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -699,12 +696,12 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_ProductBundles",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    HouseholdId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    HouseholdId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -720,12 +717,12 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_ProductCategories",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    HouseholdId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    HouseholdId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -741,17 +738,17 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_Recipes",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ContentUid = table.Column<Guid>(type: "uuid", nullable: false),
-                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    Description = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation"),
-                    CookTimeMinutes = table.Column<int>(type: "integer", nullable: false),
-                    PrepTimeMinutes = table.Column<int>(type: "integer", nullable: false),
-                    TotalServings = table.Column<int>(type: "integer", nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    HouseholdId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ContentUid = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    Description = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE"),
+                    CookTimeMinutes = table.Column<int>(type: "INTEGER", nullable: false),
+                    PrepTimeMinutes = table.Column<int>(type: "INTEGER", nullable: false),
+                    TotalServings = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    HouseholdId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -767,13 +764,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_Stores",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    Description = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true, collation: "case_insensitive_collation"),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    HouseholdId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    Description = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true, collation: "NOCASE"),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    HouseholdId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -789,13 +786,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_Tags",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Key = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    HouseholdId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Key = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    HouseholdId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -811,20 +808,20 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_MetricDefinitions",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false, collation: "case_insensitive_collation"),
-                    SubTitle = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true, collation: "case_insensitive_collation"),
-                    MetricType = table.Column<int>(type: "integer", nullable: false),
-                    ListGroupId = table.Column<long>(type: "bigint", nullable: false),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    HighlightColor = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false, collation: "case_insensitive_collation"),
-                    MaxValue = table.Column<decimal>(type: "numeric(2,0)", precision: 2, scale: 0, nullable: false),
-                    IsArchived = table.Column<bool>(type: "boolean", nullable: false),
-                    IsOnDashboard = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false, collation: "NOCASE"),
+                    SubTitle = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true, collation: "NOCASE"),
+                    MetricType = table.Column<int>(type: "INTEGER", nullable: false),
+                    ListGroupId = table.Column<long>(type: "INTEGER", nullable: false),
+                    SortOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    HighlightColor = table.Column<string>(type: "TEXT", maxLength: 10, nullable: false, collation: "NOCASE"),
+                    MaxValue = table.Column<decimal>(type: "TEXT", precision: 2, scale: 0, nullable: false),
+                    IsArchived = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsOnDashboard = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: true),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -845,14 +842,14 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_WorkoutSetGroups",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    WorkoutId = table.Column<long>(type: "bigint", nullable: false),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    Title = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation"),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    WorkoutId = table.Column<long>(type: "INTEGER", nullable: false),
+                    SortOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -873,16 +870,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_WorkoutTasks",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    WorkoutId = table.Column<long>(type: "bigint", nullable: false),
-                    Type = table.Column<int>(type: "integer", nullable: false),
-                    Text = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation"),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    Completed = table.Column<bool>(type: "boolean", nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    WorkoutId = table.Column<long>(type: "INTEGER", nullable: false),
+                    Type = table.Column<int>(type: "INTEGER", nullable: false),
+                    Text = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
+                    SortOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    Completed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -903,16 +900,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_ProgramTemplates",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ProgramId = table.Column<long>(type: "bigint", nullable: false),
-                    WorkoutTemplateId = table.Column<long>(type: "bigint", nullable: false),
-                    WeekNumber = table.Column<int>(type: "integer", nullable: false),
-                    DayNumber = table.Column<int>(type: "integer", nullable: false),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ProgramId = table.Column<long>(type: "INTEGER", nullable: false),
+                    WorkoutTemplateId = table.Column<long>(type: "INTEGER", nullable: false),
+                    WeekNumber = table.Column<int>(type: "INTEGER", nullable: false),
+                    DayNumber = table.Column<int>(type: "INTEGER", nullable: false),
+                    SortOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -938,14 +935,14 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_WorkoutTemplateSetGroups",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    WorkoutTemplateId = table.Column<long>(type: "bigint", nullable: false),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    Title = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation"),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    WorkoutTemplateId = table.Column<long>(type: "INTEGER", nullable: false),
+                    SortOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -956,7 +953,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                         principalTable: "uf_Members",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_uf_WorkoutTemplateSetGroups_uf_WorkoutTemplates_WorkoutTemp~",
+                        name: "FK_uf_WorkoutTemplateSetGroups_uf_WorkoutTemplates_WorkoutTemplateId",
                         column: x => x.WorkoutTemplateId,
                         principalTable: "uf_WorkoutTemplates",
                         principalColumn: "Id");
@@ -966,15 +963,15 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_WorkoutTemplateTasks",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    WorkoutTemplateId = table.Column<long>(type: "bigint", nullable: false),
-                    Type = table.Column<int>(type: "integer", nullable: false),
-                    Text = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation"),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    WorkoutTemplateId = table.Column<long>(type: "INTEGER", nullable: false),
+                    Type = table.Column<int>(type: "INTEGER", nullable: false),
+                    Text = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
+                    SortOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -985,7 +982,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                         principalTable: "uf_Members",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_uf_WorkoutTemplateTasks_uf_WorkoutTemplates_WorkoutTemplate~",
+                        name: "FK_uf_WorkoutTemplateTasks_uf_WorkoutTemplates_WorkoutTemplateId",
                         column: x => x.WorkoutTemplateId,
                         principalTable: "uf_WorkoutTemplates",
                         principalColumn: "Id");
@@ -995,16 +992,16 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_TrainingPlanSessions",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    TrainingPlanId = table.Column<long>(type: "bigint", nullable: false),
-                    TrainingSessionId = table.Column<long>(type: "bigint", nullable: false),
-                    WeekNumber = table.Column<int>(type: "integer", nullable: false),
-                    DayNumber = table.Column<int>(type: "integer", nullable: false),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    TrainingPlanId = table.Column<long>(type: "INTEGER", nullable: false),
+                    TrainingSessionId = table.Column<long>(type: "INTEGER", nullable: false),
+                    WeekNumber = table.Column<int>(type: "INTEGER", nullable: false),
+                    DayNumber = table.Column<int>(type: "INTEGER", nullable: false),
+                    SortOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1020,7 +1017,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                         principalTable: "uf_TrainingPlans",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_uf_TrainingPlanSessions_uf_TrainingSessions_TrainingSession~",
+                        name: "FK_uf_TrainingPlanSessions_uf_TrainingSessions_TrainingSessionId",
                         column: x => x.TrainingSessionId,
                         principalTable: "uf_TrainingSessions",
                         principalColumn: "Id");
@@ -1030,155 +1027,155 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_Products",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ContentUid = table.Column<Guid>(type: "uuid", nullable: false),
-                    Brand = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true, collation: "case_insensitive_collation"),
-                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    Description = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true, collation: "case_insensitive_collation"),
-                    ProductCategoryId = table.Column<long>(type: "bigint", nullable: true),
-                    IsAutoSkipped = table.Column<bool>(type: "boolean", nullable: false),
-                    IsArchived = table.Column<bool>(type: "boolean", nullable: false),
-                    HasNutritionInfo = table.Column<bool>(type: "boolean", nullable: false),
-                    ServingSize = table.Column<decimal>(type: "numeric(8,3)", precision: 8, scale: 3, nullable: false),
-                    ServingSizeN = table.Column<decimal>(type: "numeric(13,6)", precision: 13, scale: 6, nullable: false),
-                    ServingSizeUnit = table.Column<int>(type: "integer", nullable: false),
-                    ServingSizeUnitLabel = table.Column<string>(type: "character varying(25)", maxLength: 25, nullable: false, collation: "case_insensitive_collation"),
-                    ServingSizeMetric = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    ServingSizeMetricN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    ServingSizeMetricUnit = table.Column<int>(type: "integer", nullable: false),
-                    ServingsPerContainer = table.Column<decimal>(type: "numeric(8,3)", precision: 8, scale: 3, nullable: false),
-                    Calories = table.Column<int>(type: "integer", nullable: false),
-                    CaloriesFromFat = table.Column<int>(type: "integer", nullable: false),
-                    TotalFat = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    TotalFatUnit = table.Column<int>(type: "integer", nullable: false),
-                    TotalFatN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    SaturatedFat = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    SaturatedFatUnit = table.Column<int>(type: "integer", nullable: false),
-                    SaturatedFatN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    TransFat = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    TransFatUnit = table.Column<int>(type: "integer", nullable: false),
-                    TransFatN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    PolyunsaturatedFat = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    PolyunsaturatedFatUnit = table.Column<int>(type: "integer", nullable: false),
-                    PolyunsaturatedFatN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    MonounsaturatedFat = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    MonounsaturatedFatUnit = table.Column<int>(type: "integer", nullable: false),
-                    MonounsaturatedFatN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    Cholesterol = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    CholesterolUnit = table.Column<int>(type: "integer", nullable: false),
-                    CholesterolN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    TotalCarbohydrates = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    TotalCarbohydratesUnit = table.Column<int>(type: "integer", nullable: false),
-                    TotalCarbohydratesN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    DietaryFiber = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    DietaryFiberUnit = table.Column<int>(type: "integer", nullable: false),
-                    DietaryFiberN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    SolubleFiber = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    SolubleFiberUnit = table.Column<int>(type: "integer", nullable: false),
-                    SolubleFiberN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    InsolubleFiber = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    InsolubleFiberUnit = table.Column<int>(type: "integer", nullable: false),
-                    InsolubleFiberN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    TotalSugars = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    TotalSugarsUnit = table.Column<int>(type: "integer", nullable: false),
-                    TotalSugarsN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    AddedSugars = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    AddedSugarsUnit = table.Column<int>(type: "integer", nullable: false),
-                    AddedSugarsN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    SugarAlcohols = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    SugarAlcoholsUnit = table.Column<int>(type: "integer", nullable: false),
-                    SugarAlcoholsN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    Protein = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    ProteinUnit = table.Column<int>(type: "integer", nullable: false),
-                    ProteinN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    Biotin = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    BiotinUnit = table.Column<int>(type: "integer", nullable: false),
-                    BiotinN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    Choline = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    CholineUnit = table.Column<int>(type: "integer", nullable: false),
-                    CholineN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    Folate = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    FolateUnit = table.Column<int>(type: "integer", nullable: false),
-                    FolateN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    Niacin = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    NiacinUnit = table.Column<int>(type: "integer", nullable: false),
-                    NiacinN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    PantothenicAcid = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    PantothenicAcidUnit = table.Column<int>(type: "integer", nullable: false),
-                    PantothenicAcidN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    Riboflavin = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    RiboflavinUnit = table.Column<int>(type: "integer", nullable: false),
-                    RiboflavinN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    Thiamin = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    ThiaminUnit = table.Column<int>(type: "integer", nullable: false),
-                    ThiaminN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    VitaminA = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    VitaminAUnit = table.Column<int>(type: "integer", nullable: false),
-                    VitaminAN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    VitaminB6 = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    VitaminB6Unit = table.Column<int>(type: "integer", nullable: false),
-                    VitaminB6N = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    VitaminB12 = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    VitaminB12Unit = table.Column<int>(type: "integer", nullable: false),
-                    VitaminB12N = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    VitaminC = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    VitaminCUnit = table.Column<int>(type: "integer", nullable: false),
-                    VitaminCN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    VitaminD = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    VitaminDUnit = table.Column<int>(type: "integer", nullable: false),
-                    VitaminDN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    VitaminE = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    VitaminEUnit = table.Column<int>(type: "integer", nullable: false),
-                    VitaminEN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    VitaminK = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    VitaminKUnit = table.Column<int>(type: "integer", nullable: false),
-                    VitaminKN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    Calcium = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    CalciumUnit = table.Column<int>(type: "integer", nullable: false),
-                    CalciumN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    Chloride = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    ChlorideUnit = table.Column<int>(type: "integer", nullable: false),
-                    ChlorideN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    Chromium = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    ChromiumUnit = table.Column<int>(type: "integer", nullable: false),
-                    ChromiumN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    Copper = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    CopperUnit = table.Column<int>(type: "integer", nullable: false),
-                    CopperN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    Iodine = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    IodineUnit = table.Column<int>(type: "integer", nullable: false),
-                    IodineN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    Iron = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    IronUnit = table.Column<int>(type: "integer", nullable: false),
-                    IronN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    Magnesium = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    MagnesiumUnit = table.Column<int>(type: "integer", nullable: false),
-                    MagnesiumN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    Manganese = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    ManganeseUnit = table.Column<int>(type: "integer", nullable: false),
-                    ManganeseN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    Molybdenum = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    MolybdenumUnit = table.Column<int>(type: "integer", nullable: false),
-                    MolybdenumN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    Phosphorus = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    PhosphorusUnit = table.Column<int>(type: "integer", nullable: false),
-                    PhosphorusN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    Potassium = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    PotassiumUnit = table.Column<int>(type: "integer", nullable: false),
-                    PotassiumN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    Selenium = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    SeleniumUnit = table.Column<int>(type: "integer", nullable: false),
-                    SeleniumN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    Sodium = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    SodiumUnit = table.Column<int>(type: "integer", nullable: false),
-                    SodiumN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    Zinc = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    ZincUnit = table.Column<int>(type: "integer", nullable: false),
-                    ZincN = table.Column<decimal>(type: "numeric(12,6)", precision: 12, scale: 6, nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    HouseholdId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ContentUid = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Brand = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true, collation: "NOCASE"),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    Description = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true, collation: "NOCASE"),
+                    ProductCategoryId = table.Column<long>(type: "INTEGER", nullable: true),
+                    IsAutoSkipped = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsArchived = table.Column<bool>(type: "INTEGER", nullable: false),
+                    HasNutritionInfo = table.Column<bool>(type: "INTEGER", nullable: false),
+                    ServingSize = table.Column<decimal>(type: "TEXT", precision: 8, scale: 3, nullable: false),
+                    ServingSizeN = table.Column<decimal>(type: "TEXT", precision: 13, scale: 6, nullable: false),
+                    ServingSizeUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    ServingSizeUnitLabel = table.Column<string>(type: "TEXT", maxLength: 25, nullable: false, collation: "NOCASE"),
+                    ServingSizeMetric = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    ServingSizeMetricN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    ServingSizeMetricUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    ServingsPerContainer = table.Column<decimal>(type: "TEXT", precision: 8, scale: 3, nullable: false),
+                    Calories = table.Column<int>(type: "INTEGER", nullable: false),
+                    CaloriesFromFat = table.Column<int>(type: "INTEGER", nullable: false),
+                    TotalFat = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    TotalFatUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    TotalFatN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    SaturatedFat = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    SaturatedFatUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    SaturatedFatN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    TransFat = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    TransFatUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    TransFatN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    PolyunsaturatedFat = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    PolyunsaturatedFatUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    PolyunsaturatedFatN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    MonounsaturatedFat = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    MonounsaturatedFatUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    MonounsaturatedFatN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    Cholesterol = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    CholesterolUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    CholesterolN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    TotalCarbohydrates = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    TotalCarbohydratesUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    TotalCarbohydratesN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    DietaryFiber = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    DietaryFiberUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    DietaryFiberN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    SolubleFiber = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    SolubleFiberUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    SolubleFiberN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    InsolubleFiber = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    InsolubleFiberUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    InsolubleFiberN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    TotalSugars = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    TotalSugarsUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    TotalSugarsN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    AddedSugars = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    AddedSugarsUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    AddedSugarsN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    SugarAlcohols = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    SugarAlcoholsUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    SugarAlcoholsN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    Protein = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    ProteinUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    ProteinN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    Biotin = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    BiotinUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    BiotinN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    Choline = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    CholineUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    CholineN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    Folate = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    FolateUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    FolateN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    Niacin = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    NiacinUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    NiacinN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    PantothenicAcid = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    PantothenicAcidUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    PantothenicAcidN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    Riboflavin = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    RiboflavinUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    RiboflavinN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    Thiamin = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    ThiaminUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    ThiaminN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    VitaminA = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    VitaminAUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    VitaminAN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    VitaminB6 = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    VitaminB6Unit = table.Column<int>(type: "INTEGER", nullable: false),
+                    VitaminB6N = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    VitaminB12 = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    VitaminB12Unit = table.Column<int>(type: "INTEGER", nullable: false),
+                    VitaminB12N = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    VitaminC = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    VitaminCUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    VitaminCN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    VitaminD = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    VitaminDUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    VitaminDN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    VitaminE = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    VitaminEUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    VitaminEN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    VitaminK = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    VitaminKUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    VitaminKN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    Calcium = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    CalciumUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    CalciumN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    Chloride = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    ChlorideUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    ChlorideN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    Chromium = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    ChromiumUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    ChromiumN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    Copper = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    CopperUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    CopperN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    Iodine = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    IodineUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    IodineN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    Iron = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    IronUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    IronN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    Magnesium = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    MagnesiumUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    MagnesiumN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    Manganese = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    ManganeseUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    ManganeseN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    Molybdenum = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    MolybdenumUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    MolybdenumN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    Phosphorus = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    PhosphorusUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    PhosphorusN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    Potassium = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    PotassiumUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    PotassiumN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    Selenium = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    SeleniumUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    SeleniumN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    Sodium = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    SodiumUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    SodiumN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    Zinc = table.Column<decimal>(type: "TEXT", precision: 7, scale: 2, nullable: false),
+                    ZincUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    ZincN = table.Column<decimal>(type: "TEXT", precision: 12, scale: 6, nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    HouseholdId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1199,10 +1196,10 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_CookbookRecipes",
                 columns: table => new
                 {
-                    CookbookId = table.Column<long>(type: "bigint", nullable: false),
-                    RecipeId = table.Column<long>(type: "bigint", nullable: false),
-                    HouseholdId = table.Column<long>(type: "bigint", nullable: false),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    CookbookId = table.Column<long>(type: "INTEGER", nullable: false),
+                    RecipeId = table.Column<long>(type: "INTEGER", nullable: false),
+                    HouseholdId = table.Column<long>(type: "INTEGER", nullable: false),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1233,15 +1230,15 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_MealPrepPlanRecipes",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    DatePlanned = table.Column<DateOnly>(type: "date", nullable: false),
-                    RecipeId = table.Column<long>(type: "bigint", nullable: false),
-                    SlotId = table.Column<long>(type: "bigint", nullable: true),
-                    Scale = table.Column<decimal>(type: "numeric(4,2)", precision: 4, scale: 2, nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    HouseholdId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    DatePlanned = table.Column<DateOnly>(type: "TEXT", nullable: false),
+                    RecipeId = table.Column<long>(type: "INTEGER", nullable: false),
+                    SlotId = table.Column<long>(type: "INTEGER", nullable: true),
+                    Scale = table.Column<decimal>(type: "TEXT", precision: 4, scale: 2, nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    HouseholdId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1267,18 +1264,18 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_RecipeImages",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    RecipeId = table.Column<long>(type: "bigint", nullable: false),
-                    Container = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false, collation: "case_insensitive_collation"),
-                    RelativePath = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    MimeType = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false, collation: "case_insensitive_collation"),
-                    FileSize = table.Column<long>(type: "bigint", nullable: false),
-                    IsFeatured = table.Column<bool>(type: "boolean", nullable: false),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    HouseholdId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    RecipeId = table.Column<long>(type: "INTEGER", nullable: false),
+                    Container = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false, collation: "NOCASE"),
+                    RelativePath = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    MimeType = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false, collation: "NOCASE"),
+                    FileSize = table.Column<long>(type: "INTEGER", nullable: false),
+                    IsFeatured = table.Column<bool>(type: "INTEGER", nullable: false),
+                    SortOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    HouseholdId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1299,14 +1296,14 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_RecipeIngredientGroups",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    RecipeId = table.Column<long>(type: "bigint", nullable: false),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    Title = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation"),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    HouseholdId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    RecipeId = table.Column<long>(type: "INTEGER", nullable: false),
+                    SortOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    HouseholdId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1327,14 +1324,14 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_RecipeNotes",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    RecipeId = table.Column<long>(type: "bigint", nullable: false),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    Note = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation"),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    HouseholdId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    RecipeId = table.Column<long>(type: "INTEGER", nullable: false),
+                    SortOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    Note = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    HouseholdId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1355,14 +1352,14 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_RecipeSteps",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    RecipeId = table.Column<long>(type: "bigint", nullable: false),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    Instructions = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation"),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    HouseholdId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    RecipeId = table.Column<long>(type: "INTEGER", nullable: false),
+                    SortOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    Instructions = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    HouseholdId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1383,13 +1380,13 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_ShoppingLists",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    StoreId = table.Column<long>(type: "bigint", nullable: true),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    HouseholdId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    StoreId = table.Column<long>(type: "INTEGER", nullable: true),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    HouseholdId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1410,15 +1407,15 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_StoreLocations",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    StoreId = table.Column<long>(type: "bigint", nullable: false),
-                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    Description = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true, collation: "case_insensitive_collation"),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    HouseholdId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    StoreId = table.Column<long>(type: "INTEGER", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    Description = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true, collation: "NOCASE"),
+                    SortOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    HouseholdId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1439,8 +1436,8 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_RecipeTags",
                 columns: table => new
                 {
-                    RecipeId = table.Column<long>(type: "bigint", nullable: false),
-                    TagId = table.Column<long>(type: "bigint", nullable: false)
+                    RecipeId = table.Column<long>(type: "INTEGER", nullable: false),
+                    TagId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1461,14 +1458,14 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_Metrics",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    MetricDefinitionId = table.Column<long>(type: "bigint", nullable: false),
-                    DateRecorded = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    RecordedValue = table.Column<decimal>(type: "numeric(15,3)", precision: 15, scale: 3, nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    MetricDefinitionId = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateRecorded = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    RecordedValue = table.Column<decimal>(type: "TEXT", precision: 15, scale: 3, nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1489,44 +1486,46 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_WorkoutSets",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    WorkoutId = table.Column<long>(type: "bigint", nullable: false),
-                    ExerciseId = table.Column<long>(type: "bigint", nullable: false),
-                    SetMetricType = table.Column<int>(type: "integer", nullable: false),
-                    ListGroupId = table.Column<long>(type: "bigint", nullable: false),
-                    IsTrackingSplit = table.Column<bool>(type: "boolean", nullable: false),
-                    IntensityTarget = table.Column<int>(type: "integer", nullable: false),
-                    RepMode = table.Column<int>(type: "integer", nullable: false),
-                    RepsTarget = table.Column<int>(type: "integer", nullable: false),
-                    Reps = table.Column<int>(type: "integer", nullable: false),
-                    RepsLeft = table.Column<int>(type: "integer", nullable: false),
-                    RepsRight = table.Column<int>(type: "integer", nullable: false),
-                    SecondsTarget = table.Column<int>(type: "integer", nullable: false),
-                    Seconds = table.Column<int>(type: "integer", nullable: false),
-                    SecondsLeft = table.Column<int>(type: "integer", nullable: false),
-                    SecondsRight = table.Column<int>(type: "integer", nullable: false),
-                    SetType = table.Column<int>(type: "integer", nullable: false),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    WeightLb = table.Column<decimal>(type: "numeric(7,3)", precision: 7, scale: 3, nullable: false),
-                    WeightKg = table.Column<decimal>(type: "numeric(7,3)", precision: 7, scale: 3, nullable: false),
-                    VolumeLb = table.Column<decimal>(type: "numeric(10,3)", precision: 10, scale: 3, nullable: false),
-                    VolumeKg = table.Column<decimal>(type: "numeric(10,3)", precision: 10, scale: 3, nullable: false),
-                    DateRecorded = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    DateRecordedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    IsBestSetBySeconds = table.Column<bool>(type: "boolean", nullable: false),
-                    IsBestSetByWeight = table.Column<bool>(type: "boolean", nullable: false),
-                    IsBestSetByVolume = table.Column<bool>(type: "boolean", nullable: false),
-                    IsRecordSeconds = table.Column<bool>(type: "boolean", nullable: false),
-                    IsRecordSecondsAtWeight = table.Column<bool>(type: "boolean", nullable: false),
-                    IsRecordTargetVolume = table.Column<bool>(type: "boolean", nullable: false),
-                    IsRecordTargetWeight = table.Column<bool>(type: "boolean", nullable: false),
-                    IsRecordVolume = table.Column<bool>(type: "boolean", nullable: false),
-                    IsRecordWeight = table.Column<bool>(type: "boolean", nullable: false),
-                    Notes = table.Column<string>(type: "text", nullable: true, collation: "case_insensitive_collation"),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    WorkoutId = table.Column<long>(type: "INTEGER", nullable: false),
+                    ExerciseId = table.Column<long>(type: "INTEGER", nullable: false),
+                    SetMetricType = table.Column<int>(type: "INTEGER", nullable: false),
+                    ListGroupId = table.Column<long>(type: "INTEGER", nullable: false),
+                    IsTrackingSplit = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IntensityTarget = table.Column<int>(type: "INTEGER", nullable: false),
+                    RepMode = table.Column<int>(type: "INTEGER", nullable: false),
+                    RepsTarget = table.Column<int>(type: "INTEGER", nullable: false),
+                    Reps = table.Column<int>(type: "INTEGER", nullable: false),
+                    RepsLeft = table.Column<int>(type: "INTEGER", nullable: false),
+                    RepsRight = table.Column<int>(type: "INTEGER", nullable: false),
+                    SecondsTarget = table.Column<int>(type: "INTEGER", nullable: false),
+                    Seconds = table.Column<int>(type: "INTEGER", nullable: false),
+                    SecondsLeft = table.Column<int>(type: "INTEGER", nullable: false),
+                    SecondsRight = table.Column<int>(type: "INTEGER", nullable: false),
+                    SetType = table.Column<int>(type: "INTEGER", nullable: false),
+                    SortOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    WeightLb = table.Column<decimal>(type: "TEXT", precision: 7, scale: 3, nullable: false),
+                    WeightKg = table.Column<decimal>(type: "TEXT", precision: 7, scale: 3, nullable: false),
+                    VolumeLb = table.Column<decimal>(type: "TEXT", precision: 10, scale: 3, nullable: false),
+                    VolumeKg = table.Column<decimal>(type: "TEXT", precision: 10, scale: 3, nullable: false),
+                    DateRecorded = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    DateRecordedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    IsBestSetByReps = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsBestSetBySeconds = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsBestSetByWeight = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsBestSetByVolume = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsRecordReps = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsRecordSeconds = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsRecordSecondsAtWeight = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsRecordTargetVolume = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsRecordTargetWeight = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsRecordVolume = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsRecordWeight = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Notes = table.Column<string>(type: "TEXT", nullable: true, collation: "NOCASE"),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1557,21 +1556,21 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_WorkoutTemplateSets",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    WorkoutTemplateId = table.Column<long>(type: "bigint", nullable: false),
-                    ListGroupId = table.Column<long>(type: "bigint", nullable: false),
-                    ExerciseId = table.Column<long>(type: "bigint", nullable: false),
-                    SetMetricType = table.Column<int>(type: "integer", nullable: false),
-                    SetType = table.Column<int>(type: "integer", nullable: false),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    RepMode = table.Column<int>(type: "integer", nullable: false),
-                    RepsTarget = table.Column<int>(type: "integer", nullable: false),
-                    SecondsTarget = table.Column<int>(type: "integer", nullable: false),
-                    IntensityTarget = table.Column<int>(type: "integer", nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    MemberId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    WorkoutTemplateId = table.Column<long>(type: "INTEGER", nullable: false),
+                    ListGroupId = table.Column<long>(type: "INTEGER", nullable: false),
+                    ExerciseId = table.Column<long>(type: "INTEGER", nullable: false),
+                    SetMetricType = table.Column<int>(type: "INTEGER", nullable: false),
+                    SetType = table.Column<int>(type: "INTEGER", nullable: false),
+                    SortOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    RepMode = table.Column<int>(type: "INTEGER", nullable: false),
+                    RepsTarget = table.Column<int>(type: "INTEGER", nullable: false),
+                    SecondsTarget = table.Column<int>(type: "INTEGER", nullable: false),
+                    IntensityTarget = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    MemberId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1587,7 +1586,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                         principalTable: "uf_Members",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_uf_WorkoutTemplateSets_uf_WorkoutTemplateSetGroups_ListGrou~",
+                        name: "FK_uf_WorkoutTemplateSets_uf_WorkoutTemplateSetGroups_ListGroupId",
                         column: x => x.ListGroupId,
                         principalTable: "uf_WorkoutTemplateSetGroups",
                         principalColumn: "Id");
@@ -1602,9 +1601,9 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_ProductBundleItems",
                 columns: table => new
                 {
-                    ProductBundleId = table.Column<long>(type: "bigint", nullable: false),
-                    ProductId = table.Column<long>(type: "bigint", nullable: false),
-                    Quantity = table.Column<int>(type: "integer", nullable: false)
+                    ProductBundleId = table.Column<long>(type: "INTEGER", nullable: false),
+                    ProductId = table.Column<long>(type: "INTEGER", nullable: false),
+                    Quantity = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1625,18 +1624,18 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_ProductImages",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ProductId = table.Column<long>(type: "bigint", nullable: false),
-                    Container = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false, collation: "case_insensitive_collation"),
-                    RelativePath = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    MimeType = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false, collation: "case_insensitive_collation"),
-                    FileSize = table.Column<long>(type: "bigint", nullable: false),
-                    IsFeatured = table.Column<bool>(type: "boolean", nullable: false),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    HouseholdId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ProductId = table.Column<long>(type: "INTEGER", nullable: false),
+                    Container = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false, collation: "NOCASE"),
+                    RelativePath = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    MimeType = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false, collation: "NOCASE"),
+                    FileSize = table.Column<long>(type: "INTEGER", nullable: false),
+                    IsFeatured = table.Column<bool>(type: "INTEGER", nullable: false),
+                    SortOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    HouseholdId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1657,10 +1656,10 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_ProductSubstitutions",
                 columns: table => new
                 {
-                    IngredientKey = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    ProductId = table.Column<long>(type: "bigint", nullable: false),
-                    HouseholdId = table.Column<long>(type: "bigint", nullable: false),
-                    IsPrimary = table.Column<bool>(type: "boolean", nullable: false)
+                    IngredientKey = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    ProductId = table.Column<long>(type: "INTEGER", nullable: false),
+                    HouseholdId = table.Column<long>(type: "INTEGER", nullable: false),
+                    IsPrimary = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1681,22 +1680,22 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_RecipeIngredients",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    RecipeId = table.Column<long>(type: "bigint", nullable: false),
-                    Key = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false, collation: "case_insensitive_collation"),
-                    ListGroupId = table.Column<long>(type: "bigint", nullable: false),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    Amount = table.Column<decimal>(type: "numeric(8,3)", precision: 8, scale: 3, nullable: false),
-                    AmountN = table.Column<decimal>(type: "numeric(15,3)", precision: 15, scale: 3, nullable: false),
-                    AmountUnit = table.Column<int>(type: "integer", nullable: false),
-                    AmountLabel = table.Column<string>(type: "character varying(25)", maxLength: 25, nullable: false, collation: "case_insensitive_collation"),
-                    AmountText = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false, collation: "case_insensitive_collation"),
-                    PrepNote = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true, collation: "case_insensitive_collation"),
-                    DateCreatedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DateLastModifiedUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    HouseholdId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    RecipeId = table.Column<long>(type: "INTEGER", nullable: false),
+                    Key = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false, collation: "NOCASE"),
+                    ListGroupId = table.Column<long>(type: "INTEGER", nullable: false),
+                    SortOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    Amount = table.Column<decimal>(type: "TEXT", precision: 8, scale: 3, nullable: false),
+                    AmountN = table.Column<decimal>(type: "TEXT", precision: 15, scale: 3, nullable: false),
+                    AmountUnit = table.Column<int>(type: "INTEGER", nullable: false),
+                    AmountLabel = table.Column<string>(type: "TEXT", maxLength: 25, nullable: false, collation: "NOCASE"),
+                    AmountText = table.Column<string>(type: "TEXT", maxLength: 15, nullable: false, collation: "NOCASE"),
+                    PrepNote = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true, collation: "NOCASE"),
+                    DateCreatedUtc = table.Column<long>(type: "INTEGER", nullable: false),
+                    DateLastModifiedUtc = table.Column<long>(type: "INTEGER", nullable: true),
+                    HouseholdId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1722,10 +1721,10 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_ShoppingListItems",
                 columns: table => new
                 {
-                    ShoppingListId = table.Column<long>(type: "bigint", nullable: false),
-                    ProductId = table.Column<long>(type: "bigint", nullable: false),
-                    Quantity = table.Column<int>(type: "integer", nullable: false),
-                    IsInCart = table.Column<bool>(type: "boolean", nullable: false)
+                    ShoppingListId = table.Column<long>(type: "INTEGER", nullable: false),
+                    ProductId = table.Column<long>(type: "INTEGER", nullable: false),
+                    Quantity = table.Column<int>(type: "INTEGER", nullable: false),
+                    IsInCart = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1746,17 +1745,17 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_ShoppingListRecipeItems",
                 columns: table => new
                 {
-                    ShoppingListId = table.Column<long>(type: "bigint", nullable: false),
-                    ProductId = table.Column<long>(type: "bigint", nullable: false),
-                    RecipeId = table.Column<long>(type: "bigint", nullable: false),
-                    InstanceId = table.Column<int>(type: "integer", nullable: false),
-                    IngredientKey = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation"),
-                    IngredientAmount = table.Column<decimal>(type: "numeric(8,3)", precision: 8, scale: 3, nullable: false),
-                    IngredientAmountUnitLabel = table.Column<string>(type: "text", nullable: false, collation: "case_insensitive_collation"),
-                    PortionUsed = table.Column<decimal>(type: "numeric(15,10)", precision: 15, scale: 10, nullable: false),
-                    IngredientAmountUnitType = table.Column<int>(type: "integer", nullable: false),
-                    ServingSizeUnitType = table.Column<int>(type: "integer", nullable: false),
-                    IsUnitMismatch = table.Column<bool>(type: "boolean", nullable: false)
+                    ShoppingListId = table.Column<long>(type: "INTEGER", nullable: false),
+                    ProductId = table.Column<long>(type: "INTEGER", nullable: false),
+                    RecipeId = table.Column<long>(type: "INTEGER", nullable: false),
+                    InstanceId = table.Column<int>(type: "INTEGER", nullable: false),
+                    IngredientKey = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
+                    IngredientAmount = table.Column<decimal>(type: "TEXT", precision: 8, scale: 3, nullable: false),
+                    IngredientAmountUnitLabel = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
+                    PortionUsed = table.Column<decimal>(type: "TEXT", precision: 15, scale: 10, nullable: false),
+                    IngredientAmountUnitType = table.Column<int>(type: "INTEGER", nullable: false),
+                    ServingSizeUnitType = table.Column<int>(type: "INTEGER", nullable: false),
+                    IsUnitMismatch = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1782,10 +1781,10 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 name: "uf_StoreProductLocations",
                 columns: table => new
                 {
-                    StoreId = table.Column<long>(type: "bigint", nullable: false),
-                    ProductId = table.Column<long>(type: "bigint", nullable: false),
-                    StoreLocationId = table.Column<long>(type: "bigint", nullable: false),
-                    SortOrder = table.Column<int>(type: "integer", nullable: false)
+                    StoreId = table.Column<long>(type: "INTEGER", nullable: false),
+                    ProductId = table.Column<long>(type: "INTEGER", nullable: false),
+                    StoreLocationId = table.Column<long>(type: "INTEGER", nullable: false),
+                    SortOrder = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2583,7 +2582,7 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_uf_TrainingPlanSessions_MemberId_TrainingPlanId_WeekNumber_~",
+                name: "IX_uf_TrainingPlanSessions_MemberId_TrainingPlanId_WeekNumber_DayNumber_SortOrder",
                 table: "uf_TrainingPlanSessions",
                 columns: new[] { "MemberId", "TrainingPlanId", "WeekNumber", "DayNumber", "SortOrder" });
 
@@ -3013,9 +3012,6 @@ namespace Unshackled.Fitness.Core.Data.Migrations.PostgreSQL
 
             migrationBuilder.DropTable(
                 name: "uf_Members");
-
-			migrationBuilder.AlterDatabase()
-				.OldAnnotation("Npgsql:CollationDefinition:case_insensitive_collation", "en-u-ks-primary,en-u-ks-primary,icu,False");
-		}
+        }
     }
 }

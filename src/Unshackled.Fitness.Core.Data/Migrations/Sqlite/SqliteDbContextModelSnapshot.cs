@@ -2733,6 +2733,9 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.Property<int>("Rating")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("RecordRepsCount")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("RecordSecondsAtWeightCount")
                         .HasColumnType("INTEGER");
 
@@ -2811,6 +2814,9 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                     b.Property<int>("IntensityTarget")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsBestSetByReps")
+                        .HasColumnType("INTEGER");
+
                     b.Property<bool>("IsBestSetBySeconds")
                         .HasColumnType("INTEGER");
 
@@ -2818,6 +2824,9 @@ namespace Unshackled.Fitness.Core.Data.Migrations.Sqlite
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsBestSetByWeight")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsRecordReps")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsRecordSeconds")

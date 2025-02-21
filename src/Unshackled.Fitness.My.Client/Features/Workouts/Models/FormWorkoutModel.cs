@@ -11,6 +11,7 @@ public class FormWorkoutModel : BaseMemberObject
 	public DateTimeOffset? DateStartedUtc { get; set; }
 	public DateTime? DateCompleted { get; set; }
 	public DateTimeOffset? DateCompletedUtc { get; set; }
+	public int RecordRepsCount { get; set; }
 	public int RecordSecondsCount { get; set; }
 	public int RecordSecondsAtWeightCount { get; set; }
 	public int RecordTargetVolumeCount { get; set; }
