@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Unshackled.Fitness.Core.Configuration;
 
@@ -63,17 +62,9 @@ public class SqliteDbContext : BaseDbContext
 		ConnectionStrings connStrings = new() { DefaultDatabase = connString };
 		DbConfiguration dbConfig = new()
 		{
-			DatabaseType = "sqlite",
+			DatabaseType = DbConfiguration.SQLITE,
 			TablePrefix = tablePrefix
 		};
 		return new SqliteDbContext(ob.Options, connStrings, dbConfig);
-	}
-}
-
-public class SqliteContextFactory : IDesignTimeDbContextFactory<SqliteDbContext>
-{
-	public SqliteDbContext CreateDbContext(string[] args)
-	{
-		return SqliteDbContext.Create("Data Source=uf.db", "uf_");
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Unshackled.Fitness.Core.Configuration;
 using Unshackled.Fitness.Core.Data;
+using Unshackled.Fitness.My.Utils;
 
 namespace Unshackled.Fitness.My.Services;
 
@@ -28,6 +29,11 @@ public static class DbStartupService
 						break;
 					case DbConfiguration.POSTGRESQL:
 						isReady = await services.GetRequiredService<PostgreSqlServerDbContext>()
+							.Database.CanConnectAsync();
+						break;
+					case DbConfiguration.SQLITE:
+						FileUtils.EnsureDataSourceDirectoryExists(connectionStrings.DefaultDatabase);
+						isReady = await services.GetRequiredService<SqliteDbContext>()
 							.Database.CanConnectAsync();
 						break;
 					default:
@@ -67,6 +73,11 @@ public static class DbStartupService
 				break;
 			case DbConfiguration.POSTGRESQL:
 				await services.GetRequiredService<PostgreSqlServerDbContext>()
+					.Database.MigrateAsync();
+				break;
+			case DbConfiguration.SQLITE:
+				FileUtils.EnsureDataSourceDirectoryExists(connectionStrings.DefaultDatabase);
+				await services.GetRequiredService<SqliteDbContext>()
 					.Database.MigrateAsync();
 				break;
 			default:
