@@ -40,23 +40,8 @@ else
 	}
 	else
 	{
-		<MudToolBar Gutters="false" Class="my-6">
-			<MudSpacer />
-			<MudButtonGroup OverrideStyles="false">
-				<MudButton Color="Color.Secondary" Variant="@GetButtonViewVariant(Views.Calendar)" OnClick="@(() => HandleViewButtonClicked(Views.Calendar))">Calendar</MudButton>
-				<MudButton Color="Color.Secondary" Variant="@GetButtonViewVariant(Views.Charts)" OnClick="@(() => HandleViewButtonClicked(Views.Charts))">Chart</MudButton>
-			</MudButtonGroup>
-			<MudSpacer />
-		</MudToolBar>
-
-		<div class="@GetViewClass(Views.Calendar)">
-			<Calendar Model="@CalendarModel">
-				<MudText Typo="Typo.subtitle1">@CalendarModel.FromDate.ToString("MMM yyyy") - @CalendarModel.ToDate.ToString("MMM yyyy")</MudText>
-			</Calendar>
-		</div>
-
-		<div class="@GetViewClass(Views.Charts)">
-			<Chart T="decimal" Class="mb-6" ChartState="@ChartMetric" />
-		</div>
+		<Calendar Model="@CalendarModel">
+			<MudText Typo="Typo.subtitle1">@CalendarModel.FromDate.ToString("MMM yyyy") - @CalendarModel.ToDate.ToString("MMM yyyy")</MudText>
+		</Calendar>
 	}
 }
