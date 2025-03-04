@@ -32,8 +32,8 @@ public class GetCalendar
 			DateOnly fromDate = request.Model.FromDate;
 			DateOnly toDate = request.Model.ToDate;
 
-			DateTimeOffset fromDateTime = fromDate.ToDateTime(new TimeOnly(0, 0, 0), DateTimeKind.Unspecified);
-			DateTimeOffset toDateTime = toDate.ToDateTime(new TimeOnly(0, 0, 0), DateTimeKind.Unspecified);
+			DateTime fromDateTime = fromDate.ToDateTime(new TimeOnly(0, 0, 0));
+			DateTime toDateTime = toDate.ToDateTime(new TimeOnly(0, 0, 0));
 
 			CalendarModel model = new()
 			{
@@ -47,7 +47,7 @@ public class GetCalendar
 				.Select(x => x.DateRecorded.Year)
 				.FirstOrDefaultAsync(cancellationToken);
 
-			for (int i = oldestYear; i <= DateTimeOffset.Now.Year; i++)
+			for (int i = oldestYear; i <= DateTime.Now.Year; i++)
 			{
 				model.YearsAvailable.Add(i);
 			}
@@ -102,7 +102,7 @@ public class GetCalendar
 
 			// Fill Blocks
 			DateOnly currentDate = model.FromDate;
-			DateTimeOffset currentDateTime = fromDateTime;
+			DateTime currentDateTime = fromDateTime;
 			int activityIdx = 0;
 			int workoutIdx = 0;
 			int blockIdx = 0;
