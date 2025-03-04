@@ -19,6 +19,7 @@ public class MySqlServerDbContext : BaseDbContext
 			{
 				o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
 				o.MigrationsHistoryTable($"{prefix}_EFMigrationsHistory");
+				o.TranslateParameterizedCollectionsToConstants();
 			});
 		}
 	}

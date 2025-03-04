@@ -20,7 +20,7 @@ public class DashboardPrepScheduleBase : BaseComponent
 	protected override async Task OnInitializedAsync()
 	{
 		await base.OnInitializedAsync();
-		PrepModel = await Mediator.Send(new GetScheduledPrep.Query(DateOnly.FromDateTime(DateTime.Now.Date)));
+		PrepModel = await Mediator.Send(new GetScheduledPrep.Query(DateOnly.FromDateTime(DateTimeOffset.Now.Date)));
 		IsLoading = false;
 	}
 

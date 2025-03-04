@@ -6,7 +6,7 @@ namespace Unshackled.Fitness.My.Client.Features.Dashboard.Models;
 
 public class DashboardStatsModel
 {
-	public DateTime ToDateUtc { get; set; } = DateTime.UtcNow;
+	public DateTimeOffset ToDateUtc { get; set; } = DateTimeOffset.UtcNow;
 	public List<StatBlockModel> StatBlocks { get; set; } = [];
 	public List<int> Years { get; set; } = [];
 	public int TotalActivities { get; set; }

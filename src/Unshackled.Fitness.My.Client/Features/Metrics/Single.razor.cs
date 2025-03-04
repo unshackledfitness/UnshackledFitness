@@ -17,11 +17,10 @@ public class SingleBase : BaseComponent
 	protected CalendarModel CalendarModel { get; set; } = new();
 	protected SearchCalendarModel SearchModel { get; set; } = new();
 	protected FormSearchModel FormModel { get; set; } = new();
-	protected ChartState<decimal> ChartMetric { get; set; } = new();
 	protected Views CurrentView { get; set; } = Views.Calendar;
 
 	private string searchKey = "SearchMetrics";
-	private DateTime defaultDate = new DateTime(DateTimeOffset.Now.Year, DateTimeOffset.Now.Month, 1);
+	private DateTime defaultDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
 	protected enum Views
 	{
 		Calendar,
@@ -35,60 +34,11 @@ public class SingleBase : BaseComponent
 		Breadcrumbs.Add(new BreadcrumbItem("Metric", null, true));
 
 		await InitializeSearchForm();
-		ConfigureCharts();
 
 		MetricDefinition = await Mediator.Send(new GetDefinition.Query(Sid));
 
 		await GetCalendar();
 		IsLoading = false;
-	}
-
-	public void ConfigureCharts()
-	{
-		var metricConfig = new LineChart();
-		ChartMetric.Configure("chartMetric", metricConfig.Config);
-	}
-
-	private void FillMetricDataSet()
-	{
-		List<ChartDataSet<decimal>> dsMetrics = [];
-
-		ChartDataSet<decimal> dsMetric = new()
-		{
-			BackgroundColor = ChartDataSet.ColorBlue,
-			BorderColor = ChartDataSet.ColorBlue,
-			BorderWidth = 1,
-		};
-
-		foreach (var day in CalendarModel.Days)
-		{
-			if (day != null)
-			{
-				string dateLabel = day.Date.ToString("MMM dd");
-
-				foreach (var block in day.Blocks)
-				{
-					var pt = new ChartDataPoint<decimal>
-					{
-						X = dateLabel,
-						Y = block.Value
-					};
-					dsMetric.Data.Add(pt);
-				}
-				
-			}
-		}
-		dsMetrics.Add(dsMetric);
-
-		ChartMetric.LoadData(dsMetrics.ToArray());
-	}
-
-	protected Variant GetButtonViewVariant(Views view)
-	{
-		if (view == CurrentView)
-			return Variant.Filled;
-		else
-			return Variant.Outlined;
 	}
 
 	private async Task GetCalendar()
@@ -97,8 +47,6 @@ public class SingleBase : BaseComponent
 		SearchModel.ToDateUtc = SearchModel.ToDate.ToDateTime(new TimeOnly(0, 0, 0), DateTimeKind.Local).ToUniversalTime();
 
 		CalendarModel = await Mediator.Send(new GetCalendar.Query(Sid, SearchModel));
-
-		FillMetricDataSet();
 	}
 
 	protected string GetMonthDisplay(int num)
@@ -110,14 +58,6 @@ public class SingleBase : BaseComponent
 			output = $"{num} {title} ({FormModel.EndDate.Value.AddMonths(-num).ToString("MM/yyyy")})";
 		}
 		return output;
-	}
-
-	protected string GetViewClass(Views view)
-	{
-		if (view == CurrentView)
-			return "d-block";
-		else
-			return "d-none";
 	}
 
 	protected async Task HandleResetClicked()
@@ -139,17 +79,11 @@ public class SingleBase : BaseComponent
 		await GetCalendar();
 	}
 
-	protected void HandleViewButtonClicked(Views view)
-	{
-		CurrentView = view;
-		StateHasChanged();
-	}
-
 	private async Task InitializeSearchForm(bool reset = false)
 	{
 		var defaultModel = new FormSearchModel
 		{
-			EndDate = new DateTime(DateTimeOffset.Now.Date.Year, DateTimeOffset.Now.Date.Month, 1),
+			EndDate = new DateTime(DateTime.Now.Date.Year, DateTime.Now.Date.Month, 1),
 			NumberOfMonths = 0
 		};
 

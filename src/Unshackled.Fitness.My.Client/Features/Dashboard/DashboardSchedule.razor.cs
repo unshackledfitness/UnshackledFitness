@@ -14,7 +14,7 @@ public class DashboardScheduleBase : BaseComponent
 	{
 		await base.OnInitializedAsync();
 
-		Items = await Mediator.Send(new ListScheduledItems.Query(DateOnly.FromDateTime(DateTime.Now.Date)));
+		Items = await Mediator.Send(new ListScheduledItems.Query(DateOnly.FromDateTime(DateTimeOffset.Now.Date)));
 		IsLoading = false;
 	}
 

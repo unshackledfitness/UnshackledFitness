@@ -69,7 +69,7 @@
 												@if (context.Item.SetMetricType == SetMetricTypes.WeightReps)
 												{
 													<MudItem xs="7">
-														<CaptionedProperty Styles="white-space: nowrap;" Class="align-md-end">
+														<CaptionedProperty Class="align-md-end" Styles="white-space: nowrap;">
 															<TitleContent>
 																<div class="d-flex flex-row align-center gap-1">
 																	<MudText Typo="Typo.caption" Color="Color.Tertiary">
@@ -97,7 +97,38 @@
 														</CaptionedProperty>
 													</MudItem>
 												}
-												@if (context.Item.SetMetricType.HasSeconds())
+												else if (context.Item.SetMetricType == SetMetricTypes.RepsOnly)
+												{
+													<MudItem xs="7">
+														<CaptionedProperty Class="align-md-end" Styles="white-space: nowrap;">
+															<TitleContent>
+																<div class="d-flex flex-row align-center gap-1">
+																	<MudText Typo="Typo.caption" Color="Color.Tertiary">Reps</MudText>
+																	@if (HasPR(context.Item))
+																	{
+																		<MudTooltip ShowOnClick="true" ShowOnHover="true" Text="Rep PR">
+																			<MudIcon Icon="@GetRepsIcon(context.Item)" Color="Color.Success" Style="font-size: var(--mud-typography-body2-size);" />
+																		</MudTooltip>
+																	}
+																	@if (context.Item.IsBestSetByReps)
+																	{
+																		<MudTooltip ShowOnClick="true" ShowOnHover="true" Text="Best Set By Reps">
+																			<MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Primary" Style="font-size: var(--mud-typography-body2-size);" />
+																		</MudTooltip>
+																	}
+																</div>
+															</TitleContent>
+															<ChildContent>
+																<div>
+																	<WeightRepsLabel IsTrackingSplit="@context.Item.IsTrackingSplit" SplitOrder="AppSettings.DisplaySplitTracking"
+																						IsRepsOnly="true" Reps="@context.Item.Reps" RepsLeft="@context.Item.RepsLeft" RepsRight="@context.Item.RepsRight" 
+																						UnitSystem="@AppSettings.DefaultUnits" />
+																</div>
+															</ChildContent>
+														</CaptionedProperty>
+													</MudItem>
+												}
+												else if (context.Item.SetMetricType.HasSeconds())
 												{
 													<MudItem xs="7">
 														<CaptionedProperty Title="Time" Class="align-md-end" Styles="white-space: nowrap;">

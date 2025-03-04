@@ -8,9 +8,9 @@ public class WorkoutEntity : BaseMemberEntity
 {
 	public string Title { get; set; } = string.Empty;
 	public DateTime? DateStarted { get; set; }
-	public DateTime? DateStartedUtc { get; set; }
+	public DateTimeOffset? DateStartedUtc { get; set; }
 	public DateTime? DateCompleted { get; set; }
-	public DateTime? DateCompletedUtc { get; set; }
+	public DateTimeOffset? DateCompletedUtc { get; set; }
 	public string? MusclesTargeted { get; set; }
 	public int ExerciseCount { get; set; }
 	public int SetCount { get; set; }
@@ -18,6 +18,7 @@ public class WorkoutEntity : BaseMemberEntity
 	public decimal VolumeKg { get; set; }
 	public decimal VolumeLb { get; set; }
 	public long? WorkoutTemplateId { get; set; }
+	public int RecordRepsCount { get; set; }
 	public int RecordSecondsCount { get; set; }
 	public int RecordSecondsAtWeightCount { get; set; }
 	public int RecordTargetVolumeCount { get; set; }

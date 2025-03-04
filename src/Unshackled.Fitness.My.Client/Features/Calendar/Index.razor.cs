@@ -22,7 +22,7 @@ public class IndexBase : BaseComponent
 
 	private string visibilityKey = "MetricVisibility";
 	private string searchKey = "SearchCalendar";
-	private DateTime defaultDate = new DateTime(DateTimeOffset.Now.Year, DateTimeOffset.Now.Month, 1);
+	private DateTime defaultDate = new(DateTime.Now.Year, DateTime.Now.Month, 1);
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -152,7 +152,7 @@ public class IndexBase : BaseComponent
 	{
 		var defaultModel = new FormSearchModel
 		{
-			EndDate = new DateTime(DateTimeOffset.Now.Date.Year, DateTimeOffset.Now.Date.Month, 1),
+			EndDate = new DateTime(DateTime.Now.Date.Year, DateTime.Now.Date.Month, 1),
 			NumberOfMonths = 0
 		};
 

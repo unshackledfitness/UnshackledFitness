@@ -1,0 +1,67 @@
+name: unshackled-fitness
+services:
+  unshackledfitness:
+    container_name: unshackled-fitness
+    image: unshackledfitness/unshackled-fitness
+    environment: 
+      ASPNETCORE_URLS: https://+:8081;http://+:8080
+      ASPNETCORE_Kestrel__Certificates__Default__Password: <password>
+      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
+      AuthenticationProviders__GoogleClientId: 
+      AuthenticationProviders__GoogleClientSecret: 
+      AuthenticationProviders__MicrosoftClientId: 
+      AuthenticationProviders__MicrosoftClientSecret: 
+      ConnectionStrings__DefaultDatabase: "Server=postgresql;Port=5432;Database=unshackled-fitness;User Id=postgres;Password=<password>;"
+      DbConfiguration__DatabaseType: postgresql
+      DbConfiguration__TablePrefix: uf_
+      HashIdConfiguration__Alphabet: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+      HashIdConfiguration__Salt: "<randomstringofcharacters>"
+      HashIdConfiguration__MinLength: 12
+      SiteConfiguration__SiteName: "Unshackled Fitness"
+      SiteConfiguration__AppThemeColor: "#194480"
+      SiteConfiguration__AllowRegistration: true
+      SiteConfiguration__RequireConfirmedAccount: true
+      SiteConfiguration__ApplyMigrationsOnStartup: true
+      SiteConfiguration__PasswordStrength__RequireDigit: true
+      SiteConfiguration__PasswordStrength__RequireLowercase: true
+      SiteConfiguration__PasswordStrength__RequireNonAlphanumeric: true
+      SiteConfiguration__PasswordStrength__RequireUppercase: true
+      SiteConfiguration__PasswordStrength__RequiredLength: 10
+      SiteConfiguration__PasswordStrength__RequiredUniqueChars: 7
+      SmtpSettings__Host:
+      SmtpSettings__Port: 587
+      SmtpSettings__UseSSL: true
+      SmtpSettings__Password:
+      SmtpSettings__Username:
+      SmtpSettings__DefaultReplyTo:
+      StorageSettings__BaseUrl: "/"
+      StorageSettings__Container: "content"
+      StorageSettings__MaxUploadInMb: 3
+    volumes:
+      - /path/to/households:/app/wwwroot/content/households:rw
+      - ~/.aspnet/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
+    ports: 
+      - 5580:8081
+    depends_on:
+      - postgresql
+
+  postgresql:
+    container_name: postgresql-uf
+    image: postgres:latest
+    restart: always
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    environment:
+      POSTGRES_DB: 'unshackled-fitness'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: '<password>'
+      PGDATA: /data/postgres
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
+    volumes:
+      - postgres_db:/data/postgres
+
+volumes:
+  postgres_db:

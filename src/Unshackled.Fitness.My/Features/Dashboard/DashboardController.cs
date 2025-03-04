@@ -28,7 +28,7 @@ public class DashboardController : BaseController
 	}
 
 	[HttpPost("list-metrics")]
-	public async Task<IActionResult> ListMetrics([FromBody] DateTime displayDateUtc)
+	public async Task<IActionResult> ListMetrics([FromBody] DateTimeOffset displayDateUtc)
 	{
 		return Ok(await Mediator.Send(new ListMetrics.Query(Member.Id, displayDateUtc)));
 	}
@@ -61,7 +61,7 @@ public class DashboardController : BaseController
 	}
 
 	[HttpPost("workout-stats")]
-	public async Task<IActionResult> GetWorkoutStats([FromBody] DateTime toDateUtc)
+	public async Task<IActionResult> GetWorkoutStats([FromBody] DateTimeOffset toDateUtc)
 	{
 		return Ok(await Mediator.Send(new GetDashboardStats.Query(Member.Id, toDateUtc)));
 	}

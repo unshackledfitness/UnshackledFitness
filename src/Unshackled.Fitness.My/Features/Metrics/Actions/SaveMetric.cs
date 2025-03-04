@@ -40,7 +40,7 @@ public class SaveMetric
 			if (definition == null)
 				return new CommandResult(false, "Invalid metric.");
 
-			DateTime dateRecorded = request.Model.RecordedDate.ToDateTime(new TimeOnly(0, 0, 0), DateTimeKind.Local);
+			DateTime dateRecorded = request.Model.RecordedDate.ToDateTime(new TimeOnly(0, 0, 0));
 
 			var metric = await db.Metrics
 				.Where(x => x.MemberId == request.MemberId

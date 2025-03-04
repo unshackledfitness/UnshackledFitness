@@ -15,6 +15,7 @@ public static class WorkoutExtensions
 			.Where(x => x.WorkoutId == workout.Id && x.SetType == WorkoutSetTypes.Standard)
 			.ToListAsync();
 
+		workout.RecordRepsCount = 0;
 		workout.RecordSecondsAtWeightCount = 0;
 		workout.RecordSecondsCount = 0;
 		workout.RecordTargetVolumeCount = 0;
@@ -25,6 +26,7 @@ public static class WorkoutExtensions
 		await GetBestSetsByWeight(db, workout, sets);
 		await GetBestSetsByVolume(db, workout, sets);
 		await GetBestSetsBySeconds(db, workout, sets);
+		await GetBestSetsByReps(db, workout, sets);
 
 		await db.SaveChangesAsync();
 	}
@@ -104,6 +106,47 @@ public static class WorkoutExtensions
 		if (workout == null) return;
 
 		await db.UpdateWorkoutStats(workout);
+	}
+
+	private static async Task GetBestSetsByReps(this BaseDbContext db, WorkoutEntity workout, List<WorkoutSetEntity> sets)
+	{
+		var listBest = sets
+			.OrderBy(x => x.ExerciseId)
+			.ThenBy(x => x.DateRecordedUtc)
+			.ToList();
+
+		foreach (var set in listBest)
+		{
+			int maxReps = Math.Max(set.Reps, Math.Max(set.RepsLeft, set.RepsRight));
+			set.IsBestSetByReps = !sets
+				.Where(x => x.Id != set.Id && x.ExerciseId == set.ExerciseId && (x.Reps > maxReps || x.RepsLeft > maxReps || x.RepsRight > maxReps))
+				.Any();
+
+			if (set.IsBestSetByReps)
+			{
+				if (maxReps > 0)
+				{
+					set.IsRecordReps = !await db.WorkoutSets
+						.Include(x => x.Workout)
+						.Where(x => x.ExerciseId == set.ExerciseId
+							&& x.Workout.DateCompletedUtc < workout.DateCompletedUtc
+							&& x.WorkoutId != workout.Id
+							&& (x.Reps >= maxReps || x.RepsLeft >= maxReps || x.RepsRight >= maxReps))
+						.AnyAsync();
+
+					if (set.IsRecordReps)
+						workout.RecordRepsCount++;
+				}
+				else
+				{
+					set.IsRecordReps = false;
+				}
+			}
+			else
+			{
+				set.IsRecordReps = false;
+			}
+		}
 	}
 
 	private static async Task GetBestSetsBySeconds(this BaseDbContext db, WorkoutEntity workout, List<WorkoutSetEntity> sets)

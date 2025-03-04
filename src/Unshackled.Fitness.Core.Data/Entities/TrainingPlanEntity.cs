@@ -10,7 +10,7 @@ public class TrainingPlanEntity : BaseMemberEntity
 	public string Title { get; set; } = string.Empty;
 	public ProgramTypes ProgramType { get; set; }
 	public DateTime? DateStarted { get; set; }
-	public DateTime? DateLastActivityUtc { get; set; }
+	public DateTimeOffset? DateLastActivityUtc { get; set; }
 	public string? Description { get; set; }
 	public int LengthWeeks { get; set; }
 	public int NextSessionIndex { get; set; }

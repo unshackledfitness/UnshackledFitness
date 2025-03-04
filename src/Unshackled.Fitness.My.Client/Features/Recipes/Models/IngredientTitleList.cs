@@ -2,6 +2,6 @@
 
 public class IngredientTitleList
 {
-	public DateTime DateRetrieved { get; set; }
+	public DateTimeOffset DateRetrieved { get; set; }
 	public List<string> Titles { get; set; } = new();
 }

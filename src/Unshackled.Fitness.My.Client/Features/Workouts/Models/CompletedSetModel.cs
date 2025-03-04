@@ -23,7 +23,7 @@ public class CompletedSetModel : BaseObject, IGroupedSortable
 	public int SecondsTarget { get; set; }
 	public decimal WeightLb { get; set; }
 	public decimal WeightKg { get; set; }
-	public DateTime? DateWorkoutUtc { get; set; }
+	public DateTimeOffset? DateWorkoutUtc { get; set; }
 	public string? Notes { get; set; }
 }
 

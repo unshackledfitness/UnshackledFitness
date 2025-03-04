@@ -261,11 +261,13 @@ public class ListScheduledItems
 
 			if (list.Count != 0)
 			{
+				DateTimeOffset fromDateUtc = displayDate.ToUniversalTime();
+				DateTimeOffset toDateUtc = displayDate.AddDays(1).ToUniversalTime();
 				// Get workouts from DisplayDate with matching template IDs
 				var workouts = await db.Workouts
 					.AsNoTracking()
-					.Where(x => x.DateCreatedUtc >= displayDate.ToUniversalTime()
-						&& x.DateCreatedUtc < displayDate.AddDays(1).ToUniversalTime()
+					.Where(x => x.DateCreatedUtc >= fromDateUtc
+						&& x.DateCreatedUtc < toDateUtc
 						&& x.WorkoutTemplateId.HasValue
 						&& matchingIds.Contains(x.WorkoutTemplateId.Value))
 					.ToListAsync(cancellationToken);

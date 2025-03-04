@@ -9,5 +9,5 @@ public class ProgramListModel : BaseMemberObject
 	public ProgramTypes ProgramType { get; set; }
 	public int LengthWeeks { get; set; }
 	public int Workouts { get; set; }
-	public DateTime? DateStarted { get; set; }
+	public DateTimeOffset? DateStarted { get; set; }
 }

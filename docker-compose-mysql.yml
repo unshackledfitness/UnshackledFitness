@@ -2,20 +2,20 @@ name: unshackled-fitness
 services:
   unshackledfitness:
     container_name: unshackled-fitness
-    image: unshackledfitness/unshackled-fitness:3.2
+    image: unshackledfitness/unshackled-fitness
     environment: 
       ASPNETCORE_URLS: https://+:8081;http://+:8080
-      ASPNETCORE_Kestrel__Certificates__Default__Password: 
+      ASPNETCORE_Kestrel__Certificates__Default__Password: <password>
       ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
       AuthenticationProviders__GoogleClientId: 
       AuthenticationProviders__GoogleClientSecret: 
       AuthenticationProviders__MicrosoftClientId: 
       AuthenticationProviders__MicrosoftClientSecret: 
-      ConnectionStrings__DefaultDatabase: "Data Source=/app/Data/unshackled-fitness.sqlite"
-      DbConfiguration__DatabaseType: "sqlite"
-      DbConfiguration__TablePrefix: "uf_"
+      ConnectionStrings__DefaultDatabase: "Server=mysql;Port=3306;Database=unshackled-fitness;Uid=website;Pwd=<password>;"
+      DbConfiguration__DatabaseType: mysql
+      DbConfiguration__TablePrefix: uf_
       HashIdConfiguration__Alphabet: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
-      HashIdConfiguration__Salt: "randomstringofcharacters"
+      HashIdConfiguration__Salt: "<randomstringofcharacters>"
       HashIdConfiguration__MinLength: 12
       SiteConfiguration__SiteName: "Unshackled Fitness"
       SiteConfiguration__AppThemeColor: "#194480"
@@ -31,17 +31,35 @@ services:
       SmtpSettings__Host: 
       SmtpSettings__Port: 587
       SmtpSettings__UseSSL: true
-      SmtpSettings__Password: 
-      SmtpSettings__Username: 
-      SmtpSettings__DefaultReplyTo: 
-      StorageSettings__BaseUrl: "https://localhost:5580/"
+      SmtpSettings__Password:
+      SmtpSettings__Username:
+      SmtpSettings__DefaultReplyTo:
+      StorageSettings__BaseUrl: "/"
       StorageSettings__Container: "content"
       StorageSettings__MaxUploadInMb: 3
-    restart: unless-stopped
     volumes:
-      - /path/to/content/households:/app/wwwroot/content/households
-      - /path/to/data:/app/Data
+      - /path/to/households:/app/wwwroot/content/households:rw
       - ~/.aspnet/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
     ports: 
       - 5580:8081
-    
+    depends_on:
+      - mysql
+
+  mysql:
+    container_name: mysql-uf
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'unshackled-fitness'
+      MYSQL_USER: 'website'
+      MYSQL_PASSWORD: '<password>'
+      MYSQL_ROOT_PASSWORD: '<rootpassword>'
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    volumes:
+      - mysql_db:/var/lib/mysql
+
+volumes:
+  mysql_db:

@@ -2,18 +2,18 @@
 
 internal enum MigrationTypes
 {
-	MsSqlToSqlite = 0,
-	MsSqlToMySql = 1,
-	MsSqlToPostgreSql = 2,
-	MySqlToSqlite = 3,
-	MySqlToMsSql = 4,
-	MySqlToPostgreSql = 5,
-	PostgreSqlToSqlite = 6,
-	PostgreSqlToMsSql = 7,
-	PostgreSqlToMySql = 8,
-	SqliteToMsSql = 9,
-	SqliteToMySql = 10,
-	SqliteToPostgreSql = 11
+	MsSqlToMySql,
+	MsSqlToPostgreSql,
+	MsSqlToSqlite,
+	MySqlToMsSql,
+	MySqlToPostgreSql,
+	MySqlToSqlite,
+	PostgreSqlToMsSql,
+	PostgreSqlToMySql,
+	PostgreSqlToSqlite,
+	SqliteToMsSql,
+	SqliteToMySql,
+	SqliteToPostgreSql
 }
 
 internal static class MigrationTypesExtensions

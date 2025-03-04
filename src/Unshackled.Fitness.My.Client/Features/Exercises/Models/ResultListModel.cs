@@ -6,8 +6,8 @@ namespace Unshackled.Fitness.My.Client.Features.Exercises.Models;
 
 public class ResultListModel : BaseMemberObject, IGroupedSortable
 {
-	public DateTime DateWorkoutUtc { get; set; }
-	public DateTime DateRecordedUtc { get; set; }
+	public DateTimeOffset DateWorkoutUtc { get; set; }
+	public DateTimeOffset DateRecordedUtc { get; set; }
 	public SetMetricTypes SetMetricType { get; set; }
 	public bool IsTrackingSplit { get; set; }
 	public WorkoutSetTypes SetType { get; set; }

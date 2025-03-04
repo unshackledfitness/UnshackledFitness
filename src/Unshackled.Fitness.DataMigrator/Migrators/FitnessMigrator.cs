@@ -15,9 +15,11 @@ internal class FitnessMigrator
 	public BaseDbContext dbLegacy = default!;
 	public BaseDbContext dbNew = default!;
 	protected bool isIdentityInsertRequired;
+	protected MigrationTypes migrationType;
 
 	public FitnessMigrator(MigrationConfiguration mConfig, MigrationTypes migrationType)
 	{
+		this.migrationType = migrationType;
 		isIdentityInsertRequired = false;
 		switch (migrationType)
 		{
@@ -176,6 +178,7 @@ internal class FitnessMigrator
 					Msg.WriteDot();
 				}
 			}
+			await UpdateIdentitySequence(dbDest);
 			Msg.WriteComplete();
 		}
 		else
@@ -319,6 +322,18 @@ internal class FitnessMigrator
 					Msg.WriteDot();
 				}
 			}
+
+			//Only proceed for PostgreSql database
+			if (migrationType == MigrationTypes.MsSqlToPostgreSql
+				|| migrationType == MigrationTypes.MySqlToPostgreSql)
+				//|| migrationType == MigrationTypes.SqliteToPostgreSql)
+				{
+					long maxId = await dbLegacy.MemberMeta.MaxAsync(x => x.Id) + 1;
+					string sql = $"ALTER TABLE \"{dbLegacy.MemberMeta.EntityType.GetTableName()}\" ALTER COLUMN \"Id\" RESTART WITH {maxId}";
+
+					await dbNew.Database.ExecuteSqlRawAsync(sql);
+				}
+
 			Msg.WriteComplete();
 		}
 		else
@@ -818,5 +833,20 @@ internal class FitnessMigrator
 			File.Delete(path);
 		}
 		Msg.WriteComplete();
+	}
+
+	protected async Task UpdateIdentitySequence<TEntity>(DbSet<TEntity> dbDest)
+		where TEntity : BaseEntity
+	{
+		// Only proceed for PostgreSql database
+		if (migrationType == MigrationTypes.MsSqlToPostgreSql 
+			|| migrationType == MigrationTypes.MySqlToPostgreSql)
+			//|| migrationType == MigrationTypes.SqliteToPostgreSql)
+		{
+			long maxId = await dbDest.MaxAsync(x => x.Id) + 1;
+			string sql = $"ALTER TABLE \"{dbDest.EntityType.GetTableName()}\" ALTER COLUMN \"Id\" RESTART WITH {maxId};";
+
+			await dbNew.Database.ExecuteSqlRawAsync(sql);
+		}
 	}
 }

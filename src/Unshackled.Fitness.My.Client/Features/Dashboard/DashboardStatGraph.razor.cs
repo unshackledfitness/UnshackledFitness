@@ -7,8 +7,8 @@ namespace Unshackled.Fitness.My.Client.Features.Dashboard;
 public class DashboardStatGraphBase : BaseComponent
 {
 	[Parameter] public DashboardStatsModel Model { get; set; } = default!;
-	[Parameter] public EventCallback<DateTime> OnYearChanged { get; set; }
-	protected DateTime ToDateUtc { get; set; } = DateTimeOffset.Now.Date.AddDays(1).ToUniversalTime();
+	[Parameter] public EventCallback<DateTimeOffset> OnYearChanged { get; set; }
+	protected DateTimeOffset ToDateUtc { get; set; } = DateTimeOffset.Now.Date.AddDays(1).ToUniversalTime();
 	public string LabelYear { get; set; } = "Past Year";
 	public bool IsWorking { get; set; }
 
@@ -47,7 +47,7 @@ public class DashboardStatGraphBase : BaseComponent
 
 	protected async Task HandleYearClicked(int year)
 	{
-		if (year != ToDateUtc.Year)
+		if (year != ToDateUtc.Year - 1 || LabelYear == "Past Year")
 		{
 			LabelYear = year.ToString();
 			ToDateUtc = new DateTime(year + 1, 1, 1).ToUniversalTime();

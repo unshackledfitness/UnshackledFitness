@@ -119,6 +119,11 @@ public class SectionSetsBase : BaseSectionComponent
 		}
 	}
 
+	protected string? GetRepsIcon(FormWorkoutSetModel set)
+	{
+		return set.IsRecordReps ? Icons.Material.Filled.EmojiEvents : null;
+	}
+
 	protected string? GetSecondsIcon(FormWorkoutSetModel set)
 	{
 		return set.IsRecordSeconds || set.IsRecordSecondsAtWeight ? Icons.Material.Filled.EmojiEvents : null;
@@ -503,7 +508,7 @@ public class SectionSetsBase : BaseSectionComponent
 
 	protected bool HasPR(FormWorkoutSetModel set)
 	{
-		return set.IsRecordTargetVolume || set.IsRecordTargetWeight || set.IsRecordVolume || set.IsRecordWeight || set.IsRecordSeconds || set.IsRecordSecondsAtWeight;
+		return set.IsRecordTargetVolume || set.IsRecordTargetWeight || set.IsRecordVolume || set.IsRecordWeight || set.IsRecordSeconds || set.IsRecordSecondsAtWeight || set.IsRecordReps;
 	}
 
 	protected string IsExpandedClass(FormWorkoutSetModel set, string? additionalClasses = null)

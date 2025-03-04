@@ -11,8 +11,8 @@ public class SearchResultsModel : SearchModel
 	}
 
 	public string ExerciseSid { get; set; } = string.Empty;
-	public DateTime? DateStart { get; set; }
-	public DateTime? DateEnd { get; set; }
+	public DateTimeOffset? DateStart { get; set; }
+	public DateTimeOffset? DateEnd { get; set; }
 	public SetMetricTypes SetMetricType { get; set; }
 	public WorkoutSetTypes SetType { get; set; } = WorkoutSetTypes.Standard;
 	public int? RepsTarget { get; set; }

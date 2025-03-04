@@ -12,9 +12,9 @@ public class GetDashboardStats
 	public class Query : IRequest<DashboardStatsModel>
 	{
 		public long MemberId { get; private set; }
-		public DateTime ToDateUtc { get; private set; }
+		public DateTimeOffset ToDateUtc { get; private set; }
 
-		public Query(long memberId, DateTime toDateUtc)
+		public Query(long memberId, DateTimeOffset toDateUtc)
 		{
 			MemberId = memberId;
 			ToDateUtc = toDateUtc;
@@ -27,8 +27,8 @@ public class GetDashboardStats
 
 		public async Task<DashboardStatsModel> Handle(Query request, CancellationToken cancellationToken)
 		{
-			DateTime toDateUtc = request.ToDateUtc;
-			DateTime fromDateUtc = toDateUtc.AddYears(-1);
+			DateTimeOffset toDateUtc = request.ToDateUtc;
+			DateTimeOffset fromDateUtc = toDateUtc.AddYears(-1);
 
 			var model = new DashboardStatsModel();
 			model.ToDateUtc = request.ToDateUtc;

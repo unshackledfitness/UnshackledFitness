@@ -12,7 +12,7 @@ public class ProgramEntity : BaseMemberEntity
 	public string? Description { get; set; }
 	public int LengthWeeks { get; set; }
 	public DateTime? DateStarted { get; set; }
-	public DateTime? DateLastWorkoutUtc { get; set; }
+	public DateTimeOffset? DateLastWorkoutUtc { get; set; }
 	public int NextTemplateIndex { get; set; }
 
 	public List<ProgramTemplateEntity> Templates { get; set; } = new();

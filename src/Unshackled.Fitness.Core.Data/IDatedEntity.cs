@@ -2,6 +2,6 @@
 
 public interface IDatedEntity
 {
-	DateTime DateCreatedUtc { get; set; }
-	DateTime? DateLastModifiedUtc { get; set; }
+	DateTimeOffset DateCreatedUtc { get; set; }
+	DateTimeOffset? DateLastModifiedUtc { get; set; }
 }

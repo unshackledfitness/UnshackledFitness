@@ -16,6 +16,7 @@ public class SectionRecordsBase : BaseSectionComponent
 	protected List<RecordListModel> Records { get; set; } = new();
 	protected RecordListModel MaxWeight { get; set; } = new();
 	protected RecordListModel MaxVolume { get; set; } = new();
+	protected RecordListModel MaxReps { get; set; } = new();
 	protected RecordListModel MaxSeconds { get; set; } = new();
 	protected RecordListModel MaxWeightSeconds { get; set; } = new();
 
@@ -27,6 +28,7 @@ public class SectionRecordsBase : BaseSectionComponent
 
 		MaxWeight = Records.Where(x => x.RecordType == RecordListModel.RecordTypes.Weight).FirstOrDefault() ?? new();
 		MaxVolume = Records.Where(x => x.RecordType == RecordListModel.RecordTypes.Volume).FirstOrDefault() ?? new();
+		MaxReps = Records.Where(x => x.RecordType == RecordListModel.RecordTypes.Reps).FirstOrDefault() ?? new();
 		MaxSeconds = Records.Where(x => x.RecordType == RecordListModel.RecordTypes.Time).FirstOrDefault() ?? new();
 		MaxWeightSeconds = Records.Where(x => x.RecordType == RecordListModel.RecordTypes.WeightTime).FirstOrDefault() ?? new();
 

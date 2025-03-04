@@ -29,9 +29,9 @@ public class SearchIngredients
 		{
 			var list = await localStorage.GetItemAsync<IngredientTitleList>(Globals.LocalStorageKeys.IngredientTitles);
 
-			if (list == null || list.DateRetrieved <= DateTime.UtcNow.AddMinutes(-Globals.DefaultCacheDurationMinutes))
+			if (list == null || list.DateRetrieved <= DateTimeOffset.UtcNow.AddMinutes(-Globals.DefaultCacheDurationMinutes))
 			{
-				list = new() { DateRetrieved = DateTime.UtcNow };
+				list = new() { DateRetrieved = DateTimeOffset.UtcNow };
 				list.Titles = await GetResultAsync<List<string>>($"{baseUrl}list-ingredient-titles") ?? new();
 
 				await localStorage.SetItemAsync(Globals.LocalStorageKeys.IngredientTitles, list, cancellationToken);

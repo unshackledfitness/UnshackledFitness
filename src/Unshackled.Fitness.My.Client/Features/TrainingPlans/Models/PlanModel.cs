@@ -9,7 +9,7 @@ public class PlanModel : BaseMemberObject
 	public ProgramTypes ProgramType { get; set; }
 	public string? Description { get; set; }
 	public int LengthWeeks { get; set; }
-	public DateTime? DateStarted { get; set; }
+	public DateTimeOffset? DateStarted { get; set; }
 	public int NextSessionIndex { get; set; }
 	public string? ActiveSessionSid { get; set; }
 

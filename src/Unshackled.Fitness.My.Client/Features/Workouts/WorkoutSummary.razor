@@ -64,6 +64,18 @@
 						@(Workout.AdjustedRecordTargetVolumeCount.CountLabel($"Volume PR @ TR", "Volume PRs @ TR"))
 					</MudChip>
 				}
+				@if (Workout.RecordRepsCount > 0)
+				{
+					<MudChip T="string" Size="Size.Small" Icon="@Icons.Material.Filled.EmojiEvents" Color="Color.Primary">
+						@(Workout.RecordRepsCount.CountLabel("Rep PR", "Rep PRs"))
+					</MudChip>
+				}
+				@if (Workout.RecordSecondsAtWeightCount > 0)
+				{
+					<MudChip T="string" Size="Size.Small" Icon="@Icons.Material.Filled.EmojiEvents" Color="Color.Primary">
+						@(Workout.RecordSecondsAtWeightCount.CountLabel($"Time PR @ WT", "Time PRs @ WT"))
+					</MudChip>
+				}
 				@if (Workout.RecordSecondsCount > 0)
 				{
 					<MudChip T="string" Size="Size.Small" Icon="@Icons.Material.Filled.EmojiEvents" Color="Color.Primary">
@@ -96,7 +108,7 @@
 
 	private bool HasRecords => Workout.RecordTargetVolumeCount > 0 || Workout.RecordTargetWeightCount > 0
 			|| Workout.RecordVolumeCount > 0 || Workout.RecordWeightCount > 0 || Workout.RecordSecondsCount > 0
-			|| Workout.RecordSecondsAtWeightCount > 0;
+			|| Workout.RecordSecondsAtWeightCount > 0 || Workout.RecordRepsCount > 0;
 
 	private int TotalReps
 	{
