@@ -126,7 +126,7 @@ public class SectionPropertiesBase : BaseSectionComponent
 			IsSaving = true;
 			FormStartProgramModel model = new()
 			{
-				DateStart = (DateTimeOffset)adding.Data,
+				DateStart = (DateTime)adding.Data,
 				Sid = Program.Sid,
 				StartingTemplateIndex = Program.StartingTemplate()?.SortOrder ?? 0
 			};
