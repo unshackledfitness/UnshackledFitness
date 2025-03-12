@@ -31,12 +31,12 @@ Copy and rename the sample-appsettings.json files for the Blazor server and clie
 
 ```bash
 # Windows
-copy .\src\Fitness\Unshackled.Fitness.My\sample-appsettings.json .\src\Fitness\Unshackled.Fitness.My\appsettings.json
-copy .\src\Fitness\Unshackled.Fitness.My\sample-appsettings.Development.json .\src\Fitness\Unshackled.Fitness.My\appsettings.Development.json
+copy .\src\Unshackled.Fitness.My\sample-appsettings.json .\src\Unshackled.Fitness.My\appsettings.json
+copy .\src\Unshackled.Fitness.My\sample-appsettings.Development.json .\src\Unshackled.Fitness.My\appsettings.Development.json
 
 # Mac OS/Linux
-cp ./src/Fitness/Unshackled.Fitness.My/sample-appsettings.json ./src/Fitness/Unshackled.Fitness.My/appsettings.json
-cp ./src/Fitness/Unshackled.Fitness.My/sample-appsettings.Development.json ./src/Fitness/Unshackled.Fitness.My/appsettings.Development.json
+cp ./src/Unshackled.Fitness.My/sample-appsettings.json ./src/Unshackled.Fitness.My/appsettings.json
+cp ./src/Unshackled.Fitness.My/sample-appsettings.Development.json ./src/Unshackled.Fitness.My/appsettings.Development.json
 ```
 
 ### Configure App Settings ###
@@ -118,16 +118,6 @@ Open the solution file or project folder in your favorite editor and complete th
 },
 ```
 * DefaultDatabase: The connection string for the database you chose in the DbConfiguration section.
-
-**Unshackled.Fitness.My.Client/wwwroot/appsettings.json**
-
-*ClientConfiguration*
-```json
-"ClientConfiguration": {
-	"SiteName": "Unshackled Fitness"
-},
-```
-* SiteName: The default title of your app.
 
 ### Database Migrations ###
 
